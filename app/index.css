@@ -8,6 +8,7 @@
   --light-grey: hsl(0,0%,60%);
   --lighter-grey: hsl(0,0%,80%);
   --lightest-grey: hsl(0,0%,92%);
+  --blue: hsl(200,80%,70%);
 }
 
 body {
@@ -24,4 +25,20 @@ h1 {
   font-weight: lighter;
   font-size: 5vmax;
   letter-spacing: 0.2em;
+}
+
+article {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1rem;
+}
+
+.box {
+  width: 25vw;
+  height: 25vw;
+  background: var(--light-grey);
+
+  &[data-selected=true] {
+    box-shadow: 0 0 0 5px var(--blue);
+  }
 }

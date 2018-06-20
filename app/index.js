@@ -1,3 +1,7 @@
-import { $ } from 'blingblingjs'
+import ToolPallete from './components/toolpallete.element'
 
-console.info($('h1'))
+import { Selectable } from './features/selectable'
+import { Moveable } from './features/move'
+
+Selectable('.box')
+Moveable('[data-selected=true]')
