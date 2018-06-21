@@ -1,14 +1,16 @@
-import { $$ } from 'blingblingjs'
+import { $, $$ } from 'blingblingjs'
+import hotkeys from 'hotkeys-js'
+
+import { Selectable } from '../features/selectable'
+import { Moveable } from '../features/move'
+import { Padding } from '../features/padding'
 
 export default class ToolPallete extends HTMLElement {
   
   constructor() {
     super()
-    this.$shadow = this.attachShadow({mode: 'open'})
-    this.$shadow.innerHTML = `
-      ${this.styles()}
-      ${this.render()}
-    `
+    this.innerHTML = this.render()
+    Selectable($$('article > *'))
 
     // dispatch event example
     // this.dispatchEvent(
@@ -17,65 +19,57 @@ export default class ToolPallete extends HTMLElement {
   }
 
   connectedCallback() {
-    $$('li', this.$shadow).on('click', e =>
-      console.log(e))
+    $$('li', this).on('click', ({target}) => 
+      this.itemSelected(target))
+
+    hotkeys('m', e => this.itemSelected($('[data-tool="move"]')))
+    hotkeys('shift+m', e => this.itemSelected($('[data-tool="margin"]')))
+    hotkeys('p', e => this.itemSelected($('[data-tool="padding"]')))
+    hotkeys('f', e => this.itemSelected($('[data-tool="font"]')))
+
+    this.itemSelected($('[data-tool="move"]'))
   }
 
-  disconnectedCallback() {
-    
+  disconnectedCallback() {}
+
+  itemSelected(el) {
+    if (this.active_tool) {
+      this.active_tool.removeAttribute('data-active')
+      this.deactivate_feature()
+    }
+
+    el.setAttribute('data-active', true)
+    this.active_tool = el
+    this[el.dataset.tool]()
   }
 
   render() {
     return `
-      ${this.styles()}
       <ol>
-        <li>S</li>
-        <li>E</li>
-        <li>L</li>
-        <li>E</li>
+        <li data-tool='move' data-active='true'>m</li>
+        <li data-tool='margin'>M</li>
+        <li data-tool='padding'>P</li>
+        <li data-tool='font'>F</li>
       </ol>
     `
   }
 
-  styles() {
-    return `
-      <style>
-        :host {
-          position: fixed;
-          top: 1rem;
-          left: 1rem;
+  move() {
+    console.info('move initialized')
+    this.deactivate_feature = Moveable('[data-selected=true]')
+  }
 
-          background: white;
-          box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
-        }
+  margin() {
+    console.info('margin initialized')
+  }
 
-        ol {
-          margin: 0;
-          padding: 0;
-          list-style-type: none;
+  padding() {
+    console.info('padding initialized')
+    this.deactivate_feature = Padding('[data-selected=true]') 
+  }
 
-          display: flex;
-          flex-direction: column;
-        }
-
-        li {
-          height: 2.5rem;
-          width: 2.5rem;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        li:hover {
-          cursor: pointer;
-          background: hsl(0,0%,98%);
-        }
-
-        :host([hidden]) { 
-          display: none; 
-        }
-      </style>
-    `
+  font() {
+    console.info('font initialized')
   }
 }
 

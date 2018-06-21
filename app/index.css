@@ -1,4 +1,5 @@
 @import 'ragrid';
+@import 'components/toolpallete.css';
 
 :root {
   --darkest-grey: hsl(0,0%,2%);
@@ -7,7 +8,7 @@
   --grey: hsl(0,0%,50%);
   --light-grey: hsl(0,0%,60%);
   --lighter-grey: hsl(0,0%,80%);
-  --lightest-grey: hsl(0,0%,92%);
+  --lightest-grey: hsl(0,0%,95%);
   --blue: hsl(200,80%,70%);
 }
 
@@ -15,30 +16,39 @@ body {
   margin: 0;
   background: var(--lightest-grey);
   font-family: "Google Sans", system-ui;
-  display: grid;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
 }
 
-h1 {
+h1,h2,h3 {
   font-weight: lighter;
-  font-size: 5vmax;
-  letter-spacing: 0.2em;
+  line-height: 1.2;
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
 }
 
 article {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 2fr 5fr 1fr;
+  grid-template-rows: 100px 1fr 80px 1fr;
   grid-gap: 1rem;
+  padding: 1rem;
+
+  & > img {
+    transition: transform 0.1s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
 }
 
-.box {
-  width: 25vw;
-  height: 25vw;
-  background: var(--light-grey);
+[data-hover=true] {
+  box-shadow: 0 0 0 1px var(--lighter-grey);
+}
 
-  &[data-selected=true] {
-    box-shadow: 0 0 0 5px var(--blue);
-  }
+[data-selected=true] {
+  box-shadow: 0 0 0 5px var(--blue);
 }

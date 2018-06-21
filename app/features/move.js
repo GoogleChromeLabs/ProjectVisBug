@@ -2,8 +2,12 @@ import { $$, $ } from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
 export function Moveable(selector) {
-  hotkeys('up,down,left,right', (e, handler) =>
-    moveElement($(selector), handler.key))
+  hotkeys('up,down,left,right', (e, handler) => {
+    e.preventDefault()
+    moveElement($(selector), handler.key)
+  })
+
+  return () => hotkeys.unbind('up,down,left,right')
 }
 
 export function moveElement(el, direction) {
