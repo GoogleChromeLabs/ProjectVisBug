@@ -1,3 +1,10 @@
+export function getSide(direction) {
+  let start = direction.split('+').pop().replace(/^\w/, c => c.toUpperCase())
+  if (start == 'Up') start = 'Top'
+  if (start == 'Down') start = 'Bottom'
+  return start
+}
+
 export function getStyle(elem, name) {
   if (document.defaultView && document.defaultView.getComputedStyle) {
     name = name.replace(/([A-Z])/g, '-$1')

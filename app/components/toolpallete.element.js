@@ -4,6 +4,7 @@ import hotkeys from 'hotkeys-js'
 import { Selectable } from '../features/selectable'
 import { Moveable } from '../features/move'
 import { Padding } from '../features/padding'
+import { Margin } from '../features/margin'
 
 export default class ToolPallete extends HTMLElement {
   
@@ -61,6 +62,7 @@ export default class ToolPallete extends HTMLElement {
 
   margin() {
     console.info('margin initialized')
+    this.deactivate_feature = Margin('[data-selected=true]') 
   }
 
   padding() {
