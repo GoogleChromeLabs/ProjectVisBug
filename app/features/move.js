@@ -2,7 +2,9 @@ import { $$, $ } from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
 const key_events = 'up,down,left,right'
-
+// todo: indicator for when node can descend
+// todo: indicator where left and right will go
+// todo: indicator when left or right hit dead ends
 export function Moveable(selector) {
   hotkeys(key_events, (e, handler) => {
     e.preventDefault()

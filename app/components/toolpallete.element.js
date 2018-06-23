@@ -11,7 +11,7 @@ export default class ToolPallete extends HTMLElement {
   constructor() {
     super()
     this.innerHTML = this.render()
-    Selectable($$('article > *'))
+    Selectable($$('body > *:not(script):not(tool-pallete)'))
 
     // dispatch event example
     // this.dispatchEvent(
@@ -47,10 +47,14 @@ export default class ToolPallete extends HTMLElement {
   render() {
     return `
       <ol>
+        <li data-tool='group'>v</li>
+        <li data-tool='element' data-active='true'>a</li>
+        <li></li>
         <li data-tool='move' data-active='true'>m</li>
         <li data-tool='margin'>M</li>
-        <li data-tool='padding'>P</li>
-        <li data-tool='font'>F</li>
+        <li data-tool='padding'>p</li>
+        <li data-tool='font'>f</li>
+        <li data-search='font'>s</li>
       </ol>
     `
   }

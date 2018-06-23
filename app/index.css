@@ -1,5 +1,6 @@
 @import 'ragrid';
 @import 'components/toolpallete.css';
+@import 'components/card.css';
 
 :root {
   --darkest-grey: hsl(0,0%,2%);
@@ -17,6 +18,9 @@ body {
   background: var(--lightest-grey);
   font-family: "Google Sans", system-ui;
   min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 h1,h2,h3 {
@@ -32,12 +36,13 @@ img {
 article {
   display: grid;
   grid-template-columns: 2fr 5fr 1fr;
-  grid-template-rows: 100px 1fr 80px 1fr;
-  grid-gap: 1rem;
-  padding: 1rem;
+  grid-template-rows: 100px 500px;
 
   & > img {
     transition: transform 0.1s ease;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 
     &:hover {
       transform: scale(1.05);
@@ -46,9 +51,9 @@ article {
 }
 
 [data-hover=true] {
-  box-shadow: 0 0 0 1px var(--lighter-grey);
+  outline: 1px solid var(--lighter-grey);
 }
 
 [data-selected=true] {
-  box-shadow: 0 0 0 5px var(--blue);
+  outline: 1px solid var(--blue);
 }

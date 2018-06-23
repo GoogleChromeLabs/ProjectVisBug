@@ -1,7 +1,8 @@
 import { $$, $ } from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { getStyle, getSide } from './utils.js'
-
+// todo: cmd does all sides
+// todo: show padding color
 const key_events = 'up,down,left,right'
   .split(',')
   .reduce((events, event) => 
