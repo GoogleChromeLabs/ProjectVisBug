@@ -1,0 +1,34 @@
+tool-pallete {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+
+  background: white;
+  box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
+}
+
+ol {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+
+  display: flex;
+  flex-direction: column;
+}
+
+li {
+  height: 2.5rem;
+  width: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+li:hover {
+  cursor: pointer;
+  background: hsl(0,0%,98%);
+}
+
+li[data-active=true] {
+  color: var(--blue);
+}

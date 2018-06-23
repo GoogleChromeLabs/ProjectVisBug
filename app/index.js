@@ -1,3 +1,1 @@
-import { $ } from 'blingblingjs'
-
-console.info($('h1'))
+import ToolPallete from './components/toolpallete.element'

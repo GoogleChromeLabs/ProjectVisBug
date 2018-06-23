@@ -4,7 +4,8 @@ export default {
   input: 'app/index.js',
   output: {
     file: 'app/bundle.js',
-    format: 'es'
+    format: 'es',
+    sourcemap: 'inline',
   },
   plugins: [
     resolve({
