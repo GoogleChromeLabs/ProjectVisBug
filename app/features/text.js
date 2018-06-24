@@ -6,10 +6,14 @@ export function EditText(elements) {
   let removeEditability = e => {
     e.target.removeAttribute('contenteditable')
     e.target.removeEventListener('blur', removeEditability)
+    e.target.removeEventListener('keydown', stopBubbling)
   }
+
+  let stopBubbling = e => e.stopPropagation()
 
   elements.map(el => {
     el.setAttribute('contenteditable', 'true')
+    $(el).on('keydown', stopBubbling)
     $(el).on('blur', removeEditability)
   })
 }
