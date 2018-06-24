@@ -27,7 +27,7 @@ export function Selectable(elements) {
 
   $('body').on('click', ({target}) => {
     // todo: better ignoring of tool pallete clicks (why isnt stop propogation in tool palette working?)
-    if (!selected.filter(el => el == target).length && target.parentElement.parentElement.nodeName == 'TOOL-PALETTE')
+    if (!selected.filter(el => el == target).length || (target.parentElement && target.parentElement.parentElement && target.parentElement.parentElement.nodeName == 'TOOL-PALETTE'))
       unselect_all()
     emitSelected()
   })
