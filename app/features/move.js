@@ -60,10 +60,12 @@ const canMoveUp = el =>
   el.parentNode && el.parentNode.parentNode && el.parentNode.nodeName != 'BODY'
 
 export function updateFeedback(el) {
+  let options = ''
   // get current elements offset/size
-  if (canMoveLeft(el)) console.log('show left arrow')
-  if (canMoveRight(el)) console.log('show right arrow')
-  if (canMoveDown(el)) console.log('show down arrow')
-  if (canMoveUp(el)) console.log('show up arrow')
+  if (canMoveLeft(el))  options += '⇠'
+  if (canMoveRight(el)) options += '⇢'
+  if (canMoveDown(el))  options += '⇣'
+  if (canMoveUp(el))    options += '⇡'
   // create/move arrows in absolute/fixed to overlay element
+  console.info(options)
 }
