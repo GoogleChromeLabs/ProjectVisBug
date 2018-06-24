@@ -1,10 +1,11 @@
 import { $$, $ } from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
-const key_events = 'up,down,left,right'
+const key_events = 'up,down,left,right,backspace,del,delete'
 // todo: indicator for when node can descend
 // todo: indicator where left and right will go
 // todo: indicator when left or right hit dead ends
+// todo: undo
 export function Moveable(selector) {
   hotkeys(key_events, (e, handler) => {
     e.preventDefault()
@@ -40,6 +41,10 @@ export function moveElement(el, direction) {
         el.parentNode.parentNode.appendChild(el)
       else if (el.nextElementSibling && el.nextElementSibling.children.length)
         el.nextElementSibling.prepend(el)
+      break
+
+    case 'backspace': case 'del': case 'delete':
+      el.remove()
       break
   }
 }

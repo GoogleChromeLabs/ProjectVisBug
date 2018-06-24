@@ -1,5 +1,5 @@
 import { $$, $ } from 'blingblingjs'
-
+// todo: consider making this a singleton with callbacks for element interaction events
 export function Selectable(elements) {
   let selected = []
   let selectedCallbacks = []

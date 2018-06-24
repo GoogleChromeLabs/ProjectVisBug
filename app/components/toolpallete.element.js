@@ -9,6 +9,8 @@ export default class ToolPallete extends HTMLElement {
     super()
 
     // todo: these are 2 model groups, with separate selected state scopes
+    // todo: duplicate
+    // todo: create
     this.model = {
       a: 'element',
       v: 'group',
@@ -55,9 +57,7 @@ export default class ToolPallete extends HTMLElement {
       <ol>
         ${Object.entries(this.model).reduce((list, [key, value]) => `
           ${list}
-          <li data-tool='${value}' data-active='${key == 'a' || key == 'm'}'>
-            ${key == 'shift+m' ? 'M':key}
-          </li>
+          <li data-tool='${value}' data-active='${key == 'a' || key == 'm'}'>${key == 'shift+m' ? 'M':key}</li>
         `,'')}
       </ol>
     `
