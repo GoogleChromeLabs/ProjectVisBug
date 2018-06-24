@@ -11,6 +11,7 @@ export default class ToolPallete extends HTMLElement {
     // todo: these are 2 model groups, with separate selected state scopes
     // todo: duplicate
     // todo: create
+    // todo: resize
     this.model = {
       a: 'element',
       v: 'group',
