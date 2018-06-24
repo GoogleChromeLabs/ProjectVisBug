@@ -7,6 +7,19 @@ tool-pallete {
   box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
 }
 
+[data-hover=true] {
+  outline: 1px dashed var(--lighter-grey);
+}
+
+[data-selected=true] {
+  outline: 1px solid var(--theme-color);
+}
+
+[data-selected=true][contenteditable=true] {
+  outline: none;
+  caret-color: hotpink;
+}
+
 ol {
   margin: 0;
   padding: 0;
@@ -30,5 +43,6 @@ li:hover {
 }
 
 li[data-active=true] {
-  color: var(--blue);
+  color: var(--theme-color);
+  background: hsl(0,0%,98%);
 }

@@ -10,7 +10,7 @@
   --light-grey: hsl(0,0%,60%);
   --lighter-grey: hsl(0,0%,80%);
   --lightest-grey: hsl(0,0%,95%);
-  --blue: hsl(200,80%,70%);
+  --theme-color: hotpink;
 }
 
 body {
@@ -48,12 +48,4 @@ article {
       transform: scale(1.05);
     }
   }
-}
-
-[data-hover=true] {
-  outline: 1px dashed var(--lighter-grey);
-}
-
-[data-selected=true] {
-  outline: 1px solid var(--blue);
 }
