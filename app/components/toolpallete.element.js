@@ -1,7 +1,11 @@
 import { $, $$ } from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
-import { Selectable, Moveable, Padding, Margin, EditText } from '../features/'
+import { getStyle, rgb2hex } from '../features/utils'
+import { 
+  Selectable, Moveable, Padding, Margin, EditText,
+  ChangeForeground, ChangeBackground
+} from '../features/'
 
 export default class ToolPallete extends HTMLElement {
   
@@ -31,8 +35,33 @@ export default class ToolPallete extends HTMLElement {
   }
 
   connectedCallback() {
-    $$('li', this).on('click', ({target}) => 
-      this.toolSelected(target))
+    $$('li', this).on('click', e => 
+      this.toolSelected(e.target) && e.stopPropagation())
+
+    this.foregroundPicker = $('#foreground', this)
+    this.backgroundPicker = $('#background', this)
+
+    // set colors
+    this.foregroundPicker.on('input', e =>
+      ChangeForeground($$('[data-selected=true]'), e.target.value))
+
+    this.backgroundPicker.on('input', e =>
+      ChangeBackground($$('[data-selected=true]'), e.target.value))
+
+    // read colors
+    this.selectorEngine.onSelectedUpdate(elements => {
+      if (!elements.length) return
+
+      if (elements.length >= 2) {
+        this.foregroundPicker.value = null
+        this.backgroundPicker.value = null
+      }
+      else {
+        this.foregroundPicker.value = rgb2hex(getStyle(elements[0], 'color'))
+        // todo: better background color parser
+        this.backgroundPicker.value = rgb2hex(getStyle(elements[0], 'backgroundColor')) == '#NaN000' ? '#ffffff' : rgb2hex(getStyle(elements[0], 'backgroundColor'))
+      }
+    })
 
     Object.entries(this.model).forEach(([key, value]) =>
       hotkeys(key, e => this.toolSelected($(`[data-tool="${value}"]`))))
@@ -61,6 +90,8 @@ export default class ToolPallete extends HTMLElement {
           ${list}
           <li title='${value}' data-tool='${value}' data-active='${key == 'a' || key == 'm'}'>${key == 'shift+m' ? 'M':key}</li>
         `,'')}
+        <input type="color" id='foreground' value='#000000'>
+        <input type="color" id='background' value='#ffffff'>
       </ol>
     `
   }

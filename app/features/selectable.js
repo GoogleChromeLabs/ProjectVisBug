@@ -11,7 +11,6 @@ export function Selectable(elements) {
   elements.on('click', e => {
     if (!e.shiftKey) unselect_all()
     e.target.setAttribute('data-selected', true)
-    // todo: show arrows on sides?
     selected.push(e.target)
     emitSelected()
     e.preventDefault()
@@ -27,7 +26,8 @@ export function Selectable(elements) {
     target.removeAttribute('data-hover'))
 
   $('body').on('click', ({target}) => {
-    if (!selected.filter(el => el == target).length)
+    // todo: better ignoring of tool pallete clicks (why isnt stop propogation in tool palette working?)
+    if (!selected.filter(el => el == target).length && target.parentElement.parentElement.nodeName == 'TOOL-PALETTE')
       unselect_all()
     emitSelected()
   })

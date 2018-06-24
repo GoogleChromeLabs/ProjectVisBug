@@ -16,3 +16,7 @@ export function getStyle(elem, name) {
     return null
   }
 }
+
+export function rgb2hex(rgb) {
+ return '#' + rgb.substr(4, rgb.indexOf(')') - 4).split(',').map((color) => parseInt(color).toString(16)).join('')
+}

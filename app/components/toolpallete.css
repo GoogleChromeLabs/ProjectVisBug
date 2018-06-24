@@ -37,6 +37,11 @@ tool-pallete {
       }
     }
   }
+
+  & input[type='color'] {
+    width: 100%;
+    box-sizing: border-box;
+  }
 }
 
 [data-hover=true] {
