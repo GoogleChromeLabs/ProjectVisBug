@@ -8,7 +8,7 @@ export default class ToolPallete extends HTMLElement {
   constructor() {
     super()
     this.innerHTML = this.render()
-    this.selectorEngine = Selectable($$('body > *:not(script):not(tool-pallete)'), this.nodeSelected)
+    this.selectorEngine = Selectable($$('body > *:not(script):not(tool-pallete)'))
 
     // dispatch event example
     // this.dispatchEvent(
@@ -42,11 +42,8 @@ export default class ToolPallete extends HTMLElement {
     this[el.dataset.tool]()
   }
 
-  nodeSelected(els) {
-    console.log(els)
-  }
-
   render() {
+    // todo: reducer to build li's
     return `
       <ol>
         <li data-tool='group'>v</li>
@@ -78,12 +75,8 @@ export default class ToolPallete extends HTMLElement {
     this.deactivate_feature = Padding('[data-selected=true]') 
   }
 
-  font() {
-    console.info('font initialized')
-  }
-
   text() {
-    console.info('font initialized')
+    console.info('text initialized')
     this.selectorEngine.onSelectedUpdate(EditText)
     this.deactivate_feature = () => 
       this.selectorEngine.removeSelectedCallback(EditText)
