@@ -57,7 +57,7 @@ export default class ToolPallete extends HTMLElement {
       <ol>
         ${Object.entries(this.model).reduce((list, [key, value]) => `
           ${list}
-          <li data-tool='${value}' data-active='${key == 'a' || key == 'm'}'>${key == 'shift+m' ? 'M':key}</li>
+          <li title='${value}' data-tool='${value}' data-active='${key == 'a' || key == 'm'}'>${key == 'shift+m' ? 'M':key}</li>
         `,'')}
       </ol>
     `
