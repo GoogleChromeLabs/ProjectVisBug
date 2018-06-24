@@ -12,6 +12,7 @@ export default class ToolPallete extends HTMLElement {
     // todo: duplicate
     // todo: create
     // todo: resize
+    // todo: ragrid alignment panel
     this.model = {
       a: 'element',
       v: 'group',

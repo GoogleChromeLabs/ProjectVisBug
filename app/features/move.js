@@ -67,5 +67,5 @@ export function updateFeedback(el) {
   if (canMoveDown(el))  options += '⇣'
   if (canMoveUp(el))    options += '⇡'
   // create/move arrows in absolute/fixed to overlay element
-  console.info(options)
+  console.info('%c'+options, "font-size: 2rem;")
 }
