@@ -2,8 +2,8 @@ import { $$, $ } from 'blingblingjs'
 
 export function Selectable(elements) {
   let selected = []
+  let selectedCallbacks = []
 
-  // todo: prevent link and button clicks from firing behavior
   // todo: right click "expand selection"
   // todo: direct and group select distinguishing
     // - groups have box shadows, .container/.nav/.card, section/article/main/header/nav
@@ -13,6 +13,7 @@ export function Selectable(elements) {
     e.target.setAttribute('data-selected', true)
     // todo: show arrows on sides?
     selected.push(e.target)
+    emitSelected()
     e.preventDefault()
     e.stopPropagation()
   })
@@ -28,6 +29,7 @@ export function Selectable(elements) {
   $('body').on('click', ({target}) => {
     if (!selected.filter(el => el == target).length)
       unselect_all()
+    emitSelected()
   })
 
   const unselect_all = () => {
@@ -38,5 +40,17 @@ export function Selectable(elements) {
     selected = []
   }
 
-  return () => hotkeys.unbind('up,down,left,right')
+  const onSelectedUpdate = cb =>
+    selectedCallbacks.push(cb) && cb(selected)
+
+  const removeSelectedCallback = cb =>
+    selectedCallbacks = selectedCallbacks.filter(callback => callback != cb)
+
+  const emitSelected = () =>
+    selectedCallbacks.forEach(cb => cb(selected))
+
+  return {
+    onSelectedUpdate,
+    removeSelectedCallback,
+  }
 }

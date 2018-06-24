@@ -51,7 +51,7 @@ article {
 }
 
 [data-hover=true] {
-  outline: 1px solid var(--lighter-grey);
+  outline: 1px dashed var(--lighter-grey);
 }
 
 [data-selected=true] {

@@ -1,17 +1,14 @@
 import { $, $$ } from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
-import { Selectable } from '../features/selectable'
-import { Moveable } from '../features/move'
-import { Padding } from '../features/padding'
-import { Margin } from '../features/margin'
+import { Selectable, Moveable, Padding, Margin, EditText } from '../features/'
 
 export default class ToolPallete extends HTMLElement {
   
   constructor() {
     super()
     this.innerHTML = this.render()
-    Selectable($$('body > *:not(script):not(tool-pallete)'))
+    this.selectorEngine = Selectable($$('body > *:not(script):not(tool-pallete)'), this.nodeSelected)
 
     // dispatch event example
     // this.dispatchEvent(
@@ -21,19 +18,20 @@ export default class ToolPallete extends HTMLElement {
 
   connectedCallback() {
     $$('li', this).on('click', ({target}) => 
-      this.itemSelected(target))
+      this.toolSelected(target))
 
-    hotkeys('m', e => this.itemSelected($('[data-tool="move"]')))
-    hotkeys('shift+m', e => this.itemSelected($('[data-tool="margin"]')))
-    hotkeys('p', e => this.itemSelected($('[data-tool="padding"]')))
-    hotkeys('f', e => this.itemSelected($('[data-tool="font"]')))
+    hotkeys('m', e => this.toolSelected($('[data-tool="move"]')))
+    hotkeys('shift+m', e => this.toolSelected($('[data-tool="margin"]')))
+    hotkeys('p', e => this.toolSelected($('[data-tool="padding"]')))
+    // hotkeys('f', e => this.toolSelected($('[data-tool="font"]')))
+    hotkeys('t', e => this.toolSelected($('[data-tool="text"]')))
 
-    this.itemSelected($('[data-tool="move"]'))
+    this.toolSelected($('[data-tool="move"]'))
   }
 
   disconnectedCallback() {}
 
-  itemSelected(el) {
+  toolSelected(el) {
     if (this.active_tool) {
       this.active_tool.removeAttribute('data-active')
       this.deactivate_feature()
@@ -42,6 +40,10 @@ export default class ToolPallete extends HTMLElement {
     el.setAttribute('data-active', true)
     this.active_tool = el
     this[el.dataset.tool]()
+  }
+
+  nodeSelected(els) {
+    console.log(els)
   }
 
   render() {
@@ -54,7 +56,9 @@ export default class ToolPallete extends HTMLElement {
         <li data-tool='margin'>M</li>
         <li data-tool='padding'>p</li>
         <li data-tool='font'>f</li>
-        <li data-search='font'>s</li>
+        <li data-tool='text'>t</li>
+        <li data-tool='color'>c</li>
+        <li data-search='search'>s</li>
       </ol>
     `
   }
@@ -76,6 +80,13 @@ export default class ToolPallete extends HTMLElement {
 
   font() {
     console.info('font initialized')
+  }
+
+  text() {
+    console.info('font initialized')
+    this.selectorEngine.onSelectedUpdate(EditText)
+    this.deactivate_feature = () => 
+      this.selectorEngine.removeSelectedCallback(EditText)
   }
 }
 

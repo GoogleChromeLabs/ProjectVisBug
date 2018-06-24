@@ -35,5 +35,5 @@ export function pushElement(els, direction) {
           : payload.current + payload.amount
       }))
     .forEach(({el, style, margin}) =>
-      el.style[style] = `${margin}px`)
+      el.style[style] = `${margin < 0 ? 0 : margin}px`)
 }

@@ -35,5 +35,5 @@ export function padElement(els, direction) {
           : payload.current + payload.amount
       }))
     .forEach(({el, style, padding}) =>
-      el.style[style] = `${padding}px`)
+      el.style[style] = `${padding < 0 ? 0 : padding}px`)
 }
