@@ -57,9 +57,12 @@ export default class ToolPallete extends HTMLElement {
         this.backgroundPicker.value = null
       }
       else {
-        this.foregroundPicker.value = rgb2hex(getStyle(elements[0], 'color'))
+        let fg = rgb2hex(getStyle(elements[0], 'color'))
+        let bg = rgb2hex(getStyle(elements[0], 'backgroundColor'))
+
+        this.foregroundPicker.setAttribute('value', (fg == '#000' && elements[0].textContent == '') ? '' : fg)
         // todo: better background color parser
-        this.backgroundPicker.value = rgb2hex(getStyle(elements[0], 'backgroundColor')) == '#NaN000' ? '#ffffff' : rgb2hex(getStyle(elements[0], 'backgroundColor'))
+        this.backgroundPicker.setAttribute('value', bg == '#NaN000' ? '' : bg)
       }
     })
 
@@ -91,7 +94,7 @@ export default class ToolPallete extends HTMLElement {
           <li title='${value}' data-tool='${value}' data-active='${key == 'a' || key == 'm'}'>${key == 'shift+m' ? 'M':key}</li>
         `,'')}
         <input type="color" id='foreground' value='#000000'>
-        <input type="color" id='background' value='#ffffff'>
+        <input type="color" id='background' value=''>
       </ol>
     `
   }
