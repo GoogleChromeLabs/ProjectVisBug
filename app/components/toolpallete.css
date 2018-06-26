@@ -44,13 +44,14 @@ tool-pallete {
     
     &[value='']::-webkit-color-swatch { 
       background-color: transparent !important; 
-      background-image: 
+      background-image: linear-gradient(135deg, #ffffff 0%,#ffffff 46%,#ff0000 46%,#ff0000 64%,#ffffff 64%,#ffffff 100%);;
+      /* background-image: 
         linear-gradient(45deg, #808080 25%, transparent 25%), 
         linear-gradient(-45deg, #808080 25%, transparent 25%), 
         linear-gradient(45deg, transparent 75%, #808080 75%), 
         linear-gradient(-45deg, transparent 75%, #808080 75%);
       background-size: 7px 7px;
-      background-position: 0 0, 0 4px, 4px -3px, -10px 0px;
+      background-position: 0 0, 0 4px, 4px -3px, -10px 0px; */
     }
   }
 }
@@ -65,5 +66,5 @@ tool-pallete {
 
 [data-selected=true][contenteditable=true] {
   outline: none;
-  caret-color: hotpink;
+  caret-color: var(--theme-color);
 }

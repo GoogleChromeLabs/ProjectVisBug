@@ -3,7 +3,7 @@ import hotkeys from 'hotkeys-js'
 
 import { getStyle, rgb2hex } from '../features/utils'
 import { 
-  Selectable, Moveable, Padding, Margin, EditText,
+  Selectable, Moveable, Padding, Margin, EditText, Font,
   ChangeForeground, ChangeBackground
 } from '../features/'
 
@@ -103,24 +103,22 @@ export default class ToolPallete extends HTMLElement {
   element() {}
 
   move() {
-    console.info('move initialized')
     this.deactivate_feature = Moveable('[data-selected=true]')
   }
 
   margin() {
-    console.info('margin initialized')
     this.deactivate_feature = Margin('[data-selected=true]') 
   }
 
   padding() {
-    console.info('padding initialized')
     this.deactivate_feature = Padding('[data-selected=true]') 
   }
 
-  font() {} 
+  font() {
+    this.deactivate_feature = Font('[data-selected=true]')
+  } 
 
   text() {
-    console.info('text initialized')
     this.selectorEngine.onSelectedUpdate(EditText)
     this.deactivate_feature = () => 
       this.selectorEngine.removeSelectedCallback(EditText)

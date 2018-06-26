@@ -12,7 +12,7 @@ export function Selectable(elements) {
     if (!e.shiftKey) unselect_all()
     e.target.setAttribute('data-selected', true)
     selected.push(e.target)
-    emitSelected()
+    tellWatchers()
     e.preventDefault()
     e.stopPropagation()
   })
@@ -35,7 +35,7 @@ export function Selectable(elements) {
         )
       )
       unselect_all()
-    emitSelected()
+    tellWatchers()
   })
 
   const unselect_all = () => {
@@ -52,7 +52,7 @@ export function Selectable(elements) {
   const removeSelectedCallback = cb =>
     selectedCallbacks = selectedCallbacks.filter(callback => callback != cb)
 
-  const emitSelected = () =>
+  const tellWatchers = () =>
     selectedCallbacks.forEach(cb => cb(selected))
 
   return {
