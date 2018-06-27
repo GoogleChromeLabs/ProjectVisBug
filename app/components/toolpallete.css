@@ -41,11 +41,16 @@ tool-pallete {
         fill: var(--dark-grey);
       }
 
+      &[data-tool='align'] {
+        transform: rotateZ(90deg);
+      }
+
       &[data-active=true] {
         background: hsl(0,0%,98%);
 
-        & > svg { fill: var(--theme-color); }
+        & > svg:not(.icon-cursor) { fill: var(--theme-color); }
         & > .icon-cursor { stroke: var(--theme-color); }
+        &[data-tool='group'] > .icon-cursor { fill: var(--theme-color); }
       }
 
       &:empty {
@@ -73,6 +78,11 @@ tool-pallete {
       background-position: 0 0, 0 4px, 4px -3px, -10px 0px; */
     }
   }
+}
+
+[data-hover=true],
+[data-selected=true] {
+  z-index: 50; 
 }
 
 [data-hover=true] {

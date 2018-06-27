@@ -1,7 +1,7 @@
 import { $, $$ } from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
-import { cursor, move, search, margin, padding, font, type } from './toolpallete.icons' 
+import { cursor, move, search, margin, padding, font, type, align } from './toolpallete.icons' 
 import { getStyle, rgb2hex } from '../features/utils'
 import { 
   Selectable, Moveable, Padding, Margin, EditText, Font,
@@ -25,6 +25,7 @@ export default class ToolPallete extends HTMLElement {
       m: { tool: 'move', icon: move },
       'shift+m': { tool: 'margin', icon: margin },
       p: { tool: 'padding', icon: padding },
+      x: { tool: 'align', icon: align },
       f: { tool: 'font', icon: font },
       t: { tool: 'text', icon: type },
       s: { tool: 'search', icon: search },
@@ -91,7 +92,7 @@ export default class ToolPallete extends HTMLElement {
       <ol>
         ${Object.entries(this.toolbar_model).reduce((list, [key, value]) => `
           ${list}
-          <li title='${value.tool}' data-tool='${value.tool}' data-active='${key == 'v' || key == 'm'}'>${value.icon}</li>
+          <li title='${value.tool}' data-tool='${value.tool}' data-active='${key == 'a' || key == 'm'}'>${value.icon}</li>
         `,'')}
         <li></li>
         <input type="color" id='foreground' value='#000000'>

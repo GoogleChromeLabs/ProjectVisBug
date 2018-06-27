@@ -13,29 +13,45 @@
   </head>
   <body>
     <tool-pallete></tool-pallete>
-    <!-- <article>
-      <h1>FireBug</h1>
-      <div>1</div>
-      <div>2</div>
-      <div>3</div>
-      <img src="https://lonelyplanetimages.imgix.net/mastheads/stock-photo-st-stephens-church-112868985.jpg?sharp=10&vib=20&w=2000" alt="" class="media__img">
-      <div>5</div>
-      <div>6</div>
-    </article> -->
-    <div grid="rows" vertically-distributed="equal" class="card">
-      <div grid="grid" vertically-aligned="center" class="card-header"><img src="//placehold.it/50x50"/>
-        <div>
-          <h2>Card Title</h2>
-          <date>November 5th, 2017</date>
+
+    <!-- card -->
+    <section grid vertically-aligned="center" horizontally-aligned="center">
+      <div grid="rows" vertically-distributed="equal" class="card">
+        <div grid="grid" vertically-aligned="center" class="card-header"><img src="//placehold.it/50x50"/>
+          <div>
+            <h2>Card Title</h2>
+            <date>November 5th, 2017</date>
+          </div>
+        </div>
+        <div class="card-content"><img src="//placehold.it/500x500"/>
+          <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. This is heavy.</p>
+        </div>
+        <div grid="grid" vertically-aligned="center" class="card-footer"><a href="href">Like</a><a href="href">Comment</a>
+          <time>11 minutes ago</time>
         </div>
       </div>
-      <div class="card-content"><img src="//placehold.it/500x500"/>
-        <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. This is heavy.</p>
-      </div>
-      <div grid="grid" vertically-aligned="center" class="card-footer"><a href="href">Like</a><a href="href">Comment</a>
-        <time>11 minutes ago</time>
-      </div>
-    </div>
+    </section>
+
+    <!-- grid -->
+    <section>
+      <article>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div class="heading">
+          <h3>FireBug</h3>
+          <p>Using grid-template-columns: repeat();</p>
+        </div>
+        <div class="message" grid vertically-aligned="center" horizontally-aligned="center">
+          Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. This is heavy.
+        </div>
+        <div>7</div>
+        <div>8</div>
+        <div>9</div>
+      </article>
+    </section>
+    
     <script src="bundle.js" type="module" defer></script>
   </body>
 </html>

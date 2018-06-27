@@ -6,7 +6,7 @@ const cursor = `
 
 const move = `
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"/>
+    <path d="M15 7.5V2H9v5.5l3 3 3-3zM7.5 9H2v6h5.5l3-3-3-3zM9 16.5V22h6v-5.5l-3-3-3 3zM16.5 9l-3 3 3 3H22V9h-5.5z"/>
   </svg>
 `
 
@@ -40,6 +40,12 @@ const type = `
   </svg>
 `
 
+const align = `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M10 20h4V4h-4v16zm-6 0h4v-8H4v8zM16 9v11h4V9h-4z"/>
+  </svg>
+`
+
 export {
   cursor,
   move,
@@ -48,4 +54,5 @@ export {
   padding,
   font,
   type,
+  align,
 }

@@ -17,10 +17,6 @@ body {
   margin: 0;
   background: var(--lightest-grey);
   font-family: "Google Sans", system-ui;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 h1,h2,h3 {
@@ -33,10 +29,17 @@ img {
   max-width: 100%;
 }
 
+/* demo */
+section {
+  height: 100vh;
+}
+
 article {
   display: grid;
-  grid-template-columns: 2fr 5fr 1fr;
-  grid-template-rows: 100px 500px;
+  height: 100vh;
+  padding-left: 5rem;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: minmax(1fr, 500px);
 
   & > img {
     transition: transform 0.1s ease;
@@ -47,5 +50,44 @@ article {
     &:hover {
       transform: scale(1.05);
     }
+  }
+
+  & > div {
+    color: white;
+    padding: 2rem;
+    &:nth-child(1) { background: hsl(220, 60%, 80%); }
+    &:nth-child(2) { background: hsl(220, 60%, 75%); }
+    &:nth-child(3) { background: hsl(220, 60%, 70%); }
+    &:nth-child(4) { background: hsl(220, 60%, 65%); }
+    &:nth-child(5) { background: hsl(220, 60%, 60%); }
+    &:nth-child(6) { background: hsl(220, 60%, 55%); }
+    &:nth-child(7) { background: hsl(220, 60%, 60%); }
+    &:nth-child(7) { background: hsl(220, 60%, 65%); }
+    &:nth-child(8) { background: hsl(220, 60%, 70%); }
+    &:nth-child(9) { background: hsl(220, 60%, 75%); }
+  }
+
+  & .heading {
+    grid-row: span 3;
+    font-weight: lighter;
+
+    & > h3 {
+      font-size: 4rem;
+      margin: 0;
+    }
+
+    & > p {
+      font-size: 1.1rem;
+      line-height: 1.75;
+    }
+  }
+
+  & .message {
+    grid-row: span 2;
+    grid-column: span 3;
+    font-size: 1.4rem;
+    font-weight: lighter;
+    letter-spacing: 0.1em;
+    line-height: 1.6;
   }
 }
