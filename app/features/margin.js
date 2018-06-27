@@ -1,6 +1,6 @@
 import { $$, $ } from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { getStyle, getSide } from './utils.js'
+import { getStyle, getSide, showHideSelected } from './utils.js'
 
 // todo: show margin color
 const key_events = 'up,down,left,right'
@@ -26,6 +26,7 @@ export function Margin(selector) {
 
 export function pushElement(els, direction) {
   els
+    .map(el => showHideSelected(el))
     .map(el => ({ 
       el, 
       style:    'margin' + getSide(direction),

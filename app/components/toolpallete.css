@@ -94,6 +94,10 @@ tool-pallete {
   outline: 1px solid var(--theme-color);
 }
 
+[data-selected-hide=true] {
+  outline: none;
+}
+
 [data-selected=true][contenteditable=true] {
   outline: none;
   caret-color: var(--theme-color);

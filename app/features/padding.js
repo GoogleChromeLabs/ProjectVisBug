@@ -1,6 +1,6 @@
 import { $$, $ } from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { getStyle, getSide } from './utils.js'
+import { getStyle, getSide, showHideSelected } from './utils.js'
 
 // todo: show padding color
 const key_events = 'up,down,left,right'
@@ -26,6 +26,7 @@ export function Padding(selector) {
 
 export function padElement(els, direction) {
   els
+    .map(el => showHideSelected(el))
     .map(el => ({ 
       el, 
       style:    'padding' + getSide(direction),

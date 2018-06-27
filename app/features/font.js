@@ -1,6 +1,6 @@
 import { $$, $ } from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { getStyle } from './utils.js'
+import { getStyle, showHideSelected } from './utils.js'
 
 const key_events = 'up,down,left,right'
   .split(',')
@@ -31,6 +31,7 @@ export function Font(selector) {
 
 export function changeLeading(els, direction) {
   els
+    .map(el => showHideSelected(el))
     .map(el => ({ 
       el, 
       style:    'lineHeight',
@@ -56,6 +57,7 @@ export function changeLeading(els, direction) {
 
 export function changeKerning(els, direction) {
   els
+    .map(el => showHideSelected(el))
     .map(el => ({ 
       el, 
       style:    'letterSpacing',
@@ -81,6 +83,7 @@ export function changeKerning(els, direction) {
 
 export function changeFontSize(els, direction) {
   els
+    .map(el => showHideSelected(el))
     .map(el => ({ 
       el, 
       style:    'fontSize',
@@ -108,6 +111,7 @@ const alignOptions = ['left','center','right']
 
 export function changeAlignment(els, direction) {
   els
+    .map(el => showHideSelected(el))
     .map(el => ({ 
       el, 
       style:    'textAlign',
