@@ -34,6 +34,7 @@ tool-pallete {
           width: 35%;
           fill: white;
           stroke: var(--dark-grey);
+          stroke-width: 2px;
         }
       }
 

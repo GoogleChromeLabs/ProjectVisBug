@@ -1,7 +1,7 @@
 import { $$, $ } from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { getStyle, getSide } from './utils.js'
-// todo: cmd does all sides
+
 // todo: show margin color
 const key_events = 'up,down,left,right'
   .split(',')
@@ -14,6 +14,11 @@ export function Margin(selector) {
   hotkeys(key_events, (e, handler) => {
     e.preventDefault()
     pushElement($$(selector), handler.key)
+  })
+
+  hotkeys('cmd+up,cmd+shift+up,cmd+down,cmd+shift+down', (e, handler) => {
+    e.preventDefault()
+    pushAllElementSides($$(selector), handler.key)
   })
 
   return () => hotkeys.unbind(key_events)
@@ -36,4 +41,15 @@ export function pushElement(els, direction) {
       }))
     .forEach(({el, style, margin}) =>
       el.style[style] = `${margin < 0 ? 0 : margin}px`)
+}
+
+export function pushAllElementSides(els, keycommand) {
+  const combo = keycommand.split('+')
+  let spoof = ''
+
+  if (combo.includes('shift'))  spoof = 'shift+' + spoof
+  if (combo.includes('down'))   spoof = 'alt+' + spoof
+
+  'up,down,left,right'.split(',')
+    .forEach(side => pushElement(els, spoof + side))
 }

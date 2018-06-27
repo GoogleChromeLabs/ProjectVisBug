@@ -1,7 +1,7 @@
 import { $$, $ } from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { getStyle, getSide } from './utils.js'
-// todo: cmd does all sides
+
 // todo: show padding color
 const key_events = 'up,down,left,right'
   .split(',')
@@ -14,6 +14,11 @@ export function Padding(selector) {
   hotkeys(key_events, (e, handler) => {
     e.preventDefault()
     padElement($$(selector), handler.key)
+  })
+
+  hotkeys('cmd+up,cmd+shift+up,cmd+down,cmd+shift+down', (e, handler) => {
+    e.preventDefault()
+    padAllElementSides($$(selector), handler.key)
   })
 
   return () => hotkeys.unbind(key_events)
@@ -36,4 +41,15 @@ export function padElement(els, direction) {
       }))
     .forEach(({el, style, padding}) =>
       el.style[style] = `${padding < 0 ? 0 : padding}px`)
+}
+
+export function padAllElementSides(els, keycommand) {
+  const combo = keycommand.split('+')
+  let spoof = ''
+
+  if (combo.includes('shift'))  spoof = 'shift+' + spoof
+  if (combo.includes('down'))   spoof = 'alt+' + spoof
+
+  'up,down,left,right'.split(',')
+    .forEach(side => padElement(els, spoof + side))
 }
