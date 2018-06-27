@@ -1,6 +1,7 @@
 import { $, $$ } from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
+import { cursor, move, search, margin, padding, font, type } from './toolpallete.icons' 
 import { getStyle, rgb2hex } from '../features/utils'
 import { 
   Selectable, Moveable, Padding, Margin, EditText, Font,
@@ -11,23 +12,22 @@ export default class ToolPallete extends HTMLElement {
   
   constructor() {
     super()
-
     // todo: these are 2 model groups, with separate selected state scopes
     // todo: duplicate
     // todo: create
     // todo: resize
     // todo: ragrid alignment panel
-    this.model = {
-      a: 'element',
-      v: 'group',
-      '': '',
-      m: 'move',
-      'shift+m': 'margin',
-      p: 'padding',
-      f: 'font',
-      t: 'text',
-      c: 'color',
-      s: 'search',
+
+    this.toolbar_model = {
+      a: { tool: 'element', icon: cursor },
+      v: { tool: 'group', icon: cursor },
+      '': { tool: '', icon: '' },
+      m: { tool: 'move', icon: move },
+      'shift+m': { tool: 'margin', icon: margin },
+      p: { tool: 'padding', icon: padding },
+      f: { tool: 'font', icon: font },
+      t: { tool: 'text', icon: type },
+      s: { tool: 'search', icon: search },
     }
 
     this.innerHTML = this.render()
@@ -36,7 +36,7 @@ export default class ToolPallete extends HTMLElement {
 
   connectedCallback() {
     $$('li', this).on('click', e => 
-      this.toolSelected(e.target) && e.stopPropagation())
+      this.toolSelected(e.currentTarget) && e.stopPropagation())
 
     this.foregroundPicker = $('#foreground', this)
     this.backgroundPicker = $('#background', this)
@@ -66,8 +66,8 @@ export default class ToolPallete extends HTMLElement {
       }
     })
 
-    Object.entries(this.model).forEach(([key, value]) =>
-      hotkeys(key, e => this.toolSelected($(`[data-tool="${value}"]`))))
+    Object.entries(this.toolbar_model).forEach(([key, value]) =>
+      hotkeys(key, e => this.toolSelected($(`[data-tool="${value.tool}"]`))))
 
     this.toolSelected($('[data-tool="move"]'))
     // this.toolSelected($('[data-tool="element"]'))
@@ -89,10 +89,11 @@ export default class ToolPallete extends HTMLElement {
   render() {
     return `
       <ol>
-        ${Object.entries(this.model).reduce((list, [key, value]) => `
+        ${Object.entries(this.toolbar_model).reduce((list, [key, value]) => `
           ${list}
-          <li title='${value}' data-tool='${value}' data-active='${key == 'a' || key == 'm'}'>${key == 'shift+m' ? 'M':key}</li>
+          <li title='${value.tool}' data-tool='${value.tool}' data-active='${key == 'v' || key == 'm'}'>${value.icon}</li>
         `,'')}
+        <li></li>
         <input type="color" id='foreground' value='#000000'>
         <input type="color" id='background' value=''>
       </ol>

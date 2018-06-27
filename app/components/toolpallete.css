@@ -26,9 +26,26 @@ tool-pallete {
         background: hsl(0,0%,98%);
       }
 
+      & > svg {
+        width: 50%;
+        fill: var(--dark-grey);
+
+        &.icon-cursor {
+          width: 35%;
+          fill: white;
+          stroke: var(--dark-grey);
+        }
+      }
+
+      &[data-tool='group'] > svg {
+        fill: var(--dark-grey);
+      }
+
       &[data-active=true] {
-        color: var(--theme-color);
         background: hsl(0,0%,98%);
+
+        & > svg { fill: var(--theme-color); }
+        & > .icon-cursor { stroke: var(--theme-color); }
       }
 
       &:empty {
@@ -41,6 +58,8 @@ tool-pallete {
   & input[type='color'] {
     width: 100%;
     box-sizing: border-box;
+    border: white;
+    border-color: var(--dark-grey);
     
     &[value='']::-webkit-color-swatch { 
       background-color: transparent !important; 
