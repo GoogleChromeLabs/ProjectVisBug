@@ -10,18 +10,24 @@ const key_events = 'up,down,left,right'
   , '')
   .substring(1)
 
+const command_events = 'cmd+up,cmd+shift+up,cmd+down,cmd+shift+down'
+
 export function Margin(selector) {
   hotkeys(key_events, (e, handler) => {
     e.preventDefault()
     pushElement($$(selector), handler.key)
   })
 
-  hotkeys('cmd+up,cmd+shift+up,cmd+down,cmd+shift+down', (e, handler) => {
+  hotkeys(command_events, (e, handler) => {
     e.preventDefault()
     pushAllElementSides($$(selector), handler.key)
   })
 
-  return () => hotkeys.unbind(key_events)
+  return () => {
+    hotkeys.unbind(key_events)
+    hotkeys.unbind(command_events)
+    hotkeys.unbind('up,down,left,right') // bug in lib?
+  }
 }
 
 export function pushElement(els, direction) {

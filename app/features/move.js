@@ -9,6 +9,7 @@ const key_events = 'up,down,left,right,backspace,del,delete'
 export function Moveable(selector) {
   hotkeys(key_events, (e, handler) => {
     e.preventDefault()
+    e.stopPropagation()
     let el = $(selector)
     moveElement(el, handler.key)
     updateFeedback(el)
