@@ -12,15 +12,12 @@ export default class ToolPallete extends HTMLElement {
   
   constructor() {
     super()
-    // todo: these are 2 model groups, with separate selected state scopes
     // todo: duplicate
     // todo: create
     // todo: resize
     // todo: ragrid alignment panel
 
     this.toolbar_model = {
-      a: { tool: 'element', icon: cursor },
-      v: { tool: 'group', icon: cursor },
       '': { tool: '', icon: '' },
       m: { tool: 'move', icon: move },
       'shift+m': { tool: 'margin', icon: margin },
@@ -92,7 +89,7 @@ export default class ToolPallete extends HTMLElement {
       <ol>
         ${Object.entries(this.toolbar_model).reduce((list, [key, value]) => `
           ${list}
-          <li title='${value.tool}' data-tool='${value.tool}' data-active='${key == 'a' || key == 'm'}'>${value.icon}</li>
+          <li title='${value.tool}' data-tool='${value.tool}' data-active='${key == 'm'}'>${value.icon}</li>
         `,'')}
         <li></li>
         <input type="color" id='foreground' value='#000000'>

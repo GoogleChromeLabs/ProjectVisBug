@@ -4,12 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
   
-    <title>App Starter</title>
+    <title>PixelBug</title>
     <meta name="description" content="My App description">
     <meta name="theme-color" content="#111111">
 
     <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
     <link rel="stylesheet" href="bundle.css">
+    
   </head>
   <body>
     <tool-pallete></tool-pallete>
@@ -17,16 +19,32 @@
     <!-- card -->
     <section grid vertically-aligned="center" horizontally-aligned="center">
       <div grid="rows" vertically-distributed="equal" class="card">
-        <div grid="grid" vertically-aligned="center" class="card-header"><img src="//placehold.it/50x50"/>
+        <div grid="grid" vertically-aligned="center" class="card-header">
+          <img src="https://images-na.ssl-images-amazon.com/images/S/sgp-catalog-images/region_US/nbcu-61101081-Full-Image_GalleryBackground-en-US-1484000598187._RI_SX940_.jpg"/>
           <div>
-            <h2>Card Title</h2>
-            <date>November 5th, 2017</date>
+            <h2>PixelBug</h2>
+            <date>November 5th, 2018</date>
           </div>
         </div>
-        <div class="card-content"><img src="//placehold.it/500x500"/>
+
+        <div class="card-content"><img src="https://s23527.pcdn.co/wp-content/uploads/2017/07/BTTF1.2.jpg.optimal.jpg"/>
           <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. This is heavy.</p>
+          <div class="mdc-chip-set">
+            <div class="mdc-chip" tabindex="0">
+              <div class="mdc-chip__text">Dude</div>
+            </div>
+            <div class="mdc-chip" tabindex="1">
+              <div class="mdc-chip__text">Rad</div>
+            </div>
+            <div class="mdc-chip" tabindex="2">
+              <div class="mdc-chip__text">Totally</div>
+            </div>
+          </div>
         </div>
-        <div grid="grid" vertically-aligned="center" class="card-footer"><a href="href">Like</a><a href="href">Comment</a>
+
+        <div grid="grid" vertically-aligned="bottom" class="card-footer">
+          <button class="mdc-button mdc-button--raised">Like</button>
+          <button class="mdc-button">Comment</button>
           <time>11 minutes ago</time>
         </div>
       </div>
@@ -40,8 +58,9 @@
         <div>3</div>
         <div>4</div>
         <div class="heading">
-          <h3>FireBug</h3>
+          <h3>PixelBug</h3>
           <p>Using grid-template-columns: repeat();</p>
+          <button class="mdc-button mdc-button--raised">Learn More</button>
         </div>
         <div class="message" grid vertically-aligned="center" horizontally-aligned="center">
           Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. This is heavy.

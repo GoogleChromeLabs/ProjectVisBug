@@ -1,38 +1,57 @@
 .card {
-   background: #fff;
-   max-width: 400px;
-   box-shadow: 0 0.2em 0.3em #ccc;
-   padding: 1rem;
-   border-radius: 0.2em;
+  background: #fff;
+  max-width: 400px;
+  box-shadow: 0 0.2em 0.3em #ccc;
+  padding: 1rem;
+  border-radius: 0.2em;
+
+  & > .card-header {
+    & h2, & small {
+      margin: 0;
+    }
+
+    & > img {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 50%;
+      overflow: hidden;
+      object-fit: cover;
+    }
+
+    & > div {
+      margin-left: 1rem;
+    }
+  }
+
+  & > .card-content {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+
+    & img {
+      max-width: 100%;
+    }
+  }
+
+  & > .card-footer {
+    padding-top: 0.5rem;
+    border-top: 1px solid #e6e6e6;
+
+    & > button {
+      padding: 0.5rem 1rem;
+    }
+
+    & time {
+      flex: 2;
+      text-align: right;
+    }
+  }
+
+  & date, & time {
+    font-size: 0.8rem;
+    color: #808080;
+  }
 }
- .card > .card-header h2, .card > .card-header small {
-   margin: 0;
-}
- .card > .card-header > div {
-   margin-left: 0.5rem;
-}
- .card > .card-content {
-   margin-top: 0.5rem;
-   margin-bottom: 0.5rem;
-}
- .card > .card-content img {
-   max-width: 100%;
-}
- .card > .card-footer {
-   padding-top: 0.5rem;
-   border-top: 1px solid #e6e6e6;
-}
- .card > .card-footer a {
-   padding: 0.5rem 1rem;
-}
- .card > .card-footer a:hover {
-   background: #e6e6e6;
-}
- .card > .card-footer time {
-   flex: 2;
-   text-align: right;
-}
- .card date, .card time {
-   font-size: 0.8rem;
-   color: #808080;
+
+.mdc-card {
+  max-width: 400px;
 }

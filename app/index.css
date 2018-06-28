@@ -17,6 +17,7 @@ body {
   margin: 0;
   background: var(--lightest-grey);
   font-family: "Google Sans", system-ui;
+  --mdc-theme-primary: hotpink;
 }
 
 h1,h2,h3 {

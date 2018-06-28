@@ -38,10 +38,6 @@ tool-pallete {
         }
       }
 
-      &[data-tool='group'] > svg {
-        fill: var(--dark-grey);
-      }
-
       &[data-tool='align'] {
         transform: rotateZ(90deg);
       }
@@ -51,7 +47,6 @@ tool-pallete {
 
         & > svg:not(.icon-cursor) { fill: var(--theme-color); }
         & > .icon-cursor { stroke: var(--theme-color); }
-        &[data-tool='group'] > .icon-cursor { fill: var(--theme-color); }
       }
 
       &:empty {
