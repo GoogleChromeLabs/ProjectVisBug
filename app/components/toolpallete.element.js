@@ -68,7 +68,6 @@ export default class ToolPallete extends HTMLElement {
       hotkeys(key, e => this.toolSelected($(`[data-tool="${value.tool}"]`))))
 
     this.toolSelected($('[data-tool="move"]'))
-    // this.toolSelected($('[data-tool="element"]'))
   }
 
   disconnectedCallback() {}

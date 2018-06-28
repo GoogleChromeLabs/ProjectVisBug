@@ -22,6 +22,7 @@ export function Selectable(elements) {
 
   elements.on('dblclick', e => {
     EditText([e.target])
+    $('tool-pallete').toolSelected($('li[data-tool="text"]'))
     e.preventDefault()
     e.stopPropagation()
   })
