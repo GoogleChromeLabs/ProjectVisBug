@@ -82,11 +82,12 @@ tool-pallete {
 }
 
 [data-hover=true] {
-  outline: 1px dashed var(--lighter-grey);
+  outline: 1px dashed hsla(330, 80%, 71%, 30%);
 }
 
 [data-selected=true] {
-  outline: 1px solid var(--theme-color);
+  outline: 1px solid hsla(330, 100%, 71%, 80%);
+  transition: all 0.15s ease;
 }
 
 [data-selected-hide=true] {

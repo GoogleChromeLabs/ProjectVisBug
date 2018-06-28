@@ -1,18 +1,27 @@
 import { $$, $ } from 'blingblingjs'
-// todo: consider making this a singleton with callbacks for element interaction events
+import { EditText } from './text'
+
 export function Selectable(elements) {
   let selected = []
   let selectedCallbacks = []
 
   // todo: right click "expand selection"
-  // todo: direct and group select distinguishing
-    // - groups have box shadows, .container/.nav/.card, section/article/main/header/nav
+  // todo: click/hover is highest level match, cmd+click/cmd+hover is lowest level
+  // todo: keyboard selection navigation
+    // tab/shift+tab move selection to next or prev el (single selected only?)
+    // enter/esc move up and down
 
   elements.on('click', e => {
     if (!e.shiftKey) unselect_all()
     e.target.setAttribute('data-selected', true)
     selected.push(e.target)
     tellWatchers()
+    e.preventDefault()
+    e.stopPropagation()
+  })
+
+  elements.on('dblclick', e => {
+    EditText([e.target])
     e.preventDefault()
     e.stopPropagation()
   })

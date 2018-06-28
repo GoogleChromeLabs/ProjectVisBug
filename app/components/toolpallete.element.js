@@ -92,7 +92,7 @@ export default class ToolPallete extends HTMLElement {
           <li title='${value.tool}' data-tool='${value.tool}' data-active='${key == 'm'}'>${value.icon}</li>
         `,'')}
         <li></li>
-        <input type="color" id='foreground' value='#000000'>
+        <input type="color" id='foreground' value=''>
         <input type="color" id='background' value=''>
       </ol>
     `
