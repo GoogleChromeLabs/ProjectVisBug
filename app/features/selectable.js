@@ -6,6 +6,7 @@ export function Selectable(elements) {
   let selectedCallbacks = []
 
   // todo: right click "expand selection"
+  // todo: alignment guides
   // todo: click/hover is highest level match, cmd+click/cmd+hover is lowest level
   // todo: keyboard selection navigation
     // tab/shift+tab move selection to next or prev el (single selected only?)
