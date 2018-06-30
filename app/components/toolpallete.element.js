@@ -18,7 +18,6 @@ export default class ToolPallete extends HTMLElement {
     // todo: ragrid alignment panel
 
     this.toolbar_model = {
-      '': { tool: '', icon: '' },
       v: { tool: 'move', icon: move },
       m: { tool: 'margin', icon: margin },
       p: { tool: 'padding', icon: padding },
