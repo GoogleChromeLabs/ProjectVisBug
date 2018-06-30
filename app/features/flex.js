@@ -48,6 +48,15 @@ const ensureFlex = el => {
   return el
 }
 
+const accountForOtherJustifyContent = (cur, want) => {
+  if (want == 'align' && (cur != 'flex-start' && cur != 'center' && cur != 'flex-end'))
+    cur = 'normal'
+  else if (want == 'distribute' && (cur != 'space-around' && cur != 'space-between'))
+    cur = 'normal'
+
+  return cur
+}
+
 export function changeDirection(els, value) {
   els
     .map(ensureFlex)
@@ -65,7 +74,7 @@ export function changeHAlignment(els, direction) {
     .map(el => ({ 
       el, 
       style:    'justifyContent',
-      current:  getStyle(el, 'justifyContent'),
+      current:  accountForOtherJustifyContent(getStyle(el, 'justifyContent'), 'align'),
       direction: direction.split('+').includes('left'),
     }))
     .map(payload =>
@@ -109,7 +118,7 @@ export function changeHDistribution(els, direction) {
     .map(el => ({ 
       el, 
       style:    'justifyContent',
-      current:  getStyle(el, 'justifyContent'),
+      current:  accountForOtherJustifyContent(getStyle(el, 'justifyContent'), 'distribute'),
       direction: direction.split('+').includes('left'),
     }))
     .map(payload =>
