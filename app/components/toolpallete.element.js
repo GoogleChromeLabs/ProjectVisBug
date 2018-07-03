@@ -4,7 +4,7 @@ import hotkeys from 'hotkeys-js'
 import { cursor, move, search, margin, padding, font, type, align } from './toolpallete.icons' 
 import { getStyle, rgb2hex } from '../features/utils'
 import { 
-  Selectable, Moveable, Padding, Margin, EditText, Font, Flex,
+  Selectable, Moveable, Padding, Margin, EditText, Font, Flex, Search,
   ChangeForeground, ChangeBackground
 } from '../features/'
 
@@ -28,7 +28,7 @@ export default class ToolPallete extends HTMLElement {
     }
 
     this.innerHTML = this.render()
-    this.selectorEngine = Selectable($('body > *:not(script):not(tool-pallete)'))
+    this.selectorEngine = Selectable($('body > *:not(script):not(tool-pallete):not(#node-search)'))
   }
 
   connectedCallback() {
@@ -121,7 +121,10 @@ export default class ToolPallete extends HTMLElement {
   align() {
     this.deactivate_feature = Flex('[data-selected=true]')
   }
-  search() {}
+
+  search() {
+    this.deactivate_feature = Search(this.selectorEngine)
+  }
 }
 
 customElements.define('tool-pallete', ToolPallete)

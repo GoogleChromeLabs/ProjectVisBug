@@ -1,0 +1,19 @@
+#node-search {
+  position: fixed;
+  z-index: 9;
+  top: 258px;
+  left: 59px;
+
+  border: none;
+  margin: 0;
+  padding: 0;
+
+  background: white;
+  box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
+
+  & > input {
+    border: none;
+    font-size: 1.2rem;
+    padding: 0.4em;
+  }
+}
