@@ -1,4 +1,4 @@
-import { $, $$ } from 'blingblingjs'
+import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
 import { cursor, move, search, margin, padding, font, type, align } from './toolpallete.icons' 
@@ -28,22 +28,22 @@ export default class ToolPallete extends HTMLElement {
     }
 
     this.innerHTML = this.render()
-    this.selectorEngine = Selectable($$('body > *:not(script):not(tool-pallete)'))
+    this.selectorEngine = Selectable($('body > *:not(script):not(tool-pallete)'))
   }
 
   connectedCallback() {
-    $$('li', this).on('click', e => 
+    $('li', this).on('click', e => 
       this.toolSelected(e.currentTarget) && e.stopPropagation())
 
-    this.foregroundPicker = $('#foreground', this)
-    this.backgroundPicker = $('#background', this)
+    this.foregroundPicker = $('#foreground', this)[0]
+    this.backgroundPicker = $('#background', this)[0]
 
     // set colors
     this.foregroundPicker.on('input', e =>
-      ChangeForeground($$('[data-selected=true]'), e.target.value))
+      ChangeForeground($('[data-selected=true]'), e.target.value))
 
     this.backgroundPicker.on('input', e =>
-      ChangeBackground($$('[data-selected=true]'), e.target.value))
+      ChangeBackground($('[data-selected=true]'), e.target.value))
 
     // read colors
     this.selectorEngine.onSelectedUpdate(elements => {
@@ -57,27 +57,27 @@ export default class ToolPallete extends HTMLElement {
         let fg = rgb2hex(getStyle(elements[0], 'color'))
         let bg = rgb2hex(getStyle(elements[0], 'backgroundColor'))
 
-        this.foregroundPicker.setAttribute('value', (fg == '#000' && elements[0].textContent == '') ? '' : fg)
+        this.foregroundPicker.attr('value', (fg == '#000' && elements[0].textContent == '') ? '' : fg)
         // todo: better background color parser
-        this.backgroundPicker.setAttribute('value', bg == '#NaN000' ? '' : bg)
+        this.backgroundPicker.attr('value', bg == '#NaN000' ? '' : bg)
       }
     })
 
     Object.entries(this.toolbar_model).forEach(([key, value]) =>
-      hotkeys(key, e => this.toolSelected($(`[data-tool="${value.tool}"]`))))
+      hotkeys(key, e => this.toolSelected($(`[data-tool="${value.tool}"]`)[0])))
 
-    this.toolSelected($('[data-tool="move"]'))
+    this.toolSelected($('[data-tool="move"]')[0])
   }
 
   disconnectedCallback() {}
 
   toolSelected(el) {
     if (this.active_tool) {
-      this.active_tool.removeAttribute('data-active')
+      this.active_tool.attr('data-active', null)
       this.deactivate_feature()
     }
 
-    el.setAttribute('data-active', true)
+    el.attr('data-active', true)
     this.active_tool = el
     this[el.dataset.tool]()
   }

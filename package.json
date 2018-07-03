@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "blingblingjs": "^1.0.2",
+    "blingblingjs": "^2.0.0",
     "hotkeys-js": "^3.3.5",
     "ragrid": "^1.0.5"
   },

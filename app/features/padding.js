@@ -1,4 +1,4 @@
-import { $$, $ } from 'blingblingjs'
+import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { getStyle, getSide, showHideSelected } from './utils.js'
 
@@ -15,12 +15,12 @@ const command_events = 'cmd+up,cmd+shift+up,cmd+down,cmd+shift+down'
 export function Padding(selector) {
   hotkeys(key_events, (e, handler) => {
     e.preventDefault()
-    padElement($$(selector), handler.key)
+    padElement($(selector), handler.key)
   })
 
   hotkeys(command_events, (e, handler) => {
     e.preventDefault()
-    padAllElementSides($$(selector), handler.key)
+    padAllElementSides($(selector), handler.key)
   })
 
   return () => {

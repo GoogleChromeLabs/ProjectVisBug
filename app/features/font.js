@@ -1,4 +1,4 @@
-import { $$, $ } from 'blingblingjs'
+import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { getStyle, showHideSelected } from './utils.js'
 
@@ -13,7 +13,7 @@ export function Font(selector) {
   hotkeys(key_events, (e, handler) => {
     e.preventDefault()
 
-    let selectedNodes = $$(selector)
+    let selectedNodes = $(selector)
       , keys = handler.key.split('+')
 
     if (keys.includes('left') || keys.includes('right'))

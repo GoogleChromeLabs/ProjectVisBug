@@ -1,4 +1,4 @@
-import { $$, $ } from 'blingblingjs'
+import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { getStyle, getSide, showHideSelected } from './utils.js'
 
@@ -15,12 +15,12 @@ const command_events = 'cmd+up,cmd+shift+up,cmd+down,cmd+shift+down'
 export function Margin(selector) {
   hotkeys(key_events, (e, handler) => {
     e.preventDefault()
-    pushElement($$(selector), handler.key)
+    pushElement($(selector), handler.key)
   })
 
   hotkeys(command_events, (e, handler) => {
     e.preventDefault()
-    pushAllElementSides($$(selector), handler.key)
+    pushAllElementSides($(selector), handler.key)
   })
 
   return () => {

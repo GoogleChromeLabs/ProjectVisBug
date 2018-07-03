@@ -1,4 +1,4 @@
-import { $ } from 'blingblingjs'
+import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
 const removeEditability = e => {
@@ -9,12 +9,12 @@ const removeEditability = e => {
 
 const stopBubbling = e => e.key != 'Escape' && e.stopPropagation()
 
-export function EditText(elements) {
+export function EditText(elements, focus=false) {
   if (!elements.length) return
 
   elements.map(el => {
     el.setAttribute('contenteditable', 'true')
-    el.focus()
+    focus && el.focus()
     $(el).on('keydown', stopBubbling)
     $(el).on('blur', removeEditability)
   })

@@ -1,4 +1,4 @@
-import { $$, $ } from 'blingblingjs'
+import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
 const key_events = 'up,down,left,right,backspace,del,delete'
@@ -10,7 +10,7 @@ export function Moveable(selector) {
   hotkeys(key_events, (e, handler) => {
     e.preventDefault()
     e.stopPropagation()
-    let el = $(selector)
+    let el = $(selector)[0]
     moveElement(el, handler.key)
     updateFeedback(el)
   })
@@ -53,11 +53,11 @@ export function moveElement(el, direction) {
   }
 }
 
-const canMoveLeft = el => el.previousElementSibling
-const canMoveRight = el => el.nextElementSibling
-const canMoveDown = el => 
+export const canMoveLeft = el => el.previousElementSibling
+export const canMoveRight = el => el.nextElementSibling
+export const canMoveDown = el => 
   el.nextElementSibling && el.nextElementSibling.children.length
-const canMoveUp = el => 
+export const canMoveUp = el => 
   el.parentNode && el.parentNode.parentNode && el.parentNode.nodeName != 'BODY'
 
 export function updateFeedback(el) {

@@ -1,4 +1,4 @@
-import { $ } from 'blingblingjs'
+import $ from 'blingblingjs'
 
 export function ChangeForeground(elements, color) {
   elements.map(el =>
