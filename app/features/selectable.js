@@ -23,6 +23,9 @@ export function Selectable(elements) {
     e.stopPropagation()
   })
 
+  hotkeys('esc', _ => 
+    selected.length && unselect_all())
+
   hotkeys('tab,shift+tab,enter,shift+enter', (e, {key}) => {
     if (selected.length !== 1) return
 
