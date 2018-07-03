@@ -40,6 +40,7 @@ export function Flex(selector) {
   return () => {
     hotkeys.unbind(key_events)
     hotkeys.unbind(command_events)
+    hotkeys.unbind('up,down,left,right')
   }
 }
 

@@ -15,7 +15,10 @@ export function Moveable(selector) {
     updateFeedback(el)
   })
 
-  return () => hotkeys.unbind(key_events)
+  return () => {
+    hotkeys.unbind(key_events)
+    hotkeys.unbind('up,down,left,right')
+  }
 }
 
 export function moveElement(el, direction) {

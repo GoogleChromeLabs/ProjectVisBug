@@ -1,0 +1,36 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+service: pixelbug
+
+handlers:
+- url: /(.*\.css)
+  mime_type: text/css
+  static_files: app/\1
+  upload: app/(.*\.css)
+
+- url: /(.*\.js)
+  mime_type: text/javascript
+  static_files: app/\1
+  upload: app/(.*\.js)
+
+- url: /(.*\.(bmp|gif|ico|jpeg|jpg|png))
+  static_files: app/\1
+  upload: app/(.*\.(bmp|gif|ico|jpeg|jpg|png))
+
+- url: /(.*\.(svg|svgz))
+  mime_type: image/svg+xml
+  static_files: app/\1
+  upload: app/(.*\.(svg|svgz))
+
+- url: /(.+)/
+  static_files: app/\1/index.html
+  upload: app/(.*)/index.html
+
+- url: /(.+)
+  static_files: app/\1/index.html
+  upload: app/(.*)/index.html
+
+- url: /
+  static_files: app/index.html
+  upload: app/index.html
