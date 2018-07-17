@@ -26,6 +26,9 @@ export function Selectable(elements) {
   hotkeys('esc', _ => 
     selected.length && unselect_all())
 
+  elements.on('selectstart', e =>
+    selected.length && selected[0].textContent != e.target.textContent && e.preventDefault())
+
   hotkeys('tab,shift+tab,enter,shift+enter', (e, {key}) => {
     if (selected.length !== 1) return
 
