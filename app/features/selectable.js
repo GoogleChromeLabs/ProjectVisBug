@@ -67,15 +67,11 @@ export function Selectable(elements) {
     target.removeAttribute('data-hover'))
 
   $('body').on('click', ({target}) => {
-    // todo: better ignoring of tool pallete clicks (why isnt stop propogation in tool palette working?)
-    if (
-        target.nodeName == 'BODY' 
-        || (
-          !selected.filter(el => el == target).length 
-          && (target.parentElement && target.parentElement.parentElement && target.parentElement.parentElement.nodeName != 'TOOL-PALLETE')
-        )
+    if (target.nodeName == 'BODY'  || (
+        !selected.filter(el => el == target).length 
+        && !target.closest('tool-pallete')
       )
-      unselect_all()
+    ) unselect_all()
     tellWatchers()
   })
 
