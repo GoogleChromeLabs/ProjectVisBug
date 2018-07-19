@@ -1,7 +1,8 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
-import { cursor, move, search, margin, padding, font, type, align } from './toolpallete.icons' 
+import { cursor, move, search, margin, padding, font, 
+         type, align, transform, resize, border } from './toolpallete.icons' 
 import { getStyle, rgb2hex } from '../features/utils'
 import { 
   Selectable, Moveable, Padding, Margin, EditText, Font, Flex, Search,
@@ -13,8 +14,6 @@ export default class ToolPallete extends HTMLElement {
   constructor() {
     super()
     // todo: duplicate
-    // todo: create
-    // todo: resize
     // todo: ragrid alignment panel
 
     this.toolbar_model = {
@@ -23,7 +22,10 @@ export default class ToolPallete extends HTMLElement {
       p: { tool: 'padding', icon: padding },
       a: { tool: 'align', icon: align },
       f: { tool: 'font', icon: font },
-      t: { tool: 'text', icon: type },
+      e: { tool: 'text', icon: type },
+      t: { tool: 'transform', icon: transform },
+      b: { tool: 'border', icon: border },
+      r: { tool: 'resize', icon: resize },
       s: { tool: 'search', icon: search },
     }
 
