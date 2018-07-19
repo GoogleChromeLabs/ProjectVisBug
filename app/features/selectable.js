@@ -26,6 +26,16 @@ export function Selectable(elements) {
   hotkeys('esc', _ => 
     selected.length && unselect_all())
 
+  hotkeys('cmd+d', e => {
+    const root_node = selected[0]
+    if (!root_node) return
+
+    const deep_clone = root_node.cloneNode(true)
+    selected.push(deep_clone)
+    root_node.parentNode.insertBefore(deep_clone, root_node.nextSibling)
+    e.preventDefault()
+  })
+
   elements.on('selectstart', e =>
     selected.length && selected[0].textContent != e.target.textContent && e.preventDefault())
 
