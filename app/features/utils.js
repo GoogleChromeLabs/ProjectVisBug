@@ -21,16 +21,15 @@ export function rgb2hex(rgb) {
  return '#' + rgb.substr(4, rgb.indexOf(')') - 4).split(',').map((color) => parseInt(color).toString(16)).join('')
 }
 
-let catchingUp = false
-let interrupted = 0
+let timeoutMap = {}
 export function showHideSelected(el) {
-  if (catchingUp) interrupted++
   el.setAttribute('data-selected-hide', true)
-  setTimeout(function(){
-    if (interrupted > 0) return interrupted--
+
+  if (timeoutMap[el]) clearTimeout(timeoutMap[el])
+
+  timeoutMap[el] = setTimeout(_ =>
     el.removeAttribute('data-selected-hide')
-    catchingUp = false
-  }, 750)
-  catchingUp = true
+  , 750)
+  
   return el
 }
