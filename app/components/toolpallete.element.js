@@ -2,7 +2,7 @@ import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
 import { cursor, move, search, margin, padding, font, 
-         type, align, transform, resize, border } from './toolpallete.icons' 
+         type, align, transform, resize, border, hueshift, boxshadow } from './toolpallete.icons' 
 import { getStyle, rgb2hex } from '../features/utils'
 import { 
   Selectable, Moveable, Padding, Margin, EditText, Font, Flex, Search,
@@ -21,11 +21,13 @@ export default class ToolPallete extends HTMLElement {
       m: { tool: 'margin', icon: margin },
       p: { tool: 'padding', icon: padding },
       a: { tool: 'align', icon: align },
-      f: { tool: 'font', icon: font },
-      e: { tool: 'text', icon: type },
       t: { tool: 'transform', icon: transform },
       b: { tool: 'border', icon: border },
+      d: { tool: 'boxshadow', icon: boxshadow },
       r: { tool: 'resize', icon: resize },
+      h: { tool: 'hueshift', icon: hueshift },
+      f: { tool: 'font', icon: font },
+      e: { tool: 'text', icon: type },
       s: { tool: 'search', icon: search },
     }
 
