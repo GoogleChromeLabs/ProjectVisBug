@@ -57,7 +57,9 @@ export default class ToolPallete extends HTMLElement {
         let fg = rgb2hex(getStyle(elements[0], 'color'))
         let bg = rgb2hex(getStyle(elements[0], 'backgroundColor'))
 
-        this.foregroundPicker.attr('value', (fg == '#000' && elements[0].textContent == '') ? '' : fg)
+        if (fg == '#000') fg = '#000000'
+
+        this.foregroundPicker.attr('value', (fg == '#000000' && elements[0].textContent == '') ? '' : fg)
         // todo: better background color parser
         this.backgroundPicker.attr('value', bg == '#NaN000' ? '' : bg)
       }
