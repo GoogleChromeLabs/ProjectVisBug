@@ -43,9 +43,9 @@ export function moveElement(el, direction) {
       break
 
     case 'down':
-      // if last child, down can pop up a level and after (want??)
-      // if (!el.nextElementSibling && el.parentNode && el.parentNode.parentNode && el.parentNode.nodeName != 'BODY')
-      //   el.parentNode.parentNode.appendChild(el)
+      // edge case behavior, user test
+      if (!el.nextElementSibling && el.parentNode && el.parentNode.parentNode && el.parentNode.nodeName != 'BODY')
+        el.parentNode.parentNode.insertBefore(el, el.parentNode.parentNode.children[[...el.parentElement.parentElement.children].indexOf(el.parentElement) + 1])
       if (canMoveDown(el))
         el.nextElementSibling.prepend(el)
       break
