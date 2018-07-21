@@ -9,6 +9,8 @@ const key_events = 'up,down,left,right'
   , '')
   .substring(1)
 
+const command_events = 'cmd+up,cmd+down'
+
 export function Font(selector) {
   hotkeys(key_events, (e, handler) => {
     e.preventDefault()
@@ -26,7 +28,17 @@ export function Font(selector) {
         : changeFontSize(selectedNodes, handler.key)
   })
 
-  return () => hotkeys.unbind(key_events)
+  hotkeys(command_events, (e, handler) => {
+    e.preventDefault()
+    let keys = handler.key.split('+')
+    changeFontWeight($(selector), keys.includes('up') ? 'up' : 'down')
+  })
+
+  return () => {
+    hotkeys.unbind(key_events)
+    hotkeys.unbind(command_events)
+    hotkeys.unbind('up,down,left,right')
+  }
 }
 
 export function changeLeading(els, direction) {
@@ -99,6 +111,37 @@ export function changeFontSize(els, direction) {
       }))
     .forEach(({el, style, font_size}) =>
       el.style[style] = `${font_size <= 6 ? 6 : font_size}px`)
+}
+
+const weightMap = {
+  normal: 2,
+  bold:   5,
+  light:  0,
+  "": 2,
+  "100":0,"200":1,"300":2,"400":3,"500":4,"600":5,"700":6,"800":7,"900":8
+}
+const weightOptions = [100,200,300,400,500,600,700,800,900]
+
+export function changeFontWeight(els, direction) {
+  els
+    .map(el => showHideSelected(el))
+    .map(el => ({ 
+      el, 
+      style:    'fontWeight',
+      current:  getStyle(el, 'fontWeight'),
+      direction: direction.split('+').includes('down'),
+    }))
+    .map(payload =>
+      Object.assign(payload, {
+        value: payload.direction
+          ? weightMap[payload.current] - 1 
+          : weightMap[payload.current] + 1
+      }))
+    .forEach(({el, style, value}) =>
+      el.style[style] = weightOptions[value < 0 ? 0 : value >= weightOptions.length 
+        ? weightOptions.length
+        : value
+      ])
 }
 
 const alignMap = {
