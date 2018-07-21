@@ -6,7 +6,7 @@ import { cursor, move, search, margin, padding, font,
 import { getStyle, rgb2hex } from '../features/utils'
 import { 
   Selectable, Moveable, Padding, Margin, EditText, Font, Flex, Search,
-  ChangeForeground, ChangeBackground
+  ChangeForeground, ChangeBackground, BoxShadow
 } from '../features/'
 
 export default class ToolPallete extends HTMLElement {
@@ -130,6 +130,10 @@ export default class ToolPallete extends HTMLElement {
 
   search() {
     this.deactivate_feature = Search(this.selectorEngine)
+  }
+
+  boxshadow() {
+    this.deactivate_feature = BoxShadow('[data-selected=true]')
   }
 }
 
