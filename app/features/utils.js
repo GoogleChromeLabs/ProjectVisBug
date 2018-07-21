@@ -22,14 +22,14 @@ export function rgb2hex(rgb) {
 }
 
 let timeoutMap = {}
-export function showHideSelected(el) {
+export function showHideSelected(el, duration = 750) {
   el.setAttribute('data-selected-hide', true)
 
   if (timeoutMap[el]) clearTimeout(timeoutMap[el])
 
   timeoutMap[el] = setTimeout(_ =>
     el.removeAttribute('data-selected-hide')
-  , 750)
+  , duration)
   
   return el
 }
