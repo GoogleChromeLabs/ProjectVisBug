@@ -28,6 +28,8 @@ export function moveElement(el, direction) {
     case 'left':
       if (canMoveLeft(el))
         el.parentNode.insertBefore(el, el.previousElementSibling)
+      else
+        showEdge(el.parentNode)
       break
 
     case 'right':
@@ -35,6 +37,8 @@ export function moveElement(el, direction) {
         el.parentNode.insertBefore(el, el.nextElementSibling.nextSibling)
       else if (canMoveRight(el))
         el.parentNode.appendChild(el)
+      else
+        showEdge(el.parentNode)
       break
 
     case 'up':
@@ -62,6 +66,14 @@ export const canMoveDown = el =>
   el.nextElementSibling && el.nextElementSibling.children.length
 export const canMoveUp = el => 
   el.parentNode && el.parentNode.parentNode && el.parentNode.nodeName != 'BODY'
+
+export function showEdge(el) {
+  return el.animate([
+    { outline: '1px solid transparent' },
+    { outline: '1px solid hsla(330, 100%, 71%, 80%)' },
+    { outline: '1px solid transparent' },
+  ], 600)
+}
 
 export function updateFeedback(el) {
   let options = ''
