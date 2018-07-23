@@ -49,11 +49,11 @@ const ensureHasShadow = el => {
 
 // todo: work around this propMap with a better split
 const propMap = {
-  'x': 4,
-  'y': 5,
-  'blur': 6,
-  'size': 7,
-  'inset': 8,
+  'x':      4,
+  'y':      5,
+  'blur':   6,
+  'size':   7,
+  'inset':  8,
 }
 
 const parseCurrentShadow = el => getStyle(el, 'boxShadow').split(' ')

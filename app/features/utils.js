@@ -17,10 +17,6 @@ export function getStyle(elem, name) {
   }
 }
 
-export function rgb2hex(rgb) {
- return '#' + rgb.substr(4, rgb.indexOf(')') - 4).split(',').map((color) => parseInt(color).toString(16)).join('')
-}
-
 let timeoutMap = {}
 export function showHideSelected(el, duration = 750) {
   el.setAttribute('data-selected-hide', true)
