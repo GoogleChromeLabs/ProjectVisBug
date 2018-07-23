@@ -1,13 +1,17 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
+
 import { EditText } from './text'
 import { canMoveLeft, canMoveRight, canMoveUp } from './move'
+import { watchImagesForUpload } from './imageswap'
 
-// todo: right click "expand selection"
+// todo: "expand selection"
 // todo: alignment guides
 export function Selectable(elements) {
   let selected = []
   let selectedCallbacks = []
+
+  watchImagesForUpload()
 
   elements.on('click', e => {
     if (!e.shiftKey) unselect_all()
