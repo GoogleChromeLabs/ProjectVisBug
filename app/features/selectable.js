@@ -1,7 +1,9 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
+
 import { EditText } from './text'
 import { canMoveLeft, canMoveRight, canMoveUp } from './move'
+import { watchImagesForUpload } from './imageswap'
 
 // todo: right click "expand selection"
 // todo: alignment guides
@@ -88,6 +90,7 @@ export function Selectable(elements) {
   const select = el => {
     el.setAttribute('data-selected', true)
     selected.push(el)
+    watchImagesForUpload(selected)
     tellWatchers()
   }
 
