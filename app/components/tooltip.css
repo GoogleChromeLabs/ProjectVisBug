@@ -1,0 +1,23 @@
+.metatip {
+  position: absolute;
+  background: white;
+  height: 25px;
+  padding: 0 1rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 -.25rem 1rem hsla(0,0%,0%,20%);
+  border-radius: 1rem;
+
+  /* opacity: 0; */
+  transform: translateX(-50%) translateY(-125%);
+  /* animation: slide-up 0.4s ease forwards; */
+}
+
+/* @keyframes slide-up { 
+  to {
+    opacity: 1;
+    transform: translate3d(-50%,-125%,0);
+  }
+} */

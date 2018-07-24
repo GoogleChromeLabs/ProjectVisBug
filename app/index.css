@@ -2,6 +2,7 @@
 @import 'components/toolpallete.css';
 @import 'components/card.css';
 @import 'components/dialog.css';
+@import 'components/tooltip.css';
 
 :root {
   --darkest-grey: hsl(0,0%,2%);

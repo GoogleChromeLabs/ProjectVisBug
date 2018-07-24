@@ -5,7 +5,7 @@ import { cursor, move, search, margin, padding, font, type, align } from './tool
 import { getStyle, rgb2hex } from '../features/utils'
 import { 
   Selectable, Moveable, Padding, Margin, EditText, Font, Flex, Search,
-  ChangeForeground, ChangeBackground
+  ChangeForeground, ChangeBackground, MetaTip
 } from '../features/'
 
 export default class ToolPallete extends HTMLElement {
@@ -65,9 +65,14 @@ export default class ToolPallete extends HTMLElement {
       }
     })
 
+    // toolbar hotkeys
     Object.entries(this.toolbar_model).forEach(([key, value]) =>
       hotkeys(key, e => this.toolSelected($(`[data-tool="${value.tool}"]`)[0])))
 
+    // tooltips
+    this.selectorEngine.onSelectedUpdate(MetaTip)
+
+    // initial selected node
     this.toolSelected($('[data-tool="move"]')[0])
   }
 
@@ -126,6 +131,10 @@ export default class ToolPallete extends HTMLElement {
 
   search() {
     this.deactivate_feature = Search(this.selectorEngine)
+  }
+
+  activeTool() {
+    return this.active_tool.dataset.tool
   }
 }
 

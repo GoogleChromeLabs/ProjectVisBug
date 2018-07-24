@@ -69,10 +69,10 @@ tool-pallete {
   }
 }
 
-[data-hover=true],
+/* [data-hover=true],
 [data-selected=true] {
   z-index: 50; 
-}
+} */
 
 [data-hover=true] {
   outline: 1px dashed hsla(330, 80%, 71%, 30%);
