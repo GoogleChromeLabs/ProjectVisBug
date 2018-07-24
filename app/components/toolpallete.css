@@ -38,6 +38,10 @@ tool-pallete {
         }
       }
 
+      &.color {
+        height: 20px;
+      }
+
       &[data-tool='align'] {
         transform: rotateZ(90deg);
       }
@@ -60,7 +64,6 @@ tool-pallete {
     width: 100%;
     box-sizing: border-box;
     border: white;
-    border-color: var(--dark-grey);
     
     &[value='']::-webkit-color-swatch { 
       background-color: transparent !important; 
