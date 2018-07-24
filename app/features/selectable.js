@@ -40,6 +40,18 @@ export function Selectable(elements) {
     e.preventDefault()
   })
 
+  hotkeys('cmd+e,cmd+shift+e', (e, {key}) => {
+    e.preventDefault()
+
+    // TODO: need a much smarter system here
+    // only expands base tag names atm
+    if (selected[0].nodeName !== 'DIV')
+      expandSelection({
+        root_node: selected[0], 
+        all: key.includes('shift'),
+      })
+  })
+
   elements.on('selectstart', e =>
     selected.length && selected[0].textContent != e.target.textContent && e.preventDefault())
 
@@ -91,16 +103,46 @@ export function Selectable(elements) {
 
   const select = el => {
     el.setAttribute('data-selected', true)
-    selected.push(el)
+    selected.unshift(el)
     tellWatchers()
   }
 
   const unselect_all = () => {
     selected
       .forEach(el => 
-        el.removeAttribute('data-selected'))
+        $(el).attr({
+          'data-selected': null,
+          'data-selected-hide': null,
+        }))
 
     selected = []
+  }
+
+  const expandSelection = ({root_node, all}) => {
+    if (all) {
+      const unselecteds = $(root_node.nodeName.toLowerCase() + ':not([data-selected])')
+      unselecteds.forEach(select)
+    }
+    else {
+      const potentials = $(root_node.nodeName.toLowerCase())
+      if (!potentials) return
+
+      const root_node_index = potentials.reduce((index, node, i) =>
+        node == root_node 
+          ? index = i
+          : index
+      , null)
+
+      if (root_node_index !== null) {
+        if (!potentials[root_node_index + 1]) {
+          const potential = potentials.filter(el => !el.attr('data-selected'))[0]
+          if (potential) select(potential)
+        }
+        else {
+          select(potentials[root_node_index + 1])
+        }
+      }
+    }
   }
 
   const onSelectedUpdate = cb =>
