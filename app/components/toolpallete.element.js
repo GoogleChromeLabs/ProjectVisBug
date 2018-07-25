@@ -10,12 +10,11 @@ import {
   ChangeForeground, ChangeBackground, BoxShadow, HueShift
 } from '../features/'
 
+// todo: create?
+// todo: resize
 export default class ToolPallete extends HTMLElement {
-  
   constructor() {
     super()
-    // todo: duplicate
-    // todo: ragrid alignment panel
 
     this.toolbar_model = {
       v: { tool: 'move', icon: move },
@@ -97,8 +96,12 @@ export default class ToolPallete extends HTMLElement {
           <li title='${value.tool}' data-tool='${value.tool}' data-active='${key == 'v'}'>${value.icon}</li>
         `,'')}
         <li></li>
-        <input type="color" id='foreground' value=''>
-        <input type="color" id='background' value=''>
+        <li class="color">
+          <input title="foreground" type="color" id='foreground' value=''>
+        </li>
+        <li class="color">
+          <input title="background" type="color" id='background' value=''>
+        </li>
       </ol>
     `
   }
