@@ -2,6 +2,7 @@ tool-pallete {
   position: fixed;
   top: 1rem;
   left: 1rem;
+  z-index: 99999; 
 
   background: white;
   box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
