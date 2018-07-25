@@ -1,27 +1,33 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
+import { TinyColor } from '@ctrl/tinycolor'
 
-import { cursor, move, search, margin, padding, font, type, align } from './toolpallete.icons' 
-import { getStyle, rgb2hex } from '../features/utils'
+import { cursor, move, search, margin, padding, font, 
+         type, align, transform, resize, border, hueshift, boxshadow } from './toolpallete.icons' 
+import { getStyle } from '../features/utils'
 import { 
   Selectable, Moveable, Padding, Margin, EditText, Font, Flex, Search,
-  ChangeForeground, ChangeBackground
+  ChangeForeground, ChangeBackground, BoxShadow, HueShift
 } from '../features/'
 
+// todo: create?
+// todo: resize
 export default class ToolPallete extends HTMLElement {
-  
   constructor() {
     super()
-    // todo: create?
-    // todo: resize
 
     this.toolbar_model = {
       v: { tool: 'move', icon: move },
+      // r: { tool: 'resize', icon: resize },
       m: { tool: 'margin', icon: margin },
       p: { tool: 'padding', icon: padding },
+      b: { tool: 'border', icon: border },
       a: { tool: 'align', icon: align },
+      h: { tool: 'hueshift', icon: hueshift },
+      d: { tool: 'boxshadow', icon: boxshadow },
+      // t: { tool: 'transform', icon: transform },
       f: { tool: 'font', icon: font },
-      t: { tool: 'text', icon: type },
+      e: { tool: 'text', icon: type },
       s: { tool: 'search', icon: search },
     }
 
@@ -52,14 +58,14 @@ export default class ToolPallete extends HTMLElement {
         this.backgroundPicker.value = null
       }
       else {
-        let fg = rgb2hex(getStyle(elements[0], 'color'))
-        let bg = rgb2hex(getStyle(elements[0], 'backgroundColor'))
+        const FG = new TinyColor(getStyle(elements[0], 'color'))
+        const BG = new TinyColor(getStyle(elements[0], 'backgroundColor'))
 
-        if (fg == '#000') fg = '#000000'
+        let fg = '#' + FG.toHex()
+        let bg = '#' + BG.toHex()
 
-        this.foregroundPicker.attr('value', (fg == '#000000' && elements[0].textContent == '') ? '' : fg)
-        // todo: better background color parser
-        this.backgroundPicker.attr('value', bg == '#NaN000' ? '' : bg)
+        this.foregroundPicker.attr('value', (FG.originalInput == 'rgb(0, 0, 0)' && elements[0].textContent == '') ? '' : fg)
+        this.backgroundPicker.attr('value', BG.originalInput == 'rgba(0, 0, 0, 0)' ? '' : bg)
       }
     })
 
@@ -128,6 +134,14 @@ export default class ToolPallete extends HTMLElement {
 
   search() {
     this.deactivate_feature = Search(this.selectorEngine)
+  }
+
+  boxshadow() {
+    this.deactivate_feature = BoxShadow('[data-selected=true]')
+  }
+
+  hueshift() {
+    this.deactivate_feature = HueShift('[data-selected=true]')
   }
 }
 

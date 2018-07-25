@@ -1,6 +1,6 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { getStyle, showHideSelected } from './utils.js'
+import { getStyle } from './utils.js'
 
 const key_events = 'up,down,left,right'
   .split(',')

@@ -15,12 +15,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@ctrl/tinycolor": "^2.0.0",
     "blingblingjs": "^2.0.0",
     "hotkeys-js": "^3.3.5",
     "ragrid": "^1.0.5"
   },
   "devDependencies": {
-    "browser-sync": "^2.24.4",
+    "browser-sync": "^2.24.6",
     "concurrently": "^3.5.1",
     "postcss": "^6.0.22",
     "postcss-cli": "^5.0.1",
