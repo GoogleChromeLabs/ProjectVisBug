@@ -18,14 +18,14 @@ export default class ToolPallete extends HTMLElement {
 
     this.toolbar_model = {
       v: { tool: 'move', icon: move },
-      r: { tool: 'resize', icon: resize },
+      // r: { tool: 'resize', icon: resize },
       m: { tool: 'margin', icon: margin },
       p: { tool: 'padding', icon: padding },
       b: { tool: 'border', icon: border },
       a: { tool: 'align', icon: align },
       h: { tool: 'hueshift', icon: hueshift },
       d: { tool: 'boxshadow', icon: boxshadow },
-      t: { tool: 'transform', icon: transform },
+      // t: { tool: 'transform', icon: transform },
       f: { tool: 'font', icon: font },
       e: { tool: 'text', icon: type },
       s: { tool: 'search', icon: search },
