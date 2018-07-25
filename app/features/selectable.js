@@ -5,7 +5,6 @@ import { EditText } from './text'
 import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
 
-// todo: "expand selection"
 // todo: alignment guides
 export function Selectable(elements) {
   let selected = []

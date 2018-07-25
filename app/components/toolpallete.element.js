@@ -12,10 +12,8 @@ export default class ToolPallete extends HTMLElement {
   
   constructor() {
     super()
-    // todo: duplicate
-    // todo: create
+    // todo: create?
     // todo: resize
-    // todo: ragrid alignment panel
 
     this.toolbar_model = {
       v: { tool: 'move', icon: move },
