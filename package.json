@@ -6,6 +6,7 @@
   "scripts": {
     "start": "npm run concurrent",
     "concurrent": "concurrently --kill-others \"npm run dev:js\" \"npm run dev:css\" \"npm run dev:server\"",
+    "bundle": "rollup -c && postcss app/index.css -o app/bundle.css",
     "dev:js": "rollup -c -w",
     "dev:css": "postcss app/index.css -o app/bundle.css -w",
     "dev:server": "browser-sync start --server 'app' --files 'app/index.html,app/bundle.css,app/bundle.js' --no-open",
