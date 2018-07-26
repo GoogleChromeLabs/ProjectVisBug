@@ -13,17 +13,17 @@ export function Selectable(elements) {
   watchImagesForUpload()
 
   elements.on('click', e => {
-    if (!e.shiftKey) unselect_all()
-    select(e.target)
     e.preventDefault()
     e.stopPropagation()
+    if (!e.shiftKey) unselect_all()
+    select(e.target)
   })
 
   elements.on('dblclick', e => {
-    EditText([e.target], {focus:true})
-    $('tool-pallete')[0].toolSelected($('li[data-tool="text"]')[0])
     e.preventDefault()
     e.stopPropagation()
+    EditText([e.target], {focus:true})
+    $('tool-pallete')[0].toolSelected($('li[data-tool="text"]')[0])
   })
 
   hotkeys('esc', _ => 
@@ -101,6 +101,8 @@ export function Selectable(elements) {
   })
 
   const select = el => {
+    if (el.nodeName === 'svg' || el.ownerSVGElement) return
+
     el.setAttribute('data-selected', true)
     selected.unshift(el)
     tellWatchers()
