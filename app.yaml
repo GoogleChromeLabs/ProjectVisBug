@@ -34,3 +34,7 @@ handlers:
 - url: /
   static_files: app/index.html
   upload: app/index.html
+
+- url: /extension
+  static_files: extension/PixelBug.zip
+  upload: extension/PixelBug.zip
