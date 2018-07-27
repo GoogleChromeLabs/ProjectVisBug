@@ -1,42 +1,48 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
+import { TinyColor } from '@ctrl/tinycolor'
 
-import { cursor, move, search, margin, padding, font, type, align } from './toolpallete.icons' 
-import { getStyle, rgb2hex } from '../features/utils'
+import { cursor, move, search, margin, padding, font, 
+         type, align, transform, resize, border, hueshift, boxshadow } from './toolpallete.icons' 
+import { getStyle } from '../features/utils'
 import { 
   Selectable, Moveable, Padding, Margin, EditText, Font, Flex, Search,
-  ChangeForeground, ChangeBackground, MetaTip
+  ChangeForeground, ChangeBackground, BoxShadow, HueShift, MetaTip
 } from '../features/'
 
+// todo: create?
+// todo: resize
 export default class ToolPallete extends HTMLElement {
-  
   constructor() {
     super()
-    // todo: duplicate
-    // todo: create
-    // todo: resize
-    // todo: ragrid alignment panel
 
     this.toolbar_model = {
       v: { tool: 'move', icon: move },
+      // r: { tool: 'resize', icon: resize },
       m: { tool: 'margin', icon: margin },
       p: { tool: 'padding', icon: padding },
+      // b: { tool: 'border', icon: border },
       a: { tool: 'align', icon: align },
+      h: { tool: 'hueshift', icon: hueshift },
+      d: { tool: 'boxshadow', icon: boxshadow },
+      // t: { tool: 'transform', icon: transform },
       f: { tool: 'font', icon: font },
-      t: { tool: 'text', icon: type },
-      s: { tool: 'search', icon: search },
+      e: { tool: 'text', icon: type },
+      // s: { tool: 'search', icon: search },
     }
 
-    this.innerHTML = this.render()
-    this.selectorEngine = Selectable($('body > *:not(script):not(tool-pallete):not(#node-search)'))
+    this.$shadow = this.attachShadow({mode: 'open'})
+    this.$shadow.innerHTML = this.render()
+
+    this.selectorEngine = Selectable($('body > *:not(script):not(tool-pallete)'))
   }
 
   connectedCallback() {
-    $('li', this).on('click', e => 
+    $('li', this.$shadow).on('click', e => 
       this.toolSelected(e.currentTarget) && e.stopPropagation())
 
-    this.foregroundPicker = $('#foreground', this)[0]
-    this.backgroundPicker = $('#background', this)[0]
+    this.foregroundPicker = $('#foreground', this.$shadow)[0]
+    this.backgroundPicker = $('#background', this.$shadow)[0]
 
     // set colors
     this.foregroundPicker.on('input', e =>
@@ -54,26 +60,28 @@ export default class ToolPallete extends HTMLElement {
         this.backgroundPicker.value = null
       }
       else {
-        let fg = rgb2hex(getStyle(elements[0], 'color'))
-        let bg = rgb2hex(getStyle(elements[0], 'backgroundColor'))
+        const FG = new TinyColor(getStyle(elements[0], 'color'))
+        const BG = new TinyColor(getStyle(elements[0], 'backgroundColor'))
 
-        if (fg == '#000') fg = '#000000'
+        let fg = '#' + FG.toHex()
+        let bg = '#' + BG.toHex()
 
-        this.foregroundPicker.attr('value', (fg == '#000000' && elements[0].textContent == '') ? '' : fg)
-        // todo: better background color parser
-        this.backgroundPicker.attr('value', bg == '#NaN000' ? '' : bg)
+        this.foregroundPicker.attr('value', (FG.originalInput == 'rgb(0, 0, 0)' && elements[0].textContent == '') ? '' : fg)
+        this.backgroundPicker.attr('value', BG.originalInput == 'rgba(0, 0, 0, 0)' ? '' : bg)
       }
     })
 
     // toolbar hotkeys
     Object.entries(this.toolbar_model).forEach(([key, value]) =>
-      hotkeys(key, e => this.toolSelected($(`[data-tool="${value.tool}"]`)[0])))
+      hotkeys(key, e => 
+        this.toolSelected(
+          $(`[data-tool="${value.tool}"]`, this.$shadow)[0])))
 
     // tooltips
     this.selectorEngine.onSelectedUpdate(MetaTip)
 
     // initial selected node
-    this.toolSelected($('[data-tool="move"]')[0])
+    this.toolSelected($('[data-tool="move"]', this.$shadow)[0])
   }
 
   disconnectedCallback() {}
@@ -91,15 +99,115 @@ export default class ToolPallete extends HTMLElement {
 
   render() {
     return `
+      ${this.styles()}
       <ol>
         ${Object.entries(this.toolbar_model).reduce((list, [key, value]) => `
           ${list}
           <li title='${value.tool}' data-tool='${value.tool}' data-active='${key == 'v'}'>${value.icon}</li>
         `,'')}
         <li></li>
-        <input type="color" id='foreground' value=''>
-        <input type="color" id='background' value=''>
+        <li class="color">
+          <input title="foreground" type="color" id='foreground' value=''>
+        </li>
+        <li class="color">
+          <input title="background" type="color" id='background' value=''>
+        </li>
       </ol>
+    `
+  }
+
+  styles() {
+    return `
+      <style>
+        :host {
+          position: fixed;
+          top: 1rem;
+          left: 1rem;
+          z-index: 99999; 
+
+          background: white;
+          box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
+
+          --darkest-grey: hsl(0,0%,2%);
+          --darker-grey: hsl(0,0%,5%);
+          --dark-grey: hsl(0,0%,20%);
+          --grey: hsl(0,0%,50%);
+          --light-grey: hsl(0,0%,60%);
+          --lighter-grey: hsl(0,0%,80%);
+          --lightest-grey: hsl(0,0%,95%);
+          --theme-color: hotpink;
+        }
+
+        :host > ol {
+          margin: 0;
+          padding: 0;
+          list-style-type: none;
+
+          display: flex;
+          flex-direction: column;
+        }
+
+        :host li {
+          height: 2.5rem;
+          width: 2.5rem;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        :host li:hover {
+          cursor: pointer;
+          background: hsl(0,0%,98%);
+        }
+
+        :host li[data-tool='align'] {
+          transform: rotateZ(90deg);
+        }
+
+        :host li[data-active=true] {
+          background: hsl(0,0%,98%);
+        }
+
+        :host li[data-active=true] > svg:not(.icon-cursor) { 
+          fill: var(--theme-color); 
+        }
+
+        :host li[data-active=true] > .icon-cursor { 
+          stroke: var(--theme-color); 
+        }
+
+        :host li:empty {
+          height: 0.25rem;
+          background: hsl(0,0%,90%);
+        }
+
+        :host li.color {
+          height: 20px;
+        }
+
+        :host li > svg {
+          width: 50%;
+          fill: var(--dark-grey);
+        }
+
+        :host li > svg.icon-cursor {
+          width: 35%;
+          fill: white;
+          stroke: var(--dark-grey);
+          stroke-width: 2px;
+        }
+
+        :host input[type='color'] {
+          width: 100%;
+          box-sizing: border-box;
+          border: white;
+        }
+
+        :host input[type='color'][value='']::-webkit-color-swatch { 
+          background-color: transparent !important; 
+          background-image: linear-gradient(135deg, #ffffff 0%,#ffffff 46%,#ff0000 46%,#ff0000 64%,#ffffff 64%,#ffffff 100%);;
+        }
+      </style>
     `
   }
 
@@ -131,6 +239,14 @@ export default class ToolPallete extends HTMLElement {
 
   search() {
     this.deactivate_feature = Search(this.selectorEngine)
+  }
+  
+  boxshadow() {
+    this.deactivate_feature = BoxShadow('[data-selected=true]')
+  }
+
+  hueshift() {
+    this.deactivate_feature = HueShift('[data-selected=true]')
   }
 
   activeTool() {
