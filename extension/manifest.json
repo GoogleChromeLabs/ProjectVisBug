@@ -1,18 +1,33 @@
 {
-    "name": "PixelBug",
-    "version": "0.0.1",
-    "description": "Hacking for Designers",
-    "manifest_version": 2,
-    "permissions": [
-      "activeTab"
-    ],
-    "background": {
-      "persistent": true,
-      "scripts": [
-        "pixelbug.js"
-      ]
-    },
-    "browser_action": {
-      "default_title": "Inject!"
+  "name": "PixelBug",
+  "version": "0.0.1",
+  "description": "Hacking for Designers",
+  "manifest_version": 2,
+  "icons": { "128": "icons/128.png" },
+  "permissions": [
+    "activeTab"
+  ],
+  "background": {
+    "persistent": true,
+    "scripts": [
+      "pixelbug.js"
+    ]
+  },
+  "browser_action": {
+    "default_title": "PixelBug",
+    "default_icon": {
+      "19": "icons/19.png",
+      "38": "icons/38.png"
+    }
+  },
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "windows": "Alt+Shift+D",
+        "mac": "Alt+Shift+D",
+        "chromeos": "Alt+Shift+D",
+        "linux": "Alt+Shift+D"
+      }
     }
   }
+}
