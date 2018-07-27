@@ -1,0 +1,38 @@
+.metatip {
+  position: absolute;
+  z-index: 999;
+  background: hsl(0,0%,20%);
+  color: hsl(0,0%,80%);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -.25rem 1rem hsla(0,0%,0%,30%);
+  border-radius: 0.5rem;
+
+  /* opacity: 0; */
+  transform: translateX(-50%) translateY(-125%);
+  /* animation: slide-up 0.4s ease forwards; */
+
+  & > h5 {
+    font-weight: bolder;
+    margin: 0;
+  }
+
+  & > small {
+    font-size: 0.7rem;
+    color: hsl(0,0%,65%);
+  }
+
+  & > ol {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* @keyframes slide-up { 
+  to {
+    opacity: 1;
+    transform: translate3d(-50%,-125%,0);
+  }
+} */

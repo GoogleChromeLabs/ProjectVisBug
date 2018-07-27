@@ -78,7 +78,8 @@ export default class ToolPallete extends HTMLElement {
           $(`[data-tool="${value.tool}"]`, this.$shadow)[0])))
 
     // tooltips
-    this.selectorEngine.onSelectedUpdate(MetaTip)
+    // this.selectorEngine.onSelectedUpdate(MetaTip)
+    MetaTip()
 
     // initial selected node
     this.toolSelected($('[data-tool="move"]', this.$shadow)[0])
@@ -240,7 +241,7 @@ export default class ToolPallete extends HTMLElement {
   search() {
     this.deactivate_feature = Search(this.selectorEngine)
   }
-  
+
   boxshadow() {
     this.deactivate_feature = BoxShadow('[data-selected=true]')
   }
