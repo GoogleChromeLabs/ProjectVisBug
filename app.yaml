@@ -35,6 +35,11 @@ handlers:
   static_files: app/index.html
   upload: app/index.html
 
+- url: /download/(.*\.zip)
+  mime_type: application/zip
+  static_files: app/download/\1
+  upload: app/download/(.*\.zip)
+
 - url: /download
   static_files: extension/PixelBug.zip
   upload: extension/PixelBug.zip
