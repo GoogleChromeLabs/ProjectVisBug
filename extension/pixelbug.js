@@ -1,7 +1,7 @@
-let has_init = false
+let init_map = {}
 
 chrome.browserAction.onClicked.addListener(function (tab) {
-  if (has_init) return
+  if (init_map[tab.id]) return
 
   chrome.tabs.insertCSS(tab.id, { file: 'toolbar/bundle.css' })
 
@@ -9,5 +9,5 @@ chrome.browserAction.onClicked.addListener(function (tab) {
   chrome.tabs.executeScript(tab.id, { file: 'toolbar/bundle.js' })
   chrome.tabs.executeScript(tab.id, { file: 'toolbar/inject.js' })
 
-  has_init = true
+  init_map[tab.id] = true
 })
