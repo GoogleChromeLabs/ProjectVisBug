@@ -39,6 +39,20 @@ export function Selectable(elements) {
     e.preventDefault()
   })
 
+  hotkeys('cmd+c', e => {
+    if (selected[0] && this.node_clipboard !== selected[0]) {
+      e.preventDefault()
+      this.node_clipboard = selected[0]
+    }
+  })
+
+  hotkeys('cmd+v', e => {
+    if (this.node_clipboard) {
+      e.preventDefault()
+      selected[0].appendChild(this.node_clipboard.cloneNode(true))
+    }
+  })
+
   hotkeys('cmd+e,cmd+shift+e', (e, {key}) => {
     e.preventDefault()
 
