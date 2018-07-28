@@ -21,7 +21,6 @@ const desiredPropMap = {
 
 // todo: 
 // - node recycling, no need to create/delete
-// - consider making this "inspector" mode, in case it's not always useful
 const template = ({target: el, pageX, pageY}) => {
   const { width, height } = el.getBoundingClientRect()
   const styles = getStyles(el, desiredPropMap).map(style => {
@@ -53,7 +52,7 @@ const template = ({target: el, pageX, pageY}) => {
 export function MetaTip() {
   let tip_map = {}
 
-  $('body > *:not(script):not(tool-pallete)').on('mousemove', e => {
+  const mouseMove = e => {
     if (e.target.hasAttribute('data-selected')) return
 
     if (tip_map[e.target]) {
@@ -74,5 +73,13 @@ export function MetaTip() {
     })
 
     tip_map[e.target] = tip
-  })
+  }
+
+  $('body > *:not(script):not(tool-pallete)').on('mousemove', mouseMove)
+
+  return () => {
+    $('body > *:not(script):not(tool-pallete)').off('mousemove', mouseMove)
+    Object.values(tip_map).forEach(tip => 
+      tip.remove())
+  }
 }

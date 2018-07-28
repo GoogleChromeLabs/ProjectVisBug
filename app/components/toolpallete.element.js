@@ -2,7 +2,7 @@ import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { TinyColor } from '@ctrl/tinycolor'
 
-import { cursor, move, search, margin, padding, font, 
+import { cursor, move, search, margin, padding, font, inspector,
          type, align, transform, resize, border, hueshift, boxshadow } from './toolpallete.icons' 
 import { getStyle } from '../features/utils'
 import { 
@@ -17,6 +17,7 @@ export default class ToolPallete extends HTMLElement {
     super()
 
     this.toolbar_model = {
+      i: { tool: 'inspector', icon: inspector },
       v: { tool: 'move', icon: move },
       // r: { tool: 'resize', icon: resize },
       m: { tool: 'margin', icon: margin },
@@ -77,12 +78,8 @@ export default class ToolPallete extends HTMLElement {
         this.toolSelected(
           $(`[data-tool="${value.tool}"]`, this.$shadow)[0])))
 
-    // tooltips
-    // this.selectorEngine.onSelectedUpdate(MetaTip)
-    MetaTip()
-
     // initial selected node
-    this.toolSelected($('[data-tool="move"]', this.$shadow)[0])
+    this.toolSelected($('[data-tool="inspector"]', this.$shadow)[0])
   }
 
   disconnectedCallback() {}
@@ -104,7 +101,7 @@ export default class ToolPallete extends HTMLElement {
       <ol>
         ${Object.entries(this.toolbar_model).reduce((list, [key, value]) => `
           ${list}
-          <li title='${value.tool}' data-tool='${value.tool}' data-active='${key == 'v'}'>${value.icon}</li>
+          <li title='${value.tool}' data-tool='${value.tool}' data-active='${key == 'i'}'>${value.icon}</li>
         `,'')}
         <li></li>
         <li class="color">
@@ -248,6 +245,10 @@ export default class ToolPallete extends HTMLElement {
 
   hueshift() {
     this.deactivate_feature = HueShift('[data-selected=true]')
+  }
+
+  inspector() {
+    this.deactivate_feature = MetaTip()
   }
 
   activeTool() {
