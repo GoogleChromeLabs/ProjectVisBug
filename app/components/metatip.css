@@ -3,12 +3,12 @@
   z-index: 999;
   background: white;
   color: hsl(0,0%,30%);
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   box-shadow: 0 0 0.5rem hsla(0,0%,0%,10%);
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
 
   & > h5 {
     font-size: 1rem;
@@ -23,15 +23,28 @@
 
   & > div {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: auto auto;
     grid-gap: 0.25rem 0.5rem;
     margin: 0.5rem 0 0;
     padding: 0;
     list-style-type: none;
+    color: hsl(0,0%,40%);
     font-size: 0.8rem;
+    font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono", "Source Code Pro", monospace;
 
     & > span[value] {
-      text-align: right;
+      color: hsl(0,0%,25%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    & span[color] {
+      width: 0.6rem;
+      height: 0.6rem;
+      border-radius: 50%;
+      margin-right: 0.25rem;
+      border: 1px solid hsl(0,0%,90%);
     }
   }
 }

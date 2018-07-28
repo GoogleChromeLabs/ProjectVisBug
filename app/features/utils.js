@@ -17,17 +17,7 @@ export function getStyle(el, name) {
   }
 }
 
-const desiredPropMap = {
-  padding:        '0px',
-  margin:         '0px',
-  fontSize:       '16px',
-  fontWeight:     '400',
-  lineHeight:     'normal',
-  display:        'block',
-  alignItems:     'normal',
-  justifyContent: 'normal',
-}
-export function getStyles(el) {
+export function getStyles(el, desiredPropMap) {
   const elStyleObject = el.style
   const computedStyle = window.getComputedStyle(el, null)
 
