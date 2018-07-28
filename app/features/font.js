@@ -34,9 +34,20 @@ export function Font(selector) {
     changeFontWeight($(selector), keys.includes('up') ? 'up' : 'down')
   })
 
+  hotkeys('cmd+b', e => {
+    $(selector).forEach(el =>
+      el.style.fontWeight = 'bold')
+  })
+
+  hotkeys('cmd+i', e => {
+    $(selector).forEach(el =>
+      el.style.fontStyle = 'italic')
+  })
+
   return () => {
     hotkeys.unbind(key_events)
     hotkeys.unbind(command_events)
+    hotkeys.unbind('cmd+b,cmd+i')
     hotkeys.unbind('up,down,left,right')
   }
 }
