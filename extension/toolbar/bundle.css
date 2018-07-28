@@ -35,3 +35,54 @@
   0%, 100%  { outline: 1px dashed hsla(330, 100%, 71%, 0); }
   50%       { outline: 1px dashed hsla(330, 100%, 71%, 1); }
 }
+
+.metatip {
+  position: absolute;
+  z-index: 999;
+  background: white;
+  color: hsl(0, 0%, 30%);
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  box-shadow: 0 0 0.5rem hsla(0, 0%, 0%, .1);
+  border-radius: 0.25rem
+}
+
+.metatip > h5 {
+  font-size: 1rem;
+  font-weight: bolder;
+  margin: 0; 
+}
+
+.metatip > small {
+  font-size: 0.7rem;
+  color: hsl(0, 0%, 60%); 
+}
+
+.metatip > div {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 0.25rem 0.5rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style-type: none;
+  color: hsl(0, 0%, 40%);
+  font-size: 0.8rem;
+  font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono", "Source Code Pro", monospace; 
+}
+
+.metatip > div > span[value] {
+  color: hsl(0, 0%, 25%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end; 
+}
+
+.metatip > div span[color] {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  margin-right: 0.25rem;
+  border: 1px solid hsl(0, 0%, 90%); 
+}
