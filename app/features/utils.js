@@ -5,16 +5,42 @@ export function getSide(direction) {
   return start
 }
 
-export function getStyle(elem, name) {
+export function getStyle(el, name) {
   if (document.defaultView && document.defaultView.getComputedStyle) {
     name = name.replace(/([A-Z])/g, '-$1')
     name = name.toLowerCase()
-    let s = document.defaultView.getComputedStyle(elem, '')
+    let s = document.defaultView.getComputedStyle(el, '')
     return s && s.getPropertyValue(name)
   } 
   else {
     return null
   }
+}
+
+const desiredPropMap = {
+  padding:        '0px',
+  margin:         '0px',
+  fontSize:       '16px',
+  fontWeight:     '400',
+  lineHeight:     'normal',
+  display:        'block',
+  alignItems:     'normal',
+  justifyContent: 'normal',
+}
+export function getStyles(el) {
+  const elStyleObject = el.style
+  const computedStyle = window.getComputedStyle(el, null)
+
+  let desiredValues = []
+
+  for (prop in el.style)
+    if (prop in desiredPropMap && desiredPropMap[prop] != computedStyle[prop])
+      desiredValues.push({
+        prop,
+        value: computedStyle[prop]
+      })
+
+  return desiredValues
 }
 
 let timeoutMap = {}
