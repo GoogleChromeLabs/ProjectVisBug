@@ -99,6 +99,9 @@ export function MetaTip() {
     Object.values(tip_map)
       .forEach(tip =>
         tip.remove())
+    
+    $('[data-metatip]').attr('data-metatip', null)
+
     tip_map = {}
   }
 
