@@ -20,7 +20,7 @@ const desiredPropMap = {
 }
 
 // todo: 
-// - node recycling, no need to create/delete
+// - node recycling (for new target) no need to create/delete
 const template = ({target: el, pageX, pageY}) => {
   const { width, height } = el.getBoundingClientRect()
   const styles = getStyles(el, desiredPropMap).map(style => {
@@ -52,34 +52,58 @@ const template = ({target: el, pageX, pageY}) => {
 export function MetaTip() {
   let tip_map = {}
 
-  const mouseMove = e => {
-    if (e.target.hasAttribute('data-selected')) return
+  const tip_key = node =>
+    `${node.nodeName}_${node.children.length}_${node.clientWidth}`
 
-    if (tip_map[e.target]) {
-      const tip = tip_map[e.target]
+  const mouseOut = ({target}) => {
+    if (tip_map[tip_key(target)] && target.getAttribute('data-metatip') !== 'pinned') {
+      $(target).off('mouseout', mouseOut)
+      $(target).off('click', togglePinned)
+      tip_map[tip_key(target)].remove()
+      delete tip_map[tip_key(target)]
+      console.log(tip_map)
+    }
+  }
+
+  const togglePinned = ({target}) => 
+    target.getAttribute('data-metatip') !== 'pinned'
+      ? target.setAttribute('data-metatip', 'pinned')
+      : target.removeAttribute('data-metatip')
+
+  const mouseMove = e => {
+    // if node is in our hash (already created)
+    if (tip_map[tip_key(e.target)]) {
+      // return if it's pinned
+      if (e.target.getAttribute('data-metatip') === 'pinned') 
+        return
+      // otherwise update position
+      const tip = tip_map[tip_key(e.target)]
       tip.style.top = `${e.pageY + 25}px`
       tip.style.left = `${e.pageX + 25}px`
-      return
     }
+    // create new tip
+    else {
+      const tip = template(e)
+      document.body.appendChild(tip)
 
-    const tip = template(e)
-    document.body.appendChild(tip)
+      $(e.target).on('mouseout', mouseOut)
+      $(e.target).on('click', togglePinned)
 
-    $(e.target).on('mouseout click', e => {
-      if (!tip_map[e.target]) return
-
-      tip_map[e.target].remove()
-      delete tip_map[e.target]
-    })
-
-    tip_map[e.target] = tip
+      tip_map[tip_key(e.target)] = tip
+    }
   }
 
   $('body > *:not(script):not(tool-pallete)').on('mousemove', mouseMove)
 
+  const removeAll = () => {
+    Object.values(tip_map)
+      .forEach(tip =>
+        tip.remove())
+    tip_map = {}
+  }
+
   return () => {
     $('body > *:not(script):not(tool-pallete)').off('mousemove', mouseMove)
-    Object.values(tip_map).forEach(tip => 
-      tip.remove())
+    removeAll()
   }
 }
