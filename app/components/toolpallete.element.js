@@ -17,19 +17,19 @@ export default class ToolPallete extends HTMLElement {
     super()
 
     this.toolbar_model = {
-      i: { tool: 'inspector', icon: inspector },
-      v: { tool: 'move', icon: move },
-      // r: { tool: 'resize', icon: resize },
-      m: { tool: 'margin', icon: margin },
-      p: { tool: 'padding', icon: padding },
-      // b: { tool: 'border', icon: border },
-      a: { tool: 'align', icon: align },
-      h: { tool: 'hueshift', icon: hueshift },
-      d: { tool: 'boxshadow', icon: boxshadow },
-      // t: { tool: 'transform', icon: transform },
-      f: { tool: 'font', icon: font },
-      e: { tool: 'text', icon: type },
-      // s: { tool: 'search', icon: search },
+      i: { tool: 'inspector', icon: inspector, label: 'Inspect', description: 'Peak into the common/current styles of an element' },
+      v: { tool: 'move', icon: move, label: 'Move', description: 'Shift things around, copy/paste, duplicate' },
+      // r: { tool: 'resize', icon: resize, label: 'Resize', description: '' },
+      m: { tool: 'margin', icon: margin, label: 'Margin', description: 'Change the margin around 1 or many selected elements' },
+      p: { tool: 'padding', icon: padding, label: 'Padding', description: 'Change the padding around 1 or many selected elements' },
+      // b: { tool: 'border', icon: border, label: 'Border', description: '' },
+      a: { tool: 'align', icon: align, label: 'Flexbox Align', description: 'Quick alignment adjustments' },
+      h: { tool: 'hueshift', icon: hueshift, label: 'Hue Shifter', description: 'Shift the brightness, saturation & hue' },
+      d: { tool: 'boxshadow', icon: boxshadow, label: 'Shadow', description: 'Move or create a shadow' },
+      // t: { tool: 'transform', icon: transform, label: '3D Transform', description: '' },
+      f: { tool: 'font', icon: font, label: 'Font Styles', description: 'Change size, leading, kerning, & weights' },
+      e: { tool: 'text', icon: type, label: 'Edit Text', description: 'Change any text on the page' },
+      // s: { tool: 'search', icon: search, label: 'Search', description: '' },
     }
 
     this.$shadow = this.attachShadow({mode: 'open'})
@@ -101,14 +101,14 @@ export default class ToolPallete extends HTMLElement {
       <ol>
         ${Object.entries(this.toolbar_model).reduce((list, [key, value]) => `
           ${list}
-          <li title='${value.tool}' data-tool='${value.tool}' data-active='${key == 'i'}'>${value.icon}</li>
+          <li aria-label="${value.label} Tool" aria-description="${value.description}" data-tool="${value.tool}" data-active="${key == 'i'}">${value.icon}</li>
         `,'')}
         <li></li>
-        <li class="color">
-          <input title="foreground" type="color" id='foreground' value=''>
+        <li class="color" aria-label="Foreground">
+          <input type="color" id='foreground' value=''>
         </li>
-        <li class="color">
-          <input title="background" type="color" id='background' value=''>
+        <li class="color" aria-label="Background">
+          <input type="color" id='background' value=''>
         </li>
       </ol>
     `
@@ -151,6 +151,7 @@ export default class ToolPallete extends HTMLElement {
           display: inline-flex;
           align-items: center;
           justify-content: center;
+          position: relative;
         }
 
         :host li:hover {
@@ -158,7 +159,28 @@ export default class ToolPallete extends HTMLElement {
           background: hsl(0,0%,98%);
         }
 
-        :host li[data-tool='align'] {
+        :host li:hover:after {
+          content: attr(aria-label) "\\A" attr(aria-description);
+          position: absolute;
+          left: 100%;
+          top: 0;
+          z-index: -1;
+          box-shadow: 0 0.1rem 0.1rem hsla(0,0%,0%,10%);
+          height: 100%;
+          display: inline-flex;
+          align-items: center;
+          padding: 0 0.5rem;
+          background: hotpink;
+          color: white;
+          font-size: 0.8rem;
+          white-space: pre;
+        }
+
+        :host li.color:hover:after {
+          top: 0;
+        }
+
+        :host li[data-tool='align'] > svg {
           transform: rotateZ(90deg);
         }
 
