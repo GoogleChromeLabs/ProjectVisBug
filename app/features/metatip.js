@@ -39,7 +39,7 @@ export function MetaTip() {
     tip.classList.add('metatip')
     tip.innerHTML = `
       <h5>${el.nodeName.toLowerCase()}${el.id && '#' + el.id}${el.className && '.'+el.className.replace(/ /g, '.')}</h5>
-      <small>${Math.round(width)}px × ${Math.round(height)}px</small>
+      <small><span>${Math.round(width)}</span>px <span divider>×</span> <span>${Math.round(height)}</span>px</small>
       <div>${styles.reduce((items, item) => `
         ${items}
         <span prop>${item.prop}:</span><span value>${item.value}</span>

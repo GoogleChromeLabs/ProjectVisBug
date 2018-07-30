@@ -19,6 +19,14 @@
   & > small {
     font-size: 0.7rem;
     color: hsl(0,0%,60%);
+
+    & > span {
+      color: hsl(0,0%,25%);
+
+      &[divider] {
+        color: hotpink;
+      }
+    }
   }
 
   & > div {
