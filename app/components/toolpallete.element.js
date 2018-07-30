@@ -29,7 +29,7 @@ export default class ToolPallete extends HTMLElement {
       // t: { tool: 'transform', icon: transform, label: '3D Transform', description: '' },
       f: { tool: 'font', icon: font, label: 'Font Styles', description: 'Change size, leading, kerning, & weights' },
       e: { tool: 'text', icon: type, label: 'Edit Text', description: 'Change any text on the page' },
-      s: { tool: 'search', icon: search, label: 'Search', description: '' },
+      s: { tool: 'search', icon: search, label: 'Search', description: 'Select elements by searching for them' },
     }
 
     this.$shadow = this.attachShadow({mode: 'open'})
