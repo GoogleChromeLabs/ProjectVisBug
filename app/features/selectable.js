@@ -23,7 +23,7 @@ export function Selectable(elements) {
     e.preventDefault()
     e.stopPropagation()
     EditText([e.target], {focus:true})
-    $('tool-pallete')[0].toolSelected($('li[data-tool="text"]')[0])
+    $('tool-pallete')[0].toolSelected('text')
   })
 
   hotkeys('esc', _ => 

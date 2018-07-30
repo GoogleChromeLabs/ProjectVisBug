@@ -85,6 +85,9 @@ export default class ToolPallete extends HTMLElement {
   disconnectedCallback() {}
 
   toolSelected(el) {
+    if (typeof el === 'string')
+      el = $(`[data-tool="${el}"]`, this.$shadow)[0]
+
     if (this.active_tool) {
       this.active_tool.attr('data-active', null)
       this.deactivate_feature()
