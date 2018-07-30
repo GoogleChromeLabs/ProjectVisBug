@@ -29,7 +29,7 @@ export default class ToolPallete extends HTMLElement {
       // t: { tool: 'transform', icon: transform, label: '3D Transform', description: '' },
       f: { tool: 'font', icon: font, label: 'Font Styles', description: 'Change size, leading, kerning, & weights' },
       e: { tool: 'text', icon: type, label: 'Edit Text', description: 'Change any text on the page' },
-      // s: { tool: 'search', icon: search, label: 'Search', description: '' },
+      s: { tool: 'search', icon: search, label: 'Search', description: '' },
     }
 
     this.$shadow = this.attachShadow({mode: 'open'})
@@ -220,6 +220,24 @@ export default class ToolPallete extends HTMLElement {
           stroke-width: 2px;
         }
 
+        :host li[data-tool="search"] > .search {
+          position: absolute;
+          left: 100%;
+          top: 0;
+          height: 100%;
+          z-index: 9999;
+        }
+
+        :host li[data-tool="search"] > .search > input {
+          border: none;
+          font-size: 1.2rem;
+          padding: 0.4em;
+          outline: none;
+          height: 100%;
+          box-sizing: border-box;
+          caret-color: hotpink;
+        }
+
         :host input[type='color'] {
           width: 100%;
           box-sizing: border-box;
@@ -261,7 +279,7 @@ export default class ToolPallete extends HTMLElement {
   }
 
   search() {
-    this.deactivate_feature = Search(this.selectorEngine)
+    this.deactivate_feature = Search(this.selectorEngine, $('[data-tool="search"]', this.$shadow))
   }
 
   boxshadow() {
