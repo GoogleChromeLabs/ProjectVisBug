@@ -230,10 +230,11 @@ export default class ToolPallete extends HTMLElement {
 
         :host li[data-tool="search"] > .search > input {
           border: none;
-          font-size: 1.2rem;
+          font-size: 1rem;
           padding: 0.4em;
           outline: none;
           height: 100%;
+          width: 250px;
           box-sizing: border-box;
           caret-color: hotpink;
         }

@@ -4,7 +4,7 @@ import hotkeys from 'hotkeys-js'
 // create input
 const search_base = document.createElement('div')
 search_base.classList.add('search')
-search_base.innerHTML = `<input type="text"/>`
+search_base.innerHTML = `<input type="text" placeholder="ex: images, .btn, div, and more"/>`
 
 const search        = $(search_base)
 const searchInput   = $('input', search_base)
