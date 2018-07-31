@@ -1,4 +1,5 @@
 import $ from 'blingblingjs'
+import hotkeys from 'hotkeys-js'
 import { TinyColor } from '@ctrl/tinycolor'
 import { getStyles } from './utils'
 
@@ -19,12 +20,12 @@ const desiredPropMap = {
   justifyContent:   'normal',
 }
 
+let tip_map = {}
+
 // todo: 
 // - node recycling (for new target) no need to create/delete
 // - make single function create/update
 export function MetaTip() {
-  let tip_map = {}
-
   const template = ({target: el}) => {
     const { width, height } = el.getBoundingClientRect()
     const styles = getStyles(el, desiredPropMap).map(style => {
@@ -32,6 +33,7 @@ export function MetaTip() {
         style.value = `<span color style="background-color: ${style.value};"></span>${new TinyColor(style.value).toHslString()}`
         return style
       }
+      // check if style is inline style, show indicator
       else return style
     })
     
@@ -105,6 +107,13 @@ export function MetaTip() {
 
   $('body > *:not(script):not(tool-pallete)').on('mousemove', mouseMove)
 
+  hotkeys('esc', _ => removeAll())
+
+  const hideAll = () =>
+    Object.values(tip_map)
+      .forEach(tip =>
+        tip.style.display = 'none')
+
   const removeAll = () => {
     Object.values(tip_map)
       .forEach(tip =>
@@ -115,8 +124,11 @@ export function MetaTip() {
     tip_map = {}
   }
 
+  Object.values(tip_map)
+    .forEach(tip => tip.style.display = 'block')
+
   return () => {
     $('body > *:not(script):not(tool-pallete)').off('mousemove', mouseMove)
-    removeAll()
+    hideAll()
   }
 }

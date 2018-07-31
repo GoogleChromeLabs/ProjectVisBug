@@ -2,7 +2,7 @@
   position: absolute;
   z-index: 999;
   background: white;
-  color: hsl(0,0%,30%);
+  color: hsl(0,0%,20%);
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
@@ -21,7 +21,7 @@
     color: hsl(0,0%,60%);
 
     & > span {
-      color: hsl(0,0%,25%);
+      color: hsl(0,0%,20%);
 
       &[divider] {
         color: hotpink;
@@ -41,7 +41,7 @@
     font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono", "Source Code Pro", monospace;
 
     & > span[value] {
-      color: hsl(0,0%,25%);
+      color: hsl(0,0%,20%);
       display: inline-flex;
       align-items: center;
       justify-content: flex-end;
