@@ -1,7 +1,7 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { TinyColor } from '@ctrl/tinycolor'
-import { getStyles } from './utils'
+import { getStyles, camelToDash } from './utils'
 
 const desiredPropMap = {
   color:            'rgb(0, 0, 0)',
@@ -29,23 +29,46 @@ export function MetaTip() {
   const template = ({target: el}) => {
     const { width, height } = el.getBoundingClientRect()
     const styles = getStyles(el, desiredPropMap).map(style => {
-      if (style.prop.includes('color') || style.prop.includes('Color')) {
+      style.prop = camelToDash(style.prop)
+
+      if (style.prop.includes('color') || style.prop.includes('Color'))
         style.value = `<span color style="background-color: ${style.value};"></span>${new TinyColor(style.value).toHslString()}`
-        return style
-      }
+
       // check if style is inline style, show indicator
-      else return style
+      if (el.getAttribute('style') && el.getAttribute('style').includes(style.prop))
+        style.value = `<span local-change>${style.value}</span>`
+      
+      return style
     })
+
+    const localModifications = styles.filter(style =>
+      el.getAttribute('style') && el.getAttribute('style').includes(style.prop)
+        ? 1
+        : 0
+    )
+
+    const notLocalModifications = styles.filter(style =>
+      el.getAttribute('style') && el.getAttribute('style').includes(style.prop)
+        ? 0
+        : 1
+    )
     
     let tip = document.createElement('div')
     tip.classList.add('metatip')
     tip.innerHTML = `
       <h5>${el.nodeName.toLowerCase()}${el.id && '#' + el.id}${el.className && '.'+el.className.replace(/ /g, '.')}</h5>
       <small><span>${Math.round(width)}</span>px <span divider>×</span> <span>${Math.round(height)}</span>px</small>
-      <div>${styles.reduce((items, item) => `
+      <div>${notLocalModifications.reduce((items, item) => `
         ${items}
         <span prop>${item.prop}:</span><span value>${item.value}</span>
       `, '')}</div>
+      ${localModifications.length ? `
+        <h6>Local Modifications</h6>
+        <div>${localModifications.reduce((items, item) => `
+          ${items}
+          <span prop>${item.prop}:</span><span value>${item.value}</span>
+        `, '')}</div>
+      ` : ''}
     `
 
     return tip
@@ -72,14 +95,10 @@ export function MetaTip() {
     }
   }
 
-  const togglePinned = e => {
-    if (!e.target.hasAttribute('data-metatip'))
-      e.target.setAttribute('data-metatip', true)
-    else {
-      e.target.removeAttribute('data-metatip')
-      e.target.style = tip_position(e.target, e)
-    }
-  }
+  const togglePinned = e => 
+    !e.target.hasAttribute('data-metatip')
+      ? e.target.setAttribute('data-metatip', true)
+      : e.target.removeAttribute('data-metatip')
 
   const mouseMove = e => {
     // if node is in our hash (already created)
@@ -111,13 +130,19 @@ export function MetaTip() {
 
   const hideAll = () =>
     Object.values(tip_map)
-      .forEach(tip =>
-        tip.style.display = 'none')
+      .forEach(tip => {
+        tip.style.display = 'none'
+        tip.off('mouseout', mouseOut)
+        tip.off('click', togglePinned)
+      })
 
   const removeAll = () => {
     Object.values(tip_map)
-      .forEach(tip =>
-        tip.remove())
+      .forEach(tip => {
+        tip.remove()
+        tip.off('mouseout', mouseOut)
+        tip.off('click', togglePinned)
+      })
     
     $('[data-metatip]').attr('data-metatip', null)
 
@@ -125,10 +150,15 @@ export function MetaTip() {
   }
 
   Object.values(tip_map)
-    .forEach(tip => tip.style.display = 'block')
+    .forEach(tip => {
+      tip.style.display = 'block'
+      tip.on('mouseout', mouseOut)
+      tip.on('click', togglePinned)
+    })
 
   return () => {
     $('body > *:not(script):not(tool-pallete)').off('mousemove', mouseMove)
+    hotkeys.unbind('esc')
     hideAll()
   }
 }

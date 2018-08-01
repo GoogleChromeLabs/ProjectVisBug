@@ -16,6 +16,13 @@
     margin: 0;
   }
 
+  & > h6 {
+    margin-top: 1rem;
+    margin-bottom: 0;
+    font-weight: normal;
+    color: hsl(0,0%,60%);
+  }
+
   & > small {
     font-size: 0.7rem;
     color: hsl(0,0%,60%);
