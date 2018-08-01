@@ -45,3 +45,7 @@ export function showHideSelected(el, duration = 750) {
   
   return el
 }
+
+export function camelToDash(camelString = "") {
+  return camelString.replace(/([A-Z])/g, function($1){return "-"+$1.toLowerCase();})
+}
