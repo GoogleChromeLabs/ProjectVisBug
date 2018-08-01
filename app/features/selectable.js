@@ -98,7 +98,6 @@ export function Selectable(elements) {
     }
   })
 
-  // todo: while hovering; display name/type of node on element
   elements.on('mouseover', ({target}) =>
     target.setAttribute('data-hover', true))
 
