@@ -132,16 +132,16 @@ export function MetaTip() {
     Object.values(tip_map)
       .forEach(tip => {
         tip.style.display = 'none'
-        tip.off('mouseout', mouseOut)
-        tip.off('click', togglePinned)
+        $(tip).off('mouseout', mouseOut)
+        $(tip).off('click', togglePinned)
       })
 
   const removeAll = () => {
     Object.values(tip_map)
       .forEach(tip => {
         tip.remove()
-        tip.off('mouseout', mouseOut)
-        tip.off('click', togglePinned)
+        $(tip).off('mouseout', mouseOut)
+        $(tip).off('click', togglePinned)
       })
     
     $('[data-metatip]').attr('data-metatip', null)

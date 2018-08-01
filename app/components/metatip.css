@@ -63,3 +63,7 @@
     }
   }
 }
+
+[data-metatip=true] {
+  cursor: not-allowed;
+}
