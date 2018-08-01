@@ -40,7 +40,7 @@
   position: absolute;
   z-index: 999;
   background: white;
-  color: hsl(0, 0%, 30%);
+  color: hsl(0, 0%, 20%);
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
@@ -55,9 +55,24 @@
   margin: 0; 
 }
 
+.metatip > h6 {
+  margin-top: 1rem;
+  margin-bottom: 0;
+  font-weight: normal;
+  color: hsl(0, 0%, 60%); 
+}
+
 .metatip > small {
   font-size: 0.7rem;
   color: hsl(0, 0%, 60%); 
+}
+
+.metatip > small > span {
+  color: hsl(0, 0%, 20%); 
+}
+
+.metatip > small > span[divider] {
+  color: hotpink; 
 }
 
 .metatip > div {
@@ -73,7 +88,7 @@
 }
 
 .metatip > div > span[value] {
-  color: hsl(0, 0%, 25%);
+  color: hsl(0, 0%, 20%);
   display: inline-flex;
   align-items: center;
   justify-content: flex-end; 
@@ -85,4 +100,8 @@
   border-radius: 50%;
   margin-right: 0.25rem;
   border: 1px solid hsl(0, 0%, 90%); 
+}
+
+[data-metatip=true] {
+  cursor: not-allowed;
 }
