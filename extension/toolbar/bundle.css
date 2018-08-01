@@ -95,6 +95,7 @@
 }
 
 .metatip > div span[color] {
+  display: inline-block;
   width: 0.6rem;
   height: 0.6rem;
   border-radius: 50%;
@@ -102,6 +103,10 @@
   border: 1px solid hsl(0, 0%, 90%); 
 }
 
-[data-metatip=true] {
+[data-pinhover=true] {
+  cursor: crosshair;
+}
+
+[data-metatip=true][data-pinhover=true] {
   cursor: not-allowed;
 }
