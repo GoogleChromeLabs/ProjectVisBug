@@ -75,7 +75,7 @@ export function MetaTip() {
   }
 
   const tip_key = node =>
-    `${node.nodeName}_${node.children.length}_${node.clientWidth}`
+    `${node.nodeName}_${node.className}_${node.children.length}_${node.clientWidth}`
 
   const tip_position = (node, e) => `
     top: ${e.clientY > window.innerHeight / 2
@@ -90,7 +90,7 @@ export function MetaTip() {
     if (tip_map[tip_key(target)] && !target.hasAttribute('data-metatip')) {
       $(target).off('mouseout', mouseOut)
       $(target).off('click', togglePinned)
-      tip_map[tip_key(target)].remove()
+      tip_map[tip_key(target)].tip.remove()
       delete tip_map[tip_key(target)]
     }
   }
@@ -107,7 +107,7 @@ export function MetaTip() {
       if (e.target.hasAttribute('data-metatip')) 
         return
       // otherwise update position
-      const tip = tip_map[tip_key(e.target)]
+      const tip = tip_map[tip_key(e.target)].tip
       tip.style = tip_position(tip, e)
     }
     // create new tip
@@ -120,7 +120,7 @@ export function MetaTip() {
       $(e.target).on('mouseout', mouseOut)
       $(e.target).on('click', togglePinned)
 
-      tip_map[tip_key(e.target)] = tip
+      tip_map[tip_key(e.target)] = { tip, e }
     }
   }
 
@@ -130,7 +130,7 @@ export function MetaTip() {
 
   const hideAll = () =>
     Object.values(tip_map)
-      .forEach(tip => {
+      .forEach(({tip}) => {
         tip.style.display = 'none'
         $(tip).off('mouseout', mouseOut)
         $(tip).off('click', togglePinned)
@@ -138,7 +138,7 @@ export function MetaTip() {
 
   const removeAll = () => {
     Object.values(tip_map)
-      .forEach(tip => {
+      .forEach(({tip}) => {
         tip.remove()
         $(tip).off('mouseout', mouseOut)
         $(tip).off('click', togglePinned)
@@ -150,8 +150,9 @@ export function MetaTip() {
   }
 
   Object.values(tip_map)
-    .forEach(tip => {
+    .forEach(({tip,e}) => {
       tip.style.display = 'block'
+      tip.innerHTML = template(e).innerHTML
       tip.on('mouseout', mouseOut)
       tip.on('click', togglePinned)
     })
