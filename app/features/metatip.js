@@ -96,7 +96,7 @@ export function MetaTip() {
   }
 
   const togglePinned = e => 
-    !e.target.hasAttribute('data-metatip')
+    e.altKey && !e.target.hasAttribute('data-metatip')
       ? e.target.setAttribute('data-metatip', true)
       : e.target.removeAttribute('data-metatip')
 
