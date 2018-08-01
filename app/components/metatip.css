@@ -64,6 +64,10 @@
   }
 }
 
-[data-metatip=true] {
+[data-pinhover=true] {
+  cursor: crosshair;
+}
+
+[data-metatip=true][data-pinhover=true] {
   cursor: not-allowed;
 }

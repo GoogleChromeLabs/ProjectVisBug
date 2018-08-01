@@ -95,12 +95,16 @@ export function MetaTip() {
     }
   }
 
-  const togglePinned = e => 
+  const togglePinned = e =>
     e.altKey && !e.target.hasAttribute('data-metatip')
       ? e.target.setAttribute('data-metatip', true)
       : e.target.removeAttribute('data-metatip')
 
   const mouseMove = e => {
+    e.altKey
+      ? e.target.setAttribute('data-pinhover', true)
+      : e.target.removeAttribute('data-pinhover')
+
     // if node is in our hash (already created)
     if (tip_map[tip_key(e.target)]) {
       // return if it's pinned
