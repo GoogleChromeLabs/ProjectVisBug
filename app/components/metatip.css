@@ -55,6 +55,7 @@
     }
 
     & span[color] {
+      display: inline-block;
       width: 0.6rem;
       height: 0.6rem;
       border-radius: 50%;
