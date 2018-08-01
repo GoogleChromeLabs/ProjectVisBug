@@ -4,6 +4,7 @@ import hotkeys from 'hotkeys-js'
 import { EditText } from './text'
 import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
+import { htmlStringToDom } from './utils'
 
 // todo: alignment guides
 export function Selectable(elements) {
@@ -39,17 +40,19 @@ export function Selectable(elements) {
     e.preventDefault()
   })
 
-  hotkeys('cmd+c', e => {
+  document.addEventListener('copy', e => {
     if (selected[0] && this.node_clipboard !== selected[0]) {
       e.preventDefault()
-      this.node_clipboard = selected[0]
+      e.clipboardData.setData('text/html', selected[0].outerHTML)
     }
   })
 
-  hotkeys('cmd+v', e => {
-    if (this.node_clipboard) {
+  document.addEventListener('paste', e => {
+    const potentialHTML = e.clipboardData.getData('text/html')
+    if (selected[0] && potentialHTML) {
       e.preventDefault()
-      selected[0].appendChild(this.node_clipboard.cloneNode(true))
+      selected[0].appendChild(
+        htmlStringToDom(potentialHTML))
     }
   })
 
