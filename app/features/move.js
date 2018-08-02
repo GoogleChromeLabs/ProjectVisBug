@@ -1,7 +1,7 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
-const key_events = 'up,down,left,right,backspace,del,delete'
+const key_events = 'up,down,left,right,backspace'
 // todo: indicator for when node can descend
 // todo: indicator where left and right will go
 // todo: indicator when left or right hit dead ends
@@ -10,7 +10,7 @@ export function Moveable(selector) {
   hotkeys(key_events, (e, handler) => {
     e.preventDefault()
     e.stopPropagation()
-    let el = $(selector)[0]
+    let el = $(selector)[0] // only allow 1 node to be moved at a time
     moveElement(el, handler.key)
     updateFeedback(el)
   })
@@ -53,10 +53,6 @@ export function moveElement(el, direction) {
       if (canMoveDown(el))
         el.nextElementSibling.prepend(el)
       break
-
-    case 'backspace': case 'del': case 'delete':
-      el.remove()
-      break
   }
 }
 
@@ -83,5 +79,5 @@ export function updateFeedback(el) {
   if (canMoveDown(el))  options += '⇣'
   if (canMoveUp(el))    options += '⇡'
   // create/move arrows in absolute/fixed to overlay element
-  console.info('%c'+options, "font-size: 2rem;")
+  options && console.info('%c'+options, "font-size: 2rem;")
 }

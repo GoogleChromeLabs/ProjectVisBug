@@ -41,6 +41,9 @@ export function Selectable(elements) {
     e.preventDefault()
   })
 
+  hotkeys('backspace,del,delete', e => 
+    selected.length && delete_all())
+
   document.addEventListener('copy', e => {
     if (selected[0] && this.node_clipboard !== selected[0]) {
       e.preventDefault()
@@ -131,6 +134,12 @@ export function Selectable(elements) {
           'data-selected-hide': null,
         }))
 
+    selected = []
+  }
+
+  const delete_all = () => {
+    selected.forEach(el =>
+      el.remove())
     selected = []
   }
 
