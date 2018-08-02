@@ -7,9 +7,10 @@ import { watchImagesForUpload } from './imageswap'
 import { htmlStringToDom } from './utils'
 
 // todo: alignment guides
-export function Selectable(elements) {
-  let selected = []
-  let selectedCallbacks = []
+export function Selectable() {
+  const elements          = $('body')
+  let selected            = []
+  let selectedCallbacks   = []
 
   watchImagesForUpload()
 
@@ -24,6 +25,7 @@ export function Selectable(elements) {
   elements.on('dblclick', e => {
     e.preventDefault()
     e.stopPropagation()
+    if (isOffBounds(e.target)) return
     EditText([e.target], {focus:true})
     $('tool-pallete')[0].toolSelected('text')
   })
@@ -73,7 +75,10 @@ export function Selectable(elements) {
   })
 
   elements.on('selectstart', e =>
-    selected.length && selected[0].textContent != e.target.textContent && e.preventDefault())
+    !isOffBounds(e.target) 
+    && selected.length 
+    && selected[0].textContent != e.target.textContent 
+    && e.preventDefault())
 
   hotkeys('tab,shift+tab,enter,shift+enter', (e, {key}) => {
     if (selected.length !== 1) return
@@ -111,9 +116,8 @@ export function Selectable(elements) {
   elements.on('mouseout', ({target}) =>
     target.removeAttribute('data-hover'))
 
-  $('body').on('click', ({target}) => {
-    if (isOffBounds(target)) return
-    if (!selected.filter(el => el == target).length) 
+  elements.on('click', ({target}) => {
+    if (!isOffBounds(target) && !selected.filter(el => el == target).length) 
       unselect_all()
     tellWatchers()
   })
@@ -171,7 +175,7 @@ export function Selectable(elements) {
   }
 
   const isOffBounds = node =>
-    node.closest('tool-pallete') || node.closest('.metatip')
+    node.closest && (node.closest('tool-pallete') || node.closest('.metatip'))
 
   const onSelectedUpdate = cb =>
     selectedCallbacks.push(cb) && cb(selected)

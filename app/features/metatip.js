@@ -95,13 +95,17 @@ export function MetaTip() {
     }
   }
 
-  const togglePinned = e =>
-    e.altKey && !e.target.hasAttribute('data-metatip')
-      ? e.target.setAttribute('data-metatip', true)
-      : e.target.removeAttribute('data-metatip')
+  const togglePinned = e => {
+    if (e.altKey) {
+      !e.target.hasAttribute('data-metatip')
+        ? e.target.setAttribute('data-metatip', true)
+        : e.target.removeAttribute('data-metatip')
+    }
+  }
 
   const mouseMove = e => {
-    if (e.target.closest('tool-pallete')) return
+    if (e.target.closest('tool-pallete') || e.target.closest('.metatip')) return
+
     e.altKey
       ? e.target.setAttribute('data-pinhover', true)
       : e.target.removeAttribute('data-pinhover')
@@ -163,7 +167,7 @@ export function MetaTip() {
     })
 
   return () => {
-    $('body > *:not(script):not(tool-pallete)').off('mousemove', mouseMove)
+    $('body').off('mousemove', mouseMove)
     hotkeys.unbind('esc')
     hideAll()
   }
