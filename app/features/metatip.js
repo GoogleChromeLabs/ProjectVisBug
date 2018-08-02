@@ -101,6 +101,7 @@ export function MetaTip() {
       : e.target.removeAttribute('data-metatip')
 
   const mouseMove = e => {
+    if (e.target.closest('tool-pallete')) return
     e.altKey
       ? e.target.setAttribute('data-pinhover', true)
       : e.target.removeAttribute('data-pinhover')
@@ -128,7 +129,7 @@ export function MetaTip() {
     }
   }
 
-  $('body > *:not(script):not(tool-pallete)').on('mousemove', mouseMove)
+  $('body').on('mousemove', mouseMove)
 
   hotkeys('esc', _ => removeAll())
 

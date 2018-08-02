@@ -16,6 +16,7 @@ export function Selectable(elements) {
   elements.on('click', e => {
     e.preventDefault()
     e.stopPropagation()
+    if (isOffBounds(e.target)) return
     if (!e.shiftKey) unselect_all()
     select(e.target)
   })
@@ -102,17 +103,15 @@ export function Selectable(elements) {
   })
 
   elements.on('mouseover', ({target}) =>
-    target.setAttribute('data-hover', true))
+    !isOffBounds(target) && target.setAttribute('data-hover', true))
 
   elements.on('mouseout', ({target}) =>
     target.removeAttribute('data-hover'))
 
   $('body').on('click', ({target}) => {
-    if (target.nodeName == 'BODY'  || (
-        !selected.filter(el => el == target).length 
-        && !target.closest('tool-pallete')
-      )
-    ) unselect_all()
+    if (isOffBounds(target)) return
+    if (!selected.filter(el => el == target).length) 
+      unselect_all()
     tellWatchers()
   })
 
@@ -161,6 +160,9 @@ export function Selectable(elements) {
       }
     }
   }
+
+  const isOffBounds = node =>
+    node.closest('tool-pallete') || node.closest('.metatip')
 
   const onSelectedUpdate = cb =>
     selectedCallbacks.push(cb) && cb(selected)

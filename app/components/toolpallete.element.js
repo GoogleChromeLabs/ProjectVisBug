@@ -35,7 +35,7 @@ export default class ToolPallete extends HTMLElement {
     this.$shadow = this.attachShadow({mode: 'open'})
     this.$shadow.innerHTML = this.render()
 
-    this.selectorEngine = Selectable($('body > *:not(script):not(tool-pallete)'))
+    this.selectorEngine = Selectable($('body, body > *:not(script):not(tool-pallete)'))
   }
 
   connectedCallback() {
@@ -124,7 +124,7 @@ export default class ToolPallete extends HTMLElement {
           position: fixed;
           top: 1rem;
           left: 1rem;
-          z-index: 99999; 
+          z-index: 99998; 
 
           background: white;
           box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
