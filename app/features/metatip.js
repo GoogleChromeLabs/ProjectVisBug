@@ -4,20 +4,25 @@ import { TinyColor } from '@ctrl/tinycolor'
 import { getStyles, camelToDash } from './utils'
 
 const desiredPropMap = {
-  color:            'rgb(0, 0, 0)',
-  backgroundColor:  'rgba(0, 0, 0, 0)',
-  borderRadius:     '0px',
-  padding:          '0px',
-  margin:           '0px',
-  fontSize:         '16px',
-  fontWeight:       '400',
-  textAlign:        'start',
-  textShadow:       'none',
-  textTransform:    'none',
-  lineHeight:       'normal',
-  display:          'block',
-  alignItems:       'normal',
-  justifyContent:   'normal',
+  color:                'rgb(0, 0, 0)',
+  backgroundColor:      'rgba(0, 0, 0, 0)',
+  backgroundImage:      'none',
+  backgroundSize:       'auto',
+  backgroundPosition:   '0% 0%',
+  border:               '0px none rgb(0, 0, 0)',
+  borderRadius:         '0px',
+  padding:              '0px',
+  margin:               '0px',
+  fontFamily:           '',
+  fontSize:             '16px',
+  fontWeight:           '400',
+  textAlign:            'start',
+  textShadow:           'none',
+  textTransform:        'none',
+  lineHeight:           'normal',
+  display:              'block',
+  alignItems:           'normal',
+  justifyContent:       'normal',
 }
 
 let tip_map = {}
@@ -33,6 +38,9 @@ export function MetaTip() {
 
       if (style.prop.includes('color') || style.prop.includes('Color'))
         style.value = `<span color style="background-color: ${style.value};"></span>${new TinyColor(style.value).toHslString()}`
+
+      if (style.prop.includes('font-family') && style.value.length > 25)
+        style.value = style.value.slice(0,25) + '...'
 
       // check if style is inline style, show indicator
       if (el.getAttribute('style') && el.getAttribute('style').includes(style.prop))
