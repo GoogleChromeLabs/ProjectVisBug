@@ -28,7 +28,6 @@ export default class HotkeyMap extends HTMLElement {
 
     this.tool               = 'padding'
     this.$command           = $('[command]', this.$shadow)
-    this.$dialog            = $('dialog', this.$shadow)
   }
 
   connectedCallback() {
@@ -41,6 +40,11 @@ export default class HotkeyMap extends HTMLElement {
     const $left   = $('[arrows] [left]', this.$shadow)
     const $right  = $('[arrows] [right]', this.$shadow)
 
+    hotkeys('shift+/', e =>
+      this.$shadow.host.style.display !== 'flex'
+        ? this.show()
+        : this.hide())
+
     hotkeys('*', (e, handler) => {
       e.preventDefault()
       e.stopPropagation()
@@ -49,21 +53,22 @@ export default class HotkeyMap extends HTMLElement {
       $ctrl.attr('pressed', hotkeys.ctrl)
       $alt.attr('pressed', hotkeys.alt)
       $cmd.attr('pressed', hotkeys.cmd)
-      // $up.attr('pressed', hotkeys.up)
-      // $down.attr('pressed', hotkeys.down)
-      // $left.attr('pressed', hotkeys.left)
-      // $right.attr('pressed', hotkeys.right)
+      $up.attr('pressed', e.code === 'ArrowUp')
+      $down.attr('pressed', e.code === 'ArrowDown')
+      $left.attr('pressed', e.code === 'ArrowLeft')
+      $right.attr('pressed', e.code === 'ArrowRight')
 
       let amount = hotkeys.shift ? 10 : 1
+
       let negative = hotkeys.alt ? 'Subtract' : 'Add'
       let negative_modifier = hotkeys.alt ? 'from' : 'to'
 
       let side = '[arrow key]'
-      if (hotkeys.cmd) side ='all sides'
-      // if (hotkeys.up) side = 'top'
-      // if (hotkeys.down) side = 'bottom'
-      // if (hotkeys.left) side = 'left'
-      // if (hotkeys.right) side = 'right'
+      if (e.code === 'ArrowUp')     side = 'the top side'
+      if (e.code === 'ArrowDown')   side = 'the bottom side'
+      if (e.code === 'ArrowLeft')   side = 'the left side'
+      if (e.code === 'ArrowRight')  side = 'the right side'
+      if (hotkeys.cmd)              side = 'all sides'
 
       this.$command[0].innerHTML = `
         <span negative>${negative} </span>
@@ -81,7 +86,11 @@ export default class HotkeyMap extends HTMLElement {
   }
 
   show() {
-    this.$dialog[0].showModal()
+    this.$shadow.host.style.display = 'flex'
+  }
+
+  hide() {
+    this.$shadow.host.style.display = 'none'
   }
 
   setTool(tool) {
@@ -91,7 +100,7 @@ export default class HotkeyMap extends HTMLElement {
   render() {
     return `
       ${this.styles()}
-      <dialog open>
+      <article>
         <div command>&nbsp;</div>
         <div card>
           <div keyboard>
@@ -112,7 +121,7 @@ export default class HotkeyMap extends HTMLElement {
             </section>
           </div>
         </div>
-      </dialog>
+      </article>
     `
   }
 
@@ -120,7 +129,9 @@ export default class HotkeyMap extends HTMLElement {
     return `
       <style>
         :host {
-          display: flex;
+          display: none;
+          position: fixed;
+          z-index: 999;
           align-items: center;
           justify-content: center;
           width: 100vw;
@@ -130,17 +141,12 @@ export default class HotkeyMap extends HTMLElement {
           --dark-grey: hsl(0,0%,40%);
         }
 
-        :host dialog {
-          border: none;
-          display: flex;
-          align-items: center;
-          flex-direction: column;
-          background: none;
-          padding: 0;
-        }
-
         :host [command] {
           padding: 1rem;
+          text-align: center;
+          font-size: 3vw;
+          font-weight: lighter;
+          letter-spacing: 0.1em;
         }
 
         :host [command] > [light] {
@@ -171,7 +177,7 @@ export default class HotkeyMap extends HTMLElement {
           white-space: nowrap;
         }
 
-        :host [pressed="true"] {
+        :host span[pressed="true"] {
           background: hsl(200, 90%, 70%);
           color: hsl(200, 90%, 20%);
         }
