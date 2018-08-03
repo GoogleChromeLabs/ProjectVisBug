@@ -34,11 +34,11 @@ export default class ToolPallete extends HTMLElement {
 
     this.$shadow = this.attachShadow({mode: 'open'})
     this.$shadow.innerHTML = this.render()
-
-    this.selectorEngine = Selectable()
   }
 
   connectedCallback() {
+    this.selectorEngine = Selectable()
+    
     $('li', this.$shadow).on('click', e => 
       this.toolSelected(e.currentTarget) && e.stopPropagation())
 
