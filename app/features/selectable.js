@@ -47,10 +47,8 @@ export function Selectable() {
     selected.length && delete_all())
 
   document.addEventListener('copy', e => {
-    if (selected[0] && this.node_clipboard !== selected[0]) {
-      e.preventDefault()
+    if (selected[0] && this.node_clipboard !== selected[0])
       e.clipboardData.setData('text/html', selected[0].outerHTML)
-    }
   })
 
   document.addEventListener('paste', e => {
