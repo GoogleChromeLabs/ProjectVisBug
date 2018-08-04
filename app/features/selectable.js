@@ -38,7 +38,8 @@ export function Selectable() {
     if (!root_node) return
 
     const deep_clone = root_node.cloneNode(true)
-    selected.push(deep_clone)
+    deep_clone.removeAttribute('data-selected')
+    // selected.push(deep_clone)
     root_node.parentNode.insertBefore(deep_clone, root_node.nextSibling)
     e.preventDefault()
   })
@@ -47,12 +48,26 @@ export function Selectable() {
     selected.length && delete_all())
 
   document.addEventListener('copy', e => {
-    if (selected[0] && this.node_clipboard !== selected[0])
-      e.clipboardData.setData('text/html', selected[0].outerHTML)
+    if (selected[0] && this.node_clipboard !== selected[0]) {
+      let $node = selected.slice(0,1)[0]
+      $node.removeAttribute('data-selected')
+      this.copy_backup = $node.outerHTML
+      e.clipboardData.setData('text/html', this.copy_backup)
+    }
+  })
+
+  document.addEventListener('cut', e => {
+    if (selected[0] && this.node_clipboard !== selected[0]) {
+      let $node = selected.slice(0,1)[0]
+      $node.removeAttribute('data-selected')
+      this.copy_backup = $node.outerHTML
+      e.clipboardData.setData('text/html', this.copy_backup)
+      selected[0].remove()
+    }
   })
 
   document.addEventListener('paste', e => {
-    const potentialHTML = e.clipboardData.getData('text/html')
+    const potentialHTML = e.clipboardData.getData('text/html') || this.copy_backup
     if (selected[0] && potentialHTML) {
       e.preventDefault()
       selected[0].appendChild(
