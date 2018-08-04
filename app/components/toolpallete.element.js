@@ -10,8 +10,8 @@ import {
   ChangeForeground, ChangeBackground, BoxShadow, HueShift, MetaTip
 } from '../features/'
 
-// todo: create?
 // todo: resize
+// todo: undo
 export default class ToolPallete extends HTMLElement {
   constructor() {
     super()
