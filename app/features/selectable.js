@@ -39,13 +39,16 @@ export function Selectable() {
 
     const deep_clone = root_node.cloneNode(true)
     deep_clone.removeAttribute('data-selected')
-    // selected.push(deep_clone)
     root_node.parentNode.insertBefore(deep_clone, root_node.nextSibling)
     e.preventDefault()
   })
 
   hotkeys('backspace,del,delete', e => 
     selected.length && delete_all())
+
+  hotkeys('alt+del,alt+backspace', e =>
+    selected.forEach(el =>
+      el.attr('style', null)))
 
   document.addEventListener('copy', e => {
     if (selected[0] && this.node_clipboard !== selected[0]) {
