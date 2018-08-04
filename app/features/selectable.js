@@ -90,6 +90,36 @@ export function Selectable() {
       })
   })
 
+  hotkeys('cmd+g,cmd+shift+g', (e, {key}) => {
+    e.preventDefault()
+
+    if (key.split('+').includes('shift')) {
+      let $selected = [...selected]
+      unselect_all()
+      $selected.reverse().forEach(el => {
+        let l = el.children.length
+        while (el.children.length > 0) {
+          var node = el.childNodes[el.children.length - 1]
+          if (node.nodeName !== '#text')
+            select(node)
+          el.parentNode.prepend(node)
+        }
+        el.parentNode.removeChild(el)
+      })
+    }
+    else {
+      let div = document.createElement('div')
+      selected[0].parentNode.prepend(
+        selected.reverse().reduce((div, el) => {
+          div.appendChild(el)
+          return div
+        }, div)
+      )
+      unselect_all()
+      select(div)
+    }
+  })
+
   elements.on('selectstart', e =>
     !isOffBounds(e.target) 
     && selected.length 
