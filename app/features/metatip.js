@@ -33,33 +33,38 @@ let tip_map = {}
 export function MetaTip() {
   const template = ({target: el}) => {
     const { width, height } = el.getBoundingClientRect()
-    const styles = getStyles(el, desiredPropMap).map(style => {
-      style.prop = camelToDash(style.prop)
+    const styles = getStyles(el, desiredPropMap)
+      .map(style => Object.assign(style, {
+        prop: camelToDash(style.prop)
+      }))
+      .filter(style => 
+        style.prop.includes('font-family') 
+          ? el.matches('h1,h2,h3,h4,h5,h6,p,a,date,caption,button,figcaption,nav,header,footer') 
+          : true
+      )
+      .map(style => {
+        if (style.prop.includes('color') || style.prop.includes('Color'))
+          style.value = `<span color style="background-color: ${style.value};"></span>${new TinyColor(style.value).toHslString()}`
 
-      if (style.prop.includes('color') || style.prop.includes('Color'))
-        style.value = `<span color style="background-color: ${style.value};"></span>${new TinyColor(style.value).toHslString()}`
+        if (style.prop.includes('font-family') && style.value.length > 25)
+          style.value = style.value.slice(0,25) + '...'
 
-      if (style.prop.includes('font-family') && style.value.length > 25)
-        style.value = style.value.slice(0,25) + '...'
-
-      // check if style is inline style, show indicator
-      if (el.getAttribute('style') && el.getAttribute('style').includes(style.prop))
-        style.value = `<span local-change>${style.value}</span>`
-      
-      return style
-    })
+        // check if style is inline style, show indicator
+        if (el.getAttribute('style') && el.getAttribute('style').includes(style.prop))
+          style.value = `<span local-change>${style.value}</span>`
+        
+        return style
+      })
 
     const localModifications = styles.filter(style =>
       el.getAttribute('style') && el.getAttribute('style').includes(style.prop)
         ? 1
-        : 0
-    )
+        : 0)
 
     const notLocalModifications = styles.filter(style =>
       el.getAttribute('style') && el.getAttribute('style').includes(style.prop)
         ? 0
-        : 1
-    )
+        : 1)
     
     let tip = document.createElement('div')
     tip.classList.add('metatip')
