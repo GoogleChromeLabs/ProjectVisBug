@@ -15,9 +15,11 @@ export function Selectable() {
   watchImagesForUpload()
 
   elements.on('click', e => {
+    if (isOffBounds(e.target) && !selected.filter(el => el == e.target).length) 
+      return
+
     e.preventDefault()
     e.stopPropagation()
-    if (isOffBounds(e.target)) return
     if (!e.shiftKey) unselect_all()
     select(e.target)
   })
@@ -38,7 +40,7 @@ export function Selectable() {
     if (!root_node) return
 
     const deep_clone = root_node.cloneNode(true)
-    selected.push(deep_clone)
+    deep_clone.removeAttribute('data-selected')
     root_node.parentNode.insertBefore(deep_clone, root_node.nextSibling)
     e.preventDefault()
   })
@@ -46,15 +48,31 @@ export function Selectable() {
   hotkeys('backspace,del,delete', e => 
     selected.length && delete_all())
 
+  hotkeys('alt+del,alt+backspace', e =>
+    selected.forEach(el =>
+      el.attr('style', null)))
+
   document.addEventListener('copy', e => {
     if (selected[0] && this.node_clipboard !== selected[0]) {
-      e.preventDefault()
-      e.clipboardData.setData('text/html', selected[0].outerHTML)
+      let $node = selected.slice(0,1)[0]
+      $node.removeAttribute('data-selected')
+      this.copy_backup = $node.outerHTML
+      e.clipboardData.setData('text/html', this.copy_backup)
+    }
+  })
+
+  document.addEventListener('cut', e => {
+    if (selected[0] && this.node_clipboard !== selected[0]) {
+      let $node = selected.slice(0,1)[0]
+      $node.removeAttribute('data-selected')
+      this.copy_backup = $node.outerHTML
+      e.clipboardData.setData('text/html', this.copy_backup)
+      selected[0].remove()
     }
   })
 
   document.addEventListener('paste', e => {
-    const potentialHTML = e.clipboardData.getData('text/html')
+    const potentialHTML = e.clipboardData.getData('text/html') || this.copy_backup
     if (selected[0] && potentialHTML) {
       e.preventDefault()
       selected[0].appendChild(
@@ -72,6 +90,36 @@ export function Selectable() {
         root_node: selected[0], 
         all: key.includes('shift'),
       })
+  })
+
+  hotkeys('cmd+g,cmd+shift+g', (e, {key}) => {
+    e.preventDefault()
+
+    if (key.split('+').includes('shift')) {
+      let $selected = [...selected]
+      unselect_all()
+      $selected.reverse().forEach(el => {
+        let l = el.children.length
+        while (el.children.length > 0) {
+          var node = el.childNodes[el.children.length - 1]
+          if (node.nodeName !== '#text')
+            select(node)
+          el.parentNode.prepend(node)
+        }
+        el.parentNode.removeChild(el)
+      })
+    }
+    else {
+      let div = document.createElement('div')
+      selected[0].parentNode.prepend(
+        selected.reverse().reduce((div, el) => {
+          div.appendChild(el)
+          return div
+        }, div)
+      )
+      unselect_all()
+      select(div)
+    }
   })
 
   elements.on('selectstart', e =>
@@ -115,12 +163,6 @@ export function Selectable() {
 
   elements.on('mouseout', ({target}) =>
     target.removeAttribute('data-hover'))
-
-  elements.on('click', ({target}) => {
-    if (!isOffBounds(target) && !selected.filter(el => el == target).length) 
-      unselect_all()
-    tellWatchers()
-  })
 
   const select = el => {
     if (el.nodeName === 'svg' || el.ownerSVGElement) return

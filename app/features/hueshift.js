@@ -40,6 +40,9 @@ export function HueShift(selector) {
   }
 }
 
+// todo: more hotkeys
+// b: black
+// w: white
 export function changeHue(els, direction, prop) {
   els
     .map(showHideSelected)
@@ -63,6 +66,11 @@ export function changeHue(els, direction, prop) {
       payload.current[prop] = payload.negative
         ? payload.current[prop] - payload.amount 
         : payload.current[prop] + payload.amount
+
+      if (prop === 's' || prop === 'l') {
+        if (payload.current[prop] > 1) payload.current[prop] = 1
+        if (payload.current[prop] < 0) payload.current[prop] = 0
+      }
 
       return payload
     })

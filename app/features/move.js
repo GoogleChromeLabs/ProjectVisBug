@@ -5,14 +5,15 @@ const key_events = 'up,down,left,right,backspace'
 // todo: indicator for when node can descend
 // todo: indicator where left and right will go
 // todo: indicator when left or right hit dead ends
-// todo: undo
 export function Moveable(selector) {
-  hotkeys(key_events, (e, handler) => {
+  hotkeys(key_events, (e, {key}) => {
     e.preventDefault()
     e.stopPropagation()
-    let el = $(selector)[0] // only allow 1 node to be moved at a time
-    moveElement(el, handler.key)
-    updateFeedback(el)
+    
+    $(selector).forEach(el => {
+      moveElement(el, key)
+      updateFeedback(el)
+    })
   })
 
   return () => {
