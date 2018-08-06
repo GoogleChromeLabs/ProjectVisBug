@@ -1,13 +1,11 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { TinyColor } from '@ctrl/tinycolor'
 
 import { cursor, move, search, margin, padding, font, inspector,
          type, align, transform, resize, border, hueshift, boxshadow } from './toolpallete.icons' 
-import { getStyle } from '../features/utils'
 import { 
   Selectable, Moveable, Padding, Margin, EditText, Font, Flex, Search,
-  ChangeForeground, ChangeBackground, BoxShadow, HueShift, MetaTip
+  ColorPicker, BoxShadow, HueShift, MetaTip
 } from '../features/'
 
 // todo: resize
@@ -36,49 +34,18 @@ export default class ToolPallete extends HTMLElement {
     this.$shadow.innerHTML = this.render()
 
     this.selectorEngine = Selectable()
+    this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
   }
 
   connectedCallback() {
-    $('li', this.$shadow).on('click', e => 
+    $('li:not(.color)', this.$shadow).on('click', e => 
       this.toolSelected(e.currentTarget) && e.stopPropagation())
 
-    this.foregroundPicker = $('#foreground', this.$shadow)[0]
-    this.backgroundPicker = $('#background', this.$shadow)[0]
-
-    // set colors
-    this.foregroundPicker.on('input', e =>
-      ChangeForeground($('[data-selected=true]'), e.target.value))
-
-    this.backgroundPicker.on('input', e =>
-      ChangeBackground($('[data-selected=true]'), e.target.value))
-
-    // read colors
-    this.selectorEngine.onSelectedUpdate(elements => {
-      if (!elements.length) return
-
-      if (elements.length >= 2) {
-        this.foregroundPicker.value = null
-        this.backgroundPicker.value = null
-      }
-      else {
-        const FG = new TinyColor(getStyle(elements[0], 'color'))
-        const BG = new TinyColor(getStyle(elements[0], 'backgroundColor'))
-
-        let fg = '#' + FG.toHex()
-        let bg = '#' + BG.toHex()
-
-        this.foregroundPicker.attr('value', (FG.originalInput == 'rgb(0, 0, 0)' && elements[0].textContent == '') ? '' : fg)
-        this.backgroundPicker.attr('value', BG.originalInput == 'rgba(0, 0, 0, 0)' ? '' : bg)
-      }
-    })
-
-    // toolbar hotkeys
     Object.entries(this.toolbar_model).forEach(([key, value]) =>
       hotkeys(key, e => 
         this.toolSelected(
           $(`[data-tool="${value.tool}"]`, this.$shadow)[0])))
 
-    // initial selected node
     this.toolSelected($('[data-tool="inspector"]', this.$shadow)[0])
   }
 
@@ -239,16 +206,7 @@ export default class ToolPallete extends HTMLElement {
           caret-color: hotpink;
         }
 
-        :host input[type='color'] {
-          width: 100%;
-          box-sizing: border-box;
-          border: white;
-        }
-
-        :host input[type='color'][value='']::-webkit-color-swatch { 
-          background-color: transparent !important; 
-          background-image: linear-gradient(135deg, #ffffff 0%,#ffffff 46%,#ff0000 46%,#ff0000 64%,#ffffff 64%,#ffffff 100%);;
-        }
+        
       </style>
     `
   }
