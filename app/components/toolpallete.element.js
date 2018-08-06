@@ -38,7 +38,7 @@ export default class ToolPallete extends HTMLElement {
   }
 
   connectedCallback() {
-    $('li:not(.color)', this.$shadow).on('click', e => 
+    $('li[data-tool]', this.$shadow).on('click', e => 
       this.toolSelected(e.currentTarget) && e.stopPropagation())
 
     Object.entries(this.toolbar_model).forEach(([key, value]) =>
@@ -124,12 +124,12 @@ export default class ToolPallete extends HTMLElement {
           position: relative;
         }
 
-        :host li:hover {
+        :host li[data-tool]:hover {
           cursor: pointer;
           background: hsl(0,0%,98%);
         }
 
-        :host li:hover:after {
+        :host li[data-tool]:hover:after {
           content: attr(aria-label) "\\A" attr(aria-description);
           position: absolute;
           left: 100%;
@@ -208,17 +208,27 @@ export default class ToolPallete extends HTMLElement {
 
         :host input[type='color'] {
           width: 100%;
+          height: 100%;
           box-sizing: border-box;
           border: white;
+          padding: 0;
         }
 
         :host input[type='color']:focus {
           outline: none;
         }
 
+        :host input[type='color']::-webkit-color-swatch-wrapper { 
+          padding: 0;
+        }
+
+        :host input[type='color']::-webkit-color-swatch { 
+          border: none;
+        }
+
         :host input[type='color'][value='']::-webkit-color-swatch { 
           background-color: transparent !important; 
-          background-image: linear-gradient(135deg, #ffffff 0%,#ffffff 46%,#ff0000 46%,#ff0000 64%,#ffffff 64%,#ffffff 100%);;
+          background-image: linear-gradient(155deg, #ffffff 0%,#ffffff 46%,#ff0000 46%,#ff0000 54%,#ffffff 55%,#ffffff 100%);
         }
       </style>
     `
