@@ -1,6 +1,6 @@
 {
   "name": "PixelBug",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,7 @@
     "extension": "rollup -c && npm run extension:css && npm run extension:copy && npm run extension:zip",
     "extension:css": "postcss app/extension.css -o extension/toolbar/bundle.css",
     "extension:copy": "cp app/bundle.js extension/toolbar/",
-    "extension:zip": "mkdir ./pixelbug_v0.0.4 && cp -R ./extension/* ./pixelbug_v0.0.4/ && zip -r ./app/download/PixelBug.zip ./pixelbug_v0.0.4 && rm -rf ./pixelbug_v0.0.4",
+    "extension:zip": "mkdir ./pixelbug_v0.0.5 && cp -R ./extension/* ./pixelbug_v0.0.5/ && zip -r ./app/download/PixelBug.zip ./pixelbug_v0.0.5 && rm -rf ./pixelbug_v0.0.5",
     "deploy": "gcloud app deploy --project=google.com:atoms-sandbox"
   },
   "author": "",

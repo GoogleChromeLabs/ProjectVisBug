@@ -117,7 +117,7 @@ export function MetaTip() {
   }
 
   const mouseMove = e => {
-    if (e.target.closest('tool-pallete') || e.target.closest('.metatip')) return
+    if (e.target.closest('tool-pallete') || e.target.closest('.metatip') || e.target.closest('hotkey-map')) return
 
     e.altKey
       ? e.target.setAttribute('data-pinhover', true)

@@ -217,7 +217,7 @@ export function Selectable() {
   }
 
   const isOffBounds = node =>
-    node.closest && (node.closest('tool-pallete') || node.closest('.metatip'))
+    node.closest && (node.closest('tool-pallete') || node.closest('.metatip') || node.closest('hotkey-map'))
 
   const onSelectedUpdate = cb =>
     selectedCallbacks.push(cb) && cb(selected)
