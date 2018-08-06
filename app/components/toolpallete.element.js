@@ -129,7 +129,8 @@ export default class ToolPallete extends HTMLElement {
           background: hsl(0,0%,98%);
         }
 
-        :host li[data-tool]:hover:after {
+        :host li[data-tool]:hover:after,
+        :host li.color:hover:after {
           content: attr(aria-label) "\\A" attr(aria-description);
           position: absolute;
           left: 100%;
