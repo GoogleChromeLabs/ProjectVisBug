@@ -27,11 +27,18 @@ export function ColorPicker(pallete, selectorEngine) {
       const FG = new TinyColor(getStyle(elements[0], 'color'))
       const BG = new TinyColor(getStyle(elements[0], 'backgroundColor'))
 
-      let fg = '#' + FG.toHex()
-      let bg = '#' + BG.toHex()
+      let fg = FG.toHexString()
+      let bg = BG.toHexString()
 
-      foregroundPicker.attr('value', (FG.originalInput == 'rgb(0, 0, 0)' && elements[0].textContent == '') ? '' : fg)
-      backgroundPicker.attr('value', BG.originalInput == 'rgba(0, 0, 0, 0)' ? '' : bg)
+      foregroundPicker.attr('value',
+        (FG.originalInput == 'rgb(0, 0, 0)' && elements[0].textContent == '') 
+          ? '' 
+          : fg)
+
+      backgroundPicker.attr('value', 
+        BG.originalInput == 'rgba(0, 0, 0, 0)' 
+          ? '' 
+          : bg)
     }
   })
 }
