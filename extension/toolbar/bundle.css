@@ -99,8 +99,7 @@
   width: 0.6rem;
   height: 0.6rem;
   border-radius: 50%;
-  margin-right: 0.25rem;
-  border: 1px solid hsl(0, 0%, 90%); 
+  margin-right: 0.25rem; 
 }
 
 [data-pinhover=true] {
