@@ -31,54 +31,19 @@ export default class HotkeyMap extends HTMLElement {
   }
 
   connectedCallback() {
-    const $shift  = $('[keyboard] > section > [shift]', this.$shadow)
-    const $ctrl   = $('[keyboard] > section > [ctrl]', this.$shadow)
-    const $alt    = $('[keyboard] > section > [alt]', this.$shadow)
-    const $cmd    = $('[keyboard] > section > [cmd]', this.$shadow)
-    const $up     = $('[arrows] [up]', this.$shadow)
-    const $down   = $('[arrows] [down]', this.$shadow)
-    const $left   = $('[arrows] [left]', this.$shadow)
-    const $right  = $('[arrows] [right]', this.$shadow)
+    this.$shift  = $('[keyboard] > section > [shift]', this.$shadow)
+    this.$ctrl   = $('[keyboard] > section > [ctrl]', this.$shadow)
+    this.$alt    = $('[keyboard] > section > [alt]', this.$shadow)
+    this.$cmd    = $('[keyboard] > section > [cmd]', this.$shadow)
+    this.$up     = $('[arrows] [up]', this.$shadow)
+    this.$down   = $('[arrows] [down]', this.$shadow)
+    this.$left   = $('[arrows] [left]', this.$shadow)
+    this.$right  = $('[arrows] [right]', this.$shadow)
 
     hotkeys('shift+/', e =>
       this.$shadow.host.style.display !== 'flex'
         ? this.show()
         : this.hide())
-
-    hotkeys('*', (e, handler) => {
-      e.preventDefault()
-      e.stopPropagation()
-
-      $shift.attr('pressed', hotkeys.shift)
-      $ctrl.attr('pressed', hotkeys.ctrl)
-      $alt.attr('pressed', hotkeys.alt)
-      $cmd.attr('pressed', hotkeys.cmd)
-      $up.attr('pressed', e.code === 'ArrowUp')
-      $down.attr('pressed', e.code === 'ArrowDown')
-      $left.attr('pressed', e.code === 'ArrowLeft')
-      $right.attr('pressed', e.code === 'ArrowRight')
-
-      let amount = hotkeys.shift ? 10 : 1
-
-      let negative = hotkeys.alt ? 'Subtract' : 'Add'
-      let negative_modifier = hotkeys.alt ? 'from' : 'to'
-
-      let side = '[arrow key]'
-      if (e.code === 'ArrowUp')     side = 'the top side'
-      if (e.code === 'ArrowDown')   side = 'the bottom side'
-      if (e.code === 'ArrowLeft')   side = 'the left side'
-      if (e.code === 'ArrowRight')  side = 'the right side'
-      if (hotkeys.cmd)              side = 'all sides'
-
-      this.$command[0].innerHTML = `
-        <span negative>${negative} </span>
-        <span tool>${this.tool}</span>
-        <span light> ${negative_modifier} </span>
-        <span side>${side}</span>
-        <span light> by </span>
-        <span amount>${amount}</span>
-      `
-    })
   }
 
   disconnectedCallback() {
@@ -87,14 +52,52 @@ export default class HotkeyMap extends HTMLElement {
 
   show() {
     this.$shadow.host.style.display = 'flex'
+    hotkeys('*', (e, handler) => 
+      this.watchKeys(e, handler))
   }
 
   hide() {
     this.$shadow.host.style.display = 'none'
+    hotkeys.unbind('*')
   }
 
   setTool(tool) {
     if (tool) this.tool = tool
+  }
+
+  watchKeys(e, handler) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    this.$shift.attr('pressed', hotkeys.shift)
+    this.$ctrl.attr('pressed', hotkeys.ctrl)
+    this.$alt.attr('pressed', hotkeys.alt)
+    this.$cmd.attr('pressed', hotkeys.cmd)
+    this.$up.attr('pressed', e.code === 'ArrowUp')
+    this.$down.attr('pressed', e.code === 'ArrowDown')
+    this.$left.attr('pressed', e.code === 'ArrowLeft')
+    this.$right.attr('pressed', e.code === 'ArrowRight')
+
+    let amount = hotkeys.shift ? 10 : 1
+
+    let negative = hotkeys.alt ? 'Subtract' : 'Add'
+    let negative_modifier = hotkeys.alt ? 'from' : 'to'
+
+    let side = '[arrow key]'
+    if (e.code === 'ArrowUp')     side = 'the top side'
+    if (e.code === 'ArrowDown')   side = 'the bottom side'
+    if (e.code === 'ArrowLeft')   side = 'the left side'
+    if (e.code === 'ArrowRight')  side = 'the right side'
+    if (hotkeys.cmd)              side = 'all sides'
+
+    this.$command[0].innerHTML = `
+      <span negative>${negative} </span>
+      <span tool>${this.tool}</span>
+      <span light> ${negative_modifier} </span>
+      <span side>${side}</span>
+      <span light> by </span>
+      <span amount>${amount}</span>
+    `
   }
 
   render() {

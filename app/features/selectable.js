@@ -54,8 +54,9 @@ export function Selectable() {
 
   document.addEventListener('copy', e => {
     if (selected[0] && this.node_clipboard !== selected[0]) {
+      e.preventDefault()
       let $node = selected.slice(0,1)[0]
-      $node.removeAttribute('data-selected')
+      // $node.removeAttribute('data-selected')
       this.copy_backup = $node.outerHTML
       e.clipboardData.setData('text/html', this.copy_backup)
     }
@@ -72,7 +73,8 @@ export function Selectable() {
   })
 
   document.addEventListener('paste', e => {
-    const potentialHTML = e.clipboardData.getData('text/html') || this.copy_backup
+    const clipData = e.clipboardData.getData('text/html')
+    const potentialHTML = clipData || this.copy_backup
     if (selected[0] && potentialHTML) {
       e.preventDefault()
       selected[0].appendChild(
