@@ -15,7 +15,9 @@ export function Selectable() {
   watchImagesForUpload()
 
   elements.on('click', e => {
-    if (isOffBounds(e.target)) return
+    if (isOffBounds(e.target) && !selected.filter(el => el == e.target).length) 
+      return
+
     e.preventDefault()
     e.stopPropagation()
     if (!e.shiftKey) unselect_all()
@@ -161,12 +163,6 @@ export function Selectable() {
 
   elements.on('mouseout', ({target}) =>
     target.removeAttribute('data-hover'))
-
-  elements.on('click', ({target}) => {
-    if (!isOffBounds(target) && !selected.filter(el => el == target).length) 
-      unselect_all()
-    tellWatchers()
-  })
 
   const select = el => {
     if (el.nodeName === 'svg' || el.ownerSVGElement) return
