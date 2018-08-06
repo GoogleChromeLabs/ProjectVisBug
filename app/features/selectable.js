@@ -15,9 +15,9 @@ export function Selectable() {
   watchImagesForUpload()
 
   elements.on('click', e => {
+    if (isOffBounds(e.target)) return
     e.preventDefault()
     e.stopPropagation()
-    if (isOffBounds(e.target)) return
     if (!e.shiftKey) unselect_all()
     select(e.target)
   })

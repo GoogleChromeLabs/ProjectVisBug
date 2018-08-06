@@ -8,10 +8,12 @@ export function ColorPicker(pallete, selectorEngine) {
 
   // set colors
   foregroundPicker.on('input', e =>
-    ChangeForeground($('[data-selected=true]', pallete), e.target.value))
+    $('[data-selected=true]').map(el =>
+      el.style.color = e.target.value))
 
   backgroundPicker.on('input', e =>
-    ChangeBackground($('[data-selected=true]', pallete), e.target.value))
+    $('[data-selected=true]').map(el =>
+      el.style.backgroundColor = e.target.value))
 
   // read colors
   selectorEngine.onSelectedUpdate(elements => {
@@ -32,14 +34,4 @@ export function ColorPicker(pallete, selectorEngine) {
       backgroundPicker.attr('value', BG.originalInput == 'rgba(0, 0, 0, 0)' ? '' : bg)
     }
   })
-}
-
-function changeForeground(elements, color) {
-  elements.map(el =>
-    el.style.color = color)
-}
-
-function changeBackground(elements, color) {
-  elements.map(el =>
-    el.style.backgroundColor = color)
 }

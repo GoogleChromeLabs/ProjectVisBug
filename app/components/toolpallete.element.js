@@ -206,7 +206,20 @@ export default class ToolPallete extends HTMLElement {
           caret-color: hotpink;
         }
 
-        
+        :host input[type='color'] {
+          width: 100%;
+          box-sizing: border-box;
+          border: white;
+        }
+
+        :host input[type='color']:focus {
+          outline: none;
+        }
+
+        :host input[type='color'][value='']::-webkit-color-swatch { 
+          background-color: transparent !important; 
+          background-image: linear-gradient(135deg, #ffffff 0%,#ffffff 46%,#ff0000 46%,#ff0000 64%,#ffffff 64%,#ffffff 100%);;
+        }
       </style>
     `
   }
