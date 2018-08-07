@@ -73,11 +73,10 @@ export default class ToolPallete extends HTMLElement {
           ${list}
           <li aria-label="${value.label} Tool" aria-description="${value.description}" data-tool="${value.tool}" data-active="${key == 'i'}">${value.icon}</li>
         `,'')}
-        <li></li>
-        <li class="color" aria-label="Foreground">
+        <li class="color" aria-label="Foreground" style="display:none;">
           <input type="color" id='foreground' value=''>
         </li>
-        <li class="color" aria-label="Background">
+        <li class="color" aria-label="Background" style="display:none;">
           <input type="color" id='background' value=''>
         </li>
       </ol>
@@ -167,13 +166,12 @@ export default class ToolPallete extends HTMLElement {
           stroke: var(--theme-color); 
         }
 
-        :host li:empty {
-          height: 0.25rem;
-          background: hsl(0,0%,90%);
+        :host li.color {
+          height: 20px;
         }
 
         :host li.color {
-          height: 20px;
+          border-top: 0.25rem solid hsl(0,0%,90%);
         }
 
         :host li > svg {
