@@ -71,7 +71,7 @@ export default class ToolPallete extends HTMLElement {
       <ol>
         ${Object.entries(this.toolbar_model).reduce((list, [key, value]) => `
           ${list}
-          <li aria-label="${value.label} Tool" aria-description="${value.description}" data-tool="${value.tool}" data-active="${key == 'i'}">${value.icon}</li>
+          <li aria-label="${value.label} Tool (${key})" aria-description="${value.description}" data-tool="${value.tool}" data-active="${key == 'i'}">${value.icon}</li>
         `,'')}
         <li></li>
         <li class="color" aria-label="Foreground">
