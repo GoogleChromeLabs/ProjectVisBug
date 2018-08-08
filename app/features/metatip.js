@@ -69,7 +69,7 @@ export function MetaTip() {
     let tip = document.createElement('div')
     tip.classList.add('metatip')
     tip.innerHTML = `
-      <h5>${el.nodeName.toLowerCase()}${el.id && '#' + el.id}${el.className && '.'+el.className.replace(/ /g, '.')}</h5>
+      <h5>${el.nodeName.toLowerCase()}${el.id && '#' + el.id}${createClassname(el)}</h5>
       <small><span>${Math.round(width)}</span>px <span divider>×</span> <span>${Math.round(height)}</span>px</small>
       <div>${notLocalModifications.reduce((items, item) => `
         ${items}
@@ -85,6 +85,15 @@ export function MetaTip() {
     `
 
     return tip
+  }
+
+  const createClassname = el => {
+    if (!el.className) return ''
+    let rawClassname = '.' + el.className.replace(/ /g, '.')
+
+    return rawClassname.length > 30
+      ? rawClassname.substring(0,30) + '...'
+      : rawClassname
   }
 
   const tip_key = node =>
