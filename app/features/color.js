@@ -23,13 +23,14 @@ export function ColorPicker(pallete, selectorEngine) {
     let isMeaningfulBackground = false
 
     if (elements.length <= 2) {
-      const FG = new TinyColor(getStyle(elements[0], 'color'))
-      const BG = new TinyColor(getStyle(elements[0], 'backgroundColor'))
+      const el = elements[0]
+      const FG = new TinyColor(getStyle(el, 'color'))
+      const BG = new TinyColor(getStyle(el, 'backgroundColor'))
 
       let fg = FG.toHexString()
       let bg = BG.toHexString()
 
-      isMeaningfulForeground = FG.originalInput !== 'rgb(0, 0, 0)'
+      isMeaningfulForeground = FG.originalInput !== 'rgb(0, 0, 0)' || (el.children.length === 0 && el.textContent !== '')
       isMeaningfulBackground = BG.originalInput !== 'rgba(0, 0, 0, 0)' 
 
       foregroundPicker.attr('value', isMeaningfulForeground
