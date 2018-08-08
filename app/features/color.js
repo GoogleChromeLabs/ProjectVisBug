@@ -19,26 +19,30 @@ export function ColorPicker(pallete, selectorEngine) {
   selectorEngine.onSelectedUpdate(elements => {
     if (!elements.length) return
 
-    if (elements.length >= 2) {
-      foregroundPicker.value = null
-      backgroundPicker.value = null
-    }
-    else {
-      const FG = new TinyColor(getStyle(elements[0], 'color'))
-      const BG = new TinyColor(getStyle(elements[0], 'backgroundColor'))
+    let isMeaningfulForeground = false
+    let isMeaningfulBackground = false
+
+    if (elements.length <= 2) {
+      const el = elements[0]
+      const FG = new TinyColor(getStyle(el, 'color'))
+      const BG = new TinyColor(getStyle(el, 'backgroundColor'))
 
       let fg = FG.toHexString()
       let bg = BG.toHexString()
 
-      foregroundPicker.attr('value',
-        (FG.originalInput == 'rgb(0, 0, 0)' && elements[0].textContent == '') 
-          ? '' 
-          : fg)
+      isMeaningfulForeground = FG.originalInput !== 'rgb(0, 0, 0)' || (el.children.length === 0 && el.textContent !== '')
+      isMeaningfulBackground = BG.originalInput !== 'rgba(0, 0, 0, 0)' 
 
-      backgroundPicker.attr('value', 
-        BG.originalInput == 'rgba(0, 0, 0, 0)' 
-          ? '' 
-          : bg)
+      foregroundPicker.attr('value', isMeaningfulForeground
+        ? fg 
+        : '')
+
+      backgroundPicker.attr('value', isMeaningfulBackground
+        ? bg 
+        : '')
     }
+
+    foregroundPicker.parentNode.style.display = !isMeaningfulForeground ? 'none' : 'block'
+    backgroundPicker.parentNode.style.display = !isMeaningfulBackground ? 'none' : 'block'
   })
 }

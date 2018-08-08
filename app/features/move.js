@@ -49,7 +49,7 @@ export function moveElement(el, direction) {
 
     case 'down':
       // edge case behavior, user test
-      if (!el.nextElementSibling && el.parentNode && el.parentNode.parentNode && el.parentNode.nodeName != 'BODY')
+      if (!el.nextElementSibling && el.parentNode && el.parentNode.parentNode)
         el.parentNode.parentNode.insertBefore(el, el.parentNode.parentNode.children[[...el.parentElement.parentElement.children].indexOf(el.parentElement) + 1])
       if (canMoveDown(el))
         el.nextElementSibling.prepend(el)
@@ -62,7 +62,7 @@ export const canMoveRight = el => el.nextElementSibling
 export const canMoveDown = el => 
   el.nextElementSibling && el.nextElementSibling.children.length
 export const canMoveUp = el => 
-  el.parentNode && el.parentNode.parentNode && el.parentNode.nodeName != 'BODY'
+  el.parentNode && el.parentNode.parentNode
 
 export function showEdge(el) {
   return el.animate([
