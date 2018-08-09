@@ -1,6 +1,6 @@
 {
   "name": "PixelBug",
-  "version": "0.0.6",
+  "version": "0.0.61",
   "description": "Hacking for Designers",
   "manifest_version": 2,
   "icons": { "128": "icons/128.png" },
@@ -24,7 +24,7 @@
     "_execute_browser_action": {
       "suggested_key": {
         "windows": "Alt+Shift+D",
-        "mac": "Opt+Shift+D",
+        "mac": "Alt+Shift+D",
         "chromeos": "Alt+Shift+D",
         "linux": "Alt+Shift+D"
       }
