@@ -18,6 +18,7 @@ body {
   margin: 0;
   background: var(--lightest-grey);
   font-family: "Google Sans", system-ui;
+  scroll-snap-type: y proximity;
 }
 
 h1,h2,h3 {
@@ -33,6 +34,7 @@ img {
 /* demo */
 section {
   height: 100vh;
+  scroll-snap-align: start;
 }
 
 article {
