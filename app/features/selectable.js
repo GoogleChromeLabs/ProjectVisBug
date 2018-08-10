@@ -55,8 +55,8 @@ export function Selectable() {
   document.addEventListener('copy', e => {
     if (selected[0] && this.node_clipboard !== selected[0]) {
       e.preventDefault()
-      let $node = selected.slice(0,1)[0]
-      // $node.removeAttribute('data-selected')
+      let $node = selected[0].cloneNode(true)
+      $node.removeAttribute('data-selected')
       this.copy_backup = $node.outerHTML
       e.clipboardData.setData('text/html', this.copy_backup)
     }
@@ -64,7 +64,7 @@ export function Selectable() {
 
   document.addEventListener('cut', e => {
     if (selected[0] && this.node_clipboard !== selected[0]) {
-      let $node = selected.slice(0,1)[0]
+      let $node = selected[0].cloneNode(true)
       $node.removeAttribute('data-selected')
       this.copy_backup = $node.outerHTML
       e.clipboardData.setData('text/html', this.copy_backup)
