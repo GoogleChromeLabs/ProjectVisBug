@@ -9,7 +9,7 @@ const desiredPropMap = {
   backgroundImage:      'none',
   backgroundSize:       'auto',
   backgroundPosition:   '0% 0%',
-  border:               '0px none rgb(0, 0, 0)',
+  // border:               '0px none rgb(0, 0, 0)',
   borderRadius:         '0px',
   padding:              '0px',
   margin:               '0px',
