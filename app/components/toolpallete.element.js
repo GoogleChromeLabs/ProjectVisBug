@@ -94,17 +94,13 @@ export default class ToolPallete extends HTMLElement {
           left: 1rem;
           z-index: 99998; 
 
-          background: white;
+          background: var(--theme-bg);
           box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
 
-          --darkest-grey: hsl(0,0%,2%);
-          --darker-grey: hsl(0,0%,5%);
-          --dark-grey: hsl(0,0%,20%);
-          --grey: hsl(0,0%,50%);
-          --light-grey: hsl(0,0%,60%);
-          --lighter-grey: hsl(0,0%,80%);
-          --lightest-grey: hsl(0,0%,95%);
+          --theme-bg: hsl(0,0%,100%);
           --theme-color: hotpink;
+          --theme-icon_color: hsl(0,0%,20%);
+          --theme-tool_selected: hsl(0,0%,98%);
         }
 
         :host > ol {
@@ -157,7 +153,7 @@ export default class ToolPallete extends HTMLElement {
         }
 
         :host li[data-active=true] {
-          background: hsl(0,0%,98%);
+          background: var(--theme-tool_selected);
         }
 
         :host li[data-active=true] > svg:not(.icon-cursor) { 
@@ -178,13 +174,13 @@ export default class ToolPallete extends HTMLElement {
 
         :host li > svg {
           width: 50%;
-          fill: var(--dark-grey);
+          fill: var(--theme-icon_color);
         }
 
         :host li > svg.icon-cursor {
           width: 35%;
           fill: white;
-          stroke: var(--dark-grey);
+          stroke: var(--theme-icon_color);
           stroke-width: 2px;
         }
 
