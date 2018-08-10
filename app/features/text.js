@@ -5,6 +5,7 @@ const removeEditability = e => {
   e.target.removeAttribute('contenteditable')
   e.target.removeEventListener('blur', removeEditability)
   e.target.removeEventListener('keydown', stopBubbling)
+  hotkeys.unbind('escape,esc')
 }
 
 const stopBubbling = e => e.key != 'Escape' && e.stopPropagation()
@@ -22,6 +23,5 @@ export function EditText(elements, focus=false) {
   hotkeys('escape,esc', (e, handler) => {
     elements.forEach(target => removeEditability({target}))
     window.getSelection().empty()
-    hotkeys.unbind('escape,esc')
   })
 }
