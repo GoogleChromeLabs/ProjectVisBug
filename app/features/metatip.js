@@ -148,7 +148,7 @@ export function MetaTip() {
 
       tip.style = tip_position(tip, e)
 
-      $(e.target).on('mouseout', mouseOut)
+      $(e.target).on('mouseout DOMNodeRemoved', mouseOut)
       $(e.target).on('click', togglePinned)
 
       tip_map[tip_key(e.target)] = { tip, e }
