@@ -143,6 +143,11 @@ export function MetaTip() {
       $(e.target).on('click', togglePinned)
 
       tip_map[tip_key(e.target)] = { tip, e }
+
+      tip.animate([
+        {transform: 'translateY(5px)', opacity: 0},
+        {transform: 'translateY(0)', opacity: 1}
+      ], 200)
     }
   }
 
