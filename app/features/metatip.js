@@ -147,7 +147,7 @@ export function MetaTip() {
       tip.animate([
         {transform: 'translateY(5px)', opacity: 0},
         {transform: 'translateY(0)', opacity: 1}
-      ], 200)
+      ], 150)
     }
   }
 
