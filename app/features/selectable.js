@@ -202,6 +202,7 @@ export function Selectable() {
     if (el.nodeName === 'svg' || el.ownerSVGElement) return
 
     el.setAttribute('data-selected', true)
+    el.setAttribute('data-selected-label', `${el.nodeName.toLowerCase()}${el.id && '#' + el.id}`)
     selected.unshift(el)
     tellWatchers()
   }
