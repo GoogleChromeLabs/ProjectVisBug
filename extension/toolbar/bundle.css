@@ -24,6 +24,7 @@
 [data-droptarget=true] {
   -webkit-animation: pulse-outline 1s ease infinite;
           animation: pulse-outline 1s ease infinite;
+  cursor: copy;
 }
 
 @-webkit-keyframes pulse-outline {

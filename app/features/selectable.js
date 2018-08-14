@@ -12,9 +12,41 @@ export function Selectable() {
   let selected            = []
   let selectedCallbacks   = []
 
-  watchImagesForUpload()
+  const listen = () => {
+    elements.on('click', on_click)
+    elements.on('dblclick', on_dblclick)
+    elements.on('selectstart', on_selection)
+    elements.on('mouseover', on_hover)
+    elements.on('mouseout', on_hoverout)
 
-  elements.on('click', e => {
+    document.addEventListener('copy', on_copy)
+    document.addEventListener('cut', on_cut)
+    document.addEventListener('paste', on_paste)
+
+    hotkeys('esc', on_esc)
+    hotkeys('cmd+d', on_duplicate)
+    hotkeys('backspace,del,delete', on_delete)
+    hotkeys('alt+del,alt+backspace', on_clearstyles)
+    hotkeys('cmd+e,cmd+shift+e', on_expand_selection)
+    hotkeys('cmd+g,cmd+shift+g', on_group)
+    hotkeys('tab,shift+tab,enter,shift+enter', on_keyboard_traversal)
+  }
+
+  const unlisten = () => {
+    elements.off('click', on_click)
+    elements.off('dblclick', on_dblclick)
+    elements.off('selectstart', on_selection)
+    elements.off('mouseover', on_hover)
+    elements.off('mouseout', on_hoverout)
+
+    document.removeEventListener('copy', on_copy)
+    document.removeEventListener('cut', on_cut)
+    document.removeEventListener('paste', on_paste)
+
+    hotkeys.unbind('esc,cmd+d,backspace,del,delete,alt+del,alt+backspace,cmd+e,cmd+shift+e,cmd+g,cmd+shift+g,tab,shift+tab,enter,shift+enter')
+  }
+
+  const on_click = e => {
     if (isOffBounds(e.target) && !selected.filter(el => el == e.target).length) 
       return
 
@@ -22,20 +54,20 @@ export function Selectable() {
     e.stopPropagation()
     if (!e.shiftKey) unselect_all()
     select(e.target)
-  })
+  }
 
-  elements.on('dblclick', e => {
+  const on_dblclick = e => {
     e.preventDefault()
     e.stopPropagation()
     if (isOffBounds(e.target)) return
     EditText([e.target], {focus:true})
     $('tool-pallete')[0].toolSelected('text')
-  })
+  }
 
-  hotkeys('esc', _ => 
-    selected.length && unselect_all())
+  const on_esc = _ => 
+    selected.length && unselect_all()
 
-  hotkeys('cmd+d', e => {
+  const on_duplicate = e => {
     const root_node = selected[0]
     if (!root_node) return
 
@@ -43,16 +75,16 @@ export function Selectable() {
     deep_clone.removeAttribute('data-selected')
     root_node.parentNode.insertBefore(deep_clone, root_node.nextSibling)
     e.preventDefault()
-  })
+  }
 
-  hotkeys('backspace,del,delete', e => 
-    selected.length && delete_all())
+  const on_delete = e => 
+    selected.length && delete_all()
 
-  hotkeys('alt+del,alt+backspace', e =>
+  const on_clearstyles = e =>
     selected.forEach(el =>
-      el.attr('style', null)))
+      el.attr('style', null))
 
-  document.addEventListener('copy', e => {
+  const on_copy = e => {
     if (selected[0] && this.node_clipboard !== selected[0]) {
       e.preventDefault()
       let $node = selected[0].cloneNode(true)
@@ -60,9 +92,9 @@ export function Selectable() {
       this.copy_backup = $node.outerHTML
       e.clipboardData.setData('text/html', this.copy_backup)
     }
-  })
+  }
 
-  document.addEventListener('cut', e => {
+  const on_cut = e => {
     if (selected[0] && this.node_clipboard !== selected[0]) {
       let $node = selected[0].cloneNode(true)
       $node.removeAttribute('data-selected')
@@ -70,9 +102,9 @@ export function Selectable() {
       e.clipboardData.setData('text/html', this.copy_backup)
       selected[0].remove()
     }
-  })
+  }
 
-  document.addEventListener('paste', e => {
+  const on_paste = e => {
     const clipData = e.clipboardData.getData('text/html')
     const potentialHTML = clipData || this.copy_backup
     if (selected[0] && potentialHTML) {
@@ -80,9 +112,9 @@ export function Selectable() {
       selected[0].appendChild(
         htmlStringToDom(potentialHTML))
     }
-  })
+  }
 
-  hotkeys('cmd+e,cmd+shift+e', (e, {key}) => {
+  const on_expand_selection = (e, {key}) => {
     e.preventDefault()
 
     // TODO: need a much smarter system here
@@ -92,9 +124,9 @@ export function Selectable() {
         root_node: selected[0], 
         all: key.includes('shift'),
       })
-  })
+  }
 
-  hotkeys('cmd+g,cmd+shift+g', (e, {key}) => {
+  const on_group = (e, {key}) => {
     e.preventDefault()
 
     if (key.split('+').includes('shift')) {
@@ -122,15 +154,15 @@ export function Selectable() {
       unselect_all()
       select(div)
     }
-  })
+  }
 
-  elements.on('selectstart', e =>
+  const on_selection = e =>
     !isOffBounds(e.target) 
     && selected.length 
     && selected[0].textContent != e.target.textContent 
-    && e.preventDefault())
+    && e.preventDefault()
 
-  hotkeys('tab,shift+tab,enter,shift+enter', (e, {key}) => {
+  const on_keyboard_traversal = (e, {key}) => {
     if (selected.length !== 1) return
 
     e.preventDefault()
@@ -158,13 +190,13 @@ export function Selectable() {
         select(current.children[0])
       }
     }
-  })
+  }
 
-  elements.on('mouseover', ({target}) =>
-    !isOffBounds(target) && target.setAttribute('data-hover', true))
+  const on_hover = ({target}) =>
+    !isOffBounds(target) && target.setAttribute('data-hover', true)
 
-  elements.on('mouseout', ({target}) =>
-    target.removeAttribute('data-hover'))
+  const on_hoverout = ({target}) =>
+    target.removeAttribute('data-hover')
 
   const select = el => {
     if (el.nodeName === 'svg' || el.ownerSVGElement) return
@@ -230,10 +262,19 @@ export function Selectable() {
   const tellWatchers = () =>
     selectedCallbacks.forEach(cb => cb(selected))
 
+  const disconnect = () => {
+    unselect_all()
+    unlisten()
+  }
+
+  watchImagesForUpload()
+  listen()
+
   return {
     select,
     unselect_all,
     onSelectedUpdate,
     removeSelectedCallback,
+    disconnect,
   }
 }

@@ -49,7 +49,13 @@ export default class ToolPallete extends HTMLElement {
     this.toolSelected($('[data-tool="inspector"]', this.$shadow)[0])
   }
 
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    this.deactivate_feature()
+    this.selectorEngine.disconnect()
+    hotkeys.unbind(
+      Object.keys(this.toolbar_model).reduce((events, key) =>
+        events += ',' + key, ''))
+  }
 
   toolSelected(el) {
     if (typeof el === 'string')
