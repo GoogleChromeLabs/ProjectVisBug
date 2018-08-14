@@ -1,7 +1,7 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
-import { cursor, move, search, margin, padding, font, inspector,
+import { cursor, move, search, margin, padding, font, inspector, camera,
          type, align, transform, resize, border, hueshift, boxshadow } from './toolpallete.icons' 
 import { 
   Selectable, Moveable, Padding, Margin, EditText, Font, Flex, Search,
@@ -27,6 +27,7 @@ export default class ToolPallete extends HTMLElement {
       // t: { tool: 'transform', icon: transform, label: '3D Transform', description: '' },
       f: { tool: 'font', icon: font, label: 'Font Styles', description: 'Change size, leading, kerning, & weights' },
       e: { tool: 'text', icon: type, label: 'Edit Text', description: 'Change any text on the page' },
+      c: { tool: 'camera', icon: camera, label: 'Screenshot', description: 'Screenshot selection(s)' },
       s: { tool: 'search', icon: search, label: 'Search', description: 'Select elements by searching for them' },
     }
 
