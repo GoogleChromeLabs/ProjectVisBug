@@ -53,3 +53,12 @@ export function camelToDash(camelString = "") {
 export function htmlStringToDom(htmlString = "") {
   return (new DOMParser().parseFromString(htmlString, 'text/html')).body.firstChild
 }
+
+export function createClassname(el) {
+  if (!el.className) return ''
+  let rawClassname = '.' + el.className.replace(/ /g, '.')
+
+  return rawClassname.length > 30
+    ? rawClassname.substring(0,30) + '...'
+    : rawClassname
+}

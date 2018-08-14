@@ -4,7 +4,7 @@ import hotkeys from 'hotkeys-js'
 import { EditText } from './text'
 import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
-import { htmlStringToDom } from './utils'
+import { htmlStringToDom, createClassname } from './utils'
 
 // todo: alignment guides
 export function Selectable() {
@@ -202,7 +202,7 @@ export function Selectable() {
     if (el.nodeName === 'svg' || el.ownerSVGElement) return
 
     el.setAttribute('data-selected', true)
-    el.setAttribute('data-selected-label', `${el.nodeName.toLowerCase()}${el.id && '#' + el.id}`)
+    el.setAttribute('data-selected-label', `${el.nodeName.toLowerCase()}${el.id && '#' + el.id}${createClassname(el)}`)
     selected.unshift(el)
     tellWatchers()
   }

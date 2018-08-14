@@ -1,7 +1,7 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { TinyColor } from '@ctrl/tinycolor'
-import { getStyles, camelToDash } from './utils'
+import { getStyles, camelToDash, createClassname } from './utils'
 
 const desiredPropMap = {
   color:                'rgb(0, 0, 0)',
@@ -85,15 +85,6 @@ export function MetaTip() {
     `
 
     return tip
-  }
-
-  const createClassname = el => {
-    if (!el.className) return ''
-    let rawClassname = '.' + el.className.replace(/ /g, '.')
-
-    return rawClassname.length > 30
-      ? rawClassname.substring(0,30) + '...'
-      : rawClassname
   }
 
   const tip_key = node =>
