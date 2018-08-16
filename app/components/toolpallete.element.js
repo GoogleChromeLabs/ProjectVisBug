@@ -1,11 +1,11 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
-import { cursor, move, search, margin, padding, font, inspector,
+import { cursor, move, search, margin, padding, font, inspector, ruler,
          type, align, transform, resize, border, hueshift, boxshadow } from './toolpallete.icons' 
 import { 
   Selectable, Moveable, Padding, Margin, EditText, Font, Flex, Search,
-  ColorPicker, BoxShadow, HueShift, MetaTip
+  ColorPicker, BoxShadow, HueShift, MetaTip, Guides
 } from '../features/'
 
 // todo: resize
@@ -27,6 +27,7 @@ export default class ToolPallete extends HTMLElement {
       // t: { tool: 'transform', icon: transform, label: '3D Transform', description: '' },
       f: { tool: 'font', icon: font, label: 'Font Styles', description: 'Change size, leading, kerning, & weights' },
       e: { tool: 'text', icon: type, label: 'Edit Text', description: 'Change any text on the page' },
+      g: { tool: 'guides', icon: ruler, label: 'Guides', description: 'Verify alignment' },
       s: { tool: 'search', icon: search, label: 'Search', description: 'Select elements by searching for them' },
     }
 
@@ -277,6 +278,10 @@ export default class ToolPallete extends HTMLElement {
 
   inspector() {
     this.deactivate_feature = MetaTip()
+  }
+
+  guides() {
+    this.deactivate_feature = Guides()
   }
 
   activeTool() {
