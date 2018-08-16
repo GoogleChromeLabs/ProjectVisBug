@@ -7,7 +7,7 @@
     "start": "npm run concurrent",
     "concurrent": "concurrently --kill-others \"npm run dev:js\" \"npm run dev:css\" \"npm run dev:server\"",
     "bundle": "rollup -c && postcss app/index.css -o app/bundle.css",
-    "bump": "npm version patch -m 'new version'",
+    "bump": "npm version patch -m 'Release $npm_package_version'",
     "postversion": "npm run extension",
     "dev:js": "rollup -c -w",
     "dev:css": "postcss app/index.css -o app/bundle.css -w",
