@@ -31,7 +31,8 @@ export function Search(SelectorEngine, node) {
     if (query == '.' || query == '#') return
 
     try {
-      const matches = $(query)
+      let matches = $(query + ':not(tool-pallete):not(script):not(hotkey-map)')
+      if (!matches.length) matches = $(query)
       SelectorEngine.unselect_all()
       if (matches.length)
         matches.forEach(el =>
