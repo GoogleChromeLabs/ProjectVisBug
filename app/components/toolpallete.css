@@ -1,3 +1,7 @@
+body {
+  min-height: 100vh;
+}
+
 [data-hover=true],
 [data-selected=true] {
   z-index: 50; 
