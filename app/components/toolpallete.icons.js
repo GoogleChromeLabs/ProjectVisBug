@@ -88,6 +88,13 @@ const inspector = `
   </svg>
 `
 
+const ruler = `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M21,6H3C1.9,6,1,6.9,1,8v8c0,1.1,0.9,2,2,2h18c1.1,0,2-0.9,2-2V8C23,6.9,22.1,6,21,6z M21,16H3V8h2v4h2V8h2v4h2V8h2v4h2V8
+    h2v4h2V8h2V16z"/>
+  </svg>
+`
+
 export {
   cursor,
   move,
@@ -103,4 +110,5 @@ export {
   hueshift,
   boxshadow,
   inspector,
+  ruler,
 }
