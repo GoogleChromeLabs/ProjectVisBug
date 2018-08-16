@@ -25,6 +25,65 @@ const desiredPropMap = {
   justifyContent:       'normal',
 }
 
+const metatipStyles = {
+  host: `
+    position: absolute;
+    z-index: 99999;
+    background: white;
+    color: hsl(0,0%,20%);
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    box-shadow: 0 0 0.5rem hsla(0,0%,0%,10%);
+    border-radius: 0.25rem;
+  `,
+  h5: `
+    font-size: 1rem;
+    font-weight: bolder;
+    margin: 0;
+  `,
+  h6: `
+    margin-top: 1rem;
+    margin-bottom: 0;
+    font-weight: normal;
+  `,
+  small: `
+    font-size: 0.7rem;
+    color: hsl(0,0%,60%);
+  `,
+  small_span: `
+    color: hsl(0,0%,20%);
+  `,
+  brand: `
+    color: hotpink;
+  `,
+  first_div: `
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 0.25rem 0.5rem;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    list-style-type: none;
+    color: hsl(0,0%,40%);
+    font-size: 0.8rem;
+    font-family: 'Dank Mono', 'Operator Mono', 'Inconsolata', 'Fira Mono', 'SF Mono', 'Monaco', 'Droid Sans Mono', 'Source Code Pro', monospace;
+  `,
+  div_value: `
+    color: hsl(0,0%,20%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+  `,
+  div_color: `
+    display: inline-block;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    margin-right: 0.25rem;
+  `,
+}
+
 let tip_map = {}
 
 // todo: 
@@ -68,18 +127,25 @@ export function MetaTip() {
     
     let tip = document.createElement('div')
     tip.classList.add('metatip')
+    tip.style = metatipStyles.host
     tip.innerHTML = `
-      <h5>${el.nodeName.toLowerCase()}${el.id && '#' + el.id}${createClassname(el)}</h5>
-      <small><span>${Math.round(width)}</span>px <span divider>×</span> <span>${Math.round(height)}</span>px</small>
-      <div>${notLocalModifications.reduce((items, item) => `
+      <h5 style="${metatipStyles.h5}">${el.nodeName.toLowerCase()}${el.id && '#' + el.id}${createClassname(el)}</h5>
+      <small style="${metatipStyles.small}">
+        <span style="${metatipStyles.small_span}">${Math.round(width)}</span>px 
+        <span divider style="${metatipStyles.brand}">×</span> 
+        <span style="${metatipStyles.small_span}">${Math.round(height)}</span>px
+      </small>
+      <div style="${metatipStyles.first_div}">${notLocalModifications.reduce((items, item) => `
         ${items}
-        <span prop>${item.prop}:</span><span value>${item.value}</span>
+        <span prop>${item.prop}:</span>
+        <span value style="${metatipStyles.div_value}">${item.value}</span>
       `, '')}</div>
       ${localModifications.length ? `
-        <h6>Local Modifications</h6>
-        <div>${localModifications.reduce((items, item) => `
+        <h6 style="${metatipStyles.h6}">Local Modifications</h6>
+        <div style="${metatipStyles.first_div}">${localModifications.reduce((items, item) => `
           ${items}
-          <span prop>${item.prop}:</span><span value>${item.value}</span>
+          <span prop>${item.prop}:</span>
+          <span value style="${metatipStyles.div_value}">${item.value}</span>
         `, '')}</div>
       ` : ''}
     `
@@ -90,14 +156,14 @@ export function MetaTip() {
   const tip_key = node =>
     `${node.nodeName}_${node.className}_${node.children.length}_${node.clientWidth}`
 
-  const tip_position = (node, e) => `
-    top: ${e.clientY > window.innerHeight / 2
+  const tip_position = (node, e) => ({
+    top: `${e.clientY > window.innerHeight / 2
       ? e.pageY - node.clientHeight
-      : e.pageY}px;
-    left: ${e.clientX > window.innerWidth / 2
+      : e.pageY}px`,
+    left: `${e.clientX > window.innerWidth / 2
       ? e.pageX - node.clientWidth - 25
-      : e.pageX + 25}px;
-  `
+      : e.pageX + 25}px`,
+  })
 
   const mouseOut = ({target}) => {
     if (tip_map[tip_key(target)] && !target.hasAttribute('data-metatip')) {
@@ -130,24 +196,28 @@ export function MetaTip() {
         return
       // otherwise update position
       const tip = tip_map[tip_key(e.target)].tip
-      tip.style = tip_position(tip, e)
+      const {left, top} = tip_position(tip, e) 
+      tip.style.left  = left
+      tip.style.top   = top 
     }
     // create new tip
     else {
       const tip = template(e)
       document.body.appendChild(tip)
 
-      tip.style = tip_position(tip, e)
+      const {left, top} = tip_position(tip, e) 
+      tip.style.left  = left
+      tip.style.top   = top 
 
       $(e.target).on('mouseout DOMNodeRemoved', mouseOut)
       $(e.target).on('click', togglePinned)
 
       tip_map[tip_key(e.target)] = { tip, e }
 
-      tip.animate([
-        {transform: 'translateY(5px)', opacity: 0},
-        {transform: 'translateY(0)', opacity: 1}
-      ], 150)
+      // tip.animate([
+      //   {transform: 'translateY(-5px)', opacity: 0},
+      //   {transform: 'translateY(0)', opacity: 1}
+      // ], 150)
     }
   }
 
