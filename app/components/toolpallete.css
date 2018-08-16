@@ -27,6 +27,10 @@
   line-height: 1.1;
 }
 
+[data-selected-hide=true][data-selected=true]:after {
+  display: none;
+}
+
 [data-selected-hide=true] {
   outline: none;
 }
