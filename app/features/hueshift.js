@@ -21,10 +21,9 @@ export function HueShift(selector) {
     let selectedNodes = $(selector)
       , keys = handler.key.split('+')
 
-    if (keys.includes('left') || keys.includes('right'))
-      changeHue(selectedNodes, keys, 's')
-    else
-      changeHue(selectedNodes, keys, 'l')
+    keys.includes('left') || keys.includes('right')
+      ? changeHue(selectedNodes, keys, 's')
+      : changeHue(selectedNodes, keys, 'l')
   })
 
   hotkeys(command_events, (e, handler) => {
@@ -45,7 +44,7 @@ export function HueShift(selector) {
 // w: white
 export function changeHue(els, direction, prop) {
   els
-    .map(showHideSelected)
+    .map(el => showHideSelected(el))
     .map(el => {
       const FG = new TinyColor(getStyle(el, 'color'))
       const BG = new TinyColor(getStyle(el, 'backgroundColor'))
