@@ -45,7 +45,7 @@
     list-style-type: none;
     color: hsl(0,0%,40%);
     font-size: 0.8rem;
-    font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono", "Source Code Pro", monospace;
+    font-family: "Dank Mono", "Operator Mono", "Inconsolata", "Fira Mono", "SF Mono", "Monaco", "Droid Sans Mono", "Source Code Pro", monospace;
 
     & > span[value] {
       color: hsl(0,0%,20%);
