@@ -1,2 +1,4 @@
-document.getElementsByTagName('hotkey-map')[0].remove()
-document.getElementsByTagName('tool-pallete')[0].remove()
+[
+  ...document.getElementsByTagName('hotkey-map'),
+  ...document.getElementsByTagName('tool-pallete'),
+].forEach(el => el.remove())
