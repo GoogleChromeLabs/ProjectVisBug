@@ -6,11 +6,11 @@ import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
 import { htmlStringToDom, createClassname } from './utils'
 
-// todo: alignment guides
 export function Selectable() {
   const elements          = $('body')
   let selected            = []
   let selectedCallbacks   = []
+  let labels              = []
 
   const listen = () => {
     elements.on('click', on_click)
@@ -202,7 +202,7 @@ export function Selectable() {
     if (el.nodeName === 'svg' || el.ownerSVGElement) return
 
     el.setAttribute('data-selected', true)
-    el.setAttribute('data-selected-label', `${el.nodeName.toLowerCase()}${el.id && '#' + el.id}${createClassname(el)}`)
+    createLabel(el, `${el.nodeName.toLowerCase()}${el.id && '#' + el.id}${createClassname(el)}`)
     selected.unshift(el)
     tellWatchers()
   }
@@ -211,16 +211,23 @@ export function Selectable() {
     selected
       .forEach(el => 
         $(el).attr({
-          'data-selected': null,
+          'data-selected':      null,
           'data-selected-hide': null,
+          'data-label-id':      null,
         }))
 
-    selected = []
+    labels.forEach(el =>
+      el.remove())
+
+    labels    = []
+    selected  = []
   }
 
   const delete_all = () => {
-    selected.forEach(el =>
+    [...selected, ...labels].forEach(el =>
       el.remove())
+
+    labels   = []
     selected = []
   }
 
@@ -248,6 +255,34 @@ export function Selectable() {
           select(potentials[root_node_index + 1])
         }
       }
+    }
+  }
+
+  const createLabel = (el, text) => {
+    if (!labels[parseInt(el.getAttribute('data-label-id'))]) {
+      label = document.createElement('div')
+      label.style = `
+        position: absolute;
+        z-index: 9999;
+        transform: translateY(-100%);
+        background: hsla(330, 100%, 71%, 80%);
+        color: white;
+        display: inline-flex;
+        justify-content: center;
+        font-size: 0.8rem;
+        padding: 0.25em 0.4em 0.15em;
+        line-height: 1.1;
+      `
+      label.textContent = text
+
+      const { x, y } = el.getBoundingClientRect()
+      label.style.top  = y + window.scrollY - 1 + 'px'
+      label.style.left = x - 1 + 'px'
+
+      document.body.appendChild(label)
+
+      el.setAttribute('data-label-id', labels.length)
+      labels[labels.length] = label
     }
   }
 

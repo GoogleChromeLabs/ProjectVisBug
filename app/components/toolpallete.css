@@ -2,10 +2,10 @@ body {
   min-height: 100vh;
 }
 
-[data-hover=true],
+/* [data-hover=true],
 [data-selected=true] {
   z-index: 50; 
-}
+} */
 
 [data-hover=true] {
   outline: 1px dashed hsla(330, 80%, 71%, 30%);
@@ -15,20 +15,6 @@ body {
   outline: 1px solid hsla(330, 100%, 71%, 80%);
   transition: all 0.15s ease;
   position: relative;
-}
-
-[data-selected=true]:after {
-  content: attr(data-selected-label);
-  position: absolute;
-  bottom: calc(100% + 1px);
-  left: -1px;
-  background: hsla(330, 100%, 71%, 80%);
-  color: white;
-  display: flex;
-  justify-content: center;
-  font-size: 0.8rem;
-  padding: 0.25em 0.4em 0.15em;
-  line-height: 1.1;
 }
 
 [data-selected-hide=true][data-selected=true]:after {
