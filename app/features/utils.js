@@ -1,3 +1,5 @@
+import $ from 'blingblingjs'
+
 export function getSide(direction) {
   let start = direction.split('+').pop().replace(/^\w/, c => c.toUpperCase())
   if (start == 'Up') start = 'Top'
@@ -44,6 +46,17 @@ export function showHideSelected(el, duration = 750) {
   , duration)
   
   return el
+}
+
+export function showHideNodeLabel(el, show = false) {
+  if (!el.hasAttribute('data-label-id')) 
+    return
+
+  const node = $(`body > div[data-label-id="${el.getAttribute('data-label-id')}"]`)[0]
+
+  node && show
+    ? node.style.display = 'none'
+    : node.style.display = null
 }
 
 export function camelToDash(camelString = "") {

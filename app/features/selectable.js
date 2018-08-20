@@ -281,7 +281,9 @@ export function Selectable() {
 
       document.body.appendChild(label)
 
-      el.setAttribute('data-label-id', labels.length)
+      Array.from([el, label]).forEach(node =>
+        node.setAttribute('data-label-id', labels.length))
+
       labels[labels.length] = label
     }
   }
