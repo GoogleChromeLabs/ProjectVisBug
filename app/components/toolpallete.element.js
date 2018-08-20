@@ -96,14 +96,6 @@ export default class ToolPallete extends HTMLElement {
     return `
       <style>
         :host {
-          position: fixed;
-          top: 1rem;
-          left: 1rem;
-          z-index: 99998; 
-
-          background: var(--theme-bg);
-          box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
-
           --theme-bg: hsl(0,0%,100%);
           --theme-color: hotpink;
           --theme-icon_color: hsl(0,0%,20%);
@@ -111,12 +103,18 @@ export default class ToolPallete extends HTMLElement {
         }
 
         :host > ol {
-          margin: 0;
-          padding: 0;
-          list-style-type: none;
+          position: fixed;
+          top: 1rem;
+          left: 1rem;
+          z-index: 99998; 
 
           display: flex;
           flex-direction: column;
+          
+          box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
+          margin: 0;
+          padding: 0;
+          list-style-type: none;
         }
 
         :host li {
@@ -126,11 +124,12 @@ export default class ToolPallete extends HTMLElement {
           align-items: center;
           justify-content: center;
           position: relative;
+          background: var(--theme-bg);
         }
 
         :host li[data-tool]:hover {
           cursor: pointer;
-          background: hsl(0,0%,98%);
+          background: var(--theme-tool_selected);
         }
 
         :host li[data-tool]:hover:after,
@@ -145,7 +144,7 @@ export default class ToolPallete extends HTMLElement {
           display: inline-flex;
           align-items: center;
           padding: 0 0.5rem;
-          background: hotpink;
+          background: var(--theme-color);
           color: white;
           font-size: 0.8rem;
           white-space: pre;
@@ -176,7 +175,7 @@ export default class ToolPallete extends HTMLElement {
         }
 
         :host li.color {
-          border-top: 0.25rem solid hsl(0,0%,90%);
+          margin-top: 0.25rem;
         }
 
         :host li > svg {
