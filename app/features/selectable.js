@@ -258,6 +258,12 @@ export function Selectable() {
     }
   }
 
+  const setLabel = (el, label) => {
+    const { x, y } = el.getBoundingClientRect()
+    label.style.top  = y + window.scrollY - 1 + 'px'
+    label.style.left = x - 1 + 'px'
+  }
+
   const createLabel = (el, text) => {
     if (!labels[parseInt(el.getAttribute('data-label-id'))]) {
       label = document.createElement('div')
@@ -275,14 +281,20 @@ export function Selectable() {
       `
       label.textContent = text
 
-      const { x, y } = el.getBoundingClientRect()
-      label.style.top  = y + window.scrollY - 1 + 'px'
-      label.style.left = x - 1 + 'px'
+      setLabel(el, label)
 
       document.body.appendChild(label)
 
       Array.from([el, label]).forEach(node =>
         node.setAttribute('data-label-id', labels.length))
+
+      let observer = new MutationObserver(list =>
+        setLabel(el, label))
+
+      observer.observe(el, { attributes: true })
+
+      $(label).on('DOMNodeRemoved', _ =>
+        observer.disconnect())
 
       labels[labels.length] = label
     }

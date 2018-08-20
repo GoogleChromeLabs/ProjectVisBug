@@ -38,12 +38,14 @@ export function getStyles(el, desiredPropMap) {
 let timeoutMap = {}
 export function showHideSelected(el, duration = 750) {
   el.setAttribute('data-selected-hide', true)
+  showHideNodeLabel(el, true)
 
   if (timeoutMap[el]) clearTimeout(timeoutMap[el])
 
-  timeoutMap[el] = setTimeout(_ =>
+  timeoutMap[el] = setTimeout(_ => {
     el.removeAttribute('data-selected-hide')
-  , duration)
+    showHideNodeLabel(el, false)
+  }, duration)
   
   return el
 }
