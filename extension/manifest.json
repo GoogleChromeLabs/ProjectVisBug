@@ -1,6 +1,6 @@
 {
   "name": "PixelBug",
-  "version": "0.0.78",
+  "version": "0.0.79",
   "description": "Hacking for Designers",
   "manifest_version": 2,
   "icons": { "128": "icons/128.png" },
