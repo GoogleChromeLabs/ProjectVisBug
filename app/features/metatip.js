@@ -4,28 +4,6 @@ import { TinyColor } from '@ctrl/tinycolor'
 import { queryPage } from './search'
 import { getStyles, camelToDash, createClassname, isOffBounds } from './utils'
 
-const desiredPropMap = {
-  color:                'rgb(0, 0, 0)',
-  backgroundColor:      'rgba(0, 0, 0, 0)',
-  backgroundImage:      'none',
-  backgroundSize:       'auto',
-  backgroundPosition:   '0% 0%',
-  // border:               '0px none rgb(0, 0, 0)',
-  borderRadius:         '0px',
-  padding:              '0px',
-  margin:               '0px',
-  fontFamily:           '',
-  fontSize:             '16px',
-  fontWeight:           '400',
-  textAlign:            'start',
-  textShadow:           'none',
-  textTransform:        'none',
-  lineHeight:           'normal',
-  display:              'block',
-  alignItems:           'normal',
-  justifyContent:       'normal',
-}
-
 const metatipStyles = {
   host: `
     position: absolute;
@@ -94,7 +72,7 @@ let tip_map = {}
 export function MetaTip() {
   const template = ({target: el}) => {
     const { width, height } = el.getBoundingClientRect()
-    const styles = getStyles(el, desiredPropMap)
+    const styles = getStyles(el)
       .map(style => Object.assign(style, {
         prop: camelToDash(style.prop)
       }))

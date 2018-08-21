@@ -5,7 +5,7 @@ import { EditText } from './text'
 import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
 import { queryPage } from './search'
-import { htmlStringToDom, createClassname, isOffBounds } from './utils'
+import { htmlStringToDom, createClassname, isOffBounds, getStyles } from './utils'
 
 export function Selectable() {
   const elements          = $('body')
@@ -24,6 +24,8 @@ export function Selectable() {
     document.addEventListener('cut', on_cut)
     document.addEventListener('paste', on_paste)
 
+    hotkeys('cmd+alt+c', on_copy_styles)
+    hotkeys('cmd+alt+v', e => on_paste_styles())
     hotkeys('esc', on_esc)
     hotkeys('cmd+d', on_duplicate)
     hotkeys('backspace,del,delete', on_delete)
@@ -114,6 +116,20 @@ export function Selectable() {
         htmlStringToDom(potentialHTML))
     }
   }
+
+  const on_copy_styles = e =>
+    this.copied_styles = selected.map(el =>
+      getStyles(el))
+
+  const on_paste_styles = (index = 0) =>
+    selected.forEach(el =>
+      this.copied_styles[index]
+        .map(({prop, value}) =>
+          el.style[prop] = value)
+        .forEach(style =>
+          index >= this.copied_styles.length
+            ? index = 0
+            : index++))
 
   const on_expand_selection = (e, {key}) => {
     e.preventDefault()
