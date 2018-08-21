@@ -11,7 +11,6 @@ const key_events = 'up,down,left,right'
   , '')
   .substring(1)
 
-// todo: alpha as cmd+left,cmd+shift+left,cmd+right,cmd+shift+right
 const command_events = 'cmd+up,cmd+shift+up,cmd+down,cmd+shift+down'
 
 export function HueShift(selector) {
