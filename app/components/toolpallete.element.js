@@ -267,7 +267,7 @@ export default class ToolPallete extends HTMLElement {
   }
 
   search() {
-    this.deactivate_feature = Search(this.selectorEngine, $('[data-tool="search"]', this.$shadow))
+    this.deactivate_feature = Search($('[data-tool="search"]', this.$shadow))
   }
 
   boxshadow() {

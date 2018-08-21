@@ -237,6 +237,7 @@ export function Selectable() {
           'data-selected':      null,
           'data-selected-hide': null,
           'data-label-id':      null,
+          'data-hover':         null,
         }))
 
     labels.forEach(el =>
@@ -332,10 +333,20 @@ export function Selectable() {
       $(label).on('DOMNodeRemoved', _ =>
         observer.disconnect())
 
-      $('a', label).on('click', e => {
+      $('a', label).on('click mouseenter', e => {
         e.preventDefault()
         e.stopPropagation()
-        queryPage(e.target.textContent)
+        queryPage(e.target.textContent, el =>
+          e.type === 'mouseenter'
+            ? el.setAttribute('data-hover', true)
+            : select(el))
+      })
+
+      $('a', label).on('mouseleave', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        queryPage(e.target.textContent, el =>
+          e.type === 'mouseleave' && el.setAttribute('data-hover', null))
       })
 
       labels[labels.length] = label

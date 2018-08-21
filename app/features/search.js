@@ -49,7 +49,7 @@ export function provideSelectorEnginer(Engine) {
   SelectorEngine = Engine
 }
 
-export function queryPage(query, highlight = false) {
+export function queryPage(query, fn) {
   if (query == 'links') query = 'a'
   if (query == 'buttons') query = 'button'
   if (query == 'images') query = 'img'
@@ -61,11 +61,12 @@ export function queryPage(query, highlight = false) {
   try {
     let matches = $(query + ':not(tool-pallete):not(script):not(hotkey-map):not(.pb-metatip):not(.pb-selectedlabel)')
     if (!matches.length) matches = $(query)
-    SelectorEngine.unselect_all()
+    if (!fn)
+      SelectorEngine.unselect_all()
     if (matches.length)
       matches.forEach(el =>
-        highlight
-          ? el.attr('data-hover', true)
+        fn
+          ? fn(el)
           : SelectorEngine.select(el))
   }
   catch (err) {}
