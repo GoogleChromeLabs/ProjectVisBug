@@ -8,6 +8,8 @@ import {
   ColorPicker, BoxShadow, HueShift, MetaTip, Guides
 } from '../features/'
 
+import { provideSelectorEnginer } from '../features/search'
+
 // todo: resize
 // todo: undo
 export default class ToolPallete extends HTMLElement {
@@ -36,6 +38,7 @@ export default class ToolPallete extends HTMLElement {
 
     this.selectorEngine = Selectable()
     this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
+    provideSelectorEnginer(this.selectorEngine)
   }
 
   connectedCallback() {
@@ -110,7 +113,7 @@ export default class ToolPallete extends HTMLElement {
 
           display: flex;
           flex-direction: column;
-          
+
           box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
           margin: 0;
           padding: 0;
@@ -264,7 +267,7 @@ export default class ToolPallete extends HTMLElement {
   }
 
   search() {
-    this.deactivate_feature = Search(this.selectorEngine, $('[data-tool="search"]', this.$shadow))
+    this.deactivate_feature = Search($('[data-tool="search"]', this.$shadow))
   }
 
   boxshadow() {

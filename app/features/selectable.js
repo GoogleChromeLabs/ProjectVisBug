@@ -4,7 +4,8 @@ import hotkeys from 'hotkeys-js'
 import { EditText } from './text'
 import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
-import { htmlStringToDom, createClassname } from './utils'
+import { queryPage } from './search'
+import { htmlStringToDom, createClassname, isOffBounds, getStyles } from './utils'
 
 export function Selectable() {
   const elements          = $('body')
@@ -23,6 +24,8 @@ export function Selectable() {
     document.addEventListener('cut', on_cut)
     document.addEventListener('paste', on_paste)
 
+    hotkeys('cmd+alt+c', on_copy_styles)
+    hotkeys('cmd+alt+v', e => on_paste_styles())
     hotkeys('esc', on_esc)
     hotkeys('cmd+d', on_duplicate)
     hotkeys('backspace,del,delete', on_delete)
@@ -114,6 +117,20 @@ export function Selectable() {
     }
   }
 
+  const on_copy_styles = e =>
+    this.copied_styles = selected.map(el =>
+      getStyles(el))
+
+  const on_paste_styles = (index = 0) =>
+    selected.forEach(el =>
+      this.copied_styles[index]
+        .map(({prop, value}) =>
+          el.style[prop] = value)
+        .forEach(style =>
+          index >= this.copied_styles.length
+            ? index = 0
+            : index++))
+
   const on_expand_selection = (e, {key}) => {
     e.preventDefault()
 
@@ -202,7 +219,13 @@ export function Selectable() {
     if (el.nodeName === 'svg' || el.ownerSVGElement) return
 
     el.setAttribute('data-selected', true)
-    createLabel(el, `${el.nodeName.toLowerCase()}${el.id && '#' + el.id}${createClassname(el)}`)
+
+    createLabel(el, `
+      <a href="#">${el.nodeName.toLowerCase()}</a>
+      <a href="#">${el.id && '#' + el.id}</a>
+      <a href="#">${createClassname(el)}</a>
+    `)
+
     selected.unshift(el)
     tellWatchers()
   }
@@ -214,6 +237,7 @@ export function Selectable() {
           'data-selected':      null,
           'data-selected-hide': null,
           'data-label-id':      null,
+          'data-hover':         null,
         }))
 
     labels.forEach(el =>
@@ -267,6 +291,7 @@ export function Selectable() {
   const createLabel = (el, text) => {
     if (!labels[parseInt(el.getAttribute('data-label-id'))]) {
       label = document.createElement('div')
+      label.classList.add('pb-selectedlabel')
       label.style = `
         position: absolute;
         z-index: 9999;
@@ -279,7 +304,19 @@ export function Selectable() {
         padding: 0.25em 0.4em 0.15em;
         line-height: 1.1;
       `
-      label.textContent = text
+      label.innerHTML = `
+        <style>
+          [data-label-id] > a {
+            text-decoration: none;
+            color: inherit;
+          }
+          [data-label-id] > a:hover {
+            text-decoration: underline;
+            color: white;
+          }
+        </style>
+        ${text}
+      `
 
       setLabel(el, label)
 
@@ -296,12 +333,25 @@ export function Selectable() {
       $(label).on('DOMNodeRemoved', _ =>
         observer.disconnect())
 
+      $('a', label).on('click mouseenter', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        queryPage(e.target.textContent, el =>
+          e.type === 'mouseenter'
+            ? el.setAttribute('data-hover', true)
+            : select(el))
+      })
+
+      $('a', label).on('mouseleave', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        queryPage(e.target.textContent, el =>
+          e.type === 'mouseleave' && el.setAttribute('data-hover', null))
+      })
+
       labels[labels.length] = label
     }
   }
-
-  const isOffBounds = node =>
-    node.closest && (node.closest('tool-pallete') || node.closest('.metatip') || node.closest('hotkey-map'))
 
   const onSelectedUpdate = cb =>
     selectedCallbacks.push(cb) && cb(selected)

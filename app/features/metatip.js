@@ -1,29 +1,8 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { TinyColor } from '@ctrl/tinycolor'
-import { getStyles, camelToDash, createClassname } from './utils'
-
-const desiredPropMap = {
-  color:                'rgb(0, 0, 0)',
-  backgroundColor:      'rgba(0, 0, 0, 0)',
-  backgroundImage:      'none',
-  backgroundSize:       'auto',
-  backgroundPosition:   '0% 0%',
-  // border:               '0px none rgb(0, 0, 0)',
-  borderRadius:         '0px',
-  padding:              '0px',
-  margin:               '0px',
-  fontFamily:           '',
-  fontSize:             '16px',
-  fontWeight:           '400',
-  textAlign:            'start',
-  textShadow:           'none',
-  textTransform:        'none',
-  lineHeight:           'normal',
-  display:              'block',
-  alignItems:           'normal',
-  justifyContent:       'normal',
-}
+import { queryPage } from './search'
+import { getStyles, camelToDash, createClassname, isOffBounds } from './utils'
 
 const metatipStyles = {
   host: `
@@ -39,6 +18,7 @@ const metatipStyles = {
     border-radius: 0.25rem;
   `,
   h5: `
+    display: flex;
     font-size: 1rem;
     font-weight: bolder;
     margin: 0;
@@ -92,7 +72,7 @@ let tip_map = {}
 export function MetaTip() {
   const template = ({target: el}) => {
     const { width, height } = el.getBoundingClientRect()
-    const styles = getStyles(el, desiredPropMap)
+    const styles = getStyles(el)
       .map(style => Object.assign(style, {
         prop: camelToDash(style.prop)
       }))
@@ -126,10 +106,25 @@ export function MetaTip() {
         : 1)
     
     let tip = document.createElement('div')
-    tip.classList.add('metatip')
+    tip.classList.add('pb-metatip')
     tip.style = metatipStyles.host
     tip.innerHTML = `
-      <h5 style="${metatipStyles.h5}">${el.nodeName.toLowerCase()}${el.id && '#' + el.id}${createClassname(el)}</h5>
+      <style>
+        h5 > a {
+          text-decoration: none;
+          color: inherit;
+        }
+        h5 > a:hover { 
+          color: hotpink; 
+          text-decoration: underline;
+        }
+        h5 > a:empty { display: none; }
+      </style>
+      <h5 style="${metatipStyles.h5}">
+        <a href="#">${el.nodeName.toLowerCase()}</a>
+        <a href="#">${el.id && '#' + el.id}</a>
+        <a href="#">${createClassname(el)}</a>
+      </h5>
       <small style="${metatipStyles.small}">
         <span style="${metatipStyles.small_span}">${Math.round(width)}</span>px 
         <span divider style="${metatipStyles.brand}">×</span> 
@@ -182,8 +177,14 @@ export function MetaTip() {
     }
   }
 
+  const linkQueryClicked = e => {
+    e.preventDefault()
+    e.stopPropagation()
+    queryPage(e.target.textContent)
+  }
+
   const mouseMove = e => {
-    if (e.target.closest('tool-pallete') || e.target.closest('.metatip') || e.target.closest('hotkey-map')) return
+    if (isOffBounds(e.target)) return
 
     e.altKey
       ? e.target.setAttribute('data-pinhover', true)
@@ -206,9 +207,10 @@ export function MetaTip() {
       document.body.appendChild(tip)
 
       const {left, top} = tip_position(tip, e) 
-      tip.style.left  = left
-      tip.style.top   = top 
+      tip.style.left    = left
+      tip.style.top     = top 
 
+      $('a', tip).on('click', linkQueryClicked)
       $(e.target).on('mouseout DOMNodeRemoved', mouseOut)
       $(e.target).on('click', togglePinned)
 
@@ -231,6 +233,7 @@ export function MetaTip() {
         tip.style.display = 'none'
         $(tip).off('mouseout', mouseOut)
         $(tip).off('click', togglePinned)
+        $('a', tip).off('click', linkQueryClicked)
       })
 
   const removeAll = () => {
@@ -239,6 +242,7 @@ export function MetaTip() {
         tip.remove()
         $(tip).off('mouseout', mouseOut)
         $(tip).off('click', togglePinned)
+        $('a', tip).off('click', linkQueryClicked)
       })
     
     $('[data-metatip]').attr('data-metatip', null)
