@@ -199,6 +199,12 @@ export function MetaTip() {
     }
   }
 
+  const linkQueryClicked = e => {
+    e.preventDefault()
+    e.stopPropagation()
+    queryPage(e.target.textContent)
+  }
+
   const mouseMove = e => {
     if (isOffBounds(e.target)) return
 
@@ -226,13 +232,7 @@ export function MetaTip() {
       tip.style.left    = left
       tip.style.top     = top 
 
-      $('a', tip).on('click', e => {
-        e.preventDefault()
-        e.stopPropagation()
-        console.log()
-        queryPage(e.target.textContent)
-      })
-
+      $('a', tip).on('click', linkQueryClicked)
       $(e.target).on('mouseout DOMNodeRemoved', mouseOut)
       $(e.target).on('click', togglePinned)
 
@@ -255,6 +255,7 @@ export function MetaTip() {
         tip.style.display = 'none'
         $(tip).off('mouseout', mouseOut)
         $(tip).off('click', togglePinned)
+        $('a', tip).off('click', linkQueryClicked)
       })
 
   const removeAll = () => {
@@ -263,6 +264,7 @@ export function MetaTip() {
         tip.remove()
         $(tip).off('mouseout', mouseOut)
         $(tip).off('click', togglePinned)
+        $('a', tip).off('click', linkQueryClicked)
       })
     
     $('[data-metatip]').attr('data-metatip', null)
