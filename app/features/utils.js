@@ -77,3 +77,12 @@ export function createClassname(el) {
     ? rawClassname.substring(0,30) + '...'
     : rawClassname
 }
+
+export function isOffBounds(node) {
+  return node.closest &&
+      (node.closest('tool-pallete') 
+    || node.closest('hotkey-map')
+    || node.closest('.pb-metatip')
+    || node.closest('.pb-selectedlabel')
+    )
+}

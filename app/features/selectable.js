@@ -4,7 +4,8 @@ import hotkeys from 'hotkeys-js'
 import { EditText } from './text'
 import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
-import { htmlStringToDom, createClassname } from './utils'
+import { queryPage } from './search'
+import { htmlStringToDom, createClassname, isOffBounds } from './utils'
 
 export function Selectable() {
   const elements          = $('body')
@@ -202,7 +203,13 @@ export function Selectable() {
     if (el.nodeName === 'svg' || el.ownerSVGElement) return
 
     el.setAttribute('data-selected', true)
-    createLabel(el, `${el.nodeName.toLowerCase()}${el.id && '#' + el.id}${createClassname(el)}`)
+
+    createLabel(el, `
+      <a href="#">${el.nodeName.toLowerCase()}</a>
+      <a href="#">${el.id && '#' + el.id}</a>
+      <a href="#">${createClassname(el)}</a>
+    `)
+
     selected.unshift(el)
     tellWatchers()
   }
@@ -267,6 +274,7 @@ export function Selectable() {
   const createLabel = (el, text) => {
     if (!labels[parseInt(el.getAttribute('data-label-id'))]) {
       label = document.createElement('div')
+      label.classList.add('pb-selectedlabel')
       label.style = `
         position: absolute;
         z-index: 9999;
@@ -279,7 +287,19 @@ export function Selectable() {
         padding: 0.25em 0.4em 0.15em;
         line-height: 1.1;
       `
-      label.textContent = text
+      label.innerHTML = `
+        <style>
+          [data-label-id] > a {
+            text-decoration: none;
+            color: inherit;
+          }
+          [data-label-id] > a:hover {
+            text-decoration: underline;
+            color: white;
+          }
+        </style>
+        ${text}
+      `
 
       setLabel(el, label)
 
@@ -296,12 +316,15 @@ export function Selectable() {
       $(label).on('DOMNodeRemoved', _ =>
         observer.disconnect())
 
+      $('a', label).on('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        queryPage(e.target.textContent)
+      })
+
       labels[labels.length] = label
     }
   }
-
-  const isOffBounds = node =>
-    node.closest && (node.closest('tool-pallete') || node.closest('.metatip') || node.closest('hotkey-map'))
 
   const onSelectedUpdate = cb =>
     selectedCallbacks.push(cb) && cb(selected)

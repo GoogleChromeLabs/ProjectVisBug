@@ -1,7 +1,8 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { TinyColor } from '@ctrl/tinycolor'
-import { getStyles, camelToDash, createClassname } from './utils'
+import { queryPage } from './search'
+import { getStyles, camelToDash, createClassname, isOffBounds } from './utils'
 
 const desiredPropMap = {
   color:                'rgb(0, 0, 0)',
@@ -39,6 +40,7 @@ const metatipStyles = {
     border-radius: 0.25rem;
   `,
   h5: `
+    display: flex;
     font-size: 1rem;
     font-weight: bolder;
     margin: 0;
@@ -126,10 +128,25 @@ export function MetaTip() {
         : 1)
     
     let tip = document.createElement('div')
-    tip.classList.add('metatip')
+    tip.classList.add('pb-metatip')
     tip.style = metatipStyles.host
     tip.innerHTML = `
-      <h5 style="${metatipStyles.h5}">${el.nodeName.toLowerCase()}${el.id && '#' + el.id}${createClassname(el)}</h5>
+      <style>
+        h5 > a {
+          text-decoration: none;
+          color: inherit;
+        }
+        h5 > a:hover { 
+          color: hotpink; 
+          text-decoration: underline;
+        }
+        h5 > a:empty { display: none; }
+      </style>
+      <h5 style="${metatipStyles.h5}">
+        <a href="#">${el.nodeName.toLowerCase()}</a>
+        <a href="#">${el.id && '#' + el.id}</a>
+        <a href="#">${createClassname(el)}</a>
+      </h5>
       <small style="${metatipStyles.small}">
         <span style="${metatipStyles.small_span}">${Math.round(width)}</span>px 
         <span divider style="${metatipStyles.brand}">×</span> 
@@ -183,7 +200,7 @@ export function MetaTip() {
   }
 
   const mouseMove = e => {
-    if (e.target.closest('tool-pallete') || e.target.closest('.metatip') || e.target.closest('hotkey-map')) return
+    if (isOffBounds(e.target)) return
 
     e.altKey
       ? e.target.setAttribute('data-pinhover', true)
@@ -206,8 +223,15 @@ export function MetaTip() {
       document.body.appendChild(tip)
 
       const {left, top} = tip_position(tip, e) 
-      tip.style.left  = left
-      tip.style.top   = top 
+      tip.style.left    = left
+      tip.style.top     = top 
+
+      $('a', tip).on('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        console.log()
+        queryPage(e.target.textContent)
+      })
 
       $(e.target).on('mouseout DOMNodeRemoved', mouseOut)
       $(e.target).on('click', togglePinned)
