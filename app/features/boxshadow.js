@@ -9,7 +9,7 @@ const key_events = 'up,down,left,right'
   , '')
   .substring(1)
 
-const command_events = 'cmd+up,cmd+down'
+const command_events = 'cmd+up,cmd+shift+up,cmd+down,cmd+shift+down,cmd+left,cmd+shift+left,cmd+right,cmd+shift+right'
 
 export function BoxShadow(selector) {
   hotkeys(key_events, (e, handler) => {
@@ -31,7 +31,9 @@ export function BoxShadow(selector) {
   hotkeys(command_events, (e, handler) => {
     e.preventDefault()
     let keys = handler.key.split('+')
-    changeBoxShadow($(selector), keys, 'inset')
+    keys.includes('left') || keys.includes('right')
+      ? changeBoxShadow($(selector), keys, 'opacity')
+      : changeBoxShadow($(selector), keys, 'inset')
   })
 
   return () => {
@@ -43,17 +45,18 @@ export function BoxShadow(selector) {
 
 const ensureHasShadow = el => {
   if (el.style.boxShadow == '' || el.style.boxShadow == 'none')
-    el.style.boxShadow = 'hsla(0,0%,0%,50%) 0 0 0 0'
+    el.style.boxShadow = 'hsla(0,0%,0%,30%) 0 0 0 0'
   return el
 }
 
 // todo: work around this propMap with a better split
 const propMap = {
-  'x':      4,
-  'y':      5,
-  'blur':   6,
-  'size':   7,
-  'inset':  8,
+  'opacity':  3,
+  'x':        4,
+  'y':        5,
+  'blur':     6,
+  'size':     7,
+  'inset':    8,
 }
 
 const parseCurrentShadow = el => getStyle(el, 'boxShadow').split(' ')
@@ -70,22 +73,34 @@ export function changeBoxShadow(els, direction, prop) {
     }))
     .map(payload => {
       let updated = [...payload.current]
-      let cur     = parseInt(payload.current[payload.propIndex])
+      let cur     = prop === 'opacity'
+        ? payload.current[payload.propIndex]
+        : parseInt(payload.current[payload.propIndex])
 
-      if (prop == 'blur') {
-        updated[payload.propIndex] = direction.includes('down')
-          ? `${cur - 1}px`
-          : `${cur + 1}px`
-      }
-      else if (prop == 'inset') {
-        updated[payload.propIndex] = direction.includes('down')
-          ? ''
-          : 'inset'
-      }
-      else {
-        updated[payload.propIndex] = direction.includes('left') || direction.includes('up')
-          ? `${cur - 1}px`
-          : `${cur + 1}px`
+      switch(prop) {
+        case 'blur':
+          var amount = direction.includes('shift') ? 10 : 1
+          updated[payload.propIndex] = direction.includes('down')
+            ? `${cur - amount}px`
+            : `${cur + amount}px`
+          break
+        case 'inset':
+          updated[payload.propIndex] = direction.includes('down')
+            ? 'inset'
+            : ''
+          break
+        case 'opacity':
+          let cur_opacity = parseFloat(cur.slice(0, cur.indexOf(')')))
+          var amount = direction.includes('shift') ? 0.10 : 0.01
+          updated[payload.propIndex] = direction.includes('left')
+            ? cur_opacity - amount + ')'
+            : cur_opacity + amount + ')'
+          break
+        default:
+          updated[payload.propIndex] = direction.includes('left') || direction.includes('up')
+            ? `${cur - 1}px`
+            : `${cur + 1}px`
+          break
       }
 
       payload.value = updated

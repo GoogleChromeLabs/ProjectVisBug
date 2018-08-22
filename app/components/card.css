@@ -1,7 +1,7 @@
 .card {
   background: #fff;
   max-width: 400px;
-  box-shadow: 0 0.2em 0.3em #ccc;
+  box-shadow: 0 0.2em 0.3em hsla(0,0%,0%,20%);
   padding: 1rem;
   border-radius: 0.2em;
 
