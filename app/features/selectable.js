@@ -134,13 +134,10 @@ export function Selectable() {
   const on_expand_selection = (e, {key}) => {
     e.preventDefault()
 
-    // TODO: need a much smarter system here
-    // only expands base tag names atm
-    if (selected[0].nodeName !== 'DIV')
-      expandSelection({
-        root_node: selected[0], 
-        all: key.includes('shift'),
-      })
+    expandSelection({
+      query:  combineNodeNameAndClass(selected[0]), 
+      all:    key.includes('shift'),
+    })
   }
 
   const on_group = (e, {key}) => {
@@ -255,17 +252,17 @@ export function Selectable() {
     selected = []
   }
 
-  const expandSelection = ({root_node, all}) => {
+  const expandSelection = ({query, all = false}) => {
     if (all) {
-      const unselecteds = $(root_node.nodeName.toLowerCase() + ':not([data-selected])')
+      const unselecteds = $(query + ':not([data-selected])')
       unselecteds.forEach(select)
     }
     else {
-      const potentials = $(root_node.nodeName.toLowerCase())
+      const potentials = $(query)
       if (!potentials) return
 
       const root_node_index = potentials.reduce((index, node, i) =>
-        node == root_node 
+        combineNodeNameAndClass(node) == query 
           ? index = i
           : index
       , null)
@@ -281,6 +278,9 @@ export function Selectable() {
       }
     }
   }
+
+  const combineNodeNameAndClass = node =>
+    `${node.nodeName.toLowerCase()}${createClassname(node)}`
 
   const setLabel = (el, label) => {
     const { x, y } = el.getBoundingClientRect()
