@@ -220,7 +220,13 @@ export function Selectable() {
     createLabel(el, `
       <a href="#">${el.nodeName.toLowerCase()}</a>
       <a href="#">${el.id && '#' + el.id}</a>
-      <a href="#">${createClassname(el)}</a>
+      ${createClassname(el).split('.')
+        .filter(name => name != '')
+        .reduce((links, name) => `
+          ${links}
+          <a href="#">.${name}</a>
+        `, '')
+      }
     `)
 
     selected.unshift(el)
