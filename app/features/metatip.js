@@ -123,7 +123,13 @@ export function MetaTip() {
       <h5 style="${metatipStyles.h5}">
         <a href="#">${el.nodeName.toLowerCase()}</a>
         <a href="#">${el.id && '#' + el.id}</a>
-        <a href="#">${createClassname(el)}</a>
+        ${createClassname(el).split('.')
+          .filter(name => name != '')
+          .reduce((links, name) => `
+            ${links}
+            <a href="#">.${name}</a>
+          `, '')
+        }
       </h5>
       <small style="${metatipStyles.small}">
         <span style="${metatipStyles.small_span}">${Math.round(width)}</span>px 
