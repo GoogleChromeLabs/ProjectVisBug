@@ -2,7 +2,7 @@ import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { TinyColor } from '@ctrl/tinycolor'
 import { queryPage } from './search'
-import { getStyles, camelToDash, createClassname, isOffBounds } from './utils'
+import { getStyles, camelToDash, createClassname, isOffBounds, nodeKey } from './utils'
 
 const metatipStyles = {
   host: `
@@ -148,9 +148,6 @@ export function MetaTip() {
     return tip
   }
 
-  const tip_key = node =>
-    `${node.nodeName}_${node.className}_${node.children.length}_${node.clientWidth}`
-
   const tip_position = (node, e) => ({
     top: `${e.clientY > window.innerHeight / 2
       ? e.pageY - node.clientHeight
@@ -161,11 +158,11 @@ export function MetaTip() {
   })
 
   const mouseOut = ({target}) => {
-    if (tip_map[tip_key(target)] && !target.hasAttribute('data-metatip')) {
+    if (tip_map[nodeKey(target)] && !target.hasAttribute('data-metatip')) {
       $(target).off('mouseout', mouseOut)
       $(target).off('click', togglePinned)
-      tip_map[tip_key(target)].tip.remove()
-      delete tip_map[tip_key(target)]
+      tip_map[nodeKey(target)].tip.remove()
+      delete tip_map[nodeKey(target)]
     }
   }
 
@@ -191,12 +188,12 @@ export function MetaTip() {
       : e.target.removeAttribute('data-pinhover')
 
     // if node is in our hash (already created)
-    if (tip_map[tip_key(e.target)]) {
+    if (tip_map[nodeKey(e.target)]) {
       // return if it's pinned
       if (e.target.hasAttribute('data-metatip')) 
         return
       // otherwise update position
-      const tip = tip_map[tip_key(e.target)].tip
+      const tip = tip_map[nodeKey(e.target)].tip
       const {left, top} = tip_position(tip, e) 
       tip.style.left  = left
       tip.style.top   = top 
@@ -214,7 +211,7 @@ export function MetaTip() {
       $(e.target).on('mouseout DOMNodeRemoved', mouseOut)
       $(e.target).on('click', togglePinned)
 
-      tip_map[tip_key(e.target)] = { tip, e }
+      tip_map[nodeKey(e.target)] = { tip, e }
 
       // tip.animate([
       //   {transform: 'translateY(-5px)', opacity: 0},

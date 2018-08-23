@@ -62,9 +62,10 @@ export function showHideSelected(el, duration = 750) {
   el.setAttribute('data-selected-hide', true)
   showHideNodeLabel(el, true)
 
-  if (timeoutMap[el]) clearTimeout(timeoutMap[el])
+  if (timeoutMap[nodeKey(el)]) 
+    clearTimeout(timeoutMap[nodeKey(el)])
 
-  timeoutMap[el] = setTimeout(_ => {
+  timeoutMap[nodeKey(el)] = setTimeout(_ => {
     el.removeAttribute('data-selected-hide')
     showHideNodeLabel(el, false)
   }, duration)
@@ -107,4 +108,8 @@ export function isOffBounds(node) {
     || node.closest('.pb-metatip')
     || node.closest('.pb-selectedlabel')
     )
+}
+
+export function nodeKey(node) {
+  return `${node.nodeName}_${node.className}_${[...node.parentNode.children].indexOf(node)}_${node.children.length}_${node.clientWidth}`
 }

@@ -325,9 +325,7 @@ export function Selectable() {
       Array.from([el, label]).forEach(node =>
         node.setAttribute('data-label-id', labels.length))
 
-      let observer = new MutationObserver(list =>
-        setLabel(el, label))
-
+      let observer = createObserver(el, label)
       observer.observe(el, { attributes: true })
 
       $(label).on('DOMNodeRemoved', _ =>
@@ -352,6 +350,10 @@ export function Selectable() {
       labels[labels.length] = label
     }
   }
+
+  const createObserver = (node, label) => 
+    new MutationObserver(list =>
+      setLabel(node, label))
 
   const onSelectedUpdate = cb =>
     selectedCallbacks.push(cb) && cb(selected)
