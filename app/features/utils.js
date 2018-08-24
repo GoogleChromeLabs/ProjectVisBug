@@ -36,6 +36,8 @@ export const desiredPropMap = {
   display:              'block',
   alignItems:           'normal',
   justifyContent:       'normal',
+  fill:                 'color',
+  stroke:               'color',
 }
 
 export const getStyles = el => {
@@ -89,7 +91,7 @@ export const htmlStringToDom = (htmlString = "") =>
   (new DOMParser().parseFromString(htmlString, 'text/html')).body.firstChild
 
 export const createClassname = el => {
-  if (!el.className) return ''
+  if (!el.className || el.nodeName === 'svg' || el.ownerSVGElement) return ''
   let rawClassname = '.' + el.className.replace(/ /g, '.')
 
   return rawClassname.length > 30
