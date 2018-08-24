@@ -3,7 +3,6 @@ import hotkeys from 'hotkeys-js'
 import { showHideNodeLabel } from './utils'
 
 const removeEditability = ({target}) => {
-  showHideNodeLabel(target)
   target.removeAttribute('contenteditable')
   target.removeAttribute('spellcheck')
   target.removeEventListener('blur', removeEditability)
@@ -13,7 +12,7 @@ const removeEditability = ({target}) => {
 
 const stopBubbling = e => e.key != 'Escape' && e.stopPropagation()
 
-export function EditText(elements, focus=false) {
+export function EditText(elements) {
   if (!elements.length) return
 
   elements.map(el => {
@@ -23,7 +22,7 @@ export function EditText(elements, focus=false) {
       contenteditable: true,
       spellcheck: true,
     })
-    focus && el.focus()
+    el.focus()
     showHideNodeLabel(el, true)
 
     $el.on('keydown', stopBubbling)

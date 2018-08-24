@@ -63,7 +63,7 @@ export function Selectable() {
     e.preventDefault()
     e.stopPropagation()
     if (isOffBounds(e.target)) return
-    EditText([e.target], {focus:true})
+    EditText([e.target])
     $('tool-pallete')[0].toolSelected('text')
   }
 
