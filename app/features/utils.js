@@ -1,22 +1,19 @@
 import $ from 'blingblingjs'
 
-export function getSide(direction) {
+export const getSide = direction => {
   let start = direction.split('+').pop().replace(/^\w/, c => c.toUpperCase())
   if (start == 'Up') start = 'Top'
   if (start == 'Down') start = 'Bottom'
   return start
 }
 
-export function getStyle(el, name) {
+export const getStyle = (el, name) => {
   if (document.defaultView && document.defaultView.getComputedStyle) {
     name = name.replace(/([A-Z])/g, '-$1')
     name = name.toLowerCase()
     let s = document.defaultView.getComputedStyle(el, '')
     return s && s.getPropertyValue(name)
   } 
-  else {
-    return null
-  }
 }
 
 export const desiredPropMap = {
@@ -41,7 +38,7 @@ export const desiredPropMap = {
   justifyContent:       'normal',
 }
 
-export function getStyles(el) {
+export const getStyles = el => {
   const elStyleObject = el.style
   const computedStyle = window.getComputedStyle(el, null)
 
@@ -58,7 +55,7 @@ export function getStyles(el) {
 }
 
 let timeoutMap = {}
-export function showHideSelected(el, duration = 750) {
+export const showHideSelected = (el, duration = 750) => {
   el.setAttribute('data-selected-hide', true)
   showHideNodeLabel(el, true)
 
@@ -73,7 +70,7 @@ export function showHideSelected(el, duration = 750) {
   return el
 }
 
-export function showHideNodeLabel(el, show = false) {
+export const showHideNodeLabel = (el, show = false) => {
   if (!el.hasAttribute('data-label-id')) 
     return
 
@@ -84,15 +81,14 @@ export function showHideNodeLabel(el, show = false) {
     : node.style.display = null
 }
 
-export function camelToDash(camelString = "") {
-  return camelString.replace(/([A-Z])/g, function($1){return "-"+$1.toLowerCase();})
-}
+export const camelToDash = (camelString = "") =>
+  camelString.replace(/([A-Z])/g, ($1) =>
+    "-"+$1.toLowerCase())
 
-export function htmlStringToDom(htmlString = "") {
-  return (new DOMParser().parseFromString(htmlString, 'text/html')).body.firstChild
-}
+export const htmlStringToDom = (htmlString = "") =>
+  (new DOMParser().parseFromString(htmlString, 'text/html')).body.firstChild
 
-export function createClassname(el) {
+export const createClassname = el => {
   if (!el.className) return ''
   let rawClassname = '.' + el.className.replace(/ /g, '.')
 
@@ -101,15 +97,13 @@ export function createClassname(el) {
     : rawClassname
 }
 
-export function isOffBounds(node) {
-  return node.closest &&
-      (node.closest('tool-pallete') 
-    || node.closest('hotkey-map')
-    || node.closest('.pb-metatip')
-    || node.closest('.pb-selectedlabel')
-    )
-}
+export const isOffBounds = node =>
+  node.closest &&
+  (node.closest('tool-pallete') 
+  || node.closest('hotkey-map')
+  || node.closest('.pb-metatip')
+  || node.closest('.pb-selectedlabel')
+  )
 
-export function nodeKey(node) {
-  return `${node.nodeName}_${node.className}_${[...node.parentNode.children].indexOf(node)}_${node.children.length}_${node.clientWidth}`
-}
+export const nodeKey = node =>
+  `${node.nodeName}_${node.className}_${[...node.parentNode.children].indexOf(node)}_${node.children.length}_${node.clientWidth}`
