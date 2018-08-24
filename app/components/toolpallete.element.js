@@ -1,12 +1,14 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
-import { cursor, move, search, margin, padding, font, inspector, camera,
+import { cursor, move, search, margin, padding, font, inspector, ruler, camera,
          type, align, transform, resize, border, hueshift, boxshadow } from './toolpallete.icons' 
 import { 
   Selectable, Moveable, Padding, Margin, EditText, Font, Flex, Search,
-  ColorPicker, BoxShadow, HueShift, MetaTip
+  ColorPicker, BoxShadow, HueShift, MetaTip, Guides
 } from '../features/'
+
+import { provideSelectorEnginer } from '../features/search'
 
 // todo: resize
 // todo: undo
@@ -28,6 +30,7 @@ export default class ToolPallete extends HTMLElement {
       f: { tool: 'font', icon: font, label: 'Font Styles', description: 'Change size, leading, kerning, & weights' },
       e: { tool: 'text', icon: type, label: 'Edit Text', description: 'Change any text on the page' },
       c: { tool: 'camera', icon: camera, label: 'Screenshot', description: 'Screenshot selection(s)' },
+      g: { tool: 'guides', icon: ruler, label: 'Guides', description: 'Verify alignment' },
       s: { tool: 'search', icon: search, label: 'Search', description: 'Select elements by searching for them' },
     }
 
@@ -36,6 +39,7 @@ export default class ToolPallete extends HTMLElement {
 
     this.selectorEngine = Selectable()
     this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
+    provideSelectorEnginer(this.selectorEngine)
   }
 
   connectedCallback() {
@@ -96,14 +100,6 @@ export default class ToolPallete extends HTMLElement {
     return `
       <style>
         :host {
-          position: fixed;
-          top: 1rem;
-          left: 1rem;
-          z-index: 99998; 
-
-          background: var(--theme-bg);
-          box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
-
           --theme-bg: hsl(0,0%,100%);
           --theme-color: hotpink;
           --theme-icon_color: hsl(0,0%,20%);
@@ -111,12 +107,18 @@ export default class ToolPallete extends HTMLElement {
         }
 
         :host > ol {
-          margin: 0;
-          padding: 0;
-          list-style-type: none;
+          position: fixed;
+          top: 1rem;
+          left: 1rem;
+          z-index: 99998; 
 
           display: flex;
           flex-direction: column;
+
+          box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
+          margin: 0;
+          padding: 0;
+          list-style-type: none;
         }
 
         :host li {
@@ -126,11 +128,12 @@ export default class ToolPallete extends HTMLElement {
           align-items: center;
           justify-content: center;
           position: relative;
+          background: var(--theme-bg);
         }
 
         :host li[data-tool]:hover {
           cursor: pointer;
-          background: hsl(0,0%,98%);
+          background: var(--theme-tool_selected);
         }
 
         :host li[data-tool]:hover:after,
@@ -145,7 +148,7 @@ export default class ToolPallete extends HTMLElement {
           display: inline-flex;
           align-items: center;
           padding: 0 0.5rem;
-          background: hotpink;
+          background: var(--theme-color);
           color: white;
           font-size: 0.8rem;
           white-space: pre;
@@ -176,7 +179,7 @@ export default class ToolPallete extends HTMLElement {
         }
 
         :host li.color {
-          border-top: 0.25rem solid hsl(0,0%,90%);
+          margin-top: 0.25rem;
         }
 
         :host li > svg {
@@ -265,7 +268,7 @@ export default class ToolPallete extends HTMLElement {
   }
 
   search() {
-    this.deactivate_feature = Search(this.selectorEngine, $('[data-tool="search"]', this.$shadow))
+    this.deactivate_feature = Search($('[data-tool="search"]', this.$shadow))
   }
 
   boxshadow() {
@@ -278,6 +281,10 @@ export default class ToolPallete extends HTMLElement {
 
   inspector() {
     this.deactivate_feature = MetaTip()
+  }
+
+  guides() {
+    this.deactivate_feature = Guides()
   }
 
   activeTool() {

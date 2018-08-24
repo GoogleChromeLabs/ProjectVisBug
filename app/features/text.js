@@ -1,10 +1,13 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
+import { showHideNodeLabel } from './utils'
 
-const removeEditability = e => {
-  e.target.removeAttribute('contenteditable')
-  e.target.removeEventListener('blur', removeEditability)
-  e.target.removeEventListener('keydown', stopBubbling)
+const removeEditability = ({target}) => {
+  showHideNodeLabel(target)
+  target.removeAttribute('contenteditable')
+  target.removeAttribute('spellcheck')
+  target.removeEventListener('blur', removeEditability)
+  target.removeEventListener('keydown', stopBubbling)
   hotkeys.unbind('escape,esc')
 }
 
@@ -14,10 +17,17 @@ export function EditText(elements, focus=false) {
   if (!elements.length) return
 
   elements.map(el => {
-    el.setAttribute('contenteditable', 'true')
+    let $el = $(el)
+
+    $el.attr({
+      contenteditable: true,
+      spellcheck: true,
+    })
     focus && el.focus()
-    $(el).on('keydown', stopBubbling)
-    $(el).on('blur', removeEditability)
+    showHideNodeLabel(el, true)
+
+    $el.on('keydown', stopBubbling)
+    $el.on('blur', removeEditability)
   })
 
   hotkeys('escape,esc', (e, handler) => {

@@ -11,8 +11,7 @@ const key_events = 'up,down,left,right'
   , '')
   .substring(1)
 
-// todo: alpha as cmd+left,cmd+shift+left,cmd+right,cmd+shift+right
-const command_events = 'cmd+up,cmd+shift+up,cmd+down,cmd+shift+down'
+const command_events = 'cmd+up,cmd+shift+up,cmd+down,cmd+shift+down,cmd+left,cmd+shift+left,cmd+right,cmd+shift+right'
 
 export function HueShift(selector) {
   hotkeys(key_events, (e, handler) => {
@@ -21,16 +20,17 @@ export function HueShift(selector) {
     let selectedNodes = $(selector)
       , keys = handler.key.split('+')
 
-    if (keys.includes('left') || keys.includes('right'))
-      changeHue(selectedNodes, keys, 's')
-    else
-      changeHue(selectedNodes, keys, 'l')
+    keys.includes('left') || keys.includes('right')
+      ? changeHue(selectedNodes, keys, 's')
+      : changeHue(selectedNodes, keys, 'l')
   })
 
   hotkeys(command_events, (e, handler) => {
     e.preventDefault()
     let keys = handler.key.split('+')
-    changeHue($(selector), keys, 'h')
+    keys.includes('left') || keys.includes('right')
+      ? changeHue($(selector), keys, 'a')
+      : changeHue($(selector), keys, 'h')
   })
 
   return () => {
@@ -45,7 +45,7 @@ export function HueShift(selector) {
 // w: white
 export function changeHue(els, direction, prop) {
   els
-    .map(showHideSelected)
+    .map(el => showHideSelected(el))
     .map(el => {
       const FG = new TinyColor(getStyle(el, 'color'))
       const BG = new TinyColor(getStyle(el, 'backgroundColor'))
@@ -60,14 +60,14 @@ export function changeHue(els, direction, prop) {
         negative: direction.includes('down') || direction.includes('left'),
       }))
     .map(payload => {
-      if (prop === 's' || prop === 'l')
+      if (prop === 's' || prop === 'l' || prop === 'a')
         payload.amount = payload.amount * 0.01
 
       payload.current[prop] = payload.negative
         ? payload.current[prop] - payload.amount 
         : payload.current[prop] + payload.amount
 
-      if (prop === 's' || prop === 'l') {
+      if (prop === 's' || prop === 'l' || prop === 'a') {
         if (payload.current[prop] > 1) payload.current[prop] = 1
         if (payload.current[prop] < 0) payload.current[prop] = 0
       }
@@ -75,5 +75,5 @@ export function changeHue(els, direction, prop) {
       return payload
     })
     .forEach(({el, style, current}) =>
-      el.style[style] = new TinyColor(current).toHslString())
+      el.style[style] = new TinyColor(current).setAlpha(current.a).toHslString())
 }

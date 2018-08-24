@@ -1,28 +1,67 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { TinyColor } from '@ctrl/tinycolor'
-import { getStyles, camelToDash, createClassname } from './utils'
+import { queryPage } from './search'
+import { getStyles, camelToDash, createClassname, isOffBounds, nodeKey } from './utils'
 
-const desiredPropMap = {
-  color:                'rgb(0, 0, 0)',
-  backgroundColor:      'rgba(0, 0, 0, 0)',
-  backgroundImage:      'none',
-  backgroundSize:       'auto',
-  backgroundPosition:   '0% 0%',
-  // border:               '0px none rgb(0, 0, 0)',
-  borderRadius:         '0px',
-  padding:              '0px',
-  margin:               '0px',
-  fontFamily:           '',
-  fontSize:             '16px',
-  fontWeight:           '400',
-  textAlign:            'start',
-  textShadow:           'none',
-  textTransform:        'none',
-  lineHeight:           'normal',
-  display:              'block',
-  alignItems:           'normal',
-  justifyContent:       'normal',
+const metatipStyles = {
+  host: `
+    position: absolute;
+    z-index: 99999;
+    background: white;
+    color: hsl(0,0%,20%);
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    box-shadow: 0 0 0.5rem hsla(0,0%,0%,10%);
+    border-radius: 0.25rem;
+  `,
+  h5: `
+    display: flex;
+    font-size: 1rem;
+    font-weight: bolder;
+    margin: 0;
+  `,
+  h6: `
+    margin-top: 1rem;
+    margin-bottom: 0;
+    font-weight: normal;
+  `,
+  small: `
+    font-size: 0.7rem;
+    color: hsl(0,0%,60%);
+  `,
+  small_span: `
+    color: hsl(0,0%,20%);
+  `,
+  brand: `
+    color: hotpink;
+  `,
+  first_div: `
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 0.25rem 0.5rem;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    list-style-type: none;
+    color: hsl(0,0%,40%);
+    font-size: 0.8rem;
+    font-family: 'Dank Mono', 'Operator Mono', 'Inconsolata', 'Fira Mono', 'SF Mono', 'Monaco', 'Droid Sans Mono', 'Source Code Pro', monospace;
+  `,
+  div_value: `
+    color: hsl(0,0%,20%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+  `,
+  div_color: `
+    display: inline-block;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    margin-right: 0.25rem;
+  `,
 }
 
 let tip_map = {}
@@ -33,7 +72,7 @@ let tip_map = {}
 export function MetaTip() {
   const template = ({target: el}) => {
     const { width, height } = el.getBoundingClientRect()
-    const styles = getStyles(el, desiredPropMap)
+    const styles = getStyles(el)
       .map(style => Object.assign(style, {
         prop: camelToDash(style.prop)
       }))
@@ -67,19 +106,47 @@ export function MetaTip() {
         : 1)
     
     let tip = document.createElement('div')
-    tip.classList.add('metatip')
+    tip.classList.add('pb-metatip')
+    tip.style = metatipStyles.host
     tip.innerHTML = `
-      <h5>${el.nodeName.toLowerCase()}${el.id && '#' + el.id}${createClassname(el)}</h5>
-      <small><span>${Math.round(width)}</span>px <span divider>×</span> <span>${Math.round(height)}</span>px</small>
-      <div>${notLocalModifications.reduce((items, item) => `
+      <style>
+        h5 > a {
+          text-decoration: none;
+          color: inherit;
+        }
+        h5 > a:hover { 
+          color: hotpink; 
+          text-decoration: underline;
+        }
+        h5 > a:empty { display: none; }
+      </style>
+      <h5 style="${metatipStyles.h5}">
+        <a href="#">${el.nodeName.toLowerCase()}</a>
+        <a href="#">${el.id && '#' + el.id}</a>
+        ${createClassname(el).split('.')
+          .filter(name => name != '')
+          .reduce((links, name) => `
+            ${links}
+            <a href="#">.${name}</a>
+          `, '')
+        }
+      </h5>
+      <small style="${metatipStyles.small}">
+        <span style="${metatipStyles.small_span}">${Math.round(width)}</span>px 
+        <span divider style="${metatipStyles.brand}">×</span> 
+        <span style="${metatipStyles.small_span}">${Math.round(height)}</span>px
+      </small>
+      <div style="${metatipStyles.first_div}">${notLocalModifications.reduce((items, item) => `
         ${items}
-        <span prop>${item.prop}:</span><span value>${item.value}</span>
+        <span prop>${item.prop}:</span>
+        <span value style="${metatipStyles.div_value}">${item.value}</span>
       `, '')}</div>
       ${localModifications.length ? `
-        <h6>Local Modifications</h6>
-        <div>${localModifications.reduce((items, item) => `
+        <h6 style="${metatipStyles.h6}">Local Modifications</h6>
+        <div style="${metatipStyles.first_div}">${localModifications.reduce((items, item) => `
           ${items}
-          <span prop>${item.prop}:</span><span value>${item.value}</span>
+          <span prop>${item.prop}:</span>
+          <span value style="${metatipStyles.div_value}">${item.value}</span>
         `, '')}</div>
       ` : ''}
     `
@@ -87,24 +154,21 @@ export function MetaTip() {
     return tip
   }
 
-  const tip_key = node =>
-    `${node.nodeName}_${node.className}_${node.children.length}_${node.clientWidth}`
-
-  const tip_position = (node, e) => `
-    top: ${e.clientY > window.innerHeight / 2
+  const tip_position = (node, e) => ({
+    top: `${e.clientY > window.innerHeight / 2
       ? e.pageY - node.clientHeight
-      : e.pageY}px;
-    left: ${e.clientX > window.innerWidth / 2
+      : e.pageY}px`,
+    left: `${e.clientX > window.innerWidth / 2
       ? e.pageX - node.clientWidth - 25
-      : e.pageX + 25}px;
-  `
+      : e.pageX + 25}px`,
+  })
 
   const mouseOut = ({target}) => {
-    if (tip_map[tip_key(target)] && !target.hasAttribute('data-metatip')) {
+    if (tip_map[nodeKey(target)] && !target.hasAttribute('data-metatip')) {
       $(target).off('mouseout', mouseOut)
       $(target).off('click', togglePinned)
-      tip_map[tip_key(target)].tip.remove()
-      delete tip_map[tip_key(target)]
+      tip_map[nodeKey(target)].tip.remove()
+      delete tip_map[nodeKey(target)]
     }
   }
 
@@ -116,33 +180,49 @@ export function MetaTip() {
     }
   }
 
+  const linkQueryClicked = e => {
+    e.preventDefault()
+    e.stopPropagation()
+    queryPage(e.target.textContent)
+  }
+
   const mouseMove = e => {
-    if (e.target.closest('tool-pallete') || e.target.closest('.metatip') || e.target.closest('hotkey-map')) return
+    if (isOffBounds(e.target)) return
 
     e.altKey
       ? e.target.setAttribute('data-pinhover', true)
       : e.target.removeAttribute('data-pinhover')
 
     // if node is in our hash (already created)
-    if (tip_map[tip_key(e.target)]) {
+    if (tip_map[nodeKey(e.target)]) {
       // return if it's pinned
       if (e.target.hasAttribute('data-metatip')) 
         return
       // otherwise update position
-      const tip = tip_map[tip_key(e.target)].tip
-      tip.style = tip_position(tip, e)
+      const tip = tip_map[nodeKey(e.target)].tip
+      const {left, top} = tip_position(tip, e) 
+      tip.style.left  = left
+      tip.style.top   = top 
     }
     // create new tip
     else {
       const tip = template(e)
       document.body.appendChild(tip)
 
-      tip.style = tip_position(tip, e)
+      const {left, top} = tip_position(tip, e) 
+      tip.style.left    = left
+      tip.style.top     = top 
 
+      $('a', tip).on('click', linkQueryClicked)
       $(e.target).on('mouseout DOMNodeRemoved', mouseOut)
       $(e.target).on('click', togglePinned)
 
-      tip_map[tip_key(e.target)] = { tip, e }
+      tip_map[nodeKey(e.target)] = { tip, e }
+
+      // tip.animate([
+      //   {transform: 'translateY(-5px)', opacity: 0},
+      //   {transform: 'translateY(0)', opacity: 1}
+      // ], 150)
     }
   }
 
@@ -156,6 +236,7 @@ export function MetaTip() {
         tip.style.display = 'none'
         $(tip).off('mouseout', mouseOut)
         $(tip).off('click', togglePinned)
+        $('a', tip).off('click', linkQueryClicked)
       })
 
   const removeAll = () => {
@@ -164,6 +245,7 @@ export function MetaTip() {
         tip.remove()
         $(tip).off('mouseout', mouseOut)
         $(tip).off('click', togglePinned)
+        $('a', tip).off('click', linkQueryClicked)
       })
     
     $('[data-metatip]').attr('data-metatip', null)
