@@ -5,32 +5,30 @@ import { cursor, move, search, margin, padding, font, inspector, ruler, camera,
          type, align, transform, resize, border, hueshift, boxshadow } from './toolpallete.icons' 
 import { 
   Selectable, Moveable, Padding, Margin, EditText, Font, Flex, Search,
-  ColorPicker, BoxShadow, HueShift, MetaTip, Guides
+  ColorPicker, BoxShadow, HueShift, MetaTip, Guides, Screenshot
 } from '../features/'
 
 import { provideSelectorEnginer } from '../features/search'
 
-// todo: resize
-// todo: undo
 export default class ToolPallete extends HTMLElement {
   constructor() {
     super()
 
     this.toolbar_model = {
-      i: { tool: 'inspector', icon: inspector, label: 'Inspect', description: 'Peak into the common/current styles of an element' },
-      v: { tool: 'move', icon: move, label: 'Move', description: 'Shift things around, copy/paste, duplicate' },
-      // r: { tool: 'resize', icon: resize, label: 'Resize', description: '' },
-      m: { tool: 'margin', icon: margin, label: 'Margin', description: 'Change the margin around 1 or many selected elements' },
-      p: { tool: 'padding', icon: padding, label: 'Padding', description: 'Change the padding around 1 or many selected elements' },
-      // b: { tool: 'border', icon: border, label: 'Border', description: '' },
-      a: { tool: 'align', icon: align, label: 'Flexbox Align', description: 'Quick alignment adjustments' },
-      h: { tool: 'hueshift', icon: hueshift, label: 'Hue Shifter', description: 'Shift the brightness, saturation & hue' },
-      d: { tool: 'boxshadow', icon: boxshadow, label: 'Shadow', description: 'Move or create a shadow' },
-      // t: { tool: 'transform', icon: transform, label: '3D Transform', description: '' },
-      f: { tool: 'font', icon: font, label: 'Font Styles', description: 'Change size, leading, kerning, & weights' },
-      e: { tool: 'text', icon: type, label: 'Edit Text', description: 'Change any text on the page' },
-      c: { tool: 'camera', icon: camera, label: 'Screenshot', description: 'Screenshot selection(s)' },
+      i: { tool: 'inspector', icon: inspector, label: 'Inspect', description: 'Peak into the common & current styles of an element' },
       g: { tool: 'guides', icon: ruler, label: 'Guides', description: 'Verify alignment' },
+      v: { tool: 'move', icon: move, label: 'Move', description: 'Push elements in, out & around' },
+      // r: { tool: 'resize', icon: resize, label: 'Resize', description: '' },
+      m: { tool: 'margin', icon: margin, label: 'Margin', description: 'Add or subtract outer space' },
+      p: { tool: 'padding', icon: padding, label: 'Padding', description: 'Add or subtract inner space' },
+      // b: { tool: 'border', icon: border, label: 'Border', description: '' },
+      a: { tool: 'align', icon: align, label: 'Flexbox Align', description: 'Create or modify direction, distribution & alignment' },
+      h: { tool: 'hueshift', icon: hueshift, label: 'Hue Shift', description: 'Change fg/bg hue, brightness, saturation & opacity' },
+      d: { tool: 'boxshadow', icon: boxshadow, label: 'Shadow', description: 'Create & adjust position, blur & opacity of a box shadow' },
+      // t: { tool: 'transform', icon: transform, label: '3D Transform', description: '' },
+      f: { tool: 'font', icon: font, label: 'Font Styles', description: 'Change size, leading, kerning, & weight' },
+      e: { tool: 'text', icon: type, label: 'Edit Text', description: 'Change any text on the page' },
+      c: { tool: 'screenshot', icon: camera, label: 'Screenshot', description: 'Screenshot selected elements or the entire page' },
       s: { tool: 'search', icon: search, label: 'Search', description: 'Select elements by searching for them' },
     }
 
@@ -285,6 +283,10 @@ export default class ToolPallete extends HTMLElement {
 
   guides() {
     this.deactivate_feature = Guides()
+  }
+
+  screenshot() {
+    this.deactivate_feature = Screenshot()
   }
 
   activeTool() {
