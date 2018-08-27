@@ -103,6 +103,7 @@ export const isOffBounds = node =>
   || node.closest('hotkey-map')
   || node.closest('.pb-metatip')
   || node.closest('.pb-selectedlabel')
+  || node.closest('#pb-gridlines')
   )
 
 export const nodeKey = node =>

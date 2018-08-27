@@ -206,8 +206,10 @@ export function Selectable() {
     }
   }
 
-  const on_hover = ({target}) =>
-    !isOffBounds(target) && target.setAttribute('data-hover', true)
+  const on_hover = ({target}) => {
+    if (isOffBounds(target)) return
+    target.setAttribute('data-hover', true)
+  }
 
   const on_hoverout = ({target}) =>
     target.removeAttribute('data-hover')
@@ -228,6 +230,8 @@ export function Selectable() {
         `, '')
       }
     `)
+
+    showHandles(el)
 
     selected.unshift(el)
     tellWatchers()
@@ -354,6 +358,52 @@ export function Selectable() {
       })
 
       labels[labels.length] = label
+    }
+  }
+
+  const showHandles = node => {
+    const { x, y, width, height, top, left } = node.getBoundingClientRect()
+
+    if ($('.pb-gridlines').length) {
+      const c = $('.pb-gridlines')
+      c[0].style.top = top + 'px'
+      c[0].style.left = left + 'px'
+      c.attr({
+        width:    width + 'px', 
+        height:   height + 'px',
+        viewBox:  `0 0 ${width} ${height}`,
+      })
+    }
+    else {
+      const overlay = `
+        <svg 
+          class="pb-gridlines"
+          style="
+            position:absolute;
+            top:${top}px;
+            left:${left}px;
+            overflow:visible;
+            pointer-events:none;
+          " 
+          width="${width}" 
+          height="${height}" 
+          viewBox="0 0 ${width} ${height}" 
+          version="1.1" xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect stroke="hotpink" fill="none" width="100%" height="100%"></rect>
+          <circle stroke="hotpink" fill="white" cx="0" cy="0" r="2"></circle>
+          <circle stroke="hotpink" fill="white" cx="100%" cy="0" r="2"></circle>
+          <circle stroke="hotpink" fill="white" cx="100%" cy="100%" r="2"></circle>
+          <circle stroke="hotpink" fill="white" cx="0" cy="100%" r="2"></circle>
+        </svg>
+      `
+      // <circle fill="hotpink" cx="${width/2}" cy="0" r="2"></circle>
+      // <circle fill="hotpink" cx="0" cy="${height/2}" r="2"></circle>
+      // <circle fill="hotpink" cx="${width/2}" cy="${height}" r="2"></circle>
+      // <circle fill="hotpink" cx="${width}" cy="${height/2}" r="2"></circle>
+
+      document.body.appendChild(
+        htmlStringToDom(overlay))
     }
   }
 
