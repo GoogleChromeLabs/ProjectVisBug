@@ -56,6 +56,8 @@ const metatipStyles = {
     justify-content: flex-end;
   `,
   div_color: `
+    position: relative;
+    top: 1px;
     display: inline-block;
     width: 0.6rem;
     height: 0.6rem;
@@ -83,7 +85,7 @@ export function MetaTip() {
       )
       .map(style => {
         if (style.prop.includes('color') || style.prop.includes('Color'))
-          style.value = `<span color style="background-color: ${style.value};"></span>${new TinyColor(style.value).toHslString()}`
+          style.value = `<span color style="background-color:${style.value};${metatipStyles.div_color}"></span>${new TinyColor(style.value).toHslString()}`
 
         if (style.prop.includes('font-family') && style.value.length > 25)
           style.value = style.value.slice(0,25) + '...'
