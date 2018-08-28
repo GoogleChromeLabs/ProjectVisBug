@@ -213,8 +213,6 @@ export function Selectable() {
     target.removeAttribute('data-hover')
 
   const select = el => {
-    if (el.nodeName === 'svg' || el.ownerSVGElement) return
-
     el.setAttribute('data-selected', true)
 
     createLabel(el, `
