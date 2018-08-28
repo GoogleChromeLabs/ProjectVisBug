@@ -253,10 +253,12 @@ export default class ToolPallete extends HTMLElement {
   }
 
   font() {
+    this.selectorEngine.toggleOverlay(false)
     this.deactivate_feature = Font('[data-selected=true]')
   } 
 
   text() {
+    this.selectorEngine.toggleOverlay(false)
     this.selectorEngine.onSelectedUpdate(EditText)
     this.deactivate_feature = () => 
       this.selectorEngine.removeSelectedCallback(EditText)
@@ -271,14 +273,17 @@ export default class ToolPallete extends HTMLElement {
   }
 
   boxshadow() {
+    this.selectorEngine.toggleOverlay(false)
     this.deactivate_feature = BoxShadow('[data-selected=true]')
   }
 
   hueshift() {
+    this.selectorEngine.toggleOverlay(false)
     this.deactivate_feature = HueShift('[data-selected=true]')
   }
 
   inspector() {
+    this.selectorEngine.toggleOverlay(false)
     this.deactivate_feature = MetaTip()
   }
 

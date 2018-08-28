@@ -213,8 +213,9 @@ export function Selectable() {
     showOverlay(target)
   }
 
-  const on_hoverout = ({target}) =>
+  const on_hoverout = ({target}) => {
     hideOverlay()
+  }
 
   const select = el => {
     if (el.nodeName === 'svg' || el.ownerSVGElement) return
@@ -427,8 +428,8 @@ export function Selectable() {
             class="pb-overlay"
             style="
               position:absolute;
-              top:${top}px;
-              left:${left}px;
+              top:0;
+              left:0;
               overflow:visible;
               pointer-events:none;
               z-index: 999;

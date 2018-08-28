@@ -10,6 +10,7 @@ export function Guides() {
   return () => {
     $('body').off('mouseover', on_hover)
     $('body').off('mouseout', on_hoverout)
+    hideGridlines()
   }
 }
 
