@@ -373,6 +373,12 @@ export function Selectable() {
         height:   height + 'px',
         viewBox:  `0 0 ${width} ${height}`,
       })
+      c[0].children[5].setAttribute('cx', width / 2)
+      c[0].children[6].setAttribute('cy', height / 2)
+      c[0].children[7].setAttribute('cx', width / 2)
+      c[0].children[7].setAttribute('cy', height)
+      c[0].children[8].setAttribute('cx', width)
+      c[0].children[8].setAttribute('cy', height / 2)
     }
     else {
       const overlay = `
@@ -395,12 +401,12 @@ export function Selectable() {
           <circle stroke="hotpink" fill="white" cx="100%" cy="0" r="2"></circle>
           <circle stroke="hotpink" fill="white" cx="100%" cy="100%" r="2"></circle>
           <circle stroke="hotpink" fill="white" cx="0" cy="100%" r="2"></circle>
+          <circle fill="hotpink" cx="${width/2}" cy="0" r="2"></circle>
+          <circle fill="hotpink" cx="0" cy="${height/2}" r="2"></circle>
+          <circle fill="hotpink" cx="${width/2}" cy="${height}" r="2"></circle>
+          <circle fill="hotpink" cx="${width}" cy="${height/2}" r="2"></circle>
         </svg>
       `
-      // <circle fill="hotpink" cx="${width/2}" cy="0" r="2"></circle>
-      // <circle fill="hotpink" cx="0" cy="${height/2}" r="2"></circle>
-      // <circle fill="hotpink" cx="${width/2}" cy="${height}" r="2"></circle>
-      // <circle fill="hotpink" cx="${width}" cy="${height/2}" r="2"></circle>
 
       document.body.appendChild(
         htmlStringToDom(overlay))
