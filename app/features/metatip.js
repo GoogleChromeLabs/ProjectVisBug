@@ -165,8 +165,9 @@ export function MetaTip() {
 
   const mouseOut = ({target}) => {
     if (tip_map[nodeKey(target)] && !target.hasAttribute('data-metatip')) {
-      $(target).off('mouseout', mouseOut)
-      $(target).off('click', togglePinned)
+      target.removeEventListener('mouseout', mouseOut)
+      target.removeEventListener('DOMNodeRemoved', mouseOut)
+      target.removeEventListener('click', togglePinned)
       tip_map[nodeKey(target)].tip.remove()
       delete tip_map[nodeKey(target)]
     }
@@ -214,8 +215,9 @@ export function MetaTip() {
       tip.style.top     = top 
 
       $('a', tip).on('click', linkQueryClicked)
-      $(e.target).on('mouseout DOMNodeRemoved', mouseOut)
-      $(e.target).on('click', togglePinned)
+      e.target.addEventListener('mouseout', mouseOut)
+      e.target.addEventListener('DOMNodeRemoved', mouseOut)
+      e.target.addEventListener('click', togglePinned)
 
       tip_map[nodeKey(e.target)] = { tip, e }
 
@@ -234,18 +236,20 @@ export function MetaTip() {
     Object.values(tip_map)
       .forEach(({tip}) => {
         tip.style.display = 'none'
-        $(tip).off('mouseout', mouseOut)
-        $(tip).off('click', togglePinned)
-        $('a', tip).off('click', linkQueryClicked)
+        tip.removeEventListener('mouseout', mouseOut)
+        tip.removeEventListener('DOMNodeRemoved', mouseOut)
+        tip.removeEventListener('click', togglePinned)
+        // $('a', tip).off('click', linkQueryClicked)
       })
 
   const removeAll = () => {
     Object.values(tip_map)
       .forEach(({tip}) => {
         tip.remove()
-        $(tip).off('mouseout', mouseOut)
-        $(tip).off('click', togglePinned)
-        $('a', tip).off('click', linkQueryClicked)
+        tip.removeEventListener('mouseout', mouseOut)
+        tip.removeEventListener('DOMNodeRemoved', mouseOut)
+        tip.removeEventListener('click', togglePinned)
+        // $('a', tip).off('click', linkQueryClicked)
       })
     
     $('[data-metatip]').attr('data-metatip', null)

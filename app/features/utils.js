@@ -36,8 +36,8 @@ export const desiredPropMap = {
   display:              'block',
   alignItems:           'normal',
   justifyContent:       'normal',
-  fill:                 'color',
-  stroke:               'color',
+  fill:                 'rgb(0, 0, 0)',
+  stroke:               'none',
 }
 
 export const getStyles = el => {
