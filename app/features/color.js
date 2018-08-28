@@ -9,11 +9,17 @@ export function ColorPicker(pallete, selectorEngine) {
   // set colors
   foregroundPicker.on('input', e =>
     $('[data-selected=true]').map(el =>
-      el.style.color = e.target.value))
+      el.style[el instanceof SVGElement
+        ? 'stroke'
+        : 'color'
+      ] = e.target.value))
 
   backgroundPicker.on('input', e =>
     $('[data-selected=true]').map(el =>
-      el.style.backgroundColor = e.target.value))
+      el.style[el instanceof SVGElement
+        ? 'fill'
+        : 'backgroundColor'
+      ] = e.target.value))
 
   // read colors
   selectorEngine.onSelectedUpdate(elements => {

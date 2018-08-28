@@ -47,12 +47,27 @@ export function changeHue(els, direction, prop) {
   els
     .map(el => showHideSelected(el))
     .map(el => {
-      const FG = new TinyColor(getStyle(el, 'color'))
-      const BG = new TinyColor(getStyle(el, 'backgroundColor'))
+      let FG, BG, fgStyle, bgStyle
+
+      if (el instanceof SVGElement) {
+        var fg_temp = getStyle(el, 'stroke')
+        FG = new TinyColor(fg_temp === 'none'
+          ? 'rgb(0, 0, 0)'
+          : fg_temp)
+        BG = new TinyColor(getStyle(el, 'fill'))
+        fgStyle = 'stroke'
+        bgStyle = 'fill'
+      }
+      else {
+        FG = new TinyColor(getStyle(el, 'color'))
+        BG = new TinyColor(getStyle(el, 'backgroundColor'))
+        fgStyle = 'color'
+        bgStyle = 'backgroundColor'
+      }
       
       return BG.originalInput != 'rgba(0, 0, 0, 0)'             // if bg is set to a value
-        ? { el, current: BG.toHsl(), style: 'backgroundColor' } // use bg
-        : { el, current: FG.toHsl(), style: 'color' }           // else use fg
+        ? { el, current: BG.toHsl(), style: bgStyle } // use bg
+        : { el, current: FG.toHsl(), style: fgStyle }           // else use fg
     })
     .map(payload =>
       Object.assign(payload, {
