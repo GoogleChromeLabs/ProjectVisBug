@@ -84,7 +84,7 @@ export function MetaTip() {
           : true
       )
       .map(style => {
-        if (style.prop.includes('color') || style.prop.includes('Color'))
+        if (style.prop.includes('color') || style.prop.includes('Color') || style.prop.includes('fill') || style.prop.includes('stroke'))
           style.value = `<span color style="background-color:${style.value};${metatipStyles.div_color}"></span>${new TinyColor(style.value).toHslString()}`
 
         if (style.prop.includes('font-family') && style.value.length > 25)
@@ -217,9 +217,8 @@ export function MetaTip() {
       tip.style.top     = top 
 
       $('a', tip).on('click', linkQueryClicked)
-      e.target.addEventListener('mouseout', mouseOut)
-      e.target.addEventListener('DOMNodeRemoved', mouseOut)
-      e.target.addEventListener('click', togglePinned)
+      $(e.target).on('mouseout DOMNodeRemoved', mouseOut)
+      $(e.target).on('click', togglePinned)
 
       tip_map[nodeKey(e.target)] = { tip, e }
 
@@ -238,20 +237,18 @@ export function MetaTip() {
     Object.values(tip_map)
       .forEach(({tip}) => {
         tip.style.display = 'none'
-        tip.removeEventListener('mouseout', mouseOut)
-        tip.removeEventListener('DOMNodeRemoved', mouseOut)
-        tip.removeEventListener('click', togglePinned)
-        // $('a', tip).off('click', linkQueryClicked)
+        $(tip).off('mouseout DOMNodeRemoved', mouseOut)
+        $(tip).off('click', togglePinned)
+        $('a', tip).off('click', linkQueryClicked)
       })
 
   const removeAll = () => {
     Object.values(tip_map)
       .forEach(({tip}) => {
         tip.remove()
-        tip.removeEventListener('mouseout', mouseOut)
-        tip.removeEventListener('DOMNodeRemoved', mouseOut)
-        tip.removeEventListener('click', togglePinned)
-        // $('a', tip).off('click', linkQueryClicked)
+        $(tip).off('mouseout DOMNodeRemoved', mouseOut)
+        $(tip).off('click', togglePinned)
+        $('a', tip).off('click', linkQueryClicked)
       })
     
     $('[data-metatip]').attr('data-metatip', null)

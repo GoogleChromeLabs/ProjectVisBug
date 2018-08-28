@@ -21,11 +21,22 @@ export function ColorPicker(pallete, selectorEngine) {
 
     let isMeaningfulForeground = false
     let isMeaningfulBackground = false
+    let FG, BG
 
     if (elements.length <= 2) {
       const el = elements[0]
-      const FG = new TinyColor(getStyle(el, 'color'))
-      const BG = new TinyColor(getStyle(el, 'backgroundColor'))
+
+      if (el instanceof SVGElement) {
+        var fg_temp = getStyle(el, 'stroke')
+        FG = new TinyColor(fg_temp === 'none'
+          ? 'rgb(0, 0, 0)'
+          : fg_temp)
+        BG = new TinyColor(getStyle(el, 'fill'))
+      }
+      else {
+        FG = new TinyColor(getStyle(el, 'color'))
+        BG = new TinyColor(getStyle(el, 'backgroundColor'))
+      }
 
       let fg = FG.toHexString()
       let bg = BG.toHexString()
