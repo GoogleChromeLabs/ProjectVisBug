@@ -69,6 +69,7 @@ export default class ToolPallete extends HTMLElement {
     if (this.active_tool) {
       this.active_tool.attr('data-active', null)
       this.deactivate_feature()
+      this.selectorEngine.toggleOverlay(true)
     }
 
     el.attr('data-active', true)
@@ -282,6 +283,7 @@ export default class ToolPallete extends HTMLElement {
   }
 
   guides() {
+    this.selectorEngine.toggleOverlay(false)
     this.deactivate_feature = Guides()
   }
 

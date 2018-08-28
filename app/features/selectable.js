@@ -13,6 +13,8 @@ export function Selectable() {
   let selectedCallbacks   = []
   let labels              = []
 
+  this.showHoverOverlay = true
+
   const listen = () => {
     elements.on('click', on_click)
     elements.on('dblclick', on_dblclick)
@@ -207,12 +209,12 @@ export function Selectable() {
   }
 
   const on_hover = ({target}) => {
-    if (isOffBounds(target)) return
-    target.setAttribute('data-hover', true)
+    if (isOffBounds(target) || !this.showHoverOverlay) return
+    showOverlay(target)
   }
 
   const on_hoverout = ({target}) =>
-    target.removeAttribute('data-hover')
+    hideOverlay()
 
   const select = el => {
     if (el.nodeName === 'svg' || el.ownerSVGElement) return
@@ -364,35 +366,32 @@ export function Selectable() {
   const showHandles = node => {
     const { x, y, width, height, top, left } = node.getBoundingClientRect()
 
-    if ($('.pb-gridlines').length) {
-      const c = $('.pb-gridlines')
-      c[0].style.top = top + 'px'
-      c[0].style.left = left + 'px'
-      c.attr({
-        width:    width + 'px', 
-        height:   height + 'px',
-        viewBox:  `0 0 ${width} ${height}`,
-      })
-      c[0].children[5].setAttribute('cx', width / 2)
-      c[0].children[6].setAttribute('cy', height / 2)
-      c[0].children[7].setAttribute('cx', width / 2)
-      c[0].children[7].setAttribute('cy', height)
-      c[0].children[8].setAttribute('cx', width)
-      c[0].children[8].setAttribute('cy', height / 2)
+    if (this.handles) {
+      this.handles.style.top = top + 'px'
+      this.handles.style.left = left + 'px'
+      this.handles.setAttribute('width', width + 'px')
+      this.handles.setAttribute('height', height + 'px')
+      this.handles.setAttribute('viewBox', `0 0 ${width} ${height}`)
+      this.handles.children[5].setAttribute('cx', width / 2)
+      this.handles.children[6].setAttribute('cy', height / 2)
+      this.handles.children[7].setAttribute('cx', width / 2)
+      this.handles.children[7].setAttribute('cy', height)
+      this.handles.children[8].setAttribute('cx', width)
+      this.handles.children[8].setAttribute('cy', height / 2)
     }
     else {
-      const overlay = `
+      this.handles = htmlStringToDom(`
         <svg 
-          class="pb-gridlines"
+          class="pb-handles"
           style="
             position:absolute;
             top:${top}px;
             left:${left}px;
             overflow:visible;
             pointer-events:none;
+            z-index: 999;
           " 
-          width="${width}" 
-          height="${height}" 
+          width="${width}" height="${height}" 
           viewBox="0 0 ${width} ${height}" 
           version="1.1" xmlns="http://www.w3.org/2000/svg"
         >
@@ -406,12 +405,56 @@ export function Selectable() {
           <circle fill="hotpink" cx="${width/2}" cy="${height}" r="2"></circle>
           <circle fill="hotpink" cx="${width}" cy="${height/2}" r="2"></circle>
         </svg>
-      `
+      `)
 
-      document.body.appendChild(
-        htmlStringToDom(overlay))
+      document.body.appendChild(this.handles)
     }
   }
+
+  const showOverlay = node => {
+    const { x, y, width, height, top, left } = node.getBoundingClientRect()
+
+    if (this.hoverOverlay) {
+      this.hoverOverlay.style.display = 'block'
+      this.hoverOverlay.children[0].setAttribute('width', width + 'px')
+      this.hoverOverlay.children[0].setAttribute('height', height + 'px')
+      this.hoverOverlay.children[0].setAttribute('x', left)
+      this.hoverOverlay.children[0].setAttribute('y', top)
+    }
+    else {
+      this.hoverOverlay = htmlStringToDom(`
+        <svg 
+            class="pb-overlay"
+            style="
+              position:absolute;
+              top:${top}px;
+              left:${left}px;
+              overflow:visible;
+              pointer-events:none;
+              z-index: 999;
+            " 
+            width="${width}" height="${height}" 
+            viewBox="0 0 ${width} ${height}" 
+            version="1.1" xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect 
+              fill="hsla(330, 100%, 71%, 0.5)"
+              width="100%" height="100%"
+            ></rect>
+          </svg>
+      `)
+
+      document.body.appendChild(this.hoverOverlay)
+    }
+  }
+
+  const hideOverlay = node => {
+    if (!this.hoverOverlay) return
+    this.hoverOverlay.style.display = 'none'
+  }
+
+  const toggleOverlay = show =>
+    this.showHoverOverlay = show
 
   const createObserver = (node, label) => 
     new MutationObserver(list =>
@@ -440,5 +483,6 @@ export function Selectable() {
     onSelectedUpdate,
     removeSelectedCallback,
     disconnect,
+    toggleOverlay,
   }
 }
