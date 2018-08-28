@@ -56,6 +56,8 @@ const metatipStyles = {
     justify-content: flex-end;
   `,
   div_color: `
+    position: relative;
+    top: 1px;
     display: inline-block;
     width: 0.6rem;
     height: 0.6rem;
