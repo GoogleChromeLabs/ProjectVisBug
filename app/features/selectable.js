@@ -209,12 +209,14 @@ export function Selectable() {
   }
 
   const on_hover = ({target}) => {
-    if (isOffBounds(target) || !this.showHoverOverlay) return
-    showOverlay(target)
+    if (isOffBounds(target)) return
+    // this.showHoverOverlay && showOverlay(target)
+    target.setAttribute('data-hover', true)
   }
 
   const on_hoverout = ({target}) => {
     hideOverlay()
+    target.removeAttribute('data-hover')
   }
 
   const select = el => {
