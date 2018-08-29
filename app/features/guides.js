@@ -27,7 +27,7 @@ export function createGuide(vert = true) {
     left: 0;
     background: hsla(330, 100%, 71%, 70%);
     pointer-events: none;
-    z-index: 99999999;
+    z-index: 9997;
   `
 
   vert 
@@ -96,7 +96,7 @@ const showGridlines = node => {
     gridlines = htmlStringToDom(`
       <svg 
         class="pb-gridlines"
-        style="position:fixed;top:0;left:0;overflow:visible;pointer-events:none;z-index:998;" 
+        style="position:fixed;top:0;left:0;overflow:visible;pointer-events:none;z-index:9997;" 
         width="100%" height="100%" 
         viewBox="0 0 ${winWidth} ${winHeight}" 
         version="1.1" xmlns="http://www.w3.org/2000/svg"

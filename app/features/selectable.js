@@ -209,8 +209,8 @@ export function Selectable() {
   }
 
   const on_hover = ({target}) => {
-    if (isOffBounds(target)) return
-    // this.showHoverOverlay && showOverlay(target)
+    if (isOffBounds(target) || !this.showHoverOverlay) return
+    // showOverlay(target)
     target.setAttribute('data-hover', true)
   }
 
@@ -297,7 +297,7 @@ export function Selectable() {
 
   const setLabel = (el, label) => {
     const { x, y } = el.getBoundingClientRect()
-    label.style.top  = y + window.scrollY - 1 + 'px'
+    label.style.top  = y + window.scrollY + 'px'
     label.style.left = x - 1 + 'px'
   }
 
@@ -307,7 +307,7 @@ export function Selectable() {
       label.classList.add('pb-selectedlabel')
       label.style = `
         position: absolute;
-        z-index: 9999;
+        z-index: 9998;
         transform: translateY(-100%);
         background: hsla(330, 100%, 71%, 80%);
         color: white;
@@ -390,7 +390,7 @@ export function Selectable() {
             left: ${left}px;
             overflow: visible;
             pointer-events: none;
-            z-index: 999;
+            z-index: 9999;
           " 
           width="${width}" height="${height}" 
           viewBox="0 0 ${width} ${height}" 
