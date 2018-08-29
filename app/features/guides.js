@@ -96,7 +96,7 @@ const showGridlines = node => {
     gridlines = htmlStringToDom(`
       <svg 
         class="pb-gridlines"
-        style="position:absolute;top:0;left:0;overflow:visible;pointer-events:none;z-index:998;" 
+        style="position:fixed;top:0;left:0;overflow:visible;pointer-events:none;z-index:998;" 
         width="100%" height="100%" 
         viewBox="0 0 ${winWidth} ${winHeight}" 
         version="1.1" xmlns="http://www.w3.org/2000/svg"

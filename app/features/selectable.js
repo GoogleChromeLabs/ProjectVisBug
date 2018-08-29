@@ -366,7 +366,7 @@ export function Selectable() {
     const { x, y, width, height, top, left } = node.getBoundingClientRect()
 
     if (this.handles) {
-      this.handles.style.top = top + 'px'
+      this.handles.style.top = top + window.scrollY + 'px'
       this.handles.style.left = left + 'px'
       this.handles.setAttribute('width', width + 'px')
       this.handles.setAttribute('height', height + 'px')
@@ -383,11 +383,11 @@ export function Selectable() {
         <svg 
           class="pb-handles"
           style="
-            position:absolute;
-            top:${top}px;
-            left:${left}px;
-            overflow:visible;
-            pointer-events:none;
+            position: absolute;
+            top: ${top + window.scrollY}px;
+            left: ${left}px;
+            overflow: visible;
+            pointer-events: none;
             z-index: 999;
           " 
           width="${width}" height="${height}" 
