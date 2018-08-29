@@ -3,7 +3,7 @@ body {
 }
 
 [data-hover=true] {
-  outline: 1px dashed hsla(330, 80%, 71%, 30%);
+  outline: 1px dashed hsla(330, 80%, 71%, 50%);
 }
 
 [data-selected=true] {
