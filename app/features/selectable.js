@@ -5,13 +5,14 @@ import { EditText } from './text'
 import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
 import { queryPage } from './search'
-import { htmlStringToDom, createClassname, isOffBounds, getStyles } from './utils'
+import { htmlStringToDom, createClassname, isOffBounds, getStyles, nodeKey } from './utils'
 
 export function Selectable() {
   const elements          = $('body')
   let selected            = []
   let selectedCallbacks   = []
   let labels              = []
+  let handle_map          = {}
 
   this.showHoverOverlay = true
 
@@ -250,18 +251,23 @@ export function Selectable() {
           'data-hover':         null,
         }))
 
+    Object.values(handle_map).forEach(el =>
+      el.remove())
+
     labels.forEach(el =>
       el.remove())
 
     labels    = []
+    handle_map   = {}
     selected  = []
   }
 
   const delete_all = () => {
-    [...selected, ...labels].forEach(el =>
+    [...selected, ...labels, ...Object.values(handle_map)].forEach(el =>
       el.remove())
 
     labels   = []
+    handles  = {}
     selected = []
   }
 
@@ -367,21 +373,22 @@ export function Selectable() {
   const showHandles = node => {
     const { x, y, width, height, top, left } = node.getBoundingClientRect()
 
-    if (this.handles) {
-      this.handles.style.top = top + window.scrollY + 'px'
-      this.handles.style.left = left + 'px'
-      this.handles.setAttribute('width', width + 'px')
-      this.handles.setAttribute('height', height + 'px')
-      this.handles.setAttribute('viewBox', `0 0 ${width} ${height}`)
-      this.handles.children[5].setAttribute('cx', width / 2)
-      this.handles.children[6].setAttribute('cy', height / 2)
-      this.handles.children[7].setAttribute('cx', width / 2)
-      this.handles.children[7].setAttribute('cy', height)
-      this.handles.children[8].setAttribute('cx', width)
-      this.handles.children[8].setAttribute('cy', height / 2)
-    }
-    else {
-      this.handles = htmlStringToDom(`
+    // if (handles[nodeKey(node)]) {
+    //   const handle = handles[nodeKey(node)]
+    //   handle.style.top = top + window.scrollY + 'px'
+    //   handle.style.left = left + 'px'
+    //   handle.setAttribute('width', width + 'px')
+    //   handle.setAttribute('height', height + 'px')
+    //   handle.setAttribute('viewBox', `0 0 ${width} ${height}`)
+    //   handle.children[5].setAttribute('cx', width / 2)
+    //   handle.children[6].setAttribute('cy', height / 2)
+    //   handle.children[7].setAttribute('cx', width / 2)
+    //   handle.children[7].setAttribute('cy', height)
+    //   handle.children[8].setAttribute('cx', width)
+    //   handle.children[8].setAttribute('cy', height / 2)
+    // }
+    // else {
+      handle_map[nodeKey(node)] = htmlStringToDom(`
         <svg 
           class="pb-handles"
           style="
@@ -408,8 +415,8 @@ export function Selectable() {
         </svg>
       `)
 
-      document.body.appendChild(this.handles)
-    }
+      document.body.appendChild(handle_map[nodeKey(node)])
+    // }
   }
 
   const showOverlay = node => {
