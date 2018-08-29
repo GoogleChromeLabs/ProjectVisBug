@@ -56,6 +56,8 @@ const metatipStyles = {
     justify-content: flex-end;
   `,
   div_color: `
+    position: relative;
+    top: 1px;
     display: inline-block;
     width: 0.6rem;
     height: 0.6rem;
@@ -82,8 +84,8 @@ export function MetaTip() {
           : true
       )
       .map(style => {
-        if (style.prop.includes('color') || style.prop.includes('Color'))
-          style.value = `<span color style="background-color: ${style.value};"></span>${new TinyColor(style.value).toHslString()}`
+        if (style.prop.includes('color') || style.prop.includes('Color') || style.prop.includes('fill') || style.prop.includes('stroke'))
+          style.value = `<span color style="background-color:${style.value};${metatipStyles.div_color}"></span>${new TinyColor(style.value).toHslString()}`
 
         if (style.prop.includes('font-family') && style.value.length > 25)
           style.value = style.value.slice(0,25) + '...'
@@ -165,8 +167,9 @@ export function MetaTip() {
 
   const mouseOut = ({target}) => {
     if (tip_map[nodeKey(target)] && !target.hasAttribute('data-metatip')) {
-      $(target).off('mouseout', mouseOut)
-      $(target).off('click', togglePinned)
+      target.removeEventListener('mouseout', mouseOut)
+      target.removeEventListener('DOMNodeRemoved', mouseOut)
+      target.removeEventListener('click', togglePinned)
       tip_map[nodeKey(target)].tip.remove()
       delete tip_map[nodeKey(target)]
     }
@@ -234,7 +237,7 @@ export function MetaTip() {
     Object.values(tip_map)
       .forEach(({tip}) => {
         tip.style.display = 'none'
-        $(tip).off('mouseout', mouseOut)
+        $(tip).off('mouseout DOMNodeRemoved', mouseOut)
         $(tip).off('click', togglePinned)
         $('a', tip).off('click', linkQueryClicked)
       })
@@ -243,7 +246,7 @@ export function MetaTip() {
     Object.values(tip_map)
       .forEach(({tip}) => {
         tip.remove()
-        $(tip).off('mouseout', mouseOut)
+        $(tip).off('mouseout DOMNodeRemoved', mouseOut)
         $(tip).off('click', togglePinned)
         $('a', tip).off('click', linkQueryClicked)
       })

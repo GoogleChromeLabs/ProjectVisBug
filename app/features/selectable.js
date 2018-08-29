@@ -218,8 +218,6 @@ export function Selectable() {
   }
 
   const select = el => {
-    if (el.nodeName === 'svg' || el.ownerSVGElement) return
-
     el.setAttribute('data-selected', true)
 
     createLabel(el, `

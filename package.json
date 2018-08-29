@@ -1,6 +1,6 @@
 {
   "name": "PixelBug",
-  "version": "0.0.82",
+  "version": "0.0.83",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,7 @@
   "license": "ISC",
   "dependencies": {
     "@ctrl/tinycolor": "^2.0.0",
-    "blingblingjs": "^2.0.0",
+    "blingblingjs": "^2.0.1",
     "hotkeys-js": "^3.3.5",
     "ragrid": "^1.0.5"
   },
