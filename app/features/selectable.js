@@ -289,13 +289,13 @@ export function Selectable() {
 
   const overlayMetaUI = el => {
     let label = createLabel(el, `
-      <a href="#">${el.nodeName.toLowerCase()}</a>
-      <a href="#">${el.id && '#' + el.id}</a>
+      <a>${el.nodeName.toLowerCase()}</a>
+      <a>${el.id && '#' + el.id}</a>
       ${createClassname(el).split('.')
         .filter(name => name != '')
         .reduce((links, name) => `
           ${links}
-          <a href="#">.${name}</a>
+          <a>.${name}</a>
         `, '')
       }
     `)

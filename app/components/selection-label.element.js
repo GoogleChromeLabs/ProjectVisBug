@@ -71,6 +71,7 @@ export default class SelectionLabel extends HTMLElement {
         :host a {
           text-decoration: none;
           color: inherit;
+          cursor: pointer;
         }
 
         :host a:hover {
