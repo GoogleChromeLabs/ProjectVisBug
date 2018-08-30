@@ -76,11 +76,13 @@ export const showHideNodeLabel = (el, show = false) => {
   if (!el.hasAttribute('data-label-id')) 
     return
 
-  const node = $(`body > div[data-label-id="${el.getAttribute('data-label-id')}"]`)[0]
+  const nodes = $(`body > [data-label-id="${el.getAttribute('data-label-id')}"]`)
 
-  node && show
-    ? node.style.display = 'none'
-    : node.style.display = null
+  nodes.length && show
+    ? nodes.forEach(el =>
+        el.style.display = 'none')
+    : nodes.forEach(el =>
+        el.style.display = null)
 }
 
 export const camelToDash = (camelString = "") =>

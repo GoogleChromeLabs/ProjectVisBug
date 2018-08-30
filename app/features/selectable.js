@@ -373,50 +373,54 @@ export function Selectable() {
   const showHandles = node => {
     const { x, y, width, height, top, left } = node.getBoundingClientRect()
 
-    // if (handles[nodeKey(node)]) {
-    //   const handle = handles[nodeKey(node)]
-    //   handle.style.top = top + window.scrollY + 'px'
-    //   handle.style.left = left + 'px'
-    //   handle.setAttribute('width', width + 'px')
-    //   handle.setAttribute('height', height + 'px')
-    //   handle.setAttribute('viewBox', `0 0 ${width} ${height}`)
-    //   handle.children[5].setAttribute('cx', width / 2)
-    //   handle.children[6].setAttribute('cy', height / 2)
-    //   handle.children[7].setAttribute('cx', width / 2)
-    //   handle.children[7].setAttribute('cy', height)
-    //   handle.children[8].setAttribute('cx', width)
-    //   handle.children[8].setAttribute('cy', height / 2)
-    // }
-    // else {
-      handle_map[nodeKey(node)] = htmlStringToDom(`
-        <svg 
-          class="pb-handles"
-          style="
-            position: absolute;
-            top: ${top + window.scrollY}px;
-            left: ${left}px;
-            overflow: visible;
-            pointer-events: none;
-            z-index: 9999;
-          " 
-          width="${width}" height="${height}" 
-          viewBox="0 0 ${width} ${height}" 
-          version="1.1" xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect stroke="hotpink" fill="none" width="100%" height="100%"></rect>
-          <circle stroke="hotpink" fill="white" cx="0" cy="0" r="2"></circle>
-          <circle stroke="hotpink" fill="white" cx="100%" cy="0" r="2"></circle>
-          <circle stroke="hotpink" fill="white" cx="100%" cy="100%" r="2"></circle>
-          <circle stroke="hotpink" fill="white" cx="0" cy="100%" r="2"></circle>
-          <circle fill="hotpink" cx="${width/2}" cy="0" r="2"></circle>
-          <circle fill="hotpink" cx="0" cy="${height/2}" r="2"></circle>
-          <circle fill="hotpink" cx="${width/2}" cy="${height}" r="2"></circle>
-          <circle fill="hotpink" cx="${width}" cy="${height/2}" r="2"></circle>
-        </svg>
-      `)
+    handle_map[nodeKey(node)] = htmlStringToDom(`
+      <svg 
+        class="pb-handles"
+        data-label-id="${node.getAttribute('data-label-id')}"
+        style="
+          position: absolute;
+          top: ${top + window.scrollY}px;
+          left: ${left}px;
+          overflow: visible;
+          pointer-events: none;
+          z-index: 9999;
+        " 
+        width="${width}" height="${height}" 
+        viewBox="0 0 ${width} ${height}" 
+        version="1.1" xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect stroke="hotpink" fill="none" width="100%" height="100%"></rect>
+        <circle stroke="hotpink" fill="white" cx="0" cy="0" r="2"></circle>
+        <circle stroke="hotpink" fill="white" cx="100%" cy="0" r="2"></circle>
+        <circle stroke="hotpink" fill="white" cx="100%" cy="100%" r="2"></circle>
+        <circle stroke="hotpink" fill="white" cx="0" cy="100%" r="2"></circle>
+        <circle fill="hotpink" cx="${width/2}" cy="0" r="2"></circle>
+        <circle fill="hotpink" cx="0" cy="${height/2}" r="2"></circle>
+        <circle fill="hotpink" cx="${width/2}" cy="${height}" r="2"></circle>
+        <circle fill="hotpink" cx="${width}" cy="${height/2}" r="2"></circle>
+      </svg>
+    `)
 
-      document.body.appendChild(handle_map[nodeKey(node)])
-    // }
+    document.body.appendChild(handle_map[nodeKey(node)])
+  }
+
+  const setHandles = node => {
+    if (handle_map[nodeKey(node)]) {
+      const { x, y, width, height, top, left } = node.getBoundingClientRect()
+      const handle = handle_map[nodeKey(node)]
+
+      handle.style.top = top + window.scrollY + 'px'
+      handle.style.left = left + 'px'
+      handle.setAttribute('width', width + 'px')
+      handle.setAttribute('height', height + 'px')
+      handle.setAttribute('viewBox', `0 0 ${width} ${height}`)
+      handle.children[5].setAttribute('cx', width / 2)
+      handle.children[6].setAttribute('cy', height / 2)
+      handle.children[7].setAttribute('cx', width / 2)
+      handle.children[7].setAttribute('cy', height)
+      handle.children[8].setAttribute('cx', width)
+      handle.children[8].setAttribute('cy', height / 2)
+    }
   }
 
   const showOverlay = node => {
@@ -465,8 +469,10 @@ export function Selectable() {
     this.showHoverOverlay = show
 
   const createObserver = (node, label) => 
-    new MutationObserver(list =>
-      setLabel(node, label))
+    new MutationObserver(list => {
+      setLabel(node, label)
+      setHandles(node)
+    })
 
   const onSelectedUpdate = cb =>
     selectedCallbacks.push(cb) && cb(selected)
