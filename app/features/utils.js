@@ -76,11 +76,13 @@ export const showHideNodeLabel = (el, show = false) => {
   if (!el.hasAttribute('data-label-id')) 
     return
 
-  const node = $(`body > div[data-label-id="${el.getAttribute('data-label-id')}"]`)[0]
+  const nodes = $(`body > [data-label-id="${el.getAttribute('data-label-id')}"]`)
 
-  node && show
-    ? node.style.display = 'none'
-    : node.style.display = null
+  nodes.length && show
+    ? nodes.forEach(el =>
+        el.style.display = 'none')
+    : nodes.forEach(el =>
+        el.style.display = null)
 }
 
 export const camelToDash = (camelString = "") =>
@@ -104,8 +106,23 @@ export const isOffBounds = node =>
   (node.closest('tool-pallete') 
   || node.closest('hotkey-map')
   || node.closest('.pb-metatip')
-  || node.closest('.pb-selectedlabel')
+  || node.closest('pb-label')
+  || node.closest('pb-handles')
+  || node.closest('pb-gridlines')
   )
 
-export const nodeKey = node =>
-  `${node.nodeName}_${node.className}_${[...node.parentNode.children].indexOf(node)}_${node.children.length}_${node.clientWidth}`
+export const nodeKey = node => {
+  let tree = []
+  let furthest_leaf = node
+
+  while (furthest_leaf) {
+    tree.push(furthest_leaf)
+    furthest_leaf = furthest_leaf.parentNode
+      ? furthest_leaf.parentNode
+      : false
+  }
+
+  return tree.reduce((path, branch) => `
+    ${path}${branch.tagName}_${branch.className}_${[...node.parentNode.children].indexOf(node)}_${node.children.length}
+  `, '')
+}

@@ -12,9 +12,12 @@ export function Selectable() {
   let selected            = []
   let selectedCallbacks   = []
   let labels              = []
+  let handles             = []
+
+  this.showHoverOverlay = true
 
   const listen = () => {
-    elements.on('click', on_click)
+    elements.forEach(el => el.addEventListener('click', on_click, true))
     elements.on('dblclick', on_dblclick)
     elements.on('selectstart', on_selection)
     elements.on('mouseover', on_hover)
@@ -36,7 +39,7 @@ export function Selectable() {
   }
 
   const unlisten = () => {
-    elements.off('click', on_click)
+    elements.forEach(el => el.removeEventListener('click', on_click))
     elements.off('dblclick', on_dblclick)
     elements.off('selectstart', on_selection)
     elements.off('mouseover', on_hover)
@@ -206,27 +209,20 @@ export function Selectable() {
     }
   }
 
-  const on_hover = ({target}) =>
-    !isOffBounds(target) && target.setAttribute('data-hover', true)
+  const on_hover = ({target}) => {
+    if (isOffBounds(target) || !this.showHoverOverlay) return
+    // showOverlay(target)
+    target.setAttribute('data-hover', true)
+  }
 
-  const on_hoverout = ({target}) =>
+  const on_hoverout = ({target}) => {
+    hideOverlay()
     target.removeAttribute('data-hover')
+  }
 
   const select = el => {
     el.setAttribute('data-selected', true)
-
-    createLabel(el, `
-      <a href="#">${el.nodeName.toLowerCase()}</a>
-      <a href="#">${el.id && '#' + el.id}</a>
-      ${createClassname(el).split('.')
-        .filter(name => name != '')
-        .reduce((links, name) => `
-          ${links}
-          <a href="#">.${name}</a>
-        `, '')
-      }
-    `)
-
+    overlayMetaUI(el)
     selected.unshift(el)
     tellWatchers()
   }
@@ -241,19 +237,24 @@ export function Selectable() {
           'data-hover':         null,
         }))
 
+    handles.forEach(el =>
+      el.remove())
+
     labels.forEach(el =>
       el.remove())
 
     labels    = []
+    handles   = []
     selected  = []
   }
 
   const delete_all = () => {
-    [...selected, ...labels].forEach(el =>
+    [...selected, ...labels, ...handles].forEach(el =>
       el.remove())
 
-    labels   = []
-    selected = []
+    labels    = []
+    handles   = []
+    selected  = []
   }
 
   const expandSelection = ({query, all = false}) => {
@@ -286,78 +287,142 @@ export function Selectable() {
   const combineNodeNameAndClass = node =>
     `${node.nodeName.toLowerCase()}${createClassname(node)}`
 
-  const setLabel = (el, label) => {
-    const { x, y } = el.getBoundingClientRect()
-    label.style.top  = y + window.scrollY - 1 + 'px'
-    label.style.left = x - 1 + 'px'
+  const overlayMetaUI = el => {
+    let handle = createHandle(el)
+    let label  = createLabel(el, `
+      <a>${el.nodeName.toLowerCase()}</a>
+      <a>${el.id && '#' + el.id}</a>
+      ${createClassname(el).split('.')
+        .filter(name => name != '')
+        .reduce((links, name) => `
+          ${links}
+          <a>.${name}</a>
+        `, '')
+      }
+    `)
+
+    let observer        = createObserver(el, {handle,label})
+    let parentObserver  = createObserver(el, {handle,label})
+
+    observer.observe(el, { attributes: true })
+    parentObserver.observe(el.parentNode, { childList:true, subtree:true })
+
+    $(label).on('DOMNodeRemoved', _ => {
+      observer.disconnect()
+      parentObserver.disconnect()
+    })
   }
+
+  const setLabel = (el, label) =>
+    label.update = el.getBoundingClientRect()
 
   const createLabel = (el, text) => {
     if (!labels[parseInt(el.getAttribute('data-label-id'))]) {
-      label = document.createElement('div')
-      label.classList.add('pb-selectedlabel')
-      label.style = `
-        position: absolute;
-        z-index: 9999;
-        transform: translateY(-100%);
-        background: hsla(330, 100%, 71%, 80%);
-        color: white;
-        display: inline-flex;
-        justify-content: center;
-        font-size: 0.8rem;
-        padding: 0.25em 0.4em 0.15em;
-        line-height: 1.1;
-      `
-      label.innerHTML = `
-        <style>
-          [data-label-id] > a {
-            text-decoration: none;
-            color: inherit;
-          }
-          [data-label-id] > a:hover {
-            text-decoration: underline;
-            color: white;
-          }
-        </style>
-        ${text}
-      `
+      const label = document.createElement('pb-label')
 
-      setLabel(el, label)
+      label.text = text
+      label.position = {
+        boundingRect:   el.getBoundingClientRect(),
+        node_label_id:  el.getAttribute('data-label-id'),
+      }
 
       document.body.appendChild(label)
 
       Array.from([el, label]).forEach(node =>
         node.setAttribute('data-label-id', labels.length))
 
-      let observer = createObserver(el, label)
-      observer.observe(el, { attributes: true })
+      $(label).on('query', ({detail}) => {
+        if (!detail.text) return
+        this.query_text = detail.text
 
-      $(label).on('DOMNodeRemoved', _ =>
-        observer.disconnect())
-
-      $('a', label).on('click mouseenter', e => {
-        e.preventDefault()
-        e.stopPropagation()
-        queryPage(e.target.textContent, el =>
-          e.type === 'mouseenter'
+        queryPage(this.query_text + ':not([data-selected])', el =>
+          detail.activator === 'mouseenter'
             ? el.setAttribute('data-hover', true)
             : select(el))
       })
 
-      $('a', label).on('mouseleave', e => {
+      $(label).on('mouseleave', e => {
         e.preventDefault()
         e.stopPropagation()
-        queryPage(e.target.textContent, el =>
+        queryPage(this.query_text, el =>
           e.type === 'mouseleave' && el.setAttribute('data-hover', null))
       })
 
       labels[labels.length] = label
+      return label
     }
   }
 
-  const createObserver = (node, label) => 
-    new MutationObserver(list =>
-      setLabel(node, label))
+  const createHandle = node => {
+    const handle = document.createElement('pb-handles')
+
+    handle.position = {
+      boundingRect:   node.getBoundingClientRect(),
+      node_label_id:  node.getAttribute('data-label-id'),
+    }
+    handles[handles.length] = handle
+    document.body.appendChild(handle)
+
+    return handle
+  }
+
+  const setHandle = (node, handle) => {
+    handle.position = {
+      boundingRect:   node.getBoundingClientRect(),
+      node_label_id:  node.getAttribute('data-label-id'),
+    }
+  }
+
+  const showOverlay = node => {
+    const { x, y, width, height, top, left } = node.getBoundingClientRect()
+
+    if (this.hoverOverlay) {
+      this.hoverOverlay.style.display = 'block'
+      this.hoverOverlay.children[0].setAttribute('width', width + 'px')
+      this.hoverOverlay.children[0].setAttribute('height', height + 'px')
+      this.hoverOverlay.children[0].setAttribute('x', left)
+      this.hoverOverlay.children[0].setAttribute('y', top)
+    }
+    else {
+      this.hoverOverlay = htmlStringToDom(`
+        <svg 
+            class="pb-overlay"
+            style="
+              position:absolute;
+              top:0;
+              left:0;
+              overflow:visible;
+              pointer-events:none;
+              z-index: 999;
+            " 
+            width="${width}" height="${height}" 
+            viewBox="0 0 ${width} ${height}" 
+            version="1.1" xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect 
+              fill="hsla(330, 100%, 71%, 0.5)"
+              width="100%" height="100%"
+            ></rect>
+          </svg>
+      `)
+
+      document.body.appendChild(this.hoverOverlay)
+    }
+  }
+
+  const hideOverlay = node => {
+    if (!this.hoverOverlay) return
+    this.hoverOverlay.style.display = 'none'
+  }
+
+  const toggleOverlay = show =>
+    this.showHoverOverlay = show
+
+  const createObserver = (node, {label,handle}) => 
+    new MutationObserver(list => {
+      setLabel(node, label)
+      setHandle(node, handle)
+    })
 
   const onSelectedUpdate = cb =>
     selectedCallbacks.push(cb) && cb(selected)
@@ -382,5 +447,6 @@ export function Selectable() {
     onSelectedUpdate,
     removeSelectedCallback,
     disconnect,
+    toggleOverlay,
   }
 }

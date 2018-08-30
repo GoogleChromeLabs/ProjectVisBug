@@ -2,19 +2,12 @@ body {
   min-height: 100vh;
 }
 
-/* [data-hover=true],
-[data-selected=true] {
-  z-index: 50; 
-} */
-
 [data-hover=true] {
-  outline: 1px dashed hsla(330, 80%, 71%, 30%);
+  outline: 1px dashed hsla(330, 80%, 71%, 50%);
 }
 
 [data-selected=true] {
-  outline: 1px solid hsla(330, 100%, 71%, 80%);
   transition: all 0.15s ease;
-  position: relative;
 }
 
 [data-selected-hide=true][data-selected=true]:after {
