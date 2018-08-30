@@ -353,7 +353,7 @@ export function Selectable() {
       $('a', label).on('click mouseenter', e => {
         e.preventDefault()
         e.stopPropagation()
-        queryPage(e.target.textContent, el =>
+        queryPage(e.target.textContent + ':not([data-selected])', el =>
           e.type === 'mouseenter'
             ? el.setAttribute('data-hover', true)
             : select(el))
