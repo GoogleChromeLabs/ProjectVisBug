@@ -33,6 +33,12 @@ export default class SelectionLabel extends HTMLElement {
     this.$shadow.innerHTML  = this.render(boundingRect, node_label_id)
   }
 
+  set update({x,y}) {
+    const label = this.$shadow.children[1]
+    label.style.top  = y + window.scrollY + 'px'
+    label.style.left = x - 1 + 'px'
+  }
+
   render({ x, y, width, height, top, left }, node_label_id) {
     this.$shadow.host.setAttribute('data-label-id', node_label_id)
 
@@ -49,7 +55,7 @@ export default class SelectionLabel extends HTMLElement {
       <style>
         :host > span {
           position: absolute;
-          top: ${top}px;
+          top: ${top + window.scrollY}px;
           left: ${left}px;
           z-index: 9998;
           transform: translateY(-100%);

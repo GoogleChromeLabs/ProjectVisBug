@@ -301,16 +301,13 @@ export function Selectable() {
   const combineNodeNameAndClass = node =>
     `${node.nodeName.toLowerCase()}${createClassname(node)}`
 
-  const setLabel = (el, label) => {
-    const { x, y } = el.getBoundingClientRect()
-    label.style.top  = y + window.scrollY + 'px'
-    label.style.left = x - 1 + 'px'
-  }
+  const setLabel = (el, label) =>
+    label.update = el.getBoundingClientRect()
 
   const createLabel = (el, text) => {
     if (!labels[parseInt(el.getAttribute('data-label-id'))]) {
       const label = document.createElement('pb-label')
-      
+
       label.text = text
       label.position = {
         boundingRect:   el.getBoundingClientRect(),
