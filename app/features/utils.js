@@ -111,5 +111,18 @@ export const isOffBounds = node =>
   || node.closest('pb-gridlines')
   )
 
-export const nodeKey = node =>
-  `${node.nodeName}_${node.className}_${[...node.parentNode.children].indexOf(node)}_${node.children.length}_${node.clientWidth}`
+export const nodeKey = node => {
+  let tree = []
+  let furthest_leaf = node
+
+  while (furthest_leaf) {
+    tree.push(furthest_leaf)
+    furthest_leaf = furthest_leaf.parentNode
+      ? furthest_leaf.parentNode
+      : false
+  }
+
+  return tree.reduce((path, branch) => `
+    ${path}${branch.tagName}_${branch.className}_${[...node.parentNode.children].indexOf(node)}_${node.children.length}
+  `, '')
+}
