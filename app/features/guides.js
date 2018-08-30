@@ -73,47 +73,10 @@ const on_hoverout = ({target}) =>
   hideGridlines()
 
 const showGridlines = node => {
-  // const { x, y, width, height, top, left } = node.getBoundingClientRect()
-  // const winHeight = window.innerHeight
-  // const winWidth = window.innerWidth
-
   if (gridlines) {
     gridlines.update = node.getBoundingClientRect()
-    // gridlines.style.display = 'block'
-    // gridlines.children[0].setAttribute('width', width + 'px')
-    // gridlines.children[0].setAttribute('height', height + 'px')
-    // gridlines.children[0].setAttribute('x', left)
-    // gridlines.children[0].setAttribute('y', top)
-    // gridlines.children[1].setAttribute('x1', left)
-    // gridlines.children[1].setAttribute('x2', left)
-    // gridlines.children[2].setAttribute('x1', left + width)
-    // gridlines.children[2].setAttribute('x2', left + width)
-    // gridlines.children[3].setAttribute('y1', top)
-    // gridlines.children[3].setAttribute('y2', top)
-    // gridlines.children[4].setAttribute('y1', top + height)
-    // gridlines.children[4].setAttribute('y2', top + height)
   }
   else {
-    // gridlines = htmlStringToDom(`
-    //   <svg 
-    //     class="pb-gridlines"
-    //     style="position:fixed;top:0;left:0;overflow:visible;pointer-events:none;z-index:9997;" 
-    //     width="100%" height="100%" 
-    //     viewBox="0 0 ${winWidth} ${winHeight}" 
-    //     version="1.1" xmlns="http://www.w3.org/2000/svg"
-    //   >
-    //     <rect 
-    //       stroke="hotpink" fill="none"
-    //       width="${width}" height="${height}"
-    //       x="${x}" y="${y}" 
-    //       style="display:none;"
-    //     ></rect>
-    //     <line x1="${x}" y1="0" x2="${x}" y2="${winHeight}" stroke="hotpink" stroke-dasharray="2" stroke-dashoffset="3"></line>
-    //     <line x1="${x + width}" y1="0" x2="${x + width}" y2="${winHeight}" stroke="hotpink" stroke-dasharray="2" stroke-dashoffset="3"></line>
-    //     <line x1="0" y1="${y}" x2="${winWidth}" y2="${y}" stroke="hotpink" stroke-dasharray="2" stroke-dashoffset="3"></line>
-    //     <line x1="0" y1="${y + height}" x2="${winWidth}" y2="${y + height}" stroke="hotpink" stroke-dasharray="2" stroke-dashoffset="3"></line>
-    //   </svg>
-    // `)
     gridlines = document.createElement('pb-gridlines')
     gridlines.position = node.getBoundingClientRect()
 
