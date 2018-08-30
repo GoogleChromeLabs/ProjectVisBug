@@ -12,7 +12,7 @@ export function Selectable() {
   let selected            = []
   let selectedCallbacks   = []
   let labels              = []
-  let handle_map          = {}
+  let handles             = []
 
   this.showHoverOverlay = true
 
@@ -237,24 +237,24 @@ export function Selectable() {
           'data-hover':         null,
         }))
 
-    Object.values(handle_map).forEach(el =>
+    handles.forEach(el =>
       el.remove())
 
     labels.forEach(el =>
       el.remove())
 
     labels    = []
-    handle_map   = {}
+    handles   = []
     selected  = []
   }
 
   const delete_all = () => {
-    [...selected, ...labels, ...Object.values(handle_map)].forEach(el =>
+    [...selected, ...labels, ...handles].forEach(el =>
       el.remove())
 
-    labels   = []
-    handles  = {}
-    selected = []
+    labels    = []
+    handles   = []
+    selected  = []
   }
 
   const expandSelection = ({query, all = false}) => {
@@ -288,7 +288,8 @@ export function Selectable() {
     `${node.nodeName.toLowerCase()}${createClassname(node)}`
 
   const overlayMetaUI = el => {
-    let label = createLabel(el, `
+    let handle = createHandle(el)
+    let label  = createLabel(el, `
       <a>${el.nodeName.toLowerCase()}</a>
       <a>${el.id && '#' + el.id}</a>
       ${createClassname(el).split('.')
@@ -300,10 +301,8 @@ export function Selectable() {
       }
     `)
 
-    let handles = createHandles(el)
-
-    let observer = createObserver(el, {handles,label})
-    let parentObserver = createObserver(el, {handles,label})
+    let observer        = createObserver(el, {handle,label})
+    let parentObserver  = createObserver(el, {handle,label})
 
     observer.observe(el, { attributes: true })
     parentObserver.observe(el.parentNode, { childList:true, subtree:true })
@@ -354,21 +353,21 @@ export function Selectable() {
     }
   }
 
-  const createHandles = node => {
-    const handles = document.createElement('pb-handles')
+  const createHandle = node => {
+    const handle = document.createElement('pb-handles')
 
-    handles.position = {
+    handle.position = {
       boundingRect:   node.getBoundingClientRect(),
       node_label_id:  node.getAttribute('data-label-id'),
     }
-    handle_map[nodeKey(node)] = handles
-    document.body.appendChild(handle_map[nodeKey(node)])
+    handles[handles.length] = handle
+    document.body.appendChild(handle)
 
-    return handles
+    return handle
   }
 
-  const setHandles = (node, handles) => {
-    handles.position = {
+  const setHandle = (node, handle) => {
+    handle.position = {
       boundingRect:   node.getBoundingClientRect(),
       node_label_id:  node.getAttribute('data-label-id'),
     }
@@ -419,10 +418,10 @@ export function Selectable() {
   const toggleOverlay = show =>
     this.showHoverOverlay = show
 
-  const createObserver = (node, {label,handles}) => 
+  const createObserver = (node, {label,handle}) => 
     new MutationObserver(list => {
       setLabel(node, label)
-      setHandles(node, handles)
+      setHandle(node, handle)
     })
 
   const onSelectedUpdate = cb =>
