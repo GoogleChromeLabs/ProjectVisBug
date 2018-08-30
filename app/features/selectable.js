@@ -309,35 +309,13 @@ export function Selectable() {
 
   const createLabel = (el, text) => {
     if (!labels[parseInt(el.getAttribute('data-label-id'))]) {
-      label = document.createElement('div')
-      label.classList.add('pb-selectedlabel')
-      label.style = `
-        position: absolute;
-        z-index: 9998;
-        transform: translateY(-100%);
-        background: hsla(330, 100%, 71%, 80%);
-        color: white;
-        display: inline-flex;
-        justify-content: center;
-        font-size: 0.8rem;
-        padding: 0.25em 0.4em 0.15em;
-        line-height: 1.1;
-      `
-      label.innerHTML = `
-        <style>
-          [data-label-id] > a {
-            text-decoration: none;
-            color: inherit;
-          }
-          [data-label-id] > a:hover {
-            text-decoration: underline;
-            color: white;
-          }
-        </style>
-        ${text}
-      `
-
-      setLabel(el, label)
+      const label = document.createElement('pb-label')
+      
+      label.text = text
+      label.position = {
+        boundingRect:   el.getBoundingClientRect(),
+        node_label_id:  el.getAttribute('data-label-id'),
+      }
 
       document.body.appendChild(label)
 
@@ -350,19 +328,20 @@ export function Selectable() {
       $(label).on('DOMNodeRemoved', _ =>
         observer.disconnect())
 
-      $('a', label).on('click mouseenter', e => {
-        e.preventDefault()
-        e.stopPropagation()
-        queryPage(e.target.textContent + ':not([data-selected])', el =>
-          e.type === 'mouseenter'
+      $(label).on('query', ({detail}) => {
+        if (!detail.text) return
+        this.query_text = detail.text
+
+        queryPage(this.query_text + ':not([data-selected])', el =>
+          detail.activator === 'mouseenter'
             ? el.setAttribute('data-hover', true)
             : select(el))
       })
 
-      $('a', label).on('mouseleave', e => {
+      $(label).on('mouseleave', e => {
         e.preventDefault()
         e.stopPropagation()
-        queryPage(e.target.textContent, el =>
+        queryPage(this.query_text, el =>
           e.type === 'mouseleave' && el.setAttribute('data-hover', null))
       })
 
@@ -371,56 +350,21 @@ export function Selectable() {
   }
 
   const showHandles = node => {
-    const { x, y, width, height, top, left } = node.getBoundingClientRect()
-
-    handle_map[nodeKey(node)] = htmlStringToDom(`
-      <svg 
-        class="pb-handles"
-        data-label-id="${node.getAttribute('data-label-id')}"
-        style="
-          position: absolute;
-          top: ${top + window.scrollY}px;
-          left: ${left}px;
-          overflow: visible;
-          pointer-events: none;
-          z-index: 9999;
-        " 
-        width="${width}" height="${height}" 
-        viewBox="0 0 ${width} ${height}" 
-        version="1.1" xmlns="http://www.w3.org/2000/svg"
-      >
-        <rect stroke="hotpink" fill="none" width="100%" height="100%"></rect>
-        <circle stroke="hotpink" fill="white" cx="0" cy="0" r="2"></circle>
-        <circle stroke="hotpink" fill="white" cx="100%" cy="0" r="2"></circle>
-        <circle stroke="hotpink" fill="white" cx="100%" cy="100%" r="2"></circle>
-        <circle stroke="hotpink" fill="white" cx="0" cy="100%" r="2"></circle>
-        <circle fill="hotpink" cx="${width/2}" cy="0" r="2"></circle>
-        <circle fill="hotpink" cx="0" cy="${height/2}" r="2"></circle>
-        <circle fill="hotpink" cx="${width/2}" cy="${height}" r="2"></circle>
-        <circle fill="hotpink" cx="${width}" cy="${height/2}" r="2"></circle>
-      </svg>
-    `)
-
+    const handles = document.createElement('pb-handles')
+    handles.position = {
+      boundingRect:   node.getBoundingClientRect(),
+      node_label_id:  node.getAttribute('data-label-id'),
+    }
+    handle_map[nodeKey(node)] = handles
     document.body.appendChild(handle_map[nodeKey(node)])
   }
 
   const setHandles = node => {
-    if (handle_map[nodeKey(node)]) {
-      const { x, y, width, height, top, left } = node.getBoundingClientRect()
-      const handle = handle_map[nodeKey(node)]
-
-      handle.style.top = top + window.scrollY + 'px'
-      handle.style.left = left + 'px'
-      handle.setAttribute('width', width + 'px')
-      handle.setAttribute('height', height + 'px')
-      handle.setAttribute('viewBox', `0 0 ${width} ${height}`)
-      handle.children[5].setAttribute('cx', width / 2)
-      handle.children[6].setAttribute('cy', height / 2)
-      handle.children[7].setAttribute('cx', width / 2)
-      handle.children[7].setAttribute('cy', height)
-      handle.children[8].setAttribute('cx', width)
-      handle.children[8].setAttribute('cy', height / 2)
-    }
+    if (handle_map[nodeKey(node)])
+      handle_map[nodeKey(node)].position = {
+        boundingRect:   node.getBoundingClientRect(),
+        node_label_id:  node.getAttribute('data-label-id'),
+      }
   }
 
   const showOverlay = node => {
