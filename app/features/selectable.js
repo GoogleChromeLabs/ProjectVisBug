@@ -17,7 +17,7 @@ export function Selectable() {
   this.showHoverOverlay = true
 
   const listen = () => {
-    elements.on('click', on_click)
+    elements.forEach(el => el.addEventListener('click', on_click, true))
     elements.on('dblclick', on_dblclick)
     elements.on('selectstart', on_selection)
     elements.on('mouseover', on_hover)
@@ -39,7 +39,7 @@ export function Selectable() {
   }
 
   const unlisten = () => {
-    elements.off('click', on_click)
+    elements.forEach(el => el.removeEventListener('click', on_click))
     elements.off('dblclick', on_dblclick)
     elements.off('selectstart', on_selection)
     elements.off('mouseover', on_hover)
