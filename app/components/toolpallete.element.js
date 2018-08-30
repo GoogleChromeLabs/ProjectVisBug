@@ -15,8 +15,8 @@ export default class ToolPallete extends HTMLElement {
     super()
 
     this.toolbar_model = {
-      i: { tool: 'inspector', icon: inspector, label: 'Inspect', description: 'Peak into the common & current styles of an element' },
       g: { tool: 'guides', icon: ruler, label: 'Guides', description: 'Verify alignment' },
+      i: { tool: 'inspector', icon: inspector, label: 'Inspect', description: 'Peak into the common & current styles of an element' },
       v: { tool: 'move', icon: move, label: 'Move', description: 'Push elements in, out & around' },
       // r: { tool: 'resize', icon: resize, label: 'Resize', description: '' },
       m: { tool: 'margin', icon: margin, label: 'Margin', description: 'Add or subtract outer space' },
@@ -49,7 +49,7 @@ export default class ToolPallete extends HTMLElement {
         this.toolSelected(
           $(`[data-tool="${value.tool}"]`, this.$shadow)[0])))
 
-    this.toolSelected($('[data-tool="inspector"]', this.$shadow)[0])
+    this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
   }
 
   disconnectedCallback() {
@@ -69,6 +69,7 @@ export default class ToolPallete extends HTMLElement {
     if (this.active_tool) {
       this.active_tool.attr('data-active', null)
       this.deactivate_feature()
+      this.selectorEngine.toggleOverlay(true)
     }
 
     el.attr('data-active', true)
@@ -82,7 +83,7 @@ export default class ToolPallete extends HTMLElement {
       <ol>
         ${Object.entries(this.toolbar_model).reduce((list, [key, value]) => `
           ${list}
-          <li aria-label="${value.label} Tool (${key})" aria-description="${value.description}" data-tool="${value.tool}" data-active="${key == 'i'}">${value.icon}</li>
+          <li aria-label="${value.label} Tool (${key})" aria-description="${value.description}" data-tool="${value.tool}" data-active="${key == 'g'}">${value.icon}</li>
         `,'')}
         <li class="color" aria-label="Foreground" style="display:none;">
           <input type="color" id='foreground' value=''>
@@ -282,6 +283,7 @@ export default class ToolPallete extends HTMLElement {
   }
 
   guides() {
+    this.selectorEngine.toggleOverlay(false)
     this.deactivate_feature = Guides()
   }
 

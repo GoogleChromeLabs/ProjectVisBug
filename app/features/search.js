@@ -59,7 +59,7 @@ export function queryPage(query, fn) {
   if (query == '.' || query == '#') return
 
   try {
-    let matches = $(query + ':not(tool-pallete):not(script):not(hotkey-map):not(.pb-metatip):not(.pb-selectedlabel)')
+    let matches = $(query + ':not(tool-pallete):not(script):not(hotkey-map):not(.pb-metatip):not(pb-label):not(pb-handles)')
     if (!matches.length) matches = $(query)
     if (!fn)
       SelectorEngine.unselect_all()
