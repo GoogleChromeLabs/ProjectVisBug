@@ -56,7 +56,7 @@ export default class SelectionLabel extends HTMLElement {
         :host > span {
           position: absolute;
           top: ${top + window.scrollY}px;
-          left: ${left}px;
+          left: ${left - 1}px;
           z-index: 9998;
           transform: translateY(-100%);
           background: hsla(330, 100%, 71%, 80%);
