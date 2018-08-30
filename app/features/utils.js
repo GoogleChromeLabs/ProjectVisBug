@@ -80,9 +80,9 @@ export const showHideNodeLabel = (el, show = false) => {
 
   nodes.length && show
     ? nodes.forEach(el =>
-        el.style.display = 'none')
+      el.style.display = 'none')
     : nodes.forEach(el =>
-        el.style.display = null)
+      el.style.display = null)
 }
 
 export const camelToDash = (camelString = "") =>
