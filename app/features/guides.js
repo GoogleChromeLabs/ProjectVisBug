@@ -6,10 +6,12 @@ let gridlines
 export function Guides() {
   $('body').on('mouseover', on_hover)
   $('body').on('mouseout', on_hoverout)
+  window.addEventListener('scroll', hideGridlines)
 
   return () => {
     $('body').off('mouseover', on_hover)
     $('body').off('mouseout', on_hoverout)
+    window.removeEventListener('scroll', hideGridlines)
     hideGridlines()
   }
 }
@@ -74,6 +76,7 @@ const on_hoverout = ({target}) =>
 
 const showGridlines = node => {
   if (gridlines) {
+    gridlines.style.display = null
     gridlines.update = node.getBoundingClientRect()
   }
   else {
