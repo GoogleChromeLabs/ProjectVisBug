@@ -216,7 +216,8 @@ export default class ToolPallete extends HTMLElement {
         :host input[type='color'] {
           opacity: 0.01;
           position: absolute;
-          top: 0; left: 0; right: 0; bottom: 0;
+          top: 0; left: 0;
+          width: 100%; height: 100%;
           z-index: 1;
           box-sizing: border-box;
           border: white;
