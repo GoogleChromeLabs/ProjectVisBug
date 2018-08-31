@@ -59,12 +59,12 @@ export function ColorPicker(pallete, selectorEngine) {
       bgInput.attr('value', new_bg)
       
       foregroundPicker.attr('style', `
-        --theme-icon_color: ${new_fg};
+        --contextual_color: ${new_fg};
         display: ${!isMeaningfulForeground ? 'none' : 'inline-flex'};
       `)
 
       backgroundPicker.attr('style', `
-        --theme-icon_color: ${new_bg};
+        --contextual_color: ${new_bg};
         display: ${!isMeaningfulBackground ? 'none' : 'inline-flex'};
       `)
     }
