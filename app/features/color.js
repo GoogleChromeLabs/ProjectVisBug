@@ -3,18 +3,20 @@ import { TinyColor } from '@ctrl/tinycolor'
 import { getStyle } from '../features/utils'
 
 export function ColorPicker(pallete, selectorEngine) {
-  const foregroundPicker = $('#foreground', pallete)[0]
-  const backgroundPicker = $('#background', pallete)[0]
+  const foregroundPicker  = $('#foreground', pallete)
+  const fgInput           = $('input', foregroundPicker[0])
+  const backgroundPicker  = $('#background', pallete)
+  const bgInput           = $('input', backgroundPicker[0])
 
   // set colors
-  foregroundPicker.on('input', e =>
+  fgInput.on('input', e =>
     $('[data-selected=true]').map(el =>
       el.style[el instanceof SVGElement
         ? 'stroke'
         : 'color'
       ] = e.target.value))
 
-  backgroundPicker.on('input', e =>
+  bgInput.on('input', e =>
     $('[data-selected=true]').map(el =>
       el.style[el instanceof SVGElement
         ? 'fill'
@@ -50,16 +52,21 @@ export function ColorPicker(pallete, selectorEngine) {
       isMeaningfulForeground = FG.originalInput !== 'rgb(0, 0, 0)' || (el.children.length === 0 && el.textContent !== '')
       isMeaningfulBackground = BG.originalInput !== 'rgba(0, 0, 0, 0)' 
 
-      foregroundPicker.attr('value', isMeaningfulForeground
-        ? fg 
-        : '')
+      const new_fg = isMeaningfulForeground ? fg : ''
+      const new_bg = isMeaningfulBackground ? bg : ''
 
-      backgroundPicker.attr('value', isMeaningfulBackground
-        ? bg 
-        : '')
+      fgInput.attr('value', new_fg)
+      bgInput.attr('value', new_bg)
+      
+      foregroundPicker.attr('style', `
+        --theme-icon_color: ${new_fg};
+        display: ${!isMeaningfulForeground ? 'none' : 'inline-flex'};
+      `)
+
+      backgroundPicker.attr('style', `
+        --theme-icon_color: ${new_bg};
+        display: ${!isMeaningfulBackground ? 'none' : 'inline-flex'};
+      `)
     }
-
-    foregroundPicker.parentNode.style.display = !isMeaningfulForeground ? 'none' : 'block'
-    backgroundPicker.parentNode.style.display = !isMeaningfulBackground ? 'none' : 'block'
   })
 }

@@ -1,8 +1,7 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
-import { cursor, move, search, margin, padding, font, inspector, ruler, camera,
-         type, align, transform, resize, border, hueshift, boxshadow } from './toolpallete.icons' 
+import * as Icons from './toolpallete.icons' 
 import { 
   Selectable, Moveable, Padding, Margin, EditText, Font, Flex, Search,
   ColorPicker, BoxShadow, HueShift, MetaTip, Guides, Screenshot
@@ -15,21 +14,21 @@ export default class ToolPallete extends HTMLElement {
     super()
 
     this.toolbar_model = {
-      g: { tool: 'guides', icon: ruler, label: 'Guides', description: 'Verify alignment' },
-      i: { tool: 'inspector', icon: inspector, label: 'Inspect', description: 'Peak into the common & current styles of an element' },
-      v: { tool: 'move', icon: move, label: 'Move', description: 'Push elements in, out & around' },
-      // r: { tool: 'resize', icon: resize, label: 'Resize', description: '' },
-      m: { tool: 'margin', icon: margin, label: 'Margin', description: 'Add or subtract outer space' },
-      p: { tool: 'padding', icon: padding, label: 'Padding', description: 'Add or subtract inner space' },
-      // b: { tool: 'border', icon: border, label: 'Border', description: '' },
-      a: { tool: 'align', icon: align, label: 'Flexbox Align', description: 'Create or modify direction, distribution & alignment' },
-      h: { tool: 'hueshift', icon: hueshift, label: 'Hue Shift', description: 'Change fg/bg hue, brightness, saturation & opacity' },
-      d: { tool: 'boxshadow', icon: boxshadow, label: 'Shadow', description: 'Create & adjust position, blur & opacity of a box shadow' },
-      // t: { tool: 'transform', icon: transform, label: '3D Transform', description: '' },
-      f: { tool: 'font', icon: font, label: 'Font Styles', description: 'Change size, leading, kerning, & weight' },
-      e: { tool: 'text', icon: type, label: 'Edit Text', description: 'Change any text on the page' },
-      c: { tool: 'screenshot', icon: camera, label: 'Screenshot', description: 'Screenshot selected elements or the entire page' },
-      s: { tool: 'search', icon: search, label: 'Search', description: 'Select elements by searching for them' },
+      g: { tool: 'guides', icon: Icons.ruler, label: 'Guides', description: 'Verify alignment' },
+      i: { tool: 'inspector', icon: Icons.inspector, label: 'Inspect', description: 'Peak into the common & current styles of an element' },
+      v: { tool: 'move', icon: Icons.move, label: 'Move', description: 'Push elements in, out & around' },
+      // r: { tool: 'resize', icon: Icons.resize, label: 'Resize', description: '' },
+      m: { tool: 'margin', icon: Icons.margin, label: 'Margin', description: 'Add or subtract outer space' },
+      p: { tool: 'padding', icon: Icons.padding, label: 'Padding', description: 'Add or subtract inner space' },
+      // b: { tool: 'border', icon: Icons.border, label: 'Border', description: '' },
+      a: { tool: 'align', icon: Icons.align, label: 'Flexbox Align', description: 'Create or modify direction, distribution & alignment' },
+      h: { tool: 'hueshift', icon: Icons.hueshift, label: 'Hue Shift', description: 'Change fg/bg hue, brightness, saturation & opacity' },
+      d: { tool: 'boxshadow', icon: Icons.boxshadow, label: 'Shadow', description: 'Create & adjust position, blur & opacity of a box shadow' },
+      // t: { tool: 'transform', icon: Icons.transform, label: '3D Transform', description: '' },
+      f: { tool: 'font', icon: Icons.font, label: 'Font Styles', description: 'Change size, leading, kerning, & weight' },
+      e: { tool: 'text', icon: Icons.type, label: 'Edit Text', description: 'Change any text on the page' },
+      c: { tool: 'screenshot', icon: Icons.camera, label: 'Screenshot', description: 'Screenshot selected elements or the entire page' },
+      s: { tool: 'search', icon: Icons.search, label: 'Search', description: 'Select elements by searching for them' },
     }
 
     this.$shadow = this.attachShadow({mode: 'open'})
@@ -85,11 +84,13 @@ export default class ToolPallete extends HTMLElement {
           ${list}
           <li aria-label="${value.label} Tool (${key})" aria-description="${value.description}" data-tool="${value.tool}" data-active="${key == 'g'}">${value.icon}</li>
         `,'')}
-        <li class="color" aria-label="Foreground" style="display:none;">
-          <input type="color" id='foreground' value=''>
+        <li style="display: none;" class="color" id="foreground" aria-label="Text" aria-description="Change the text color">
+          <input type="color" value="">
+          ${Icons.color_text}
         </li>
-        <li class="color" aria-label="Background" style="display:none;">
-          <input type="color" id='background' value=''>
+        <li style="display: none;" class="color" id="background" aria-label="Background" aria-description="Change the background color">
+          <input type="color" value="">
+          ${Icons.color_background}
         </li>
       </ol>
     `
@@ -173,11 +174,7 @@ export default class ToolPallete extends HTMLElement {
           stroke: var(--theme-color); 
         }
 
-        :host li.color {
-          height: 20px;
-        }
-
-        :host li.color {
+        :host .color {
           margin-top: 0.25rem;
         }
 
@@ -213,8 +210,10 @@ export default class ToolPallete extends HTMLElement {
         }
 
         :host input[type='color'] {
-          width: 100%;
-          height: 100%;
+          opacity: 0.01;
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          z-index: 1;
           box-sizing: border-box;
           border: white;
           padding: 0;
