@@ -335,6 +335,9 @@ export function Selectable() {
         if (!detail.text) return
         this.query_text = detail.text
 
+        queryPage('[data-hover]', el =>
+          el.setAttribute('data-hover', null))
+
         queryPage(this.query_text + ':not([data-selected])', el =>
           detail.activator === 'mouseenter'
             ? el.setAttribute('data-hover', true)
@@ -344,8 +347,8 @@ export function Selectable() {
       $(label).on('mouseleave', e => {
         e.preventDefault()
         e.stopPropagation()
-        queryPage(this.query_text, el =>
-          e.type === 'mouseleave' && el.setAttribute('data-hover', null))
+        queryPage('[data-hover]', el =>
+          el.setAttribute('data-hover', null))
       })
 
       labels[labels.length] = label
