@@ -57,7 +57,7 @@ export function Selectable() {
       return
 
     e.preventDefault()
-    e.stopPropagation()
+    if (!e.altKey) e.stopPropagation()
     if (!e.shiftKey) unselect_all()
     select(e.target)
   }
