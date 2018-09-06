@@ -14,8 +14,6 @@ export function Selectable() {
   let labels              = []
   let handles             = []
 
-  this.showHoverOverlay = true
-
   const listen = () => {
     elements.forEach(el => el.addEventListener('click', on_click, true))
     elements.forEach(el => el.addEventListener('dblclick', on_dblclick, true))
@@ -209,13 +207,11 @@ export function Selectable() {
   }
 
   const on_hover = ({target}) => {
-    if (isOffBounds(target) || !this.showHoverOverlay) return
-    // showOverlay(target)
+    if (isOffBounds(target)) return
     target.setAttribute('data-hover', true)
   }
 
   const on_hoverout = ({target}) => {
-    hideOverlay()
     target.removeAttribute('data-hover')
   }
 
@@ -376,51 +372,6 @@ export function Selectable() {
     }
   }
 
-  const showOverlay = node => {
-    const { x, y, width, height, top, left } = node.getBoundingClientRect()
-
-    if (this.hoverOverlay) {
-      this.hoverOverlay.style.display = 'block'
-      this.hoverOverlay.children[0].setAttribute('width', width + 'px')
-      this.hoverOverlay.children[0].setAttribute('height', height + 'px')
-      this.hoverOverlay.children[0].setAttribute('x', left)
-      this.hoverOverlay.children[0].setAttribute('y', top)
-    }
-    else {
-      this.hoverOverlay = htmlStringToDom(`
-        <svg 
-            class="pb-overlay"
-            style="
-              position:absolute;
-              top:0;
-              left:0;
-              overflow:visible;
-              pointer-events:none;
-              z-index: 999;
-            " 
-            width="${width}" height="${height}" 
-            viewBox="0 0 ${width} ${height}" 
-            version="1.1" xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect 
-              fill="hsla(330, 100%, 71%, 0.5)"
-              width="100%" height="100%"
-            ></rect>
-          </svg>
-      `)
-
-      document.body.appendChild(this.hoverOverlay)
-    }
-  }
-
-  const hideOverlay = node => {
-    if (!this.hoverOverlay) return
-    this.hoverOverlay.style.display = 'none'
-  }
-
-  const toggleOverlay = show =>
-    this.showHoverOverlay = show
-
   const createObserver = (node, {label,handle}) => 
     new MutationObserver(list => {
       setLabel(node, label)
@@ -451,7 +402,6 @@ export function Selectable() {
     unselect_all,
     onSelectedUpdate,
     removeSelectedCallback,
-    disconnect,
-    toggleOverlay,
+    disconnect
   }
 }

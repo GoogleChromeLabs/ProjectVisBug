@@ -30,13 +30,3 @@ body {
 [data-metatip=true][data-pinhover=true] {
   cursor: not-allowed;
 }
-
-[data-droptarget=true] {
-  animation: pulse-outline 1s ease infinite;
-  cursor: copy;
-}
-
-@keyframes pulse-outline {
-  0%, 100%  { outline: 1px dashed hsla(330, 100%, 71%, 0%); }
-  50%       { outline: 1px dashed hsla(330, 100%, 71%, 100%); }
-}
