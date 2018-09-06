@@ -57,7 +57,7 @@ export default class SelectionLabel extends HTMLElement {
           position: absolute;
           top: ${top + window.scrollY}px;
           left: ${left - 1}px;
-          z-index: 9998;
+          z-index: 10000;
           transform: translateY(-100%);
           background: hsla(330, 100%, 71%, 80%);
           color: white;
