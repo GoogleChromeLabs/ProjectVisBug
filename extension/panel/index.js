@@ -1,0 +1,1 @@
+chrome.devtools.panels.create('Design', null, 'panel/panel.html')
