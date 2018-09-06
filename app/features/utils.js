@@ -77,7 +77,10 @@ export const showHideNodeLabel = (el, show = false) => {
   if (!el.hasAttribute('data-label-id')) 
     return
 
-  const nodes = $(`body > [data-label-id="${el.getAttribute('data-label-id')}"]`)
+  const nodes = $(`
+    pb-label[data-label-id="${el.getAttribute('data-label-id')}"],
+    pb-handles[data-label-id="${el.getAttribute('data-label-id')}"]
+  `)
 
   nodes.length && show
     ? nodes.forEach(el =>

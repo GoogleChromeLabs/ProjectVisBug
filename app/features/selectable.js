@@ -66,7 +66,6 @@ export function Selectable() {
     e.preventDefault()
     e.stopPropagation()
     if (isOffBounds(e.target)) return
-    EditText([e.target])
     $('tool-pallete')[0].toolSelected('text')
   }
 
@@ -323,13 +322,11 @@ export function Selectable() {
       label.text = text
       label.position = {
         boundingRect:   el.getBoundingClientRect(),
-        node_label_id:  el.getAttribute('data-label-id'),
+        node_label_id:  labels.length,
       }
+      el.setAttribute('data-label-id', labels.length)
 
       document.body.appendChild(label)
-
-      Array.from([el, label]).forEach(node =>
-        node.setAttribute('data-label-id', labels.length))
 
       $(label).on('query', ({detail}) => {
         if (!detail.text) return
@@ -356,17 +353,20 @@ export function Selectable() {
     }
   }
 
-  const createHandle = node => {
-    const handle = document.createElement('pb-handles')
+  const createHandle = el => {
+    if (!handles[parseInt(el.getAttribute('data-label-id'))]) {
+      const handle = document.createElement('pb-handles')
 
-    handle.position = {
-      boundingRect:   node.getBoundingClientRect(),
-      node_label_id:  node.getAttribute('data-label-id'),
+      handle.position = {
+        boundingRect:   el.getBoundingClientRect(),
+        node_label_id:  handles.length,
+      }
+
+      document.body.appendChild(handle)
+
+      handles[handles.length] = handle
+      return handle
     }
-    handles[handles.length] = handle
-    document.body.appendChild(handle)
-
-    return handle
   }
 
   const setHandle = (node, handle) => {
@@ -427,8 +427,10 @@ export function Selectable() {
       setHandle(node, handle)
     })
 
-  const onSelectedUpdate = cb =>
-    selectedCallbacks.push(cb) && cb(selected)
+  const onSelectedUpdate = (cb, immediateCallback = true) => {
+    selectedCallbacks.push(cb)
+    if (immediateCallback) cb(selected)
+  }
 
   const removeSelectedCallback = cb =>
     selectedCallbacks = selectedCallbacks.filter(callback => callback != cb)

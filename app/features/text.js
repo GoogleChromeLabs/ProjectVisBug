@@ -12,6 +12,11 @@ const removeEditability = ({target}) => {
 
 const stopBubbling = e => e.key != 'Escape' && e.stopPropagation()
 
+const cleanup = (e, handler) => {
+  $('[spellcheck="true"]').forEach(target => removeEditability({target}))
+  window.getSelection().empty()
+}
+
 export function EditText(elements) {
   if (!elements.length) return
 
@@ -29,8 +34,5 @@ export function EditText(elements) {
     $el.on('blur', removeEditability)
   })
 
-  hotkeys('escape,esc', (e, handler) => {
-    elements.forEach(target => removeEditability({target}))
-    window.getSelection().empty()
-  })
+  hotkeys('escape,esc', cleanup)
 }
