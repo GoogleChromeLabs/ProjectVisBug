@@ -25,6 +25,7 @@ export const desiredPropMap = {
   borderColor:          'rgb(0, 0, 0)',
   borderWidth:          '0px',
   borderRadius:         '0px',
+  boxShadow:            'none',
   padding:              '0px',
   margin:               '0px',
   fontFamily:           '',

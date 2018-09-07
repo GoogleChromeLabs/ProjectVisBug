@@ -4,7 +4,7 @@ import hotkeys from 'hotkeys-js'
 import * as Icons from './toolpallete.icons' 
 import { 
   Selectable, Moveable, Padding, Margin, EditText, Font, Flex, Search,
-  ColorPicker, BoxShadow, HueShift, MetaTip, Guides, Screenshot
+  ColorPicker, BoxShadow, HueShift, MetaTip, Guides, Screenshot, Position
 } from '../features/'
 
 import { provideSelectorEnginer } from '../features/search'
@@ -25,6 +25,7 @@ export default class ToolPallete extends HTMLElement {
       h: { tool: 'hueshift', icon: Icons.hueshift, label: 'Hue Shift', description: 'Change fg/bg hue, brightness, saturation & opacity' },
       d: { tool: 'boxshadow', icon: Icons.boxshadow, label: 'Shadow', description: 'Create & adjust position, blur & opacity of a box shadow' },
       // t: { tool: 'transform', icon: Icons.transform, label: '3D Transform', description: '' },
+      l: { tool: 'position', icon: Icons.position, label: 'Absolute Position', description: 'Move svg (x,y) and elements (top,left,bottom,right)' },
       f: { tool: 'font', icon: Icons.font, label: 'Font Styles', description: 'Change size, leading, kerning, & weight' },
       e: { tool: 'text', icon: Icons.type, label: 'Edit Text', description: 'Change any text on the page' },
       c: { tool: 'screenshot', icon: Icons.camera, label: 'Screenshot', description: 'Screenshot selected elements or the entire page' },
@@ -291,6 +292,10 @@ export default class ToolPallete extends HTMLElement {
 
   screenshot() {
     this.deactivate_feature = Screenshot()
+  }
+
+  position() {
+    this.deactivate_feature = Position('[data-selected=true]')
   }
 
   activeTool() {
