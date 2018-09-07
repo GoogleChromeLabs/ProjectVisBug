@@ -15,7 +15,7 @@
     "extension": "rollup -c && npm run extension:css && npm run extension:copy && npm run extension:zip",
     "extension:css": "postcss app/extension.css -o extension/toolbar/bundle.css",
     "extension:copy": "cp app/bundle.js extension/toolbar/",
-    "extension:zip": "mkdir ./pixelbug_v$npm_package_version && cp -R ./extension/* ./pixelbug_v$npm_package_version/ && zip -r ./app/download/PixelBug_v$npm_package_version.zip ./pixelbug_v$npm_package_version && rm -rf ./pixelbug_v$npm_package_version",
+    "extension:zip": "mkdir ./pixelbug_v$npm_package_version && cp -R ./extension/* ./pixelbug_v$npm_package_version/ && zip -r ./extension/build/PixelBug_v$npm_package_version.zip ./pixelbug_v$npm_package_version && rm -rf ./pixelbug_v$npm_package_version",
     "deploy": "gcloud app deploy --project=google.com:atoms-sandbox"
   },
   "author": "",
