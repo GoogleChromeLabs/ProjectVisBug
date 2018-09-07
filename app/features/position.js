@@ -33,22 +33,12 @@ export function positionElement(els, direction) {
   els
     .map(el => ensurePositionable(el))
     .map(el => showHideSelected(el))
-    .map(el => { 
-      const side = getSide(direction).toLowerCase()
-      let cur = getStyle(el, side)
-
-      cur === 'auto'
-        ? cur = 0
-        : cur = parseInt(cur, 10)
-
-      return {
+    .map(el => ({
         el, 
-        style:    side,
-        current:  cur,
+        ...extractCurrentValueAndSide(el, direction),
         amount:   direction.split('+').includes('shift') ? 10 : 1,
-        negative: direction.split('+').includes('alt'),
-      }
-    })
+        negative: determineNegativity(el, direction),
+    }))
     .map(payload =>
       Object.assign(payload, {
         position: payload.negative
@@ -56,10 +46,40 @@ export function positionElement(els, direction) {
           : payload.current - payload.amount
       }))
     .forEach(({el, style, position}) =>
-      el.style[style] = `${position}px`)
+      el instanceof SVGElement
+        ? el.attr(style, position)
+        : el.style[style] = position + 'px')
 }
 
+const extractCurrentValueAndSide = (el, direction) => {
+  let style, current
+
+  if (el instanceof SVGElement) {
+    style = direction.includes('down') || direction.includes('up')
+      ? 'cy'
+      : 'cx'
+            
+    current = parseFloat(el.attr(style), 10)
+  }
+  else {
+    style  = getSide(direction).toLowerCase()
+    current   = getStyle(el, style)
+
+    current === 'auto'
+      ? current = 0
+      : current = parseInt(current, 10)
+  }
+
+  return { style, current }
+}
+
+const determineNegativity = (el, direction) =>
+  el instanceof SVGElement
+    ? direction.includes('right') || direction.includes('down')
+    : direction.split('+').includes('alt')
+
 const ensurePositionable = el => {
-  el.style.position = 'relative'
+  if (el instanceof HTMLElement) 
+    el.style.position = 'relative'
   return el
 }

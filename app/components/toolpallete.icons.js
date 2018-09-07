@@ -125,13 +125,8 @@ const color_border = `
 
 const position = `
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <path fill="none" stroke="var(--theme-icon_color)" stroke-weight="2px" d="M4.152,6.22V20.63H18.377"/>
-    <g transform="translate(2.65 19.1)">
-      <rect width="3" height="3"/>
-      <rect x="0.5" y="0.5" width="2" height="2"/>
-    </g>
-    <path d="M.772-1.036l-.708-1H.448l.528.756.508-.756h.4l-.712,1L1.9,0H1.5L.968-.784.448,0h-.4Z" transform="translate(19.948 21.64)"/>
-    <path d="M.876-.128.032-2.04H.4L1.04-.524h.008L1.664-2.04h.368L.772.864H.42Z" transform="translate(3.168 4.54)"/>
+    <path d="M15.54 5.54L13.77 7.3 12 5.54 10.23 7.3 8.46 5.54 12 2zm2.92 10l-1.76-1.77L18.46 12l-1.76-1.77 1.76-1.77L22 12zm-10 2.92l1.77-1.76L12 18.46l1.77-1.76 1.77 1.76L12 22zm-2.92-10l1.76 1.77L5.54 12l1.76 1.77-1.76 1.77L2 12z"/>
+    <circle cx="12" cy="12" r="3"/>
   </svg>
 `
 
