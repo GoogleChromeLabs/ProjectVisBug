@@ -33,9 +33,9 @@ export function ColorPicker(pallete, selectorEngine) {
   selectorEngine.onSelectedUpdate(elements => {
     if (!elements.length) return
 
-    let isMeaningfulForeground = false
-    let isMeaningfulBackground = false
-    let isMeaningfulBorder = false
+    let isMeaningfulForeground  = false
+    let isMeaningfulBackground  = false
+    let isMeaningfulBorder      = false
     let FG, BG, BO
 
     if (elements.length <= 2) {
@@ -89,4 +89,17 @@ export function ColorPicker(pallete, selectorEngine) {
       `)
     }
   })
+
+  const setActive = key => {
+    if (key === 'foreground')
+      foregroundPicker[0].style.setProperty('--active_color', 'hotpink')
+    if (key === 'background')
+      backgroundPicker[0].style.setProperty('--active_color', 'hotpink')
+    if (key === 'border')
+      borderPicker[0].style.setProperty('--active_color', 'hotpink')
+  }
+
+  return {
+    setActive
+  }
 }

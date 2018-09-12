@@ -298,8 +298,12 @@ export default class ToolPallete extends HTMLElement {
     this.deactivate_feature = Position('[data-selected=true]')
   }
 
-  activeTool() {
+  get activeTool() {
     return this.active_tool.dataset.tool
+  }
+
+  set activeColor(color) {
+    this.colorPicker.setActive(color)
   }
 }
 
