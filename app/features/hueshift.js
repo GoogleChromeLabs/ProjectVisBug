@@ -33,10 +33,24 @@ export function HueShift(selector) {
       : changeHue($(selector), keys, 'h')
   })
 
-  return () => {
+  const onNodesSelected = els => {
+    if (els.length === 1) return
+
+    const { background } = extractPalleteColors(els[0])
+    
+    $('tool-pallete')[0].activeColor = 'background' 
+    // todo: fetch target active and let user set it
+  }
+
+  const disconnect = () => {
     hotkeys.unbind(key_events)
     hotkeys.unbind(command_events)
     hotkeys.unbind('up,down,left,right')
+  }
+
+  return {
+    onNodesSelected,
+    disconnect,
   }
 }
 
@@ -47,27 +61,12 @@ export function changeHue(els, direction, prop) {
   els
     .map(el => showHideSelected(el))
     .map(el => {
-      let FG, BG, fgStyle, bgStyle
-
-      if (el instanceof SVGElement) {
-        var fg_temp = getStyle(el, 'stroke')
-        FG = new TinyColor(fg_temp === 'none'
-          ? 'rgb(0, 0, 0)'
-          : fg_temp)
-        BG = new TinyColor(getStyle(el, 'fill'))
-        fgStyle = 'stroke'
-        bgStyle = 'fill'
-      }
-      else {
-        FG = new TinyColor(getStyle(el, 'color'))
-        BG = new TinyColor(getStyle(el, 'backgroundColor'))
-        fgStyle = 'color'
-        bgStyle = 'backgroundColor'
-      }
-      
-      return BG.originalInput != 'rgba(0, 0, 0, 0)'             // if bg is set to a value
-        ? { el, current: BG.toHsl(), style: bgStyle } // use bg
-        : { el, current: FG.toHsl(), style: fgStyle }           // else use fg
+      const { foreground, background } = extractPalleteColors(el)
+      // todo: ask tool-pallete for which to manipulate
+      // todo: teach hueshift to do border color
+      return background.color.originalInput != 'rgba(0, 0, 0, 0)'     // if bg is set to a value
+        ? { el, current: background.color.toHsl(), style: background.style }   // use bg
+        : { el, current: foreground.color.toHsl(), style: foreground.style }   // else use fg
     })
     .map(payload =>
       Object.assign(payload, {
@@ -91,4 +90,31 @@ export function changeHue(els, direction, prop) {
     })
     .forEach(({el, style, current}) =>
       el.style[style] = new TinyColor(current).setAlpha(current.a).toHslString())
+}
+
+export function extractPalleteColors(el) {
+  if (el instanceof SVGElement)
+    return {
+      foreground: {
+        style: 'stroke',
+        color: new TinyColor(fg_temp === 'none'
+          ? 'rgb(0, 0, 0)'
+          : fg_temp),
+      },
+      background: {
+        style: 'fill',
+        color: new TinyColor(getStyle(el, 'fill')),
+      }
+    }
+  else
+    return {
+      foreground: {
+        style: 'color',
+        color: new TinyColor(getStyle(el, 'color')),
+      },
+      background: {
+        style: 'backgroundColor',
+        color: new TinyColor(getStyle(el, 'backgroundColor')),
+      }
+    }
 }

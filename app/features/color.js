@@ -38,7 +38,7 @@ export function ColorPicker(pallete, selectorEngine) {
     let isMeaningfulBorder      = false
     let FG, BG, BO
 
-    if (elements.length <= 2) {
+    if (elements.length == 1) {
       const el = elements[0]
 
       if (el instanceof SVGElement) {
@@ -75,17 +75,31 @@ export function ColorPicker(pallete, selectorEngine) {
       
       foregroundPicker.attr('style', `
         --contextual_color: ${new_fg};
-        display: ${!isMeaningfulForeground ? 'none' : 'inline-flex'};
+        display: ${isMeaningfulForeground ? 'inline-flex' : 'none'};
       `)
 
       backgroundPicker.attr('style', `
         --contextual_color: ${new_bg};
-        display: ${!isMeaningfulBackground ? 'none' : 'inline-flex'};
+        display: ${isMeaningfulBackground ? 'inline-flex' : 'none'};
       `)
 
       borderPicker.attr('style', `
         --contextual_color: ${new_bo};
-        display: ${!isMeaningfulBorder ? 'none' : 'inline-flex'};
+        display: ${isMeaningfulBorder ? 'inline-flex' : 'none'};
+      `)
+    }
+    else {
+      // show all 3 if they've selected more than 1 node
+      foregroundPicker.attr('style', `
+        display: 'inline-flex'};
+      `)
+
+      backgroundPicker.attr('style', `
+        display: 'inline-flex'};
+      `)
+
+      borderPicker.attr('style', `
+        display: 'inline-flex'};
       `)
     }
   })
@@ -100,6 +114,10 @@ export function ColorPicker(pallete, selectorEngine) {
   }
 
   return {
-    setActive
+    setActive,
+    foreground: { color: color => 
+      foregroundPicker[0].style.setProperty('--contextual_color', color)},
+    background: { color: color => 
+      backgroundPicker[0].style.setProperty('--contextual_color', color)}
   }
 }
