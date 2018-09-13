@@ -13,34 +13,39 @@ const key_events = 'up,down,left,right'
 
 const command_events = 'cmd+up,cmd+shift+up,cmd+down,cmd+shift+down,cmd+left,cmd+shift+left,cmd+right,cmd+shift+right'
 
-export function HueShift(selector) {
+export function HueShift(Color) {
+  this.active_color = Color.getActive()
+
   hotkeys(key_events, (e, handler) => {
     e.preventDefault()
 
-    let selectedNodes = $(selector)
+    let selectedNodes = $('[data-selected=true]')
       , keys = handler.key.split('+')
 
     keys.includes('left') || keys.includes('right')
-      ? changeHue(selectedNodes, keys, 's')
-      : changeHue(selectedNodes, keys, 'l')
+      ? changeHue(selectedNodes, keys, 's', this.active_color)
+      : changeHue(selectedNodes, keys, 'l', this.active_color)
   })
 
   hotkeys(command_events, (e, handler) => {
     e.preventDefault()
     let keys = handler.key.split('+')
     keys.includes('left') || keys.includes('right')
-      ? changeHue($(selector), keys, 'a')
-      : changeHue($(selector), keys, 'h')
+      ? changeHue($('[data-selected=true]'), keys, 'a', this.active_color)
+      : changeHue($('[data-selected=true]'), keys, 'h', this.active_color)
   })
 
-  const onNodesSelected = els => {
-    if (els.length === 1) return
+  hotkeys('[,]', (e, handler) => {
+    if (this.active_color == 'background')
+      this.active_color = 'foreground'
+    else if (this.active_color == 'foreground')
+      this.active_color = 'background'
 
-    const { background } = extractPalleteColors(els[0])
-    
-    $('tool-pallete')[0].activeColor = 'background' 
-    // todo: fetch target active and let user set it
-  }
+    Color.setActive(this.active_color)
+  })
+
+  const onNodesSelected = els =>
+    Color.setActive(this.active_color)
 
   const disconnect = () => {
     hotkeys.unbind(key_events)
@@ -54,19 +59,19 @@ export function HueShift(selector) {
   }
 }
 
-// todo: more hotkeys
-// b: black
-// w: white
-export function changeHue(els, direction, prop) {
+export function changeHue(els, direction, prop, active_color) {
   els
     .map(el => showHideSelected(el))
     .map(el => {
       const { foreground, background } = extractPalleteColors(el)
-      // todo: ask tool-pallete for which to manipulate
-      // todo: teach hueshift to do border color
-      return background.color.originalInput != 'rgba(0, 0, 0, 0)'     // if bg is set to a value
-        ? { el, current: background.color.toHsl(), style: background.style }   // use bg
-        : { el, current: foreground.color.toHsl(), style: foreground.style }   // else use fg
+
+      // todo: teach hueshift to do handle color
+      switch(active_color) {
+        case 'background':
+          return { el, current: background.color.toHsl(), style: background.style }
+        case 'foreground':
+          return { el, current: foreground.color.toHsl(), style: foreground.style }
+      }
     })
     .map(payload =>
       Object.assign(payload, {

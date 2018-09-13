@@ -279,7 +279,7 @@ export default class ToolPallete extends HTMLElement {
   }
 
   hueshift() {
-    let feature = HueShift('[data-selected=true]')
+    let feature = HueShift(this.colorPicker)
     this.selectorEngine.onSelectedUpdate(feature.onNodesSelected)
     this.deactivate_feature = () => {
       this.selectorEngine.removeSelectedCallback(feature.onNodesSelected)
@@ -305,10 +305,6 @@ export default class ToolPallete extends HTMLElement {
 
   get activeTool() {
     return this.active_tool.dataset.tool
-  }
-
-  set activeColor(color) {
-    this.colorPicker.setActive(color)
   }
 
   set updateColor({picker, color}) {
