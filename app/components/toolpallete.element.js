@@ -306,10 +306,6 @@ export default class ToolPallete extends HTMLElement {
   get activeTool() {
     return this.active_tool.dataset.tool
   }
-
-  set updateColor({picker, color}) {
-    this.colorPicker[picker].color(color)
-  }
 }
 
 customElements.define('tool-pallete', ToolPallete)
