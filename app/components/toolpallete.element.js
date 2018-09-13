@@ -279,7 +279,12 @@ export default class ToolPallete extends HTMLElement {
   }
 
   hueshift() {
-    this.deactivate_feature = HueShift('[data-selected=true]')
+    let feature = HueShift(this.colorPicker)
+    this.selectorEngine.onSelectedUpdate(feature.onNodesSelected)
+    this.deactivate_feature = () => {
+      this.selectorEngine.removeSelectedCallback(feature.onNodesSelected)
+      feature.disconnect()
+    }
   }
 
   inspector() {
@@ -298,7 +303,7 @@ export default class ToolPallete extends HTMLElement {
     this.deactivate_feature = Position('[data-selected=true]')
   }
 
-  activeTool() {
+  get activeTool() {
     return this.active_tool.dataset.tool
   }
 }
