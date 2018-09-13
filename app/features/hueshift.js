@@ -103,7 +103,9 @@ export function changeHue(els, direction, prop, Color) {
 }
 
 export function extractPalleteColors(el) {
-  if (el instanceof SVGElement)
+  if (el instanceof SVGElement) {
+    const  fg_temp = getStyle(el, 'stroke')
+    
     return {
       foreground: {
         style: 'stroke',
@@ -116,6 +118,7 @@ export function extractPalleteColors(el) {
         color: new TinyColor(getStyle(el, 'fill')),
       }
     }
+  }
   else
     return {
       foreground: {
