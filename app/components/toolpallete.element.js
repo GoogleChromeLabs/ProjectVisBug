@@ -16,6 +16,7 @@ export default class ToolPallete extends HTMLElement {
     this.toolbar_model = {
       g: { tool: 'guides', icon: Icons.ruler, label: 'Guides', description: 'Verify alignment' },
       i: { tool: 'inspector', icon: Icons.inspector, label: 'Inspect', description: 'Peak into the common & current styles of an element' },
+      x: { tool: 'accessibility', icon: Icons.accessibility, label: 'Accessibility', description: 'Peak into a11y attributes & compliance status' },
       v: { tool: 'move', icon: Icons.move, label: 'Move', description: 'Push elements in, out & around' },
       // r: { tool: 'resize', icon: Icons.resize, label: 'Resize', description: '' },
       m: { tool: 'margin', icon: Icons.margin, label: 'Margin', description: 'Add or subtract outer space' },
@@ -289,6 +290,10 @@ export default class ToolPallete extends HTMLElement {
 
   inspector() {
     this.deactivate_feature = MetaTip()
+  }
+
+  accessibility() {
+    this.deactivate_feature = () => {}
   }
 
   guides() {
