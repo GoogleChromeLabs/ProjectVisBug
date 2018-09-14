@@ -3,8 +3,9 @@ import hotkeys from 'hotkeys-js'
 
 import * as Icons from './toolpallete.icons' 
 import { 
-  Selectable, Moveable, Padding, Margin, EditText, Font, Flex, Search,
-  ColorPicker, BoxShadow, HueShift, MetaTip, Guides, Screenshot, Position
+  Selectable, Moveable, Padding, Margin, EditText, Font, 
+  Flex, Search, ColorPicker, BoxShadow, HueShift, MetaTip, 
+  Guides, Screenshot, Position, Accessibility
 } from '../features/'
 
 import { provideSelectorEnginer } from '../features/search'
@@ -293,7 +294,7 @@ export default class ToolPallete extends HTMLElement {
   }
 
   accessibility() {
-    this.deactivate_feature = () => {}
+    this.deactivate_feature = Accessibility()
   }
 
   guides() {
