@@ -17,11 +17,6 @@ export function Position(selector) {
     positionElement($(selector), handler.key)
   })
 
-  // hotkeys(command_events, (e, handler) => {
-  //   e.preventDefault()
-  //   pushAllElementSides($(selector), handler.key)
-  // })
-
   return () => {
     hotkeys.unbind(key_events)
     // hotkeys.unbind(command_events)
