@@ -22,7 +22,7 @@ export const desiredPropMap = {
   backgroundImage:      'none',
   backgroundSize:       'auto',
   backgroundPosition:   '0% 0%',
-  borderColor:          'rgb(0, 0, 0)',
+  // borderColor:          'rgb(0, 0, 0)',
   borderWidth:          '0px',
   borderRadius:         '0px',
   boxShadow:            'none',
@@ -52,7 +52,7 @@ export const getStyles = el => {
     if (prop in desiredPropMap && desiredPropMap[prop] != computedStyle[prop])
       desiredValues.push({
         prop,
-        value: computedStyle[prop]
+        value: computedStyle[prop].replace(/, rgba/g, '\rrgba')
       })
 
   return desiredValues

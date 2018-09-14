@@ -54,6 +54,8 @@ const metatipStyles = {
     display: inline-flex;
     align-items: center;
     justify-content: flex-end;
+    text-align: right;
+    white-space: pre;
   `,
   div_color: `
     position: relative;
