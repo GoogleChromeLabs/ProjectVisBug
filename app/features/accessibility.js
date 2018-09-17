@@ -67,14 +67,31 @@ export function Accessibility() {
     // todo: crawl parent element until you find a legit bg color
     // question: how to know if the current node is actually a black background?
     // question: is there an api for composited values?
-    const background  = getStyle(el, 'background-color')
-    const text        = getStyle(el, 'color')
+    const text      = getStyle(el, 'color')
+    let background  = getStyle(el, 'background-color')
 
-    return (
-      Math.floor(readability(background, text)  * 100) / 100
-      + "::" + 
-      (isReadable(background, text) ? 'pass' : 'fail')
-    )
+    if (background === 'rgba(0, 0, 0, 0)') {
+      let node  = el.parentNode
+        , found = false
+
+      while(!found) {
+        let bg  = getStyle(node, 'background-color')
+
+        if (bg !== 'rgba(0, 0, 0, 0)') {
+          found = true
+          background = bg
+        }
+
+        node = node.parentNode
+      }
+    }
+
+    return `${Math.floor(readability(background, text)  * 100) / 100}
+      AA Small:  ${isReadable(background, text) ? 'pass' : 'fail'}
+      AA Large:  ${isReadable(background, text, { level: "AA", size: "large" }) ? 'pass' : 'fail'}
+      AAA Small: ${isReadable(background, text, { level: "AAA", size: "small" }) ? 'pass' : 'fail'}
+      AAA Large: ${isReadable(background, text, { level: "AAA", size: "large" }) ? 'pass' : 'fail'}
+    `
   }
 
   const tip_position = (node, e) => ({
