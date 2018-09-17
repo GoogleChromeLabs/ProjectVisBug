@@ -90,8 +90,7 @@ export function Accessibility() {
       AA Small:  ${isReadable(background, text) ? 'pass' : 'fail'}
       AA Large:  ${isReadable(background, text, { level: "AA", size: "large" }) ? 'pass' : 'fail'}
       AAA Small: ${isReadable(background, text, { level: "AAA", size: "small" }) ? 'pass' : 'fail'}
-      AAA Large: ${isReadable(background, text, { level: "AAA", size: "large" }) ? 'pass' : 'fail'}
-    `
+      AAA Large: ${isReadable(background, text, { level: "AAA", size: "large" }) ? 'pass' : 'fail'}`
   }
 
   const tip_position = (node, e) => ({
