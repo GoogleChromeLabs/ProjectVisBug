@@ -40,6 +40,11 @@ const metatipStyles = {
     text-align: right;
     white-space: pre;
   `,
+  contrast_sample: `
+    padding: 0 0.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 0 1px hsl(0,0%,90%);
+  `,
 }
 
 let tip_map = {}
@@ -55,8 +60,7 @@ export function Accessibility() {
     tip.innerHTML = `
       <h5 style="${metatipStyles.h5}">${el.nodeName.toLowerCase()}</h5>
       <div style="${metatipStyles.first_div}">
-        <span prop>Color contrast:</span>
-        <span style="${metatipStyles.div_value}">${contrast_results}</span>
+        ${contrast_results}
       </div>
     `
 
@@ -64,7 +68,6 @@ export function Accessibility() {
   }
 
   const determineColorContrast = el => {
-    // todo: crawl parent element until you find a legit bg color
     // question: how to know if the current node is actually a black background?
     // question: is there an api for composited values?
     const text      = getStyle(el, 'color')
@@ -86,11 +89,25 @@ export function Accessibility() {
       }
     }
 
-    return `${Math.floor(readability(background, text)  * 100) / 100}
-      AA Small:  ${isReadable(background, text) ? 'pass' : 'fail'}
-      AA Large:  ${isReadable(background, text, { level: "AA", size: "large" }) ? 'pass' : 'fail'}
-      AAA Small: ${isReadable(background, text, { level: "AAA", size: "small" }) ? 'pass' : 'fail'}
-      AAA Large: ${isReadable(background, text, { level: "AAA", size: "large" }) ? 'pass' : 'fail'}`
+    const [ aa_small, aaa_small, aa_large, aaa_large ] = [
+      isReadable(background, text),
+      isReadable(background, text, { level: "AAA", size: "small" }),
+      isReadable(background, text, { level: "AA", size: "large" }),
+      isReadable(background, text, { level: "AAA", size: "large" }),
+    ]
+
+    return `
+      <span prop>Color contrast</span>
+      <span style="${metatipStyles.div_value}${metatipStyles.contrast_sample}background-color:${background};color:${text};">${Math.floor(readability(background, text)  * 100) / 100}</span>
+      <span prop>AA Small</span>
+      <span style="${metatipStyles.div_value}${aa_small ? 'color:green;' : 'color:red'}">${aa_small ? '✓' : '×'}</span>
+      <span prop>AAA Small</span>
+      <span style="${metatipStyles.div_value}${aaa_small ? 'color:green;' : 'color:red'}">${aaa_small ? '✓' : '×'}</span>
+      <span prop>AA Large</span>
+      <span style="${metatipStyles.div_value}${aa_large ? 'color:green;' : 'color:red'}">${aa_large ? '✓' : '×'}</span>
+      <span prop>AAA Large</span>
+      <span style="${metatipStyles.div_value}${aaa_large ? 'color:green;' : 'color:red'}">${aaa_large ? '✓' : '×'}</span>
+    `
   }
 
   const tip_position = (node, e) => ({
