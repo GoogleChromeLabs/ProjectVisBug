@@ -119,16 +119,19 @@ export function Selectable() {
 
   const on_copy_styles = e => {
     e.preventDefault()
-    this.copied_styles = selected.map(el =>
+    this.copied_styles = selected.reverse().map(el =>
       getStyles(el))
   }
 
   const on_paste_styles = (index = 0) =>
     selected.forEach(el => {
-      index = 0
       this.copied_styles[index]
         .map(({prop, value}) =>
           el.style[prop] = value)
+
+      index >= this.copied_styles.length - 1
+        ? index = 0
+        : index++
     })
 
   const on_expand_selection = (e, {key}) => {
