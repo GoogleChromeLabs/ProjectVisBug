@@ -11,16 +11,67 @@ const key_events = 'up,down,left,right'
 
 const command_events = 'cmd+up,cmd+shift+up,cmd+down,cmd+shift+down'
 
-export function Position(selector) {
+export function Position() {
+  this._els = []
+
   hotkeys(key_events, (e, handler) => {
     e.preventDefault()
-    positionElement($(selector), handler.key)
+    positionElement($('[data-selected=true]'), handler.key)
   })
 
-  return () => {
+  const onNodesSelected = els => {
+    if (this._els.length) 
+      this._els.off('mousedown', draggable)
+
+    this._els = $(...els).on('mousedown', draggable)
+  }
+
+  const disconnect = () => {
+    this._els.off('mousedown', draggable)
     hotkeys.unbind(key_events)
     // hotkeys.unbind(command_events)
     hotkeys.unbind('up,down,left,right') // bug in lib?
+  }
+
+  return {
+    onNodesSelected,
+    disconnect,
+  }
+}
+
+function draggable({target}) {
+  var isMouseDown = false
+  var mouseX
+  var mouseY
+  var elementX = 0
+  var elementY = 0
+
+  target.addEventListener('mousedown', onMouseDown)
+  target.addEventListener('mouseup', onMouseUp)
+  document.addEventListener('mousemove', onMouseMove)
+
+  function onMouseDown(e) {
+    e.preventDefault()
+    mouseX = e.clientX
+    mouseY = e.clientY
+    isMouseDown = true
+  }
+
+  function onMouseUp(e) {
+    isMouseDown = false
+    elementX = parseInt(target.style.left) || 0
+    elementY = parseInt(target.style.top) || 0
+  }
+
+  function onMouseMove(e) {
+    e.preventDefault()
+    if (!isMouseDown) return
+
+    const deltaX = e.clientX - mouseX
+    const deltaY = e.clientY - mouseY
+
+    target.style.left = elementX + deltaX + 'px'
+    target.style.top = elementY + deltaY + 'px'
   }
 }
 

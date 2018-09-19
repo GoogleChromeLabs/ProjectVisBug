@@ -314,7 +314,12 @@ export default class ToolPallete extends HTMLElement {
   }
 
   position() {
-    this.deactivate_feature = Position('[data-selected=true]')
+    let feature = Position()
+    this.selectorEngine.onSelectedUpdate(feature.onNodesSelected)
+    this.deactivate_feature = () => {
+      this.selectorEngine.removeSelectedCallback(feature.onNodesSelected)
+      feature.disconnect()
+    }
   }
 
   get activeTool() {
