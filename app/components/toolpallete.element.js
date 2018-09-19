@@ -148,16 +148,15 @@ export default class ToolPallete extends HTMLElement {
         }
 
         :host [colors] > li:not(:last-child) {
-          margin-bottom: 0.25rem;
+          margin-bottom: 0.5rem;
         }
-
+ 
         :host li[data-tool]:hover {
           cursor: pointer;
           background: var(--theme-tool_selected);
         }
 
-        :host li[data-tool]:hover:after,
-        :host [colors] li:hover:after {
+        :host li:hover:after {
           content: attr(aria-label) "\\A" attr(aria-description);
           position: absolute;
           left: 100%;
@@ -195,7 +194,7 @@ export default class ToolPallete extends HTMLElement {
         }
 
         :host [colors] {
-          margin-top: 0.25rem;
+          margin-top: 0.5rem;
         }
 
         :host li > svg {
@@ -227,6 +226,15 @@ export default class ToolPallete extends HTMLElement {
           width: 250px;
           box-sizing: border-box;
           caret-color: hotpink;
+        }
+
+        :host [colors] > li > svg {
+          position: relative;
+          top: -2px;
+        }
+
+        :host [colors] > li > svg > path:last-child {
+          stroke: hsla(0,0%,0%,20%);
         }
 
         :host input[type='color'] {
