@@ -84,6 +84,8 @@ export default class ToolPallete extends HTMLElement {
           ${list}
           <li aria-label="${value.label} Tool (${key})" aria-description="${value.description}" data-tool="${value.tool}" data-active="${key == 'g'}">${value.icon}</li>
         `,'')}
+      </ol>
+      <ol colors>
         <li style="display: none;" class="color" id="foreground" aria-label="Text" aria-description="Change the text color">
           <input type="color" value="">
           ${Icons.color_text}
@@ -108,21 +110,23 @@ export default class ToolPallete extends HTMLElement {
           --theme-color: hotpink;
           --theme-icon_color: hsl(0,0%,20%);
           --theme-tool_selected: hsl(0,0%,98%);
-        }
 
-        :host > ol {
           position: fixed;
           top: 1rem;
           left: 1rem;
           z-index: 99998; 
+        }
 
+        :host > ol {
           display: flex;
           flex-direction: column;
-
-          box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
           margin: 0;
           padding: 0;
           list-style-type: none;
+        }
+
+        :host > ol:not([colors]) {
+          box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
         }
 
         :host li {
@@ -135,13 +139,23 @@ export default class ToolPallete extends HTMLElement {
           background: var(--theme-bg);
         }
 
+        :host [colors] > li {
+          overflow: hidden;
+          border-radius: 50%;
+          box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
+        }
+
+        :host [colors] > li:not(:last-child) {
+          margin-bottom: 0.25rem;
+        }
+
         :host li[data-tool]:hover {
           cursor: pointer;
           background: var(--theme-tool_selected);
         }
 
         :host li[data-tool]:hover:after,
-        :host li.color:hover:after {
+        :host [colors] li:hover:after {
           content: attr(aria-label) "\\A" attr(aria-description);
           position: absolute;
           left: 100%;
@@ -158,7 +172,7 @@ export default class ToolPallete extends HTMLElement {
           white-space: pre;
         }
 
-        :host li.color:hover:after {
+        :host [colors] li:hover:after {
           top: 0;
         }
 
@@ -178,7 +192,7 @@ export default class ToolPallete extends HTMLElement {
           stroke: var(--theme-color); 
         }
 
-        :host .color {
+        :host [colors] {
           margin-top: 0.25rem;
         }
 
