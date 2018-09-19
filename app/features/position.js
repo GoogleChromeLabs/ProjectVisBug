@@ -20,10 +20,13 @@ export function Position() {
   })
 
   const onNodesSelected = els => {
-    if (this._els.length) 
-      this._els.off('mousedown', draggable)
+    // teardown previous draggable nodes
+    // init new draggable nodes
+    this._els.forEach(el =>
+      el.teardown())
 
-    this._els = $(...els).on('mousedown', draggable)
+    this._els = els.map(el =>
+      draggable(el))
   }
 
   const disconnect = () => {
@@ -39,39 +42,61 @@ export function Position() {
   }
 }
 
-function draggable({target}) {
+function draggable(el) {
   var isMouseDown = false
   var mouseX
   var mouseY
-  var elementX = 0
-  var elementY = 0
+  var elementX
+  var elementY
 
-  target.addEventListener('mousedown', onMouseDown)
-  target.addEventListener('mouseup', onMouseUp)
-  document.addEventListener('mousemove', onMouseMove)
+  const setup = () => {
+    el.addEventListener('mousedown', onMouseDown, true)
+    el.addEventListener('mouseup', onMouseUp, true)
+    document.addEventListener('mousemove', onMouseMove, true)
+  }
+
+  const teardown = () => {
+    el.removeEventListener('mousedown', onMouseDown, true)
+    el.removeEventListener('mouseup', onMouseUp, true)
+    document.removeEventListener('mousemove', onMouseMove, true)
+  }
 
   function onMouseDown(e) {
     e.preventDefault()
+    e.target.style.position = 'relative'
+    e.target.style.transition = 'none'
+    elementX = parseInt(getStyle(e.target, 'left'))
+    elementY = parseInt(getStyle(e.target, 'top'))
     mouseX = e.clientX
     mouseY = e.clientY
     isMouseDown = true
   }
 
   function onMouseUp(e) {
+    e.preventDefault()
     isMouseDown = false
-    elementX = parseInt(target.style.left) || 0
-    elementY = parseInt(target.style.top) || 0
+    e.target.style.transition = null
+    elementX = parseInt(el.style.left) || 0
+    elementY = parseInt(el.style.top) || 0
   }
 
   function onMouseMove(e) {
     e.preventDefault()
+    e.stopPropagation()
+
     if (!isMouseDown) return
 
     const deltaX = e.clientX - mouseX
     const deltaY = e.clientY - mouseY
 
-    target.style.left = elementX + deltaX + 'px'
-    target.style.top = elementY + deltaY + 'px'
+    el.style.left = elementX + deltaX + 'px'
+    el.style.top = elementY + deltaY + 'px'
+  }
+
+  setup()
+
+  return {
+    teardown
   }
 }
 
