@@ -42,6 +42,13 @@ export const desiredPropMap = {
   stroke:               'none',
 }
 
+export const desiredAccessibilityMap = [
+  'role',
+  'tabindex',
+  'aria-*',
+  'for',
+]
+
 export const getStyles = el => {
   const elStyleObject = el.style
   const computedStyle = window.getComputedStyle(el, null)
@@ -56,6 +63,29 @@ export const getStyles = el => {
       })
 
   return desiredValues
+}
+
+export const getA11ys = el => {
+  const elAttributes = el.getAttributeNames()
+
+  return desiredAccessibilityMap.reduce((acc, attribute) => {
+    if (elAttributes.includes(attribute))
+      acc.push({
+        prop:   attribute,
+        value:  el.getAttribute(attribute)
+      })
+
+    if (attribute === 'aria-*')
+      elAttributes.forEach(attr => {
+        if (attr.includes('aria'))
+          acc.push({
+            prop:   attr,
+            value:  el.getAttribute(attr)
+          })
+      })
+
+    return acc
+  }, [])
 }
 
 let timeoutMap = {}
