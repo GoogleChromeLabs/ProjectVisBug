@@ -53,12 +53,18 @@ export function draggable(el) {
   }
 
   const setup = () => {
+    el.style.transition   = 'none'
+    el.style.cursor       = 'move'
+
     el.addEventListener('mousedown', onMouseDown, true)
     el.addEventListener('mouseup', onMouseUp, true)
     document.addEventListener('mousemove', onMouseMove, true)
   }
 
   const teardown = () => {
+    el.style.transition   = null
+    el.style.cursor       = null
+
     el.removeEventListener('mousedown', onMouseDown, true)
     el.removeEventListener('mouseup', onMouseUp, true)
     document.removeEventListener('mousemove', onMouseMove, true)
@@ -69,9 +75,7 @@ export function draggable(el) {
 
     const el = e.target
 
-    el.style.position     = 'relative'
-    el.style.transition   = 'none'
-    el.style.cursor       = 'move'
+    el.style.position = 'relative'
 
     if (el instanceof SVGElement) {
       const translate = el.getAttribute('transform')
@@ -96,9 +100,7 @@ export function draggable(el) {
   const onMouseUp = e => {
     e.preventDefault()
 
-    this.state.mouse.down       = false
-    e.target.style.transition   = null
-    e.target.style.cursor       = null
+    this.state.mouse.down = false
 
     if (el instanceof SVGElement) {
       const translate = el.getAttribute('transform')
