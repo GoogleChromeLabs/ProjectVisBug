@@ -71,6 +71,7 @@ export function draggable(el) {
 
     el.style.position     = 'relative'
     el.style.transition   = 'none'
+    el.style.cursor       = 'move'
 
     if (el instanceof SVGElement) {
       const translate = el.getAttribute('transform')
@@ -79,8 +80,8 @@ export function draggable(el) {
         ? extractSVGTranslate(translate)
         : [0,0]
 
-      this.state.element.x  = parseFloat(x || 0)
-      this.state.element.y  = parseFloat(y || 0)
+      this.state.element.x  = x
+      this.state.element.y  = y
     }
     else {
       this.state.element.x  = parseInt(getStyle(el, 'left'))
@@ -94,9 +95,10 @@ export function draggable(el) {
 
   const onMouseUp = e => {
     e.preventDefault()
-    
+
     this.state.mouse.down       = false
     e.target.style.transition   = null
+    e.target.style.cursor       = null
 
     if (el instanceof SVGElement) {
       const translate = el.getAttribute('transform')
@@ -105,8 +107,8 @@ export function draggable(el) {
         ? extractSVGTranslate(translate)
         : [0,0]
 
-      this.state.element.x    = parseInt(x)
-      this.state.element.y    = parseInt(y)
+      this.state.element.x    = x
+      this.state.element.y    = y
     }
     else {
       this.state.element.x    = parseInt(el.style.left) || 0
@@ -193,7 +195,7 @@ const extractSVGTranslate = translate =>
     translate.indexOf('(') + 1, 
     translate.indexOf(')')
   ).split(',')
-  .map(val => parseInt(val))
+  .map(val => parseFloat(val))
 
 const setTranslateOnSVG = (el, direction, position) => {
   const transform = el.attr('transform')
