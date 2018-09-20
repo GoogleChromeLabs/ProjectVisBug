@@ -20,8 +20,6 @@ export function Position() {
   })
 
   const onNodesSelected = els => {
-    // teardown previous draggable nodes
-    // init new draggable nodes
     this._els.forEach(el =>
       el.teardown())
 
@@ -30,10 +28,9 @@ export function Position() {
   }
 
   const disconnect = () => {
-    this._els.off('mousedown', draggable)
+    this._els.forEach(el => el.teardown())
     hotkeys.unbind(key_events)
-    // hotkeys.unbind(command_events)
-    hotkeys.unbind('up,down,left,right') // bug in lib?
+    hotkeys.unbind('up,down,left,right')
   }
 
   return {
@@ -42,12 +39,18 @@ export function Position() {
   }
 }
 
-function draggable(el) {
-  var isMouseDown = false
-  var mouseX
-  var mouseY
-  var elementX
-  var elementY
+export function draggable(el) {
+  this.state = {
+    mouse: {
+      down: false,
+      x: 0,
+      y: 0,
+    },
+    element: {
+      x: 0,
+      y: 0,
+    }
+  }
 
   const setup = () => {
     el.addEventListener('mousedown', onMouseDown, true)
@@ -61,36 +64,81 @@ function draggable(el) {
     document.removeEventListener('mousemove', onMouseMove, true)
   }
 
-  function onMouseDown(e) {
+  const onMouseDown = e => {
     e.preventDefault()
-    e.target.style.position = 'relative'
-    e.target.style.transition = 'none'
-    elementX = parseInt(getStyle(e.target, 'left'))
-    elementY = parseInt(getStyle(e.target, 'top'))
-    mouseX = e.clientX
-    mouseY = e.clientY
-    isMouseDown = true
+
+    const el = e.target
+
+    el.style.position     = 'relative'
+    el.style.transition   = 'none'
+
+    if (el instanceof SVGElement) {
+      const translate = el.getAttribute('transform')
+
+      if (translate) {
+        var [x, y] = translate.substr(
+          translate.indexOf('(') + 1, 
+          translate.indexOf(')') - 1)
+        .split(',')
+      }
+      else
+        var [x,y] = [0,0]
+
+      this.state.element.x  = parseFloat(x || 0)
+      this.state.element.y  = parseFloat(y || 0)
+    }
+    else {
+      this.state.element.x  = parseInt(getStyle(el, 'left'))
+      this.state.element.y  = parseInt(getStyle(el, 'top'))
+    }
+
+    this.state.mouse.x      = e.clientX
+    this.state.mouse.y      = e.clientY
+    this.state.mouse.down   = true
   }
 
-  function onMouseUp(e) {
+  const onMouseUp = e => {
     e.preventDefault()
-    isMouseDown = false
-    e.target.style.transition = null
-    elementX = parseInt(el.style.left) || 0
-    elementY = parseInt(el.style.top) || 0
+    this.state.mouse.down       = false
+    e.target.style.transition   = null
+
+    if (el instanceof SVGElement) {
+      const translate = el.getAttribute('transform')
+
+      if (translate) {
+        var [x, y] = translate.substr(
+          translate.indexOf('(') + 1, 
+          translate.indexOf(')') - 1)
+        .split(',')
+      }
+      else
+        var [x,y] = [0,0]
+
+      this.state.element.x    = parseInt(x)
+      this.state.element.y    = parseInt(y)
+    }
+    else {
+      this.state.element.x    = parseInt(el.style.left) || 0
+      this.state.element.y    = parseInt(el.style.top) || 0
+    }
   }
 
-  function onMouseMove(e) {
+  const onMouseMove = e => {
     e.preventDefault()
     e.stopPropagation()
 
-    if (!isMouseDown) return
+    if (!this.state.mouse.down) return
 
-    const deltaX = e.clientX - mouseX
-    const deltaY = e.clientY - mouseY
-
-    el.style.left = elementX + deltaX + 'px'
-    el.style.top = elementY + deltaY + 'px'
+    if (el instanceof SVGElement) {
+      el.setAttribute('transform', `translate(
+        ${this.state.element.x + e.clientX - this.state.mouse.x},
+        ${this.state.element.y + e.clientY - this.state.mouse.y}
+      )`)
+    }
+    else {
+      el.style.left = this.state.element.x + e.clientX - this.state.mouse.x + 'px'
+      el.style.top  = this.state.element.y + e.clientY - this.state.mouse.y + 'px'
+    }
   }
 
   setup()
