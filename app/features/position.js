@@ -75,14 +75,9 @@ export function draggable(el) {
     if (el instanceof SVGElement) {
       const translate = el.getAttribute('transform')
 
-      if (translate) {
-        var [x, y] = translate.substr(
-          translate.indexOf('(') + 1, 
-          translate.indexOf(')') - 1)
-        .split(',')
-      }
-      else
-        var [x,y] = [0,0]
+      const [ x, y ] = translate
+        ? extractSVGTranslate(translate)
+        : [0,0]
 
       this.state.element.x  = parseFloat(x || 0)
       this.state.element.y  = parseFloat(y || 0)
@@ -99,20 +94,16 @@ export function draggable(el) {
 
   const onMouseUp = e => {
     e.preventDefault()
+    
     this.state.mouse.down       = false
     e.target.style.transition   = null
 
     if (el instanceof SVGElement) {
       const translate = el.getAttribute('transform')
 
-      if (translate) {
-        var [x, y] = translate.substr(
-          translate.indexOf('(') + 1, 
-          translate.indexOf(')') - 1)
-        .split(',')
-      }
-      else
-        var [x,y] = [0,0]
+      const [ x, y ] = translate
+        ? extractSVGTranslate(translate)
+        : [0,0]
 
       this.state.element.x    = parseInt(x)
       this.state.element.y    = parseInt(y)
@@ -166,7 +157,7 @@ export function positionElement(els, direction) {
       }))
     .forEach(({el, style, position}) =>
       el instanceof SVGElement
-        ? el.attr(style, position)
+        ? setTranslateOnSVG(el, direction, position)
         : el.style[style] = position + 'px')
 }
 
@@ -174,15 +165,20 @@ const extractCurrentValueAndSide = (el, direction) => {
   let style, current
 
   if (el instanceof SVGElement) {
-    style = direction.includes('down') || direction.includes('up')
-      ? 'cy'
-      : 'cx'
-            
-    current = parseFloat(el.attr(style), 10)
+    const translate = el.attr('transform')
+
+    const [ x, y ] = translate
+      ? extractSVGTranslate(translate)
+      : [0,0]
+
+    style   = 'transform'
+    current = direction.includes('down') || direction.includes('up')
+      ? y
+      : x
   }
   else {
-    style  = getSide(direction).toLowerCase()
-    current   = getStyle(el, style)
+    style   = getSide(direction).toLowerCase()
+    current = getStyle(el, style)
 
     current === 'auto'
       ? current = 0
@@ -190,6 +186,26 @@ const extractCurrentValueAndSide = (el, direction) => {
   }
 
   return { style, current }
+}
+
+const extractSVGTranslate = translate =>
+  translate.substring(
+    translate.indexOf('(') + 1, 
+    translate.indexOf(')')
+  ).split(',')
+  .map(val => parseInt(val))
+
+const setTranslateOnSVG = (el, direction, position) => {
+  const transform = el.attr('transform')
+  const [ x, y ] = transform
+    ? extractSVGTranslate(transform)
+    : [0,0]
+
+  const pos = direction.includes('down') || direction.includes('up')
+    ? `${x},${position}`
+    : `${position},${y}`
+
+  el.attr('transform', `translate(${pos})`)
 }
 
 const determineNegativity = (el, direction) =>
