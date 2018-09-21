@@ -47,6 +47,7 @@ export const desiredAccessibilityMap = [
   'tabindex',
   'aria-*',
   'for',
+  'alt',
 ]
 
 export const getStyles = el => {
