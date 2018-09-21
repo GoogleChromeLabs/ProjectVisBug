@@ -30,7 +30,7 @@ export default class ToolPallete extends HTMLElement {
       l: { tool: 'position', icon: Icons.position, label: 'Position', description: 'Move svg (x,y) and elements (top,left,bottom,right)' },
       f: { tool: 'font', icon: Icons.font, label: 'Font Styles', description: 'Change size, leading, kerning, & weight' },
       e: { tool: 'text', icon: Icons.type, label: 'Edit Text', description: 'Change any text on the page' },
-      c: { tool: 'screenshot', icon: Icons.camera, label: 'Screenshot', description: 'Screenshot selected elements or the entire page' },
+      // c: { tool: 'screenshot', icon: Icons.camera, label: 'Screenshot', description: 'Screenshot selected elements or the entire page' },
       s: { tool: 'search', icon: Icons.search, label: 'Search', description: 'Select elements by searching for them' },
     }
 
