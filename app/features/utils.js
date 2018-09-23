@@ -22,9 +22,10 @@ export const desiredPropMap = {
   backgroundImage:      'none',
   backgroundSize:       'auto',
   backgroundPosition:   '0% 0%',
-  borderColor:          'rgb(0, 0, 0)',
+  // borderColor:          'rgb(0, 0, 0)',
   borderWidth:          '0px',
   borderRadius:         '0px',
+  boxShadow:            'none',
   padding:              '0px',
   margin:               '0px',
   fontFamily:           '',
@@ -41,6 +42,13 @@ export const desiredPropMap = {
   stroke:               'none',
 }
 
+export const desiredAccessibilityMap = [
+  'role',
+  'tabindex',
+  'aria-*',
+  'for',
+]
+
 export const getStyles = el => {
   const elStyleObject = el.style
   const computedStyle = window.getComputedStyle(el, null)
@@ -51,10 +59,33 @@ export const getStyles = el => {
     if (prop in desiredPropMap && desiredPropMap[prop] != computedStyle[prop])
       desiredValues.push({
         prop,
-        value: computedStyle[prop]
+        value: computedStyle[prop].replace(/, rgba/g, '\rrgba')
       })
 
   return desiredValues
+}
+
+export const getA11ys = el => {
+  const elAttributes = el.getAttributeNames()
+
+  return desiredAccessibilityMap.reduce((acc, attribute) => {
+    if (elAttributes.includes(attribute))
+      acc.push({
+        prop:   attribute,
+        value:  el.getAttribute(attribute)
+      })
+
+    if (attribute === 'aria-*')
+      elAttributes.forEach(attr => {
+        if (attr.includes('aria'))
+          acc.push({
+            prop:   attr,
+            value:  el.getAttribute(attr)
+          })
+      })
+
+    return acc
+  }, [])
 }
 
 let timeoutMap = {}

@@ -13,61 +13,65 @@ const key_events = 'up,down,left,right'
 
 const command_events = 'cmd+up,cmd+shift+up,cmd+down,cmd+shift+down,cmd+left,cmd+shift+left,cmd+right,cmd+shift+right'
 
-export function HueShift(selector) {
+export function HueShift(Color) {
+  this.active_color = Color.getActive()
+
   hotkeys(key_events, (e, handler) => {
     e.preventDefault()
 
-    let selectedNodes = $(selector)
+    let selectedNodes = $('[data-selected=true]')
       , keys = handler.key.split('+')
 
     keys.includes('left') || keys.includes('right')
-      ? changeHue(selectedNodes, keys, 's')
-      : changeHue(selectedNodes, keys, 'l')
+      ? changeHue(selectedNodes, keys, 's', Color)
+      : changeHue(selectedNodes, keys, 'l', Color)
   })
 
   hotkeys(command_events, (e, handler) => {
     e.preventDefault()
     let keys = handler.key.split('+')
     keys.includes('left') || keys.includes('right')
-      ? changeHue($(selector), keys, 'a')
-      : changeHue($(selector), keys, 'h')
+      ? changeHue($('[data-selected=true]'), keys, 'a', Color)
+      : changeHue($('[data-selected=true]'), keys, 'h', Color)
   })
 
-  return () => {
+  hotkeys('[,]', (e, handler) => {
+    if (this.active_color == 'background')
+      this.active_color = 'foreground'
+    else if (this.active_color == 'foreground')
+      this.active_color = 'background'
+
+    Color.setActive(this.active_color)
+  })
+
+  const onNodesSelected = els =>
+    Color.setActive(this.active_color)
+
+  const disconnect = () => {
     hotkeys.unbind(key_events)
     hotkeys.unbind(command_events)
     hotkeys.unbind('up,down,left,right')
   }
+
+  return {
+    onNodesSelected,
+    disconnect,
+  }
 }
 
-// todo: more hotkeys
-// b: black
-// w: white
-export function changeHue(els, direction, prop) {
+export function changeHue(els, direction, prop, Color) {
   els
     .map(el => showHideSelected(el))
     .map(el => {
-      let FG, BG, fgStyle, bgStyle
+      const { foreground, background } = extractPalleteColors(el)
 
-      if (el instanceof SVGElement) {
-        var fg_temp = getStyle(el, 'stroke')
-        FG = new TinyColor(fg_temp === 'none'
-          ? 'rgb(0, 0, 0)'
-          : fg_temp)
-        BG = new TinyColor(getStyle(el, 'fill'))
-        fgStyle = 'stroke'
-        bgStyle = 'fill'
+      // todo: teach hueshift to do handle color
+      switch(Color.getActive()) {
+        case 'background':
+          return { el, current: background.color.toHsl(), style: background.style }
+        case 'foreground':
+          return { el, current: foreground.color.toHsl(), style: foreground.style }
       }
-      else {
-        FG = new TinyColor(getStyle(el, 'color'))
-        BG = new TinyColor(getStyle(el, 'backgroundColor'))
-        fgStyle = 'color'
-        bgStyle = 'backgroundColor'
-      }
-      
-      return BG.originalInput != 'rgba(0, 0, 0, 0)'             // if bg is set to a value
-        ? { el, current: BG.toHsl(), style: bgStyle } // use bg
-        : { el, current: FG.toHsl(), style: fgStyle }           // else use fg
     })
     .map(payload =>
       Object.assign(payload, {
@@ -89,6 +93,41 @@ export function changeHue(els, direction, prop) {
 
       return payload
     })
-    .forEach(({el, style, current}) =>
-      el.style[style] = new TinyColor(current).setAlpha(current.a).toHslString())
+    .forEach(({el, style, current}) => {
+      let color = new TinyColor(current).setAlpha(current.a)
+      el.style[style] = color.toHslString()
+
+      if (style == 'color') Color.foreground.color(color.toHexString())
+      if (style == 'backgroundColor') Color.background.color(color.toHexString())
+    })
+}
+
+export function extractPalleteColors(el) {
+  if (el instanceof SVGElement) {
+    const  fg_temp = getStyle(el, 'stroke')
+    
+    return {
+      foreground: {
+        style: 'stroke',
+        color: new TinyColor(fg_temp === 'none'
+          ? 'rgb(0, 0, 0)'
+          : fg_temp),
+      },
+      background: {
+        style: 'fill',
+        color: new TinyColor(getStyle(el, 'fill')),
+      }
+    }
+  }
+  else
+    return {
+      foreground: {
+        style: 'color',
+        color: new TinyColor(getStyle(el, 'color')),
+      },
+      background: {
+        style: 'backgroundColor',
+        color: new TinyColor(getStyle(el, 'backgroundColor')),
+      }
+    }
 }

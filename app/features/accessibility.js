@@ -1,8 +1,7 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { TinyColor } from '@ctrl/tinycolor'
-import { queryPage } from './search'
-import { getStyles, camelToDash, createClassname, isOffBounds, nodeKey } from './utils'
+import { TinyColor, readability, isReadable } from '@ctrl/tinycolor'
+import { getStyle, isOffBounds, nodeKey, getA11ys } from './utils'
 
 const metatipStyles = {
   host: `
@@ -21,28 +20,12 @@ const metatipStyles = {
     display: flex;
     font-size: 1rem;
     font-weight: bolder;
-    margin: 0;
-  `,
-  h6: `
-    margin-top: 1rem;
-    margin-bottom: 0;
-    font-weight: normal;
-  `,
-  small: `
-    font-size: 0.7rem;
-    color: hsl(0,0%,60%);
-  `,
-  small_span: `
-    color: hsl(0,0%,20%);
-  `,
-  brand: `
-    color: hotpink;
+    margin: 0 0 0.25rem;
   `,
   first_div: `
     display: grid;
     grid-template-columns: auto auto;
     grid-gap: 0.25rem 0.5rem;
-    margin: 0.5rem 0 0;
     padding: 0;
     list-style-type: none;
     color: hsl(0,0%,40%);
@@ -57,105 +40,80 @@ const metatipStyles = {
     text-align: right;
     white-space: pre;
   `,
-  div_color: `
-    position: relative;
-    top: 1px;
-    display: inline-block;
-    width: 0.6rem;
-    height: 0.6rem;
-    border-radius: 50%;
-    margin-right: 0.25rem;
+  contrast_sample: `
+    padding: 0 0.5rem 0.1rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 0 1px hsl(0,0%,90%);
   `,
 }
 
 let tip_map = {}
 
-// todo: 
-// - node recycling (for new target) no need to create/delete
-// - make single function create/update
-export function MetaTip() {
+export function Accessibility() {
   const template = ({target: el}) => {
-    const { width, height } = el.getBoundingClientRect()
-    const styles = getStyles(el)
-      .map(style => Object.assign(style, {
-        prop: camelToDash(style.prop)
-      }))
-      .filter(style => 
-        style.prop.includes('font-family') 
-          ? el.matches('h1,h2,h3,h4,h5,h6,p,a,date,caption,button,figcaption,nav,header,footer') 
-          : true
-      )
-      .map(style => {
-        if (style.prop.includes('color') || style.prop.includes('Color') || style.prop.includes('fill') || style.prop.includes('stroke'))
-          style.value = `<span color style="background-color:${style.value};${metatipStyles.div_color}"></span>${new TinyColor(style.value).toHslString()}`
-
-        if (style.prop.includes('font-family') && style.value.length > 25)
-          style.value = style.value.slice(0,25) + '...'
-
-        // check if style is inline style, show indicator
-        if (el.getAttribute('style') && el.getAttribute('style').includes(style.prop))
-          style.value = `<span local-change>${style.value}</span>`
-        
-        return style
-      })
-
-    const localModifications = styles.filter(style =>
-      el.getAttribute('style') && el.getAttribute('style').includes(style.prop)
-        ? 1
-        : 0)
-
-    const notLocalModifications = styles.filter(style =>
-      el.getAttribute('style') && el.getAttribute('style').includes(style.prop)
-        ? 0
-        : 1)
-    
     let tip = document.createElement('div')
+    const contrast_results = determineColorContrast(el)
+    const ally_attributes = getA11ys(el)
+
     tip.classList.add('pb-metatip')
     tip.style = metatipStyles.host
+
     tip.innerHTML = `
-      <style>
-        h5 > a {
-          text-decoration: none;
-          color: inherit;
-        }
-        h5 > a:hover { 
-          color: hotpink; 
-          text-decoration: underline;
-        }
-        h5 > a:empty { display: none; }
-      </style>
-      <h5 style="${metatipStyles.h5}">
-        <a href="#">${el.nodeName.toLowerCase()}</a>
-        <a href="#">${el.id && '#' + el.id}</a>
-        ${createClassname(el).split('.')
-          .filter(name => name != '')
-          .reduce((links, name) => `
-            ${links}
-            <a href="#">.${name}</a>
-          `, '')
-        }
-      </h5>
-      <small style="${metatipStyles.small}">
-        <span style="${metatipStyles.small_span}">${Math.round(width)}</span>px 
-        <span divider style="${metatipStyles.brand}">×</span> 
-        <span style="${metatipStyles.small_span}">${Math.round(height)}</span>px
-      </small>
-      <div style="${metatipStyles.first_div}">${notLocalModifications.reduce((items, item) => `
-        ${items}
-        <span prop>${item.prop}:</span>
-        <span value style="${metatipStyles.div_value}">${item.value}</span>
-      `, '')}</div>
-      ${localModifications.length ? `
-        <h6 style="${metatipStyles.h6}">Local Modifications</h6>
-        <div style="${metatipStyles.first_div}">${localModifications.reduce((items, item) => `
+      <h5 style="${metatipStyles.h5}">${el.nodeName.toLowerCase()}${el.id && '#' + el.id}</h5>
+      <div style="${metatipStyles.first_div}">
+        ${ally_attributes.reduce((items, attr) => `
           ${items}
-          <span prop>${item.prop}:</span>
-          <span value style="${metatipStyles.div_value}">${item.value}</span>
-        `, '')}</div>
-      ` : ''}
+          <span prop>${attr.prop}:</span>
+          <span value style="${metatipStyles.div_value}">${attr.value}</span>
+        `, '')}
+        ${contrast_results}
+      </div>
     `
 
     return tip
+  }
+
+  const determineColorContrast = el => {
+    // question: how to know if the current node is actually a black background?
+    // question: is there an api for composited values?
+    const text      = getStyle(el, 'color')
+    let background  = getStyle(el, 'background-color')
+
+    if (background === 'rgba(0, 0, 0, 0)') {
+      let node  = el.parentNode
+        , found = false
+
+      while(!found) {
+        let bg  = getStyle(node, 'background-color')
+
+        if (bg !== 'rgba(0, 0, 0, 0)') {
+          found = true
+          background = bg
+        }
+
+        node = node.parentNode
+      }
+    }
+
+    const [ aa_small, aaa_small, aa_large, aaa_large ] = [
+      isReadable(background, text),
+      isReadable(background, text, { level: "AAA", size: "small" }),
+      isReadable(background, text, { level: "AA", size: "large" }),
+      isReadable(background, text, { level: "AAA", size: "large" }),
+    ]
+
+    return `
+      <span prop>Color contrast</span>
+      <span style="${metatipStyles.div_value}"><span style="${metatipStyles.contrast_sample}background-color:${background};color:${text};">${Math.floor(readability(background, text)  * 100) / 100}</span></span>
+      <span prop>› AA Small</span>
+      <span style="${metatipStyles.div_value}${aa_small ? 'color:green;' : 'color:red'}">${aa_small ? '✓' : '×'}</span>
+      <span prop>› AAA Small</span>
+      <span style="${metatipStyles.div_value}${aaa_small ? 'color:green;' : 'color:red'}">${aaa_small ? '✓' : '×'}</span>
+      <span prop>› AA Large</span>
+      <span style="${metatipStyles.div_value}${aa_large ? 'color:green;' : 'color:red'}">${aa_large ? '✓' : '×'}</span>
+      <span prop>› AAA Large</span>
+      <span style="${metatipStyles.div_value}${aaa_large ? 'color:green;' : 'color:red'}">${aaa_large ? '✓' : '×'}</span>
+    `
   }
 
   const tip_position = (node, e) => ({
@@ -185,12 +143,6 @@ export function MetaTip() {
     }
   }
 
-  const linkQueryClicked = e => {
-    e.preventDefault()
-    e.stopPropagation()
-    queryPage(e.target.textContent)
-  }
-
   const mouseMove = e => {
     if (isOffBounds(e.target)) return
 
@@ -218,7 +170,6 @@ export function MetaTip() {
       tip.style.left    = left
       tip.style.top     = top 
 
-      $('a', tip).on('click', linkQueryClicked)
       $(e.target).on('mouseout DOMNodeRemoved', mouseOut)
       $(e.target).on('click', togglePinned)
 
@@ -241,7 +192,6 @@ export function MetaTip() {
         tip.style.display = 'none'
         $(tip).off('mouseout DOMNodeRemoved', mouseOut)
         $(tip).off('click', togglePinned)
-        $('a', tip).off('click', linkQueryClicked)
       })
 
   const removeAll = () => {
@@ -250,7 +200,6 @@ export function MetaTip() {
         tip.remove()
         $(tip).off('mouseout DOMNodeRemoved', mouseOut)
         $(tip).off('click', togglePinned)
-        $('a', tip).off('click', linkQueryClicked)
       })
     
     $('[data-metatip]').attr('data-metatip', null)
