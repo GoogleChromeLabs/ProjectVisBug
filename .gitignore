@@ -4,3 +4,4 @@ app/bundle.js
 app/bundle.css
 extension/toolbar/bundle.js
 extension/toolbar/bundle.css
+extension/build
