@@ -76,6 +76,7 @@ export function draggable(el) {
     const el = e.target
 
     el.style.position = 'relative'
+    el.style.willChange = 'top,left'
 
     if (el instanceof SVGElement) {
       const translate = el.getAttribute('transform')
@@ -101,6 +102,7 @@ export function draggable(el) {
     e.preventDefault()
 
     this.state.mouse.down = false
+    el.style.willChange = null
 
     if (el instanceof SVGElement) {
       const translate = el.getAttribute('transform')
