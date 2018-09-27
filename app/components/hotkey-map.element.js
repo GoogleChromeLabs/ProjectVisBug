@@ -104,7 +104,14 @@ export default class HotkeyMap extends HTMLElement {
     return `
       ${this.styles()}
       <article>
-        <div command>&nbsp;</div>
+        <div command>
+          <span negative="">[alt/opt] </span>
+          <span tool="">padding</span>
+          <span light=""> to </span>
+          <span side="">[arrow key]</span>
+          <span light=""> by </span>
+          <span amount="">1</span>
+        </div>
         <div card>
           <div keyboard>
             ${Object.entries(this.keyboard_model).reduce((keyboard, [row_name, row]) => `
@@ -134,13 +141,15 @@ export default class HotkeyMap extends HTMLElement {
         :host {
           display: none;
           position: fixed;
-          z-index: 999;
+          z-index: 99998;
           align-items: center;
           justify-content: center;
           width: 100vw;
           height: 100vh;
           background: hsl(0,0%,95%);
 
+          --brand: hsl(330, 80%, 71%);
+          --light-grey: hsl(0,0%,90%);
           --dark-grey: hsl(0,0%,40%);
         }
 
@@ -156,6 +165,15 @@ export default class HotkeyMap extends HTMLElement {
           color: hsl(0,0%,60%);
         }
 
+        :host [command] > [tool] {
+          text-decoration: underline;
+          text-decoration-color: hotpink;
+        }
+
+        :host [command] > :matches([negative],[side],[amount]) {
+          font-weight: normal;
+        }
+
         :host [card] {
           padding: 1rem;
           background: white;
@@ -169,8 +187,9 @@ export default class HotkeyMap extends HTMLElement {
           justify-content: center;
         }
 
-        :host section > span, :host [arrows] > span {
-          background: hsl(0,0%,90%);
+        :host section > span, 
+        :host [arrows] > span {
+          border: 1px solid transparent;
           display: inline-flex;
           align-items: center;
           justify-content: center;
@@ -180,9 +199,18 @@ export default class HotkeyMap extends HTMLElement {
           white-space: nowrap;
         }
 
+        :host section > span:not([pressed]), 
+        :host [arrows] > span:not([pressed]) {
+          border: 1px solid var(--light-grey);
+        }
+
         :host span[pressed="true"] {
-          background: hsl(200, 90%, 70%);
-          color: hsl(200, 90%, 20%);
+          background: var(--brand);
+          color: white;
+        }
+
+        :host span:not([pressed="true"]):matches([shift],[ctrl],[alt],[cmd],[up],[down],[left],[right]) {
+          background: var(--light-grey);
         }
 
         :host [card] > div:not([keyboard]) {
