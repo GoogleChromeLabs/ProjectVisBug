@@ -1,7 +1,7 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
-export default class HotkeyMap extends HTMLElement {
+export class HotkeyMap extends HTMLElement {
   
   constructor() {
     super()

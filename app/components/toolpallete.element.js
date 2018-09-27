@@ -1,14 +1,19 @@
-import $ from 'blingblingjs'
-import hotkeys from 'hotkeys-js'
+import $                from 'blingblingjs'
+import hotkeys          from 'hotkeys-js'
 
-import * as Icons from './toolpallete.icons' 
+import { 
+  HotkeyMap, SelectionHandles, SelectionLabel, 
+  HoverGridlines, Metatip, Ally
+} from '../components/'
+
 import { 
   Selectable, Moveable, Padding, Margin, EditText, Font, 
   Flex, Search, ColorPicker, BoxShadow, HueShift, MetaTip, 
   Guides, Screenshot, Position, Accessibility
 } from '../features/'
 
-import { provideSelectorEnginer } from '../features/search'
+import * as Icons                 from './toolpallete.icons' 
+import { provideSelectorEngine } from '../features/search'
 
 export default class ToolPallete extends HTMLElement {
   constructor() {
@@ -39,7 +44,7 @@ export default class ToolPallete extends HTMLElement {
 
     this.selectorEngine = Selectable()
     this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
-    provideSelectorEnginer(this.selectorEngine)
+    provideSelectorEngine(this.selectorEngine)
   }
 
   connectedCallback() {

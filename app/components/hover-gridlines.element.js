@@ -1,4 +1,4 @@
-export default class HoverGridlines extends HTMLElement {
+export class HoverGridlines extends HTMLElement {
   
   constructor() {
     super()

@@ -1,5 +1,1 @@
 import ToolPallete from './components/toolpallete.element'
-import HotkeyMap from './components/hotkey-map.element'
-import SelectionHandles from './components/selection-handles.element'
-import SelectionLabel from './components/selection-label.element'
-import HoverGridlines from './components/hover-gridlines.element'
