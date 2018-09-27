@@ -43,8 +43,8 @@ export class Metatip extends HTMLElement {
           <span prop>${item.prop}:</span>
           <span value>${item.value}</span>
         `, '')}</div>
-        <h6>Local Modifications</h6>
         ${localModifications.length ? `
+          <h6>Local Modifications</h6>
           <div>${localModifications.reduce((items, item) => `
             ${items}
             <span prop>${item.prop}:</span>

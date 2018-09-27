@@ -1,27 +1,14 @@
-export class Ally extends HTMLElement {
-  
+import { Metatip } from './metatip.element.js'
+
+export class Ally extends Metatip {
   constructor() {
     super()
-    this.$shadow = this.attachShadow({mode: 'open'})
   }
-
-  connectedCallback() {}
-  disconnectedCallback() {}
-
+  
   render() {
     return `
       ${this.styles()}
-      
-    `
-  }
-
-  styles() {
-    return `
-      <style>
-        :host {
-          
-        }
-      </style>
+      Hi
     `
   }
 }
