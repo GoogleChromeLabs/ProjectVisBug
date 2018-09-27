@@ -13,8 +13,13 @@ export default class HoverGridlines extends HTMLElement {
   }
 
   set update({ width, height, top, left }) {
+    const winHeight = window.innerHeight
+    const winWidth = window.innerWidth
+
     this.$shadow.host.style.display = 'block'
     const svg = this.$shadow.children[1]
+
+    svg.setAttribute('viewBox', `0 0 ${winWidth} ${winHeight}`)
     svg.children[0].setAttribute('width', width + 'px')
     svg.children[0].setAttribute('height', height + 'px')
     svg.children[0].setAttribute('x', left)
