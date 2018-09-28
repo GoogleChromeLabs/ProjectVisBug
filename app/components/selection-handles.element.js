@@ -1,4 +1,4 @@
-export default class SelectionHandles extends HTMLElement {
+export class SelectionHandles extends HTMLElement {
   
   constructor() {
     super()

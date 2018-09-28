@@ -45,7 +45,7 @@ export function Search(node) {
   }
 }
 
-export function provideSelectorEnginer(Engine) {
+export function provideSelectorEngine(Engine) {
   SelectorEngine = Engine
 }
 

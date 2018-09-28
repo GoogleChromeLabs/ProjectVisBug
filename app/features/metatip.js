@@ -2,71 +2,7 @@ import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { TinyColor } from '@ctrl/tinycolor'
 import { queryPage } from './search'
-import { getStyles, camelToDash, createClassname, isOffBounds, nodeKey } from './utils'
-
-const metatipStyles = {
-  host: `
-    position: absolute;
-    z-index: 99999;
-    background: white;
-    color: hsl(0,0%,20%);
-    padding: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    box-shadow: 0 0 0.5rem hsla(0,0%,0%,10%);
-    border-radius: 0.25rem;
-  `,
-  h5: `
-    display: flex;
-    font-size: 1rem;
-    font-weight: bolder;
-    margin: 0;
-  `,
-  h6: `
-    margin-top: 1rem;
-    margin-bottom: 0;
-    font-weight: normal;
-  `,
-  small: `
-    font-size: 0.7rem;
-    color: hsl(0,0%,60%);
-  `,
-  small_span: `
-    color: hsl(0,0%,20%);
-  `,
-  brand: `
-    color: hotpink;
-  `,
-  first_div: `
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-gap: 0.25rem 0.5rem;
-    margin: 0.5rem 0 0;
-    padding: 0;
-    list-style-type: none;
-    color: hsl(0,0%,40%);
-    font-size: 0.8rem;
-    font-family: 'Dank Mono', 'Operator Mono', 'Inconsolata', 'Fira Mono', 'SF Mono', 'Monaco', 'Droid Sans Mono', 'Source Code Pro', monospace;
-  `,
-  div_value: `
-    color: hsl(0,0%,20%);
-    display: inline-flex;
-    align-items: center;
-    justify-content: flex-end;
-    text-align: right;
-    white-space: pre;
-  `,
-  div_color: `
-    position: relative;
-    top: 1px;
-    display: inline-block;
-    width: 0.6rem;
-    height: 0.6rem;
-    border-radius: 50%;
-    margin-right: 0.25rem;
-  `,
-}
+import { getStyles, camelToDash, isOffBounds, nodeKey } from './utils'
 
 let tip_map = {}
 
@@ -87,7 +23,7 @@ export function MetaTip() {
       )
       .map(style => {
         if (style.prop.includes('color') || style.prop.includes('Color') || style.prop.includes('fill') || style.prop.includes('stroke'))
-          style.value = `<span color style="background-color:${style.value};${metatipStyles.div_color}"></span>${new TinyColor(style.value).toHslString()}`
+          style.value = `<span color style="background-color:${style.value};"></span>${new TinyColor(style.value).toHslString()}`
 
         if (style.prop.includes('font-family') && style.value.length > 25)
           style.value = style.value.slice(0,25) + '...'
@@ -109,51 +45,15 @@ export function MetaTip() {
         ? 0
         : 1)
     
-    let tip = document.createElement('div')
-    tip.classList.add('pb-metatip')
-    tip.style = metatipStyles.host
-    tip.innerHTML = `
-      <style>
-        h5 > a {
-          text-decoration: none;
-          color: inherit;
-        }
-        h5 > a:hover { 
-          color: hotpink; 
-          text-decoration: underline;
-        }
-        h5 > a:empty { display: none; }
-      </style>
-      <h5 style="${metatipStyles.h5}">
-        <a href="#">${el.nodeName.toLowerCase()}</a>
-        <a href="#">${el.id && '#' + el.id}</a>
-        ${createClassname(el).split('.')
-          .filter(name => name != '')
-          .reduce((links, name) => `
-            ${links}
-            <a href="#">.${name}</a>
-          `, '')
-        }
-      </h5>
-      <small style="${metatipStyles.small}">
-        <span style="${metatipStyles.small_span}">${Math.round(width)}</span>px 
-        <span divider style="${metatipStyles.brand}">×</span> 
-        <span style="${metatipStyles.small_span}">${Math.round(height)}</span>px
-      </small>
-      <div style="${metatipStyles.first_div}">${notLocalModifications.reduce((items, item) => `
-        ${items}
-        <span prop>${item.prop}:</span>
-        <span value style="${metatipStyles.div_value}">${item.value}</span>
-      `, '')}</div>
-      ${localModifications.length ? `
-        <h6 style="${metatipStyles.h6}">Local Modifications</h6>
-        <div style="${metatipStyles.first_div}">${localModifications.reduce((items, item) => `
-          ${items}
-          <span prop>${item.prop}:</span>
-          <span value style="${metatipStyles.div_value}">${item.value}</span>
-        `, '')}</div>
-      ` : ''}
-    `
+    let tip = document.createElement('pb-metatip')
+
+    tip.meta = {
+      el, 
+      width, 
+      height, 
+      localModifications, 
+      notLocalModifications,
+    }
 
     return tip
   }

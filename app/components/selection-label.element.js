@@ -1,6 +1,6 @@
 import $ from 'blingblingjs'
 
-export default class SelectionLabel extends HTMLElement {
+export class SelectionLabel extends HTMLElement {
   
   constructor() {
     super()
