@@ -239,7 +239,7 @@ export default class ToolPallete extends HTMLElement {
         }
 
         :host [colors] > li > svg > rect:last-child {
-          outline: 1px solid hsla(0,0%,0%,20%);
+          outline: 1px solid hsla(0,0%,0%,15%);
           outline-offset: -1px;
         }
 
