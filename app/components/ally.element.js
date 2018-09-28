@@ -5,10 +5,20 @@ export class Ally extends Metatip {
     super()
   }
   
-  render() {
+  render({el, ally_attributes, contrast_results}) {
     return `
       ${this.styles()}
-      Hi
+      <figure>
+        <h5>${el.nodeName.toLowerCase()}${el.id && '#' + el.id}</h5>
+        <div>
+          ${ally_attributes.reduce((items, attr) => `
+            ${items}
+            <span prop>${attr.prop}:</span>
+            <span value>${attr.value}</span>
+          `, '')}
+          ${contrast_results}
+        </div>
+      </figure>
     `
   }
 }

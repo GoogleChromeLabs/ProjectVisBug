@@ -52,15 +52,20 @@ export function Accessibility() {
 
     return `
       <span prop>Color contrast</span>
-      <span><span style="background-color:${background};color:${text};">${Math.floor(readability(background, text)  * 100) / 100}</span></span>
+      <span value contrast>
+        <span style="
+          background-color:${background};
+          color:${text};
+        ">${Math.floor(readability(background, text)  * 100) / 100}</span>
+      </span>
       <span prop>› AA Small</span>
-      <span style="${aa_small ? 'color:green;' : 'color:red'}">${aa_small ? '✓' : '×'}</span>
+      <span value style="${aa_small ? 'color:green;' : 'color:red'}">${aa_small ? '✓' : '×'}</span>
       <span prop>› AAA Small</span>
-      <span style="${aaa_small ? 'color:green;' : 'color:red'}">${aaa_small ? '✓' : '×'}</span>
+      <span value style="${aaa_small ? 'color:green;' : 'color:red'}">${aaa_small ? '✓' : '×'}</span>
       <span prop>› AA Large</span>
-      <span style="${aa_large ? 'color:green;' : 'color:red'}">${aa_large ? '✓' : '×'}</span>
+      <span value style="${aa_large ? 'color:green;' : 'color:red'}">${aa_large ? '✓' : '×'}</span>
       <span prop>› AAA Large</span>
-      <span style="${aaa_large ? 'color:green;' : 'color:red'}">${aaa_large ? '✓' : '×'}</span>
+      <span value style="${aaa_large ? 'color:green;' : 'color:red'}">${aaa_large ? '✓' : '×'}</span>
     `
   }
 

@@ -146,6 +146,12 @@ export class Metatip extends HTMLElement {
           border-radius: 50%;
           margin-right: 0.25rem;
         }
+
+        :host [contrast] > span {
+          padding: 0 0.5rem 0.1rem;
+          border-radius: 1rem;
+          box-shadow: 0 0 0 1px hsl(0,0%,90%);
+        }
       </style>
     `
   }
