@@ -240,6 +240,7 @@ export default class ToolPallete extends HTMLElement {
 
         :host [colors] > li > svg > path:last-child {
           stroke: hsla(0,0%,0%,20%);
+          shape-rendering: geometricprecision;
         }
 
         :host input[type='color'] {
@@ -317,7 +318,7 @@ export default class ToolPallete extends HTMLElement {
   }
 
   inspector() {
-    this.deactivate_feature = MetaTip()
+    this.deactivate_feature = MetaTip(this.selectorEngine)
   }
 
   accessibility() {

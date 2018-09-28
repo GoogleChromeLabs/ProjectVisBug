@@ -9,7 +9,7 @@ let tip_map = {}
 // todo: 
 // - node recycling (for new target) no need to create/delete
 // - make single function create/update
-export function MetaTip() {
+export function MetaTip(selectorEngine) {
   const template = ({target: el}) => {
     const { width, height } = el.getBoundingClientRect()
     const styles = getStyles(el)
@@ -85,10 +85,21 @@ export function MetaTip() {
     }
   }
 
-  const linkQueryClicked = e => {
-    e.preventDefault()
-    e.stopPropagation()
-    queryPage(e.target.textContent)
+  const linkQueryClicked = ({detail}) => {
+    if (!detail.text) return
+
+    queryPage('[data-hover]', el =>
+      el.setAttribute('data-hover', null))
+
+    queryPage(detail.text + ':not([data-selected])', el =>
+      detail.activator === 'mouseenter'
+        ? el.setAttribute('data-hover', true)
+        : selectorEngine.select(el))
+  }
+
+  const linkQueryHoverOut = e => {
+    queryPage('[data-hover]', el =>
+      el.setAttribute('data-hover', null))
   }
 
   const mouseMove = e => {
@@ -118,7 +129,8 @@ export function MetaTip() {
       tip.style.left    = left
       tip.style.top     = top 
 
-      $('a', tip).on('click', linkQueryClicked)
+      $(tip).on('query', linkQueryClicked)
+      $(tip).on('unquery', linkQueryHoverOut)
       $(e.target).on('mouseout DOMNodeRemoved', mouseOut)
       $(e.target).on('click', togglePinned)
 
