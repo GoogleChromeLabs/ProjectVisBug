@@ -238,9 +238,9 @@ export default class ToolPallete extends HTMLElement {
           top: -2px;
         }
 
-        :host [colors] > li > svg > path:last-child {
-          stroke: hsla(0,0%,0%,20%);
-          shape-rendering: geometricprecision;
+        :host [colors] > li > svg > rect:last-child {
+          outline: 1px solid hsla(0,0%,0%,20%);
+          outline-offset: -1px;
         }
 
         :host input[type='color'] {
