@@ -1,4 +1,5 @@
 import resolve from 'rollup-plugin-node-resolve'
+import postcss from 'rollup-plugin-postcss'
 
 export default {
   input: 'app/index.js',
@@ -10,6 +11,10 @@ export default {
   plugins: [
     resolve({
       jsnext: true,
+    }),
+    postcss({
+      extract: false,
+      inject:  false,
     })
   ],
   watch: {
