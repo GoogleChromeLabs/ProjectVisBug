@@ -162,7 +162,7 @@ export default class ToolPallete extends HTMLElement {
   }
 
   inspector() {
-    this.deactivate_feature = MetaTip()
+    this.deactivate_feature = MetaTip(this.selectorEngine)
   }
 
   accessibility() {

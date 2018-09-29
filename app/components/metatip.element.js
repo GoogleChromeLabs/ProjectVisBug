@@ -1,3 +1,4 @@
+import $ from 'blingblingjs'
 import { createClassname } from '../features/utils'
 import styles from './metatip.element.css'
 
@@ -8,11 +9,29 @@ export class Metatip extends HTMLElement {
     this.$shadow = this.attachShadow({mode: 'open'})
   }
 
-  connectedCallback() {}
-  disconnectedCallback() {}
+  connectedCallback() {
+    $('h5 > a', this.$shadow).on('click mouseenter', this.dispatchQuery.bind(this))
+    $('h5 > a', this.$shadow).on('mouseleave', this.dispatchUnQuery.bind(this))
+  }
 
-  link_query_clicked(e) {
-    console.log('emit event', e)
+  disconnectedCallback() {
+    $('h5 > a', this.$shadow).off('click', this.dispatchQuery)
+  }
+
+  dispatchQuery(e) {
+    this.$shadow.host.dispatchEvent(new CustomEvent('query', {
+      bubbles: true,
+      detail:   {
+        text:       e.target.textContent,
+        activator:  e.type,
+      }
+    }))
+  }
+
+  dispatchUnQuery(e) {
+    this.$shadow.host.dispatchEvent(new CustomEvent('unquery', {
+      bubbles: true
+    }))
   }
 
   set meta(data) {

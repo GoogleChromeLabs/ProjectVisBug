@@ -103,23 +103,23 @@ const ruler = `
 `
 
 const color_text = `
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <svg viewBox="0 0 25 27">
     <path fill="var(--active_color)" d="M11 3L5.5 17h2.25l1.12-3h6.25l1.12 3h2.25L13 3h-2zm-1.38 9L12 5.67 14.38 12H9.62z"/>
-    <path fill="var(--contextual_color)" d="M0 20h24v4H0z"/>
+    <rect fill="var(--contextual_color)" x="1" y="21" width="23" height="5"></rect>
   </svg>
 `
 
 const color_background = `
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <svg viewBox="0 0 25 27">
     <path fill="var(--active_color)" d="M16.56 8.94L7.62 0 6.21 1.41l2.38 2.38-5.15 5.15c-.59.59-.59 1.54 0 2.12l5.5 5.5c.29.29.68.44 1.06.44s.77-.15 1.06-.44l5.5-5.5c.59-.58.59-1.53 0-2.12zM5.21 10L10 5.21 14.79 10H5.21zM19 11.5s-2 2.17-2 3.5c0 1.1.9 2 2 2s2-.9 2-2c0-1.33-2-3.5-2-3.5z"/>
-    <path fill="var(--contextual_color)" d="M0 20h24v4H0z"/>
+    <rect fill="var(--contextual_color)" x="1" y="21" width="23" height="5"></rect>
   </svg>
 `
 
 const color_border = `
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <svg viewBox="0 0 25 27">
     <path fill="var(--active_color)" d="M17.75 7L14 3.25l-10 10V17h3.75l10-10zm2.96-2.96c.39-.39.39-1.02 0-1.41L18.37.29c-.39-.39-1.02-.39-1.41 0L15 2.25 18.75 6l1.96-1.96z"/>
-    <path fill="var(--contextual_color)" d="M0 20h24v4H0z"/>
+    <rect fill="var(--contextual_color)" x="1" y="21" width="23" height="5"></rect>
   </svg>
 `
 

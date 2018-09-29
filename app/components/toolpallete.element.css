@@ -48,7 +48,7 @@
 }
 
 :host li:hover:after {
-  content: attr(aria-label) "\\A" attr(aria-description);
+  content: attr(aria-label) "\A" attr(aria-description);
   position: absolute;
   left: 100%;
   top: 0;
