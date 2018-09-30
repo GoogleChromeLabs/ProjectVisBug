@@ -5,16 +5,16 @@ import styles   from './toolpallete.element.css'
 import { 
   HotkeyMap, SelectionHandles, SelectionLabel, 
   HoverGridlines, Metatip, Ally
-} from '../components/'
+} from '../'
 
 import { 
   Selectable, Moveable, Padding, Margin, EditText, Font, 
   Flex, Search, ColorPicker, BoxShadow, HueShift, MetaTip, 
   Guides, Screenshot, Position, Accessibility
-} from '../features/'
+} from '../../features/'
 
 import * as Icons                 from './toolpallete.icons' 
-import { provideSelectorEngine } from '../features/search'
+import { provideSelectorEngine }  from '../../features/search'
 
 export default class ToolPallete extends HTMLElement {
   constructor() {

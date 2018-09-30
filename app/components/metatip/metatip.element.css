@@ -1,8 +1,10 @@
+@import "../_variables.css";
+
 :host {
   position: absolute;
   z-index: 99999;
   background: white;
-  color: hsl(0,0%,20%);
+  color: var(--theme-icon_color);
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
@@ -28,7 +30,7 @@
 }
 
 :host h5 > a:hover {
-  color: hotpink; 
+  color: var(--theme-color); 
   text-decoration: underline;
 }
 
@@ -53,7 +55,7 @@
 
 :host [brand], 
 :host [divider] {
-  color: hotpink;
+  color: var(--theme-color);
 }
 
 :host div {
@@ -69,7 +71,7 @@
 }
 
 :host [value] {
-  color: hsl(0,0%,20%);
+  color: var(--theme-icon_color);
   display: inline-flex;
   align-items: center;
   justify-content: flex-end;

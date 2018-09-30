@@ -1,6 +1,8 @@
 import $        from 'blingblingjs'
 import hotkeys  from 'hotkeys-js'
-import styles   from './hotkey-map.element.css'
+import styles   from './base.element.css'
+
+// TODO: make an extendable base class for other keymaps
 
 export class HotkeyMap extends HTMLElement {
   

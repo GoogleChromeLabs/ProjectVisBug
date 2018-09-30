@@ -1,9 +1,6 @@
-:host {
-  --theme-bg: hsl(0,0%,100%);
-  --theme-color: hotpink;
-  --theme-icon_color: hsl(0,0%,20%);
-  --theme-tool_selected: hsl(0,0%,98%);
+@import "../_variables.css";
 
+:host {
   position: fixed;
   top: 1rem;
   left: 1rem;
@@ -16,10 +13,10 @@
   margin: 0;
   padding: 0;
   list-style-type: none;
-}
 
-:host > ol:not([colors]) {
-  box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
+  &:not([colors]) {
+    box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
+  }
 }
 
 :host li {
@@ -30,58 +27,58 @@
   justify-content: center;
   position: relative;
   background: var(--theme-bg);
+
+  &[data-tool]:hover {
+    cursor: pointer;
+    background: var(--theme-tool_selected);
+  }
+
+  &[data-tool='align'] > svg {
+    transform: rotateZ(90deg);
+  }
+
+  &[data-active=true] {
+    background: var(--theme-tool_selected);
+  }
+
+  &[data-active=true] > svg:not(.icon-cursor) { 
+    fill: var(--theme-color); 
+  }
+
+  &[data-active=true] > .icon-cursor { 
+    stroke: var(--theme-color); 
+  }
+
+  &:hover:after {
+    content: attr(aria-label) "\A" attr(aria-description);
+    position: absolute;
+    left: 100%;
+    top: 0;
+    z-index: -1;
+    box-shadow: 0 0.1rem 0.1rem hsla(0,0%,0%,10%);
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 0.5rem;
+    background: var(--theme-color);
+    color: white;
+    font-size: 0.8rem;
+    white-space: pre;
+  }
 }
 
 :host [colors] > li {
   overflow: hidden;
   border-radius: 50%;
   box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
-}
 
-:host [colors] > li:not(:last-child) {
-  margin-bottom: 0.5rem;
-}
-
-:host li[data-tool]:hover {
-  cursor: pointer;
-  background: var(--theme-tool_selected);
-}
-
-:host li:hover:after {
-  content: attr(aria-label) "\A" attr(aria-description);
-  position: absolute;
-  left: 100%;
-  top: 0;
-  z-index: -1;
-  box-shadow: 0 0.1rem 0.1rem hsla(0,0%,0%,10%);
-  height: 100%;
-  display: inline-flex;
-  align-items: center;
-  padding: 0 0.5rem;
-  background: var(--theme-color);
-  color: white;
-  font-size: 0.8rem;
-  white-space: pre;
+  &:not(:last-child) {
+    margin-bottom: 0.5rem;
+  }
 }
 
 :host [colors] li:hover:after {
   top: 0;
-}
-
-:host li[data-tool='align'] > svg {
-  transform: rotateZ(90deg);
-}
-
-:host li[data-active=true] {
-  background: var(--theme-tool_selected);
-}
-
-:host li[data-active=true] > svg:not(.icon-cursor) { 
-  fill: var(--theme-color); 
-}
-
-:host li[data-active=true] > .icon-cursor { 
-  stroke: var(--theme-color); 
 }
 
 :host [colors] {

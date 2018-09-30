@@ -1,3 +1,5 @@
+@import "../_variables.css";
+
 :host {
   display: none;
   position: fixed;
@@ -8,8 +10,8 @@
   height: 100vh;
   background: hsl(0,0%,95%);
 
-  --brand: hsl(330, 80%, 71%);
   --light-grey: hsl(0,0%,90%);
+  --grey: hsl(0,0%,60%);
   --dark-grey: hsl(0,0%,40%);
 }
 
@@ -19,19 +21,19 @@
   font-size: 3vw;
   font-weight: lighter;
   letter-spacing: 0.1em;
-}
 
-:host [command] > [light] {
-  color: hsl(0,0%,60%);
-}
+  & > [light] {
+    color: var(--grey);
+  }
 
-:host [command] > [tool] {
-  text-decoration: underline;
-  text-decoration-color: hotpink;
-}
+  & > [tool] {
+    text-decoration: underline;
+    text-decoration-color: var(--theme-color);
+  }
 
-:host [command] > :matches([negative],[side],[amount]) {
-  font-weight: normal;
+  & > :matches([negative],[side],[amount]) {
+    font-weight: normal;
+  }
 }
 
 :host [card] {
@@ -40,6 +42,12 @@
   box-shadow: 0 0.25rem 0.25rem hsla(0,0%,0%,20%);
   color: var(--dark-grey);
   display: flex;
+
+  & > div:not([keyboard]) {
+    display: flex;
+    align-items: flex-end;
+    margin-left: 1rem;
+  }
 }
 
 :host section {
@@ -65,7 +73,7 @@
 }
 
 :host span[pressed="true"] {
-  background: var(--brand);
+  background: var(--theme-color);
   color: white;
 }
 
@@ -73,38 +81,32 @@
   background: var(--light-grey);
 }
 
-:host [card] > div:not([keyboard]) {
-  display: flex;
-  align-items: flex-end;
-  margin-left: 1rem;
-}
-
 :host [arrows] {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
+
+  & > span:nth-child(1) {
+    grid-row: 1;
+    grid-column: 2;
+  }
+
+  & > span:nth-child(2) {
+    grid-row: 2;
+    grid-column: 2;
+  }
+
+  & > span:nth-child(3) {
+    grid-row: 2;
+    grid-column: 1;
+  }
+
+  & > span:nth-child(4) {
+    grid-row: 2;
+    grid-column: 3;
+  }
 }
 
-:host [arrows] > span:nth-child(1) {
-  grid-row: 1;
-  grid-column: 2;
-}
-
-:host [arrows] > span:nth-child(2) {
-  grid-row: 2;
-  grid-column: 2;
-}
-
-:host [arrows] > span:nth-child(3) {
-  grid-row: 2;
-  grid-column: 1;
-}
-
-:host [arrows] > span:nth-child(4) {
-  grid-row: 2;
-  grid-column: 3;
-}
-
-:host [caps] > span:nth-child(1) { justify-content: flex-start; }
-:host [shift] > span:nth-child(1) { justify-content: flex-start; }
+:host [caps] > span:nth-child(1),
+:host [shift] > span:nth-child(1)  { justify-content: flex-start; }
 :host [shift] > span:nth-child(12) { justify-content: flex-end; }
