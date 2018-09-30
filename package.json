@@ -35,6 +35,7 @@
     "postcss-import": "^11.1.0",
     "postcss-loader": "^2.1.5",
     "rollup": "^0.60.7",
-    "rollup-plugin-node-resolve": "^3.3.0"
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-postcss": "^1.6.2"
   }
 }

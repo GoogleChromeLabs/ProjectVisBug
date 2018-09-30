@@ -5,7 +5,7 @@ import { EditText } from './text'
 import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
 import { queryPage } from './search'
-import { htmlStringToDom, createClassname, isOffBounds, getStyles } from './utils'
+import { htmlStringToDom, createClassname, isOffBounds, getStyles } from '../utilities/'
 
 export function Selectable() {
   const elements          = $('body')

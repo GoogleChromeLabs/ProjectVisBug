@@ -1,1 +1,1 @@
-import ToolPallete from './components/toolpallete.element'
+import ToolPallete from './components/tool-pallete/toolpallete.element'

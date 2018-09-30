@@ -1,5 +1,5 @@
 import $ from 'blingblingjs'
-import { htmlStringToDom } from './utils'
+import { htmlStringToDom } from '../utilities/'
 
 let imgs      = []
   , overlays  = []

@@ -1,5 +1,8 @@
-import $ from 'blingblingjs'
-import hotkeys from 'hotkeys-js'
+import $        from 'blingblingjs'
+import hotkeys  from 'hotkeys-js'
+import styles   from './base.element.css'
+
+// TODO: make an extendable base class for other keymaps
 
 export class HotkeyMap extends HTMLElement {
   
@@ -138,116 +141,7 @@ export class HotkeyMap extends HTMLElement {
   styles() {
     return `
       <style>
-        :host {
-          display: none;
-          position: fixed;
-          z-index: 99998;
-          align-items: center;
-          justify-content: center;
-          width: 100vw;
-          height: 100vh;
-          background: hsl(0,0%,95%);
-
-          --brand: hsl(330, 80%, 71%);
-          --light-grey: hsl(0,0%,90%);
-          --dark-grey: hsl(0,0%,40%);
-        }
-
-        :host [command] {
-          padding: 1rem;
-          text-align: center;
-          font-size: 3vw;
-          font-weight: lighter;
-          letter-spacing: 0.1em;
-        }
-
-        :host [command] > [light] {
-          color: hsl(0,0%,60%);
-        }
-
-        :host [command] > [tool] {
-          text-decoration: underline;
-          text-decoration-color: hotpink;
-        }
-
-        :host [command] > :matches([negative],[side],[amount]) {
-          font-weight: normal;
-        }
-
-        :host [card] {
-          padding: 1rem;
-          background: white;
-          box-shadow: 0 0.25rem 0.25rem hsla(0,0%,0%,20%);
-          color: var(--dark-grey);
-          display: flex;
-        }
-
-        :host section {
-          display: flex;
-          justify-content: center;
-        }
-
-        :host section > span, 
-        :host [arrows] > span {
-          border: 1px solid transparent;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          margin: 2px;
-          padding: 1.5vw;
-          font-size: 0.75rem;
-          white-space: nowrap;
-        }
-
-        :host section > span:not([pressed]), 
-        :host [arrows] > span:not([pressed]) {
-          border: 1px solid var(--light-grey);
-        }
-
-        :host span[pressed="true"] {
-          background: var(--brand);
-          color: white;
-        }
-
-        :host span:not([pressed="true"]):matches([shift],[ctrl],[alt],[cmd],[up],[down],[left],[right]) {
-          background: var(--light-grey);
-        }
-
-        :host [card] > div:not([keyboard]) {
-          display: flex;
-          align-items: flex-end;
-          margin-left: 1rem;
-        }
-
-        :host [arrows] {
-          display: grid;
-          grid-template-columns: 1fr 1fr 1fr;
-          grid-template-rows: 1fr 1fr;
-        }
-
-        :host [arrows] > span:nth-child(1) {
-          grid-row: 1;
-          grid-column: 2;
-        }
-
-        :host [arrows] > span:nth-child(2) {
-          grid-row: 2;
-          grid-column: 2;
-        }
-
-        :host [arrows] > span:nth-child(3) {
-          grid-row: 2;
-          grid-column: 1;
-        }
-
-        :host [arrows] > span:nth-child(4) {
-          grid-row: 2;
-          grid-column: 3;
-        }
-
-        :host [caps] > span:nth-child(1) { justify-content: flex-start; }
-        :host [shift] > span:nth-child(1) { justify-content: flex-start; }
-        :host [shift] > span:nth-child(12) { justify-content: flex-end; }
+        ${styles}
       </style>
     `
   }

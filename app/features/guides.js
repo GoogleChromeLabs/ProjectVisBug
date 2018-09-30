@@ -1,5 +1,5 @@
 import $ from 'blingblingjs'
-import { isOffBounds } from './utils'
+import { isOffBounds } from '../utilities/'
 
 let gridlines
 

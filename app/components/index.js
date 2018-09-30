@@ -1,6 +1,8 @@
-export { HotkeyMap }        from './hotkey-map.element'
-export { SelectionHandles } from './selection-handles.element'
-export { SelectionLabel }   from './selection-label.element'
-export { HoverGridlines }   from './hover-gridlines.element'
-export { Metatip }          from './metatip.element'
-export { Ally }             from './ally.element'
+export { SelectionHandles } from './selection/handles.element'
+export { SelectionLabel }   from './selection/label.element'
+export { HoverGridlines }   from './selection/gridlines.element'
+
+export { Metatip }          from './metatip/metatip.element'
+export { Ally }             from './metatip/ally.element'
+
+export { HotkeyMap }        from './hotkey-map/padding.element'
