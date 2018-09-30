@@ -1,7 +1,7 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { TinyColor, readability, isReadable } from '@ctrl/tinycolor'
-import { getStyle, isOffBounds, nodeKey, getA11ys } from './utils'
+import { getStyle, isOffBounds, nodeKey, getA11ys } from '../utilities/'
 
 let tip_map = {}
 

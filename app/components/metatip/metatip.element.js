@@ -1,5 +1,5 @@
 import $ from 'blingblingjs'
-import { createClassname } from '../../features/utils'
+import { createClassname } from '../../utilities/'
 import styles from './metatip.element.css'
 
 export class Metatip extends HTMLElement {

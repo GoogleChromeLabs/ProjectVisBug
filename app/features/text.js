@@ -1,6 +1,6 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { showHideNodeLabel } from './utils'
+import { showHideNodeLabel } from '../utilities/'
 
 const removeEditability = ({target}) => {
   target.removeAttribute('contenteditable')

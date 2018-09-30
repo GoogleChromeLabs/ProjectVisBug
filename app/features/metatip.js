@@ -2,7 +2,7 @@ import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { TinyColor } from '@ctrl/tinycolor'
 import { queryPage } from './search'
-import { getStyles, camelToDash, isOffBounds, nodeKey } from './utils'
+import { getStyles, camelToDash, isOffBounds, nodeKey } from '../utilities/'
 
 let tip_map = {}
 
