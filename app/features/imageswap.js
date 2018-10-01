@@ -1,11 +1,14 @@
 import $ from 'blingblingjs'
-import { htmlStringToDom } from '../utilities/'
+import { htmlStringToDom, getStyle } from '../utilities/'
 
 let imgs      = []
   , overlays  = []
 
 export function watchImagesForUpload() {
-  imgs = $('img')
+  imgs = $([
+    ...document.images,
+    ...findBackgroundImages(document),
+  ])
 
   clearWatchers(imgs)
   initWatchers(imgs)
@@ -14,13 +17,13 @@ export function watchImagesForUpload() {
 const initWatchers = imgs => {
   imgs.on('dragover', onDragEnter)
   imgs.on('dragleave', onDragLeave)
-  document.addEventListener('drop', onDrop)
+  document.addEventListener('drop', onDrop, true)
 }
 
 const clearWatchers = imgs => {
   imgs.off('dragenter', onDragEnter)
   imgs.off('dragleave', onDragLeave)
-  document.removeEventListener('drop', onDrop)
+  document.removeEventListener('drop', onDrop, true)
   imgs = []
 }
 
@@ -47,8 +50,9 @@ const onDragLeave = e =>
   hideOverlays()
 
 const onDrop = async e => {
+  e.stopPropagation()
   e.preventDefault()
-
+    
   const selectedImages = $('img[data-selected=true]')
 
   const srcs = await Promise.all(
@@ -62,10 +66,6 @@ const onDrop = async e => {
       img.src = srcs[i++]
       if (i >= srcs.length) i = 0
     })
-  }
-  else {
-    e.stopPropagation()
-    e.preventDefault()
   }
 
   hideOverlays()
@@ -115,4 +115,18 @@ const hideOverlays = () => {
   overlays.forEach(overlay =>
     overlay.remove())
   overlays = []
+}
+
+const findBackgroundImages = el => {
+  const src_regex = /url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i
+
+  return $('*').reduce((collection, node) => {
+    const prop = getStyle(node, 'background-image')
+    const match = src_regex.exec(prop)
+
+    // if (match) collection.push(match[1])
+    if (match) collection.push(node)
+
+    return collection
+  }, [])
 }
