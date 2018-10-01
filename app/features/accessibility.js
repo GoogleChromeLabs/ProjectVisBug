@@ -1,7 +1,7 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { TinyColor, readability, isReadable } from '@ctrl/tinycolor'
-import { getStyle, isOffBounds, nodeKey, getA11ys } from '../utilities/'
+import { getStyle, isOffBounds, nodeKey, getA11ys, getComputedBackgroundColor } from '../utilities/'
 
 let tip_map = {}
 
@@ -30,23 +30,7 @@ export function Accessibility() {
     // question: how to know if the current node is actually a black background?
     // question: is there an api for composited values?
     const text      = getStyle(el, 'color')
-    let background  = getStyle(el, 'background-color')
-
-    if (background === 'rgba(0, 0, 0, 0)') {
-      let node  = el.parentNode
-        , found = false
-
-      while(!found) {
-        let bg  = getStyle(node, 'background-color')
-
-        if (bg !== 'rgba(0, 0, 0, 0)') {
-          found = true
-          background = bg
-        }
-
-        node = node.parentNode
-      }
-    }
+    let background  = getComputedBackgroundColor(el)
 
     const [ aa_small, aaa_small, aa_large, aaa_large ] = [
       isReadable(background, text),

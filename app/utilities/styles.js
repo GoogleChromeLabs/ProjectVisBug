@@ -24,3 +24,25 @@ export const getStyles = el => {
 
   return desiredValues
 }
+
+export const getComputedBackgroundColor = el => {
+  let background = getStyle(el, 'background-color')
+
+  if (background === 'rgba(0, 0, 0, 0)') {
+    let node  = el.parentNode
+      , found = false
+
+    while(!found) {
+      let bg  = getStyle(node, 'background-color')
+
+      if (bg !== 'rgba(0, 0, 0, 0)') {
+        found = true
+        background = bg
+      }
+
+      node = node.parentNode
+    }
+  }
+
+  return background
+}
