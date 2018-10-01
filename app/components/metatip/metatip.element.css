@@ -3,18 +3,49 @@
 :host {
   position: absolute;
   z-index: 99999;
-  background: white;
-  color: var(--theme-icon_color);
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  box-shadow: 0 0 0.5rem hsla(0,0%,0%,10%);
-  border-radius: 0.25rem;
+
+  --arrow-width: 1rem;
+  --arrow-height: 0.5rem;
 }
 
 :host figure {
+  background: white;
+  color: var(--theme-icon_color);
+  padding: 0.5rem;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  /*box-shadow: 0 0 0.5rem hsla(0,0%,0%,10%);*/
+  border-radius: 0.25rem;
+  filter: drop-shadow(0 5px 0.5rem hsla(0,0%,0%,35%));
+
+  &:after {
+    content: "";
+    background: white;
+    width: var(--arrow-width);
+    height: var(--arrow-height);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    position: absolute;
+  }
+
+  &[north] {
+    bottom: calc(-1 * var(--arrow-height));
+  }
+
+  &[north="true"] {
+    top: calc(-1 * var(--arrow-width));
+    left: var(--arrow-height);
+    clip-path: polygon(50% 0, 0 100%, 100% 100%);
+  }
+
+  &[west] {
+    left: var(--arrow-width);
+  }
+
+  &[west="true"] {
+    left: calc(-1 * var(--arrow-width));
+  }
 }
 
 :host h5 {
@@ -22,20 +53,20 @@
   font-size: 1rem;
   font-weight: bolder;
   margin: 0;
-}
 
-:host h5 > a {
-  text-decoration: none;
-  color: inherit;
-}
+  & > a {
+    text-decoration: none;
+    color: inherit;
 
-:host h5 > a:hover {
-  color: var(--theme-color); 
-  text-decoration: underline;
-}
+    &:hover {
+      color: var(--theme-color); 
+      text-decoration: underline;
+    }
 
-:host h5 > a:empty {
-  display: none;
+    :empty {
+      display: none;
+    }
+  }
 }
 
 :host h6 {
@@ -47,10 +78,10 @@
 :host small {
   font-size: 0.7rem;
   color: hsl(0,0%,60%);
-}
 
-:host small > span {
-  color: hsl(0,0%,20%);
+  & > span {
+    color: hsl(0,0%,20%);
+  }
 }
 
 :host [brand], 
