@@ -3,18 +3,41 @@
 :host {
   position: absolute;
   z-index: 99999;
-  background: white;
-  color: var(--theme-icon_color);
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  box-shadow: 0 0 0.5rem hsla(0,0%,0%,10%);
-  border-radius: 0.25rem;
+
+  --arrow-width: 15px;
+  --arrow-height: 8px;
+
+  --shadow-up: 5px;
+  --shadow-down: -5px;
+  --shadow-direction: var(--shadow-up);
+
+  --arrow-up: polygon(0 0, 100% 0, 50% 100%);
+  --arrow-down: polygon(50% 0, 0 100%, 100% 100%);
+  --arrow: var(--arrow-up);
 }
 
 :host figure {
+  max-width: 50vw;
+  background: white;
+  color: var(--theme-icon_color);
+  padding: 0.5rem;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  border-radius: 0.25rem;
+  filter: drop-shadow(0 var(--shadow-direction) 0.5rem hsla(0,0%,0%,35%));
+
+  &:after {
+    content: "";
+    background: white;
+    width: var(--arrow-width);
+    height: var(--arrow-height);
+    clip-path: var(--arrow);
+    position: absolute;
+    top: var(--arrow-top);
+    left: var(--arrow-left);
+  }
 }
 
 :host h5 {
@@ -22,20 +45,20 @@
   font-size: 1rem;
   font-weight: bolder;
   margin: 0;
-}
 
-:host h5 > a {
-  text-decoration: none;
-  color: inherit;
-}
+  & > a {
+    text-decoration: none;
+    color: inherit;
 
-:host h5 > a:hover {
-  color: var(--theme-color); 
-  text-decoration: underline;
-}
+    &:hover {
+      color: var(--theme-color); 
+      text-decoration: underline;
+    }
 
-:host h5 > a:empty {
-  display: none;
+    :empty {
+      display: none;
+    }
+  }
 }
 
 :host h6 {
@@ -47,10 +70,10 @@
 :host small {
   font-size: 0.7rem;
   color: hsl(0,0%,60%);
-}
 
-:host small > span {
-  color: hsl(0,0%,20%);
+  & > span {
+    color: hsl(0,0%,20%);
+  }
 }
 
 :host [brand], 
@@ -77,6 +100,10 @@
   justify-content: flex-end;
   text-align: right;
   white-space: pre;
+}
+
+:host [text] {
+  white-space: normal;
 }
 
 :host [color] {
