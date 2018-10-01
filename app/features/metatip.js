@@ -68,9 +68,33 @@ export function MetaTip(selectorEngine) {
       ? e.pageY - node.clientHeight - 20
       : e.pageY + 25}px`,
     left: `${west
-      ? e.pageX - node.clientWidth + 25
-      : e.pageX - 25}px`,
+      ? e.pageX - node.clientWidth + 23
+      : e.pageX - 21}px`,
   })
+
+  const update_tip = (tip, e) => {
+    const { north, west } = mouse_quadrant(e)
+    const {left, top}     = tip_position(tip, e, north, west)
+
+    tip.style.left  = left
+    tip.style.top   = top 
+
+    tip.style.setProperty('--arrow', north 
+      ? 'var(--arrow-up)'
+      : 'var(--arrow-down)')
+
+    tip.style.setProperty('--shadow-direction', north 
+      ? 'var(--shadow-up)'
+      : 'var(--shadow-down)')
+
+    tip.style.setProperty('--arrow-top', !north 
+      ? '-8px'
+      : '100%')
+
+    tip.style.setProperty('--arrow-left', west 
+      ? 'calc(100% - 15px - 15px)'
+      : '15px')
+  }
 
   const mouseOut = ({target}) => {
     if (tip_map[nodeKey(target)] && !target.hasAttribute('data-metatip')) {
@@ -120,24 +144,16 @@ export function MetaTip(selectorEngine) {
       if (e.target.hasAttribute('data-metatip')) 
         return
       // otherwise update position
-      const tip = tip_map[nodeKey(e.target)].tip
-      const { north, west } = mouse_quadrant(e)
-      const {left, top} = tip_position(tip, e, north, west) 
-      tip.style.left  = left
-      tip.style.top   = top 
-      $(tip).attr('north', north)
+      const { tip } = tip_map[nodeKey(e.target)]
+
+      update_tip(tip, e)
     }
     // create new tip
     else {
       const tip = template(e)
       document.body.appendChild(tip)
 
-      const { north, west } = mouse_quadrant(e)
-      const {left, top} = tip_position(tip, e, north, west)
-
-      tip.style.left    = left
-      tip.style.top     = top 
-      $(tip).attr('north', north)
+      update_tip(tip, e)
 
       $(tip).on('query', linkQueryClicked)
       $(tip).on('unquery', linkQueryHoverOut)

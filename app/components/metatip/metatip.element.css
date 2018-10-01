@@ -4,11 +4,20 @@
   position: absolute;
   z-index: 99999;
 
-  --arrow-width: 1rem;
-  --arrow-height: 0.5rem;
+  --arrow-width: 15px;
+  --arrow-height: 8px;
+
+  --shadow-up: 5px;
+  --shadow-down: -5px;
+  --shadow-direction: var(--shadow-up);
+
+  --arrow-up: polygon(0 0, 100% 0, 50% 100%);
+  --arrow-down: polygon(50% 0, 0 100%, 100% 100%);
+  --arrow: var(--arrow-up);
 }
 
 :host figure {
+  max-width: 50vw;
   background: white;
   color: var(--theme-icon_color);
   padding: 0.5rem;
@@ -16,35 +25,18 @@
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  /*box-shadow: 0 0 0.5rem hsla(0,0%,0%,10%);*/
   border-radius: 0.25rem;
-  filter: drop-shadow(0 5px 0.5rem hsla(0,0%,0%,35%));
+  filter: drop-shadow(0 var(--shadow-direction) 0.5rem hsla(0,0%,0%,35%));
 
   &:after {
     content: "";
     background: white;
     width: var(--arrow-width);
     height: var(--arrow-height);
-    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    clip-path: var(--arrow);
     position: absolute;
-  }
-
-  &[north] {
-    bottom: calc(-1 * var(--arrow-height));
-  }
-
-  &[north="true"] {
-    top: calc(-1 * var(--arrow-width));
-    left: var(--arrow-height);
-    clip-path: polygon(50% 0, 0 100%, 100% 100%);
-  }
-
-  &[west] {
-    left: var(--arrow-width);
-  }
-
-  &[west="true"] {
-    left: calc(-1 * var(--arrow-width));
+    top: var(--arrow-top);
+    left: var(--arrow-left);
   }
 }
 
@@ -108,6 +100,10 @@
   justify-content: flex-end;
   text-align: right;
   white-space: pre;
+}
+
+:host [text] {
+  white-space: normal;
 }
 
 :host [color] {
