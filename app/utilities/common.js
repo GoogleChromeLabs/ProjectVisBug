@@ -1,4 +1,5 @@
 import $ from 'blingblingjs'
+import { nodeKey } from './strings'
 
 export const getSide = direction => {
   let start = direction.split('+').pop().replace(/^\w/, c => c.toUpperCase())
