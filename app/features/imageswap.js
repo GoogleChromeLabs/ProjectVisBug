@@ -39,7 +39,7 @@ const onDragEnter = e => {
   e.preventDefault()
   const pre_selected = $('img[data-selected=true]')
 
-  if (!pre_selected.length && e.target.nodeName === 'IMG')
+  if (!pre_selected.length)
     showOverlay(e.target, 0)
   else
     pre_selected.forEach((img, i) =>
@@ -52,14 +52,17 @@ const onDragLeave = e =>
 const onDrop = async e => {
   e.stopPropagation()
   e.preventDefault()
-    
+
   const selectedImages = $('img[data-selected=true]')
 
   const srcs = await Promise.all(
     [...e.dataTransfer.files].map(previewFile))
   
-  if (!selectedImages.length && e.target.nodeName === 'IMG')
-    e.target.src = srcs[0]
+  if (!selectedImages.length)
+    if (e.target.nodeName === 'IMG')
+      e.target.src = srcs[0]
+    else if (getStyle(e.target, 'background-image'))
+      e.target.style.backgroundImage = `url(${srcs[0]})`
   else if (selectedImages.length) {
     let i = 0
     selectedImages.forEach(img => {
@@ -80,7 +83,7 @@ const showOverlay = (node, i) => {
     overlay.children[0].setAttribute('width', width + 'px')
     overlay.children[0].setAttribute('height', height + 'px')
     overlay.children[0].setAttribute('x', left)
-    overlay.children[0].setAttribute('y', top)
+    overlay.children[0].setAttribute('y', window.scrollY + top)
   }
   else {
     overlays[i] = htmlStringToDom(`
