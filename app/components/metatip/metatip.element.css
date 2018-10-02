@@ -76,6 +76,10 @@
   }
 }
 
+:host a:not(:hover) {
+  text-decoration: none;
+}
+
 :host [brand], 
 :host [divider] {
   color: var(--theme-color);
