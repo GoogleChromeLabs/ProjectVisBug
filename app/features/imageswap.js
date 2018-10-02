@@ -17,13 +17,13 @@ export function watchImagesForUpload() {
 const initWatchers = imgs => {
   imgs.on('dragover', onDragEnter)
   imgs.on('dragleave', onDragLeave)
-  document.addEventListener('drop', onDrop, true)
+  imgs.on('drop', onDrop)
 }
 
 const clearWatchers = imgs => {
   imgs.off('dragenter', onDragEnter)
   imgs.off('dragleave', onDragLeave)
-  document.removeEventListener('drop', onDrop, true)
+  imgs.off('drop', onDrop)
   imgs = []
 }
 
@@ -40,7 +40,7 @@ const onDragEnter = e => {
   const pre_selected = $('img[data-selected=true]')
 
   if (!pre_selected.length)
-    showOverlay(e.target, 0)
+    showOverlay(e.currentTarget, 0)
   else
     pre_selected.forEach((img, i) =>
       showOverlay(img, i))
@@ -61,8 +61,11 @@ const onDrop = async e => {
   if (!selectedImages.length)
     if (e.target.nodeName === 'IMG')
       e.target.src = srcs[0]
-    else if (getStyle(e.target, 'background-image'))
-      e.target.style.backgroundImage = `url(${srcs[0]})`
+    else
+      imgs
+        .filter(img => img.contains(e.target))
+        .forEach(img => 
+          img.style.backgroundImage = `url(${srcs[0]})`)
   else if (selectedImages.length) {
     let i = 0
     selectedImages.forEach(img => {
