@@ -28,6 +28,9 @@ export function MetaTip(selectorEngine) {
         if (style.prop.includes('font-family') && style.value.length > 25)
           style.value = style.value.slice(0,25) + '...'
 
+        if (style.prop.includes('background-image'))
+          style.value = `<a target="_blank" href="${style.value.slice(style.value.indexOf('(') + 2, style.value.length - 2)}">${style.value.slice(0,25) + '...'}</a>`
+
         // check if style is inline style, show indicator
         if (el.getAttribute('style') && el.getAttribute('style').includes(style.prop))
           style.value = `<span local-change>${style.value}</span>`
