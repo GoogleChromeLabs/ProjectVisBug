@@ -2,8 +2,6 @@ import $        from 'blingblingjs'
 import hotkeys  from 'hotkeys-js'
 import styles   from './base.element.css'
 
-// TODO: make an extendable base class for other keymaps
-
 export class HotkeyMap extends HTMLElement {
   
   constructor() {
@@ -29,7 +27,7 @@ export class HotkeyMap extends HTMLElement {
     this.$shadow            = this.attachShadow({mode: 'open'})
     this.$shadow.innerHTML  = this.render()
 
-    this.tool               = 'padding'
+    this.tool               = 'hotkeymap'
     this.$command           = $('[command]', this.$shadow)
   }
 
@@ -93,9 +91,16 @@ export class HotkeyMap extends HTMLElement {
     if (e.code === 'ArrowRight')  side = 'the right side'
     if (hotkeys.cmd)              side = 'all sides'
 
-    this.$command[0].innerHTML = `
+    this.$command[0].innerHTML = this.displayCommand({
+      negative, tool: this.tool, 
+      negative_modifier, side, amount,
+    })
+  }
+
+  displayCommand({negative, tool, negative_modifier, side, amount}) {
+    return `
       <span negative>${negative} </span>
-      <span tool>${this.tool}</span>
+      <span tool>${tool}</span>
       <span light> ${negative_modifier} </span>
       <span side>${side}</span>
       <span light> by </span>

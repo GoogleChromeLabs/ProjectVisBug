@@ -77,7 +77,7 @@
   color: white;
 }
 
-:host span:not([pressed="true"]):matches([shift],[ctrl],[alt],[cmd],[up],[down],[left],[right]) {
+:host span:not([pressed="true"]):matches([shift],[alt],[cmd],[up],[down],[left],[right]) {
   background: var(--light-grey);
 }
 

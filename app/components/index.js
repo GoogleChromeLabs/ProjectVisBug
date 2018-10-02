@@ -5,4 +5,4 @@ export { HoverGridlines }   from './selection/gridlines.element'
 export { Metatip }          from './metatip/metatip.element'
 export { Ally }             from './metatip/ally.element'
 
-export { HotkeyMap }        from './hotkey-map/padding.element'
+export { PaddingHotkeys }   from './hotkey-map/padding.element'
