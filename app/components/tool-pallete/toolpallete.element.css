@@ -31,15 +31,10 @@
 
   &[data-tool]:hover {
     cursor: pointer;
-    background: var(--theme-tool_selected);
   }
 
   &[data-tool='align'] > svg {
     transform: rotateZ(90deg);
-  }
-
-  &[data-active=true] {
-    background: var(--theme-tool_selected);
   }
 
   &[data-active=true] > svg:not(.icon-cursor) { 
