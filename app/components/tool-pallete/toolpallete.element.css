@@ -14,9 +14,11 @@
   margin: 0;
   padding: 0;
   list-style-type: none;
+  border-radius: 2em;
 
   &:not([colors]) {
     box-shadow: 0 0.25em 0.5em hsla(0,0%,0%,10%);
+    background: var(--theme-bg);
   }
 }
 
@@ -27,7 +29,6 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  background: var(--theme-bg);
 
   &[data-tool]:hover {
     cursor: pointer;
@@ -48,14 +49,15 @@
   &:hover:after {
     content: attr(aria-label) "\A" attr(aria-description);
     position: absolute;
-    left: 100%;
+    left: calc(100% - 1.25em);
     top: 0;
     z-index: -1;
-    box-shadow: 0 0.1em 0.1em hsla(0,0%,0%,10%);
+    box-shadow: 0 0.1em 0.1em hsla(0,0%,0%,20%);
+    border-radius: 0 0.5em 0.5em 0;
     height: 100%;
     display: inline-flex;
     align-items: center;
-    padding: 0 0.5em;
+    padding: 0 0.75em 0 2em;
     background: var(--theme-color);
     color: white;
     font-size: 0.8em;
@@ -67,6 +69,7 @@
   overflow: hidden;
   border-radius: 50%;
   box-shadow: 0 0.25em 0.5em hsla(0,0%,0%,10%);
+  background: var(--theme-bg);
 
   &:not(:last-child) {
     margin-bottom: 0.5em;
