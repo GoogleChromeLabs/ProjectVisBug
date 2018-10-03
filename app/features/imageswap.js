@@ -1,5 +1,5 @@
 import $ from 'blingblingjs'
-import { htmlStringToDom, getStyle } from '../utilities/'
+import { getStyle } from '../utilities/'
 
 let imgs      = []
   , overlays  = []
@@ -78,41 +78,15 @@ const onDrop = async e => {
 }
 
 const showOverlay = (node, i) => {
-  const { x, y, width, height, top, left } = node.getBoundingClientRect()
+  const rect    = node.getBoundingClientRect()
   const overlay = overlays[i]
 
   if (overlay) {
-    overlay.style.display = 'block'
-    overlay.children[0].setAttribute('width', width + 'px')
-    overlay.children[0].setAttribute('height', height + 'px')
-    overlay.children[0].setAttribute('x', left)
-    overlay.children[0].setAttribute('y', window.scrollY + top)
+    overlay.update = rect
   }
   else {
-    overlays[i] = htmlStringToDom(`
-      <svg 
-          class="pb-overlay"
-          overlay-id="${i}"
-          style="
-            display:none;
-            position:absolute;
-            top:0;
-            left:0;
-            overflow:visible;
-            pointer-events:none;
-            z-index: 999;
-          " 
-          width="${width}px" height="${height}px" 
-          viewBox="0 0 ${width} ${height}" 
-          version="1.1" xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect 
-            fill="hsla(330, 100%, 71%, 0.5)"
-            width="100%" height="100%"
-          ></rect>
-        </svg>
-    `)
-
+    overlays[i] = document.createElement('pb-overlay')
+    overlays[i].position = rect
     document.body.appendChild(overlays[i])
   }
 }

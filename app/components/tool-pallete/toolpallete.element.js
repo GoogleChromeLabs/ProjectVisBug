@@ -3,8 +3,8 @@ import hotkeys  from 'hotkeys-js'
 import styles   from './toolpallete.element.css'
 
 import { 
-  HotkeyMap, SelectionHandles, SelectionLabel, 
-  HoverGridlines, Metatip, Ally
+  HotkeyMap, Handles, Label, Overlay, Gridlines, 
+  Metatip, Ally, 
 } from '../'
 
 import { 

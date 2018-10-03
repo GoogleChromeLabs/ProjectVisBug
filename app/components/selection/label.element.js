@@ -1,6 +1,6 @@
 import $ from 'blingblingjs'
 
-export class SelectionLabel extends HTMLElement {
+export class Label extends HTMLElement {
   
   constructor() {
     super()
@@ -83,4 +83,4 @@ export class SelectionLabel extends HTMLElement {
   }
 }
 
-customElements.define('pb-label', SelectionLabel)
+customElements.define('pb-label', Label)
