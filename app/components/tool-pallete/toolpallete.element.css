@@ -2,8 +2,8 @@
 
 :host {
   position: fixed;
-  top: 1em;
-  left: 1em;
+  top: 0;
+  left: 0;
   z-index: 99998; 
   font-size: 16px;
 }
@@ -11,7 +11,7 @@
 :host > ol {
   display: flex;
   flex-direction: column;
-  margin: 0;
+  margin: 1em;
   padding: 0;
   list-style-type: none;
 

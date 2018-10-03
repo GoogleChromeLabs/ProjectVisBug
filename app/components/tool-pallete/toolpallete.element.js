@@ -4,7 +4,7 @@ import styles   from './toolpallete.element.css'
 
 import { 
   Handles, Label, Overlay, Gridlines, 
-  PaddingHotkeys, Metatip, Ally, 
+  Hotkeys, Metatip, Ally, 
 } from '../'
 
 import { 
@@ -87,6 +87,7 @@ export default class ToolPallete extends HTMLElement {
   render() {
     return `
       ${this.styles()}
+      <pb-hotkeys></pb-hotkeys>
       <ol>
         ${Object.entries(this.toolbar_model).reduce((list, [key, value]) => `
           ${list}

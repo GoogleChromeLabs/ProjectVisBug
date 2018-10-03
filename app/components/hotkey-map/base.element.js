@@ -24,11 +24,8 @@ export class HotkeyMap extends HTMLElement {
       space:  {3:10,4:2},
     }
 
-    this.$shadow            = this.attachShadow({mode: 'open'})
-    this.$shadow.innerHTML  = this.render()
-
-    this.tool               = 'hotkeymap'
-    this.$command           = $('[command]', this.$shadow)
+    this.$shadow    = this.attachShadow({mode: 'open'})
+    this.tool       = 'hotkeymap'
   }
 
   connectedCallback() {
@@ -40,15 +37,13 @@ export class HotkeyMap extends HTMLElement {
     this.$down   = $('[arrows] [down]', this.$shadow)
     this.$left   = $('[arrows] [left]', this.$shadow)
     this.$right  = $('[arrows] [right]', this.$shadow)
-
-    hotkeys('shift+/', e =>
-      this.$shadow.host.style.display !== 'flex'
-        ? this.show()
-        : this.hide())
   }
 
-  disconnectedCallback() {
-    hotkeys.unbind('*')
+  disconnectedCallback() {}
+
+  set tool(tool) {
+    this._tool = tool
+    this.$shadow.innerHTML = this.render()
   }
 
   show() {
@@ -60,10 +55,6 @@ export class HotkeyMap extends HTMLElement {
   hide() {
     this.$shadow.host.style.display = 'none'
     hotkeys.unbind('*')
-  }
-
-  setTool(tool) {
-    if (tool) this.tool = tool
   }
 
   watchKeys(e, handler) {
@@ -79,10 +70,17 @@ export class HotkeyMap extends HTMLElement {
     this.$left.attr('pressed', e.code === 'ArrowLeft')
     this.$right.attr('pressed', e.code === 'ArrowRight')
 
-    let amount = hotkeys.shift ? 10 : 1
+    const { negative, negative_modifier, side, amount } = this.createCommand({e, hotkeys})
 
-    let negative = hotkeys.alt ? 'Subtract' : 'Add'
-    let negative_modifier = hotkeys.alt ? 'from' : 'to'
+    $('[command]', this.$shadow)[0].innerHTML = this.displayCommand({
+      negative, negative_modifier, side, amount,
+    })
+  }
+
+  createCommand({e, hotkeys}) {
+    const amount              = hotkeys.shift ? 10 : 1
+    const negative            = hotkeys.alt ? 'Subtract' : 'Add'
+    const negative_modifier   = hotkeys.alt ? 'from' : 'to'
 
     let side = '[arrow key]'
     if (e.code === 'ArrowUp')     side = 'the top side'
@@ -91,16 +89,15 @@ export class HotkeyMap extends HTMLElement {
     if (e.code === 'ArrowRight')  side = 'the right side'
     if (hotkeys.cmd)              side = 'all sides'
 
-    this.$command[0].innerHTML = this.displayCommand({
-      negative, tool: this.tool, 
-      negative_modifier, side, amount,
-    })
+    return {
+      negative, negative_modifier, amount, side,
+    }
   }
 
-  displayCommand({negative, tool, negative_modifier, side, amount}) {
+  displayCommand({negative, negative_modifier, side, amount}) {
     return `
       <span negative>${negative} </span>
-      <span tool>${tool}</span>
+      <span tool>${this._tool}</span>
       <span light> ${negative_modifier} </span>
       <span side>${side}</span>
       <span light> by </span>
@@ -113,12 +110,13 @@ export class HotkeyMap extends HTMLElement {
       ${this.styles()}
       <article>
         <div command>
-          <span negative="">[alt/opt] </span>
-          <span tool="">padding</span>
-          <span light=""> to </span>
-          <span side="">[arrow key]</span>
-          <span light=""> by </span>
-          <span amount="">1</span>
+          ${this.displayCommand({
+            negative: '[alt/opt] ',
+            negative_modifier: ' to ',
+            tool: this._tool,
+            side: '[arrow key]',
+            amount: 1
+          })}
         </div>
         <div card>
           <div keyboard>

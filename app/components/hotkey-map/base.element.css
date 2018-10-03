@@ -40,7 +40,7 @@
 :host [card] {
   padding: 1em;
   background: white;
-  box-shadow: 0 0.25em 0.25em hsla(0,0%,0%,20%);
+  box-shadow: 0 0.5em 3em hsla(0,0%,0%,20%);
   color: var(--dark-grey);
   display: flex;
 
