@@ -4,6 +4,7 @@
   position: absolute;
   z-index: 99999;
   font-size: 16px;
+  font-family: system-ui;
 
   --arrow-width: 15px;
   --arrow-height: 8px;
@@ -21,6 +22,7 @@
   max-width: 50vw;
   background: white;
   color: var(--theme-icon_color);
+  line-height: initial;
   padding: 0.5em;
   margin: 0;
   display: flex;

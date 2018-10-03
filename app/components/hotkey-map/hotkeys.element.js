@@ -7,8 +7,7 @@ export class Hotkeys extends HTMLElement {
   
   constructor() {
     super()
-    this.$shadow = this.attachShadow({mode: 'open'})
-    this.$shadow.innerHTML  = this.render()
+    this.render()
   }
 
   connectedCallback() {
@@ -19,10 +18,8 @@ export class Hotkeys extends HTMLElement {
   disconnectedCallback() {}
 
   render() {
-    return `
-      <hotkeys-padding></hotkeys-padding>
-      <hotkeys-margin></hotkeys-margin>
-    `
+    this.appendChild(document.createElement('hotkeys-padding'))
+    this.appendChild(document.createElement('hotkeys-margin'))
   }
 }
 

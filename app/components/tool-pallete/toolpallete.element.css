@@ -6,6 +6,7 @@
   left: 0;
   z-index: 99998; 
   font-size: 16px;
+  font-family: system-ui;
 }
 
 :host > ol {
@@ -62,6 +63,7 @@
     color: white;
     font-size: 0.8em;
     white-space: pre;
+    line-height: 1.2;
   }
 }
 
