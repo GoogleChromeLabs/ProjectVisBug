@@ -29,6 +29,7 @@
   flex-direction: column;
   flex-wrap: nowrap;
   border-radius: 0.25em;
+  line-height: initial;
   filter: drop-shadow(0 var(--shadow-direction) 0.5em hsla(0,0%,0%,35%));
 
   &:after {
