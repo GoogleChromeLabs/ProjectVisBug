@@ -1,5 +1,5 @@
 import $ from 'blingblingjs'
-import { htmlStringToDom, getStyle } from '../utilities/'
+import { getStyle } from '../utilities/'
 
 let imgs      = []
   , overlays  = []
@@ -17,13 +17,13 @@ export function watchImagesForUpload() {
 const initWatchers = imgs => {
   imgs.on('dragover', onDragEnter)
   imgs.on('dragleave', onDragLeave)
-  document.addEventListener('drop', onDrop, true)
+  imgs.on('drop', onDrop)
 }
 
 const clearWatchers = imgs => {
   imgs.off('dragenter', onDragEnter)
   imgs.off('dragleave', onDragLeave)
-  document.removeEventListener('drop', onDrop, true)
+  imgs.off('drop', onDrop)
   imgs = []
 }
 
@@ -40,7 +40,7 @@ const onDragEnter = e => {
   const pre_selected = $('img[data-selected=true]')
 
   if (!pre_selected.length)
-    showOverlay(e.target, 0)
+    showOverlay(e.currentTarget, 0)
   else
     pre_selected.forEach((img, i) =>
       showOverlay(img, i))
@@ -61,8 +61,11 @@ const onDrop = async e => {
   if (!selectedImages.length)
     if (e.target.nodeName === 'IMG')
       e.target.src = srcs[0]
-    else if (getStyle(e.target, 'background-image'))
-      e.target.style.backgroundImage = `url(${srcs[0]})`
+    else
+      imgs
+        .filter(img => img.contains(e.target))
+        .forEach(img => 
+          img.style.backgroundImage = `url(${srcs[0]})`)
   else if (selectedImages.length) {
     let i = 0
     selectedImages.forEach(img => {
@@ -75,41 +78,15 @@ const onDrop = async e => {
 }
 
 const showOverlay = (node, i) => {
-  const { x, y, width, height, top, left } = node.getBoundingClientRect()
+  const rect    = node.getBoundingClientRect()
   const overlay = overlays[i]
 
   if (overlay) {
-    overlay.style.display = 'block'
-    overlay.children[0].setAttribute('width', width + 'px')
-    overlay.children[0].setAttribute('height', height + 'px')
-    overlay.children[0].setAttribute('x', left)
-    overlay.children[0].setAttribute('y', window.scrollY + top)
+    overlay.update = rect
   }
   else {
-    overlays[i] = htmlStringToDom(`
-      <svg 
-          class="pb-overlay"
-          overlay-id="${i}"
-          style="
-            display:none;
-            position:absolute;
-            top:0;
-            left:0;
-            overflow:visible;
-            pointer-events:none;
-            z-index: 999;
-          " 
-          width="${width}px" height="${height}px" 
-          viewBox="0 0 ${width} ${height}" 
-          version="1.1" xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect 
-            fill="hsla(330, 100%, 71%, 0.5)"
-            width="100%" height="100%"
-          ></rect>
-        </svg>
-    `)
-
+    overlays[i] = document.createElement('pb-overlay')
+    overlays[i].position = rect
     document.body.appendChild(overlays[i])
   }
 }

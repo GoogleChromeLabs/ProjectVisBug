@@ -1,4 +1,4 @@
-export class SelectionHandles extends HTMLElement {
+export class Handles extends HTMLElement {
   
   constructor() {
     super()
@@ -51,4 +51,4 @@ export class SelectionHandles extends HTMLElement {
   }
 }
 
-customElements.define('pb-handles', SelectionHandles)
+customElements.define('pb-handles', Handles)

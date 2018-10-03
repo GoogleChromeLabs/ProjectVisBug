@@ -92,7 +92,7 @@ export function MetaTip(selectorEngine) {
 
     tip.style.setProperty('--arrow-top', !north 
       ? '-8px'
-      : '100%')
+      : '99%')
 
     tip.style.setProperty('--arrow-left', west 
       ? 'calc(100% - 15px - 15px)'

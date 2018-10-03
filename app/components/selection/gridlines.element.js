@@ -1,4 +1,4 @@
-export class HoverGridlines extends HTMLElement {
+export class Gridlines extends HTMLElement {
   
   constructor() {
     super()
@@ -75,4 +75,4 @@ export class HoverGridlines extends HTMLElement {
   }
 }
 
-customElements.define('pb-gridlines', HoverGridlines)
+customElements.define('pb-gridlines', Gridlines)

@@ -37,8 +37,8 @@ export function Selectable() {
   }
 
   const unlisten = () => {
-    elements.forEach(el => el.removeEventListener('click', on_click))
-    elements.forEach(el => el.removeEventListener('dblclick', on_dblclick))
+    elements.forEach(el => el.removeEventListener('click', on_click, true))
+    elements.forEach(el => el.removeEventListener('dblclick', on_dblclick, true))
     elements.off('selectstart', on_selection)
     elements.off('mouseover', on_hover)
     elements.off('mouseout', on_hoverout)

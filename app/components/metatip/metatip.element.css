@@ -3,6 +3,7 @@
 :host {
   position: absolute;
   z-index: 99999;
+  font-size: 16px;
 
   --arrow-width: 15px;
   --arrow-height: 8px;
@@ -20,13 +21,13 @@
   max-width: 50vw;
   background: white;
   color: var(--theme-icon_color);
-  padding: 0.5rem;
+  padding: 0.5em;
   margin: 0;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  border-radius: 0.25rem;
-  filter: drop-shadow(0 var(--shadow-direction) 0.5rem hsla(0,0%,0%,35%));
+  border-radius: 0.25em;
+  filter: drop-shadow(0 var(--shadow-direction) 0.5em hsla(0,0%,0%,35%));
 
   &:after {
     content: "";
@@ -56,19 +57,19 @@
 
 :host h5 {
   display: flex;
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: bolder;
   margin: 0;
 }
 
 :host h6 {
-  margin-top: 1rem;
+  margin-top: 1em;
   margin-bottom: 0;
   font-weight: normal;
 }
 
 :host small {
-  font-size: 0.7rem;
+  font-size: 0.7em;
   color: hsl(0,0%,60%);
 
   & > span {
@@ -88,12 +89,12 @@
 :host div {
   display: grid;
   grid-template-columns: auto auto;
-  grid-gap: 0.25rem 0.5rem;
-  margin: 0.5rem 0 0;
+  grid-gap: 0.25em 0.5em;
+  margin: 0.5em 0 0;
   padding: 0;
   list-style-type: none;
   color: hsl(0,0%,40%);
-  font-size: 0.8rem;
+  font-size: 0.8em;
   font-family: 'Dank Mono', 'Operator Mono', 'Inconsolata', 'Fira Mono', 'SF Mono', 'Monaco', 'Droid Sans Mono', 'Source Code Pro', monospace;
 }
 
@@ -114,14 +115,14 @@
   position: relative;
   top: 1px;
   display: inline-block;
-  width: 0.6rem;
-  height: 0.6rem;
+  width: 0.6em;
+  height: 0.6em;
   border-radius: 50%;
-  margin-right: 0.25rem;
+  margin-right: 0.25em;
 }
 
 :host [contrast] > span {
-  padding: 0 0.5rem 0.1rem;
-  border-radius: 1rem;
+  padding: 0 0.5em 0.1em;
+  border-radius: 1em;
   box-shadow: 0 0 0 1px hsl(0,0%,90%);
 }

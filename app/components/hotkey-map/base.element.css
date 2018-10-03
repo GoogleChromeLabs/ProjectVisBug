@@ -9,6 +9,7 @@
   width: 100vw;
   height: 100vh;
   background: hsl(0,0%,95%);
+  font-size: 16px;
 
   --light-grey: hsl(0,0%,90%);
   --grey: hsl(0,0%,60%);
@@ -16,7 +17,7 @@
 }
 
 :host [command] {
-  padding: 1rem;
+  padding: 1em;
   text-align: center;
   font-size: 3vw;
   font-weight: lighter;
@@ -37,16 +38,16 @@
 }
 
 :host [card] {
-  padding: 1rem;
+  padding: 1em;
   background: white;
-  box-shadow: 0 0.25rem 0.25rem hsla(0,0%,0%,20%);
+  box-shadow: 0 0.25em 0.25em hsla(0,0%,0%,20%);
   color: var(--dark-grey);
   display: flex;
 
   & > div:not([keyboard]) {
     display: flex;
     align-items: flex-end;
-    margin-left: 1rem;
+    margin-left: 1em;
   }
 }
 
@@ -63,7 +64,7 @@
   justify-content: center;
   margin: 2px;
   padding: 1.5vw;
-  font-size: 0.75rem;
+  font-size: 0.75em;
   white-space: nowrap;
 }
 

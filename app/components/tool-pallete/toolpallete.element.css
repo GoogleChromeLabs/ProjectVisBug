@@ -2,9 +2,10 @@
 
 :host {
   position: fixed;
-  top: 1rem;
-  left: 1rem;
+  top: 1em;
+  left: 1em;
   z-index: 99998; 
+  font-size: 16px;
 }
 
 :host > ol {
@@ -15,13 +16,13 @@
   list-style-type: none;
 
   &:not([colors]) {
-    box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
+    box-shadow: 0 0.25em 0.5em hsla(0,0%,0%,10%);
   }
 }
 
 :host li {
-  height: 2.5rem;
-  width: 2.5rem;
+  height: 2.5em;
+  width: 2.5em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -30,15 +31,10 @@
 
   &[data-tool]:hover {
     cursor: pointer;
-    background: var(--theme-tool_selected);
   }
 
   &[data-tool='align'] > svg {
     transform: rotateZ(90deg);
-  }
-
-  &[data-active=true] {
-    background: var(--theme-tool_selected);
   }
 
   &[data-active=true] > svg:not(.icon-cursor) { 
@@ -55,14 +51,14 @@
     left: 100%;
     top: 0;
     z-index: -1;
-    box-shadow: 0 0.1rem 0.1rem hsla(0,0%,0%,10%);
+    box-shadow: 0 0.1em 0.1em hsla(0,0%,0%,10%);
     height: 100%;
     display: inline-flex;
     align-items: center;
-    padding: 0 0.5rem;
+    padding: 0 0.5em;
     background: var(--theme-color);
     color: white;
-    font-size: 0.8rem;
+    font-size: 0.8em;
     white-space: pre;
   }
 }
@@ -70,10 +66,10 @@
 :host [colors] > li {
   overflow: hidden;
   border-radius: 50%;
-  box-shadow: 0 0.25rem 0.5rem hsla(0,0%,0%,10%);
+  box-shadow: 0 0.25em 0.5em hsla(0,0%,0%,10%);
 
   &:not(:last-child) {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.5em;
   }
 }
 
@@ -82,7 +78,7 @@
 }
 
 :host [colors] {
-  margin-top: 0.5rem;
+  margin-top: 0.5em;
 }
 
 :host li > svg {
@@ -107,7 +103,7 @@
 
 :host li[data-tool="search"] > .search > input {
   border: none;
-  font-size: 1rem;
+  font-size: 1em;
   padding: 0.4em;
   outline: none;
   height: 100%;
