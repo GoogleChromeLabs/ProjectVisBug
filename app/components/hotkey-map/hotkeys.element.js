@@ -22,6 +22,7 @@ export class Hotkeys extends HTMLElement {
 
     this.tool_map = {
       guides:         document.createElement('hotkeys-guides'),
+      inspector:      document.createElement('hotkeys-inspector'),
       accessibility:  document.createElement('hotkeys-accessibility'),
       move:           document.createElement('hotkeys-move'),
       margin:         document.createElement('hotkeys-margin'),

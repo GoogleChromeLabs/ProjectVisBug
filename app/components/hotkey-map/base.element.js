@@ -1,6 +1,7 @@
-import $        from 'blingblingjs'
-import hotkeys  from 'hotkeys-js'
-import styles   from './base.element.css'
+import $            from 'blingblingjs'
+import hotkeys      from 'hotkeys-js'
+import styles       from './base.element.css'
+import * as Icons   from '../tool-pallete/toolpallete.icons' 
 
 export class HotkeyMap extends HTMLElement {
   
@@ -24,6 +25,7 @@ export class HotkeyMap extends HTMLElement {
     }
 
     this.$shadow    = this.attachShadow({mode: 'open'})
+
     this._hotkey    = ''
     this._usedkeys  = []
 
@@ -116,6 +118,12 @@ export class HotkeyMap extends HTMLElement {
     return `
       ${this.styles()}
       <article>
+        <div tool-icon>
+          <span>
+            ${Icons[this._tool]}
+            ${this._tool} Tool
+          </span>
+        </div>
         <div command>
           ${this.displayCommand({
             negative: '[alt/opt] ',

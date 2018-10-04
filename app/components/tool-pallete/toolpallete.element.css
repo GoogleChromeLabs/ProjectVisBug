@@ -35,10 +35,6 @@
     cursor: pointer;
   }
 
-  &[data-tool='align'] > svg {
-    transform: rotateZ(90deg);
-  }
-
   &[data-active=true] > svg:not(.icon-cursor) { 
     fill: var(--theme-color); 
   }

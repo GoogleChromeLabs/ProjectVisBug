@@ -21,7 +21,7 @@ export default class ToolPallete extends HTMLElement {
     super()
 
     this.toolbar_model = {
-      g: { tool: 'guides', icon: Icons.ruler, label: 'Guides', description: 'Verify alignment' },
+      g: { tool: 'guides', icon: Icons.guides, label: 'Guides', description: 'Verify alignment' },
       i: { tool: 'inspector', icon: Icons.inspector, label: 'Inspect', description: 'Peak into the common & current styles of an element' },
       x: { tool: 'accessibility', icon: Icons.accessibility, label: 'Accessibility', description: 'Peak into a11y attributes & compliance status' },
       v: { tool: 'move', icon: Icons.move, label: 'Move', description: 'Push elements in, out & around' },
@@ -35,7 +35,7 @@ export default class ToolPallete extends HTMLElement {
       // t: { tool: 'transform', icon: Icons.transform, label: '3D Transform', description: '' },
       l: { tool: 'position', icon: Icons.position, label: 'Position', description: 'Move svg (x,y) and elements (top,left,bottom,right)' },
       f: { tool: 'font', icon: Icons.font, label: 'Font Styles', description: 'Change size, leading, kerning, & weight' },
-      e: { tool: 'text', icon: Icons.type, label: 'Edit Text', description: 'Change any text on the page' },
+      e: { tool: 'text', icon: Icons.text, label: 'Edit Text', description: 'Change any text on the page' },
       // c: { tool: 'screenshot', icon: Icons.camera, label: 'Screenshot', description: 'Screenshot selected elements or the entire page' },
       s: { tool: 'search', icon: Icons.search, label: 'Search', description: 'Select elements by searching for them' },
     }
