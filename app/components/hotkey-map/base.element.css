@@ -45,6 +45,7 @@
   border-radius: 0.5em;
   color: var(--dark-grey);
   display: flex;
+  justify-content: space-evenly;
 
   & > div:not([keyboard]) {
     display: flex;
@@ -88,7 +89,10 @@
 :host span[hotkey] {
   color: var(--theme-color);
   font-weight: bold;
-  font-size: 1.5em;
+}
+
+:host section > span[hotkey]:not([pressed="true"]) {
+  border-color: var(--theme-color);
 }
 
 :host [arrows] {
