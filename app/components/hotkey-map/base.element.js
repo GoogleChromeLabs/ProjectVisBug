@@ -15,7 +15,6 @@ export class HotkeyMap extends HTMLElement {
       space:  ['ctrl','alt','cmd','spacebar','cmd','alt','ctrl']
     }
 
-    // index:flex
     this.key_size_model = {
       num:    {12:2},
       tab:    {0:2},
@@ -25,6 +24,9 @@ export class HotkeyMap extends HTMLElement {
     }
 
     this.$shadow    = this.attachShadow({mode: 'open'})
+    this._hotkey    = ''
+    this._usedkeys  = []
+
     this.tool       = 'hotkeymap'
   }
 
@@ -123,17 +125,25 @@ export class HotkeyMap extends HTMLElement {
             ${Object.entries(this.keyboard_model).reduce((keyboard, [row_name, row]) => `
               ${keyboard}
               <section ${row_name}>${row.reduce((row, key, i) => `
-                ${row}<span ${key} style="flex:${this.key_size_model[row_name][i] || 1};">${key}</span>
+                ${row}
+                <span 
+                  ${key} 
+                  ${this._hotkey == key ? 'hotkey' : ''}
+                  ${this._usedkeys.includes(key) ? 'used' : ''}
+                  style="flex:${this.key_size_model[row_name][i] || 1};"
+                >
+                  ${key}
+                </span>
               `, '')}
               </section>
             `, '')}
           </div>
           <div>
             <section arrows>
-              <span up>↑</span>
-              <span down>↓</span>
-              <span left>←</span>
-              <span right>→</span>
+              <span up used>↑</span>
+              <span down used>↓</span>
+              <span left used>←</span>
+              <span right used>→</span>
             </section>
           </div>
         </div>

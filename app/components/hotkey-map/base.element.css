@@ -71,8 +71,8 @@
   white-space: nowrap;
 }
 
-:host section > span:not([pressed]), 
-:host [arrows] > span:not([pressed]) {
+:host section > span:not([pressed="true"]), 
+:host [arrows] > span:not([pressed="true"]) {
   border: 1px solid var(--light-grey);
 }
 
@@ -81,8 +81,13 @@
   color: white;
 }
 
-:host span:not([pressed="true"]):matches([shift],[alt],[cmd],[up],[down],[left],[right]) {
+:host span:not([pressed="true"]):matches([used]) {
   background: var(--light-grey);
+}
+
+:host span[hotkey] {
+  color: var(--theme-color);
+  font-weight: bold;
 }
 
 :host [arrows] {

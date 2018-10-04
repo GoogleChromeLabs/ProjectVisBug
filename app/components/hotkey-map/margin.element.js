@@ -3,7 +3,11 @@ import { HotkeyMap } from './base.element'
 export class MarginHotkeys extends HotkeyMap {
   constructor() {
     super()
-    this.tool = 'margin'
+
+    this._hotkey    = 'm'
+    this._usedkeys  = ['shift','cmd','alt']
+
+    this.tool       = 'margin'
   }
 }
 

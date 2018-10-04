@@ -3,7 +3,11 @@ import { HotkeyMap } from './base.element'
 export class PaddingHotkeys extends HotkeyMap {
   constructor() {
     super()
-    this.tool = 'padding'
+
+    this._hotkey    = 'p'
+    this._usedkeys  = ['shift','cmd','alt']
+
+    this.tool       = 'padding'
   }
 }
 
