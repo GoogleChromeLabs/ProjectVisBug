@@ -10,6 +10,7 @@
   height: 100vh;
   background: hsl(0,0%,95%);
   font-size: 16px;
+  font-family: sans-serif;
 
   --light-grey: hsl(0,0%,90%);
   --grey: hsl(0,0%,60%);

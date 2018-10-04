@@ -53,6 +53,10 @@ export class Label extends HTMLElement {
   styles({top,left}) {
     return `
       <style>
+        :host {
+          font-size: 16px;
+        }
+
         :host > span {
           position: absolute;
           top: ${top + window.scrollY}px;
@@ -63,7 +67,8 @@ export class Label extends HTMLElement {
           color: white;
           display: inline-flex;
           justify-content: center;
-          font-size: 0.8rem;
+          font-size: 0.8em;
+          font-family: sans-serif;
           padding: 0.25em 0.4em 0.15em;
           line-height: 1.1;
         }
