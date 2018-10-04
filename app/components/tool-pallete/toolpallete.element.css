@@ -6,7 +6,7 @@
   left: 1em;
   z-index: 99998; 
   font-size: 16px;
-  font-family: sans-serif;
+  font-family: system-ui;
 }
 
 :host > ol {
@@ -61,7 +61,7 @@
     padding: 0 0.75em 0 2em;
     background: var(--theme-color);
     color: white;
-    font-weight: bold;
+    font-weight: 500;
     font-size: 0.8em;
     white-space: pre;
     line-height: initial;

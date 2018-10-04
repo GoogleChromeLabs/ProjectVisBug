@@ -4,7 +4,7 @@
   position: absolute;
   z-index: 99999;
   font-size: 16px;
-  font-family: sans-serif;
+  font-family: system-ui;
 
   --arrow-width: 15px;
   --arrow-height: 8px;
