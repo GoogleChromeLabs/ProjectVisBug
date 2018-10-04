@@ -52,7 +52,7 @@
     position: absolute;
     left: calc(100% - 1.25em);
     top: 0;
-    z-index: -1;
+    z-index: -2;
     box-shadow: 0 0.1em 0.1em hsla(0,0%,0%,20%);
     border-radius: 0 0.5em 0.5em 0;
     height: 100%;
@@ -61,6 +61,7 @@
     padding: 0 0.75em 0 2em;
     background: var(--theme-color);
     color: white;
+    font-weight: 500;
     font-size: 0.8em;
     white-space: pre;
     line-height: 1.2;
@@ -98,23 +99,37 @@
   stroke-width: 2px;
 }
 
+:host li[data-tool="search"] {
+  &[data-active="true"]:after {
+    display: none;
+  }
+}
+
 :host li[data-tool="search"] > .search {
   position: absolute;
-  left: 100%;
+  left: calc(100% - 1.25em);
   top: 0;
   height: 100%;
-  z-index: 9999;
+  z-index: -1;
+  box-shadow: 0 0.25em 0.5em hsla(0,0%,0%,10%);
+  border-radius: 0 2em 2em 0;
+  overflow: hidden;
 }
 
 :host li[data-tool="search"] > .search > input {
   border: none;
   font-size: 1em;
-  padding: 0.4em;
+  padding: 0.4em 0.4em 0.4em 2em;
   outline: none;
   height: 100%;
   width: 250px;
   box-sizing: border-box;
   caret-color: hotpink;
+
+  &::placeholder {
+    font-weight: lighter;
+    font-size: 0.8em;
+  }
 }
 
 :host [colors] > li > svg {
