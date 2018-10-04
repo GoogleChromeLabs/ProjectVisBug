@@ -61,7 +61,7 @@ export class HotkeyMap extends HTMLElement {
 
   watchKeys(e, handler) {
     e.preventDefault()
-    e.stopPropagation()
+    e.stopImmediatePropagation()
 
     this.$shift.attr('pressed', hotkeys.shift)
     this.$ctrl.attr('pressed', hotkeys.ctrl)
@@ -80,9 +80,9 @@ export class HotkeyMap extends HTMLElement {
   }
 
   createCommand({e, hotkeys}) {
-    const amount              = hotkeys.shift ? 10 : 1
-    const negative            = hotkeys.alt ? 'Subtract' : 'Add'
-    const negative_modifier   = hotkeys.alt ? 'from' : 'to'
+    let amount              = hotkeys.shift ? 10 : 1
+    let negative            = hotkeys.alt ? 'Subtract' : 'Add'
+    let negative_modifier   = hotkeys.alt ? 'from' : 'to'
 
     let side = '[arrow key]'
     if (e.code === 'ArrowUp')     side = 'the top side'
@@ -90,6 +90,11 @@ export class HotkeyMap extends HTMLElement {
     if (e.code === 'ArrowLeft')   side = 'the left side'
     if (e.code === 'ArrowRight')  side = 'the right side'
     if (hotkeys.cmd)              side = 'all sides'
+
+    if (hotkeys.cmd && e.code === 'ArrowDown') {
+      negative = 'Subtract'
+      negative_modifier = 'from'
+    }
 
     return {
       negative, negative_modifier, amount, side,

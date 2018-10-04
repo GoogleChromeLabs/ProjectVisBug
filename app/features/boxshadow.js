@@ -13,6 +13,8 @@ const command_events = 'cmd+up,cmd+shift+up,cmd+down,cmd+shift+down,cmd+left,cmd
 
 export function BoxShadow(selector) {
   hotkeys(key_events, (e, handler) => {
+    if (e.cancelBubble) return
+      
     e.preventDefault()
 
     let selectedNodes = $(selector)

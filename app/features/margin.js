@@ -14,6 +14,8 @@ const command_events = 'cmd+up,cmd+shift+up,cmd+down,cmd+shift+down'
 
 export function Margin(selector) {
   hotkeys(key_events, (e, handler) => {
+    if (e.cancelBubble) return
+      
     e.preventDefault()
     pushElement($(selector), handler.key)
   })

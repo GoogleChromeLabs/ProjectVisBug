@@ -13,6 +13,8 @@ const command_events = 'cmd+up,cmd+down'
 
 export function Font(selector) {
   hotkeys(key_events, (e, handler) => {
+    if (e.cancelBubble) return
+      
     e.preventDefault()
 
     let selectedNodes = $(selector)

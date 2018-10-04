@@ -1,9 +1,19 @@
 import $        from 'blingblingjs'
 import hotkeys  from 'hotkeys-js'
 
-import { PaddingHotkeys } from './padding.element'
-import { MarginHotkeys }  from './margin.element'
-import { MoveHotkeys }    from './move.element'
+import { GuidesHotkeys }        from './guides.element'
+import { InspectorHotkeys }     from './inspector.element'
+import { AccessibilityHotkeys } from './accessibility.element'
+import { MoveHotkeys }          from './move.element'
+import { MarginHotkeys }        from './margin.element'
+import { PaddingHotkeys }       from './padding.element'
+import { AlignHotkeys }         from './align.element'
+import { HueshiftHotkeys }      from './hueshift.element'
+import { BoxshadowHotkeys }     from './boxshadow.element'
+import { PositionHotkeys }      from './position.element'
+import { FontHotkeys }          from './font.element'
+import { TextHotkeys }          from './text.element'
+import { SearchHotkeys }        from './search.element'
 
 export class Hotkeys extends HTMLElement {
   
@@ -11,9 +21,18 @@ export class Hotkeys extends HTMLElement {
     super()
 
     this.tool_map = {
-      margin:   document.createElement('hotkeys-margin'),
-      padding:  document.createElement('hotkeys-padding'),
-      move:     document.createElement('hotkeys-move'),
+      guides:         document.createElement('hotkeys-guides'),
+      accessibility:  document.createElement('hotkeys-accessibility'),
+      move:           document.createElement('hotkeys-move'),
+      margin:         document.createElement('hotkeys-margin'),
+      padding:        document.createElement('hotkeys-padding'),
+      align:          document.createElement('hotkeys-align'),
+      hueshift:       document.createElement('hotkeys-hueshift'),
+      boxshadow:      document.createElement('hotkeys-boxshadow'),
+      position:       document.createElement('hotkeys-position'),
+      font:           document.createElement('hotkeys-font'),
+      text:           document.createElement('hotkeys-text'),
+      search:         document.createElement('hotkeys-search'),
     }
 
     Object.values(this.tool_map).forEach(tool =>

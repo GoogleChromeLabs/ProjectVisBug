@@ -1,11 +1,11 @@
 import { HotkeyMap } from './base.element'
 
-export class MoveHotkeys extends HotkeyMap {
+export class AlignHotkeys extends HotkeyMap {
   constructor() {
     super()
 
-    this._hotkey  = 'v'
-    this.tool     = 'move'
+    this._hotkey  = 'a'
+    this.tool     = 'align'
   }
 
   createCommand({e, hotkeys}) {
@@ -30,4 +30,4 @@ export class MoveHotkeys extends HotkeyMap {
   }
 }
 
-customElements.define('hotkeys-move', MoveHotkeys)
+customElements.define('hotkeys-align', AlignHotkeys)

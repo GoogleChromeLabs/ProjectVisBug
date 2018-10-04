@@ -7,6 +7,8 @@ const key_events = 'up,down,left,right,backspace'
 // todo: indicator when left or right hit dead ends
 export function Moveable(selector) {
   hotkeys(key_events, (e, {key}) => {
+    if (e.cancelBubble) return
+      
     e.preventDefault()
     e.stopPropagation()
     
