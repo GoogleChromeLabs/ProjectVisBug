@@ -24,6 +24,8 @@ export function Selectable() {
     document.addEventListener('copy', on_copy)
     document.addEventListener('cut', on_cut)
     document.addEventListener('paste', on_paste)
+    
+    watchCommandKey()
 
     hotkeys('cmd+alt+c', on_copy_styles)
     hotkeys('cmd+alt+v', e => on_paste_styles())
@@ -65,6 +67,28 @@ export function Selectable() {
     e.stopPropagation()
     if (isOffBounds(e.target)) return
     $('tool-pallete')[0].toolSelected('text')
+  }
+
+  const watchCommandKey = e => {
+    let did_hide = false
+
+    document.onkeydown = function(e) {
+      if (hotkeys.cmd && selected.length) {
+        $('pb-handles, pb-label').forEach(el =>
+          el.style.display = 'none')
+        
+        did_hide = true
+      }
+    }
+
+    document.onkeyup = function(e) {
+      if (did_hide) {
+        $('pb-handles, pb-label').forEach(el =>
+          el.style.display = null)
+
+        did_hide = false
+      }
+    }
   }
 
   const on_esc = _ => 
