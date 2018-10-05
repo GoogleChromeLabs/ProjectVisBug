@@ -100,6 +100,10 @@
 :host section > span:not([pressed="true"]), 
 :host [arrows] > span:not([pressed="true"]) {
   border: 1px solid var(--light-grey);
+
+  &:hover {
+    border-color: var(--grey);
+  }
 }
 
 :host span[pressed="true"] {
