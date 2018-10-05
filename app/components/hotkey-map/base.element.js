@@ -144,9 +144,7 @@ export class HotkeyMap extends HTMLElement {
                   ${this._hotkey == key ? 'hotkey title="Tool Shortcut Hotkey"' : ''}
                   ${this._usedkeys.includes(key) ? 'used' : ''}
                   style="flex:${this.key_size_model[row_name][i] || 1};"
-                >
-                  ${key}
-                </span>
+                >${key}</span>
               `, '')}
               </section>
             `, '')}
