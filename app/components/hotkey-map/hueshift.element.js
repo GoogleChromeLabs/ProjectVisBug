@@ -10,26 +10,55 @@ export class HueshiftHotkeys extends HotkeyMap {
     this.tool       = 'hueshift'
   }
 
-  connectedCallback() {}
+  createCommand({e:{code}, hotkeys}) {
+    let amount              = hotkeys.shift ? 10 : 1
+    let negative            = '[increase/decrease]'
+    let negative_modifier   = 'by'
+    let side                = '[arrow key]'
 
-  show() {
-    this.$shadow.host.style.display = 'flex'
+    // saturation
+    if (hotkeys.cmd) {
+      side ='hue'
+      
+      if (code === 'ArrowDown')
+        negative  = 'decrease'
+      if (code === 'ArrowUp')
+        negative  = 'increase'
+    }
+    else if (code === 'ArrowLeft' || code === 'ArrowRight') {
+      side = 'saturation'
+
+      if (code === 'ArrowLeft')
+        negative  = 'decrease'
+      if (code === 'ArrowRight')
+        negative  = 'increase'
+    }
+    // lightness
+    else if (code === 'ArrowUp' || code === 'ArrowDown') {
+      side = 'lightness'
+
+      if (code === 'ArrowDown')
+        negative  = 'decrease'
+      if (code === 'ArrowUp')
+        negative  = 'increase'
+    }
+
+    return {
+      negative, negative_modifier, amount, side,
+    }
   }
 
-  render() {
+  displayCommand({negative, negative_modifier, side, amount}) {
+    if (negative === '[alt/opt] ')
+      negative = '[increase/decrease]'
+    if (negative_modifier === ' to ')
+      negative_modifier = ' by '
+
     return `
-      ${this.styles()}
-      <article>
-        <div tool-icon>
-          <span>
-            ${icon}
-            ${this._tool} Tool
-          </span>
-        </div>
-        <div command>
-          coming soon
-        </div>
-      </article>
+      <span negative>${negative}</span>
+      <span side tool>${side}</span>
+      <span light>${negative_modifier}</span>
+      <span amount>${amount}</span>
     `
   }
 }
