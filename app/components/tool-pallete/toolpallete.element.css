@@ -36,9 +36,14 @@
   &:first-child { margin-top: 0.25em; }
   &:last-child { margin-bottom: 0.25em; }
 
-  &[data-tool]:hover {
-    cursor: pointer;
-    background-color: var(--theme-icon_hover-bg);
+  &[data-tool] {
+    &:hover {
+      cursor: pointer;
+      background-color: var(--theme-icon_hover-bg);
+    }
+    &:active {
+      background-color: hsl(0,0%,90%);
+    }
   }
 
   &[data-active=true] > svg:not(.icon-cursor) { 
