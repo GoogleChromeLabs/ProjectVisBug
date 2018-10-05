@@ -24,15 +24,18 @@
 }
 
 :host li {
-  height: 2.5em;
-  width: 2.5em;
+  height: 2.25em;
+  width: 2.25em;
+  margin: 0.05em 0.25em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  border-radius: 50%;
 
   &[data-tool]:hover {
     cursor: pointer;
+    background-color: var(--theme-icon_hover-bg);
   }
 
   &[data-tool='align'] > svg {
