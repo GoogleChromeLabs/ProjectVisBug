@@ -66,14 +66,16 @@
   & > span {
     display: grid;
     grid-template-columns: 5vmax auto;
-    grid-gap: 1em;
+    grid-gap: 0.5em;
     align-items: center;
     text-transform: capitalize;
-    font-size: 1.5vmax;
+    font-size: 4.8vmax;
+    font-weight: lighter;
   }
 
   & svg {
     width: 100%;
+    fill: var(--theme-color);
   }
 }
 
@@ -112,6 +114,7 @@
 :host span[hotkey] {
   color: var(--theme-color);
   font-weight: bold;
+  cursor: pointer;
 }
 
 :host section > span[hotkey]:not([pressed="true"]) {

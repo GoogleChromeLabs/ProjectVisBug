@@ -8,14 +8,14 @@ export class MoveHotkeys extends HotkeyMap {
     this.tool     = 'move'
   }
 
-  createCommand({e, hotkeys}) {
+  createCommand({e:{code}, hotkeys}) {
     let amount, negative, negative_modifier
 
     let side = '[arrow key]'
-    if (e.code === 'ArrowUp')     side = 'up/out'
-    if (e.code === 'ArrowDown')   side = 'in/under'
-    if (e.code === 'ArrowLeft')   side = 'left'
-    if (e.code === 'ArrowRight')  side = 'right'
+    if (code === 'ArrowUp')     side = 'up & out of div'
+    if (code === 'ArrowDown')   side = 'down & into next sibling / out & under div'
+    if (code === 'ArrowLeft')   side = 'towards the front/top of the stack'
+    if (code === 'ArrowRight')  side = 'towards the back/bottom of the stack'
 
     return {
       negative, negative_modifier, amount, side,

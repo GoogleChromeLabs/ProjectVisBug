@@ -1,5 +1,5 @@
 import { HotkeyMap } from './base.element'
-import { inspector as icon } from '../tool-pallete/toolpallete.icons' 
+import { hueshift as icon } from '../tool-pallete/toolpallete.icons' 
 
 export class HueshiftHotkeys extends HotkeyMap {
   constructor() {

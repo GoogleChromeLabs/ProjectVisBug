@@ -22,31 +22,31 @@ export class AlignHotkeys extends HotkeyMap {
     this.tool     = 'align'
   }
 
-  createCommand({e, hotkeys}) {
+  createCommand({e:{code}, hotkeys}) {
     let amount            = this._distribution
       , negative_modifier = this._direction
       , side              = this._side
       , negative
 
-    if (hotkeys.cmd && (e.code === 'ArrowRight' || e.code === 'ArrowDown')) {
-      negative_modifier = e.code === 'ArrowDown'
+    if (hotkeys.cmd && (code === 'ArrowRight' || code === 'ArrowDown')) {
+      negative_modifier = code === 'ArrowDown'
         ? 'column'
         : 'row'
       this._direction = negative_modifier
     }
     else {
-      if (e.code === 'ArrowUp')           side = this.clamp(v_alignOptions, '_vtool')
-      else if (e.code === 'ArrowDown')    side = this.clamp(v_alignOptions, '_vtool', true)
-      else                                side = v_alignOptions[this._vtool]
+      if (code === 'ArrowUp')           side = this.clamp(v_alignOptions, '_vtool')
+      else if (code === 'ArrowDown')    side = this.clamp(v_alignOptions, '_vtool', true)
+      else                              side = v_alignOptions[this._vtool]
 
-      if (e.code === 'ArrowLeft')         side += ' ' + this.clamp(h_alignOptions, '_htool')
-      else if (e.code === 'ArrowRight')   side += ' ' + this.clamp(h_alignOptions, '_htool', true)
-      else                                side += ' ' + h_alignOptions[this._htool]
+      if (code === 'ArrowLeft')         side += ' ' + this.clamp(h_alignOptions, '_htool')
+      else if (code === 'ArrowRight')   side += ' ' + this.clamp(h_alignOptions, '_htool', true)
+      else                              side += ' ' + h_alignOptions[this._htool]
 
       this._side = side
 
-      if (hotkeys.shift && (e.code === 'ArrowRight' || e.code === 'ArrowLeft')) {
-        amount = this.clamp(distOptions, '_dtool', e.code === 'ArrowRight')
+      if (hotkeys.shift && (code === 'ArrowRight' || code === 'ArrowLeft')) {
+        amount = this.clamp(distOptions, '_dtool', code === 'ArrowRight')
         this._distribution = amount
       }
     }

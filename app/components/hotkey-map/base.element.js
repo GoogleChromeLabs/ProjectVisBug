@@ -81,21 +81,21 @@ export class HotkeyMap extends HTMLElement {
     })
   }
 
-  createCommand({e, hotkeys}) {
+  createCommand({e:{code}, hotkeys}) {
     let amount              = hotkeys.shift ? 10 : 1
     let negative            = hotkeys.alt ? 'Subtract' : 'Add'
     let negative_modifier   = hotkeys.alt ? 'from' : 'to'
 
     let side = '[arrow key]'
-    if (e.code === 'ArrowUp')     side = 'the top side'
-    if (e.code === 'ArrowDown')   side = 'the bottom side'
-    if (e.code === 'ArrowLeft')   side = 'the left side'
-    if (e.code === 'ArrowRight')  side = 'the right side'
-    if (hotkeys.cmd)              side = 'all sides'
+    if (code === 'ArrowUp')     side = 'the top side'
+    if (code === 'ArrowDown')   side = 'the bottom side'
+    if (code === 'ArrowLeft')   side = 'the left side'
+    if (code === 'ArrowRight')  side = 'the right side'
+    if (hotkeys.cmd)            side = 'all sides'
 
-    if (hotkeys.cmd && e.code === 'ArrowDown') {
-      negative = 'Subtract'
-      negative_modifier = 'from'
+    if (hotkeys.cmd && code === 'ArrowDown') {
+      negative            = 'Subtract'
+      negative_modifier   = 'from'
     }
 
     return {
@@ -141,7 +141,7 @@ export class HotkeyMap extends HTMLElement {
                 ${row}
                 <span 
                   ${key} 
-                  ${this._hotkey == key ? 'hotkey' : ''}
+                  ${this._hotkey == key ? 'hotkey title="Tool Shortcut Hotkey"' : ''}
                   ${this._usedkeys.includes(key) ? 'used' : ''}
                   style="flex:${this.key_size_model[row_name][i] || 1};"
                 >
