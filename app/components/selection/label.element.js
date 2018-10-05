@@ -9,10 +9,24 @@ export class Label extends HTMLElement {
 
   connectedCallback() {
     $('a', this.$shadow).on('click mouseenter', this.dispatchQuery.bind(this))
+    window.addEventListener('resize', this.on_resize.bind(this))
   }
 
   disconnectedCallback() {
     $('a', this.$shadow).off('click', this.dispatchQuery)
+    window.removeEventListener('resize', this.on_resize)
+  }
+
+  on_resize() {
+    window.requestAnimationFrame(() => {
+      const node_label_id = this.$shadow.host.getAttribute('data-label-id')
+      const [source_el] = $(`[data-label-id="${node_label_id}"]`)
+
+      this.position = {
+        node_label_id,
+        boundingRect: source_el.getBoundingClientRect(),
+      }
+    })
   }
 
   dispatchQuery(e) {
