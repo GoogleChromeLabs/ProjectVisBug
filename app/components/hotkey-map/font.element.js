@@ -1,5 +1,4 @@
 import { HotkeyMap } from './base.element'
-import { inspector as icon } from '../tool-pallete/toolpallete.icons' 
 
 export class FontHotkeys extends HotkeyMap {
   constructor() {
@@ -10,26 +9,77 @@ export class FontHotkeys extends HotkeyMap {
     this.tool       = 'font'
   }
 
-  connectedCallback() {}
+  createCommand({e:{code}, hotkeys}) {
+    let amount              = hotkeys.shift ? 10 : 1
+    let negative            = '[increase/decrease]'
+    let negative_modifier   = 'by'
+    let side                = '[arrow key]'
 
-  show() {
-    this.$shadow.host.style.display = 'flex'
+    // kerning
+    if (hotkeys.shift && (code === 'ArrowLeft' || code === 'ArrowRight')) {
+      side    = 'kerning'
+      amount  = '1px'
+
+      if (code === 'ArrowLeft')
+        negative  = 'decrease'
+      if (code === 'ArrowRight')
+        negative  = 'increase'
+    }
+    // leading
+    else if (hotkeys.shift && (code === 'ArrowUp' || code === 'ArrowDown')) {
+      side    = 'leading'
+      amount  = '1px'
+
+      if (code === 'ArrowUp')
+        negative  = 'increase'
+      if (code === 'ArrowDown')
+        negative  = 'decrease'
+    }
+    // font weight
+    else if (hotkeys.cmd && (code === 'ArrowUp' || code === 'ArrowDown')) {
+      side                = 'font weight'
+      amount              = ''
+      negative_modifier   = ''
+
+      if (code === 'ArrowUp')
+        negative  = 'increase'
+      if (code === 'ArrowDown')
+        negative  = 'decrease'
+    }
+    // font size
+    else if (code === 'ArrowUp' || code === 'ArrowDown') {
+      side    = 'font size'
+      amount  = '1px'
+
+      if (code === 'ArrowUp')
+        negative  = 'increase'
+      if (code === 'ArrowDown')
+        negative  = 'decrease'
+    }
+    // text alignment
+    else if (code === 'ArrowRight' || code === 'ArrowLeft') {
+      side                = 'text alignment'
+      amount              = ''
+      negative            = 'adjust'
+      negative_modifier   = ''
+    }
+
+    return {
+      negative, negative_modifier, amount, side,
+    }
   }
 
-  render() {
+  displayCommand({negative, negative_modifier, side, amount}) {
+    if (negative === '[alt/opt] ')
+      negative = '[increase/decrease]'
+    if (negative_modifier === ' to ')
+      negative_modifier = ' by '
+
     return `
-      ${this.styles()}
-      <article>
-        <div tool-icon>
-          <span>
-            ${icon}
-            ${this._tool} Tool
-          </span>
-        </div>
-        <div command>
-          coming soon
-        </div>
-      </article>
+      <span negative>${negative}</span>
+      <span side tool>${side}</span>
+      <span light>${negative_modifier}</span>
+      <span amount>${amount}</span>
     `
   }
 }
