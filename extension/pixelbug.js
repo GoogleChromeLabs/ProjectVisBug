@@ -42,4 +42,16 @@ chrome.contextMenus.create({
 
 chrome.contextMenus.onClicked.addListener((menuInfo, tab) => {
   toggleIn(tab)
+
+  chrome.tabs.query({active: true, currentWindow: true}, function([tab]) {
+    tab && chrome.tabs.sendMessage(tab.id, {greeting: "hello"})
+  })
+  // const [pallete] = document.getElementsByTagName('tool-pallete')
+  // pallete && pallete.toolSelected('inspector')
+})
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  console.log(sender.tab 
+    ? "from a content script:" + sender.tab.url 
+    : "from the extension")
 })
