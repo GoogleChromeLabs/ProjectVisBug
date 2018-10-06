@@ -1,10 +1,6 @@
-document.body.prepend(document.createElement('hotkey-map'))
-document.body.prepend(document.createElement('tool-pallete'))
+const pallete = document.createElement('tool-pallete')
+document.body.prepend(pallete)
 
-chrome.runtime.sendMessage({pixel: "bug"})
-
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  console.log(sender.tab 
-    ? "from a content script:" + sender.tab.url 
-    : "from the extension")
+chrome.runtime.onMessage.addListener(({ action, params }, sender, sendResponse) => {
+  pallete[action](params)
 })

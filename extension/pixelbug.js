@@ -44,14 +44,16 @@ chrome.contextMenus.onClicked.addListener((menuInfo, tab) => {
   toggleIn(tab)
 
   chrome.tabs.query({active: true, currentWindow: true}, function([tab]) {
-    tab && chrome.tabs.sendMessage(tab.id, {greeting: "hello"})
+    tab && chrome.tabs.sendMessage(tab.id, {
+      action: 'toolSelected',
+      params: 'inspector'
+    })
   })
-  // const [pallete] = document.getElementsByTagName('tool-pallete')
-  // pallete && pallete.toolSelected('inspector')
 })
 
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  console.log(sender.tab 
-    ? "from a content script:" + sender.tab.url 
-    : "from the extension")
-})
+// chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+//   // console.warn(sender.tab 
+//   //   ? "from a content script:" + request 
+//   //   : "from the extension")
+//   console.log(request)
+// })
