@@ -1,6 +1,6 @@
-const pallete = document.createElement('tool-pallete')
-document.body.prepend(pallete)
+document.body.prepend(document.createElement('tool-pallete'))
 
 chrome.runtime.onMessage.addListener(({ action, params }, sender, sendResponse) => {
-  pallete[action](params)
+  const [pallete] = document.getElementsByTagName('tool-pallete')
+  pallete && pallete[action](params)
 })
