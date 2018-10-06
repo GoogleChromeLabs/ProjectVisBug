@@ -1,3 +1,53 @@
+// setup ports
+const connections = {}
+
+chrome.runtime.onConnect.addListener(port => {
+  console.log("pixelbug onConnect", port)
+
+  if (port.name != 'panel' && port.name != 'content') {
+    console.warn(port)
+    return
+  }
+
+  port.onMessage.addListener(message => {
+    console.log("pixelbug port.onMessage", message, port)
+    
+    const tabId = port.sender.tab 
+      ? port.sender.tab.id 
+      : message.tabId
+
+    if (message.action == 'init') {
+      if (!connections[tabId])
+        connections[tabId] = {}
+
+      connections[tabId][port.name] = port
+      console.info('pixelbug init update', connections)
+      return
+    }
+
+    if (message.target) {
+      const conn = connections[tabId][message.target]
+      conn && conn.postMessage(message)
+    }
+    else
+      console.warn('pixelbug missing message target')
+  })
+
+  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    console.log("pixelbug runtime.onMessage", request, sender)
+
+    // Messages from content scripts should have sender.tab set.
+    // The are all relayed to the "panel" connection.
+    if (request.target == "content" && request.tabId) {
+      chrome.tabs.sendMessage(request.tabId, request)
+    }
+
+    return true
+  })
+})
+
+
+// add/remove pixelbug
 const state = {
   loaded:   {},
   injected: {},
@@ -46,14 +96,8 @@ chrome.contextMenus.onClicked.addListener((menuInfo, tab) => {
   chrome.tabs.query({active: true, currentWindow: true}, function([tab]) {
     tab && chrome.tabs.sendMessage(tab.id, {
       action: 'toolSelected',
-      params: 'inspector'
+      params: 'inspector',
     })
   })
 })
 
-// chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-//   // console.warn(sender.tab 
-//   //   ? "from a content script:" + request 
-//   //   : "from the extension")
-//   console.log(request)
-// })
