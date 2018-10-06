@@ -1,6 +1,6 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { getStyle } from './utils.js'
+import { getStyle } from '../utilities/'
 
 const key_events = 'up,down,left,right'
   .split(',')

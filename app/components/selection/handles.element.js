@@ -1,12 +1,30 @@
-export default class SelectionHandles extends HTMLElement {
+import $ from 'blingblingjs'
+
+export class Handles extends HTMLElement {
   
   constructor() {
     super()
     this.$shadow = this.attachShadow({mode: 'open'})
   }
 
-  connectedCallback() {}
-  disconnectedCallback() {}
+  connectedCallback() {
+    window.addEventListener('resize', this.on_resize.bind(this))
+  }
+  disconnectedCallback() {
+    window.removeEventListener('resize', this.on_resize)
+  }
+
+  on_resize() {
+    window.requestAnimationFrame(() => {
+      const node_label_id = this.$shadow.host.getAttribute('data-label-id')
+      const [source_el] = $(`[data-label-id="${node_label_id}"]`)
+
+      this.position = {
+        node_label_id,
+        boundingRect: source_el.getBoundingClientRect(),
+      }
+    })
+  }
 
   set position({boundingRect, node_label_id}) {
     this.$shadow.innerHTML  = this.render(boundingRect, node_label_id)
@@ -51,4 +69,4 @@ export default class SelectionHandles extends HTMLElement {
   }
 }
 
-customElements.define('pb-handles', SelectionHandles)
+customElements.define('pb-handles', Handles)

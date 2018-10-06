@@ -1,6 +1,6 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { getStyle, getSide, showHideSelected } from './utils.js'
+import { getStyle, getSide, showHideSelected } from '../utilities/'
 
 // todo: show margin color
 const key_events = 'up,down,left,right'

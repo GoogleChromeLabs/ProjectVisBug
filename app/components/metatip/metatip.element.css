@@ -1,0 +1,130 @@
+@import "../_variables.css";
+
+:host {
+  position: absolute;
+  z-index: 99999;
+  font-size: 16px;
+  font-family: system-ui;
+
+  --arrow-width: 15px;
+  --arrow-height: 8px;
+
+  --shadow-up: 5px;
+  --shadow-down: -5px;
+  --shadow-direction: var(--shadow-up);
+
+  --arrow-up: polygon(0 0, 100% 0, 50% 100%);
+  --arrow-down: polygon(50% 0, 0 100%, 100% 100%);
+  --arrow: var(--arrow-up);
+}
+
+:host figure {
+  max-width: 50vw;
+  background: white;
+  color: var(--theme-icon_color);
+  padding: 0.5em;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  border-radius: 0.25em;
+  line-height: initial;
+  filter: drop-shadow(0 var(--shadow-direction) 0.5em hsla(0,0%,0%,35%));
+
+  &:after {
+    content: "";
+    background: white;
+    width: var(--arrow-width);
+    height: var(--arrow-height);
+    clip-path: var(--arrow);
+    position: absolute;
+    top: var(--arrow-top);
+    left: var(--arrow-left);
+  }
+
+  & a {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      color: var(--theme-color); 
+      text-decoration: underline;
+    }
+
+    :empty {
+      display: none;
+    }
+  }
+}
+
+:host h5 {
+  display: flex;
+  font-size: 1em;
+  font-weight: bolder;
+  margin: 0;
+}
+
+:host h6 {
+  margin-top: 1em;
+  margin-bottom: 0;
+  font-weight: normal;
+}
+
+:host small {
+  font-size: 0.7em;
+  color: hsl(0,0%,60%);
+
+  & > span {
+    color: hsl(0,0%,20%);
+  }
+}
+
+:host a:not(:hover) {
+  text-decoration: none;
+}
+
+:host [brand], 
+:host [divider] {
+  color: var(--theme-color);
+}
+
+:host div {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 0.25em 0.5em;
+  margin: 0.5em 0 0;
+  padding: 0;
+  list-style-type: none;
+  color: hsl(0,0%,40%);
+  font-size: 0.8em;
+  font-family: 'Dank Mono', 'Operator Mono', 'Inconsolata', 'Fira Mono', 'SF Mono', 'Monaco', 'Droid Sans Mono', 'Source Code Pro', monospace;
+}
+
+:host [value] {
+  color: var(--theme-icon_color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+  white-space: pre;
+}
+
+:host [text] {
+  white-space: normal;
+}
+
+:host [color] {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  width: 0.6em;
+  height: 0.6em;
+  border-radius: 50%;
+  margin-right: 0.25em;
+}
+
+:host [contrast] > span {
+  padding: 0 0.5em 0.1em;
+  border-radius: 1em;
+  box-shadow: 0 0 0 1px hsl(0,0%,90%);
+}

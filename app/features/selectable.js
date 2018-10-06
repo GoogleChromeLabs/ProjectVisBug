@@ -5,7 +5,7 @@ import { EditText } from './text'
 import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
 import { queryPage } from './search'
-import { htmlStringToDom, createClassname, isOffBounds, getStyles } from './utils'
+import { htmlStringToDom, createClassname, isOffBounds, getStyles } from '../utilities/'
 
 export function Selectable() {
   const elements          = $('body')
@@ -24,6 +24,8 @@ export function Selectable() {
     document.addEventListener('copy', on_copy)
     document.addEventListener('cut', on_cut)
     document.addEventListener('paste', on_paste)
+    
+    watchCommandKey()
 
     hotkeys('cmd+alt+c', on_copy_styles)
     hotkeys('cmd+alt+v', e => on_paste_styles())
@@ -37,8 +39,8 @@ export function Selectable() {
   }
 
   const unlisten = () => {
-    elements.forEach(el => el.removeEventListener('click', on_click))
-    elements.forEach(el => el.removeEventListener('dblclick', on_dblclick))
+    elements.forEach(el => el.removeEventListener('click', on_click, true))
+    elements.forEach(el => el.removeEventListener('dblclick', on_dblclick, true))
     elements.off('selectstart', on_selection)
     elements.off('mouseover', on_hover)
     elements.off('mouseout', on_hoverout)
@@ -65,6 +67,28 @@ export function Selectable() {
     e.stopPropagation()
     if (isOffBounds(e.target)) return
     $('tool-pallete')[0].toolSelected('text')
+  }
+
+  const watchCommandKey = e => {
+    let did_hide = false
+
+    document.onkeydown = function(e) {
+      if (hotkeys.cmd && selected.length) {
+        $('pb-handles, pb-label').forEach(el =>
+          el.style.display = 'none')
+        
+        did_hide = true
+      }
+    }
+
+    document.onkeyup = function(e) {
+      if (did_hide) {
+        $('pb-handles, pb-label').forEach(el =>
+          el.style.display = null)
+
+        did_hide = false
+      }
+    }
   }
 
   const on_esc = _ => 

@@ -1,6 +1,6 @@
 import $ from 'blingblingjs'
 
-export default class SelectionLabel extends HTMLElement {
+export class Label extends HTMLElement {
   
   constructor() {
     super()
@@ -9,10 +9,24 @@ export default class SelectionLabel extends HTMLElement {
 
   connectedCallback() {
     $('a', this.$shadow).on('click mouseenter', this.dispatchQuery.bind(this))
+    window.addEventListener('resize', this.on_resize.bind(this))
   }
 
   disconnectedCallback() {
     $('a', this.$shadow).off('click', this.dispatchQuery)
+    window.removeEventListener('resize', this.on_resize)
+  }
+
+  on_resize() {
+    window.requestAnimationFrame(() => {
+      const node_label_id = this.$shadow.host.getAttribute('data-label-id')
+      const [source_el] = $(`[data-label-id="${node_label_id}"]`)
+
+      this.position = {
+        node_label_id,
+        boundingRect: source_el.getBoundingClientRect(),
+      }
+    })
   }
 
   dispatchQuery(e) {
@@ -53,6 +67,10 @@ export default class SelectionLabel extends HTMLElement {
   styles({top,left}) {
     return `
       <style>
+        :host {
+          font-size: 16px;
+        }
+
         :host > span {
           position: absolute;
           top: ${top + window.scrollY}px;
@@ -63,7 +81,8 @@ export default class SelectionLabel extends HTMLElement {
           color: white;
           display: inline-flex;
           justify-content: center;
-          font-size: 0.8rem;
+          font-size: 0.8em;
+          font-family: sans-serif;
           padding: 0.25em 0.4em 0.15em;
           line-height: 1.1;
         }
@@ -83,4 +102,4 @@ export default class SelectionLabel extends HTMLElement {
   }
 }
 
-customElements.define('pb-label', SelectionLabel)
+customElements.define('pb-label', Label)

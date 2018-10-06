@@ -1,13 +1,13 @@
 {
   "name": "PixelBug",
-  "version": "0.0.89",
+  "version": "0.1.5",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "npm run concurrent",
     "concurrent": "concurrently --kill-others \"npm run dev:js\" \"npm run dev:css\" \"npm run dev:server\"",
     "bundle": "rollup -c && postcss app/index.css -o app/bundle.css",
-    "bump": "npm version patch -m 'Release $npm_package_version'",
+    "bump": "npm version patch -m 'Release %s'",
     "postversion": "npm run extension",
     "dev:js": "rollup -c -w",
     "dev:css": "postcss app/index.css -o app/bundle.css -w",
@@ -22,7 +22,7 @@
   "license": "ISC",
   "dependencies": {
     "@ctrl/tinycolor": "^2.0.0",
-    "blingblingjs": "^2.0.1",
+    "blingblingjs": "^2.0.2",
     "hotkeys-js": "^3.3.5",
     "ragrid": "^1.0.5"
   },
@@ -31,10 +31,11 @@
     "concurrently": "^3.5.1",
     "postcss": "^6.0.22",
     "postcss-cli": "^5.0.1",
-    "postcss-cssnext": "^3.1.0",
     "postcss-import": "^11.1.0",
     "postcss-loader": "^2.1.5",
+    "postcss-preset-env": "^6.0.7",
     "rollup": "^0.60.7",
-    "rollup-plugin-node-resolve": "^3.3.0"
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-postcss": "^1.6.2"
   }
 }

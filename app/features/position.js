@@ -1,6 +1,6 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { getStyle, getSide, showHideSelected } from './utils.js'
+import { getStyle, getSide, showHideSelected } from '../utilities/'
 
 const key_events = 'up,down,left,right'
   .split(',')
@@ -76,6 +76,7 @@ export function draggable(el) {
     const el = e.target
 
     el.style.position = 'relative'
+    el.style.willChange = 'top,left'
 
     if (el instanceof SVGElement) {
       const translate = el.getAttribute('transform')
@@ -101,6 +102,7 @@ export function draggable(el) {
     e.preventDefault()
 
     this.state.mouse.down = false
+    el.style.willChange = null
 
     if (el instanceof SVGElement) {
       const translate = el.getAttribute('transform')
