@@ -2,45 +2,50 @@
 const connections = {}
 
 chrome.runtime.onConnect.addListener(port => {
-  console.log("pixelbug onConnect", port)
+  console.log('pixelbug onConnect', port)
 
-  if (port.name != 'panel' && port.name != 'content') {
+  if (port.name != 'design-panel' && port.name != 'design-artboard') {
     console.warn(port)
     return
   }
 
   port.onMessage.addListener(message => {
-    console.log("pixelbug port.onMessage", message, port)
+    console.log('pixelbug port.onMessage', message, port)
     
     const tabId = port.sender.tab 
       ? port.sender.tab.id 
       : message.tabId
 
-    if (message.action == 'init') {
+    if (!tabId) return console.log('missing tabId', message, port)
+
+    if (message.data.action == 'register') {
       if (!connections[tabId])
         connections[tabId] = {}
 
       connections[tabId][port.name] = port
-      console.info('pixelbug init update', connections)
+      console.info('pixelbug register success', connections)
       return
     }
 
-    if (message.target) {
-      const conn = connections[tabId][message.target]
-      conn && conn.postMessage(message)
+    if (message.data.action == 'show-toolbar') {
+      toggleIn({id:tabId})
+    }
+
+    if (message.target_channel) {
+      const conn = connections[tabId][message.target_channel]
+      conn && conn.postMessage(message.data)
     }
     else
       console.warn('pixelbug missing message target')
   })
 
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log("pixelbug runtime.onMessage", request, sender)
+    console.log('pixelbug runtime.onMessage', request, sender)
 
     // Messages from content scripts should have sender.tab set.
-    // The are all relayed to the "panel" connection.
-    if (request.target == "content" && request.tabId) {
+    // The are all relayed to the 'panel' connection.
+    if (request.target == 'design-artboard' && request.tabId)
       chrome.tabs.sendMessage(request.tabId, request)
-    }
 
     return true
   })
@@ -87,7 +92,7 @@ const toggleIn = ({id:tab_id}) => {
 chrome.browserAction.onClicked.addListener(toggleIn)
 
 chrome.contextMenus.create({
-  title: "Inspect"
+  title: 'Inspect'
 })
 
 chrome.contextMenus.onClicked.addListener((menuInfo, tab) => {

@@ -1,50 +1,44 @@
-document.body.prepend(document.createElement('tool-pallete'))
+var pallete = document.createElement('tool-pallete')
+document.body.prepend(pallete)
 
-chrome.runtime.onMessage.addListener(({ action, params }, sender, sendResponse) => {
+// port creation/messaging
+const channel = 'design-artboard'
+const port    = chrome.runtime.connect({ name: channel })
+
+const payload_model = {
+  src_channel:    channel,
+  target_channel: 'design-panel',
+}
+
+const post = payload =>
+  port.postMessage(
+    Object.assign(payload_model, {
+      data: payload,
+    }))
+
+const message = payload =>
+  chrome.runtime.sendMessage(
+    Object.assign(payload_model, {
+      data: payload,
+    }))
+
+port.onMessage.addListener(message => {
+  console.log(`${channel} recieved port message`, message)
+})
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  console.log(`${channel} onMessage`, request)
+  const { action, params } = request
+  if (action != 'toolSelected') return
   const [pallete] = document.getElementsByTagName('tool-pallete')
   pallete && pallete[action](params)
 })
 
-// port creation/messaging
-let port
+post({action: 'register'})
+// post({bug: 'pixel'})
+// message({bug: 'pixel'})
 
-const setupPortIfNeeded = () => {
-  if (!port) {
-    port = chrome.runtime.connect(null, { name: "content" })
-    port.onDisconnect.addListener(() => {
-      port = null
-    })
-  }
-}
-
-const post = payload => {
-  setupPortIfNeeded()
-
-  port.postMessage(
-    Object.assign(payload, {
-      target: 'panel',
-    })
-  )
-}
-
-const message = payload => {
-  chrome.runtime.sendMessage(
-    Object.assign(payload, {
-      target: 'panel',
-    })
-  )
-}
-
-post({action: 'init'})
-message({bug: 'pixel'})
-
-chrome.runtime.onConnect.addListener(port => {
-  port.onMessage.addListener(message => {
-    console.log('inject recieved port message', message)
-  })
-})
-
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log("content-script: onMessage", message)
-})
-
+pallete.selectorEngine.onSelectedUpdate(nodes =>
+  post(nodes.map(({nodeName, id, className}) => ({
+    nodeName, id, className
+  }))))

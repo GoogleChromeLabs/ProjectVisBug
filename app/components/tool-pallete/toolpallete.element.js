@@ -43,9 +43,9 @@ export default class ToolPallete extends HTMLElement {
     this.$shadow = this.attachShadow({mode: 'open'})
     this.$shadow.innerHTML = this.render()
 
-    this.selectorEngine = Selectable()
-    this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
-    provideSelectorEngine(this.selectorEngine)
+    this._selectorEngine = Selectable()
+    this.colorPicker    = ColorPicker(this.$shadow, this._selectorEngine)
+    provideSelectorEngine(this._selectorEngine)
   }
 
   connectedCallback() {
@@ -62,7 +62,7 @@ export default class ToolPallete extends HTMLElement {
 
   disconnectedCallback() {
     this.deactivate_feature()
-    this.selectorEngine.disconnect()
+    this._selectorEngine.disconnect()
     hotkeys.unbind(
       Object.keys(this.toolbar_model).reduce((events, key) =>
         events += ',' + key, ''))
@@ -135,9 +135,9 @@ export default class ToolPallete extends HTMLElement {
   } 
 
   text() {
-    this.selectorEngine.onSelectedUpdate(EditText)
+    this._selectorEngine.onSelectedUpdate(EditText)
     this.deactivate_feature = () => 
-      this.selectorEngine.removeSelectedCallback(EditText)
+      this._selectorEngine.removeSelectedCallback(EditText)
   }
 
   align() {
@@ -154,15 +154,15 @@ export default class ToolPallete extends HTMLElement {
 
   hueshift() {
     let feature = HueShift(this.colorPicker)
-    this.selectorEngine.onSelectedUpdate(feature.onNodesSelected)
+    this._selectorEngine.onSelectedUpdate(feature.onNodesSelected)
     this.deactivate_feature = () => {
-      this.selectorEngine.removeSelectedCallback(feature.onNodesSelected)
+      this._selectorEngine.removeSelectedCallback(feature.onNodesSelected)
       feature.disconnect()
     }
   }
 
   inspector() {
-    this.deactivate_feature = MetaTip(this.selectorEngine)
+    this.deactivate_feature = MetaTip(this._selectorEngine)
   }
 
   accessibility() {
@@ -179,15 +179,19 @@ export default class ToolPallete extends HTMLElement {
 
   position() {
     let feature = Position()
-    this.selectorEngine.onSelectedUpdate(feature.onNodesSelected)
+    this._selectorEngine.onSelectedUpdate(feature.onNodesSelected)
     this.deactivate_feature = () => {
-      this.selectorEngine.removeSelectedCallback(feature.onNodesSelected)
+      this._selectorEngine.removeSelectedCallback(feature.onNodesSelected)
       feature.disconnect()
     }
   }
 
   get activeTool() {
     return this.active_tool.dataset.tool
+  }
+
+  get selectorEngine() {
+    return this._selectorEngine
   }
 }
 
