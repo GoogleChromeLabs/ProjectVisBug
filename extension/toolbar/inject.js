@@ -12,15 +12,10 @@ const Pipe = new Channel({
   }
 })
 
-const layersFromDOM = node => 
-  [tree] = [node].map(({nodeName, className, id}) => {
-    const attr = { nodeName, className, id }
-
-    if (node.children.length)
-      attr.children = [...node.children].map(layersFromDOM)
-
-    return attr
-  })
+const layersFromDOM = ({nodeName, className, id, children}) => ({
+  nodeName, className, id, 
+  children: [...children].map(layersFromDOM),
+})
 
 // append and watch toolbar selections
 appendPallete()
