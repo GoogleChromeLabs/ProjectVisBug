@@ -39,8 +39,8 @@ post({action: 'register'})
 chrome.devtools.panels.create('Design', null, 'panel/panel.html', design_panel => {
   console.info(chrome.devtools.panels.themeName)
 
-  design_panel.onShown.addListener(e =>
-    post({action: 'show-toolbar'}))
+  // design_panel.onShown.addListener(e =>
+  //   post({action: 'show-toolbar'}))
 })
 
 chrome.devtools.panels.elements.createSidebarPane('PixelBug', sidebar => {

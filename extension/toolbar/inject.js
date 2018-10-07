@@ -22,6 +22,16 @@ const message = payload =>
       data: payload,
     }))
 
+const layersFromDOM = node => 
+  [tree] = [node].map(({nodeName, className, id}) => {
+    const attr = { nodeName, className, id }
+
+    if (node.children.length)
+      attr.children = [...node.children].map(layersFromDOM)
+
+    return attr
+  })
+
 port.onMessage.addListener(message => {
   console.log(`${channel} recieved port message`, message)
 })
@@ -39,8 +49,4 @@ post({action: 'register'})
 // message({bug: 'pixel'})
 
 pallete.selectorEngine.onSelectedUpdate(nodes =>
-  post(nodes.map(({nodeName, id, className}) => ({
-    nodeName, 
-    id, 
-    className,
-  }))))
+  post(nodes.map(layersFromDOM)))
