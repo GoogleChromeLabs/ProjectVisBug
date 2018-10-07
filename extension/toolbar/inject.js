@@ -40,5 +40,7 @@ post({action: 'register'})
 
 pallete.selectorEngine.onSelectedUpdate(nodes =>
   post(nodes.map(({nodeName, id, className}) => ({
-    nodeName, id, className
+    nodeName, 
+    id, 
+    className,
   }))))
