@@ -1,23 +1,3 @@
-import Channel from '../utils/channel.js'
-
-const channel_name = 'design-panel'
-const Pipe = new Channel({
-  name: channel_name,
-  model: {
-    tabId:          chrome.devtools.inspectedWindow.tabId,
-    src_channel:    channel_name,
-    target_channel: 'design-artboard',
-  }
-})
-
-Pipe.port.onMessage.addListener((message, sender) => {
-  console.log(`${channel_name} recieved port message`, message, sender)
-})
-
-Pipe.message.onMessage.addListener((request, sender, sendResponse) => {
-  console.log(`${channel_name} onMessage`, request)
-})
-
 // init panels
 chrome.devtools.panels.create('Design', null, 'panel/panel.html', design_panel => {
   console.info(chrome.devtools.panels.themeName)

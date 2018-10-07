@@ -20,7 +20,10 @@ const layersFromDOM = ({nodeName, className, id, children}) => ({
 // append and watch toolbar selections
 appendPallete()
 pallete.selectorEngine.onSelectedUpdate(nodes =>
-  Pipe.post(nodes.map(layersFromDOM)))
+  Pipe.post({
+    action: 'selected',
+    payload: nodes.map(layersFromDOM),
+  }))
 
 // watch pipe messages (they'll be auto filtered for this pipe)
 Pipe.port.onMessage.addListener(message => {

@@ -5,6 +5,6 @@ export default {
   output: {
     file:       `${path_base}/content.js`,
     format:     'esm',
-    sourcemap:  'inline',
+    sourcemap:  false,
   }
 }
