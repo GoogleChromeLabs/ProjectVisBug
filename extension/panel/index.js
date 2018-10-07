@@ -1,39 +1,22 @@
-const channel = 'design-panel'
-const port    = chrome.runtime.connect({ name: channel })
+import Channel from '../utils/channel.js'
 
-const payload_model = {
-  tabId:          chrome.devtools.inspectedWindow.tabId,
-  src_channel:    channel,
-  target_channel: 'design-artboard',
-}
-
-const post = payload =>
-  port.postMessage(
-    Object.assign(payload_model, {
-      data: payload,
-    }))
-
-const message = payload =>
-  chrome.runtime.sendMessage(
-    Object.assign(payload_model, {
-      data: payload,
-    }))
-
-port.onMessage.addListener((message, sender) => {
-  console.log(`${channel} recieved port message`, message, sender)
+const channel_name = 'design-panel'
+const Pipe = new Channel({
+  name: channel_name,
+  model: {
+    tabId:          chrome.devtools.inspectedWindow.tabId,
+    src_channel:    channel_name,
+    target_channel: 'design-artboard',
+  }
 })
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log(`${channel} onMessage`, request)
+Pipe.port.onMessage.addListener((message, sender) => {
+  console.log(`${channel_name} recieved port message`, message, sender)
 })
 
-post({action: 'register'})
-// post({pixel: 'bug'})
-// message({pixel: 'bug'})
-
-
-
-
+Pipe.message.onMessage.addListener((request, sender, sendResponse) => {
+  console.log(`${channel_name} onMessage`, request)
+})
 
 // init panels
 chrome.devtools.panels.create('Design', null, 'panel/panel.html', design_panel => {

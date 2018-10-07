@@ -68,7 +68,7 @@ const toggleIn = ({id:tab_id}) => {
 
   // toggle in: it's loaded and needs injected
   else if (state.loaded[tab_id] && !state.injected[tab_id]) {
-    chrome.tabs.executeScript(tab_id, { file: 'toolbar/inject.js' })
+    chrome.tabs.executeScript(tab_id, { file: 'toolbar/content.js' })
     state.injected[tab_id] = true
   }
 
@@ -77,7 +77,7 @@ const toggleIn = ({id:tab_id}) => {
     chrome.tabs.insertCSS(tab_id,     { file: 'toolbar/bundle.css' })
     chrome.tabs.executeScript(tab_id, { file: 'web-components.polyfill.js' })
     chrome.tabs.executeScript(tab_id, { file: 'toolbar/bundle.js' })
-    chrome.tabs.executeScript(tab_id, { file: 'toolbar/inject.js' })
+    chrome.tabs.executeScript(tab_id, { file: 'toolbar/content.js' })
 
     state.loaded[tab_id]    = true
     state.injected[tab_id]  = true

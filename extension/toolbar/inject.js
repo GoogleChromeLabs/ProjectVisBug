@@ -1,26 +1,16 @@
-var pallete = document.createElement('tool-pallete')
-document.body.prepend(pallete)
+import Channel from '../utils/channel.js'
 
-// port creation/messaging
-const channel = 'design-artboard'
-const port    = chrome.runtime.connect({ name: channel })
+var pallete           = document.createElement('tool-pallete')
+const channel_name    = 'design-artboard'
+const appendPallete   = () => document.body.prepend(pallete)
 
-const payload_model = {
-  src_channel:    channel,
-  target_channel: 'design-panel',
-}
-
-const post = payload =>
-  port.postMessage(
-    Object.assign(payload_model, {
-      data: payload,
-    }))
-
-const message = payload =>
-  chrome.runtime.sendMessage(
-    Object.assign(payload_model, {
-      data: payload,
-    }))
+const Pipe = new Channel({
+  name: channel_name,
+  model: {
+    src_channel:    channel_name,
+    target_channel: 'design-panel',
+  }
+})
 
 const layersFromDOM = node => 
   [tree] = [node].map(({nodeName, className, id}) => {
@@ -32,21 +22,24 @@ const layersFromDOM = node =>
     return attr
   })
 
-port.onMessage.addListener(message => {
-  console.log(`${channel} recieved port message`, message)
+// append and watch toolbar selections
+appendPallete()
+pallete.selectorEngine.onSelectedUpdate(nodes =>
+  Pipe.post(nodes.map(layersFromDOM)))
+
+// watch pipe messages (they'll be auto filtered for this pipe)
+Pipe.port.onMessage.addListener(message => {
+  console.log(`${channel_name} recieved port message`, message)
 })
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log(`${channel} onMessage`, request)
+Pipe.message.onMessage.addListener((request, sender, sendResponse) => {
+  console.log(`${channel_name} onMessage`, request)
+
   const { action, params } = request
+
+  // only respond to toolSelection atm
   if (action != 'toolSelected') return
+
   const [pallete] = document.getElementsByTagName('tool-pallete')
   pallete && pallete[action](params)
 })
-
-post({action: 'register'})
-// post({bug: 'pixel'})
-// message({bug: 'pixel'})
-
-pallete.selectorEngine.onSelectedUpdate(nodes =>
-  post(nodes.map(layersFromDOM)))
