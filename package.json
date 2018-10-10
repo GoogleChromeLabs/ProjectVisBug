@@ -15,6 +15,7 @@
     "extension": "rollup -c && npm run extension:css && npm run extension:copy && npm run extension:zip",
     "extension:js": "rollup -c extension/toolbar/rollup.config.js",
     "extension:css": "postcss app/extension.css -o extension/toolbar/bundle.css && postcss extension/panel/panel.css -o extension/panel/panel.bundle.css",
+    "extension:dev": "concurrently \"postcss extension/panel/panel.css -o extension/panel/panel.bundle.css -w\" \"rollup -c extension/toolbar/rollup.config.js -w\"",
     "extension:copy": "cp app/bundle.js extension/toolbar/",
     "extension:build": "npm run extension:js && npm run extension:css",
     "extension:zip": "mkdir ./pixelbug_v$npm_package_version && cp -R ./extension/* ./pixelbug_v$npm_package_version/ && zip -r ./extension/build/PixelBug_v$npm_package_version.zip ./pixelbug_v$npm_package_version && rm -rf ./pixelbug_v$npm_package_version",

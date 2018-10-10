@@ -66,4 +66,5 @@ Pipe.message.onMessage.addListener((request, sender, sendResponse) => {
 
   const [pallete] = document.getElementsByTagName('tool-pallete');
   pallete && pallete[action](params);
+  // todo: send for tool to select element as well
 });

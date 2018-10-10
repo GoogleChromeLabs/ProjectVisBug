@@ -1,9 +1,85 @@
+:root {
+  --bg: hsl(0,0%,100%);
+  --bg-hover: hsl(0,0%,95%);
+  --dot: hsl(0,0%,90%);
+  --text: hsl(0,0%,10%);
+}
+
 body {
   margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  background-image: -webkit-repeating-radial-gradient(
+    center center, 
+    rgba(0,0,0,.05), 
+    rgba(0,0,0,.05) 1px, 
+    transparent 1px, 
+    transparent 100%
+  );
+  background-size: 0.5rem 0.5rem;
+
+  &.dark {
+    --bg: hsl(0,0%,15%);
+    --bg-hover: hsl(0,0%,20%);
+    --dot: hsl(0,0%,25%);
+    --text: hsl(0,0%,80%);
+  }
 }
 
 img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+#layers {
+  background-color: var(--bg);
+  color: var(--text);
+  padding: 0.5rem;
+}
+
+ol {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+
+  & > li,
+  & li > .layer {
+    margin-left: 0.8rem;
+  }
+}
+
+details > summary {
+  &:focus {
+    /*outline-color: hotpink;*/
+    outline: none;
+  }
+
+  &::-webkit-details-marker {
+    color: hotpink;
+  }
+}
+
+details .layer {
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+
+  &:hover {
+    background: var(--bg-hover);
+    cursor: pointer;
+  }
+}
+
+.layer {
+  display: inline-flex;
+  align-items: center;
+}
+
+details [icon] {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: var(--dot);
+  display: inline-block;
+  margin-right: 0.5rem;
 }

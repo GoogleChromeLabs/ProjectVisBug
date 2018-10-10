@@ -10,6 +10,9 @@ const Pipe = new Channel({
   }
 })
 
+document.body.classList.add(
+  chrome.devtools.panels.themeName)
+
 Pipe.port.onMessage.addListener((message, sender) => {
   console.log(`${channel_name} recieved port message`, message, sender)
   
@@ -21,6 +24,31 @@ Pipe.message.onMessage.addListener((request, sender, sendResponse) => {
   console.log(`${channel_name} onMessage`, request)
 })
 
-const render_layers = node => {
-  console.log('show in dom', node)
+// todo: render node props then children 
+const recurse_nodes = ({nodeName, className, id, children}) => `
+  <details>
+    <summary class="layer">
+      <span icon></span>
+      ${nodeName}${id ? '#' + id : ''} ${className}
+    </summary>
+    <ol>
+      ${children.map(node =>
+        node.children.length
+          ? `<li>${recurse_nodes(node)}</li>`
+          : `
+              <li>
+                <span class="layer">
+                  <span icon></span>
+                  ${node.nodeName}${node.id ? '#' + node.id : ''} ${node.className}
+                </span>
+              </li>
+            `
+      ).join('')}
+    </ol>
+  </details>
+`
+
+const render_layers = nodes => {
+  console.log('show in dom', nodes)
+  document.getElementById('layers').innerHTML = nodes.map(recurse_nodes).join('')
 }
