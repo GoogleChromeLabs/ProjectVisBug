@@ -91,8 +91,8 @@ export function MetaTip(selectorEngine) {
       : 'var(--shadow-down)')
 
     tip.style.setProperty('--arrow-top', !north 
-      ? '-8px'
-      : '99%')
+      ? '-7px'
+      : 'calc(100% - 1px)')
 
     tip.style.setProperty('--arrow-left', west 
       ? 'calc(100% - 15px - 15px)'
