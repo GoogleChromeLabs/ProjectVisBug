@@ -1,6 +1,6 @@
 [grid-demo] {
   display: grid;
-  height: 100vh;
+  height: 100%;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: minmax(1fr, 500px);
   --mdc-theme-primary: hsl(220, 60%, 80%);
@@ -20,16 +20,16 @@
   & > div {
     color: hsl(220, 60%, 90%);
     padding: 2rem;
-    &:nth-child(1) { background: hsl(220, 60%, 80%); }
-    &:nth-child(2) { background: hsl(220, 60%, 75%); }
-    &:nth-child(3) { background: hsl(220, 60%, 70%); }
-    &:nth-child(4) { background: hsl(220, 60%, 65%); }
-    &:nth-child(5) { background: hsl(220, 60%, 60%); }
-    &:nth-child(6) { background: hsl(220, 60%, 55%); }
+    &:nth-child(1) { background: hsl(220, 60%, 75%); }
+    &:nth-child(2) { background: hsl(220, 60%, 70%); }
+    &:nth-child(3) { background: hsl(220, 60%, 65%); }
+    &:nth-child(4) { background: hsl(220, 60%, 60%); }
+    &:nth-child(5) { background: hsl(220, 60%, 55%); }
+    &:nth-child(6) { background: hsl(220, 60%, 50%); }
+    &:nth-child(7) { background: hsl(220, 60%, 55%); }
     &:nth-child(7) { background: hsl(220, 60%, 60%); }
-    &:nth-child(7) { background: hsl(220, 60%, 65%); }
-    &:nth-child(8) { background: hsl(220, 60%, 70%); }
-    &:nth-child(9) { background: hsl(220, 60%, 75%); }
+    &:nth-child(8) { background: hsl(220, 60%, 65%); }
+    &:nth-child(9) { background: hsl(220, 60%, 70%); }
   }
 
   & .heading {
