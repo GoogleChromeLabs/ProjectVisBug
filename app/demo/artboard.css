@@ -2,6 +2,7 @@
   background: white;
   box-shadow: 0 3px 5px var(--light-grey);
   position: relative;
+  z-index: 1;
 
   & > label {
     content: attr(artboard);
