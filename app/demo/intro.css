@@ -1,0 +1,15 @@
+[intro] {
+  text-align: right;
+
+  & h1 {
+    font-size: 8vmax;
+    font-weight: 100;
+    color: var(--darker-grey);
+  }
+
+  & h4 {
+    font-weight: lighter;
+    color: var(--grey);
+    margin: 0.25rem 0 4rem 0;
+  }
+}

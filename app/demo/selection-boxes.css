@@ -1,0 +1,22 @@
+[selection-boxes] {
+  display: grid;
+  grid-template-columns: repeat(4, 10vmax);
+  grid-template-rows: repeat(3, 10vmax);
+  grid-gap: 0.25rem;
+
+  & > div {
+    background: var(--lighter-grey);
+    color: var(--grey);
+    font-size: 3vmax;
+    font-weight: lighter;
+
+    &[span2x2] {
+      grid-row: span 2;
+      grid-column: span 2;
+    }
+
+    &[span2x1] {
+      grid-column: span 2;
+    }
+  }
+}

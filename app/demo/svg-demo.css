@@ -1,0 +1,8 @@
+[svg-container] {
+  padding: 2rem;
+  text-align: center;
+
+  & > svg {
+    max-width: 70vmax;
+  }
+}
