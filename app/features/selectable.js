@@ -143,7 +143,7 @@ export function Selectable() {
 
   const on_copy_styles = e => {
     e.preventDefault()
-    this.copied_styles = selected.reverse().map(el =>
+    this.copied_styles = selected.map(el =>
       getStyles(el))
   }
 
