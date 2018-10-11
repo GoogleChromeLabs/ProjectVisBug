@@ -1,8 +1,8 @@
 [svg-container] {
   padding: 2rem;
-  text-align: center;
+  max-width: 70vw;
 
   & > svg {
-    max-width: 70vmax;
+    width: 100%;
   }
 }

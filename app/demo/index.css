@@ -1,4 +1,5 @@
 @import './typography.css';
+@import './artboard.css';
 @import './card.css';
 @import './intro.css';
 @import './grid.css';
@@ -39,14 +40,12 @@ img {
 
 /* demo */
 section {
-  background: white;
   display: grid;
   grid-template-rows: auto 1fr;
   min-height: calc(90vh - 0.5rem);
   scroll-snap-align: start;
 
   & > header {
-    background: var(--bg);
     height: 10vh;
     padding-right: 3vmax;
     position: sticky;

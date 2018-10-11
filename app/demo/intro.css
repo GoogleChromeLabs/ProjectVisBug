@@ -1,5 +1,9 @@
 [intro] {
-  text-align: right;
+  text-align: center;
+
+  & .artboard {
+    padding: 1rem;
+  }
 
   & h1 {
     font-size: 8vmax;
