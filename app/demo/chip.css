@@ -1,0 +1,28 @@
+.chip {
+  background: white;
+  box-shadow: 0 5px 1rem hsla(0,0%,0%,20%);
+  padding: 1rem 1.5rem 1rem 2rem;
+  border-radius: 4rem;
+
+  & h2 {
+    text-align: right;
+    font-weight: 300;
+  }
+
+  & span {
+    margin-left: 1rem;
+    color: var(--theme-color);
+    border-radius: 50%;
+    border: 1px solid var(--theme-color);
+    width: 2rem;
+    height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center
+  }
+
+  & small {
+    color: var(--grey);
+    font-size: 0.9rem;
+  }
+}

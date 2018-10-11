@@ -1,6 +1,7 @@
 @import './typography.css';
 @import './artboard.css';
 @import './card.css';
+@import './chip.css';
 @import './intro.css';
 @import './grid.css';
 @import './svg-demo.css';
@@ -51,29 +52,6 @@ section {
     position: sticky;
     top: 0;
     z-index: 0;
-
-    & h2 {
-      text-align: right;
-      font-weight: 300;
-    }
-
-    & span {
-      margin-left: 1rem;
-      color: var(--theme-color);
-      border-radius: 50%;
-      border: 1px solid var(--theme-color);
-      width: 2rem;
-      height: 2rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center
-    }
-
-    & small {
-      margin-left: 1rem;
-      color: var(--grey);
-      font-size: 0.9rem;
-    }
   }
 }
 
