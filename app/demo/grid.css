@@ -3,6 +3,8 @@
   height: 100vh;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: minmax(1fr, 500px);
+  --mdc-theme-primary: hsl(220, 60%, 80%);
+  --mdc-theme-on-primary: hsl(220, 60%, 30%);
 
   & > img {
     transition: transform 0.1s ease;
@@ -16,7 +18,7 @@
   }
 
   & > div {
-    color: white;
+    color: hsl(220, 60%, 90%);
     padding: 2rem;
     &:nth-child(1) { background: hsl(220, 60%, 80%); }
     &:nth-child(2) { background: hsl(220, 60%, 75%); }
