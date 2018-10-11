@@ -121,7 +121,7 @@
 }
 
 :host li[data-tool="search"] {
-  &[data-active="true"]:after {
+  &[data-active="true"]:before {
     display: none;
   }
 }
