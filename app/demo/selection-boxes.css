@@ -6,7 +6,7 @@
   padding: 1rem;
 
   & > div {
-    background: var(--lighter-grey);
+    background: var(--lightest-grey);
     color: var(--grey);
     font-size: 3vmax;
     font-weight: lighter;

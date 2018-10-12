@@ -1,15 +1,16 @@
 .artboard {
   background: white;
-  box-shadow: 0 3px 5px var(--light-grey);
+  box-shadow: 0 2px 10px 2px var(--lighter-grey);
   position: relative;
   z-index: 1;
 
   & > label {
     content: attr(artboard);
     position: absolute;
-    top: -1.25em;
-    left: 0;
+    top: -1.5em;
+    left: 0.5em;
     font-size: 0.8rem;
+    font-weight: lighter;
     color: var(--grey);
   }
 }

@@ -22,9 +22,9 @@
 
 body {
   margin: 0;
-  background: var(--lighter-grey);
+  background: var(--lightest-grey);
   color: var(--dark-grey);
-  font-family: "Google Sans", system-ui;
+  font-family: system-ui;
   display: grid;
   grid-template-columns: 4.25rem 1fr;
   grid-gap: 0.5rem;
@@ -58,4 +58,11 @@ section {
 footer {
   background: white;
   height: 10vh;
+}
+
+.github {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
 }
