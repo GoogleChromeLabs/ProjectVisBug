@@ -11,7 +11,8 @@
     <meta name="theme-color" content="#111111">
 
     <meta name="mobile-web-app-capable" content="yes">
-    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <link rel="stylesheet" href="//unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="bundle.css">
     
   </head>
@@ -43,20 +44,15 @@
         <div class="chip" grid vertically-aligned="center">
           <div>
             <h2>How To: <b>The Basics</b></h2>
-            <small>Single & multi-select (hold shift)</small>
-            <!-- TODO: gamify tasks -->
-            <!-- <ul></ul> -->
+            <small>Selecting & Inspecting</small>
           </div>
           <span>1</span>
         </div>
       </header>
       
-      <div grid="rows" vertically-aligned="center" horizontally-aligned="center">
-        <small></small>
-        <h5>Try Me!</h5>
-
+      <div the-basics>
         <div class="artboard" selection-boxes>
-          <label>Artboard_01-SelectionDemo</label>
+          <label><b>Click to select</b> items (hold shift to multi-select)</label>
           <div grid span2x2 vertically-aligned="center" horizontally-aligned="center">1</div>
           <div grid vertically-aligned="center" horizontally-aligned="center">2</div>
           <div grid vertically-aligned="center" horizontally-aligned="center">3</div>
@@ -65,6 +61,48 @@
           <div grid vertically-aligned="center" horizontally-aligned="center">6</div>
           <div grid vertically-aligned="center" horizontally-aligned="center">7</div>
           <div grid span2x1 vertically-aligned="center" horizontally-aligned="center">8</div>
+        </div>
+        <div class="artboard">
+          <label>
+            <b>Press "i"</b> to switch to the Inspect tool 
+            <span class="material-icons mdc-fab__icon">info</span>
+            <b>then hover</b> on elements
+          </label>
+          <div grid="rows" selection-buttons>
+            <button class="mdc-button mdc-button--raised">Button</button>
+            <button class="mdc-button mdc-button--unelevated">Button</button>
+            <button class="mdc-button mdc-button--outlined">Button</button>
+            <!-- <button class="mdc-button">Button</button>
+            <button class="mdc-button mdc-button--dense">Button</button> 
+            <button class="mdc-button">Button</button>
+            <button class="mdc-button" disabled>Button</button>
+            <button class="mdc-button mdc-button--raised">
+              <i class="material-icons mdc-button__icon" aria-hidden="true">favorite</i>
+              Button
+            </button> -->
+            <div grid horizontally-distributed="between">
+              <button class="mdc-fab" aria-label="Favorite">
+                <span class="mdc-fab__icon material-icons">favorite</span>
+              </button>
+              <button class="mdc-fab" aria-label="Favorite">
+                <span class="mdc-fab__icon material-icons">search</span>
+              </button>
+              <button class="mdc-fab" aria-label="Favorite">
+                <span class="mdc-fab__icon material-icons">cloud</span>
+              </button>
+            </div>
+            <button class="mdc-fab mdc-fab--extended">
+              <span class="material-icons mdc-fab__icon">add</span>
+              <span class="mdc-fab__label">Create</span>
+            </button>
+          </div>
+        </div>
+        <div class="artboard">
+          <label>
+            <b>Press "x"</b> to switch to the A11y tool 
+            <span class="material-icons mdc-fab__icon">accessibility</span>
+            <b>then hover</b> on elements
+          </label>
         </div>
       </div>
     </section>
@@ -75,7 +113,7 @@
         <div class="chip" grid vertically-aligned="center">
           <div>
             <h2>How To: <b>The Essentials</b></h2>
-            <small>Try making a dark card or a full bleed image card</small>
+            <small>Explore & Discover</small>
           </div>
           <span>2</span>
         </div>

@@ -7,6 +7,8 @@
 @import './svg-demo.css';
 @import './selection-boxes.css';
 
+@import './sections/basics.css';
+
 :root {
   --darkest-grey: hsl(0,0%,5%);
   --darker-grey: hsl(0,0%,10%);
@@ -26,9 +28,11 @@ body {
   color: var(--dark-grey);
   font-family: system-ui;
   display: grid;
-  grid-template-columns: 4.25rem 1fr;
-  grid-gap: 0.5rem;
+  grid-template-columns: 4.75rem 1fr 2rem;
   scroll-snap-type: y proximity;
+
+  --mdc-theme-primary: hotpink;
+  --mdc-theme-secondary: rebeccapurple;
 
   & > :matches(section,footer) {
     grid-column: 2;
@@ -43,15 +47,14 @@ img {
 section {
   display: grid;
   grid-template-rows: auto 1fr;
-  min-height: calc(90vh - 0.5rem);
+  min-height: 85vh;
   scroll-snap-align: start;
 
   & > header {
-    height: 10vh;
-    padding-right: 3vmax;
     position: sticky;
     top: 0;
     z-index: 0;
+    height: 15vh;
   }
 }
 

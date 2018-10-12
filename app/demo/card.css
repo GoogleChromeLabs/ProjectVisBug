@@ -5,7 +5,6 @@
   padding: 1rem;
   border-radius: 0.2em;
   border: 1px solid hsl(0,0%,90%);
-  --mdc-theme-primary: hotpink;
 
   & > .card-header {
     & h2, & small {

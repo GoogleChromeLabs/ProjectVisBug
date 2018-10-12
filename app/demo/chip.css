@@ -2,8 +2,12 @@
   background: white;
   box-shadow: 0 5px 1rem hsla(0,0%,0%,20%);
   padding: 1rem 1.5rem 1rem 2rem;
-  margin-bottom: 0.5rem;
   border-radius: 4rem;
+  grid-row: 1/3;
+
+  & > div {
+    text-align: right;
+  }
 
   & h2 {
     text-align: right;
@@ -22,7 +26,7 @@
   }
 
   & small {
-    color: var(--grey);
+    color: var(--theme-color);
     font-size: 0.9rem;
   }
 }
