@@ -69,7 +69,7 @@
     height: calc(100% + 1em);
     display: inline-flex;
     align-items: center;
-    padding: 0 1.5em;
+    padding: 0 1.5em 0 3.5em;
     background: var(--theme-color);
     color: white;
     font-weight: 300;
@@ -82,7 +82,30 @@
     pointer-events: none;
   }
 
-  &:hover:before {
+  &:after {
+    content: attr(aria-hotkey);
+    position: absolute;
+    left: calc(100% + 1.5em);
+    top: 1px;
+    z-index: -2;
+    border-radius: 5em;
+    height: 2.25em;
+    width: 2.25em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    color: var(--theme-color);
+    font-weight: 300;
+    font-size: 0.9em;
+    transition: opacity 0.3s ease, transform 0.2s ease;
+    transform: translateX(-1em);
+    opacity: 0;
+    pointer-events: none;
+    text-transform: uppercase;
+  }
+
+  &:hover:before, &:hover:after {
     transform: translateX(0);
     opacity: 1;
     pointer-events: initial;
@@ -122,7 +145,8 @@
 
 :host li[data-tool="search"] {
   &[data-active="true"]:before {
-    display: none;
+    transform: translateX(-1em);
+    opacity: 0;
   }
 }
 
@@ -160,6 +184,7 @@
 
 :host [colors] > li > svg > rect:last-child {
   stroke: hsla(0,0%,0%,20%);
+  stroke-width: 0.5px;
 }
 
 :host input[type='color'] {
