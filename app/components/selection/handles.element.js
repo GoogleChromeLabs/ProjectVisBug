@@ -62,7 +62,7 @@ export class Handles extends HTMLElement {
           left: ${left}px;
           overflow: visible;
           pointer-events: none;
-          z-index: 9999;
+          z-index: 10010;
         }
       </style>
     `

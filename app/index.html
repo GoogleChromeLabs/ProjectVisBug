@@ -11,73 +11,205 @@
     <meta name="theme-color" content="#111111">
 
     <meta name="mobile-web-app-capable" content="yes">
-    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <link rel="stylesheet" href="//unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="bundle.css">
     
   </head>
   <body>
     <tool-pallete></tool-pallete>
+    <a href="#" class="github">
+      <img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+    </a>
+
+    <!-- intro -->
+    <section intro grid="rows" vertically-aligned="center" horizontally-aligned="center">
+      <div class="artboard">
+        <label>Artboard_00-FinalFinal-v2</label>
+        <!-- <h1>PixelBug</h1> -->
+        <svg width="320" height="79" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd">
+          <path d="M0 3h20.3226c3.656 0 6.9892.7563 10 2.2689 3.0107 1.5125 5.3763 3.6354 7.0968 6.3687C39.1398 14.3708 40 17.4888 40 20.9916c0 3.5028-.8602 6.634-2.5806 9.3939-1.7205 2.7598-4.086 4.896-7.0968 6.4085-3.0108 1.5126-6.344 2.2688-10 2.2688H10.887V60H0V3zm20.6452 25.8729c2.6881 0 4.7983-.7695 6.3306-2.3087 1.5323-1.539 2.2984-3.3966 2.2984-5.5726 0-2.176-.7661-4.0202-2.2984-5.5328s-3.6425-2.2689-6.3306-2.2689H10.887v15.683h9.758z" fill="#1DA462"/><path d="M54.0414 15c-1.933 0-3.5897-.6903-4.9704-2.071C47.6903 11.5483 47 9.8915 47 7.9586c0-1.933.6903-3.576 2.071-4.929C50.4517 1.6766 52.1085 1 54.0414 1c1.933 0 3.576.6765 4.929 2.0296C60.3234 4.3826 61 6.0256 61 7.9586c0 1.933-.6765 3.5897-2.0296 4.9704-1.353 1.3807-2.996 2.071-4.929 2.071z" fill="#4C8BF5"/><path fill="#DD5144" d="M49 19h10v41H49z"/><path fill="#FFCD46" d="M80.2294 39.1784L66.0804 19h12.4608l7.798 11.7373h.4824L94.1373 19H107L92.6098 39.1784 107 60H94.5392l-7.8784-11.9784h-.4824L78.4608 60H66z"/><path d="M132.2977 61c-4.0416 0-7.6842-.9256-10.928-2.7768-3.244-1.8511-5.7831-4.403-7.6178-7.6559C111.9173 47.3146 111 43.652 111 39.5793c0-3.861.904-7.4443 2.712-10.75 1.8081-3.3056 4.3074-5.937 7.4981-7.8939C124.4008 18.9784 127.9637 18 131.8988 18c4.201 0 7.8171.8991 10.8483 2.6974 3.0311 1.7983 5.331 4.2577 6.8998 7.3782C151.2156 31.1962 152 34.6605 152 38.4686c0 1.2165-.0798 2.3801-.2393 3.4908h-30.5506c.5318 3.2263 1.8213 5.6725 3.8687 7.3386 2.0473 1.666 4.5068 2.499 7.3784 2.499 2.393 0 4.4536-.5156 6.182-1.547 1.7282-1.0314 3.0975-2.4197 4.1079-4.1651l8.4552 4.1254C147.0545 57.4035 140.753 61 132.2977 61zm9.6517-26.4188c-.1063-1.2694-.5716-2.5255-1.3959-3.7685-.8243-1.2429-1.9676-2.2743-3.43-3.094-1.4624-.8199-3.1773-1.2298-5.1449-1.2298-2.4994 0-4.6397.7273-6.4212 2.1818-1.7815 1.4545-3.071 3.4246-3.8687 5.9105h20.2607z" fill="#4C8BF5"/><path fill="#DD5144" d="M160 3h10v57h-10z"/><path d="M182 3h22.4c3.2 0 6.1467.6634 8.84 1.9902s4.8133 3.1313 6.36 5.4134c1.5467 2.2822 2.32 4.7766 2.32 7.4833 0 2.866-.7067 5.347-2.12 7.4434-1.4133 2.0964-3.2667 3.7018-5.56 4.8163v.637c2.9867 1.0614 5.36 2.7464 7.12 5.055 1.76 2.3088 2.64 5.0818 2.64 8.3192 0 3.1313-.84 5.9043-2.52 8.3192-1.68 2.4148-3.9467 4.2723-6.8 5.5726S208.6667 60 205.2 60H182V3zm21.6 23.2458c2.3467 0 4.2267-.6501 5.64-1.9504 1.4133-1.3003 2.12-2.9323 2.12-4.896 0-1.9106-.68-3.516-2.04-4.8163-1.36-1.3003-3.16-1.9504-5.4-1.9504H192.8v13.6131h10.8zm1.2 23.9623c2.6133 0 4.6533-.6767 6.12-2.03 1.4667-1.3534 2.2-3.118 2.2-5.294 0-2.176-.7467-3.954-2.24-5.3338-1.4933-1.38-3.6267-2.0699-6.4-2.0699H192.8v14.7277h12zM247.04 61c-4.9067 0-8.64-1.5171-11.2-4.5513-2.56-3.0343-3.84-7.2662-3.84-12.6958V19h10.48v23.4753c0 2.768.6667 4.9372 2 6.5076 1.3333 1.5703 3.0933 2.3555 5.28 2.3555 2.9867 0 5.36-1.0912 7.12-3.2738 1.76-2.1825 2.64-4.9505 2.64-8.3041V19H270v40.7224h-9.84v-5.1102h-.64c-1.2267 1.9696-2.9467 3.5266-5.16 4.671C252.1467 60.4279 249.7067 61 247.04 61zM299.0802 79c-5.1833 0-9.4848-1.1669-12.9046-3.5007-3.4199-2.3337-5.7176-5.137-6.8932-8.4096l9.8588-4.0237c.855 2.0387 2.1641 3.6482 3.9275 4.8285 1.7634 1.1803 3.7672 1.7704 6.0115 1.7704 3.313 0 5.9446-1.0193 7.895-3.058 1.9504-2.0387 2.9256-4.9358 2.9256-8.6913v-3.219h-.6413c-1.2824 1.824-2.9656 3.219-5.0496 4.1847-2.084.9657-4.4618 1.4485-7.1336 1.4485-3.3664 0-6.5057-.8718-9.4179-2.6154-2.9122-1.7437-5.25-4.2115-7.0134-7.4037-1.7633-3.1922-2.645-6.9074-2.645-11.1458 0-4.2384.8817-7.9536 2.645-11.1458 1.7634-3.1922 4.1012-5.66 7.0134-7.4037 2.9122-1.7436 6.0515-2.6154 9.418-2.6154 2.6717 0 5.0495.4828 7.1335 1.4485 2.084.9658 3.7672 2.3606 5.0496 4.1847h.6413v-4.3456H320v38.2256c0 4.3993-.855 8.2084-2.5649 11.4274-1.71 3.219-4.1412 5.7003-7.2939 7.444C306.9885 78.1282 303.3015 79 299.0802 79zm.1603-28.2467c2.9389 0 5.4503-1.0328 7.5343-3.0983 2.084-2.0655 3.126-4.8955 3.126-8.49 0-3.702-1.0287-6.5588-3.086-8.5707-2.0572-2.0119-4.582-3.0178-7.5743-3.0178-2.9924 0-5.5306 1.0194-7.6145 3.058-2.084 2.0388-3.126 4.8822-3.126 8.5304s1.042 6.4916 3.126 8.5304c2.084 2.0387 4.622 3.058 7.6145 3.058z" fill="#000"/>
+        </g></svg>
+        <h4>
+          Open source 
+          <a href="#">Chrome extension</a>
+        </h3>
+      </div>
+      <span class="chip">Take a tour</span>
+    </section>
+
+    <!-- selection -->
+    <section>
+      <header grid vertically-aligned="center" horizontally-aligned="right">
+        <div class="chip" grid vertically-aligned="center">
+          <div>
+            <h2>How To: <b>The Basics</b></h2>
+            <small>Selecting & Inspecting</small>
+          </div>
+          <span>1</span>
+        </div>
+      </header>
+      
+      <div the-basics>
+        <div class="artboard" selection-boxes>
+          <label><b>Click to select</b> items (hold shift to multi-select)</label>
+          <div grid span2x2 vertically-aligned="center" horizontally-aligned="center">1</div>
+          <div grid vertically-aligned="center" horizontally-aligned="center">2</div>
+          <div grid vertically-aligned="center" horizontally-aligned="center">3</div>
+          <div grid vertically-aligned="center" horizontally-aligned="center">4</div>
+          <div grid vertically-aligned="center" horizontally-aligned="center">5</div>
+          <div grid vertically-aligned="center" horizontally-aligned="center">6</div>
+          <div grid vertically-aligned="center" horizontally-aligned="center">7</div>
+          <div grid span2x1 vertically-aligned="center" horizontally-aligned="center">8</div>
+        </div>
+        <div class="artboard">
+          <label>
+            <b>Press "i"</b> to switch to the Inspect tool 
+            <span class="material-icons mdc-fab__icon">info</span>
+            <b>then hover</b> on elements
+          </label>
+          <div grid="rows" selection-buttons>
+            <button class="mdc-button mdc-button--raised">Button</button>
+            <button class="mdc-button mdc-button--unelevated">Button</button>
+            <button class="mdc-button mdc-button--outlined">Button</button>
+            <!-- <button class="mdc-button">Button</button>
+            <button class="mdc-button mdc-button--dense">Button</button> 
+            <button class="mdc-button">Button</button>
+            <button class="mdc-button" disabled>Button</button>
+            <button class="mdc-button mdc-button--raised">
+              <i class="material-icons mdc-button__icon" aria-hidden="true">favorite</i>
+              Button
+            </button> -->
+            <div grid horizontally-distributed="between">
+              <button class="mdc-fab" aria-label="Favorite">
+                <span class="mdc-fab__icon material-icons">favorite</span>
+              </button>
+              <button class="mdc-fab" aria-label="Favorite">
+                <span class="mdc-fab__icon material-icons">search</span>
+              </button>
+              <button class="mdc-fab" aria-label="Favorite">
+                <span class="mdc-fab__icon material-icons">cloud</span>
+              </button>
+            </div>
+            <button class="mdc-fab mdc-fab--extended">
+              <span class="material-icons mdc-fab__icon">add</span>
+              <span class="mdc-fab__label">Create</span>
+            </button>
+          </div>
+        </div>
+        <div class="artboard">
+          <label>
+            <b>Press "x"</b> to switch to the A11y tool 
+            <span class="material-icons mdc-fab__icon">accessibility</span>
+            <b>then hover</b> on elements
+          </label>
+        </div>
+      </div>
+    </section>
 
     <!-- card -->
-    <section grid vertically-aligned="center" horizontally-aligned="center">
-      <div grid="rows" vertically-distributed="equal" class="card" id="demo-card" aria-label="A card about PixelBug" role="card">
-        <div grid="grid" vertically-aligned="center" class="card-header">
-          <img alt="Avatar of Doc and Mac" src="https://images-na.ssl-images-amazon.com/images/S/sgp-catalog-images/region_US/nbcu-61101081-Full-Image_GalleryBackground-en-US-1484000598187._RI_SX940_.jpg"/>
+    <section>
+      <header grid vertically-aligned="center" horizontally-aligned="right">
+        <div class="chip" grid vertically-aligned="center">
           <div>
-            <h2>PixelBug</h2>
-            <date>November 5th, 2018</date>
+            <h2>How To: <b>The Essentials</b></h2>
+            <small>Explore & Discover</small>
           </div>
+          <span>2</span>
         </div>
+      </header>
 
-        <div class="card-content">
-          <img alt="DeLorean entering time travel with trailing flames" src="https://s23527.pcdn.co/wp-content/uploads/2017/07/BTTF1.2.jpg.optimal.jpg"/>
-          <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. This is heavy.</p>
-          <div class="mdc-chip-set">
-            <div class="mdc-chip" tabindex="0">
-              <div class="mdc-chip__text">Dude</div>
-            </div>
-            <div class="mdc-chip" tabindex="1">
-              <div class="mdc-chip__text">Rad</div>
-            </div>
-            <div class="mdc-chip" tabindex="2">
-              <div class="mdc-chip__text">Totally</div>
+      <div grid vertically-aligned="center" horizontally-aligned="center">
+        <div grid="rows" vertically-distributed="equal" class="card" id="demo-card" aria-label="A card about PixelBug" role="card">
+          <div grid="grid" vertically-aligned="center" class="card-header">
+            <img alt="Avatar of Doc and Mac" src="https://images-na.ssl-images-amazon.com/images/S/sgp-catalog-images/region_US/nbcu-61101081-Full-Image_GalleryBackground-en-US-1484000598187._RI_SX940_.jpg"/>
+            <div>
+              <h2>Marty McFly</h2>
+              <date>November 5th, 2018</date>
             </div>
           </div>
-        </div>
 
-        <div grid="grid" vertically-aligned="bottom" class="card-footer">
-          <button class="mdc-button mdc-button--raised">Like</button>
-          <button class="mdc-button">Comment</button>
-          <time>11 minutes ago</time>
+          <div class="card-content">
+            <img alt="DeLorean entering time travel with trailing flames" src="https://s23527.pcdn.co/wp-content/uploads/2017/07/BTTF1.2.jpg.optimal.jpg"/>
+            <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. This is heavy.</p>
+            <div class="mdc-chip-set">
+              <div class="mdc-chip" tabindex="0">
+                <div class="mdc-chip__text">Dude</div>
+              </div>
+              <div class="mdc-chip" tabindex="1">
+                <div class="mdc-chip__text">Rad</div>
+              </div>
+              <div class="mdc-chip" tabindex="2">
+                <div class="mdc-chip__text">Totally</div>
+              </div>
+            </div>
+          </div>
+
+          <div grid="grid" vertically-aligned="bottom" class="card-footer">
+            <button class="mdc-button mdc-button--raised">Like</button>
+            <button class="mdc-button">Comment</button>
+            <time>11 minutes ago</time>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- grid -->
     <section>
-      <article grid-demo>
-        <div class="grid-item">1</div>
-        <div class="grid-item">2</div>
-        <div class="grid-item">3</div>
-        <div class="grid-item">4</div>
-        <div class="grid-item heading">
-          <h3>PixelBug</h3>
-          <p>Using grid-template-columns: repeat();</p>
-          <button class="mdc-button mdc-button--raised">Learn More</button>
+      <header grid vertically-aligned="center" horizontally-aligned="right">
+        <div class="chip" grid vertically-aligned="center">
+          <div>
+            <h2>Discover</h2>
+            <small>Try making a dark card or a full bleed image card</small>
+          </div>
+          <span>3</span>
         </div>
-        <div class="grid-item message" grid vertically-aligned="center" horizontally-aligned="center">
-          <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. This is heavy.</p>
+      </header>
+
+      <article class="artboard">
+        <label>Artboard_02-Grid</label>
+        <div grid-demo>
+          <div class="grid-item">1</div>
+          <div class="grid-item">2</div>
+          <div class="grid-item">3</div>
+          <div class="grid-item">4</div>
+          <div class="grid-item heading">
+            <h3>PixelBug</h3>
+            <p>Using grid-template-columns: repeat();</p>
+            <button class="mdc-button mdc-button--raised">Learn More</button>
+          </div>
+          <div class="grid-item message" grid vertically-aligned="center" horizontally-aligned="center">
+            <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. This is heavy.</p>
+          </div>
+          <div class="grid-item">7</div>
+          <div class="grid-item">8</div>
+          <div class="grid-item">9</div>
         </div>
-        <div class="grid-item">7</div>
-        <div class="grid-item">8</div>
-        <div class="grid-item">9</div>
       </article>
     </section>
 
     <!-- svg -->
-    <section grid vertically-aligned="center" horizontally-aligned="center" style="padding:0 5rem;">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1170 753.18" width="100%"><g><path fill="#4630EB" d="M500.27,673.3c113.23,0,91.36-101.15,183.82-101.15C805,572.15,749.9,455,877.78,455c108.94,0,66.9-139.16,159.26-139.16l131.45,197.94L924.82,674.28Z"></path><circle fill="#4630EB" cx="75.55" cy="375.42" r="75.55"></circle><path stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M368.84,259.62c-16-58.4,38.48-75.23,56.61-24.16,15.86,44.7,60.6,153,60.6,153l-68.52,11.48Z"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M482.09,137l7.9.2s-5.52-21.27-6.5-32.1Z"></path><path fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M117.34,366.52a304,304,0,0,0-46,21.91V149.24a304.09,304.09,0,0,1,46-21.91Q117.34,246.93,117.34,366.52Z"></path><path fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M166.17,355.56a304,304,0,0,0-48.84,11q0-119.59,0-239.19a303.94,303.94,0,0,1,48.84-11Z"></path><path fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M216,355.56a304.84,304.84,0,0,0-49.78,0V116.38a304.91,304.91,0,0,1,49.78,0Q216,236,216,355.56Z"></path><path fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M264.79,366.52a304.1,304.1,0,0,0-48.84-11q0-119.59,0-239.18a303.94,303.94,0,0,1,48.84,11Q264.79,246.92,264.79,366.52Z"></path><path fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M310.8,388.43a303.93,303.93,0,0,0-46-21.91q0-119.59,0-239.18a304,304,0,0,1,46,21.91Z"></path><path fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M71.32,197.08V149.24c76.79-44.19,162.7-44.18,239.48,0v47.84C234,152.9,148.12,152.9,71.32,197.08Z"></path><path fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M71.32,244.92V197.08c76.79-44.18,162.7-44.18,239.48,0v47.84C234,200.74,148.12,200.73,71.32,244.92Z"></path><path fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M71.32,340.59V292.75c76.79-44.18,162.7-44.18,239.48,0v47.84C234,296.41,148.12,296.41,71.32,340.59Z"></path><path fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M71.32,388.43V340.59c76.79-44.18,162.7-44.18,239.48,0v47.84C234,344.25,148.12,344.24,71.32,388.43Z"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M251.15,415.68C239.19,343,291.4,210.31,366.48,165.1l58.12,36.11c6.4,53-25.8,205.6-25.8,205.6S334,412.84,251.15,415.68Z"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M393.15,94.23c4.63,21.94,21.71,47-19.67,67.52q-3.47,1.55-7,3.35l58.12,36.11,2.65-37.35s31.3,19.2,44.79,1.54c9.28-12.15,15.91-44.56,8.66-82.74C471.33,33.32,383.34,42.56,393.15,94.23Z"></path><rect fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" x="765.37" y="139.08" width="291.31" height="495.02" transform="translate(-62.88 562.44) rotate(-33.23)"></rect><rect fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" x="773.58" y="237.63" width="224.08" height="224.08" transform="translate(-46.81 542.49) rotate(-33.23)"></rect><rect fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" x="884.54" y="538.45" width="291.31" height="60.1" transform="translate(-143.08 657.49) rotate(-33.23)"></rect><circle stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" cx="1030.19" cy="568.5" r="20.37" transform="translate(-143.08 657.49) rotate(-33.23)"></circle><line fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" x1="870.03" y1="530.34" x2="1012.32" y2="437.13"></line><line fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" x1="886.23" y1="555.06" x2="979.95" y2="493.66"></line><line stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" x1="44.97" y1="673.3" x2="1030.46" y2="673.3"></line><rect stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" x="266.81" y="503.32" width="153.18" height="169.98"></rect><polygon stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="419.47 561.44 266.29 673.3 419.47 673.3 419.47 561.44"></polygon><polygon stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="266.81 561.44 266.81 673.3 191.06 673.3 266.81 561.44"></polygon><circle stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" cx="160.24" cy="654.97" r="18.33"></circle><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M761,397.1a46.76,46.76,0,0,1-93.52,0Z"></path><rect stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" x="84.89" y="612.22" width="132.41" height="22.86" transform="translate(-357.46 232.32) rotate(-38.8)"></rect><polygon stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="714.21 673.48 783.47 673.48 714.21 535.29 644.95 673.48 714.21 673.48"></polygon><polygon stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="839.77 277.93 697.38 277.93 642.89 397.1 785.28 397.1 839.77 277.93"></polygon><rect stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" x="533.4" y="381.49" width="134.45" height="15.62"></rect><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M428.49,165.1s-9.88-7.18-14.11-15.43"></path><path stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M708.6,320.15c3-6.06,10.39-11,16.58-11s8.8,4.92,5.83,11-10.39,11-16.58,11S705.63,326.21,708.6,320.15Z"></path><polygon stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="769.19 359.08 718.27 359.08 718.27 359.08 793.64 309.17 769.19 359.08"></polygon><path stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M393.15,94.23c3.39,16.06,13.44,33.79,2.37,50.19h0s21-19.81,22.63-32.5c1.4-9.45-3.46-8.4-3.73-15.07-.46-11.35,20.36-14.78,15.46,4.26l-2.77,10.65C437.89,111,444,92.57,454,93.6l29.15,7a176.84,176.84,0,0,0-2.46-17.89C471.33,33.32,383.34,42.56,393.15,94.23Z"></path><polygon stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="792.42 381.49 667.85 381.49 667.85 397.1 784.98 397.1 792.42 381.49"></polygon><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M550.21,615.87s33.7-174.92,33.7-234.58c-79.48,6.33-247,26.05-332.76,34.38,0,0,20.41,86.42,110.49,86.42,75.88,0,139.62-26.22,139.62-26.22s-13.86,64.05-28.05,140h77Z"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M518.3,615.87H473.21a314.28,314.28,0,0,0-5.67,57.43H585.28C585.28,664.54,513.07,661.4,518.3,615.87Z"></path><path stroke="rgba(0, 0, 32, 1)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M686.68,16.94H633.37V51.37h0c0,4,2.65,7.9,7.87,10.92,10.44,6,27.32,6,37.7,0,5.19-3,7.77-7,7.74-10.92h0Z"></path><polygon stroke="rgba(0, 0, 32, 1)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="548.1 51.55 580.87 32.58 613.75 51.55 580.87 70.53 548.1 51.55"></polygon><polygon stroke="rgba(0, 0, 32, 1)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="548.1 51.55 548.29 89.52 580.87 108.5 580.87 70.53 548.1 51.55"></polygon><polygon stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="613.85 51.55 613.64 89.52 581.07 108.5 581.07 70.53 613.85 51.55"></polygon><polygon stroke="rgba(0, 0, 32, 1)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="686.28 88.59 632.61 96.93 672.07 119.71 686.28 88.59"></polygon><polygon stroke="rgba(0, 0, 32, 1)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="632.61 96.93 632.61 134.97 672.07 157.64 672.07 119.71 632.61 96.93"></polygon><path stroke="rgba(0, 0, 32, 1)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M672.07,119.71"></path><polygon stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="686.28 88.59 686.28 125.39 672.07 157.64 672.07 119.71 686.28 88.59"></polygon><path stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M667.94,16.94V66.12a33.76,33.76,0,0,0,11-3.84c5.19-3,7.77-7,7.74-10.92h0V16.94Z"></path><path stroke="rgba(0, 0, 32, 1)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M678.81,6c-10.44-6-27.32-6-37.69,0s-10.32,15.81.12,21.83,27.32,6,37.7,0,10.32-15.8-.13-21.83"></path><circle stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" cx="714.21" cy="488.31" r="23.68"></circle><polygon stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="644.95 673.48 760.97 628.59 783.47 673.48 644.95 673.48"></polygon><path stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M730.33,471a26.28,26.28,0,0,1-36,30.19,23.67,23.67,0,1,0,36-30.19Z"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M662.3,579.46H587l-68.8-192.27L399.84,399.91s134.57-95.53,170.1-72.25S662.3,579.46,662.3,579.46Z"></path><polygon stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="518.23 387.19 559.53 564.99 567.31 524.36 518.23 387.19"></polygon><path stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M667.85,397.1l88.8,19.64S761,409.12,761,397.1Z"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M548.52,252.48"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M468.85,646.57c24.52,0,38.5-12.89,51.84-12.89"></path><polygon stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="605.07 595.58 599.14 579.46 644.95 579.46 648.09 585.32 605.07 595.58"></polygon><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M605.06,595.58l43-10.26,13,10.26c8.29,8.67,22.6-27.7,34.56-23.3l-22,43.43-58.19,24.41C606.64,624.28,609.06,606.47,605.06,595.58Z"></path><path stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M339.15,274.39c0,48.62,23.12,105.44,41.51,127.61l19.19-2.08,19.63-25.48Z"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M339.83,236.88s-16,90.78,60,163c0,0,92.08-64.85,172-86.91,0,0,12.18,11.17,26.39,7.14l2.37,12.65c1.09,10.06,8.88,11.45,8.88,11.45l.64-56C550,271.33,420,334.12,420,334.12s-13.67-26.67-20.16-85.2"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M470.16,313.32s-4.56-2.56,19.83,32.9"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M1067.73,670.07c0,45.07-38.72,81.61-86.48,81.61s-86.48-36.54-86.48-81.61h173"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M1042.2,634.82c-33.88-18.71-88.63-18.7-122.29,0s-33.49,49,.39,67.75,88.64,18.71,122.31,0,33.48-49-.41-67.75"></path><path stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M1005.5,655.22c-13.48-7.44-35.27-7.44-48.66,0s-13.32,19.51.16,27,35.27,7.44,48.66,0,13.32-19.51-.16-27"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M1006.06,668c-13.36-7.38-35-7.38-48.23,0a21.54,21.54,0,0,0-8.08,7.18,21.75,21.75,0,0,0,8.23,7.3c13.36,7.38,35,7.38,48.23,0a21.53,21.53,0,0,0,8.07-7.18A21.76,21.76,0,0,0,1006.06,668Z"></path></g></svg>
+    <section svg-demo>
+      <header grid vertically-aligned="center" horizontally-aligned="right">
+        <div class="chip" grid vertically-aligned="center">
+          <div>
+            <h2>Manipulate SVG</h2>
+            <small>Resize the browser, figure out a new & better arrangement</small>
+          </div>
+          <span>4</span>
+        </div>
+      </header>
+      <div grid vertically-aligned="center" horizontally-aligned="center">
+        <div svg-container class="artboard">
+          <label>Artboard_03-SVG</label>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1170 753.18"><g><path fill="#4630EB" d="M500.27,673.3c113.23,0,91.36-101.15,183.82-101.15C805,572.15,749.9,455,877.78,455c108.94,0,66.9-139.16,159.26-139.16l131.45,197.94L924.82,674.28Z"></path><circle fill="#4630EB" cx="75.55" cy="375.42" r="75.55"></circle><path stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M368.84,259.62c-16-58.4,38.48-75.23,56.61-24.16,15.86,44.7,60.6,153,60.6,153l-68.52,11.48Z"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M482.09,137l7.9.2s-5.52-21.27-6.5-32.1Z"></path><path fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M117.34,366.52a304,304,0,0,0-46,21.91V149.24a304.09,304.09,0,0,1,46-21.91Q117.34,246.93,117.34,366.52Z"></path><path fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M166.17,355.56a304,304,0,0,0-48.84,11q0-119.59,0-239.19a303.94,303.94,0,0,1,48.84-11Z"></path><path fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M216,355.56a304.84,304.84,0,0,0-49.78,0V116.38a304.91,304.91,0,0,1,49.78,0Q216,236,216,355.56Z"></path><path fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M264.79,366.52a304.1,304.1,0,0,0-48.84-11q0-119.59,0-239.18a303.94,303.94,0,0,1,48.84,11Q264.79,246.92,264.79,366.52Z"></path><path fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M310.8,388.43a303.93,303.93,0,0,0-46-21.91q0-119.59,0-239.18a304,304,0,0,1,46,21.91Z"></path><path fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M71.32,197.08V149.24c76.79-44.19,162.7-44.18,239.48,0v47.84C234,152.9,148.12,152.9,71.32,197.08Z"></path><path fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M71.32,244.92V197.08c76.79-44.18,162.7-44.18,239.48,0v47.84C234,200.74,148.12,200.73,71.32,244.92Z"></path><path fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M71.32,340.59V292.75c76.79-44.18,162.7-44.18,239.48,0v47.84C234,296.41,148.12,296.41,71.32,340.59Z"></path><path fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M71.32,388.43V340.59c76.79-44.18,162.7-44.18,239.48,0v47.84C234,344.25,148.12,344.24,71.32,388.43Z"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M251.15,415.68C239.19,343,291.4,210.31,366.48,165.1l58.12,36.11c6.4,53-25.8,205.6-25.8,205.6S334,412.84,251.15,415.68Z"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M393.15,94.23c4.63,21.94,21.71,47-19.67,67.52q-3.47,1.55-7,3.35l58.12,36.11,2.65-37.35s31.3,19.2,44.79,1.54c9.28-12.15,15.91-44.56,8.66-82.74C471.33,33.32,383.34,42.56,393.15,94.23Z"></path><rect fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" x="765.37" y="139.08" width="291.31" height="495.02" transform="translate(-62.88 562.44) rotate(-33.23)"></rect><rect fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" x="773.58" y="237.63" width="224.08" height="224.08" transform="translate(-46.81 542.49) rotate(-33.23)"></rect><rect fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" x="884.54" y="538.45" width="291.31" height="60.1" transform="translate(-143.08 657.49) rotate(-33.23)"></rect><circle stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" cx="1030.19" cy="568.5" r="20.37" transform="translate(-143.08 657.49) rotate(-33.23)"></circle><line fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" x1="870.03" y1="530.34" x2="1012.32" y2="437.13"></line><line fill="none" stroke="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" x1="886.23" y1="555.06" x2="979.95" y2="493.66"></line><line stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" x1="44.97" y1="673.3" x2="1030.46" y2="673.3"></line><rect stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" x="266.81" y="503.32" width="153.18" height="169.98"></rect><polygon stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="419.47 561.44 266.29 673.3 419.47 673.3 419.47 561.44"></polygon><polygon stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="266.81 561.44 266.81 673.3 191.06 673.3 266.81 561.44"></polygon><circle stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" cx="160.24" cy="654.97" r="18.33"></circle><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M761,397.1a46.76,46.76,0,0,1-93.52,0Z"></path><rect stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" x="84.89" y="612.22" width="132.41" height="22.86" transform="translate(-357.46 232.32) rotate(-38.8)"></rect><polygon stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="714.21 673.48 783.47 673.48 714.21 535.29 644.95 673.48 714.21 673.48"></polygon><polygon stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="839.77 277.93 697.38 277.93 642.89 397.1 785.28 397.1 839.77 277.93"></polygon><rect stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" x="533.4" y="381.49" width="134.45" height="15.62"></rect><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M428.49,165.1s-9.88-7.18-14.11-15.43"></path><path stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M708.6,320.15c3-6.06,10.39-11,16.58-11s8.8,4.92,5.83,11-10.39,11-16.58,11S705.63,326.21,708.6,320.15Z"></path><polygon stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="769.19 359.08 718.27 359.08 718.27 359.08 793.64 309.17 769.19 359.08"></polygon><path stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M393.15,94.23c3.39,16.06,13.44,33.79,2.37,50.19h0s21-19.81,22.63-32.5c1.4-9.45-3.46-8.4-3.73-15.07-.46-11.35,20.36-14.78,15.46,4.26l-2.77,10.65C437.89,111,444,92.57,454,93.6l29.15,7a176.84,176.84,0,0,0-2.46-17.89C471.33,33.32,383.34,42.56,393.15,94.23Z"></path><polygon stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="792.42 381.49 667.85 381.49 667.85 397.1 784.98 397.1 792.42 381.49"></polygon><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M550.21,615.87s33.7-174.92,33.7-234.58c-79.48,6.33-247,26.05-332.76,34.38,0,0,20.41,86.42,110.49,86.42,75.88,0,139.62-26.22,139.62-26.22s-13.86,64.05-28.05,140h77Z"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M518.3,615.87H473.21a314.28,314.28,0,0,0-5.67,57.43H585.28C585.28,664.54,513.07,661.4,518.3,615.87Z"></path><path stroke="rgba(0, 0, 32, 1)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M686.68,16.94H633.37V51.37h0c0,4,2.65,7.9,7.87,10.92,10.44,6,27.32,6,37.7,0,5.19-3,7.77-7,7.74-10.92h0Z"></path><polygon stroke="rgba(0, 0, 32, 1)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="548.1 51.55 580.87 32.58 613.75 51.55 580.87 70.53 548.1 51.55"></polygon><polygon stroke="rgba(0, 0, 32, 1)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="548.1 51.55 548.29 89.52 580.87 108.5 580.87 70.53 548.1 51.55"></polygon><polygon stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="613.85 51.55 613.64 89.52 581.07 108.5 581.07 70.53 613.85 51.55"></polygon><polygon stroke="rgba(0, 0, 32, 1)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="686.28 88.59 632.61 96.93 672.07 119.71 686.28 88.59"></polygon><polygon stroke="rgba(0, 0, 32, 1)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="632.61 96.93 632.61 134.97 672.07 157.64 672.07 119.71 632.61 96.93"></polygon><path stroke="rgba(0, 0, 32, 1)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M672.07,119.71"></path><polygon stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="686.28 88.59 686.28 125.39 672.07 157.64 672.07 119.71 686.28 88.59"></polygon><path stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M667.94,16.94V66.12a33.76,33.76,0,0,0,11-3.84c5.19-3,7.77-7,7.74-10.92h0V16.94Z"></path><path stroke="rgba(0, 0, 32, 1)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M678.81,6c-10.44-6-27.32-6-37.69,0s-10.32,15.81.12,21.83,27.32,6,37.7,0,10.32-15.8-.13-21.83"></path><circle stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" cx="714.21" cy="488.31" r="23.68"></circle><polygon stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="644.95 673.48 760.97 628.59 783.47 673.48 644.95 673.48"></polygon><path stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M730.33,471a26.28,26.28,0,0,1-36,30.19,23.67,23.67,0,1,0,36-30.19Z"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M662.3,579.46H587l-68.8-192.27L399.84,399.91s134.57-95.53,170.1-72.25S662.3,579.46,662.3,579.46Z"></path><polygon stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="518.23 387.19 559.53 564.99 567.31 524.36 518.23 387.19"></polygon><path stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M667.85,397.1l88.8,19.64S761,409.12,761,397.1Z"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M548.52,252.48"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M468.85,646.57c24.52,0,38.5-12.89,51.84-12.89"></path><polygon stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" points="605.07 595.58 599.14 579.46 644.95 579.46 648.09 585.32 605.07 595.58"></polygon><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M605.06,595.58l43-10.26,13,10.26c8.29,8.67,22.6-27.7,34.56-23.3l-22,43.43-58.19,24.41C606.64,624.28,609.06,606.47,605.06,595.58Z"></path><path stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M339.15,274.39c0,48.62,23.12,105.44,41.51,127.61l19.19-2.08,19.63-25.48Z"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M339.83,236.88s-16,90.78,60,163c0,0,92.08-64.85,172-86.91,0,0,12.18,11.17,26.39,7.14l2.37,12.65c1.09,10.06,8.88,11.45,8.88,11.45l.64-56C550,271.33,420,334.12,420,334.12s-13.67-26.67-20.16-85.2"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M470.16,313.32s-4.56-2.56,19.83,32.9"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M1067.73,670.07c0,45.07-38.72,81.61-86.48,81.61s-86.48-36.54-86.48-81.61h173"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M1042.2,634.82c-33.88-18.71-88.63-18.7-122.29,0s-33.49,49,.39,67.75,88.64,18.71,122.31,0,33.48-49-.41-67.75"></path><path stroke="rgba(0, 0, 32, 1)" fill="rgba(0, 0, 32, 1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M1005.5,655.22c-13.48-7.44-35.27-7.44-48.66,0s-13.32,19.51.16,27,35.27,7.44,48.66,0,13.32-19.51-.16-27"></path><path stroke="rgba(0, 0, 32, 0.9)" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4px" d="M1006.06,668c-13.36-7.38-35-7.38-48.23,0a21.54,21.54,0,0,0-8.08,7.18,21.75,21.75,0,0,0,8.23,7.3c13.36,7.38,35,7.38,48.23,0a21.53,21.53,0,0,0,8.07-7.18A21.76,21.76,0,0,0,1006.06,668Z"></path></g></svg>
+        </div>
+      </div>
     </section>
+
+    <footer>
+      
+    </footer>
     
     <script src="bundle.js" defer></script>
   </body>

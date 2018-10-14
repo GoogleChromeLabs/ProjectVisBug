@@ -1,0 +1,39 @@
+[selection-boxes] {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10vmax, 1fr));
+  grid-template-rows: repeat(2, auto);
+  grid-gap: 0.25rem;
+  padding: 1rem;
+
+  & > div {
+    background: var(--lightest-grey);
+    color: var(--grey);
+    font-size: 2vmax;
+    font-weight: lighter;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--lighter-grey);
+    }
+
+    &[span2x2] {
+      grid-row: span 2;
+      grid-column: span 2;
+    }
+
+    &[span2x1] {
+      grid-column: span 2;
+    }
+  }
+}
+
+[selection-buttons] {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 1rem;
+  padding: 1rem;
+
+   & > button {
+    margin-bottom: 0.5rem;
+  }
+}

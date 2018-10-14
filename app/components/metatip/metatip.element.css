@@ -124,6 +124,12 @@
   margin-right: 0.25em;
 }
 
+:host [local-modifications] {
+  margin-top: 1rem;
+  color: var(--theme-color);
+  font-weight: bold;
+}
+
 :host [contrast] > span {
   padding: 0 0.5em 0.1em;
   border-radius: 1em;

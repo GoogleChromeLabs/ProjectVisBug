@@ -73,7 +73,7 @@ export function Selectable() {
     let did_hide = false
 
     document.onkeydown = function(e) {
-      if (hotkeys.cmd && selected.length) {
+      if (hotkeys.ctrl && selected.length) {
         $('pb-handles, pb-label').forEach(el =>
           el.style.display = 'none')
         
@@ -143,7 +143,7 @@ export function Selectable() {
 
   const on_copy_styles = e => {
     e.preventDefault()
-    this.copied_styles = selected.reverse().map(el =>
+    this.copied_styles = selected.map(el =>
       getStyles(el))
   }
 

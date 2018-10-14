@@ -1,0 +1,18 @@
+h1,h2,h3 {
+  font-family: "Google Sans", system-ui;
+  font-weight: lighter;
+  line-height: 1.2;
+  margin: 0;
+}
+
+small {
+  color: var(--grey);
+}
+
+a {
+  color: var(--theme-color);
+
+  &[href]:not(:hover) {
+    text-decoration: none;
+  }
+}

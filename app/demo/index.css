@@ -1,25 +1,42 @@
+@import './typography.css';
+@import './artboard.css';
+@import './card.css';
+@import './chip.css';
+@import './intro.css';
+@import './grid.css';
+@import './svg-demo.css';
+@import './selection-boxes.css';
+
+@import './sections/basics.css';
+
 :root {
-  --darkest-grey: hsl(0,0%,2%);
-  --darker-grey: hsl(0,0%,5%);
+  --darkest-grey: hsl(0,0%,5%);
+  --darker-grey: hsl(0,0%,10%);
   --dark-grey: hsl(0,0%,20%);
   --grey: hsl(0,0%,50%);
-  --light-grey: hsl(0,0%,60%);
-  --lighter-grey: hsl(0,0%,80%);
+  --light-grey: hsl(0,0%,80%);
+  --lighter-grey: hsl(0,0%,85%);
   --lightest-grey: hsl(0,0%,95%);
   --theme-color: hotpink;
+  --theme-light: hsl(330, 50%, 70%);
+  --bg: white;
 }
 
 body {
   margin: 0;
   background: var(--lightest-grey);
-  font-family: "Google Sans", system-ui;
+  color: var(--dark-grey);
+  font-family: system-ui;
+  display: grid;
+  grid-template-columns: 4.75rem 1fr 2rem;
   scroll-snap-type: y proximity;
-}
 
-h1,h2,h3 {
-  font-weight: lighter;
-  line-height: 1.2;
-  margin: 0;
+  --mdc-theme-primary: hotpink;
+  --mdc-theme-secondary: rebeccapurple;
+
+  & > :matches(section,footer) {
+    grid-column: 2;
+  }
 }
 
 img {
@@ -28,64 +45,27 @@ img {
 
 /* demo */
 section {
-  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 85vh;
   scroll-snap-align: start;
+
+  & > header {
+    position: sticky;
+    top: 0;
+    z-index: 0;
+    height: 15vh;
+  }
 }
 
-article {
-  display: grid;
-  height: 100vh;
-  padding-left: 5rem;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: minmax(1fr, 500px);
+footer {
+  background: white;
+  height: 10vh;
+}
 
-  & > img {
-    transition: transform 0.1s ease;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-
-    &:hover {
-      transform: scale(1.05);
-    }
-  }
-
-  & > div {
-    color: white;
-    padding: 2rem;
-    &:nth-child(1) { background: hsl(220, 60%, 80%); }
-    &:nth-child(2) { background: hsl(220, 60%, 75%); }
-    &:nth-child(3) { background: hsl(220, 60%, 70%); }
-    &:nth-child(4) { background: hsl(220, 60%, 65%); }
-    &:nth-child(5) { background: hsl(220, 60%, 60%); }
-    &:nth-child(6) { background: hsl(220, 60%, 55%); }
-    &:nth-child(7) { background: hsl(220, 60%, 60%); }
-    &:nth-child(7) { background: hsl(220, 60%, 65%); }
-    &:nth-child(8) { background: hsl(220, 60%, 70%); }
-    &:nth-child(9) { background: hsl(220, 60%, 75%); }
-  }
-
-  & .heading {
-    grid-row: span 3;
-    font-weight: lighter;
-
-    & > h3 {
-      font-size: 4rem;
-      margin: 0;
-    }
-
-    & > p {
-      font-size: 1.1rem;
-      line-height: 1.75;
-    }
-  }
-
-  & .message {
-    grid-row: span 2;
-    grid-column: span 3;
-    font-size: 1.4rem;
-    font-weight: lighter;
-    letter-spacing: 0.1em;
-    line-height: 1.6;
-  }
+.github {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
 }
