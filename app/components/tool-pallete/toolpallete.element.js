@@ -53,9 +53,13 @@ export default class ToolPallete extends HTMLElement {
       this.toolSelected(e.currentTarget) && e.stopPropagation())
 
     Object.entries(this.toolbar_model).forEach(([key, value]) =>
-      hotkeys(key, e => 
+      hotkeys(key, e => {
+        e.preventDefault()
         this.toolSelected(
-          $(`[data-tool="${value.tool}"]`, this.$shadow)[0])))
+          $(`[data-tool="${value.tool}"]`, this.$shadow)[0]
+        )
+      })
+    )
 
     this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
   }

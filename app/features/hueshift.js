@@ -38,6 +38,8 @@ export function HueShift(Color) {
   })
 
   hotkeys('[,]', (e, handler) => {
+    e.preventDefault()
+    
     if (this.active_color == 'background')
       this.active_color = 'foreground'
     else if (this.active_color == 'foreground')
