@@ -15,6 +15,8 @@ export function Position() {
   this._els = []
 
   hotkeys(key_events, (e, handler) => {
+    if (e.cancelBubble) return
+      
     e.preventDefault()
     positionElement($('[data-selected=true]'), handler.key)
   })

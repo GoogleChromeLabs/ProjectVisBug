@@ -41,15 +41,41 @@
 :host [card] {
   padding: 1em;
   background: white;
-  box-shadow: 0 0.25em 0.25em hsla(0,0%,0%,20%);
+  box-shadow: 0 0.5em 3em hsla(0,0%,0%,20%);
   border-radius: 0.5em;
   color: var(--dark-grey);
   display: flex;
+  justify-content: space-evenly;
 
   & > div:not([keyboard]) {
     display: flex;
     align-items: flex-end;
     margin-left: 1em;
+  }
+}
+
+:host [tool-icon] {
+  position: absolute;
+  top: 1em;
+  left: 0;
+  width: 100%;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: center;
+
+  & > span {
+    display: grid;
+    grid-template-columns: 5vmax auto;
+    grid-gap: 0.5em;
+    align-items: center;
+    text-transform: capitalize;
+    font-size: 4vmax;
+    font-weight: lighter;
+  }
+
+  & svg {
+    width: 100%;
+    fill: var(--theme-color);
   }
 }
 
@@ -71,9 +97,13 @@
   white-space: nowrap;
 }
 
-:host section > span:not([pressed]), 
-:host [arrows] > span:not([pressed]) {
+:host section > span:not([pressed="true"]), 
+:host [arrows] > span:not([pressed="true"]) {
   border: 1px solid var(--light-grey);
+
+  &:hover {
+    border-color: var(--grey);
+  }
 }
 
 :host span[pressed="true"] {
@@ -81,8 +111,18 @@
   color: white;
 }
 
-:host span:not([pressed="true"]):matches([shift],[ctrl],[alt],[cmd],[up],[down],[left],[right]) {
+:host span:not([pressed="true"]):matches([used]) {
   background: var(--light-grey);
+}
+
+:host span[hotkey] {
+  color: var(--theme-color);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+:host section > span[hotkey]:not([pressed="true"]) {
+  border-color: var(--theme-color);
 }
 
 :host [arrows] {

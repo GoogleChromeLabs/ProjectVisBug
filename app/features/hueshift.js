@@ -17,6 +17,8 @@ export function HueShift(Color) {
   this.active_color = Color.getActive()
 
   hotkeys(key_events, (e, handler) => {
+    if (e.cancelBubble) return
+      
     e.preventDefault()
 
     let selectedNodes = $('[data-selected=true]')
@@ -36,6 +38,8 @@ export function HueShift(Color) {
   })
 
   hotkeys('[,]', (e, handler) => {
+    e.preventDefault()
+    
     if (this.active_color == 'background')
       this.active_color = 'foreground'
     else if (this.active_color == 'foreground')
