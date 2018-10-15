@@ -2,9 +2,9 @@ import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { TinyColor } from '@ctrl/tinycolor'
 import { queryPage } from './search'
-import { getStyles, camelToDash, isOffBounds, nodeKey } from '../utilities/'
+import { getStyles, camelToDash, isOffBounds } from '../utilities/'
 
-let tip_map = {}
+let tip_map = new Map()
 
 // todo: 
 // - node recycling (for new target) no need to create/delete
@@ -100,12 +100,12 @@ export function MetaTip(selectorEngine) {
   }
 
   const mouseOut = ({target}) => {
-    if (tip_map[nodeKey(target)] && !target.hasAttribute('data-metatip')) {
+    if (tip_map.has(target) && !target.hasAttribute('data-metatip')) {
       target.removeEventListener('mouseout', mouseOut)
       target.removeEventListener('DOMNodeRemoved', mouseOut)
       target.removeEventListener('click', togglePinned)
-      tip_map[nodeKey(target)].tip.remove()
-      delete tip_map[nodeKey(target)]
+      tip_map.get(target).tip.remove()
+      tip_map.delete(target)
     }
   }
 
@@ -142,12 +142,12 @@ export function MetaTip(selectorEngine) {
       : e.target.removeAttribute('data-pinhover')
 
     // if node is in our hash (already created)
-    if (tip_map[nodeKey(e.target)]) {
+    if (tip_map.has(e.target)) {
       // return if it's pinned
       if (e.target.hasAttribute('data-metatip')) 
         return
       // otherwise update position
-      const { tip } = tip_map[nodeKey(e.target)]
+      const { tip } = tip_map.get(e.target)
 
       update_tip(tip, e)
     }
@@ -163,7 +163,7 @@ export function MetaTip(selectorEngine) {
       $(e.target).on('mouseout DOMNodeRemoved', mouseOut)
       $(e.target).on('click', togglePinned)
 
-      tip_map[nodeKey(e.target)] = { tip, e }
+      tip_map.set(e.target, { tip, e })
 
       // tip.animate([
       //   {transform: 'translateY(-5px)', opacity: 0},
@@ -176,36 +176,34 @@ export function MetaTip(selectorEngine) {
 
   hotkeys('esc', _ => removeAll())
 
-  const hideAll = () =>
-    Object.values(tip_map)
-      .forEach(({tip}) => {
-        tip.style.display = 'none'
-        $(tip).off('mouseout DOMNodeRemoved', mouseOut)
-        $(tip).off('click', togglePinned)
-        $('a', tip).off('click', linkQueryClicked)
-      })
+  const hideAll = () => {
+    for (const {tip} of tip_map.values()) {
+      tip.style.display = 'none'
+      $(tip).off('mouseout DOMNodeRemoved', mouseOut)
+      $(tip).off('click', togglePinned)
+      $('a', tip).off('click', linkQueryClicked)
+    }
+  }
 
   const removeAll = () => {
-    Object.values(tip_map)
-      .forEach(({tip}) => {
-        tip.remove()
-        $(tip).off('mouseout DOMNodeRemoved', mouseOut)
-        $(tip).off('click', togglePinned)
-        $('a', tip).off('click', linkQueryClicked)
-      })
+    for (const {tip} of tip_map.values()) {
+      tip.remove()
+      $(tip).off('mouseout DOMNodeRemoved', mouseOut)
+      $(tip).off('click', togglePinned)
+      $('a', tip).off('click', linkQueryClicked)
+    }
     
     $('[data-metatip]').attr('data-metatip', null)
 
-    tip_map = {}
+    tip_map.clear()
   }
 
-  Object.values(tip_map)
-    .forEach(({tip,e}) => {
-      tip.style.display = 'block'
-      tip.innerHTML = template(e).innerHTML
-      tip.on('mouseout', mouseOut)
-      tip.on('click', togglePinned)
-    })
+  for (const {tip,e} of tip_map.values()) {
+    tip.style.display = 'block'
+    tip.innerHTML = template(e).innerHTML
+    tip.on('mouseout', mouseOut)
+    tip.on('click', togglePinned)
+  }
 
   return () => {
     $('body').off('mousemove', mouseMove)
