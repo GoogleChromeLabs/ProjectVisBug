@@ -1,7 +1,7 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
-const key_events = 'up,down,left,right,backspace'
+const key_events = 'up,down,left,right'
 // todo: indicator for when node can descend
 // todo: indicator where left and right will go
 // todo: indicator when left or right hit dead ends

@@ -112,6 +112,10 @@ export function Selectable() {
       el.attr('style', null))
 
   const on_copy = e => {
+    // if user has selected text, dont try to copy an element
+    if (window.getSelection().toString().length)
+      return
+
     if (selected[0] && this.node_clipboard !== selected[0]) {
       e.preventDefault()
       let $node = selected[0].cloneNode(true)
@@ -271,12 +275,21 @@ export function Selectable() {
   }
 
   const delete_all = () => {
-    [...selected, ...labels, ...handles].forEach(el =>
+    const selected_after_delete = selected.map(el => {
+      if (canMoveRight(el))     return canMoveRight(el)
+      else if (canMoveLeft(el)) return canMoveLeft(el)
+      else if (el.parentNode)   return el.parentNode
+    })
+    
+    Array.from([...selected, ...labels, ...handles]).forEach(el =>
       el.remove())
 
     labels    = []
     handles   = []
     selected  = []
+    
+    selected_after_delete.forEach(el =>
+      select(el))
   }
 
   const expandSelection = ({query, all = false}) => {

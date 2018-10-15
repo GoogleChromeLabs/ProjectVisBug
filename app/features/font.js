@@ -38,12 +38,18 @@ export function Font(selector) {
 
   hotkeys('cmd+b', e => {
     $(selector).forEach(el =>
-      el.style.fontWeight = 'bold')
+      el.style.fontWeight = 
+        el.style.fontWeight == 'bold' 
+          ? null 
+          : 'bold')
   })
 
   hotkeys('cmd+i', e => {
     $(selector).forEach(el =>
-      el.style.fontStyle = 'italic')
+      el.style.fontStyle = 
+        el.style.fontStyle == 'italic' 
+          ? null 
+          : 'italic')
   })
 
   return () => {
