@@ -271,12 +271,21 @@ export function Selectable() {
   }
 
   const delete_all = () => {
-    [...selected, ...labels, ...handles].forEach(el =>
+    const selected_after_delete = selected.map(el => {
+      if (canMoveRight(el))     return canMoveRight(el)
+      else if (canMoveLeft(el)) return canMoveLeft(el)
+      else if (el.parentNode)   return el.parentNode
+    })
+    
+    Array.from([...selected, ...labels, ...handles]).forEach(el =>
       el.remove())
 
     labels    = []
     handles   = []
     selected  = []
+    
+    selected_after_delete.forEach(el =>
+      select(el))
   }
 
   const expandSelection = ({query, all = false}) => {
