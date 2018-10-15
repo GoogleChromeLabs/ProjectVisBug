@@ -3,7 +3,7 @@ import hotkeys from 'hotkeys-js'
 import { TinyColor, readability, isReadable } from '@ctrl/tinycolor'
 import { getStyle, isOffBounds, getA11ys, getComputedBackgroundColor } from '../utilities/'
 
-let tip_map = new Map()
+const tip_map = new Map()
 
 export function Accessibility() {
   const template = ({target: el}) => {

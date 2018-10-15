@@ -4,7 +4,7 @@ import { TinyColor } from '@ctrl/tinycolor'
 import { queryPage } from './search'
 import { getStyles, camelToDash, isOffBounds } from '../utilities/'
 
-let tip_map = new Map()
+const tip_map = new Map()
 
 // todo: 
 // - node recycling (for new target) no need to create/delete
