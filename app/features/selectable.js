@@ -112,6 +112,10 @@ export function Selectable() {
       el.attr('style', null))
 
   const on_copy = e => {
+    // if user has selected text, dont try to copy an element
+    if (window.getSelection().toString().length)
+      return
+
     if (selected[0] && this.node_clipboard !== selected[0]) {
       e.preventDefault()
       let $node = selected[0].cloneNode(true)
