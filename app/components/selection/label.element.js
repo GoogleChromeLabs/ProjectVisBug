@@ -77,11 +77,13 @@ export class Label extends HTMLElement {
           left: ${left - 1}px;
           z-index: 10000;
           transform: translateY(-100%);
-          background: hsla(330, 100%, 71%, 80%);
+          background: hsl(330, 100%, 71%);
+          text-shadow: 0 1px 0 hsl(330, 100%, 31%);
           color: white;
           display: inline-flex;
           justify-content: center;
           font-size: 0.8em;
+          font-weight: normal;
           font-family: sans-serif;
           padding: 0.25em 0.4em 0.15em;
           line-height: 1.1;
