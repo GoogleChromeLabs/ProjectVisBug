@@ -1,8 +1,0 @@
-[svg-container] {
-  padding: 2rem;
-  max-width: 70vw;
-
-  & > svg {
-    width: 100%;
-  }
-}

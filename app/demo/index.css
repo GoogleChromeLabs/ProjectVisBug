@@ -1,20 +1,14 @@
 @import './typography.css';
 @import './artboard.css';
 @import './card.css';
-@import './chip.css';
-@import './intro.css';
-@import './grid.css';
-@import './svg-demo.css';
-@import './selection-boxes.css';
-
-@import './sections/basics.css';
+@import './layout.css';
 
 :root {
   --darkest-grey: hsl(0,0%,5%);
   --darker-grey: hsl(0,0%,10%);
   --dark-grey: hsl(0,0%,20%);
   --grey: hsl(0,0%,50%);
-  --light-grey: hsl(0,0%,80%);
+  --light-grey: hsl(0,0%,70%);
   --lighter-grey: hsl(0,0%,85%);
   --lightest-grey: hsl(0,0%,95%);
   --theme-color: hotpink;
@@ -24,43 +18,44 @@
 
 body {
   margin: 0;
-  background: var(--lightest-grey);
-  color: var(--dark-grey);
+  padding-left: 4rem;
+  background: var(--darkest-grey);
+  color: var(--lighter-grey);
   font-family: system-ui;
-  display: grid;
-  grid-template-columns: 4.75rem 1fr 2rem;
-  scroll-snap-type: y proximity;
+  font-weight: lighter;
 
   --mdc-theme-primary: hotpink;
   --mdc-theme-secondary: rebeccapurple;
-
-  & > :matches(section,footer) {
-    grid-column: 2;
-  }
 }
 
 img {
   max-width: 100%;
 }
 
-/* demo */
-section {
-  display: grid;
-  grid-template-rows: auto 1fr;
-  min-height: 85vh;
-  scroll-snap-align: start;
+[intro] {
+  background: var(--dark-grey);
+  padding: 1rem;
 
-  & > header {
-    position: sticky;
-    top: 0;
-    z-index: 0;
-    height: 15vh;
+  & > h1 {
+    font-weight: 500;
+    margin: 0;
   }
 }
 
-footer {
-  background: white;
-  height: 10vh;
+dl {
+  margin: 2rem 0;
+
+  & > dt {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 1.5rem 0 0.5rem;
+  }
+
+  & > dd {
+    font-size: 0.9rem;
+    font-weight: lighter;
+    margin: 0.5rem;
+  }
 }
 
 .github {
