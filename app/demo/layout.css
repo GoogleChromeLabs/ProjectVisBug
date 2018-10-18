@@ -16,11 +16,6 @@ main {
   padding: 1rem 2rem;
 
   & > div {
-    background: var(--lightest-grey);
-    color: var(--grey);
-    font-size: 2vmax;
-    font-weight: lighter;
-
     &[span2x2] {
       grid-row: span 2;
       grid-column: span 2;
@@ -32,6 +27,11 @@ main {
 
     &[span1x2] {
       grid-row: span 2;
+    }
+
+    &[span1x1] {
+      grid-row: span 1;
+      grid-column: span 1;
     }
   }
 }

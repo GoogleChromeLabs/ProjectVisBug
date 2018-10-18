@@ -8,7 +8,7 @@
   --darker-grey: hsl(0,0%,10%);
   --dark-grey: hsl(0,0%,20%);
   --grey: hsl(0,0%,50%);
-  --light-grey: hsl(0,0%,80%);
+  --light-grey: hsl(0,0%,70%);
   --lighter-grey: hsl(0,0%,85%);
   --lightest-grey: hsl(0,0%,95%);
   --theme-color: hotpink;
@@ -18,20 +18,20 @@
 
 body {
   margin: 0;
-  background: var(--lightest-grey);
-  color: var(--dark-grey);
+  background: var(--darkest-grey);
+  color: var(--light-grey);
   font-family: system-ui;
+  font-weight: lighter;
 
   --mdc-theme-primary: hotpink;
   --mdc-theme-secondary: rebeccapurple;
 
   & > aside {
     position: relative;
-    background: white;
     padding: 1rem;
-    border: 1px solid var(--lighter-grey);
-    border-top: none;
-    border-bottom: none;
+    background: var(--dark-grey);
+    color: var(--light-grey);
+    box-shadow: 2px 0 3px 1px black;
   }
 }
 
