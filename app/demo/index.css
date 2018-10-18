@@ -1,13 +1,7 @@
 @import './typography.css';
 @import './artboard.css';
 @import './card.css';
-@import './chip.css';
-@import './intro.css';
-@import './grid.css';
-@import './svg-demo.css';
-@import './selection-boxes.css';
-
-@import './sections/basics.css';
+@import './layout.css';
 
 :root {
   --darkest-grey: hsl(0,0%,5%);
@@ -27,40 +21,22 @@ body {
   background: var(--lightest-grey);
   color: var(--dark-grey);
   font-family: system-ui;
-  display: grid;
-  grid-template-columns: 4.75rem 1fr 2rem;
-  scroll-snap-type: y proximity;
 
   --mdc-theme-primary: hotpink;
   --mdc-theme-secondary: rebeccapurple;
 
-  & > :matches(section,footer) {
-    grid-column: 2;
+  & > aside {
+    position: relative;
+    background: white;
+    padding: 1rem;
+    border: 1px solid var(--lighter-grey);
+    border-top: none;
+    border-bottom: none;
   }
 }
 
 img {
   max-width: 100%;
-}
-
-/* demo */
-section {
-  display: grid;
-  grid-template-rows: auto 1fr;
-  min-height: 85vh;
-  scroll-snap-align: start;
-
-  & > header {
-    position: sticky;
-    top: 0;
-    z-index: 0;
-    height: 15vh;
-  }
-}
-
-footer {
-  background: white;
-  height: 10vh;
 }
 
 .github {

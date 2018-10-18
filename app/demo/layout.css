@@ -1,3 +1,41 @@
+body {
+  display: grid;
+  grid-template-columns: 5.75rem minmax(15vw, 25vw) 1fr;
+
+  & > aside {
+    grid-column: 2;
+  }
+}
+
+main {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15vw, 1fr));
+  grid-auto-rows: minmax(15vw, 1fr);
+  grid-auto-flow: dense;
+  grid-gap: 1rem 2rem;
+  padding: 1rem 2rem;
+
+  & > div {
+    background: var(--lightest-grey);
+    color: var(--grey);
+    font-size: 2vmax;
+    font-weight: lighter;
+
+    &[span2x2] {
+      grid-row: span 2;
+      grid-column: span 2;
+    }
+
+    &[span2x1] {
+      grid-column: span 2;
+    }
+
+    &[span1x2] {
+      grid-row: span 2;
+    }
+  }
+}
+
 [grid-demo] {
   display: grid;
   height: 100%;

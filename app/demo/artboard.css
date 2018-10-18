@@ -8,9 +8,9 @@
   & > label {
     content: attr(artboard);
     position: absolute;
-    top: -30px;
+    top: -20px;
     left: 0.5em;
-    height: 30px;
+    height: 20px;
     display: inline-flex;
     align-items: center;
     font-size: 0.8rem;
