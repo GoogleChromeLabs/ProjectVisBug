@@ -23,6 +23,7 @@
   font-size: 3vw;
   font-weight: lighter;
   letter-spacing: 0.1em;
+  color: var(--dark-grey);
 
   & > [light] {
     color: var(--grey);
@@ -64,6 +65,7 @@
   justify-content: center;
 
   & > span {
+    color: var(--dark-grey);
     display: grid;
     grid-template-columns: 5vmax auto;
     grid-gap: 0.5em;

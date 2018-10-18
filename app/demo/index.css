@@ -18,25 +18,44 @@
 
 body {
   margin: 0;
+  padding-left: 4rem;
   background: var(--darkest-grey);
-  color: var(--light-grey);
+  color: var(--lighter-grey);
   font-family: system-ui;
   font-weight: lighter;
 
   --mdc-theme-primary: hotpink;
   --mdc-theme-secondary: rebeccapurple;
-
-  & > aside {
-    position: relative;
-    padding: 1rem;
-    background: var(--dark-grey);
-    color: var(--light-grey);
-    box-shadow: 2px 0 3px 1px black;
-  }
 }
 
 img {
   max-width: 100%;
+}
+
+[intro] {
+  background: var(--dark-grey);
+  padding: 1rem;
+
+  & > h1 {
+    font-weight: 500;
+    margin: 0;
+  }
+}
+
+dl {
+  margin: 2rem 0;
+
+  & > dt {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 1.5rem 0 0.5rem;
+  }
+
+  & > dd {
+    font-size: 0.9rem;
+    font-weight: lighter;
+    margin: 0.5rem;
+  }
 }
 
 .github {

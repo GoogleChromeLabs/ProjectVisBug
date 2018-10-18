@@ -5,6 +5,11 @@
   z-index: 1;
   margin-top: 1.5rem;
 
+  &.dark {
+    background: var(--darker-grey);
+    color: var(--lighter-grey);
+  }
+
   & > label {
     content: attr(artboard);
     position: absolute;
@@ -25,6 +30,16 @@
 
     & > :matches(b, .material-icons) {
       margin: 0 0.25em;
+    }
+  }
+
+  & > [grid][vertically-aligned] {
+    height: 100%;
+    padding: 0.5rem;
+    box-sizing: border-box;
+
+    & > h2 {
+      margin: 0;
     }
   }
 }

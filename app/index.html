@@ -12,35 +12,41 @@
 
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="//unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
-    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+    <link async rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="bundle.css">
     
   </head>
   <body>
     <tool-pallete></tool-pallete>
 
-    <aside>
-      <a href="#" class="github">
-        <img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
-      </a>
-      <small>L2</small>
-      <h1>PixelBug</h1>
-      <p>Bring your design tool hotkeys to the web</p>
-      <p>Execute quick ideas in seconds</p>
-
-      <span>Learn</span>
-      <select>
-        <option>Basics</option>
-        <option>Essentials</option>
-        <option>Chaos</option>
-        <option>Hacks</option>
-        <option>Advanced</option>
-      </select>
-    </aside>
-
     <main>
-      <div span2x2 class="artboard">
+      <div span2x2 class="artboard Hello-World!" intro>
         <label>Artboard_00-FinalFinal-v2</label>
+        <a href="#" class="github">
+          <img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+        </a>
+        <h1>PixelBug</h1>
+        <small>Making webpages feel like artboards (that someone else already names the groups and layers 😏)</small>
+
+        <dl>
+          <dt>Try it out on this page</dt>
+          <dd>There's at least 1 tool that you'll find helpful</dd>
+          
+          <dt>Basics</dt>
+          <dd>Learn to visually & quickly manipulate any webpage, hover inspect styles, execute quick ideas in seconds, delete ads, or make a page's article more readable</dd>
+
+          <dt>Essentials</dt>
+          <dd>Bring your design tool hotkeys to the web, multiselect in new powerful ways, chaos test, break things, spelunk, remix & bend</dd>
+        </dl>
+
+        <span>Learn</span>
+        <select>
+          <option>Basics</option>
+          <option>Essentials</option>
+          <option>Chaos</option>
+          <option>Hacks</option>
+          <option>Advanced</option>
+        </select>
       </div>
 
       <div span2x1 class="artboard">
@@ -59,8 +65,10 @@
         <label>Delete Multiple</label>
       </div>
 
-      <div span1x1 class="artboard">
-        <label>Expand Selection</label>
+      <div span1x1 class="dark artboard">
+        <div grid horizontally-aligned="center" vertically-aligned="center">
+          <h2>press ? for help</h2>
+        </div>
       </div> 
 
       <div span2x1 class="artboard">
@@ -74,6 +82,12 @@
       <div span2x2 class="artboard">
         <label>Image Swap</label>
       </div>
+
+      <div span1x1 class="dark artboard">
+        <div grid horizontally-aligned="center" vertically-aligned="center">
+          <h2>Break this site with it's own tool</h2>
+        </div>
+      </div> 
 
       <div span1x2 class="artboard">
         <label>Move</label>
