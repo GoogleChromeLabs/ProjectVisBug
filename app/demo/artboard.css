@@ -1,12 +1,14 @@
 .artboard {
   background: white;
-  box-shadow: 0 2px 3px 1px black;
+  color: var(--dark-grey);
+  box-shadow: 0 1px 2px 1px var(--darker-grey);
   position: relative;
   z-index: 1;
   margin-top: 1.5rem;
 
   &.dark {
-    background: var(--darker-grey);
+    background: var(--darkest-grey);
+    box-shadow: none;
     color: var(--lighter-grey);
   }
 
@@ -30,6 +32,10 @@
 
     & > :matches(b, .material-icons) {
       margin: 0 0.25em;
+    }
+
+    &:hover {
+      color: var(--lighter-grey);
     }
   }
 

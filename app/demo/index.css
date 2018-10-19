@@ -4,22 +4,24 @@
 @import './layout.css';
 
 :root {
-  --darkest-grey: hsl(0,0%,5%);
-  --darker-grey: hsl(0,0%,10%);
-  --dark-grey: hsl(0,0%,20%);
-  --grey: hsl(0,0%,50%);
-  --light-grey: hsl(0,0%,70%);
-  --lighter-grey: hsl(0,0%,85%);
-  --lightest-grey: hsl(0,0%,95%);
-  --theme-color: hotpink;
-  --theme-light: hsl(330, 50%, 70%);
-  --bg: white;
+  --hue:            210;
+  --saturation:     10%;
+  --darkest-grey:   hsl(var(--hue) var(--saturation) 5%);
+  --darker-grey:    hsl(var(--hue) var(--saturation) 10%);
+  --dark-grey:      hsl(var(--hue) var(--saturation) 20%);
+  --grey:           hsl(var(--hue) var(--saturation) 50%);
+  --light-grey:     hsl(var(--hue) var(--saturation) 70%);
+  --lighter-grey:   hsl(var(--hue) var(--saturation) 85%);
+  --lightest-grey:  hsl(var(--hue) var(--saturation) 95%);
+  --theme-color:    hotpink;
+  --theme-light:    hsl(330, 50%, 70%);
+  --bg:             white;
 }
 
 body {
   margin: 0;
   padding-left: 4rem;
-  background: var(--darkest-grey);
+  background: var(--dark-grey);
   color: var(--lighter-grey);
   font-family: system-ui;
   font-weight: lighter;
@@ -33,12 +35,26 @@ img {
 }
 
 [intro] {
-  background: var(--dark-grey);
+  background: var(--darker-grey);
+  box-shadow: none;
   padding: 1rem;
 
   & > h1 {
-    font-weight: 500;
     margin: 0;
+    font-size: 4rem;
+    font-weight: 300;
+    color: var(--light-grey);
+
+    &:hover {
+      color: var(--lighter-grey);
+    }
+  }
+
+  & > small {
+    font-size: 1.5rem;
+    letter-spacing: 1.5px;
+    font-weight: lighter;
+    color: var(--light-grey);
   }
 }
 
@@ -46,15 +62,18 @@ dl {
   margin: 2rem 0;
 
   & > dt {
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin: 1.5rem 0 0.5rem;
+    color: white;
+    font-size: 1.4rem;
+    font-weight: 300;
+    margin: 2rem 0 0.75rem;
   }
 
   & > dd {
     font-size: 0.9rem;
     font-weight: lighter;
-    margin: 0.5rem;
+    margin: 0;
+    line-height: 1.5;
+    color: var(--light-grey);
   }
 }
 
@@ -63,4 +82,15 @@ dl {
   top: 0;
   right: 0;
   z-index: 1;
+}
+
+.key {
+  font-size: 2rem;
+  height: 3rem;
+  padding: 0 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--theme-color);
+  border-radius: 0.5rem;
+  color: var(--theme-color);
 }
