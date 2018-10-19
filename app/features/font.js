@@ -105,8 +105,8 @@ export function changeKerning(els, direction) {
     .map(payload =>
       Object.assign(payload, {
         value: payload.negative
-          ? payload.current - payload.amount 
-          : payload.current + payload.amount
+          ? (payload.current - payload.amount).toFixed(2) 
+          : (payload.current + payload.amount).toFixed(2)
       }))
     .forEach(({el, style, value}) =>
       el.style[style] = `${value <= -2 ? -2 : value}px`)
