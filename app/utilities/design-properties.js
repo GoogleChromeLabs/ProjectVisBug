@@ -17,6 +17,7 @@ export const desiredPropMap = {
   textShadow:           'none',
   textTransform:        'none',
   lineHeight:           'normal',
+  letterSpacing:        'normal',
   display:              'block',
   alignItems:           'normal',
   justifyContent:       'normal',
@@ -30,4 +31,5 @@ export const desiredAccessibilityMap = [
   'aria-*',
   'for',
   'alt',
+  'title',
 ]
