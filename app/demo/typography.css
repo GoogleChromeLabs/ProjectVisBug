@@ -6,7 +6,7 @@ h1,h2,h3 {
 }
 
 small {
-  color: var(--grey);
+  color: var(--mid-grey);
 }
 
 a {

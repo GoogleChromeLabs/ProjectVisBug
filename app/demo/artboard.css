@@ -1,15 +1,23 @@
 .artboard {
   background: white;
-  color: var(--dark-grey);
+  color: var(--grey);
   box-shadow: 0 1px 2px 1px var(--darker-grey);
   position: relative;
   z-index: 1;
   margin-top: 1.5rem;
 
+  &[flex] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   &.dark {
-    background: var(--darkest-grey);
+    background: var(--dark-grey);
+    border: 1px solid var(--darker-grey);
     box-shadow: none;
     color: var(--lighter-grey);
+    text-shadow: 0 1px var(--darkest-grey);
   }
 
   & > label {
@@ -40,7 +48,7 @@
   }
 
   & > [grid][vertically-aligned] {
-    height: 100%;
+    min-height: 10rem;
     padding: 0.5rem;
     box-sizing: border-box;
 

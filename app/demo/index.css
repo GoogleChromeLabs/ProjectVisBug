@@ -5,11 +5,12 @@
 
 :root {
   --hue:            210;
-  --saturation:     10%;
-  --darkest-grey:   hsl(var(--hue) var(--saturation) 5%);
-  --darker-grey:    hsl(var(--hue) var(--saturation) 10%);
+  --saturation:     8%;
+  --darkest-grey:   hsl(var(--hue) var(--saturation) 10%);
+  --darker-grey:    hsl(var(--hue) var(--saturation) 15%);
   --dark-grey:      hsl(var(--hue) var(--saturation) 20%);
-  --grey:           hsl(var(--hue) var(--saturation) 50%);
+  --grey:           hsl(var(--hue) var(--saturation) 30%);
+  --mid-grey:       hsl(var(--hue) var(--saturation) 50%);
   --light-grey:     hsl(var(--hue) var(--saturation) 70%);
   --lighter-grey:   hsl(var(--hue) var(--saturation) 85%);
   --lightest-grey:  hsl(var(--hue) var(--saturation) 95%);
@@ -35,7 +36,9 @@ img {
 }
 
 [intro] {
-  background: var(--darker-grey);
+  background: var(--dark-grey);
+  color: var(--light-grey);
+  border: 1px solid var(--darker-grey);
   box-shadow: none;
   padding: 1rem;
 
@@ -43,10 +46,10 @@ img {
     margin: 0;
     font-size: 4rem;
     font-weight: 300;
-    color: var(--light-grey);
+    color: var(--lighter-grey);
 
     &:hover {
-      color: var(--lighter-grey);
+      color: var(--lightest-grey);
     }
   }
 
@@ -62,7 +65,7 @@ dl {
   margin: 2rem 0;
 
   & > dt {
-    color: white;
+    color: var(--lightest-grey);
     font-size: 1.4rem;
     font-weight: 300;
     margin: 2rem 0 0.75rem;
@@ -73,7 +76,7 @@ dl {
     font-weight: lighter;
     margin: 0;
     line-height: 1.5;
-    color: var(--light-grey);
+    color: var(--lighter-grey);
   }
 }
 
@@ -85,12 +88,13 @@ dl {
 }
 
 .key {
-  font-size: 2rem;
+  font-size: 1.75rem;
   height: 3rem;
   padding: 0 1.25rem;
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--theme-color);
   border-radius: 0.5rem;
   color: var(--theme-color);
+  background-color: var(--grey);
+  box-shadow: 0 2px 2px hsla(0,0%,0%,50%);
 }

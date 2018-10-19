@@ -1,9 +1,9 @@
 {
   "name": "PixelBug",
   "version": "0.1.8",
-  "description": "Hacking for Designers",
+  "description": "Browser centric design tooling",
   "manifest_version": 2,
-  "icons": { "128": "icons/128.png" },
+  "icons": { "128": "icons/lg.png" },
   "permissions": [
     "activeTab"
   ],
