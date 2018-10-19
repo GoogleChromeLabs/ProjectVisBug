@@ -1,7 +1,8 @@
 main {
+  --card-size: 50vw;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15vw, 1fr));
-  grid-auto-rows: minmax(15vw, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(var(--card-size), 1fr));
+  grid-auto-rows: minmax(var(--card-size), 1fr);
   grid-auto-flow: dense;
   grid-gap: 1rem 2rem;
   padding: 1rem 2rem;
@@ -24,5 +25,17 @@ main {
       grid-row: span 1;
       grid-column: span 1;
     }
+  }
+
+  @media (min-width:768px) {
+    --card-size: 35vw;
+  }
+
+  @media (min-width:1024px) {
+    --card-size: 15vw;
+  }
+
+  @media (min-width:1600px) {
+    --card-size: 10vw;
   }
 }
