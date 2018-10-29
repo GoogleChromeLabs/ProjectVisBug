@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.imgur.com/0cSIPzP.png" width="300" height="300" alt="pixelbug">
+  <img src="./assets/pixelbug.png" width="300" height="300" alt="pixelbug">
   <br>
   <a href="https://www.npmjs.org/package/pixelbug"><img src="https://img.shields.io/npm/v/pixelbug.svg?style=flat" alt="npm"></a>
   <a href="https://www.npmjs.com/package/pixelbug"><img src="https://img.shields.io/npm/dt/pixelbug.svg" alt="downloads" ></a>
@@ -8,24 +8,17 @@
 
 # PixelBug
 
-> Browser destools: point, click & tinker
+> Open source web design tools
 
+- **Simple** as point, click & tinker
 - Edit or style **any page**, in **any state**, like it's an artboard
-
 - **Hover inspect** styles, accessibility and alignment
-
-- **Perfect layouts & content**, in the real end environment, at any device size
-
+- **Nitpick** layouts & content, **in the real end environment**, at any device size
 - **Leverage** adobe/sketch **skills**
-
 - **Edit** any text, **replace** any image (hi there copywriters, ux writers, pms)
-
 - Design **within the chaos**: use production or prototypes and the **odd states** they produce, **as artboards** and design opportunities
-
-- **Simulate** latency, i18n, platform constraints, CPUs, screensize, etc to empathize with users and update designs
-
+- Design **while simulating** latency, i18n, media queries, platform constraints, CPUs, screensize, etc
 - **Make more decisions** on the front end of your site/app (a11y, responsive, edge cases, etc)
-
 - **No waiting** for developers to expose their legos, **just go direct** and edit the end state (regardless of framework) and **execute/test an idea**
 
 ### Give **power to designers & content creators**, in a place where they currenly feel they have little to none, **by bringing design tool interactions and hotkeys to the browser**
@@ -41,20 +34,24 @@
 
 ## Installation
 
-### Chrome Extension
-(Install PixelBug)[https://chrome.google.com/webstore/detail/pixelbug/fffabomofckmjcahkllocjbiijpooiib]
+### Add to your browser
+[Chrome Extension](https://chrome.google.com/webstore/detail/pixelbug/fffabomofckmjcahkllocjbiijpooiib)
+[Firefox Add-on](#) (coming soon!)
 
 ### Web Component
 ```sh
 npm i pixelbug
 ```
 
-* * *
+## Tool Architecture
+**PixelBug is a custom element** on your page that intercepts interactions, selecting the item(s) instead, and then provides keyboard driven patterns to manipulate the selected DOM nodes. It can do these things on any page without the need for extension or browser priveledges. Extension integrations are to power a 2nd screen experience, while also providing browser specific features to enhance the experience. 
 
-## API
-While one of pixelbug's goals is to provide a familiar interface, its API may differ from other `fetch` polyfills/ponyfills. 
-One of the key differences is that pixelbug focuses on implementing the [`fetch()` API](https://fetch.spec.whatwg.org/#fetch-api), while offering minimal (yet functional) support to the other sections of the [Fetch spec](https://fetch.spec.whatwg.org/), like the [Headers class](https://fetch.spec.whatwg.org/#headers-class) or the [Response class](https://fetch.spec.whatwg.org/#response-class).
-pixelbug's API is organized as follows:
+The illusion of selection and hover interactions are **more custom elements**. They are sag positioned overtop the elements to provide the same visual feedback that design tools do. It is essential that these elements leverage the shadow DOM; they're in a foreign environment yet need to look the same across any page. 
+
+**Each tool is a function** that gets called when the user changes tools, and expects the feature function to return a function for disassembly/cleanup. Think of it as, "hey feature, you're up" and then later "hey feature, you're turn is up, clean up." 
+
+It's the responsibility of each feature to register keyboard listeners and handle the manipulations. It's a courtesty to expose functions from a feature for other features to use. **Features must be able to handle multiselect**. 
+
 
 ## Contribute
 
