@@ -39,7 +39,7 @@ img {
 }
 
 [intro] {
-  background: var(--grey);
+  background: var(--dark-grey);
   color: var(--light-grey);
   border: 1px solid var(--darker-grey);
   box-shadow: none;
@@ -85,12 +85,12 @@ img {
     font-size: 1rem;
     letter-spacing: 1.5px;
     font-weight: lighter;
-    color: var(--darker-grey);
+    color: var(--light-grey);
     margin-bottom: 1rem;
   }
 
   & em {
-    color: var(--dark-grey);
+    color: var(--light-grey);
     font-style: normal;
   }
 
