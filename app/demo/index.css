@@ -48,14 +48,20 @@ img {
   flex-direction: column;
   justify-content: space-between;
 
+  background-image: url(./assets/arrow.png);
+  background-position: center 85%;
+  background-repeat: no-repeat;
+  background-size: 80% auto;
+
   & figure {
     margin: 0;
     text-align: center;
 
-    & img {
+    & svg {
       filter: drop-shadow(0 10px 20px hsla(0,0%,0%,100%));
       margin-top: 1rem;
       width: 50%;
+      object-fit: contain;
     }
 
     & figcaption {
@@ -68,7 +74,7 @@ img {
     margin: 0 0 0.25rem 0;
     font-size: 3rem;
     font-weight: 300;
-    color: var(--lighter-grey);
+    color: white;
 
     &:hover {
       color: var(--lightest-grey);
@@ -79,11 +85,12 @@ img {
     font-size: 1rem;
     letter-spacing: 1.5px;
     font-weight: lighter;
-    color: var(--lightest-grey);
+    color: var(--darker-grey);
     margin-bottom: 1rem;
   }
 
   & em {
+    color: var(--dark-grey);
     font-style: normal;
   }
 
@@ -96,7 +103,7 @@ img {
   }
 }
 
-dl {
+/*dl {
   margin: 2rem 0;
 
   & > dt {
@@ -113,14 +120,14 @@ dl {
     line-height: 1.5;
     color: var(--lighter-grey);
   }
-}
+}*/
 
-.github {
+/*.github {
   position: absolute;
   top: 0;
   right: 0;
   z-index: 1;
-}
+}*/
 
 .key {
   font-size: 1.75rem;

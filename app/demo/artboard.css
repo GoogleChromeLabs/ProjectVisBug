@@ -60,7 +60,7 @@
     padding: 0.5rem;
     box-sizing: border-box;
     width: 100%;
-    min-height: 10vmax;
+    height: auto;
 
     & > h2 {
       margin: 0;
