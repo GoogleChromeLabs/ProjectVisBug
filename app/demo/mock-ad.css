@@ -1,0 +1,19 @@
+[mock-ad] {
+  & h2 {
+    font-weight: bold;
+    font-size: 4rem;
+    color: red;
+    border: 2px solid red;
+    padding: 2rem;
+    animation: pulse-annoyingly 0.7s linear infinite;
+  }
+}
+
+@keyframes pulse-annoyingly {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+}

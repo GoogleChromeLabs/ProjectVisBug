@@ -18,11 +18,11 @@ export const nodeKey = node => {
   `, '')
 }
 
-export const createClassname = el => {
+export const createClassname = (el, ellipse = false) => {
   if (!el.className || el.nodeName === 'svg' || el.ownerSVGElement) return ''
   let rawClassname = '.' + el.className.replace(/ /g, '.')
 
-  return rawClassname.length > 30
+  return ellipse && rawClassname.length > 30
     ? rawClassname.substring(0,30) + '...'
     : rawClassname
 }

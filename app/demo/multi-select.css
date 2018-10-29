@@ -1,0 +1,29 @@
+[select-multiple] {
+  padding: 1rem;
+
+  & > p {
+    margin: 0 0 0.25rem;
+  }
+}
+
+[multi-select] {
+  flex: 2;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 2.5rem);
+  grid-auto-rows: 2.5rem;
+  grid-auto-flow: dense;
+  justify-content: space-between;
+  grid-gap: 1rem;
+  padding: 0 1rem;
+  height: 100%;
+  box-sizing: border-box;
+
+  & > span {
+    background: var(--grey);
+    border-radius: 50%;
+
+    &:hover {
+      background: var(--theme-color);
+    }
+  }
+}

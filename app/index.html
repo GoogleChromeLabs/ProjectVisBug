@@ -20,30 +20,39 @@
     <tool-pallete></tool-pallete>
 
     <main>
-      <div span2x1 class="artboard Hello-World!" intro>
+      <div span1x2 class="artboard Hello-World!" intro grid vertically-distributed="between">
         <label>Artboard_00-FinalFinal-v2</label>
-        <a href="#" class="github">
+        <!-- <a href="#" class="github">
           <img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
-        </a>
+        </a> -->
         <figure>
           <picture>
             <img src="./assets/pixelbug.png" alt="PixelBug CMYK bug logo">
           </picture>
           <figcaption>
             <h1>PixelBug</h1>
-            <em>Open source <b>browser design tools</b></em>
-            <div>
-              <span>Learn</span>
-              <select>
-                <option>Basics</option>
-                <option>Essentials</option>
-                <option>Chaos</option>
-                <option>Hacks</option>
-                <option>Advanced</option>
-              </select>
-            </div>
+            <h2>
+              <em>Open source</em>
+              <br>
+              <b>browser design tools</b>
+            </h2>
           </figcaption>
         </figure>
+
+        <picture>
+          <img src="./assets/arrow.png" alt="arrow pointing to pixelbug toolbar">
+        </picture>
+
+        <div>
+          <span>Learn</span>
+          <select>
+            <option>Basics</option>
+            <option>Essentials</option>
+            <option>Chaos</option>
+            <option>Hacks</option>
+            <option>Advanced</option>
+          </select>
+        </div>
 
         <!-- <dl>
           <dt>Try it out on this page</dt>
@@ -64,16 +73,34 @@
         </div>
       </div>
 
-      <div span1x2 class="artboard">
-        <label>Select Multiple</label>
+      <div span2x1 select-multiple class="artboard" grid vertically-distributed="between">
+        <label class="Learn_to_select_multiple_items_👇">Select Multiple</label>
+        <p class="tip">💡 Hold <b>shift</b> to manually multi-select</p>
+        <p class="tip">💡 Press <b>cmd+e</b> to expand your selection</p>
+        <p class="tip">💡 Press <b>cmd+shift+e</b> to expand to all matches</p>
+        <div grid vertically-aligned="center">
+          <span class="tip">try here 👉</span>
+          <div multi-select class="so_many!_how_to_select_them_all!?">
+            <span class="press_cmd_e_to_expand_selection"></span>
+            <span class="press_cmd_e_to_expand_selection"></span>
+            <span class="press_cmd_e_to_expand_selection"></span>
+            <span class="press_cmd_e_to_expand_selection"></span>
+            <span class="press_cmd_e_to_expand_selection"></span>
+            <span class="press_cmd_e_to_expand_selection"></span>
+            <span class="press_cmd_e_to_expand_selection"></span>
+            <span class="press_cmd_e_to_expand_selection"></span>
+            <span class="press_cmd_e_to_expand_selection"></span>
+            <span class="press_cmd_e_to_expand_selection"></span>
+          </div>
+        </div>
       </div>
 
-      <div span1x2 class="artboard">
-        <label>Delete</label>
-      </div>
-
-      <div span2x1 class="artboard">
-        <label>Delete Multiple</label>
+      <div span1x1 flex mock-ad class="artboard Delete_me">
+        <label class="Learn_to_delete_stuff_👇">Delete</label>
+        <div>
+          <small class="Delete_this_too! For_funsies!">Delete this 😤 thing! 👇</small>
+          <h2 class="Press_the_delete_key!">Ad</h2> 
+        </div>
       </div>
 
       <div span1x1 flex class="dark artboard">
@@ -86,8 +113,10 @@
         </div>
       </div> 
 
-      <div span2x1 class="artboard">
-        <label>Duplicate</label>
+      <div span1x1 padded class="artboard">
+        <label class="Learn_to_multiply_items_👇">Duplicate</label>
+        <p class="tip">💡 Press <b>cmd+d</b></p>
+        <button class="mdc-button mdc-button--raised" style="margin:0 0.5rem 0.5rem 0;">Submit</button>
       </div>     
 
       <div span2x1 class="artboard">

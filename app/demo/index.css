@@ -2,6 +2,9 @@
 @import './artboard.css';
 @import './card.css';
 @import './layout.css';
+@import './layout.css';
+@import './multi-select.css';
+@import './mock-ad.css';
 
 :root {
   --hue:            210;
@@ -36,22 +39,23 @@ img {
 }
 
 [intro] {
-  background: var(--dark-grey);
+  background: var(--grey);
   color: var(--light-grey);
   border: 1px solid var(--darker-grey);
   box-shadow: none;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   & figure {
     margin: 0;
-    display: grid;
-    grid-template-columns: 100px 1fr;
-    grid-gap: 2rem;
-    padding-right: 3rem;
+    text-align: center;
 
     & img {
       filter: drop-shadow(0 10px 20px hsla(0,0%,0%,100%));
       margin-top: 1rem;
+      width: 50%;
     }
 
     & figcaption {
@@ -61,8 +65,8 @@ img {
   }
 
   & h1 {
-    margin: 0;
-    font-size: 4rem;
+    margin: 0 0 0.25rem 0;
+    font-size: 3rem;
     font-weight: 300;
     color: var(--lighter-grey);
 
@@ -71,13 +75,24 @@ img {
     }
   }
 
-  & em {
-    font-style: normal;
-    font-size: 1.5rem;
+  & h2 {
+    font-size: 1rem;
     letter-spacing: 1.5px;
     font-weight: lighter;
     color: var(--lightest-grey);
     margin-bottom: 1rem;
+  }
+
+  & em {
+    font-style: normal;
+  }
+
+  & > div {
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    justify-content: center;
+    grid-gap: 0.5rem;
   }
 }
 

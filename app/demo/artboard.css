@@ -12,6 +12,10 @@
     justify-content: center;
   }
 
+  &[padded] {
+    padding: 0.5rem;
+  }
+
   &.dark {
     background: var(--dark-grey);
     border: 1px solid var(--darker-grey);
@@ -33,6 +37,7 @@
     font-weight: lighter;
     color: var(--lightest-grey);
     text-shadow: 0 1px 0 black;
+    white-space: nowrap;
 
     & > b {
       color: var(--theme-color);
@@ -47,10 +52,15 @@
     }
   }
 
+  & > .tip {
+    margin-top: 0;
+  }
+
   & > [grid][vertically-aligned] {
-    min-height: 10rem;
     padding: 0.5rem;
     box-sizing: border-box;
+    width: 100%;
+    min-height: 10vmax;
 
     & > h2 {
       margin: 0;
