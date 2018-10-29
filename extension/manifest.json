@@ -3,7 +3,7 @@
   "version": "0.1.8",
   "description": "Browser centric design tooling",
   "manifest_version": 2,
-  "icons": { "128": "icons/pixelbug-extension_icon.png" },
+  "icons": { "128": "icons/pixelbug.png" },
   "permissions": [
     "activeTab"
   ],
