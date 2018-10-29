@@ -6,9 +6,9 @@
 :root {
   --hue:            210;
   --saturation:     8%;
-  --darkest-grey:   hsl(var(--hue) var(--saturation) 10%);
-  --darker-grey:    hsl(var(--hue) var(--saturation) 15%);
-  --dark-grey:      hsl(var(--hue) var(--saturation) 20%);
+  --darkest-grey:   hsl(var(--hue) var(--saturation) 5%);
+  --darker-grey:    hsl(var(--hue) var(--saturation) 7%);
+  --dark-grey:      hsl(var(--hue) var(--saturation) 12%);
   --grey:           hsl(var(--hue) var(--saturation) 30%);
   --mid-grey:       hsl(var(--hue) var(--saturation) 50%);
   --light-grey:     hsl(var(--hue) var(--saturation) 70%);
@@ -42,7 +42,25 @@ img {
   box-shadow: none;
   padding: 1rem;
 
-  & > h1 {
+  & figure {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    grid-gap: 2rem;
+    padding-right: 3rem;
+
+    & img {
+      filter: drop-shadow(0 10px 20px hsla(0,0%,0%,100%));
+      margin-top: 1rem;
+    }
+
+    & figcaption {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  & h1 {
     margin: 0;
     font-size: 4rem;
     font-weight: 300;
@@ -53,11 +71,13 @@ img {
     }
   }
 
-  & > small {
+  & em {
+    font-style: normal;
     font-size: 1.5rem;
     letter-spacing: 1.5px;
     font-weight: lighter;
-    color: var(--light-grey);
+    color: var(--lightest-grey);
+    margin-bottom: 1rem;
   }
 }
 

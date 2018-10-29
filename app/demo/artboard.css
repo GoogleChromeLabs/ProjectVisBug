@@ -31,7 +31,7 @@
     align-items: center;
     font-size: 0.8rem;
     font-weight: lighter;
-    color: var(--light-grey);
+    color: var(--lightest-grey);
     text-shadow: 0 1px 0 black;
 
     & > b {
