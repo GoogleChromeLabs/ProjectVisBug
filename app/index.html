@@ -20,7 +20,7 @@
     <tool-pallete></tool-pallete>
 
     <main>
-      <div span1x2 class="artboard Hello-World!" intro grid="rows" horizontally-aligned="center" vertically-distributed="between">
+      <article span1x2 class="artboard Hello-World!" intro grid="rows" horizontally-aligned="center" vertically-distributed="between">
         <label>Artboard_00-FinalFinal-v2</label>
         <!-- <a href="#" class="github">
           <img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
@@ -96,16 +96,16 @@
           <dt>Essentials</dt>
           <dd>Bring your design tool hotkeys to the web, multiselect in new powerful ways, chaos test, break things, spelunk, remix & bend. Makes any webpage feel like an artboard.</dd>
         </dl> -->
-      </div>
+      </article>
 
-      <div span1x1 flex class="artboard">
+      <article span1x1 flex class="artboard">
         <label class="Click_stuff_below_👇">Select</label>
         <div class="You_did_it!" grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
           <h2 class="You_did_it!"><b class="You_did_it!">Click</b> Me 😏</h2>
         </div>
-      </div>
+      </article>
 
-      <div span2x1 select-multiple padded class="artboard" grid vertically-distributed="between">
+      <article span2x1 select-multiple padded class="artboard" grid vertically-distributed="between">
         <label class="Learn_to_select_multiple_items_👇">Select Multiple</label>
         <div>
           <p class="tip">💡 Hold <kbd>shift</kbd> to manually multi-select</p>
@@ -127,25 +127,25 @@
             <span class="cmd_e"></span>
           </div>
         </div>
-      </div>
+      </article>
 
-      <div span1x1 flex mock-ad class="artboard Delete_me">
+      <article span1x1 flex mock-ad class="artboard Delete_me">
         <label class="Learn_to_delete_stuff_👇">Delete</label>
         <div>
           <small class="Delete_this_too! For_funsies!">Delete this 😤 thing! 👇</small>
           <h2 class="Press_the_delete_key!">Ad</h2> 
         </div>
-      </div>
+      </article>
 
-      <div span1x1 padded class="artboard" grid="rows" vertically-aligned="center" horizontally-aligned="center">
+      <article span1x1 padded class="artboard" grid="rows" vertically-aligned="center" horizontally-aligned="center">
         <label class="Learn_to_multiply_items_👇">Duplicate</label>
         <p class="tip">💡 Press <kbd>cmd+d</kbd></p>
         <div>
           <button class="mdc-button mdc-button--raised" style="margin:0 0.5rem 0.5rem 0;">Submit</button>
         </div>
-      </div>     
+      </article>     
 
-      <div copy_paste padded span2x1 class="artboard" grid vertically-aligned="center" vertically-distributed="equal">
+      <article copy_paste padded span2x1 class="artboard" grid vertically-aligned="center" vertically-distributed="equal">
         <label>Copy/Paste</label>
         <p class="tip">💡 Copy the circle from the left box and paste it in the right box</p>
         <div grid horizontally-distributed="around" vertically-aligned="center">
@@ -155,33 +155,51 @@
           <div class="outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
           </div>
         </div>
-      </div>
+      </article>
 
-      <div span2x1 class="artboard" padded grid vertically-distributed="equal">
+      <article span2x1 class="artboard" padded grid vertically-distributed="equal">
         <label>Copy/Paste Style</label>
         <div>
           <p class="tip">💡 Copy styles with <kbd>cmd+opt+c</kbd></p>
           <p class="tip">💡 Paste copied styles with <kbd>cmd+opt+v</kbd></p>
+          <p class="tip">💡 <b>For fun:</b> copy the styles of a dark artboard and paste it over some light artboards</p>
         </div> 
         <div fit-height grid vertically-aligned="center" horizontally-aligned="center" horizontally-distributed="around">
           <button class="mdc-button mdc-button--raised" style="background:hsl(0,0%,10%);color:hsl(0,0%,70%);">Copy my darkness</button>
           <button class="mdc-button mdc-button--raised">Join the darkside</button>
         </div>
-      </div>
+      </article>
 
-      <div span2x2 class="artboard">
+      <article span2x2 padded class="artboard">
         <label>Image Swap</label>
-      </div>
+        <div image-grid>
+          <img src="http://i.pravatar.cc/300?img=7" alt="">
+          <img src="http://i.pravatar.cc/300?img=24" alt="">
+          <img src="http://i.pravatar.cc/300?img=22" alt="">
+          <img src="http://i.pravatar.cc/300?img=16" alt="">
+        </div>
+      </article>
 
-      <div span2x1 class="artboard">
+      <article span2x1 class="artboard">
         <label>A11y</label>
-      </div> 
+      </article> 
 
-      <div span2x1 class="artboard">
+      <article span3x1 class="artboard" padded grid vertically-distributed="equal">
         <label>Text Styles</label>
-      </div> 
+        <div>
+          <p class="tip">💡 Press <kbd>i</kbd> for the inspector, then hover the following type ramp</p>
+        </div>
+        <div text-styles>
+          <h1>The quick brown fox jumps over the lazy dog</h1>
+          <h2>The quick brown fox jumps over the lazy dog</h2>
+          <h3>The quick brown fox jumps over the lazy dog</h3>
+          <h4>The quick brown fox jumps over the lazy dog</h4>
+          <h5>The quick brown fox jumps over the lazy dog</h5>
+          <h6>The quick brown fox jumps over the lazy dog</h6>
+        </div>
+      </article> 
 
-      <div span1x1 flex class="dark artboard For_fun-copy_my_styles">
+      <article span1x1 flex class="dark artboard For_fun-copy_my_styles">
         <div grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
           <h2>
             Break<br>
@@ -189,37 +207,42 @@
             <small>with it's own tool!</small>
           </h2>
         </div>
-      </div> 
+      </article> 
 
-      <div span2x1 class="artboard">
+      <article span2x1 class="artboard">
         <label>Move Left & Right</label>
-      </div> 
+      </article> 
 
-      <div span1x2 class="artboard">
+      <article span1x2 class="artboard">
         <label>Move Left & Right / Up & Down</label>
-      </div> 
+        <div stop-light>
+          <div class="filled-circle green"></div>
+          <div class="filled-circle yellow"></div>
+          <div class="filled-circle red"></div>
+        </div>
+      </article> 
 
-      <div span2x1 class="artboard">
+      <article span2x1 class="artboard">
         <label>Edit Text</label>
-      </div> 
+      </article> 
 
-      <div span2x1 class="artboard">
+      <article span2x1 class="artboard">
         <label>Keyboard Nav</label>
-      </div> 
+      </article> 
 
-      <div span1x1 class="artboard">
+      <article span1x1 class="artboard">
         <label>Inline SVG</label>
-      </div> 
+      </article> 
 
-      <div span1x1 class="artboard">
+      <article span1x1 class="artboard">
         <label>Margin</label>
-      </div> 
+      </article> 
 
-      <div span2x2 class="artboard">
+      <article span2x2 class="artboard">
         <label>Box Shadow</label>
-      </div> 
+      </article> 
 
-      <div span1x1 flex class="dark artboard">
+      <article span1x1 flex class="dark artboard">
         <div grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
           <small>press</small>
           <div>
@@ -227,31 +250,31 @@
           </div>
           <h2>for help</h2>
         </div>
-      </div> 
+      </article> 
 
-      <div span1x1 class="artboard">
+      <article span1x1 class="artboard">
         <label>Padding</label>
-      </div> 
+      </article> 
 
-      <div span1x1 class="artboard">
+      <article span1x1 class="artboard">
         <label>Foreground / Background Color</label>
-      </div> 
+      </article> 
 
-      <div span1x1 class="artboard">
+      <article span1x1 class="artboard">
         <label>Position</label>
-      </div>
+      </article>
 
-      <div span2x1 class="artboard">
+      <article span2x1 class="artboard">
         <label>Align</label>
-      </div> 
+      </article> 
 
-      <div span2x1 class="artboard">
+      <article span2x1 class="artboard">
         <label>Image</label>
-      </div> 
+      </article> 
 
-      <div span2x1 class="artboard">
+      <article span2x1 class="artboard">
         <label>Search</label>
-      </div> 
+      </article> 
 
     </main>
     

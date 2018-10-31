@@ -7,10 +7,14 @@ main {
   grid-gap: 1rem 2rem;
   padding: 1rem 2rem;
 
-  & > div {
+  & > article {
     &[span2x2] {
       grid-row: span 2;
       grid-column: span 2;
+    }
+
+    &[span3x1] {
+      grid-column: span 3;
     }
 
     &[span2x1] {
@@ -37,5 +41,42 @@ main {
 
   @media (min-width:1600px) {
     --card-size: 10vw;
+  }
+}
+
+[image-grid] {
+  display: grid;
+  grid-gap: 0.5rem;
+  height: 100%;
+  align-items: space-between;
+  justify-content: space-between;
+  grid-template-columns: 1fr 1fr;
+
+  & img {
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+[text-styles] {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 0.5rem;
+
+  & :matches(h1,h2,h3,h4,h5,h6) {
+    margin: 0;
+  }
+}
+
+[stop-light] {
+  display: grid;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+
+  & > .filled-circle {
+    width: 7rem;
+    height: 7rem;
   }
 }

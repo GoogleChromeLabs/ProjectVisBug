@@ -60,6 +60,7 @@ const accountForOtherJustifyContent = (cur, want) => {
   return cur
 }
 
+// todo: support reversing direction
 export function changeDirection(els, value) {
   els
     .map(ensureFlex)
