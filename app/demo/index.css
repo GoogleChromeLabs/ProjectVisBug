@@ -136,6 +136,13 @@ img {
   z-index: 1;
 }*/
 
+kbd {
+  font-weight: bold;
+  background: var(--lighter-grey);
+  border-radius: 0.5rem;
+  padding: 0 0.6em 0.1em;
+}
+
 .key {
   font-size: 1.75rem;
   height: 3rem;

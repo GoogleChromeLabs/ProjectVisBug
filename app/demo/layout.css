@@ -1,5 +1,5 @@
 main {
-  --card-size: 50vw;
+  --card-size: 70vw;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(var(--card-size), 1fr));
   grid-auto-rows: minmax(var(--card-size), 1fr);
@@ -7,32 +7,36 @@ main {
   grid-gap: 1rem 2rem;
   padding: 1rem 2rem;
 
-  & > article {
-    &[span2x2] {
-      grid-row: span 2;
-      grid-column: span 2;
-    }
-
-    &[span3x1] {
-      grid-column: span 3;
-    }
-
-    &[span2x1] {
-      grid-column: span 2;
-    }
-
-    &[span1x2] {
-      grid-row: span 2;
-    }
-
-    &[span1x1] {
-      grid-row: span 1;
-      grid-column: span 1;
-    }
+  @media (min-width:480px) {
+    --card-size: 35vw;
   }
 
   @media (min-width:768px) {
-    --card-size: 35vw;
+    --card-size: 25vw;
+
+    & > article {
+      &[span2x2] {
+        grid-row: span 2;
+        grid-column: span 2;
+      }
+
+      &[span3x1] {
+        grid-column: span 3;
+      }
+
+      &[span2x1] {
+        grid-column: span 2;
+      }
+
+      &[span1x2] {
+        grid-row: span 2;
+      }
+
+      &[span1x1] {
+        grid-row: span 1;
+        grid-column: span 1;
+      }
+    }
   }
 
   @media (min-width:1024px) {
@@ -51,6 +55,11 @@ main {
   align-items: space-between;
   justify-content: space-between;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr 1fr;
+
+  & > div:first-child {
+    grid-column: span 2;
+  }
 
   & img {
     height: 100%;
@@ -73,10 +82,16 @@ main {
   display: grid;
   align-items: center;
   justify-content: space-around;
-  height: 100%;
 
   & > .filled-circle {
     width: 7rem;
     height: 7rem;
   }
+}
+
+[ordered-numbers] {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(5, 1fr);
+  justify-content: space-between;
 }

@@ -9,6 +9,10 @@
   border-radius: 50%;
   width: 5rem;
   height: 5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 
   &.red { background-color: red;  }
   &.green { background-color: green;  }

@@ -137,17 +137,19 @@
         </div>
       </article>
 
-      <article span1x1 padded class="artboard" grid="rows" vertically-aligned="center" horizontally-aligned="center">
+      <article span1x1 padded class="artboard" grid vertically-distributed="between">
         <label class="Learn_to_multiply_items_👇">Duplicate</label>
-        <p class="tip">💡 Press <kbd>cmd+d</kbd></p>
         <div>
-          <button class="mdc-button mdc-button--raised" style="margin:0 0.5rem 0.5rem 0;">Submit</button>
+          <p class="tip">💡 Press <kbd>cmd+d</kbd></p>
+        </div> 
+        <div fit-height grid vertically-aligned="center" horizontally-aligned="center" horizontally-distributed="around">
+          <button class="mdc-button mdc-button--raised" style="margin-bottom:0.5rem;">Submit</button>
         </div>
-      </article>     
+      </article>   
 
       <article copy_paste padded span2x1 class="artboard" grid vertically-aligned="center" vertically-distributed="equal">
         <label>Copy/Paste</label>
-        <p class="tip">💡 Copy the circle from the left box and paste it in the right box</p>
+        <p class="tip">💡 Copy the circle <b>from the left box</b> and paste it <b>in the right box</b></p>
         <div grid horizontally-distributed="around" vertically-aligned="center">
           <div class="outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
             <div class="filled-circle"></div>
@@ -173,6 +175,10 @@
       <article span2x2 padded class="artboard">
         <label>Image Swap</label>
         <div image-grid>
+          <div>
+            <p class="tip">💡 Select all 4 images and drag in 4 new ones</p>
+            <p class="tip">💡 Drag a new image onto any one of these too</p>
+          </div>
           <img src="http://i.pravatar.cc/300?img=7" alt="">
           <img src="http://i.pravatar.cc/300?img=24" alt="">
           <img src="http://i.pravatar.cc/300?img=22" alt="">
@@ -209,12 +215,25 @@
         </div>
       </article> 
 
-      <article span2x1 class="artboard">
+      <article span2x1 class="artboard" padded grid vertically-distributed="between">
         <label>Move Left & Right</label>
+        <div>
+          <p class="tip">💡 Press <kbd>v</kbd> for the move tool</p>
+          <p class="tip">💡 Then <kbd>left arrow</kbd> or <kbd>right arrow</kbd></p>
+          <p class="tip">💡 <b>Fix the order</b> of the circle below</p>
+        </div>
+        <div ordered-numbers>
+          <div class="filled-circle">3</div>
+          <div class="filled-circle">5</div>
+          <div class="filled-circle">4</div>
+          <div class="filled-circle">1</div>
+          <div class="filled-circle">2</div>
+        </div>
       </article> 
 
-      <article span1x2 class="artboard">
+      <article span1x2 class="artboard" padded grid vertically-distributed="equal" horizontally-aligned="center">
         <label>Move Left & Right / Up & Down</label>
+          <p class="tip">💡 Flow direction can make left/right be up/down 🤔</p>
         <div stop-light>
           <div class="filled-circle green"></div>
           <div class="filled-circle yellow"></div>
