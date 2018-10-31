@@ -21,7 +21,7 @@
     border: 1px solid var(--darker-grey);
     box-shadow: none;
     color: var(--lighter-grey);
-    text-shadow: 0 1px var(--darkest-grey);
+    text-shadow: 0 0.5px var(--darkest-grey);
   }
 
   & > label {
@@ -52,8 +52,10 @@
     }
   }
 
-  & > .tip {
+  & .tip {
     margin-top: 0;
+    margin-bottom: 0;
+    font-size: 0.9rem;
   }
 
   & > [grid][vertically-aligned] {

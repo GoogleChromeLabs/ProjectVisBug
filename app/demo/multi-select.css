@@ -1,11 +1,3 @@
-[select-multiple] {
-  padding: 1rem;
-
-  & > p {
-    margin: 0 0 0.25rem;
-  }
-}
-
 [multi-select] {
   flex: 2;
   display: grid;

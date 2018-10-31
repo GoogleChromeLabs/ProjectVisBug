@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>PixelBug Copy 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="0.0%" y="0.0%" width="100.0%" height="100.0%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.3 0" type="matrix" in="shadowOffsetOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="PixelBug-Copy-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M434,144 C469.898509,144 499,114.898509 499,79 C499,43.1014913 469.898509,14 434,14 C398.101491,14 369,43.1014913 369,79 C369,114.898509 398.101491,144 434,144 Z" id="k" fill="#000000" fill-rule="nonzero"></path>
+        <g id="multiply-group" filter="url(#filter-1)" transform="translate(-26.000000, -26.000000)" fill-rule="nonzero">
+            <path d="M252.849285,316.021385 C384.402163,316.021385 491.046841,224.539715 491.046841,224.539715 C491.046841,224.539715 384.402163,133.058045 252.849285,133.058045 C121.296407,133.058045 14.6517289,224.539715 14.6517289,224.539715 C14.6517289,224.539715 121.296407,316.021385 252.849285,316.021385 Z" id="c" fill="#00FFFF" style="mix-blend-mode: multiply;" transform="translate(252.849285, 224.539715) rotate(-30.000000) translate(-252.849285, -224.539715) "></path>
+            <path d="M290.319377,422.716494 C421.708249,422.716494 528.219975,273.680623 528.219975,273.680623 C528.219975,273.680623 421.708249,124.644751 290.319377,124.644751 C158.930505,124.644751 52.4187794,273.680623 52.4187794,273.680623 C52.4187794,273.680623 158.930505,422.716494 290.319377,422.716494 Z" id="m" fill="#FFFF00" style="mix-blend-mode: multiply;" transform="translate(290.319377, 273.680623) rotate(-45.000000) translate(-290.319377, -273.680623) "></path>
+            <path d="M340.035642,403.207742 C471.588519,403.207742 578.233198,311.726071 578.233198,311.726071 C578.233198,311.726071 471.588519,220.244401 340.035642,220.244401 C208.482764,220.244401 101.838086,311.726071 101.838086,311.726071 C101.838086,311.726071 208.482764,403.207742 340.035642,403.207742 Z" id="y" fill="#FF00FF" style="mix-blend-mode: multiply;" transform="translate(340.035642, 311.726071) rotate(-60.000000) translate(-340.035642, -311.726071) "></path>
+        </g>
+    </g>
+</svg>

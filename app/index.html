@@ -20,7 +20,7 @@
     <tool-pallete></tool-pallete>
 
     <main>
-      <div span1x2 class="artboard Hello-World!" intro grid="rows" vertically-distributed="between">
+      <div span1x2 class="artboard Hello-World!" intro grid="rows" horizontally-aligned="center" vertically-distributed="between">
         <label>Artboard_00-FinalFinal-v2</label>
         <!-- <a href="#" class="github">
           <img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
@@ -28,7 +28,26 @@
         <figure>
           <picture>
             <!-- <img src="./assets/pixelbug.png" alt="PixelBug CMYK bug logo"> -->
-            <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><defs><filter x="0%" y="0%" width="100%" height="100%" filterUnits="objectBoundingBox" id="a"><feOffset in="SourceAlpha" result="shadowOffsetOuter1"/><feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.3 0" in="shadowOffsetOuter1" result="shadowMatrixOuter1"/><feMerge><feMergeNode in="shadowMatrixOuter1"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g fill-rule="nonzero" fill="none"><path d="M423.5 145c31.204 0 56.5-25.296 56.5-56.5S454.704 32 423.5 32 367 57.296 367 88.5s25.296 56.5 56.5 56.5z" fill="#000"/><g filter="url(#a)" transform="translate(9 9)"><path d="M207 159c114.323 0 207-79.5 207-79.5S321.323 0 207 0 0 79.5 0 79.5 92.677 159 207 159z" fill="#0FF" style="mix-blend-mode:multiply"/><path d="M323.5216 281.9311c80.7378-80.7377 89.9623-202.415 89.9623-202.415s-121.6773 9.2245-202.415 89.9623c-80.7378 80.7377-89.9623 202.415-89.9623 202.415s121.6773-9.2245 202.415-89.9623z" fill="#FF0" style="mix-blend-mode:multiply"/><path d="M493.5 286.5c0-114.323-79.5-207-79.5-207s-79.5 92.677-79.5 207 79.5 207 79.5 207 79.5-92.677 79.5-207z" fill="#F0F" style="mix-blend-mode:multiply"/></g></g></svg>
+            <svg viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <filter x="0.0%" y="0.0%" width="100.0%" height="100.0%" filterUnits="objectBoundingBox" id="filter-1">
+                        <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                        <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.3 0" type="matrix" in="shadowOffsetOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+                        <feMerge>
+                            <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                            <feMergeNode in="SourceGraphic"></feMergeNode>
+                        </feMerge>
+                    </filter>
+                </defs>
+                <g id="PixelBug-Copy-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <path d="M434,144 C469.898509,144 499,114.898509 499,79 C499,43.1014913 469.898509,14 434,14 C398.101491,14 369,43.1014913 369,79 C369,114.898509 398.101491,144 434,144 Z" id="k" fill="#000000" fill-rule="nonzero"></path>
+                    <g id="multiply-group" filter="url(#filter-1)" transform="translate(-26.000000, -26.000000)" fill-rule="nonzero">
+                        <path d="M252.849285,316.021385 C384.402163,316.021385 491.046841,224.539715 491.046841,224.539715 C491.046841,224.539715 384.402163,133.058045 252.849285,133.058045 C121.296407,133.058045 14.6517289,224.539715 14.6517289,224.539715 C14.6517289,224.539715 121.296407,316.021385 252.849285,316.021385 Z" id="c" fill="#00FFFF" style="mix-blend-mode: multiply;" transform="translate(252.849285, 224.539715) rotate(-30.000000) translate(-252.849285, -224.539715) "></path>
+                        <path d="M290.319377,422.716494 C421.708249,422.716494 528.219975,273.680623 528.219975,273.680623 C528.219975,273.680623 421.708249,124.644751 290.319377,124.644751 C158.930505,124.644751 52.4187794,273.680623 52.4187794,273.680623 C52.4187794,273.680623 158.930505,422.716494 290.319377,422.716494 Z" id="y" fill="#FFFF00" style="mix-blend-mode: multiply;" transform="translate(290.319377, 273.680623) rotate(-45.000000) translate(-290.319377, -273.680623) "></path>
+                        <path d="M340.035642,403.207742 C471.588519,403.207742 578.233198,311.726071 578.233198,311.726071 C578.233198,311.726071 471.588519,220.244401 340.035642,220.244401 C208.482764,220.244401 101.838086,311.726071 101.838086,311.726071 C101.838086,311.726071 208.482764,403.207742 340.035642,403.207742 Z" id="m" fill="#FF00FF" style="mix-blend-mode: multiply;" transform="translate(340.035642, 311.726071) rotate(-60.000000) translate(-340.035642, -311.726071) "></path>
+                    </g>
+                </g>
+            </svg>
           </picture>
           <figcaption>
             <h1>PixelBug</h1>
@@ -40,14 +59,30 @@
           </figcaption>
         </figure>
 
-        <div grid horizontally-aligned="right">
+        <picture arrows>
+          <img src="./assets/arrow.png" alt="curly bug arrows pointing to tool pallete">
+        </picture>
+
+        <hr>
+
+        <div>
           <span>Learn</span>
           <select>
+            <option selected="">Everything</option>
             <option>Basics</option>
             <option>Essentials</option>
             <option>Chaos</option>
             <option>Hacks</option>
             <option>Advanced</option>
+          </select>
+        </div>
+
+        <div>
+          <span>On</span>
+          <select>
+            <option selected="">Mac</option>
+            <option disabled="">Windows</option>
+            <option disabled="">Linux</option>
           </select>
         </div>
 
@@ -70,24 +105,26 @@
         </div>
       </div>
 
-      <div span2x1 select-multiple class="artboard" grid vertically-distributed="between">
+      <div span2x1 select-multiple padded class="artboard" grid vertically-distributed="between">
         <label class="Learn_to_select_multiple_items_👇">Select Multiple</label>
-        <p class="tip">💡 Hold <b>shift</b> to manually multi-select</p>
-        <p class="tip">💡 Press <b>cmd+e</b> to expand your selection</p>
-        <p class="tip">💡 Press <b>cmd+shift+e</b> to expand to all matches</p>
+        <div>
+          <p class="tip">💡 Hold <kbd>shift</kbd> to manually multi-select</p>
+          <p class="tip">💡 Press <kbd>cmd+e</kbd> to expand your selection</p>
+          <p class="tip">💡 Press <kbd>cmd+shift+e</kbd> to expand to all matches</p>
+        </div>
         <div grid vertically-aligned="center">
           <span class="tip">try here 👉</span>
           <div multi-select class="so_many!_how_to_select_them_all!?">
-            <span class="press_cmd_e_to_expand_selection"></span>
-            <span class="press_cmd_e_to_expand_selection"></span>
-            <span class="press_cmd_e_to_expand_selection"></span>
-            <span class="press_cmd_e_to_expand_selection"></span>
-            <span class="press_cmd_e_to_expand_selection"></span>
-            <span class="press_cmd_e_to_expand_selection"></span>
-            <span class="press_cmd_e_to_expand_selection"></span>
-            <span class="press_cmd_e_to_expand_selection"></span>
-            <span class="press_cmd_e_to_expand_selection"></span>
-            <span class="press_cmd_e_to_expand_selection"></span>
+            <span class="cmd_e"></span>
+            <span class="cmd_e"></span>
+            <span class="cmd_e"></span>
+            <span class="cmd_e"></span>
+            <span class="cmd_e"></span>
+            <span class="cmd_e"></span>
+            <span class="cmd_e"></span>
+            <span class="cmd_e"></span>
+            <span class="cmd_e"></span>
+            <span class="cmd_e"></span>
           </div>
         </div>
       </div>
@@ -100,6 +137,88 @@
         </div>
       </div>
 
+      <div span1x1 padded class="artboard" grid="rows" vertically-aligned="center" horizontally-aligned="center">
+        <label class="Learn_to_multiply_items_👇">Duplicate</label>
+        <p class="tip">💡 Press <kbd>cmd+d</kbd></p>
+        <div>
+          <button class="mdc-button mdc-button--raised" style="margin:0 0.5rem 0.5rem 0;">Submit</button>
+        </div>
+      </div>     
+
+      <div copy_paste padded span2x1 class="artboard" grid vertically-aligned="center" vertically-distributed="equal">
+        <label>Copy/Paste</label>
+        <p class="tip">💡 Copy the circle from the left box and paste it in the right box</p>
+        <div grid horizontally-distributed="around" vertically-aligned="center">
+          <div class="outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
+            <div class="filled-circle"></div>
+          </div>
+          <div class="outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
+          </div>
+        </div>
+      </div>
+
+      <div span2x1 class="artboard" padded grid vertically-distributed="equal">
+        <label>Copy/Paste Style</label>
+        <div>
+          <p class="tip">💡 Copy styles with <kbd>cmd+opt+c</kbd></p>
+          <p class="tip">💡 Paste copied styles with <kbd>cmd+opt+v</kbd></p>
+        </div> 
+        <div fit-height grid vertically-aligned="center" horizontally-aligned="center" horizontally-distributed="around">
+          <button class="mdc-button mdc-button--raised" style="background:hsl(0,0%,10%);color:hsl(0,0%,70%);">Copy my darkness</button>
+          <button class="mdc-button mdc-button--raised">Join the darkside</button>
+        </div>
+      </div>
+
+      <div span2x2 class="artboard">
+        <label>Image Swap</label>
+      </div>
+
+      <div span2x1 class="artboard">
+        <label>A11y</label>
+      </div> 
+
+      <div span2x1 class="artboard">
+        <label>Text Styles</label>
+      </div> 
+
+      <div span1x1 flex class="dark artboard For_fun-copy_my_styles">
+        <div grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
+          <h2>
+            Break<br>
+            this site<br>
+            <small>with it's own tool!</small>
+          </h2>
+        </div>
+      </div> 
+
+      <div span2x1 class="artboard">
+        <label>Move Left & Right</label>
+      </div> 
+
+      <div span1x2 class="artboard">
+        <label>Move Left & Right / Up & Down</label>
+      </div> 
+
+      <div span2x1 class="artboard">
+        <label>Edit Text</label>
+      </div> 
+
+      <div span2x1 class="artboard">
+        <label>Keyboard Nav</label>
+      </div> 
+
+      <div span1x1 class="artboard">
+        <label>Inline SVG</label>
+      </div> 
+
+      <div span1x1 class="artboard">
+        <label>Margin</label>
+      </div> 
+
+      <div span2x2 class="artboard">
+        <label>Box Shadow</label>
+      </div> 
+
       <div span1x1 flex class="dark artboard">
         <div grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
           <small>press</small>
@@ -110,32 +229,28 @@
         </div>
       </div> 
 
-      <div span1x1 padded class="artboard">
-        <label class="Learn_to_multiply_items_👇">Duplicate</label>
-        <p class="tip">💡 Press <b>cmd+d</b></p>
-        <button class="mdc-button mdc-button--raised" style="margin:0 0.5rem 0.5rem 0;">Submit</button>
-      </div>     
-
-      <div span2x1 class="artboard">
-        <label>Copy/Paste</label>
-      </div>
-
-      <div span2x2 class="artboard">
-        <label>Image Swap</label>
-      </div>
-
-      <div span1x1 flex class="dark artboard">
-        <div grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
-          <h2>
-            Break<br>
-            this site<br>
-            <small>with it's own tool!</small>
-          </h2>
-        </div>
+      <div span1x1 class="artboard">
+        <label>Padding</label>
       </div> 
 
-      <div span1x2 class="artboard">
-        <label>Move</label>
+      <div span1x1 class="artboard">
+        <label>Foreground / Background Color</label>
+      </div> 
+
+      <div span1x1 class="artboard">
+        <label>Position</label>
+      </div>
+
+      <div span2x1 class="artboard">
+        <label>Align</label>
+      </div> 
+
+      <div span2x1 class="artboard">
+        <label>Image</label>
+      </div> 
+
+      <div span2x1 class="artboard">
+        <label>Search</label>
       </div> 
 
     </main>

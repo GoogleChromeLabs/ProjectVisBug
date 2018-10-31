@@ -80,7 +80,7 @@ export class Label extends HTMLElement {
           z-index: 10000;
           transform: translateY(-100%);
           background: hsl(330, 100%, 71%);
-          text-shadow: 0 1px 0 hsl(330, 100%, 61%);
+          text-shadow: 0 0.5px 0 hsl(330, 100%, 61%);
           color: white;
           display: inline-flex;
           justify-content: center;

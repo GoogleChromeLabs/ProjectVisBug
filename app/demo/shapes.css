@@ -1,0 +1,12 @@
+.outlined-square {
+  border: 1px solid var(--light-grey);
+  width: 10rem;
+  height: 10rem;
+}
+
+.filled-circle {
+  background: var(--grey);
+  border-radius: 50%;
+  width: 5rem;
+  height: 5rem;
+}
