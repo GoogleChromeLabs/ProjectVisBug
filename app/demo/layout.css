@@ -92,6 +92,6 @@ main {
 [ordered-numbers] {
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, 5rem);
   justify-content: space-between;
 }
