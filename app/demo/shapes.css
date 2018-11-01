@@ -4,6 +4,12 @@
   height: 10rem;
 }
 
+.filled-square {
+  background: var(--light-grey);
+  width: 4rem;
+  height: 4rem;
+}
+
 .filled-circle {
   background: var(--grey);
   border-radius: 50%;
