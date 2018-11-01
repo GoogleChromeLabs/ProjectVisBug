@@ -20,7 +20,6 @@ export function Moveable(selector) {
 
   return () => {
     hotkeys.unbind(key_events)
-    hotkeys.unbind('up,down,left,right')
   }
 }
 
