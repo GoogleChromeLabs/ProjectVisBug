@@ -22,6 +22,22 @@
   --bg:             white;
 }
 
+html[light] {
+  --hue:            210;
+  --saturation:     8%;
+  --darkest-grey:   hsl(var(--hue) var(--saturation) 98%);
+  --darker-grey:    hsl(var(--hue) var(--saturation) 94%);
+  --dark-grey:      hsl(var(--hue) var(--saturation) 90%);
+  --grey:           hsl(var(--hue) var(--saturation) 70%);
+  --mid-grey:       hsl(var(--hue) var(--saturation) 50%);
+  --light-grey:     hsl(var(--hue) var(--saturation) 30%);
+  --lighter-grey:   hsl(var(--hue) var(--saturation) 15%);
+  --lightest-grey:  hsl(var(--hue) var(--saturation) 5%);
+  --theme-color:    hotpink;
+  --theme-light:    hsl(330, 50%, 70%);
+  --bg:             white;
+}
+
 body {
   margin: 0;
   padding-left: 4rem;
@@ -70,7 +86,7 @@ img {
     margin: 0 0 0.25rem 0;
     font-size: 3rem;
     font-weight: 300;
-    color: white;
+    color: var(--lighter-grey);
 
     &:hover {
       color: var(--lightest-grey);
@@ -82,7 +98,6 @@ img {
     letter-spacing: 1.5px;
     font-weight: lighter;
     color: var(--lighter-grey);
-    margin-bottom: 1rem;
   }
 
   & em {
@@ -92,6 +107,7 @@ img {
   }
 
   & > picture {
+    flex: 1;
     & > img {
       max-height: 15vh;
       object-fit: contain;
