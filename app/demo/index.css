@@ -24,18 +24,31 @@
 
 html[light] {
   --hue:            210;
-  --saturation:     8%;
-  --darkest-grey:   hsl(var(--hue) var(--saturation) 98%);
-  --darker-grey:    hsl(var(--hue) var(--saturation) 94%);
-  --dark-grey:      hsl(var(--hue) var(--saturation) 90%);
-  --grey:           hsl(var(--hue) var(--saturation) 70%);
-  --mid-grey:       hsl(var(--hue) var(--saturation) 50%);
-  --light-grey:     hsl(var(--hue) var(--saturation) 30%);
-  --lighter-grey:   hsl(var(--hue) var(--saturation) 15%);
-  --lightest-grey:  hsl(var(--hue) var(--saturation) 5%);
+  --saturation:     4%;
+  --darkest-grey:   hsl(var(--hue) var(--saturation) 90%);
+  --darker-grey:    hsl(var(--hue) var(--saturation) 80%);
+  --dark-grey:      hsl(var(--hue) var(--saturation) 65%);
+  --grey:           hsl(var(--hue) var(--saturation) 40%);
+  --mid-grey:       hsl(var(--hue) var(--saturation) 30%);
+  --light-grey:     hsl(var(--hue) var(--saturation) 25%);
+  --lighter-grey:   hsl(var(--hue) var(--saturation) 20%);
+  --lightest-grey:  hsl(var(--hue) var(--saturation) 15%);
   --theme-color:    hotpink;
   --theme-light:    hsl(330, 50%, 70%);
   --bg:             white;
+
+  & :matches(body, .dark, [intro]) {
+    background: var(--darkest-grey);
+  }
+
+  & .artboard label {
+    color: var(--light-grey);
+    text-shadow: 0 0.5px 0 var(--dark-grey);
+  }
+
+  & kbd {
+    background: var(--darkest-grey);
+  }
 }
 
 body {
@@ -70,7 +83,7 @@ img {
     text-align: center;
 
     & svg {
-      filter: drop-shadow(0 10px 20px hsla(0,0%,0%,100%));
+      filter: drop-shadow(0 10px 20px hsla(0,0%,0%,70%));
       margin-top: 1rem;
       width: 50%;
       object-fit: contain;
@@ -142,7 +155,7 @@ img {
     width: 100%;
 
     & svg {
-      width: 3vh;
+      width: 2.5vh;
       fill: var(--grey);
 
       &:hover {
@@ -182,7 +195,7 @@ kbd {
   font-weight: bold;
   background: var(--lighter-grey);
   border-radius: 0.5rem;
-  padding: 0 0.6em 0.2em;
+  padding: 0.1em 0.6em 0.2em;
   position: relative;
   bottom: 0.2em;
 }

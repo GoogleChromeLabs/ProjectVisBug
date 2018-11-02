@@ -43,7 +43,7 @@
                     </filter>   
                 </defs>
                 <g id="PixelBug-Copy-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                    <path d="M434,144 C469.898509,144 499,114.898509 499,79 C499,43.1014913 469.898509,14 434,14 C398.101491,14 369,43.1014913 369,79 C369,114.898509 398.101491,144 434,144 Z" id="k" fill="#000000" fill-rule="nonzero"></path>
+                    <path d="M434,144 C469.898509,144 499,114.898509 499,79 C499,43.1014913 469.898509,14 434,14 C398.101491,14 369,43.1014913 369,79 C369,114.898509 398.101491,144 434,144 Z" id="k" fill="#FFFFFF" fill-rule="nonzero"></path>
                     <g id="multiply-group" filter="url(#filter-1)" transform="translate(-26.000000, -26.000000)" fill-rule="nonzero">
                         <path filter="url(#filter-2)" d="M252.849285,316.021385 C384.402163,316.021385 491.046841,224.539715 491.046841,224.539715 C491.046841,224.539715 384.402163,133.058045 252.849285,133.058045 C121.296407,133.058045 14.6517289,224.539715 14.6517289,224.539715 C14.6517289,224.539715 121.296407,316.021385 252.849285,316.021385 Z" id="c" fill="#00FFFF" style="mix-blend-mode: multiply;" transform="translate(252.849285, 224.539715) rotate(-30.000000) translate(-252.849285, -224.539715) "></path>
                         <path filter="url(#filter-2)" d="M290.319377,422.716494 C421.708249,422.716494 528.219975,273.680623 528.219975,273.680623 C528.219975,273.680623 421.708249,124.644751 290.319377,124.644751 C158.930505,124.644751 52.4187794,273.680623 52.4187794,273.680623 C52.4187794,273.680623 158.930505,422.716494 290.319377,422.716494 Z" id="y" fill="#FFFF00" style="mix-blend-mode: multiply;" transform="translate(290.319377, 273.680623) rotate(-45.000000) translate(-290.319377, -273.680623) "></path>
@@ -87,7 +87,7 @@
           </div>
 
           <div>
-            <span>On</span>
+            <span>Hotkeys for</span>
             <select>
               <option selected="">Mac</option>
               <option disabled="">Windows</option>
@@ -121,13 +121,14 @@
           <p class="tip">💡 <kbd>Tab</kbd> & <kbd>Shift + Tab</kbd> traverse laterally</p>
           <p class="tip">💡 <kbd>Enter</kbd> & <kbd>Shift + Enter</kbd> traverse lineage</p>
         </div>
-        <div grid horizontally-distributed="around" vertically-aligned="center">
+        <div grid horizontally-distributed="between" vertically-aligned="center">
           <div class="outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
             <div class="filled-square"></div>
             <div class="filled-square"></div>
             <div class="filled-square"></div>
             <div class="filled-square"></div>
           </div>
+          <div class="filled-square"></div>
           <div class="outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
             <div class="filled-square"></div>
             <div class="filled-square"></div>
@@ -171,12 +172,18 @@
         </div>
       </article>
 
-      <article span1x1 class="artboard">
+      <article span1x1 padded class="artboard" grid="rows" horizontally-distributed="equal" vertically-distributed="equal">
         <label>Guides</label>
+        <div>
+          <p class="tip">💡 Hotkey <kbd>g</kbd></p>
+        </div> 
       </article>
 
-      <article span1x1 class="artboard" grid="rows" vertically-aligned="center" horizontally-distributed="around" vertically-distributed="equal">
+      <article span1x1 class="artboard" grid="rows" vertically-aligned="center" horizontally-distributed="between" vertically-distributed="equal">
         <label>Inspect</label>
+        <div padded>
+          <p class="tip">💡 Hotkey <kbd>i</kbd></p>
+        </div> 
         <ul class="mdc-list demo-list demo-list-item-shaped">
           <li class="mdc-list-item mdc-ripple-upgraded mdc-list-item--activated" aria-selected="true" style="--mdc-ripple-fg-size:360px; --mdc-ripple-fg-scale:1.69977; --mdc-ripple-fg-translate-start:55.8906px, -156.16px; --mdc-ripple-fg-translate-end:120px, -156px;">
           <span class="mdc-list-item__graphic material-icons" aria-hidden="true">inbox</span>Inbox</li>
@@ -186,12 +193,10 @@
           <span class="mdc-list-item__graphic material-icons" aria-hidden="true">send</span>Send</li>
           <li class="mdc-list-item mdc-ripple-upgraded">
           <span class="mdc-list-item__graphic material-icons" aria-hidden="true">drafts</span>Drafts</li>
-          <li class="mdc-list-item mdc-ripple-upgraded">
-          <span class="mdc-list-item__graphic material-icons" aria-hidden="true">favorite</span>Favorites</li>
         </ul>
       </article>
 
-      <article span1x1 padded class="artboard" grid vertically-distributed="between">
+      <article span1x1 padded class="artboard" grid="rows" vertically-distributed="between">
         <label class="Learn_to_multiply_items_👇">Duplicate</label>
         <div>
           <p class="tip">💡 Press <kbd>cmd+d</kbd></p>
@@ -213,7 +218,7 @@
         </div>
       </article>
 
-      <article span2x1 class="artboard" padded grid vertically-distributed="equal">
+      <article span2x1 class="artboard" padded grid="rows" vertically-distributed="equal">
         <label>Copy/Paste Style</label>
         <div>
           <p class="tip">💡 Copy styles with <kbd>cmd+opt+c</kbd></p>
@@ -240,14 +245,18 @@
         </div>
       </article>
 
-      <article span2x1 class="artboard">
+      <article span2x1 padded class="artboard">
         <label>A11y</label>
+        <div>
+          <p class="tip">💡 Hotkey <kbd>x</kbd></p>
+        </div>
       </article> 
 
       <article span3x1 class="artboard" padded grid vertically-distributed="equal">
         <label>Text Styles</label>
         <div>
           <p class="tip">💡 Press <kbd>i</kbd> for the inspector, then hover the following type ramp</p>
+          <p class="tip">💡 Press <kbd>f</kbd> for the font tool, and edit the ramp</p>
         </div>
         <div text-styles>
           <h1>The quick brown fox jumps over the lazy dog</h1>
@@ -272,7 +281,7 @@
       </article> 
 
       <article span2x1 class="artboard" padded grid vertically-distributed="between">
-        <label>Move Left & Right</label>
+        <label>Move</label>
         <div>
           <p class="tip">💡 Press <kbd>v</kbd> for the move tool</p>
           <p class="tip">💡 Then <kbd>left arrow</kbd> or <kbd>right arrow</kbd></p>
@@ -287,38 +296,72 @@
         </div>
       </article> 
 
-      <article span1x2 class="artboard" padded grid vertically-distributed="equal" horizontally-aligned="center">
-        <label>Move Left & Right / Up & Down</label>
-          <p class="tip">💡 Flow direction can make left/right be up/down 🤔</p>
-        <div stop-light>
+      <article span1x2 class="artboard" padded grid="rows" vertically-distributed="equal" horizontally-aligned="center">
+        <label>Move</label>
+        <p class="tip">💡 Flow direction can make left/right be up/down 🤔</p>
+        <div stop-light fit-height>
           <div class="filled-circle green"></div>
           <div class="filled-circle yellow"></div>
           <div class="filled-circle red"></div>
         </div>
       </article> 
 
-      <article span2x1 class="artboard">
+      <article span2x1 padded class="artboard" grid="rows">
         <label>Edit Text</label>
+        <div>
+          <p class="tip">💡 Just double click any text!</p>
+          <p class="tip">💡 Hotkey <kbd>t</kbd></p>
+        </div>
+        <div fit-height grid vertically-aligned="center" horizontally-aligned="center">
+          <h1>I'm worth $100 /hr</h1>
+        </div>
       </article> 
 
-      <article span1x1 class="artboard" grid vertically-aligned="center" horizontally-aligned="center">
+      <article span2x2 class="artboard" grid horizontally-distributed="equal">
         <label>Inline SVG</label>
-        <svg width="80%" viewBox="0 0 256 273" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid">
-          <g>
-            <path d="M99.6205714,122.294857 C84.1142857,100.937143 62.6102857,82.2125714 38.1805714,69.1931429 C34.5234286,67.1451429 30.2811429,66.1211429 26.0388571,66.1211429 C16.5302857,66.1211429 7.89942857,71.2411429 3.36457143,79.7257143 C-3.36457143,92.16 1.46285714,107.812571 13.8971429,114.395429 C51.4925714,134.582857 75.776,172.909714 78.7017143,217.380571 C78.7017143,217.380571 78.7017143,217.234286 78.7017143,217.234286 C78.2628571,212.260571 79.1405714,207.433143 81.3348571,202.898286 C81.6274286,202.313143 82.0662857,201.581714 82.5051429,200.850286 C94.208,181.540571 100.498286,159.305143 100.498286,136.484571 C100.498286,131.657143 100.059429,126.976 99.6205714,122.294857" fill="#1476C6"></path>
-            <path d="M248.539429,74.0205714 C244.004571,54.1257143 237.275429,34.816 228.498286,16.384 C223.817143,6.58285714 213.723429,0.146285714 202.898286,0.146285714 C198.656,0.146285714 194.56,1.024 190.756571,2.92571429 C176.566857,9.65485714 170.569143,26.624 177.298286,40.6674286 C191.634286,71.0948571 198.802286,103.131429 198.802286,136.484571 C198.802286,169.837714 191.634286,201.874286 177.590857,231.716571 C177.444571,232.155429 174.957714,237.421714 174.957714,243.565714 C174.957714,245.321143 175.104,247.808 175.689143,250.148571 C177.590857,258.194286 182.710857,265.508571 191.195429,269.458286 C194.998857,271.213714 199.094857,272.237714 203.337143,272.237714 C213.723429,272.237714 223.232,266.532571 228.205714,257.462857 C233.910857,246.784 239.616,232.886857 244.589714,214.893714 C246.198857,209.481143 247.515429,204.361143 248.685714,198.948571 C253.220571,178.614857 255.707429,157.842286 255.707429,136.484571 C255.561143,115.419429 253.074286,94.208 248.539429,74.0205714" fill="#47AE33"></path>
-            <path d="M128.731429,44.3245714 C128.292571,43.4468571 127.707429,42.7154286 127.122286,41.984 C125.220571,39.4971429 123.026286,37.4491429 120.393143,35.84 C116.150857,33.0605714 111.030857,31.4514286 105.764571,31.4514286 C101.376,31.4514286 99.1817143,32.0365714 96.1097143,33.2068571 C92.8914286,34.5234286 89.5268571,36.2788571 86.4548571,39.4971429 C83.3828571,42.7154286 81.6274286,45.9337143 80.3108571,49.4445714 C77.6777143,56.32 78.1165714,65.2434286 82.5051429,72.5577143 C91.8674286,87.6251429 97.4262857,104.886857 99.4742857,122.587429 C100.059429,127.268571 100.352,132.096 100.352,136.777143 C100.352,159.597714 94.208,181.833143 82.3588571,201.142857 C81.92,201.874286 81.6274286,202.459429 81.1885714,203.190857 C78.848,207.725714 78.1165714,212.845714 78.5554286,217.673143 C79.2868571,225.865143 83.8217143,233.618286 91.4285714,238.299429 C93.3302857,239.469714 95.5245714,240.347429 97.5725714,241.078857 C100.059429,241.810286 102.692571,242.249143 105.325714,242.249143 C114.834286,242.249143 123.465143,237.421714 128.438857,229.229714 C143.36,204.8 151.990857,177.005714 153.892571,148.48 C154.185143,144.676571 154.331429,140.726857 154.331429,136.923429 C154.477714,103.862857 145.554286,71.9725714 128.731429,44.3245714" fill="#ED114C"></path>
-            <path d="M177.444571,231.716571 C191.634286,201.874286 198.802286,169.837714 198.802286,136.484571 C198.802286,125.074286 198.070857,116.736 197.485714,111.323429 C178.907429,81.6274286 151.990857,55.0034286 120.393143,35.6937143 C120.393143,35.6937143 121.124571,36.1325714 121.124571,36.2788571 C123.318857,37.888 125.074286,39.4971429 127.122286,41.984 C127.561143,42.5691429 128.292571,43.4468571 128.731429,44.3245714 C145.554286,72.1188571 154.331429,103.862857 154.331429,136.484571 C154.331429,140.434286 154.185143,144.237714 153.892571,148.041143 C167.350857,173.641143 174.665143,202.752 174.665143,233.325714 C174.665143,235.812571 174.665143,239.616 174.665143,242.541714 C174.811429,239.323429 175.542857,235.958857 176.713143,233.033143 C177.152,232.594286 177.298286,232.155429 177.444571,231.716571" fill="#FBBF16"></path>
-          </g>
-        </svg>
+        <div padded>
+          <p class="tip">💡 delete, copy, paste, duplicate</p>
+          <p class="tip">💡 change color, move x/y, inspect</p>
+        </div>
+        <div grid vertically-aligned="center" horizontally-aligned="center">
+          <svg height="90%" width="90%" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <defs>
+              <filter x="0.0%" y="0.0%" width="100.0%" height="100.0%" filterUnits="objectBoundingBox" id="filter-1">
+                <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.3 0" type="matrix" in="shadowOffsetOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+                <feMerge>
+                  <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                  <feMergeNode in="SourceGraphic"></feMergeNode>
+                </feMerge>
+              </filter>
+              <filter id="filter-2">
+                <feBlend in="SourceGraphic" mode="multiply"/>
+              </filter>   
+            </defs>
+            <g id="PixelBug-Copy-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+              <path d="M434,144 C469.898509,144 499,114.898509 499,79 C499,43.1014913 469.898509,14 434,14 C398.101491,14 369,43.1014913 369,79 C369,114.898509 398.101491,144 434,144 Z" id="k" fill="#000000" fill-rule="nonzero"></path>
+              <g id="multiply-group" filter="url(#filter-1)" transform="translate(-26.000000, -26.000000)" fill-rule="nonzero">
+                <path filter="url(#filter-2)" d="M252.849285,316.021385 C384.402163,316.021385 491.046841,224.539715 491.046841,224.539715 C491.046841,224.539715 384.402163,133.058045 252.849285,133.058045 C121.296407,133.058045 14.6517289,224.539715 14.6517289,224.539715 C14.6517289,224.539715 121.296407,316.021385 252.849285,316.021385 Z" id="c" fill="#00FFFF" style="mix-blend-mode: multiply;" transform="translate(252.849285, 224.539715) rotate(-30.000000) translate(-252.849285, -224.539715) "></path>
+                <path filter="url(#filter-2)" d="M290.319377,422.716494 C421.708249,422.716494 528.219975,273.680623 528.219975,273.680623 C528.219975,273.680623 421.708249,124.644751 290.319377,124.644751 C158.930505,124.644751 52.4187794,273.680623 52.4187794,273.680623 C52.4187794,273.680623 158.930505,422.716494 290.319377,422.716494 Z" id="y" fill="#FFFF00" style="mix-blend-mode: multiply;" transform="translate(290.319377, 273.680623) rotate(-45.000000) translate(-290.319377, -273.680623) "></path>
+                <path filter="url(#filter-2)" d="M340.035642,403.207742 C471.588519,403.207742 578.233198,311.726071 578.233198,311.726071 C578.233198,311.726071 471.588519,220.244401 340.035642,220.244401 C208.482764,220.244401 101.838086,311.726071 101.838086,311.726071 C101.838086,311.726071 208.482764,403.207742 340.035642,403.207742 Z" id="m" fill="#FF00FF" style="mix-blend-mode: multiply;" transform="translate(340.035642, 311.726071) rotate(-60.000000) translate(-340.035642, -311.726071) "></path>
+              </g>
+            </g>
+          </svg>
+        </div>
       </article> 
 
-      <article span1x1 class="artboard">
+      <article span1x1 padded class="artboard">
         <label>Margin</label>
+        <div>
+          <p class="tip">💡 Hotkey <kbd>m</kbd></p>
+        </div>
       </article> 
 
-      <article span2x2 class="artboard">
-        <label>Box Shadow</label>
+      <article span1x1 padded class="artboard">
+        <label>Drop Shadow</label>
+        <div>
+          <p class="tip">💡 Hotkey <kbd>d</kbd></p>
+        </div>
       </article> 
 
       <article span1x1 flex class="dark artboard">
@@ -331,28 +374,40 @@
         </div>
       </article> 
 
-      <article span1x1 class="artboard">
+      <article span1x1 padded class="artboard">
         <label>Padding</label>
+        <div>
+          <p class="tip">💡 Hotkey <kbd>p</kbd></p>
+        </div>
       </article> 
 
-      <article span1x1 class="artboard">
-        <label>Foreground / Background Color</label>
-      </article> 
-
-      <article span1x1 class="artboard">
+      <article span1x1 padded class="artboard">
         <label>Position</label>
+        <div>
+          <p class="tip">💡 Hotkey <kbd>l</kbd></p>
+        </div>
       </article>
 
-      <article span2x1 class="artboard">
+      <article span2x1 padded class="artboard">
         <label>Align</label>
+        <div>
+          <p class="tip">💡 Hotkey <kbd>a</kbd></p>
+        </div>
       </article> 
 
-      <article span2x1 class="artboard">
-        <label>Image</label>
-      </article> 
-
-      <article span2x1 class="artboard">
+      <article span2x1 padded class="artboard">
         <label>Search</label>
+        <div>
+          <p class="tip">💡 Hotkey <kbd>s</kbd></p>
+        </div>
+      </article> 
+
+      <article span2x2 padded class="artboard">
+        <label>Foreground / Background Color</label>
+        <div>
+          <p class="tip">💡 Hotkey <kbd>h</kbd></p>
+          <p class="tip">💡 Hotkey <kbd>[</kbd> or <kbd>]</kbd> to switch between foreground/background</p>
+        </div>
       </article> 
 
     </main>

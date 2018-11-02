@@ -20,6 +20,7 @@
   justify-content: center;
   color: white;
 
+  &.small { width: 2.5rem; height: 2.5rem; }
   &.red { background-color: red;  }
   &.green { background-color: green;  }
   &.yellow { background-color: yellow;  }

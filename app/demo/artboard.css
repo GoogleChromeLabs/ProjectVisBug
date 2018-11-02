@@ -36,7 +36,7 @@
     font-size: 0.8rem;
     font-weight: lighter;
     color: var(--lightest-grey);
-    text-shadow: 0 1px 0 black;
+    text-shadow: 0 0.5px 0 black;
     white-space: nowrap;
 
     & > b {
@@ -67,5 +67,9 @@
     & > h2 {
       margin: 0;
     }
+  }
+
+  & [fit-height] {
+    flex: 1;
   }
 }
