@@ -59,14 +59,14 @@ export class Label extends HTMLElement {
     this.$shadow.host.setAttribute('data-label-id', node_label_id)
 
     return `
-      ${this.styles({top,left})}
+      ${this.styles({top,left,width})}
       <span>
         ${this._text}
       </span>
     `
   }
 
-  styles({top,left}) {
+  styles({top,left,width}) {
     return `
       <style>
         :host {
@@ -77,6 +77,7 @@ export class Label extends HTMLElement {
           position: absolute;
           top: ${top + window.scrollY}px;
           left: ${left - 1}px;
+          max-width: ${width + (window.innerWidth - left - width - 20)}px;
           z-index: 10000;
           transform: translateY(-100%);
           background: hsl(330, 100%, 71%);
@@ -87,6 +88,7 @@ export class Label extends HTMLElement {
           font-size: 0.8em;
           font-weight: normal;
           font-family: sans-serif;
+          white-space: nowrap;
           padding: 0.25em 0.4em 0.15em;
           line-height: 1.1;
         }
@@ -95,6 +97,8 @@ export class Label extends HTMLElement {
           text-decoration: none;
           color: inherit;
           cursor: pointer;
+          text-overflow: ellipsis;
+          overflow: hidden;
         }
 
         :host a:hover {
