@@ -172,11 +172,15 @@
         </div>
       </article>
 
-      <article span1x1 padded class="artboard" grid="rows" horizontally-distributed="equal" vertically-distributed="equal">
+      <article span1x1 padded class="artboard" grid="rows" horizontally-distributed="between">
         <label>Guides</label>
         <div>
           <p class="tip">💡 Hotkey <kbd>g</kbd></p>
+          <p class="tip">💡 Redlines & distance coming soon!</p>
         </div> 
+        <div fit-height grid vertically-aligned="center" horizontally-aligned="center">
+          <h3>Am I in the center?<span class="👾_wtf_is_this? delete_it!">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h3>
+        </div>
       </article>
 
       <article span1x1 class="artboard" grid="rows" vertically-aligned="center" horizontally-distributed="between" vertically-distributed="equal">
@@ -312,8 +316,9 @@
           <p class="tip">💡 Just double click any text!</p>
           <p class="tip">💡 Hotkey <kbd>t</kbd></p>
         </div>
-        <div fit-height grid vertically-aligned="center" horizontally-aligned="center">
+        <div fit-height grid="rows" vertically-aligned="center" horizontally-aligned="center">
           <h1>I'm worth $100 /hr</h1>
+          <small>How much are you worth? Edit the text to specify your rate.</small>
         </div>
       </article> 
 
@@ -350,10 +355,35 @@
         </div>
       </article> 
 
-      <article span1x1 padded class="artboard">
+      <article span1x2 padded class="artboard" grid="rows" horizontally-distributed="between">
         <label>Margin</label>
         <div>
           <p class="tip">💡 Hotkey <kbd>m</kbd></p>
+        </div>
+        <div fit-height grid vertically-aligned="center" horizontally-aligned="center">
+          <nav margin>
+            <a class="margin-link" href="#">Home</a>
+            <a class="margin-link" href="#">About</a>
+            <a class="margin-link" href="#">Docs</a>
+            <a class="margin-link" href="#">Code</a>
+            <a class="margin-link" href="#">Contact</a>
+          </nav>
+        </div>
+      </article> 
+
+      <article span2x1 padded class="artboard" grid="rows" horizontally-distributed="between">
+        <label>Padding</label>
+        <div>
+          <p class="tip">💡 Hotkey <kbd>p</kbd></p>
+        </div>
+        <div fit-height grid vertically-aligned="center" horizontally-aligned="center">
+          <nav>
+            <a class="padding-link" href="#">Home</a>
+            <a class="padding-link" href="#">About</a>
+            <a class="padding-link" href="#">Docs</a>
+            <a class="padding-link" href="#">Code</a>
+            <a class="padding-link" href="#">Contact</a>
+          </nav>
         </div>
       </article> 
 
@@ -371,13 +401,6 @@
             <span class="key">?</span>
           </div>
           <h2>for help</h2>
-        </div>
-      </article> 
-
-      <article span1x1 padded class="artboard">
-        <label>Padding</label>
-        <div>
-          <p class="tip">💡 Hotkey <kbd>p</kbd></p>
         </div>
       </article> 
 
@@ -401,6 +424,16 @@
           <p class="tip">💡 Hotkey <kbd>s</kbd></p>
         </div>
       </article> 
+
+      <article span1x1 grid="rows" padded class="artboard Delete_styles">
+        <label class="Learn_to_delete_styles_👇">Delete styles</label>
+        <div>
+          <p class="tip">💡 Press <kbd>alt+del</kbd> to remove inline styles</p>
+        </div>
+        <div>
+          <small class="Fix_me!">Ew, get rid of these terrible edits someone (me) did! 👇</small>
+        </div>
+      </article>
 
       <article span2x2 padded class="artboard">
         <label>Foreground / Background Color</label>

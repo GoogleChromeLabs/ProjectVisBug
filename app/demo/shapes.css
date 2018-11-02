@@ -25,3 +25,13 @@
   &.green { background-color: green;  }
   &.yellow { background-color: yellow;  }
 }
+
+[round-icon] {
+  box-sizing: border-box;
+  padding: 1rem;
+  width: var(--card-size);
+  height: var(--card-size);
+  border: 5px solid var(--light-grey);
+  border-radius: 50%;
+  fill: var(--grey);
+}
