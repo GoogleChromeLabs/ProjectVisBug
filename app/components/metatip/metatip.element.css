@@ -46,13 +46,15 @@
   & a {
     text-decoration: none;
     color: inherit;
+    text-overflow: ellipsis;
+    overflow: hidden;
 
     &:hover {
       color: var(--theme-color); 
       text-decoration: underline;
     }
 
-    :empty {
+    &:empty {
       display: none;
     }
   }
@@ -63,6 +65,8 @@
   font-size: 1em;
   font-weight: bolder;
   margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 :host h6 {
