@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
   
-    <title>PixelBug</title>
+    <title>VisBug</title>
     <link rel="icon" href="favicon.ico">
 
     <meta name="description" content="My App description">
@@ -27,7 +27,6 @@
         </a> -->
         <figure>
           <picture>
-            <!-- <img src="./assets/pixelbug.png" alt="PixelBug CMYK bug logo"> -->
             <svg viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <defs>
                     <filter x="0.0%" y="0.0%" width="100.0%" height="100.0%" filterUnits="objectBoundingBox" id="filter-1">
@@ -42,7 +41,7 @@
                       <feBlend in="SourceGraphic" mode="multiply"/>
                     </filter>   
                 </defs>
-                <g id="PixelBug-Copy-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g id="VisBug" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                     <path d="M434,144 C469.898509,144 499,114.898509 499,79 C499,43.1014913 469.898509,14 434,14 C398.101491,14 369,43.1014913 369,79 C369,114.898509 398.101491,144 434,144 Z" id="k" fill="#FFFFFF" fill-rule="nonzero"></path>
                     <g id="multiply-group" filter="url(#filter-1)" transform="translate(-26.000000, -26.000000)" fill-rule="nonzero">
                         <path filter="url(#filter-2)" d="M252.849285,316.021385 C384.402163,316.021385 491.046841,224.539715 491.046841,224.539715 C491.046841,224.539715 384.402163,133.058045 252.849285,133.058045 C121.296407,133.058045 14.6517289,224.539715 14.6517289,224.539715 C14.6517289,224.539715 121.296407,316.021385 252.849285,316.021385 Z" id="c" fill="#00FFFF" style="mix-blend-mode: multiply;" transform="translate(252.849285, 224.539715) rotate(-30.000000) translate(-252.849285, -224.539715) "></path>
@@ -53,7 +52,7 @@
             </svg>
           </picture>
           <figcaption>
-            <h1>PixelBug</h1>
+            <h1>VisBug</h1>
             <h2>
               <em>Open Source</em>
               <br>
@@ -175,7 +174,6 @@
       <article span1x1 padded class="artboard" grid="rows" horizontally-distributed="between">
         <label>Guides</label>
         <div>
-          <p class="tip">💡 Hotkey <kbd>g</kbd></p>
           <p class="tip">💡 Redlines & distance coming soon!</p>
         </div> 
         <div fit-height grid vertically-aligned="center" horizontally-aligned="center">
@@ -184,10 +182,7 @@
       </article>
 
       <article span1x1 class="artboard" grid="rows" vertically-aligned="center" horizontally-distributed="between" vertically-distributed="equal">
-        <label>Inspect</label>
-        <div padded>
-          <p class="tip">💡 Hotkey <kbd>i</kbd></p>
-        </div> 
+        <label>Inspect Tool</label>
         <ul class="mdc-list demo-list demo-list-item-shaped">
           <li class="mdc-list-item mdc-ripple-upgraded mdc-list-item--activated" aria-selected="true" style="--mdc-ripple-fg-size:360px; --mdc-ripple-fg-scale:1.69977; --mdc-ripple-fg-translate-start:55.8906px, -156.16px; --mdc-ripple-fg-translate-end:120px, -156px;">
           <span class="mdc-list-item__graphic material-icons" aria-hidden="true">inbox</span>Inbox</li>
@@ -253,17 +248,13 @@
       </article>
 
       <article span2x1 padded class="artboard">
-        <label>A11y</label>
-        <div>
-          <p class="tip">💡 Hotkey <kbd>x</kbd></p>
-        </div>
+        <label>Accessibility Tool</label>
       </article> 
 
       <article span3x1 class="artboard" padded grid vertically-distributed="equal">
         <label>Text Styles</label>
         <div>
-          <p class="tip">💡 Press <kbd>i</kbd> for the inspector, then hover the following type ramp</p>
-          <p class="tip">💡 Press <kbd>f</kbd> for the font tool, and edit the ramp</p>
+          <p class="tip">💡 Multiselect these headings and edit the ramp with the font tool</p>
         </div>
         <div text-styles>
           <h1>The quick brown fox jumps over the lazy dog</h1>
@@ -288,13 +279,11 @@
       </article> 
 
       <article span2x1 class="artboard" padded grid vertically-distributed="between">
-        <label>Move</label>
+        <label>Move Tool</label>
         <div>
-          <p class="tip">💡 Press <kbd>v</kbd> for the move tool</p>
-          <p class="tip">💡 Then <kbd>left arrow</kbd> or <kbd>right arrow</kbd></p>
           <p class="tip">💡 <b>Fix the order</b> of the circles below</p>
         </div>
-        <div ordered-numbers>
+        <div ordered-numbers fit-height>
           <div class="filled-circle">3</div>
           <div class="filled-circle">5</div>
           <div class="filled-circle">4</div>
@@ -304,7 +293,7 @@
       </article> 
 
       <article span1x2 class="artboard" padded grid="rows" vertically-distributed="equal" horizontally-aligned="center">
-        <label>Move</label>
+        <label>Move Tool</label>
         <p class="tip">💡 Flow direction can make left/right be up/down 🤔</p>
         <div stop-light fit-height>
           <div class="filled-circle green"></div>
@@ -314,14 +303,10 @@
       </article> 
 
       <article span2x1 padded class="artboard" grid="rows">
-        <label>Edit Text</label>
-        <div>
-          <p class="tip">💡 Just double click any text!</p>
-          <p class="tip">💡 Hotkey <kbd>t</kbd></p>
-        </div>
+        <label>Edit Text Tool</label>
         <div fit-height grid="rows" vertically-aligned="center" horizontally-aligned="center">
-          <h1>I'm worth $100 /hr</h1>
-          <small>How much are you worth? Edit the text to specify your rate.</small>
+          <h1 class="Doubleclick_to_edit">I'm worth $100 /hr</h1>
+          <small class="Doubleclick_to_edit">How much are you worth? Edit the text to specify your rate.</small>
         </div>
       </article> 
 
@@ -346,7 +331,7 @@
                 <feBlend in="SourceGraphic" mode="multiply"/>
               </filter>   
             </defs>
-            <g id="PixelBug-Copy-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <g id="VisBug" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
               <path d="M434,144 C469.898509,144 499,114.898509 499,79 C499,43.1014913 469.898509,14 434,14 C398.101491,14 369,43.1014913 369,79 C369,114.898509 398.101491,144 434,144 Z" id="k" fill="#000000" fill-rule="nonzero"></path>
               <g id="multiply-group" filter="url(#filter-1)" transform="translate(-26.000000, -26.000000)" fill-rule="nonzero">
                 <path filter="url(#filter-2)" d="M252.849285,316.021385 C384.402163,316.021385 491.046841,224.539715 491.046841,224.539715 C491.046841,224.539715 384.402163,133.058045 252.849285,133.058045 C121.296407,133.058045 14.6517289,224.539715 14.6517289,224.539715 C14.6517289,224.539715 121.296407,316.021385 252.849285,316.021385 Z" id="c" fill="#00FFFF" style="mix-blend-mode: multiply;" transform="translate(252.849285, 224.539715) rotate(-30.000000) translate(-252.849285, -224.539715) "></path>
@@ -359,7 +344,7 @@
       </article> 
 
       <article span1x2 padded class="artboard" grid="rows" horizontally-distributed="between">
-        <label>Margin</label>
+        <label>Margin Tool</label>
         <div>
           <p class="tip">💡 Hotkey <kbd>m</kbd></p>
         </div>
@@ -375,7 +360,7 @@
       </article> 
 
       <article span2x1 padded class="artboard" grid="rows" horizontally-distributed="between">
-        <label>Padding</label>
+        <label>Padding Tool</label>
         <div>
           <p class="tip">💡 Hotkey <kbd>p</kbd></p>
         </div>
@@ -391,7 +376,7 @@
       </article> 
 
       <article span1x1 padded class="artboard">
-        <label>Drop Shadow</label>
+        <label>Drop Shadow Tool</label>
         <div>
           <p class="tip">💡 Hotkey <kbd>d</kbd></p>
         </div>
@@ -408,21 +393,21 @@
       </article> 
 
       <article span1x1 padded class="artboard">
-        <label>Position</label>
+        <label>Position Tool</label>
         <div>
           <p class="tip">💡 Hotkey <kbd>l</kbd></p>
         </div>
       </article>
 
       <article span2x1 padded class="artboard">
-        <label>Align</label>
+        <label>Align Tool</label>
         <div>
           <p class="tip">💡 Hotkey <kbd>a</kbd></p>
         </div>
       </article> 
 
       <article span2x1 padded class="artboard">
-        <label>Search</label>
+        <label>Search Tool</label>
         <div>
           <p class="tip">💡 Hotkey <kbd>s</kbd></p>
         </div>
