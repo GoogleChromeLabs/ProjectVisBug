@@ -93,7 +93,7 @@ main {
   display: grid;
   width: 100%;
   grid-template-columns: repeat(5, 5rem);
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 nav {

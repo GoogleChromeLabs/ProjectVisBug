@@ -1,6 +1,6 @@
-import $        from 'blingblingjs'
-import hotkeys  from 'hotkeys-js'
-import styles   from './toolpallete.element.css'
+import $          from 'blingblingjs'
+import hotkeys    from 'hotkeys-js'
+import styles     from './toolpallete.element.css'
 
 import { 
   Handles, Label, Overlay, Gridlines, 
@@ -13,6 +13,7 @@ import {
   Guides, Screenshot, Position, Accessibility
 } from '../../features/'
 
+import { ToolModel }              from './model'
 import * as Icons                 from './toolpallete.icons' 
 import { provideSelectorEngine }  from '../../features/search'
 
@@ -20,25 +21,7 @@ export default class ToolPallete extends HTMLElement {
   constructor() {
     super()
 
-    this.toolbar_model = {
-      g: { tool: 'guides', icon: Icons.guides, label: 'Guides', description: 'Verify alignment' },
-      i: { tool: 'inspector', icon: Icons.inspector, label: 'Inspect', description: 'Peak into the common & current styles of an element' },
-      x: { tool: 'accessibility', icon: Icons.accessibility, label: 'Accessibility', description: 'Peak into a11y attributes & compliance status' },
-      v: { tool: 'move', icon: Icons.move, label: 'Move', description: 'Push elements in, out & around' },
-      // r: { tool: 'resize', icon: Icons.resize, label: 'Resize', description: '' },
-      m: { tool: 'margin', icon: Icons.margin, label: 'Margin', description: 'Add or subtract outer space' },
-      p: { tool: 'padding', icon: Icons.padding, label: 'Padding', description: 'Add or subtract inner space' },
-      // b: { tool: 'border', icon: Icons.border, label: 'Border', description: '' },
-      a: { tool: 'align', icon: Icons.align, label: 'Flexbox Align', description: 'Create or modify direction, distribution & alignment' },
-      h: { tool: 'hueshift', icon: Icons.hueshift, label: 'Hue Shift', description: 'Change fg/bg hue, brightness, saturation & opacity' },
-      d: { tool: 'boxshadow', icon: Icons.boxshadow, label: 'Shadow', description: 'Create & adjust position, blur & opacity of a box shadow' },
-      // t: { tool: 'transform', icon: Icons.transform, label: '3D Transform', description: '' },
-      l: { tool: 'position', icon: Icons.position, label: 'Position', description: 'Move svg (x,y) and elements (top,left,bottom,right)' },
-      f: { tool: 'font', icon: Icons.font, label: 'Font Styles', description: 'Change size, leading, kerning, & weight' },
-      e: { tool: 'text', icon: Icons.text, label: 'Edit Text', description: 'Change any text on the page' },
-      // c: { tool: 'screenshot', icon: Icons.camera, label: 'Screenshot', description: 'Screenshot selected elements or the entire page' },
-      s: { tool: 'search', icon: Icons.search, label: 'Search', description: 'Select elements by searching for them' },
-    }
+    this.toolbar_model = ToolModel
 
     this.$shadow = this.attachShadow({mode: 'open'})
     this.$shadow.innerHTML = this.render()
@@ -93,9 +76,12 @@ export default class ToolPallete extends HTMLElement {
       ${this.styles()}
       <pb-hotkeys></pb-hotkeys>
       <ol>
-        ${Object.entries(this.toolbar_model).reduce((list, [key, value]) => `
+        ${Object.entries(this.toolbar_model).reduce((list, [key, tool]) => `
           ${list}
-          <li aria-label="${value.label} Tool" aria-description="${value.description}" aria-hotkey="${key}" data-tool="${value.tool}" data-active="${key == 'g'}">${value.icon}</li>
+          <li aria-label="${tool.label} Tool" aria-description="${tool.description}" aria-hotkey="${key}" data-tool="${tool.tool}" data-active="${key == 'g'}">
+            ${tool.icon}
+            ${this.demoTip({key, ...tool})}
+          </li>
         `,'')}
       </ol>
       <ol colors>
@@ -120,6 +106,24 @@ export default class ToolPallete extends HTMLElement {
       <style>
         ${styles}
       </style>
+    `
+  }
+
+  demoTip({key, tool, label, description, instruction}) {
+    return `
+      <aside ${tool}>
+        <figure>
+          <img src="features/tuts/${tool}.gif" alt="${description}" />
+          <figcaption>
+            <h2>
+              ${label} 
+              <span hotkey>${key}</span>
+            </h2>
+            <p>${description}</p>
+            ${instruction}
+          </figcaption>
+        </figure>
+      </aside>
     `
   }
 
