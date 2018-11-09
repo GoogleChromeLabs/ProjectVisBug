@@ -93,9 +93,12 @@ export default class ToolPallete extends HTMLElement {
       ${this.styles()}
       <pb-hotkeys></pb-hotkeys>
       <ol>
-        ${Object.entries(this.toolbar_model).reduce((list, [key, value]) => `
+        ${Object.entries(this.toolbar_model).reduce((list, [key, tool]) => `
           ${list}
-          <li aria-label="${value.label} Tool" aria-description="${value.description}" aria-hotkey="${key}" data-tool="${value.tool}" data-active="${key == 'g'}">${value.icon}</li>
+          <li aria-label="${tool.label} Tool" aria-description="${tool.description}" aria-hotkey="${key}" data-tool="${tool.tool}" data-active="${key == 'g'}">
+            ${tool.icon}
+            ${this.demoTip({key, ...tool})}
+          </li>
         `,'')}
       </ol>
       <ol colors>
@@ -120,6 +123,20 @@ export default class ToolPallete extends HTMLElement {
       <style>
         ${styles}
       </style>
+    `
+  }
+
+  demoTip({key, tool, description}) {
+    return `
+      <aside>
+        <figure>
+          <img src="assets/tuts/${tool}.gif" alt="${description}" />
+          <figcaption>
+            ${key}
+            ${description}
+          </figcaption>
+        </figure>
+      </aside>
     `
   }
 
