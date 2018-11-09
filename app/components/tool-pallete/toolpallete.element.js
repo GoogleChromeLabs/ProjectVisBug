@@ -113,7 +113,7 @@ export default class ToolPallete extends HTMLElement {
     return `
       <aside ${tool}>
         <figure>
-          <img src="features/tuts/${tool}.gif" alt="${description}" />
+          <img src="tuts/${tool}.gif" alt="${description}" />
           <figcaption>
             <h2>
               ${label} 
