@@ -129,7 +129,8 @@
     }
   }
 
-  &:hover > aside:not([search]) {
+  &:hover:not([data-tool="search"]) > aside,
+  &[data-tool="search"] > svg:hover + aside {
     opacity: 1;
     transform: translateX(0);
     transition-delay: 0.75s;
