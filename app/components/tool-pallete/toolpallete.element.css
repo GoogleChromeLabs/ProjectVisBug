@@ -59,10 +59,11 @@
     position: absolute;
     left: 3em;
     top: 0;
+    z-index: -2;
     pointer-events: none;
     background: white;
     color: hsl(0,0%,30%);
-    box-shadow: 0 0.1em 0.1em hsla(0,0%,0%,20%);
+    box-shadow: 0 0.1em 4.5em hsla(0,0%,0%,15%);
     border-radius: 1rem;
 
     transition: opacity 0.3s ease, transform 0.2s ease;
@@ -128,7 +129,7 @@
     }
   }
 
-  &:hover > aside {
+  &:hover > aside:not([search]) {
     opacity: 1;
     transform: translateX(0);
     transition-delay: 0.75s;
