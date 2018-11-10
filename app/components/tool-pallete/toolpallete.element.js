@@ -24,8 +24,6 @@ export default class ToolPallete extends HTMLElement {
     this.toolbar_model  = ToolModel
     this._tutsBaseURL   = 'tuts' // can be set by content script
     this.$shadow        = this.attachShadow({mode: 'open'})
-
-    provideSelectorEngine(this.selectorEngine)
   }
 
   connectedCallback() {
@@ -34,6 +32,7 @@ export default class ToolPallete extends HTMLElement {
 
     this.selectorEngine = Selectable()
     this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
+    provideSelectorEngine(this.selectorEngine)
   }
 
   disconnectedCallback() {
