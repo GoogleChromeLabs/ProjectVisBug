@@ -29,7 +29,8 @@ export default class ToolPallete extends HTMLElement {
   }
 
   connectedCallback() {
-    this.setup()
+    if (!this.$shadow.innerHTML)
+      this.setup()
 
     this.selectorEngine = Selectable()
     this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
@@ -45,7 +46,7 @@ export default class ToolPallete extends HTMLElement {
 
   setup() {
     this.$shadow.innerHTML = this.render()
-    
+
     $('li[data-tool]', this.$shadow).on('click', e => 
       this.toolSelected(e.currentTarget) && e.stopPropagation())
 
