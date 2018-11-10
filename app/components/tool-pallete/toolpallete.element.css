@@ -12,7 +12,7 @@
 :host > ol {
   display: flex;
   flex-direction: column;
-  margin: 1em;
+  margin: 1em 0 0.5em 1em;
   padding: 0;
   list-style-type: none;
   border-radius: 2em;
@@ -188,23 +188,24 @@
   }*/
 }
 
+:host [colors] {
+  margin-top: 0;
+}
+
 :host [colors] > li {
   overflow: hidden;
   border-radius: 50%;
   box-shadow: 0 0.25em 0.5em hsla(0,0%,0%,10%);
   background: var(--theme-bg);
+  margin-bottom: 0.5em;
 
-  &:not(:last-child) {
-    margin-bottom: 0.5em;
+  &:first-child {
+    margin-top: 0;
   }
 }
 
 :host [colors] li:hover:after {
   top: 0;
-}
-
-:host [colors] {
-  margin-top: 0.5em;
 }
 
 :host li > svg {
