@@ -57,7 +57,7 @@
   & > aside {
     overflow: hidden;
     position: absolute;
-    left: 3rem;
+    left: 3em;
     top: 0;
     pointer-events: none;
     background: white;
