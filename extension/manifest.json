@@ -16,6 +16,21 @@
   "browser_action": {
     "default_title": "PixelBug"
   },
+  "web_accessible_resources": [
+    "tuts/accessibility.gif",
+    "tuts/align.gif",
+    "tuts/boxshadow.gif",
+    "tuts/font.gif",
+    "tuts/guides.gif",
+    "tuts/hueshift.gif",
+    "tuts/inspector.gif",
+    "tuts/margin.gif",
+    "tuts/move.gif",
+    "tuts/padding.gif",
+    "tuts/position.gif",
+    "tuts/search.gif",
+    "tuts/text.gif"
+  ],
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {

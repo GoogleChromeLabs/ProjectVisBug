@@ -21,17 +21,31 @@ export default class ToolPallete extends HTMLElement {
   constructor() {
     super()
 
-    this.toolbar_model = ToolModel
+    this.toolbar_model  = ToolModel
+    this._tutsBaseURL   = 'tuts' // can be set by content script
+    this.$shadow        = this.attachShadow({mode: 'open'})
 
-    this.$shadow = this.attachShadow({mode: 'open'})
-    this.$shadow.innerHTML = this.render()
-
-    this.selectorEngine = Selectable()
-    this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
     provideSelectorEngine(this.selectorEngine)
   }
 
   connectedCallback() {
+    this.setup()
+
+    this.selectorEngine = Selectable()
+    this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
+  }
+
+  disconnectedCallback() {
+    this.deactivate_feature()
+    this.selectorEngine.disconnect()
+    hotkeys.unbind(
+      Object.keys(this.toolbar_model).reduce((events, key) =>
+        events += ',' + key, ''))
+  }
+
+  setup() {
+    this.$shadow.innerHTML = this.render()
+    
     $('li[data-tool]', this.$shadow).on('click', e => 
       this.toolSelected(e.currentTarget) && e.stopPropagation())
 
@@ -45,14 +59,6 @@ export default class ToolPallete extends HTMLElement {
     )
 
     this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
-  }
-
-  disconnectedCallback() {
-    this.deactivate_feature()
-    this.selectorEngine.disconnect()
-    hotkeys.unbind(
-      Object.keys(this.toolbar_model).reduce((events, key) =>
-        events += ',' + key, ''))
   }
 
   toolSelected(el) {
@@ -113,7 +119,7 @@ export default class ToolPallete extends HTMLElement {
     return `
       <aside ${tool}>
         <figure>
-          <img src="tuts/${tool}.gif" alt="${description}" />
+          <img src="${this._tutsBaseURL}/${tool}.gif" alt="${description}" />
           <figcaption>
             <h2>
               ${label} 
@@ -197,6 +203,11 @@ export default class ToolPallete extends HTMLElement {
 
   get activeTool() {
     return this.active_tool.dataset.tool
+  }
+
+  set tutsBaseURL(url) {
+    this._tutsBaseURL = url
+    this.setup()
   }
 }
 
