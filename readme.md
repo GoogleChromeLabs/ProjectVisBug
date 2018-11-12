@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="./assets/pixelbug.png" width="300" height="300" alt="pixelbug">
+  <img src="./assets/visbug.png" width="300" height="300" alt="visbug">
   <br>
-  <a href="https://www.npmjs.org/package/pixelbug"><img src="https://img.shields.io/npm/v/pixelbug.svg?style=flat" alt="npm"></a>
-  <a href="https://www.npmjs.com/package/pixelbug"><img src="https://img.shields.io/npm/dt/pixelbug.svg" alt="downloads" ></a>
-  <a href="https://travis-ci.org/argyleink/pixelbug"><img src="https://travis-ci.org/argyleink/pixelbug.svg?branch=master" alt="travis"></a>
+  <a href="https://www.npmjs.org/package/visbug"><img src="https://img.shields.io/npm/v/visbug.svg?style=flat" alt="npm"></a>
+  <a href="https://www.npmjs.com/package/visbug"><img src="https://img.shields.io/npm/dt/visbug.svg" alt="downloads" ></a>
+  <a href="https://travis-ci.org/argyleink/visbug"><img src="https://travis-ci.org/argyleink/visbug.svg?branch=master" alt="travis"></a>
 </p>
 
-# PixelBug
+# VisBug
 
 > Open source web design tools
 
@@ -35,16 +35,16 @@
 ## Installation
 
 ### Add to your browser
-[Chrome Extension](https://chrome.google.com/webstore/detail/pixelbug/fffabomofckmjcahkllocjbiijpooiib)
+[Chrome Extension](https://chrome.google.com/webstore/detail/visbug/fffabomofckmjcahkllocjbiijpooiib)
 [Firefox Add-on](#) (coming soon!)
 
 ### Web Component
 ```sh
-npm i pixelbug
+npm i visbug
 ```
 
 ## Tool Architecture
-**PixelBug is a custom element** on your page that intercepts interactions, selecting the item(s) instead, and then provides keyboard driven patterns to manipulate the selected DOM nodes. It can do these things on any page without the need for extension or browser priveledges. Extension integrations are to power a 2nd screen experience, while also providing browser specific features to enhance the experience. 
+**VisBug is a custom element** on your page that intercepts interactions, selecting the item(s) instead, and then provides keyboard driven patterns to manipulate the selected DOM nodes. It can do these things on any page without the need for extension or browser priveledges. Extension integrations are to power a 2nd screen experience, while also providing browser specific features to enhance the experience. 
 
 The illusion of selection and hover interactions are **more custom elements**. They are sag positioned overtop the elements to provide the same visual feedback that design tools do. It is essential that these elements leverage the shadow DOM; they're in a foreign environment yet need to look the same across any page. 
 
@@ -72,8 +72,8 @@ Pull requests are the greatest contributions, so be sure they are focused in sco
 > Every byte counts! PR's can't be merged if they increase the output size much.
 
 -   Fork it!
--   Clone your fork: `git clone https://github.com/<your-username>/pixelbug`
--   Navigate to the newly cloned directory: `cd pixelbug`
+-   Clone your fork: `git clone https://github.com/<your-username>/visbug`
+-   Navigate to the newly cloned directory: `cd visbug`
 -   Create a new branch for the new feature: `git checkout -b my-new-feature`
 -   Install the tools necessary for development: `npm install`
 -   Make your changes.
