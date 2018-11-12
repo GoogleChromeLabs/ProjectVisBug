@@ -34,7 +34,7 @@
 ## Installation
 
 ### Add to your browser
-[Chrome Extension](https://chrome.google.com/webstore/detail/visbug/fffabomofckmjcahkllocjbiijpooiib)
+[Chrome Extension](https://chrome.google.com/webstore/detail/cdockenadnadldjbbgcallicgledbeoc)  
 [Firefox Add-on](#) (coming soon!)
 
 ### Web Component
