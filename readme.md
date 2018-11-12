@@ -21,7 +21,7 @@
 - **Make more decisions** on the front end of your site/app (a11y, responsive, edge cases, etc)
 - **No waiting** for developers to expose their legos, **just go direct** and edit the end state (regardless of framework) and **execute/test an idea**
 
-### Give **power to designers & content creators**, in a place where they currenly feel they have little to none, **by bringing design tool interactions and hotkeys to the browser**
+### Give **power to designers & content creators**, in a place where they currently feel they have little to none, **by bringing design tool interactions and hotkeys to the browser**
 
 
 
