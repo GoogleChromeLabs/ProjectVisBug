@@ -1,3 +1,3 @@
 [
-  ...document.getElementsByTagName('tool-pallete'),
+  ...document.getElementsByTagName('tool-palette'),
 ].forEach(el => el.remove())
