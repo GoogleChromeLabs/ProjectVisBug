@@ -22,6 +22,7 @@
 
 ### Give **power to designers & content creators**, in a place where they currently feel they have little to none, **by bringing design tool interactions and hotkeys to the browser**
 
+Check out the [list of features](https://github.com/GoogleChromeLabs/ProjectVisBug/issues) too, there's a lot of fun stuff planned or in demand. Cast your vote on a feature, leave some feedback or add clarity. Let's do this. **Design community, I'm looking at you** first. Make a GitHub account and start dreamin in the issues area! Help create the tool you need to do your job better.
 
 
 > 🤔 **It's not:**
@@ -34,10 +35,10 @@
 ## Installation
 
 ### Add to your browser
-[Chrome Extension](https://chrome.google.com/webstore/detail/visbug/fffabomofckmjcahkllocjbiijpooiib)
+[Chrome Extension](https://chrome.google.com/webstore/detail/cdockenadnadldjbbgcallicgledbeoc)  
 [Firefox Add-on](#) (coming soon!)
 
-### Web Component
+### Web Component (coming soon 💀🤘)
 ```sh
 npm i visbug
 ```
@@ -84,4 +85,4 @@ Pull requests are the greatest contributions, so be sure they are focused in sco
 
 ## License
 
-[MIT License](LICENSE.md) © [Adam Argyle](https://argyleink.com)
+[Apache2 License](LICENSE) © [Adam Argyle](https://argyleink.com)
