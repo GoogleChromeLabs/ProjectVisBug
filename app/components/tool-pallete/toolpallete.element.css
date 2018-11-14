@@ -4,7 +4,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 99998; 
+  z-index: 99998;
   font-size: 16px;
   font-family: system-ui;
 }
@@ -30,7 +30,6 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  position: relative;
   border-radius: 50%;
 
   &:first-child { margin-top: 0.25em; }
@@ -46,19 +45,19 @@
     }
   }
 
-  &[data-active=true] > svg:not(.icon-cursor) { 
-    fill: var(--theme-color); 
+  &[data-active=true] > svg:not(.icon-cursor) {
+    fill: var(--theme-color);
   }
 
-  &[data-active=true] > .icon-cursor { 
-    stroke: var(--theme-color); 
+  &[data-active=true] > .icon-cursor {
+    stroke: var(--theme-color);
   }
 
   & > aside {
     overflow: hidden;
     position: absolute;
-    left: 3em;
-    top: 0;
+    left: 4em;
+    top: 1em;
     z-index: -2;
     pointer-events: none;
     background: white;
@@ -281,15 +280,15 @@
   outline: none;
 }
 
-:host input[type='color']::-webkit-color-swatch-wrapper { 
+:host input[type='color']::-webkit-color-swatch-wrapper {
   padding: 0;
 }
 
-:host input[type='color']::-webkit-color-swatch { 
+:host input[type='color']::-webkit-color-swatch {
   border: none;
 }
 
-:host input[type='color'][value='']::-webkit-color-swatch { 
-  background-color: transparent !important; 
+:host input[type='color'][value='']::-webkit-color-swatch {
+  background-color: transparent !important;
   background-image: linear-gradient(155deg, #ffffff 0%,#ffffff 46%,#ff0000 46%,#ff0000 54%,#ffffff 55%,#ffffff 100%);
 }
