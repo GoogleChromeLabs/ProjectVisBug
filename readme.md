@@ -29,7 +29,7 @@ Let's do this **Design community, I'm looking at you** first. Make a GitHub acco
 
 > 🤔 **It's not:**
 >
-> -   **A competitor** to design tools like Figma, Sketch, XD, etc; **it's a compliment**
+> -   **A competitor** to design tools like Figma, Sketch, XD, etc; **it's a complement**
 > -   Something you would use **to start from scratch**
 > -   A **design system recognizer**, enforcer, enabler, or anything
 > -   An **interaction** prototyping tool
