@@ -46,13 +46,13 @@ npm i visbug
 ```
 
 ## Tool Architecture
-**VisBug is a custom element** on your page that intercepts interactions, selecting the item(s) instead, and then provides keyboard driven patterns to manipulate the selected DOM nodes. It can do these things on any page without the need for extension or browser priveledges. Extension integrations are to power a 2nd screen experience, while also providing browser specific features to enhance the experience. 
+**VisBug is a custom element** on your page that intercepts interactions, selecting the item(s) instead, and then provides keyboard driven patterns to manipulate the selected DOM nodes. It can do these things on any page without the need for extension or browser privileges. Extension integrations are to power a 2nd screen experience, while also providing browser specific features to enhance the experience. 
 
 The illusion of selection and hover interactions are **more custom elements**. They are sag positioned overtop the elements to provide the same visual feedback that design tools do. It is essential that these elements leverage the shadow DOM; they're in a foreign environment yet need to look the same across any page. 
 
 **Each tool is a function** that gets called when the user changes tools, and expects the feature function to return a function for disassembly/cleanup. Think of it as, "hey feature, you're up" and then later "hey feature, you're turn is up, clean up." 
 
-It's the responsibility of each feature to register keyboard listeners and handle the manipulations. It's a courtesty to expose functions from a feature for other features to use. **Features must be able to handle multiselect**. 
+It's the responsibility of each feature to register keyboard listeners and handle the manipulations. It's a courtesy to expose functions from a feature for other features to use. **Features must be able to handle multiselect**. 
 
 
 ## Contribute
