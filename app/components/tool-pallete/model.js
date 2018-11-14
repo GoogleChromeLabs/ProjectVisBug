@@ -164,7 +164,7 @@ export const ToolModel = {
                     </div>
                     <div>
                       <b>Spread:</b>
-                      <span>Shift + ▲ ▼</span>
+                      <span>Shift + ◀ ▶</span>
                     </div>
                     <div>
                       <b>Opacity:</b>
