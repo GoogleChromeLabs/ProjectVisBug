@@ -74,8 +74,8 @@ Pull requests are the greatest contributions, so be sure they are focused in sco
 > Every byte counts! PR's can't be merged if they increase the output size much.
 
 -   Fork it!
--   Clone your fork: `git clone https://github.com/<your-username>/visbug`
--   Navigate to the newly cloned directory: `cd visbug`
+-   Clone your fork: `git clone https://github.com/<your-username>/ProjectVisBug`
+-   Navigate to the newly cloned directory: `cd ProjectVisBug`
 -   Create a new branch for the new feature: `git checkout -b my-new-feature`
 -   Install the tools necessary for development: `npm install`
 -   Make your changes.
