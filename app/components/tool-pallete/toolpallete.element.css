@@ -57,6 +57,8 @@
   & > aside {
     overflow: hidden;
     position: absolute;
+    direction: ltr;
+    text-align: left;
     left: 3em;
     top: 0;
     z-index: -2;
