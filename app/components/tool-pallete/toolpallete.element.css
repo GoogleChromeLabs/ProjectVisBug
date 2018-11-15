@@ -243,6 +243,7 @@
 }
 
 :host li[data-tool="search"] > .search > input {
+  direction: ltr;
   border: none;
   font-size: 1em;
   padding: 0.4em 0.4em 0.4em 2em;
