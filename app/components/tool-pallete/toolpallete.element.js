@@ -32,7 +32,6 @@ export default class ToolPallete extends HTMLElement {
 
     this.selectorEngine = Selectable()
     this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
-    this.toggleToolPallete();
     provideSelectorEngine(this.selectorEngine)
   }
 
@@ -42,6 +41,7 @@ export default class ToolPallete extends HTMLElement {
     hotkeys.unbind(
       Object.keys(this.toolbar_model).reduce((events, key) =>
         events += ',' + key, ''))
+    hotkeys.unbind('cmd+/')
   }
 
   setup() {
@@ -59,21 +59,13 @@ export default class ToolPallete extends HTMLElement {
       })
     )
 
+    hotkeys('cmd+/', e =>
+      this.$shadow.host.style.display =
+        this.$shadow.host.style.display === 'none'
+          ? 'block'
+          : 'none')
+
     this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
-  }
-
-  toggleToolPallete() {
-    let toolbars = $('ol', this.$shadow);
-
-    toolbars.forEach(toolbar => {
-        hotkeys('cmd+/', e => {
-            if(toolbar.style.display === 'none') {
-                toolbar.style.display = 'flex';
-            } else {
-                toolbar.style.display = 'none';
-            }
-        });
-    });
   }
 
   toolSelected(el) {
