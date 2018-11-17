@@ -24,7 +24,7 @@
 
 Check out the [list of features me and other's are wishing for](https://github.com/GoogleChromeLabs/ProjectVisBug/issues?q=is%3Aopen+is%3Aissue+label%3A%22%E2%9A%A1%EF%B8%8F+feature%22). There's a lot of fun stuff planned or in demand. Cast your vote on a feature, leave some feedback or add clarity. 
 
-Let's do this **Design community, I'm looking at you** first. Make a GitHub account and start dreamin in the issues area! Help create the tool you need to do your job better.
+Let's do this **Design community, I'm looking at you** first. Make a GitHub account and start dreamin' in the issues area! Help create the tool you need to do your job better.
 
 
 > 🤔 **It's not:**
