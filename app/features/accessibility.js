@@ -1,7 +1,7 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { TinyColor, readability, isReadable } from '@ctrl/tinycolor'
-import { getStyle, isOffBounds, getA11ys, getComputedBackgroundColor } from '../utilities/'
+import { getStyle, getStyles, isOffBounds, getA11ys, getWCAG2TextSize, getComputedBackgroundColor } from '../utilities/'
 
 const tip_map = new Map()
 
@@ -30,13 +30,13 @@ export function Accessibility() {
     // question: how to know if the current node is actually a black background?
     // question: is there an api for composited values?
     const text      = getStyle(el, 'color')
+    const textSize  = getWCAG2TextSize(el)
+
     let background  = getComputedBackgroundColor(el)
 
-    const [ aa_small, aaa_small, aa_large, aaa_large ] = [
-      isReadable(background, text),
-      isReadable(background, text, { level: "AAA", size: "small" }),
-      isReadable(background, text, { level: "AA", size: "large" }),
-      isReadable(background, text, { level: "AAA", size: "large" }),
+    const [ aa_contrast, aaa_contrast ] = [
+      isReadable(background, text, { level: "AA", size: textSize.toLowerCase() }),
+      isReadable(background, text, { level: "AAA", size: textSize.toLowerCase() })
     ]
 
     return `
@@ -47,14 +47,10 @@ export function Accessibility() {
           color:${text};
         ">${Math.floor(readability(background, text)  * 100) / 100}</span>
       </span>
-      <span prop>› AA Small</span>
-      <span value style="${aa_small ? 'color:green;' : 'color:red'}">${aa_small ? '✓' : '×'}</span>
-      <span prop>› AAA Small</span>
-      <span value style="${aaa_small ? 'color:green;' : 'color:red'}">${aaa_small ? '✓' : '×'}</span>
-      <span prop>› AA Large</span>
-      <span value style="${aa_large ? 'color:green;' : 'color:red'}">${aa_large ? '✓' : '×'}</span>
-      <span prop>› AAA Large</span>
-      <span value style="${aaa_large ? 'color:green;' : 'color:red'}">${aaa_large ? '✓' : '×'}</span>
+      <span prop>› AA ${textSize}</span>
+      <span value style="${aa_contrast ? 'color:green;' : 'color:red'}">${aa_contrast ? '✓' : '×'}</span>
+      <span prop>› AAA ${textSize}</span>
+      <span value style="${aaa_contrast ? 'color:green;' : 'color:red'}">${aaa_contrast ? '✓' : '×'}</span>
     `
   }
 
