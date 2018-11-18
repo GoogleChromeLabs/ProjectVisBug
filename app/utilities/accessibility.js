@@ -1,4 +1,5 @@
-import { desiredAccessibilityMap } from './design-properties'
+import { desiredAccessibilityMap, desiredPropMap, largeWCAG2TextMap } from './design-properties'
+import { getStyles } from './styles'
 
 export const getA11ys = el => {
   const elAttributes = el.getAttributeNames()
@@ -21,4 +22,23 @@ export const getA11ys = el => {
 
     return acc
   }, [])
+}
+
+export const getWCAG2TextSize = el => {
+  
+  const styles = getStyles(el).reduce((styleMap, style) => {
+      styleMap[style.prop] = style.value
+      return styleMap
+  }, {})
+
+  const { fontSize   = desiredPropMap.fontSize,
+          fontWeight = desiredPropMap.fontWeight
+      } = styles
+  
+  const isLarge = largeWCAG2TextMap.some(
+    (largeProperties) => parseFloat(fontSize) >= parseFloat(largeProperties.fontSize) 
+       && parseFloat(fontWeight) >= parseFloat(largeProperties.fontWeight) 
+  )
+
+  return  isLarge ? 'Large' : 'Small'
 }
