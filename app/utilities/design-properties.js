@@ -33,3 +33,14 @@ export const desiredAccessibilityMap = [
   'alt',
   'title',
 ]
+
+export const largeWCAG2TextMap = [
+  {
+    fontSize: '24px',
+    fontWeight: '0'
+  },
+  {
+    fontSize: '18.5px',
+    fontWeight: '700'
+  }
+]
