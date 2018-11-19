@@ -4,8 +4,8 @@ chrome.devtools.panels.create('Design', null, 'panel/panel.html', design_panel =
   //   post({action: 'show-toolbar'}))
 })
 
-chrome.devtools.panels.elements.createSidebarPane('PixelBug', sidebar => {
-  sidebar.setPage('../pane/pixelbug/index.html')
+chrome.devtools.panels.elements.createSidebarPane('VisBug', sidebar => {
+  sidebar.setPage('../pane/visbug/index.html')
   sidebar.setHeight('8ex')
 })
 

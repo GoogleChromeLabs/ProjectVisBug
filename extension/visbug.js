@@ -2,7 +2,7 @@
 const connections = {}
 
 chrome.runtime.onConnect.addListener(port => {
-  console.log('pixelbug onConnect', port)
+  console.log('visbug onConnect', port)
 
   if (port.name != 'design-panel' && port.name != 'design-artboard') {
     console.warn(port)
@@ -10,7 +10,7 @@ chrome.runtime.onConnect.addListener(port => {
   }
 
   port.onMessage.addListener(message => {
-    console.log('pixelbug port.onMessage', message, port)
+    console.log('visbug port.onMessage', message, port)
     
     const tabId = port.sender.tab 
       ? port.sender.tab.id 
@@ -23,7 +23,7 @@ chrome.runtime.onConnect.addListener(port => {
         connections[tabId] = {}
 
       connections[tabId][port.name] = port
-      console.info('pixelbug register success', connections)
+      console.info('visbug register success', connections)
       return
     }
 
@@ -36,11 +36,11 @@ chrome.runtime.onConnect.addListener(port => {
       conn && conn.postMessage(message.data)
     }
     else
-      console.warn('pixelbug missing message target')
+      console.warn('visbug missing message target')
   })
 
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log('pixelbug runtime.onMessage', request, sender)
+    console.log('visbug runtime.onMessage', request, sender)
 
     // Messages from content scripts should have sender.tab set.
     // The are all relayed to the 'panel' connection.
@@ -52,7 +52,7 @@ chrome.runtime.onConnect.addListener(port => {
 })
 
 
-// add/remove pixelbug
+// add/remove visbug
 const state = {
   loaded:   {},
   injected: {},
