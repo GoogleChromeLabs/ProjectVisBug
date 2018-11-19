@@ -41,6 +41,7 @@ export default class ToolPallete extends HTMLElement {
     hotkeys.unbind(
       Object.keys(this.toolbar_model).reduce((events, key) =>
         events += ',' + key, ''))
+    hotkeys.unbind('cmd+/')
   }
 
   setup() {
@@ -57,6 +58,12 @@ export default class ToolPallete extends HTMLElement {
         )
       })
     )
+
+    hotkeys('cmd+/', e =>
+      this.$shadow.host.style.display =
+        this.$shadow.host.style.display === 'none'
+          ? 'block'
+          : 'none')
 
     this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
   }
