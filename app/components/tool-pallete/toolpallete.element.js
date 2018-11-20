@@ -59,7 +59,7 @@ export default class ToolPallete extends HTMLElement {
       })
     )
 
-    hotkeys('cmd+/', e =>
+    hotkeys('cmd+/,cmd+.', e =>
       this.$shadow.host.style.display =
         this.$shadow.host.style.display === 'none'
           ? 'block'
