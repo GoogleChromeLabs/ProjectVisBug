@@ -12,7 +12,7 @@ export const ToolModel = {
     tool:        'inspector', 
     icon:        Icons.inspector, 
     label:       'Inspect', 
-    description: 'Peak into common & current styles of an element',
+    description: 'Peek into common & current styles of an element',
     instruction: `<div table> 
                     <div>
                       <b>Pin it:</b>
@@ -24,7 +24,7 @@ export const ToolModel = {
     tool:        'accessibility', 
     icon:        Icons.accessibility, 
     label:       'Accessibility', 
-    description: 'Peak into A11y attributes & compliance status',
+    description: 'Peek into A11y attributes & compliance status',
     instruction: `<div table> 
                     <div>
                       <b>Pin it:</b>
