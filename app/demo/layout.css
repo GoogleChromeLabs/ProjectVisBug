@@ -43,9 +43,9 @@ main {
     --card-size: 15vw;
   }
 
-  @media (min-width:1600px) {
-    --card-size: 10vw;
-  }
+  /*@media (min-width:1600px) {
+    --card-size: 15vw;
+  }*/
 }
 
 [image-grid] {
