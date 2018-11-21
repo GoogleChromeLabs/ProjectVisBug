@@ -104,8 +104,12 @@ export function Selectable() {
     e.preventDefault()
   }
 
-  const on_delete = e => 
-    selected.length && delete_all()
+  const on_delete = e => {
+    if (selected.length) {
+      e.preventDefault()
+      delete_all()
+    }
+  }
 
   const on_clearstyles = e =>
     selected.forEach(el =>
