@@ -51,10 +51,11 @@ export default class ToolPallete extends HTMLElement {
 
     Object.entries(this.toolbar_model).forEach(([key, value]) =>
       hotkeys(key, e => {
-        e.preventDefault()
-        this.toolSelected(
-          $(`[data-tool="${value.tool}"]`, this.$shadow)[0]
-        )
+        if (!e.metaKey) {
+          e.preventDefault()
+          this.toolSelected(
+            $(`[data-tool="${value.tool}"]`, this.$shadow)[0])
+        }
       })
     )
 
