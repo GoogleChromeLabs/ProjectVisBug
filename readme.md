@@ -79,13 +79,11 @@ Pull requests are the greatest contributions, so be sure they are focused in sco
 -   Clone your fork: `git clone https://github.com/<your-username>/ProjectVisBug`
 -   Navigate to the newly cloned directory: `cd ProjectVisBug`
 -   Create a new branch for the new feature: `git checkout -b my-new-feature`
--   Install the tools necessary for development: `npm install`
--   Make your changes.
--   `npm run build` to verify your change doesn't increase output size.
--   `npm test` to make sure your change doesn't break anything.
--   Commit your changes: `git commit -am 'Add some feature'`
--   Push to the branch: `git push origin my-new-feature`
--   Submit a pull request with full remarks documenting your changes.
+-   Install the packages for development: `npm i`
+-   Make your changes
+-   Commit your changes: `git commit -am 'Added some feature'`
+-   Push the branch: `git push origin my-new-feature`
+-   Submit a pull request with full remarks documenting your changes
 
 ## License
 
