@@ -59,7 +59,37 @@ export function Selectable() {
     e.preventDefault()
     if (!e.altKey) e.stopPropagation()
     if (!e.shiftKey) unselect_all()
+    if(e.shiftKey) {
+      let selectedElem = selected.find( el => $(el).attr('data-label-id') == $(e.target).attr('data-label-id') )
+
+      if(selectedElem) {
+        let selectedElemId = $(selectedElem).attr('data-label-id')
+        unselect(selectedElemId)
+      }
+    }
     select(e.target)
+  }
+
+  const unselect = id => {
+
+  	labels.find( el => $(el).attr('data-label-id') == id ).remove()
+    handles.find( el => $(el).attr('data-label-id') == id ).remove()
+
+    labels = labels.filter( el => $(el).attr('data-label-id') !== id)
+    handles = handles.filter( el => $(el).attr('data-label-id') !== id)
+
+    selected.forEach(el => {
+      if($(el).attr('data-label-id') == id) {
+        $(el).attr({
+          'data-selected':      null,
+          'data-selected-hide': null,
+          'data-label-id':      null,
+          'data-hover':         null,
+        })
+      }
+    })
+
+    selected = selected.filter( el => $(el).attr('data-label-id') !== id)
   }
 
   const on_dblclick = e => {
