@@ -52,7 +52,7 @@ npm i visbug
 
 The illusion of selection and hover interactions are **more custom elements**. They are sag positioned overtop the elements to provide the same visual feedback that design tools do. It is essential that these elements leverage the shadow DOM; they're in a foreign environment yet need to look the same across any page. 
 
-**Each tool is a function** that gets called when the user changes tools, and expects the feature function to return a function for disassembly/cleanup. Think of it as, "hey feature, you're up" and then later "hey feature, you're turn is up, clean up." 
+**Each tool is a function** that gets called when the user changes tools, and expects the feature function to return a function for disassembly/cleanup. Think of it as, "hey feature, you're up" and then later "hey feature, your turn is up, clean up." 
 
 It's the responsibility of each feature to register keyboard listeners and handle the manipulations. It's a courtesty to expose functions from a feature for other features to use. **Features must be able to handle multiselect**. 
 
@@ -79,13 +79,11 @@ Pull requests are the greatest contributions, so be sure they are focused in sco
 -   Clone your fork: `git clone https://github.com/<your-username>/ProjectVisBug`
 -   Navigate to the newly cloned directory: `cd ProjectVisBug`
 -   Create a new branch for the new feature: `git checkout -b my-new-feature`
--   Install the tools necessary for development: `npm install`
--   Make your changes.
--   `npm run build` to verify your change doesn't increase output size.
--   `npm test` to make sure your change doesn't break anything.
--   Commit your changes: `git commit -am 'Add some feature'`
--   Push to the branch: `git push origin my-new-feature`
--   Submit a pull request with full remarks documenting your changes.
+-   Install the packages for development: `npm i`
+-   Make your changes
+-   Commit your changes: `git commit -am 'Added some feature'`
+-   Push the branch: `git push origin my-new-feature`
+-   Submit a pull request with full remarks documenting your changes
 
 ## License
 
