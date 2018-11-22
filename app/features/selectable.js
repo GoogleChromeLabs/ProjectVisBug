@@ -59,7 +59,11 @@ export function Selectable() {
     e.preventDefault()
     if (!e.altKey) e.stopPropagation()
     if (!e.shiftKey) unselect_all()
-    select(e.target)
+
+    if (e.shiftKey && e.target.hasAttribute('data-label-id'))
+      unselect(e.target.getAttribute('data-label-id'))
+    else 
+      select(e.target)
   }
 
   const on_dblclick = e => {
@@ -250,6 +254,30 @@ export function Selectable() {
     el.setAttribute('data-selected', true)
     overlayMetaUI(el)
     selected.unshift(el)
+    tellWatchers()
+  }
+
+  const unselect = label_id => {
+    [...labels, ...handles]
+      .filter(node =>
+        node.getAttribute('data-label-id') === label_id)
+      .forEach(node =>
+        node.remove())
+    
+    selected
+      .filter(node =>
+        node.getAttribute('data-label-id') === label_id)
+      .forEach(node =>
+        $(node).attr({
+          'data-selected':      null,
+          'data-selected-hide': null,
+          'data-label-id':      null,
+          'data-hover':         null,
+        }))
+
+    selected = selected.filter(node =>
+      node.getAttribute('data-label-id') !== label_id)
+
     tellWatchers()
   }
 
