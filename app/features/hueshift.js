@@ -72,9 +72,9 @@ export function changeHue(els, direction, prop, Color) {
       // todo: teach hueshift to do handle color
       switch(Color.getActive()) {
         case 'background':
-          return { el, current: background.color.toHsl(), style: background.style }
+          return { el, current: background.color.toHex(), style: background.style }
         case 'foreground':
-          return { el, current: foreground.color.toHsl(), style: foreground.style }
+          return { el, current: foreground.color.toHex(), style: foreground.style }
       }
     })
     .map(payload =>
@@ -99,7 +99,7 @@ export function changeHue(els, direction, prop, Color) {
     })
     .forEach(({el, style, current}) => {
       let color = new TinyColor(current).setAlpha(current.a)
-      el.style[style] = color.toHslString()
+      el.style[style] = color.toHexString()
 
       if (style == 'color') Color.foreground.color(color.toHexString())
       if (style == 'backgroundColor') Color.background.color(color.toHexString())

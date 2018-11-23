@@ -23,7 +23,7 @@ export function MetaTip(selectorEngine) {
       )
       .map(style => {
         if (style.prop.includes('color') || style.prop.includes('Color') || style.prop.includes('fill') || style.prop.includes('stroke'))
-          style.value = `<span color style="background-color:${style.value};"></span>${new TinyColor(style.value).toHslString()}`
+          style.value = `<span color style="background-color:${style.value};"></span>${new TinyColor(style.value).toHexString()}`
 
         if (style.prop.includes('font-family') && style.value.length > 25)
           style.value = style.value.slice(0,25) + '...'
