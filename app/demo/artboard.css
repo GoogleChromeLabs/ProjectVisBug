@@ -57,7 +57,7 @@
     grid-gap: 0.5rem;
     border: 1px solid var(--darkest-grey);
     border-radius: 1rem;
-    padding: 0.5rem 0.75rem;
+    padding: 0.5rem;
 
     & > p {
       margin-top: 0;

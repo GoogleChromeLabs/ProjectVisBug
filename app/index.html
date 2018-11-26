@@ -110,29 +110,29 @@
       <article span1x1 flex class="artboard">
         <label class="Click_stuff_below_👇">Select</label>
         <div class="You_did_it!" grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
-          <h2 class="You_did_it!"><b class="You_did_it!">Click</b> Me 😏</h2>
+          <h2 class="You_did_it!"><b class="You_did_it!">Click</b> Me <em class="Emoji_are_coo" style="font-style: normal;">😏</em></h2>
         </div>
       </article>
 
       <article span2x1 class="artboard" padded grid vertically-distributed="between">
         <label>Keyboard Nav</label>
         <div class="tips">
-          <p> <kbd>Tab</kbd> & <kbd>Shift + Tab</kbd> traverse laterally</p>
-          <p> <kbd>Enter</kbd> & <kbd>Shift + Enter</kbd> traverse lineage</p>
+          <p><kbd>Tab</kbd> & <kbd>Shift + Tab</kbd> traverse laterally</p>
+          <p><kbd>Enter</kbd> & <kbd>Shift + Enter</kbd> traverse lineage</p>
         </div>
-        <div grid horizontally-distributed="between" vertically-aligned="center">
-          <div class="outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
+        <div class="Tab_in_and_out_and_around_these_children" grid horizontally-distributed="between" vertically-aligned="center">
+          <div class="Press_enter! outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
+            <div class="Press_tab! filled-square"></div>
             <div class="filled-square"></div>
             <div class="filled-square"></div>
-            <div class="filled-square"></div>
-            <div class="filled-square"></div>
+            <div class="Press_shift+tab! filled-square"></div>
           </div>
-          <div class="filled-square"></div>
-          <div class="outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
+          <div class="Press_tab! filled-square"></div>
+          <div class="Press_enter! outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
+            <div class="Press_tab! filled-square"></div>
             <div class="filled-square"></div>
             <div class="filled-square"></div>
-            <div class="filled-square"></div>
-            <div class="filled-square"></div>
+            <div class="Press_shift+tab! filled-square"></div>
           </div>
         </div>
       </article> 
@@ -144,7 +144,7 @@
           <p> Press <kbd>cmd+e</kbd> to expand your selection</p>
           <p> Press <kbd>cmd+shift+e</kbd> to expand to all matches</p>
         </div>
-        <div grid vertically-aligned="center">
+        <div grid vertically-aligned="center" class="Demo_area_for_expanding_selection">
           <span class="tip">try here 👉</span>
           <div multi-select class="so_many!_how_to_select_them_all!?">
             <span class="cmd_e"></span>
@@ -168,7 +168,7 @@
         <div class="tips">
           <p> Hotkey <kbd>m</kbd></p>
         </div>
-        <div fit-height grid vertically-aligned="center" horizontally-aligned="center">
+        <div fit-height grid vertically-aligned="center" horizontally-aligned="center" class="Select_all_the_buttons_and_adjust_their_margin_spacing">
           <nav margin>
             <a class="margin-link" href="#">Home</a>
             <a class="margin-link" href="#">About</a>
@@ -200,10 +200,9 @@
       <article span1x1 flex class="dark artboard For_fun-copy_my_styles">
         <div grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
           <div>
-            <h2><kbd>opt+delete</kbd></h2>
-            <h2>No undo yet..</h2>
-            <h2>BUT<br>
-              <small>You can unstyle</small>
+            <h2>#1 rule</h2>
+            <h2>
+              <small>Have some fun!</small>
             </h2>
           </div>
         </div>
@@ -229,7 +228,7 @@
           <p> Press <kbd>cmd+d</kbd></p>
         </div> 
         <div fit-height grid vertically-aligned="center" horizontally-aligned="center" horizontally-distributed="around">
-          <button class="mdc-button mdc-button--raised" style="margin-bottom:0.5rem;">Submit</button>
+          <button class="mdc-button mdc-button--raised" style="margin-bottom:0.5rem;">Dupe</button>
         </div>
       </article>   
 
@@ -239,11 +238,11 @@
           <p> Copy the circle <b>from the left box</b> and paste it <b>in the right box</b></p>
           <p> Works across tabs!</b></p>
         </div>
-        <div grid horizontally-distributed="around" vertically-aligned="center">
-          <div class="outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
-            <div class="filled-circle"></div>
+        <div class="Copy_and_paste_simple_elements" grid horizontally-distributed="around" vertically-aligned="center">
+          <div class="Copy_the_circle_in_this_square outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
+            <div class="Copy_me filled-circle"></div>
           </div>
-          <div class="outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
+          <div class="Paste_here outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
           </div>
         </div>
       </article>
@@ -264,19 +263,58 @@
       <article span2x2 padded class="artboard">
         <label>Image Swap</label>
         <div image-grid>
-          <div>
-            <p class="tip">💡 Select all 4 images and drag in 4 new ones</p>
-            <p class="tip">💡 Drag a new image onto any one of these too</p>
+          <div class="tips">
+            <p>Select all 4 images and drag in some new ones</p>
+            <p>OR just drag a new image onto any one of these</p>
           </div>
-          <img src="http://i.pravatar.cc/300?img=7" alt="">
-          <img src="http://i.pravatar.cc/300?img=24" alt="">
-          <img src="http://i.pravatar.cc/300?img=22" alt="">
-          <img src="http://i.pravatar.cc/300?img=16" alt="">
+          <img class="drag_in_a_new_image!" src="http://i.pravatar.cc/300?img=7" alt="">
+          <img class="drag_in_a_new_image!" src="http://i.pravatar.cc/300?img=24" alt="">
+          <img class="drag_in_a_new_image!" src="http://i.pravatar.cc/300?img=22" alt="">
+          <img class="drag_in_a_new_image!" src="http://i.pravatar.cc/300?img=16" alt="">
         </div>
       </article>
 
-      <article span2x1 padded class="artboard">
+      <article span2x1 padded class="artboard" grid="rows" vertically-distributed="around" horizontally-aligned="left">
         <label>Accessibility Tool</label>
+        <span good-contrast>Good contrast</span>
+        <span bad-contrast>Bad contrast</span>
+        <form>
+          <div class="mdc-form-field">
+            <div class="mdc-radio">
+              <input class="mdc-radio__native-control" type="radio" id="radio-1" name="radios">
+              <div class="mdc-radio__background">
+                <div class="mdc-radio__outer-circle"></div>
+                <div class="mdc-radio__inner-circle"></div>
+              </div>
+            </div>
+            <label for="radio-1">Radio 1</label>
+          </div>
+          <div class="mdc-form-field">
+            <div class="mdc-radio">
+              <input class="mdc-radio__native-control" type="radio" id="radio-2" name="radios" checked>
+              <div class="mdc-radio__background">
+                <div class="mdc-radio__outer-circle"></div>
+                <div class="mdc-radio__inner-circle"></div>
+              </div>
+            </div>
+            <label for="radio-2">Radio 2</label>
+          </div>
+          <div class="mdc-form-field">
+            <div class="mdc-radio">
+              <input class="mdc-radio__native-control" type="radio" id="radio-3" name="radios">
+              <div class="mdc-radio__background">
+                <div class="mdc-radio__outer-circle"></div>
+                <div class="mdc-radio__inner-circle"></div>
+              </div>
+            </div>
+            <label for="radio-3">Radio 3</label>
+          </div>
+          <div>
+            <button class="mdc-button mdc-button--outlined" type="reset">Reset</button>
+            <button class="mdc-button mdc-button--raised" type="submit">Submit</button>
+          </div>
+        </form>
+        <img src="assets/visbug.png" alt="Sweet VisBug logo" style="width: 4rem;">
       </article> 
 
       <article span3x1 class="artboard" padded grid vertically-distributed="equal">
@@ -284,7 +322,7 @@
         <div class="tips">
           <p> Multiselect these headings and edit the ramp with the font tool</p>
         </div>
-        <div text-styles>
+        <div text-styles class="Multiselect_each_header_here_and_change_their_fontsize!">
           <h1>The quick brown fox jumps over the lazy dog</h1>
           <h2>The quick brown fox jumps over the lazy dog</h2>
           <h3>The quick brown fox jumps over the lazy dog</h3>
@@ -300,18 +338,19 @@
           <p><b>Fix the order</b> of the circles below</p>
         </div>
         <div ordered-numbers fit-height>
-          <div class="filled-circle">3</div>
-          <div class="filled-circle">5</div>
-          <div class="filled-circle">4</div>
-          <div class="filled-circle">1</div>
-          <div class="filled-circle">2</div>
+          <div class="Use_left_and_right_arrows filled-circle">3</div>
+          <div class="Use_left_and_right_arrows filled-circle">5</div>
+          <div class="Use_left_and_right_arrows filled-circle">4</div>
+          <div class="Use_left_and_right_arrows filled-circle">1</div>
+          <div class="Use_left_and_right_arrows filled-circle">2</div>
         </div>
       </article> 
 
       <article span1x2 class="artboard" padded grid="rows" vertically-distributed="equal" horizontally-aligned="center">
         <label>Move Tool</label>
         <div class="tips">
-          <p >Flow direction can make left/right be up/down 🤔</p>
+          <p>Flow direction can make left/right be up/down 🤔</p>
+          <p><b>Fix the order</b> of the stop light below</p>
         </div>
         <div stop-light fit-height>
           <div class="filled-circle green"></div>
@@ -346,7 +385,7 @@
           <p>Delete, copy, paste, & duplicate svg!</p>
           <p>Change color, move x/y, & inspect svg!</p>
         </div>
-        <div grid vertically-aligned="center" horizontally-aligned="center">
+        <div class="Play_with_this_svg!" fit-height grid vertically-aligned="center" horizontally-aligned="center">
           <svg height="90%" width="90%" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <defs>
               <filter x="0.0%" y="0.0%" width="100.0%" height="100.0%" filterUnits="objectBoundingBox" id="filter-1">
@@ -475,6 +514,19 @@
           <div class="filled-circle google-green">4</div>
         </div>
       </article> 
+
+      <article span1x1 flex class="dark artboard For_fun-copy_my_styles">
+        <div grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
+          <div>
+            <!-- <h2><kbd>opt+delete</kbd></h2> -->
+            <h2>No undo..</h2>
+            <h2>yet.</h2>
+            <h2>BUT<br>
+              <small>You can unstyle</small>
+            </h2>
+          </div>
+        </div>
+      </article>
 
     </main>
     
