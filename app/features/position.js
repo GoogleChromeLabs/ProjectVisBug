@@ -217,9 +217,7 @@ const setTranslateOnSVG = (el, direction, position) => {
 }
 
 const determineNegativity = (el, direction) =>
-  el instanceof SVGElement
-    ? direction.includes('right') || direction.includes('down')
-    : direction.split('+').includes('alt')
+    direction.includes('right') || direction.includes('down')
 
 const ensurePositionable = el => {
   if (el instanceof HTMLElement) 
