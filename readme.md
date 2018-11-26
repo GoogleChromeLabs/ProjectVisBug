@@ -42,6 +42,10 @@ Let's do this **Design community, I'm looking at you** first. Make a GitHub acco
 [Chrome Extension](https://chrome.google.com/webstore/detail/cdockenadnadldjbbgcallicgledbeoc)  
 [Firefox Add-on](#) (coming soon!)
 
+### Getting Started
+[Check the Wiki](https://github.com/GoogleChromeLabs/ProjectVisBug/wiki)
+[Chat on Gitter](https://gitter.im/VisBug)
+
 ### Web Component (coming soon 💀🤘)
 ```sh
 npm i visbug
@@ -61,6 +65,7 @@ It's the responsibility of each feature to register keyboard listeners and handl
 
 First off, thanks for taking the time to contribute!
 Now, take a moment to be sure your contributions make sense to everyone else.
+Questions or need help building a feature, come [chat on Gitter!](https://gitter.im/VisBug)
 
 ### Reporting Issues
 
