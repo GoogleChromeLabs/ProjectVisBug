@@ -52,10 +52,18 @@
     }
   }
 
-  & .tip {
-    margin-top: 0;
-    margin-bottom: 0;
-    font-size: 0.9rem;
+  & .tips {
+    display: grid;
+    grid-gap: 0.5rem;
+    border: 1px solid var(--darkest-grey);
+    border-radius: 1rem;
+    padding: 0.5rem 0.75rem;
+
+    & > p {
+      margin-top: 0;
+      margin-bottom: 0;
+      font-size: 0.8rem;  
+    }
   }
 
   & > [grid][vertically-aligned] {

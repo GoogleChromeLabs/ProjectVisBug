@@ -28,6 +28,7 @@
   &.google-yellow   { background-color: #F4B400; width: 15vw; height: 15vw; }
   &.google-red      { background-color: #DB4437; width: 15vw; height: 15vw; }
   &.google-green    { background-color: #0F9D58; width: 15vw; height: 15vw; }
+  &.shadow-circle   { background-color: white; box-shadow: 0 10px 30px 2px hsla(0,0%,0%,20%); } 
 }
 
 [round-icon] {
