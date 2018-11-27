@@ -14,7 +14,10 @@
     ]
   },
   "browser_action": {
-    "default_title": "VisBug"
+    "default_title": "VisBug",
+    "default_icon": {
+      "128": "icons/visbug.png"
+    }
   },
   "web_accessible_resources": [
     "tuts/accessibility.gif",
