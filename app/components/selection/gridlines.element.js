@@ -1,5 +1,7 @@
+import { windowBounds } from '../../utilities/'
+
 export class Gridlines extends HTMLElement {
-  
+
   constructor() {
     super()
     this.$shadow = this.attachShadow({mode: 'open'})
@@ -13,8 +15,7 @@ export class Gridlines extends HTMLElement {
   }
 
   set update({ width, height, top, left }) {
-    const winHeight = window.innerHeight
-    const winWidth = window.innerWidth
+    const { winHeight, winWidth } = windowBounds()
 
     this.$shadow.host.style.display = 'block'
     const svg = this.$shadow.children[1]
@@ -30,25 +31,26 @@ export class Gridlines extends HTMLElement {
     svg.children[2].setAttribute('x2', left + width)
     svg.children[3].setAttribute('y1', top)
     svg.children[3].setAttribute('y2', top)
+    svg.children[3].setAttribute('x2', winWidth)
     svg.children[4].setAttribute('y1', top + height)
     svg.children[4].setAttribute('y2', top + height)
+    svg.children[4].setAttribute('x2', winWidth)
   }
 
   render({ x, y, width, height, top, left }) {
-    const winHeight = window.innerHeight
-    const winWidth = window.innerWidth
+    const { winHeight, winWidth } = windowBounds()
 
     return `
       ${this.styles({top,left})}
-      <svg 
-        width="100%" height="100%" 
-        viewBox="0 0 ${winWidth} ${winHeight}" 
+      <svg
+        width="100%" height="100%"
+        viewBox="0 0 ${winWidth} ${winHeight}"
         version="1.1" xmlns="http://www.w3.org/2000/svg"
       >
-        <rect 
+        <rect
           stroke="hotpink" fill="none"
           width="${width}" height="${height}"
-          x="${x}" y="${y}" 
+          x="${x}" y="${y}"
           style="display:none;"
         ></rect>
         <line x1="${x}" y1="0" x2="${x}" y2="${winHeight}" stroke="hotpink" stroke-dasharray="2" stroke-dashoffset="3"></line>
