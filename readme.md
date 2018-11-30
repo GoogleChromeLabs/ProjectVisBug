@@ -44,8 +44,8 @@ Let's do this **Design community, I'm looking at you** first. Make a GitHub acco
 
 ### Getting Started
 [Check the Wiki](https://github.com/GoogleChromeLabs/ProjectVisBug/wiki)  
-[Chat on Gitter](https://gitter.im/VisBug)
-[Chat on Spectrum](https://spectrum.chat/visbug)
+[Chat on Gitter](https://gitter.im/VisBug)  
+[Chat on Spectrum](https://spectrum.chat/visbug)  
 
 ### Web Component (coming soon 💀🤘)
 ```sh
@@ -66,7 +66,7 @@ It's the responsibility of each feature to register keyboard listeners and handl
 
 First off, thanks for taking the time to contribute!
 Now, take a moment to be sure your contributions make sense to everyone else.
-Questions or need help building a feature, come [chat on Gitter!](https://gitter.im/VisBug) or [Spectrum](https://spectrum.chat/visbug)
+Questions or need help building a feature, come [chat on Gitter](https://gitter.im/VisBug) or [Spectrum](https://spectrum.chat/visbug)!
 
 ### Reporting Issues
 
