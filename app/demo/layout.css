@@ -103,16 +103,12 @@ nav {
 
   &[margin] {
     grid-auto-flow: row;
-
-    & > a {
-      padding: 0.5rem 1rem;
-    }
   }
 
   & > a {
     text-align: center;
     margin: 5px;
-    background: var(--lightest-grey);
+    border: 1px solid var(--darkest-grey);
     border-radius: 0.25rem;
   }
 }
