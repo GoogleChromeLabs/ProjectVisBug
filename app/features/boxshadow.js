@@ -1,20 +1,20 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { getStyle, showHideSelected } from '../utilities/'
+import { metaKey, getStyle, showHideSelected } from '../utilities/'
 
 const key_events = 'up,down,left,right'
   .split(',')
-  .reduce((events, event) => 
+  .reduce((events, event) =>
     `${events},${event},shift+${event}`
   , '')
   .substring(1)
 
-const command_events = 'cmd+up,cmd+shift+up,cmd+down,cmd+shift+down,cmd+left,cmd+shift+left,cmd+right,cmd+shift+right'
+const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down,${metaKey}+left,${metaKey}+shift+left,${metaKey}+right,${metaKey}+shift+right`
 
 export function BoxShadow(selector) {
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
-      
+
     e.preventDefault()
 
     let selectedNodes = $(selector)
@@ -67,8 +67,8 @@ export function changeBoxShadow(els, direction, prop) {
   els
     .map(ensureHasShadow)
     .map(el => showHideSelected(el, 1500))
-    .map(el => ({ 
-      el, 
+    .map(el => ({
+      el,
       style:     'boxShadow',
       current:   parseCurrentShadow(el), // ["rgb(255,", "0,", "0)", "0px", "0px", "1px", "0px"]
       propIndex: parseCurrentShadow(el)[0].includes('rgba') ? propMap[prop] : propMap[prop] - 1

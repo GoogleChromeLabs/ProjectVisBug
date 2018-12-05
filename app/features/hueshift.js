@@ -2,23 +2,23 @@ import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { TinyColor } from '@ctrl/tinycolor'
 
-import { getStyle, showHideSelected } from '../utilities/'
+import { metaKey, getStyle, showHideSelected } from '../utilities/'
 
 const key_events = 'up,down,left,right'
   .split(',')
-  .reduce((events, event) => 
+  .reduce((events, event) =>
     `${events},${event},shift+${event}`
   , '')
   .substring(1)
 
-const command_events = 'cmd+up,cmd+shift+up,cmd+down,cmd+shift+down,cmd+left,cmd+shift+left,cmd+right,cmd+shift+right'
+const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down,${metaKey}+left,${metaKey}+shift+left,${metaKey}+right,${metaKey}+shift+right`
 
 export function HueShift(Color) {
   this.active_color = Color.getActive()
 
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
-      
+
     e.preventDefault()
 
     let selectedNodes = $('[data-selected=true]')
@@ -39,7 +39,7 @@ export function HueShift(Color) {
 
   hotkeys('[,]', (e, handler) => {
     e.preventDefault()
-    
+
     if (this.active_color == 'background')
       this.active_color = 'foreground'
     else if (this.active_color == 'foreground')
@@ -87,7 +87,7 @@ export function changeHue(els, direction, prop, Color) {
         payload.amount = payload.amount * 0.01
 
       payload.current[prop] = payload.negative
-        ? payload.current[prop] - payload.amount 
+        ? payload.current[prop] - payload.amount
         : payload.current[prop] + payload.amount
 
       if (prop === 's' || prop === 'l' || prop === 'a') {
@@ -109,7 +109,7 @@ export function changeHue(els, direction, prop, Color) {
 export function extractPalleteColors(el) {
   if (el instanceof SVGElement) {
     const  fg_temp = getStyle(el, 'stroke')
-    
+
     return {
       foreground: {
         style: 'stroke',

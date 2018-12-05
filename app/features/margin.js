@@ -1,21 +1,21 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { getStyle, getSide, showHideSelected } from '../utilities/'
+import { metaKey, getStyle, getSide, showHideSelected } from '../utilities/'
 
 // todo: show margin color
 const key_events = 'up,down,left,right'
   .split(',')
-  .reduce((events, event) => 
+  .reduce((events, event) =>
     `${events},${event},alt+${event},shift+${event},shift+alt+${event}`
   , '')
   .substring(1)
 
-const command_events = 'cmd+up,cmd+shift+up,cmd+down,cmd+shift+down'
+const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down`
 
 export function Margin(selector) {
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
-      
+
     e.preventDefault()
     pushElement($(selector), handler.key)
   })
@@ -35,8 +35,8 @@ export function Margin(selector) {
 export function pushElement(els, direction) {
   els
     .map(el => showHideSelected(el))
-    .map(el => ({ 
-      el, 
+    .map(el => ({
+      el,
       style:    'margin' + getSide(direction),
       current:  parseInt(getStyle(el, 'margin' + getSide(direction)), 10),
       amount:   direction.split('+').includes('shift') ? 10 : 1,
@@ -45,7 +45,7 @@ export function pushElement(els, direction) {
     .map(payload =>
       Object.assign(payload, {
         margin: payload.negative
-          ? payload.current - payload.amount 
+          ? payload.current - payload.amount
           : payload.current + payload.amount
       }))
     .forEach(({el, style, margin}) =>
