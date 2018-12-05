@@ -1,11 +1,12 @@
 import { HotkeyMap } from './base.element'
+import { metaKey } from '../../utilities';
 
 export class FontHotkeys extends HotkeyMap {
   constructor() {
     super()
 
     this._hotkey    = 'f'
-    this._usedkeys  = ['shift','cmd']
+    this._usedkeys  = ['shift',metaKey]
     this.tool       = 'font'
   }
 

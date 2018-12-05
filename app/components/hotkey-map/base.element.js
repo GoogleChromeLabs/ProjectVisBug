@@ -1,10 +1,11 @@
 import $            from 'blingblingjs'
 import hotkeys      from 'hotkeys-js'
 import styles       from './base.element.css'
-import * as Icons   from '../tool-pallete/toolpallete.icons' 
+import * as Icons   from '../tool-pallete/toolpallete.icons'
+import { metaKey }  from '../../utilities/'
 
 export class HotkeyMap extends HTMLElement {
-  
+
   constructor() {
     super()
 
@@ -36,7 +37,7 @@ export class HotkeyMap extends HTMLElement {
     this.$shift  = $('[keyboard] > section > [shift]', this.$shadow)
     this.$ctrl   = $('[keyboard] > section > [ctrl]', this.$shadow)
     this.$alt    = $('[keyboard] > section > [alt]', this.$shadow)
-    this.$cmd    = $('[keyboard] > section > [cmd]', this.$shadow)
+    this.$cmd    = $(`[keyboard] > section > [${metaKey}]`, this.$shadow)
     this.$up     = $('[arrows] [up]', this.$shadow)
     this.$down   = $('[arrows] [down]', this.$shadow)
     this.$left   = $('[arrows] [left]', this.$shadow)
@@ -52,7 +53,7 @@ export class HotkeyMap extends HTMLElement {
 
   show() {
     this.$shadow.host.style.display = 'flex'
-    hotkeys('*', (e, handler) => 
+    hotkeys('*', (e, handler) =>
       this.watchKeys(e, handler))
   }
 
@@ -68,7 +69,7 @@ export class HotkeyMap extends HTMLElement {
     this.$shift.attr('pressed', hotkeys.shift)
     this.$ctrl.attr('pressed', hotkeys.ctrl)
     this.$alt.attr('pressed', hotkeys.alt)
-    this.$cmd.attr('pressed', hotkeys.cmd)
+    this.$cmd.attr('pressed', hotkeys[metaKey])
     this.$up.attr('pressed', e.code === 'ArrowUp')
     this.$down.attr('pressed', e.code === 'ArrowDown')
     this.$left.attr('pressed', e.code === 'ArrowLeft')
@@ -91,9 +92,9 @@ export class HotkeyMap extends HTMLElement {
     if (code === 'ArrowDown')   side = 'the bottom side'
     if (code === 'ArrowLeft')   side = 'the left side'
     if (code === 'ArrowRight')  side = 'the right side'
-    if (hotkeys.cmd)            side = 'all sides'
+    if (hotkeys[metaKey])            side = 'all sides'
 
-    if (hotkeys.cmd && code === 'ArrowDown') {
+    if (hotkeys[metaKey] && code === 'ArrowDown') {
       negative            = 'Subtract'
       negative_modifier   = 'from'
     }
@@ -139,8 +140,8 @@ export class HotkeyMap extends HTMLElement {
               ${keyboard}
               <section ${row_name}>${row.reduce((row, key, i) => `
                 ${row}
-                <span 
-                  ${key} 
+                <span
+                  ${key}
                   ${this._hotkey == key ? 'hotkey title="Tool Shortcut Hotkey"' : ''}
                   ${this._usedkeys.includes(key) ? 'used' : ''}
                   style="flex:${this.key_size_model[row_name][i] || 1};"
