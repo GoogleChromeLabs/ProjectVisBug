@@ -1,12 +1,13 @@
 import { HotkeyMap } from './base.element'
-import { hueshift as icon } from '../tool-pallete/toolpallete.icons' 
+import { hueshift as icon } from '../tool-pallete/toolpallete.icons'
+import { metaKey } from '../../utilities';
 
 export class HueshiftHotkeys extends HotkeyMap {
   constructor() {
     super()
 
     this._hotkey    = 'h'
-    this._usedkeys  = ['shift','cmd']
+    this._usedkeys  = ['shift',metaKey]
     this.tool       = 'hueshift'
   }
 
@@ -19,7 +20,7 @@ export class HueshiftHotkeys extends HotkeyMap {
     // saturation
     if (hotkeys.cmd) {
       side ='hue'
-      
+
       if (code === 'ArrowDown')
         negative  = 'decrease'
       if (code === 'ArrowUp')
