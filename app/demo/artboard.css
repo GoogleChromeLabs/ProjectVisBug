@@ -27,11 +27,11 @@
   & > label {
     content: attr(artboard);
     position: absolute;
-    top: -20px;
+    top: -25px;
     left: 0;
+    right: 0;
     height: 20px;
-    padding: 0 0.5em;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     font-size: 0.8rem;
     font-weight: lighter;
@@ -48,7 +48,28 @@
     }
 
     &:hover {
-      color: var(--lighter-grey);
+      color: var(--lightest-grey);
+    }
+
+    &[with-info] {
+      justify-content: space-between;
+
+      & i {
+        cursor: pointer;
+        font-style: normal;
+        border: 1px solid var(--dark-grey);
+        border-radius: 50%;
+        width: 1.4em;
+        height: 1.4em;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          color: var(--theme-color);
+          border-color: var(--theme-color);
+        }
+      }
     }
   }
 
