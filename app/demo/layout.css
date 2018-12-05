@@ -11,14 +11,6 @@ main {
     --card-size: 35vw;
   }
 
-  @media (min-width:1024px) {
-    --card-size: 16vw;
-  }
-
-  /*@media (min-width:1600px) {
-    --card-size: 15vw;
-  }*/
-
   @media (min-width:768px) {
     --card-size: 20vw;
 
@@ -45,6 +37,14 @@ main {
         grid-column: span 1;
       }
     }
+  }
+
+  @media (min-width:1024px) {
+    --card-size: 16vw;
+  }
+
+  @media (min-width:1600px) {
+    --card-size: 15vw;
   }
 }
 
