@@ -2,20 +2,21 @@ import $          from 'blingblingjs'
 import hotkeys    from 'hotkeys-js'
 import styles     from './toolpallete.element.css'
 
-import { 
-  Handles, Label, Overlay, Gridlines, 
-  Hotkeys, Metatip, Ally, 
+import {
+  Handles, Label, Overlay, Gridlines,
+  Hotkeys, Metatip, Ally,
 } from '../'
 
-import { 
-  Selectable, Moveable, Padding, Margin, EditText, Font, 
-  Flex, Search, ColorPicker, BoxShadow, HueShift, MetaTip, 
+import {
+  Selectable, Moveable, Padding, Margin, EditText, Font,
+  Flex, Search, ColorPicker, BoxShadow, HueShift, MetaTip,
   Guides, Screenshot, Position, Accessibility
 } from '../../features/'
 
 import { ToolModel }              from './model'
-import * as Icons                 from './toolpallete.icons' 
+import * as Icons                 from './toolpallete.icons'
 import { provideSelectorEngine }  from '../../features/search'
+import { metaKey }                from '../../utilities/'
 
 export default class ToolPallete extends HTMLElement {
   constructor() {
@@ -41,13 +42,13 @@ export default class ToolPallete extends HTMLElement {
     hotkeys.unbind(
       Object.keys(this.toolbar_model).reduce((events, key) =>
         events += ',' + key, ''))
-    hotkeys.unbind('cmd+/')
+    hotkeys.unbind(`${metaKey}+/`)
   }
 
   setup() {
     this.$shadow.innerHTML = this.render()
 
-    $('li[data-tool]', this.$shadow).on('click', e => 
+    $('li[data-tool]', this.$shadow).on('click', e =>
       this.toolSelected(e.currentTarget) && e.stopPropagation())
 
     Object.entries(this.toolbar_model).forEach(([key, value]) =>
@@ -59,7 +60,7 @@ export default class ToolPallete extends HTMLElement {
       })
     )
 
-    hotkeys('cmd+/,cmd+.', e =>
+    hotkeys(`${metaKey}+/,${metaKey}+.`, e =>
       this.$shadow.host.style.display =
         this.$shadow.host.style.display === 'none'
           ? 'block'
@@ -129,7 +130,7 @@ export default class ToolPallete extends HTMLElement {
           <img src="${this._tutsBaseURL}/${tool}.gif" alt="${description}" />
           <figcaption>
             <h2>
-              ${label} 
+              ${label}
               <span hotkey>${key}</span>
             </h2>
             <p>${description}</p>
@@ -145,20 +146,20 @@ export default class ToolPallete extends HTMLElement {
   }
 
   margin() {
-    this.deactivate_feature = Margin('[data-selected=true]') 
+    this.deactivate_feature = Margin('[data-selected=true]')
   }
 
   padding() {
-    this.deactivate_feature = Padding('[data-selected=true]') 
+    this.deactivate_feature = Padding('[data-selected=true]')
   }
 
   font() {
     this.deactivate_feature = Font('[data-selected=true]')
-  } 
+  }
 
   text() {
     this.selectorEngine.onSelectedUpdate(EditText)
-    this.deactivate_feature = () => 
+    this.deactivate_feature = () =>
       this.selectorEngine.removeSelectedCallback(EditText)
   }
 
