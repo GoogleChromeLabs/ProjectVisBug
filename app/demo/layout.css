@@ -86,6 +86,14 @@ main {
 
   & > div {
     border-radius: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    &:not(:first-of-type) {
+      color: white;
+    }
   }
 }
 
