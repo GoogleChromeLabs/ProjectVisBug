@@ -1,5 +1,5 @@
 import * as Icons from './toolpallete.icons'
-import { metaKey } from '../../utilities/'
+import { metaKey, altKey } from '../../utilities/'
 
 export const ToolModel = {
   g: {
@@ -17,7 +17,7 @@ export const ToolModel = {
     instruction: `<div table>
                     <div>
                       <b>Pin it:</b>
-                      <span>opt + click</span>
+                      <span>${altKey} + click</span>
                     </div>
                   </div>`,
   },
@@ -29,7 +29,7 @@ export const ToolModel = {
     instruction: `<div table>
                     <div>
                       <b>Pin it:</b>
-                      <span>opt + click</span>
+                      <span>${altKey} + click</span>
                     </div>
                   </div>`,
   },
@@ -71,7 +71,7 @@ export const ToolModel = {
                     </div>
                     <div>
                       <b>- Margin:</b>
-                      <span>opt + ◀ ▶ ▲ ▼</span>
+                      <span>${altKey} + ◀ ▶ ▲ ▼</span>
                     </div>
                     <div>
                       <b>All Sides:</b>
@@ -91,7 +91,7 @@ export const ToolModel = {
                     </div>
                     <div>
                       <b>- Padding:</b>
-                      <span>opt + ◀ ▶ ▲ ▼</span>
+                      <span>${altKey} + ◀ ▶ ▲ ▼</span>
                     </div>
                     <div>
                       <b>All Sides:</b>

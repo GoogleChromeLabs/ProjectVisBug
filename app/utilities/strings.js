@@ -30,3 +30,7 @@ export const createClassname = (el, ellipse = false) => {
 export const metaKey = window.navigator.platform.includes('Mac')
   ? 'cmd'
   : 'ctrl'
+
+export const altKey = window.navigator.platform.includes('Mac')
+  ? 'opt'
+  : 'alt'

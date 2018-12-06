@@ -1,12 +1,13 @@
 import { HotkeyMap } from './base.element'
-import { inspector as icon } from '../tool-pallete/toolpallete.icons' 
+import { inspector as icon } from '../tool-pallete/toolpallete.icons'
+import { altKey } from '../../utilities';
 
 export class InspectorHotkeys extends HotkeyMap {
   constructor() {
     super()
 
     this._hotkey    = 'i'
-    this._usedkeys  = ['alt']
+    this._usedkeys  = [altKey]
     this.tool       = 'inspector'
   }
 
