@@ -3,5 +3,7 @@ import { metaKey } from './utilities';
 
 if (metaKey === 'ctrl')
   [...document.querySelectorAll('kbd')]
-    .filter(node => node.textContent.includes('cmd'))
-    .forEach(node => node.textContent = node.textContent.replace('cmd','ctrl'))
+    .forEach(node => {
+      node.textContent = node.textContent.replace('cmd','ctrl')
+      node.textContent = node.textContent.replace('opt','alt')
+    })
