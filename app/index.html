@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
-  
+
     <title>VisBug</title>
     <link rel="icon" href="favicon.ico">
 
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="//unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
     <link async rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="bundle.css">
-    
+
   </head>
   <body>
     <tool-pallete></tool-pallete>
@@ -23,7 +23,7 @@
       <article span1x2 class="artboard Hello-World!" intro grid="rows" horizontally-aligned="center" vertically-distributed="between">
         <label with-info>
           <summary>Artboard_00-FinalFinal-v2</summary>
-          <i title="Ever had an artboard with a similar name?">i</i>
+          <i title="The following set of artboards are for you to learn VisBug in an inconsequential way. Visbug is more like an instrument than other tools, so hands on is by far the best way to learn it. Each artboard here is a mini lesson and is begging you to fix it. Have fun, break things, and learn about your new webpage powers through interactive learning!">i</i>
         </label>
 
         <!-- <a href="#" class="github">
@@ -43,7 +43,7 @@
                     </filter>
                     <filter id="filter-2">
                       <feBlend in="SourceGraphic" mode="multiply"/>
-                    </filter>   
+                    </filter>
                 </defs>
                 <g id="VisBug" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                     <path d="M434,144 C469.898509,144 499,114.898509 499,79 C499,43.1014913 469.898509,14 434,14 C398.101491,14 369,43.1014913 369,79 C369,114.898509 398.101491,144 434,144 Z" id="k" fill="#000000" fill-rule="nonzero"></path>
@@ -88,21 +88,12 @@
               <option>Advanced</option>
             </select>
           </div>
-
-          <div>
-            <span>Hotkeys for</span>
-            <select>
-              <option selected="">Mac</option>
-              <option disabled="">Windows</option>
-              <option disabled="">Linux</option>
-            </select>
-          </div>
         </div>
 
         <!-- <dl>
           <dt>Try it out on this page</dt>
           <dd>There's at least 1 tool that you'll find helpful</dd>
-          
+
           <dt>Basics</dt>
           <dd>Visually & quickly <b>manipulate any webpage, in any state, at any screensize</b>. Simply hover for CSS styles, A11y design, & design alignment. Test quick ideas in seconds, just delete ads, or make an article more readable.</dd>
 
@@ -114,7 +105,7 @@
       <article span1x1 flex class="artboard">
         <label with-info class="Click_stuff_below_👇">
           <summary>Select</summary>
-          <i title="Let's start with the basics shall we!?">i</i>
+          <i title="Let's start with the basics shall we!? Go ahead and just click stuff in this artboard.">i</i>
         </label>
 
         <div class="You_did_it!" grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
@@ -125,7 +116,7 @@
       <article span2x1 class="artboard" padded grid vertically-distributed="between">
         <label with-info class="Move_around_like_excel">
           <summary>Keyboard Nav</summary>
-          <i title="The keyboard can current reach some elements that a mouse cannot due to competing click events. It also is a great way to 'feel' the layout heirarchy.">i</i>
+          <i title="The keyboard can reach some elements that a mouse cannot due to competing click events or nesting. It's also is a great way to 'feel' the layout heirarchy. Give it a try on the groups below. Go in and out, across and back!">i</i>
         </label>
 
         <div class="tips">
@@ -147,12 +138,12 @@
             <div class="Press_shift+tab! filled-square"></div>
           </div>
         </div>
-      </article> 
+      </article>
 
       <article span2x1 select-multiple padded class="artboard" grid vertically-distributed="between">
         <label with-info class="Learn_to_select_multiple_items">
           <summary>Select Multiple</summary>
-          <i title="Practice the different ways to expand your selection, each can come in handy depending on how many of something you want or how few of something you want.">i</i>
+          <i title="Practice the different ways to expand your selection, each can come in handy depending on how many (or few) of something you want.">i</i>
         </label>
 
         <div class="tips">
@@ -179,6 +170,18 @@
         </div>
       </article>
 
+      <article color-grid span1x1 padded class="artboard">
+        <label with-info class="Click_stuff_below_👇">
+          <summary>Change Colors</summary>
+          <i title="The simplist way to change colors is by using your system's color picker. Select something in this artboard, then go to the VisBug tool palette and find the color you want to modify under the bar. You'll see a couple extra contextual dots show up.">i</i>
+        </label>
+
+        <div class="google-blue"></div>
+        <div class="google-red"></div>
+        <div class="google-yellow"></div>
+        <div class="google-green"></div>
+      </article>
+
       <article span1x2 padded class="artboard" grid="rows" horizontally-distributed="between">
         <label with-info class="Adjust_spacing_between_elements">
           <summary>Margin Tool</summary>
@@ -197,7 +200,7 @@
             <button class="mdc-button mdc-button--raised">Contact</button>
           </nav>
         </div>
-      </article> 
+      </article>
 
       <article span1x1 flex mock-ad class="artboard Delete_me">
         <label with-info class="Learn_to_delete_stuff_👇">
@@ -207,15 +210,18 @@
 
         <div>
           <small class="Delete_this_too! For_funsies!">Delete this 😤 thing! 👇</small>
-          <h2 class="Press_the_delete_key!">Ad</h2> 
+          <h2 class="Press_the_delete_key!">Ad</h2>
         </div>
       </article>
 
       <article span1x1 padded class="artboard" grid="rows" horizontally-distributed="between">
-        <label>Guides</label>
+        <label with-info class="Discover_alignment_issues">
+          <summary>Guides</summary>
+          <i title="There's something off about the paragraph in this artboard.. perhaps the guides tool can help you find out what's wrong?">i</i>
+        </label>
         <div class="tips">
           <p> Redlines & distance coming soon!</p>
-        </div> 
+        </div>
         <div fit-height grid vertically-aligned="center" horizontally-aligned="center">
           <h3>Am I in the center?<span class="👾_wtf_is_this? delete_it!">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h3>
         </div>
@@ -234,6 +240,10 @@
 
       <article span1x1 class="artboard" grid="rows" vertically-aligned="center" horizontally-distributed="between" vertically-distributed="equal">
         <label>Inspect Tool</label>
+        <label with-info class="">
+          <summary></summary>
+          <i title="">i</i>
+        </label>
         <ul class="mdc-list demo-list demo-list-item-shaped">
           <li class="mdc-list-item mdc-ripple-upgraded mdc-list-item--activated" aria-selected="true" style="--mdc-ripple-fg-size:360px; --mdc-ripple-fg-scale:1.69977; --mdc-ripple-fg-translate-start:55.8906px, -156.16px; --mdc-ripple-fg-translate-end:120px, -156px;">
           <span class="mdc-list-item__graphic material-icons" aria-hidden="true">inbox</span>Inbox</li>
@@ -248,16 +258,24 @@
 
       <article span1x1 padded class="artboard" grid="rows" vertically-distributed="between">
         <label class="Learn_to_multiply_items_👇">Duplicate</label>
+        <label with-info class="">
+          <summary></summary>
+          <i title="">i</i>
+        </label>
         <div class="tips">
           <p> Press <kbd>cmd+d</kbd></p>
-        </div> 
+        </div>
         <div fit-height grid vertically-aligned="center" horizontally-aligned="center" horizontally-distributed="around">
           <button class="mdc-button mdc-button--raised" style="margin-bottom:0.5rem;">Dupe</button>
         </div>
-      </article>   
+      </article>
 
       <article copy_paste padded span2x1 class="artboard" grid vertically-aligned="center" vertically-distributed="between">
         <label>Copy/Paste Elements</label>
+        <label with-info class="">
+          <summary></summary>
+          <i title="">i</i>
+        </label>
         <div class="tips">
           <p> Copy the circle <b>from the left box</b> and paste it <b>in the right box</b></p>
           <p> Works across tabs!</b></p>
@@ -273,11 +291,15 @@
 
       <article span2x1 class="artboard" padded grid="rows" vertically-distributed="equal">
         <label>Copy/Paste Styles</label>
+        <label with-info class="">
+          <summary></summary>
+          <i title="">i</i>
+        </label>
         <div class="tips">
           <p> Copy styles with <kbd>cmd+opt+c</kbd></p>
           <p> Paste copied styles with <kbd>cmd+opt+v</kbd></p>
           <p> <b>For fun:</b> copy the styles of a dark artboard and paste it over some light artboards</p>
-        </div> 
+        </div>
         <div fit-height grid vertically-aligned="center" horizontally-aligned="center" horizontally-distributed="around">
           <button class="mdc-button mdc-button--raised" style="background:hsl(0,0%,10%);color:hsl(0,0%,70%);">Copy my darkness</button>
           <button class="mdc-button mdc-button--raised">Join the darkside</button>
@@ -286,6 +308,10 @@
 
       <article span2x2 padded class="artboard">
         <label>Image Swap</label>
+        <label with-info class="">
+          <summary></summary>
+          <i title="">i</i>
+        </label>
         <div image-grid>
           <div class="tips">
             <p>Select all 4 images and drag in some new ones</p>
@@ -300,6 +326,10 @@
 
       <article span2x1 padded class="artboard" grid="rows" vertically-distributed="around" horizontally-aligned="left">
         <label>Accessibility Tool</label>
+        <label with-info class="">
+          <summary></summary>
+          <i title="">i</i>
+        </label>
         <span good-contrast>Good contrast</span>
         <span bad-contrast>Bad contrast</span>
         <form>
@@ -339,10 +369,14 @@
           </div>
         </form>
         <img src="assets/visbug.png" alt="Sweet VisBug logo" style="width: 4rem;">
-      </article> 
+      </article>
 
       <article span3x1 class="artboard" padded grid vertically-distributed="equal">
         <label>Text Styles</label>
+        <label with-info class="">
+          <summary></summary>
+          <i title="">i</i>
+        </label>
         <div class="tips">
           <p> Multiselect these headings and edit the ramp with the font tool</p>
         </div>
@@ -354,10 +388,14 @@
           <h5>The quick brown fox jumps over the lazy dog</h5>
           <h6>The quick brown fox jumps over the lazy dog</h6>
         </div>
-      </article> 
+      </article>
 
       <article span2x1 class="artboard" padded grid vertically-distributed="between">
         <label>Move Tool</label>
+        <label with-info class="">
+          <summary></summary>
+          <i title="">i</i>
+        </label>
         <div class="tips">
           <p><b>Fix the order</b> of the circles below</p>
         </div>
@@ -368,10 +406,14 @@
           <div class="Use_left_and_right_arrows filled-circle">1</div>
           <div class="Use_left_and_right_arrows filled-circle">2</div>
         </div>
-      </article> 
+      </article>
 
       <article span1x2 class="artboard" padded grid="rows" vertically-distributed="equal" horizontally-aligned="center">
         <label>Move Tool</label>
+        <label with-info class="">
+          <summary></summary>
+          <i title="">i</i>
+        </label>
         <div class="tips">
           <p>Flow direction can make left/right be up/down 🤔</p>
           <p><b>Fix the order</b> of the stop light below</p>
@@ -381,15 +423,19 @@
           <div class="filled-circle yellow"></div>
           <div class="filled-circle red"></div>
         </div>
-      </article> 
+      </article>
 
       <article span2x1 padded class="artboard" grid="rows">
         <label>Edit Text Tool</label>
+        <label with-info class="">
+          <summary></summary>
+          <i title="">i</i>
+        </label>
         <div fit-height grid="rows" vertically-aligned="center" horizontally-aligned="center">
           <h1 class="Doubleclick_to_edit">I'm worth $100 /hr</h1>
           <small class="Doubleclick_to_edit">How much are you worth? Edit the text to specify your rate.</small>
         </div>
-      </article> 
+      </article>
 
       <article span1x1 flex class="dark artboard For_fun-copy_my_styles">
         <div grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
@@ -401,10 +447,14 @@
             </h2>
           </div>
         </div>
-      </article> 
+      </article>
 
       <article padded span2x2 class="artboard" grid="rows" horizontally-distributed="space-between">
         <label>Inline SVG</label>
+        <label with-info class="">
+          <summary></summary>
+          <i title="">i</i>
+        </label>
         <div padded class="tips">
           <p>Delete, copy, paste, & duplicate svg!</p>
           <p>Change color, move x/y, & inspect svg!</p>
@@ -422,7 +472,7 @@
               </filter>
               <filter id="filter-2">
                 <feBlend in="SourceGraphic" mode="multiply"/>
-              </filter>   
+              </filter>
             </defs>
             <g id="VisBug" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
               <path d="M434,144 C469.898509,144 499,114.898509 499,79 C499,43.1014913 469.898509,14 434,14 C398.101491,14 369,43.1014913 369,79 C369,114.898509 398.101491,144 434,144 Z" id="k" fill="#000000" fill-rule="nonzero"></path>
@@ -434,10 +484,14 @@
             </g>
           </svg>
         </div>
-      </article> 
+      </article>
 
       <article span2x1 padded class="artboard" grid="rows" horizontally-distributed="between">
         <label>Padding Tool</label>
+        <label with-info class="">
+          <summary></summary>
+          <i title="">i</i>
+        </label>
         <div class="tips">
           <p> Hotkey <kbd>p</kbd></p>
         </div>
@@ -450,17 +504,21 @@
             <a class="padding-link" href="#">Contact</a>
           </nav>
         </div>
-      </article> 
+      </article>
 
       <article span1x1 padded class="artboard" grid="rows" horizontally-distributed="between">
         <label>Drop Shadow Tool</label>
+        <label with-info class="">
+          <summary></summary>
+          <i title="">i</i>
+        </label>
         <div class="tips">
           <p>Hotkey <kbd>d</kbd></p>
         </div>
         <div fit-height grid vertically-aligned="center" horizontally-aligned="center">
           <div class="filled-circle shadow-circle"></div>
         </div>
-      </article> 
+      </article>
 
       <article span1x1 flex class="dark artboard">
         <div grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
@@ -470,10 +528,14 @@
           </div>
           <h2>for help</h2>
         </div>
-      </article> 
+      </article>
 
       <article span1x1 padded class="artboard" grid="rows" horizontally-distributed="between">
         <label>Position Tool</label>
+        <label with-info class="">
+          <summary></summary>
+          <i title="">i</i>
+        </label>
         <div class="tips">
           <p> Hotkey <kbd>l</kbd></p>
           <p> Click to select, then click hold and drag anything around</p>
@@ -485,6 +547,10 @@
 
       <article span2x1 padded class="artboard" grid="rows" horizontally-distributed="between">
         <label>Align Tool</label>
+        <label with-info class="">
+          <summary></summary>
+          <i title="">i</i>
+        </label>
         <div class="tips">
           <p> Hotkey <kbd>a</kbd></p>
         </div>
@@ -495,7 +561,7 @@
           <a class="padding-link" href="#">Down</a>
           <a class="padding-link" href="#">Shift+Left</a>
         </div>
-      </article> 
+      </article>
 
       <article span1x1 flex class="dark artboard For_fun-copy_my_styles">
         <div grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
@@ -512,6 +578,10 @@
 
       <article span2x1 padded class="artboard" grid="rows" horizontally-distributed="between">
         <label>Search Tool</label>
+        <label with-info class="">
+          <summary></summary>
+          <i title="">i</i>
+        </label>
         <div class="tips">
           <p> Hotkey <kbd>s</kbd></p>
         </div>
@@ -525,7 +595,7 @@
             <a class="search-link" href="#">Us</a>
           </div>
         </div>
-      </article> 
+      </article>
 
       <article span2x1 grid="rows" padded class="artboard Delete_styles" grid="rows" horizontally-distributed="between">
         <label class="Learn_to_delete_styles_👇">Delete styles</label>
@@ -539,21 +609,24 @@
       </article>
 
       <article span2x2 padded class="artboard" grid="rows" horizontally-distributed="between">
-        <label>Foreground / Background Color</label>
+        <label with-info class="">
+          <summary>HueShift</summary>
+          <i title="Practice manipulating foreground and background colors">i</i>
+        </label>
         <div class="tips">
           <p> Hotkey <kbd>h</kbd></p>
           <p> Hotkey <kbd>[</kbd> or <kbd>]</kbd> to switch between foreground/background</p>
         </div>
-        <div fit-height grid vertically-aligned="center" horizontally-aligned="center" horizontally-distributed="around">
+        <div bgfg fit-height grid vertically-aligned="center" horizontally-aligned="center" horizontally-distributed="around">
           <div class="filled-circle google-blue">1</div>
           <div class="filled-circle google-red">2</div>
           <div class="filled-circle google-yellow">3</div>
           <div class="filled-circle google-green">4</div>
         </div>
-      </article> 
+      </article>
 
     </main>
-    
+
     <script src="bundle.js" defer></script>
   </body>
 </html>

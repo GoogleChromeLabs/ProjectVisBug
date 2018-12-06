@@ -78,6 +78,17 @@ main {
   }
 }
 
+[color-grid] {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 0.5rem;
+
+  & > div {
+    border-radius: 1rem;
+  }
+}
+
 [stop-light] {
   display: grid;
   align-items: center;
