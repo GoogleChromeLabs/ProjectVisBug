@@ -1,12 +1,13 @@
 import { HotkeyMap } from './base.element'
-import { accessibility as icon } from '../tool-pallete/toolpallete.icons' 
+import { accessibility as icon } from '../tool-pallete/toolpallete.icons'
+import { altKey } from '../../utilities';
 
 export class AccessibilityHotkeys extends HotkeyMap {
   constructor() {
     super()
 
     this._hotkey    = 'p'
-    this._usedkeys  = ['alt']
+    this._usedkeys  = [altKey]
     this.tool       = 'accessibility'
   }
 

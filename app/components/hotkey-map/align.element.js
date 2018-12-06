@@ -1,4 +1,5 @@
 import { HotkeyMap } from './base.element'
+import { metaKey } from '../../utilities';
 
 const h_alignOptions  = ['left','center','right']
 const v_alignOptions  = ['top','center','bottom']
@@ -9,7 +10,7 @@ export class AlignHotkeys extends HotkeyMap {
     super()
 
     this._hotkey   = 'a'
-    this._usedkeys = ['cmd','shift']
+    this._usedkeys = [metaKey,'shift']
 
     this._htool   = 0
     this._vtool   = 0
@@ -72,7 +73,7 @@ export class AlignHotkeys extends HotkeyMap {
 
   clamp(range, tool, increment = false) {
     if (increment) {
-      if (this[tool] < range.length - 1) 
+      if (this[tool] < range.length - 1)
         this[tool] = this[tool] + 1
     }
     else if (this[tool] > 0)

@@ -1,12 +1,12 @@
 import { HotkeyMap } from './base.element'
-import { metaKey }   from '../../utilities/'
+import { metaKey, altKey }   from '../../utilities/'
 
 export class PaddingHotkeys extends HotkeyMap {
   constructor() {
     super()
 
     this._hotkey    = 'p'
-    this._usedkeys  = ['shift',metaKey,'alt']
+    this._usedkeys  = ['shift',metaKey,altKey]
 
     this.tool       = 'padding'
   }

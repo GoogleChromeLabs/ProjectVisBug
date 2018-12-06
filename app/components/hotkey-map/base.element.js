@@ -2,7 +2,7 @@ import $            from 'blingblingjs'
 import hotkeys      from 'hotkeys-js'
 import styles       from './base.element.css'
 import * as Icons   from '../tool-pallete/toolpallete.icons'
-import { metaKey }  from '../../utilities/'
+import { metaKey, altKey }  from '../../utilities/'
 
 export class HotkeyMap extends HTMLElement {
 
@@ -14,7 +14,7 @@ export class HotkeyMap extends HTMLElement {
       tab:    ['tab','q','w','e','r','t','y','u','i','o','p','[',']','\\'],
       caps:   ['caps','a','s','d','f','g','h','j','k','l','\'','return'],
       shift:  ['shift','z','x','c','v','b','n','m',',','.','/','shift'],
-      space:  ['ctrl','alt','cmd','spacebar','cmd','alt','ctrl']
+      space:  ['ctrl',altKey,'cmd','spacebar','cmd',altKey,'ctrl']
     }
 
     this.key_size_model = {
@@ -127,7 +127,7 @@ export class HotkeyMap extends HTMLElement {
         </div>
         <div command>
           ${this.displayCommand({
-            negative: '[alt/opt] ',
+            negative: `±[${altKey}] `,
             negative_modifier: ' to ',
             tool: this._tool,
             side: '[arrow key]',
