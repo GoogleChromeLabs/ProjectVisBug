@@ -36,7 +36,7 @@ export class HotkeyMap extends HTMLElement {
   connectedCallback() {
     this.$shift  = $('[keyboard] > section > [shift]', this.$shadow)
     this.$ctrl   = $('[keyboard] > section > [ctrl]', this.$shadow)
-    this.$alt    = $('[keyboard] > section > [alt]', this.$shadow)
+    this.$alt    = $(`[keyboard] > section > [${altKey}]`, this.$shadow)
     this.$cmd    = $(`[keyboard] > section > [${metaKey}]`, this.$shadow)
     this.$up     = $('[arrows] [up]', this.$shadow)
     this.$down   = $('[arrows] [down]', this.$shadow)
