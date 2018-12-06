@@ -1,5 +1,5 @@
 import { HotkeyMap } from './base.element'
-import { metaKey } from '../../utilities';
+import { metaKey, altKey } from '../../utilities';
 
 export class FontHotkeys extends HotkeyMap {
   constructor() {
@@ -71,7 +71,7 @@ export class FontHotkeys extends HotkeyMap {
   }
 
   displayCommand({negative, negative_modifier, side, amount}) {
-    if (negative === '[alt/opt] ')
+    if (negative === `±[${altKey}] `)
       negative = '[increase/decrease]'
     if (negative_modifier === ' to ')
       negative_modifier = ' by '
