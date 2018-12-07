@@ -72,7 +72,7 @@
     background: white;
     color: hsl(0,0%,30%);
     box-shadow: 0 0.1em 4.5em hsla(0,0%,0%,15%);
-    border-radius: 1rem;
+    border-radius: 1em;
 
     transition: opacity 0.3s ease, transform 0.2s ease;
     opacity: 0;
@@ -85,18 +85,18 @@
     }
 
     & figcaption {
-      padding: 1rem;
+      padding: 1em;
       display: grid;
-      grid-gap: 0.5rem;
+      grid-gap: 0.5em;
 
       & > :matches(h2,p) {
         margin: 0;
       }
 
       & > h2 {
-        font-size: 1.5rem;
+        font-size: 1.5em;
         line-height: 1.1;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.5em;
         display: grid;
         grid-auto-flow: column;
         justify-content: space-between;
@@ -104,14 +104,14 @@
       }
 
       & > p {
-        font-size: 1rem;
+        font-size: 1em;
         line-height: 1.5;
-        padding-right: 3rem;
+        padding-right: 3em;
       }
 
       & [table] {
         display: grid;
-        grid-gap: 0.5rem;
+        grid-gap: 0.5em;
 
         & > div {
           display: grid;
@@ -123,9 +123,9 @@
     }
 
     & [hotkey] {
-      border-radius: 5rem;
-      height: 1.5rem;
-      width: 1.5rem;
+      border-radius: 5em;
+      height: 1.5em;
+      width: 1.5em;
       display: inline-flex;
       align-items: center;
       justify-content: center;
