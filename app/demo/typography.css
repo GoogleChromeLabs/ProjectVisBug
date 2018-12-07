@@ -22,11 +22,14 @@ a {
 }
 
 [bad-contrast] {
+  padding: 1rem 2rem;
   background:  hsl(0,0%,40%);
   color: hsl(0,0%,70%);
 }
 
 [good-contrast] {
+  padding: 1rem 2rem;
+  font-weight: bold;
   background:  black;
   color: white;
 }

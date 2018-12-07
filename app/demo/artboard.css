@@ -1,6 +1,6 @@
 .artboard {
   background: white;
-  color: var(--grey);
+  color: var(--light-grey);
   box-shadow: 0 1px 2px 1px hsla(0,0%,0%,5%);
   position: relative;
   z-index: 1;
@@ -38,6 +38,16 @@
     color: var(--lightest-grey);
     text-shadow: 0 0.5px 0 black;
     white-space: nowrap;
+
+    & > summary {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    & > summary > svg {
+      height: 20px;
+      margin-right: 0.5rem;
+    }
 
     & > b {
       color: var(--theme-color);
@@ -83,7 +93,7 @@
     & > p {
       margin-top: 0;
       margin-bottom: 0;
-      font-size: 0.8rem;  
+      font-size: 0.8rem;
     }
   }
 
