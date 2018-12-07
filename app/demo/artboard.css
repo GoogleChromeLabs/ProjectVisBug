@@ -1,6 +1,6 @@
 .artboard {
   background: white;
-  color: var(--grey);
+  color: var(--light-grey);
   box-shadow: 0 1px 2px 1px hsla(0,0%,0%,5%);
   position: relative;
   z-index: 1;
@@ -27,17 +27,27 @@
   & > label {
     content: attr(artboard);
     position: absolute;
-    top: -20px;
+    top: -25px;
     left: 0;
+    right: 0;
     height: 20px;
-    padding: 0 0.5em;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     font-size: 0.8rem;
     font-weight: lighter;
     color: var(--lightest-grey);
     text-shadow: 0 0.5px 0 black;
     white-space: nowrap;
+
+    & > summary {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    & > summary > svg {
+      height: 20px;
+      margin-right: 0.5rem;
+    }
 
     & > b {
       color: var(--theme-color);
@@ -48,14 +58,43 @@
     }
 
     &:hover {
-      color: var(--lighter-grey);
+      color: var(--lightest-grey);
+    }
+
+    &[with-info] {
+      justify-content: space-between;
+
+      & i {
+        cursor: pointer;
+        font-style: normal;
+        border: 1px solid var(--dark-grey);
+        border-radius: 50%;
+        width: 1.4em;
+        height: 1.4em;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          color: var(--theme-color);
+          border-color: var(--theme-color);
+        }
+      }
     }
   }
 
-  & .tip {
-    margin-top: 0;
-    margin-bottom: 0;
-    font-size: 0.9rem;
+  & .tips {
+    display: grid;
+    grid-gap: 0.5rem;
+    border: 1px solid var(--darkest-grey);
+    border-radius: 1rem;
+    padding: 0.5rem;
+
+    & > p {
+      margin-top: 0;
+      margin-bottom: 0;
+      font-size: 0.8rem;
+    }
   }
 
   & > [grid][vertically-aligned] {

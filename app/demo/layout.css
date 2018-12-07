@@ -12,7 +12,7 @@ main {
   }
 
   @media (min-width:768px) {
-    --card-size: 25vw;
+    --card-size: 20vw;
 
     & > article {
       &[span2x2] {
@@ -40,11 +40,11 @@ main {
   }
 
   @media (min-width:1024px) {
-    --card-size: 15vw;
+    --card-size: 16vw;
   }
 
   @media (min-width:1600px) {
-    --card-size: 10vw;
+    --card-size: 15vw;
   }
 }
 
@@ -63,7 +63,9 @@ main {
 
   & img {
     height: 100%;
-    object-fit: cover;
+    width: 100%;
+    object-fit: contain;
+    object-position: center center;
   }
 }
 
@@ -75,6 +77,25 @@ main {
 
   & :matches(h1,h2,h3,h4,h5,h6) {
     margin: 0;
+  }
+}
+
+[color-grid] {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 0.5rem;
+
+  & > div {
+    border-radius: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    &:not(:first-of-type) {
+      color: white;
+    }
   }
 }
 
@@ -103,16 +124,12 @@ nav {
 
   &[margin] {
     grid-auto-flow: row;
-
-    & > a {
-      padding: 0.5rem 1rem;
-    }
   }
 
   & > a {
     text-align: center;
     margin: 5px;
-    background: var(--lightest-grey);
+    border: 1px solid var(--darkest-grey);
     border-radius: 0.25rem;
   }
 }

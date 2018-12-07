@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
-  
+
     <title>VisBug</title>
     <link rel="icon" href="favicon.ico">
 
@@ -14,14 +14,18 @@
     <link rel="stylesheet" href="//unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
     <link async rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="bundle.css">
-    
+
   </head>
   <body>
     <tool-pallete></tool-pallete>
 
     <main>
       <article span1x2 class="artboard Hello-World!" intro grid="rows" horizontally-aligned="center" vertically-distributed="between">
-        <label>Artboard_00-FinalFinal-v2</label>
+        <label with-info>
+          <summary>Artboard_00-FinalFinal-v2</summary>
+          <i title="The following set of artboards are for you to learn VisBug in an inconsequential way. Visbug is more like an instrument than other tools, so hands on is by far the best way to learn it. Each artboard here is a mini lesson and is begging you to fix it. Have fun, break things, and learn about your new webpage powers through interactive learning!">?</i>
+        </label>
+
         <!-- <a href="#" class="github">
           <img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
         </a> -->
@@ -39,7 +43,7 @@
                     </filter>
                     <filter id="filter-2">
                       <feBlend in="SourceGraphic" mode="multiply"/>
-                    </filter>   
+                    </filter>
                 </defs>
                 <g id="VisBug" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                     <path d="M434,144 C469.898509,144 499,114.898509 499,79 C499,43.1014913 469.898509,14 434,14 C398.101491,14 369,43.1014913 369,79 C369,114.898509 398.101491,144 434,144 Z" id="k" fill="#000000" fill-rule="nonzero"></path>
@@ -66,8 +70,8 @@
         </picture>
 
         <div social grid horizontally-distributed="around">
-          <a href="#" title="The code / feature set"><svg aria-labelledby="github-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
-          <a href="#" title="The Chrome Extension"><svg aria-labelledby="googlechrome-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.214 8.69l6.715-1.679A12.027 12.027 0 0 1 24 11.972C24 18.57 18.569 24 11.968 24c-.302 0-.605-.011-.907-.034l4.905-8.347c.356-.376.655-.803.881-1.271a5.451 5.451 0 0 0-.043-4.748 5.156 5.156 0 0 0-.59-.91zm-3.24 8.575l-2.121 6.682C4.738 23.345 0 18.14 0 11.977 0 9.592.709 7.26 2.038 5.279l4.834 8.377c.18.539 1.119 2.581 3.067 3.327.998.382 2.041.481 3.035.282zM11.973 7.62c-2.006.019-3.878 1.544-4.281 3.512a4.478 4.478 0 0 0 1.237 4.032c1.214 1.186 3.14 1.578 4.734.927 1.408-.576 2.47-1.927 2.691-3.431.272-1.856-.788-3.832-2.495-4.629a4.413 4.413 0 0 0-1.886-.411zM7.046 9.962L2.259 4.963A12.043 12.043 0 0 1 11.997 0c4.56 0 8.744 2.592 10.774 6.675H12.558c-1.811-.125-3.288.52-4.265 1.453a5.345 5.345 0 0 0-1.247 1.834z"/></svg></a>
+          <a href="https://github.com/GoogleChromeLabs/ProjectVisBug" title="The code / feature set"><svg aria-labelledby="github-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+          <a href="https://chrome.google.com/webstore/detail/cdockenadnadldjbbgcallicgledbeoc" title="The Chrome Extension"><svg aria-labelledby="googlechrome-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.214 8.69l6.715-1.679A12.027 12.027 0 0 1 24 11.972C24 18.57 18.569 24 11.968 24c-.302 0-.605-.011-.907-.034l4.905-8.347c.356-.376.655-.803.881-1.271a5.451 5.451 0 0 0-.043-4.748 5.156 5.156 0 0 0-.59-.91zm-3.24 8.575l-2.121 6.682C4.738 23.345 0 18.14 0 11.977 0 9.592.709 7.26 2.038 5.279l4.834 8.377c.18.539 1.119 2.581 3.067 3.327.998.382 2.041.481 3.035.282zM11.973 7.62c-2.006.019-3.878 1.544-4.281 3.512a4.478 4.478 0 0 0 1.237 4.032c1.214 1.186 3.14 1.578 4.734.927 1.408-.576 2.47-1.927 2.691-3.431.272-1.856-.788-3.832-2.495-4.629a4.413 4.413 0 0 0-1.886-.411zM7.046 9.962L2.259 4.963A12.043 12.043 0 0 1 11.997 0c4.56 0 8.744 2.592 10.774 6.675H12.558c-1.811-.125-3.288.52-4.265 1.453a5.345 5.345 0 0 0-1.247 1.834z"/></svg></a>
           <a href="#" title="Video tutorials"><svg aria-labelledby="youtube-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="a" d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg></a>
           <a title="Powered By"><svg aria-labelledby="javascript-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z"/></svg></a>
         </div>
@@ -84,21 +88,12 @@
               <option>Advanced</option>
             </select>
           </div>
-
-          <div>
-            <span>Hotkeys for</span>
-            <select>
-              <option selected="">Mac</option>
-              <option disabled="">Windows</option>
-              <option disabled="">Linux</option>
-            </select>
-          </div>
         </div>
 
         <!-- <dl>
           <dt>Try it out on this page</dt>
           <dd>There's at least 1 tool that you'll find helpful</dd>
-          
+
           <dt>Basics</dt>
           <dd>Visually & quickly <b>manipulate any webpage, in any state, at any screensize</b>. Simply hover for CSS styles, A11y design, & design alignment. Test quick ideas in seconds, just delete ads, or make an article more readable.</dd>
 
@@ -108,43 +103,68 @@
       </article>
 
       <article span1x1 flex class="artboard">
-        <label class="Click_stuff_below_👇">Select</label>
+        <label with-info class="Click_stuff_below_👇">
+          <summary>Select</summary>
+          <i title="Let's start with the basics shall we!? Go ahead and just click stuff in this artboard.">?</i>
+        </label>
+
         <div class="You_did_it!" grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
-          <h2 class="You_did_it!"><b class="You_did_it!">Click</b> Me 😏</h2>
+          <h2 class="You_did_it!"><b class="You_did_it!">Click</b> Me <em class="Emoji_are_coo" style="font-style: normal;">😏</em></h2>
         </div>
       </article>
 
       <article span2x1 class="artboard" padded grid vertically-distributed="between">
-        <label>Keyboard Nav</label>
-        <div>
-          <p class="tip">💡 <kbd>Tab</kbd> & <kbd>Shift + Tab</kbd> traverse laterally</p>
-          <p class="tip">💡 <kbd>Enter</kbd> & <kbd>Shift + Enter</kbd> traverse lineage</p>
+        <label with-info class="Practice_moving_around_like_excel">
+          <summary>Keyboard Nav</summary>
+          <i title="The keyboard can reach some elements that a mouse cannot due to competing click events or nesting. It's also is a great way to 'feel' the layout heirarchy. Give it a try on the groups below. Go in and out, across and back!">?</i>
+        </label>
+
+        <div class="tips">
+          <p><kbd>Tab</kbd> & <kbd>Shift + Tab</kbd> traverse laterally</p>
+          <p><kbd>Enter</kbd> & <kbd>Shift + Enter</kbd> traverse lineage</p>
         </div>
-        <div grid horizontally-distributed="between" vertically-aligned="center">
-          <div class="outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
+        <div class="Tab_in_and_out_and_around_these_children" grid horizontally-distributed="between" vertically-aligned="center">
+          <div class="Press_enter! outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
+            <div class="Press_tab! filled-square"></div>
             <div class="filled-square"></div>
             <div class="filled-square"></div>
-            <div class="filled-square"></div>
-            <div class="filled-square"></div>
+            <div class="Press_shift+tab! filled-square"></div>
           </div>
-          <div class="filled-square"></div>
-          <div class="outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
+          <div class="Press_tab! filled-square"></div>
+          <div class="Press_enter! outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
+            <div class="Press_tab! filled-square"></div>
             <div class="filled-square"></div>
             <div class="filled-square"></div>
-            <div class="filled-square"></div>
-            <div class="filled-square"></div>
+            <div class="Press_shift+tab! filled-square"></div>
           </div>
         </div>
-      </article> 
+      </article>
+
+      <article span1x1 flex class="dark artboard">
+        <div grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
+          <div>
+            <h2>Try the</h2>
+            <h2><b>Keyboard Trainers</b></h2>
+            <h2>
+              <small>Press <b>?</b> with any tool</small>
+            </h2>
+          </div>
+        </div>
+      </article>
 
       <article span2x1 select-multiple padded class="artboard" grid vertically-distributed="between">
-        <label class="Learn_to_select_multiple_items_👇">Select Multiple</label>
-        <div>
-          <p class="tip">💡 Hold <kbd>shift</kbd> to manually multi-select</p>
-          <p class="tip">💡 Press <kbd>cmd+e</kbd> to expand your selection</p>
-          <p class="tip">💡 Press <kbd>cmd+shift+e</kbd> to expand to all matches</p>
+        <label with-info class="Practice_selecting_multiple_items">
+          <summary>Select Multiple</summary>
+          <i title="Learn the different ways to expand your selection, each can come in handy depending on how many (or few) of something you want. Try it out on the elements below. Which way do you find is the fastest for selecting all those elements?">?</i>
+        </label>
+
+        <div class="tips">
+          <p> Hold <kbd>shift</kbd> to manually multi-select</p>
+          <p> Click 1, then <b>click a class in the label</b> for that element: ".cmd-e" in this case!</p>
+          <p> Press <kbd>cmd+e</kbd> to expand your selection</p>
+          <p> Press <kbd>cmd+shift+e</kbd> to expand to all matches</p>
         </div>
-        <div grid vertically-aligned="center">
+        <div grid vertically-aligned="center" class="Demo_area_for_expanding_selection">
           <span class="tip">try here 👉</span>
           <div multi-select class="so_many!_how_to_select_them_all!?">
             <span class="cmd_e"></span>
@@ -163,35 +183,78 @@
         </div>
       </article>
 
-      <article span1x2 padded class="artboard" grid="rows" horizontally-distributed="between">
-        <label>Margin Tool</label>
-        <div>
-          <p class="tip">💡 Hotkey <kbd>m</kbd></p>
+      <article color-grid span1x1 padded class="artboard">
+        <label with-info class="Practice_changing_colors">
+          <summary>
+            <svg viewBox="0 0 25 27">
+                <path fill="var(--active_color)" d="M16.56 8.94L7.62 0 6.21 1.41l2.38 2.38-5.15 5.15c-.59.59-.59 1.54 0 2.12l5.5 5.5c.29.29.68.44 1.06.44s.77-.15 1.06-.44l5.5-5.5c.59-.58.59-1.53 0-2.12zM5.21 10L10 5.21 14.79 10H5.21zM19 11.5s-2 2.17-2 3.5c0 1.1.9 2 2 2s2-.9 2-2c0-1.33-2-3.5-2-3.5z"/>
+                <rect fill="hotpink" x="1" y="21" width="23" height="5"></rect>
+              </svg>
+            Change Colors
+          </summary>
+          <i title="The simplist way to change colors is by using your system's color picker. Select something in this artboard, then go to the VisBug tool palette and find the color you want to modify under the bar. You'll see a couple extra contextual dots show up. Change the colors of these squares, make something new!">?</i>
+        </label>
+
+        <div class="tips">
+          <p>Click one of these squares and then click color under the toolbar to get a picker!</p>
         </div>
-        <div fit-height grid vertically-aligned="center" horizontally-aligned="center">
+        <div class="google-blue">This</div>
+        <div class="google-red">is</div>
+        <div class="google-yellow">rad</div>
+      </article>
+
+      <article span1x2 padded class="artboard" grid="rows" horizontally-distributed="between">
+        <label with-info class="Practice_adjusting_spacing_between_elements">
+          <summary title="Hotkey is 'm'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M9 7H7v2h2V7zm0 4H7v2h2v-2zm0-8c-1.11 0-2 .9-2 2h2V3zm4 12h-2v2h2v-2zm6-12v2h2c0-1.1-.9-2-2-2zm-6 0h-2v2h2V3zM9 17v-2H7c0 1.1.89 2 2 2zm10-4h2v-2h-2v2zm0-4h2V7h-2v2zm0 8c1.1 0 2-.9 2-2h-2v2zM5 7H3v12c0 1.1.89 2 2 2h12v-2H5V7zm10-2h2V3h-2v2zm0 12h2v-2h-2v2z"/>
+            </svg>
+            Margin Tool
+          </summary>
+          <i title="Adjust the spacing in the buttons below to your liking, aren't these a bit cramped right now? This tool may feel very foreign at first, but 5 minutes or less of solid practice and you'll have it down.">?</i>
+        </label>
+
+        <div class="tips">
+          <p> Hotkey <kbd>m</kbd></p>
+        </div>
+        <div fit-height grid vertically-aligned="center" horizontally-aligned="center" class="Select_all_the_buttons_and_adjust_their_margin_spacing">
           <nav margin>
-            <a class="margin-link" href="#">Home</a>
-            <a class="margin-link" href="#">About</a>
-            <a class="margin-link" href="#">Docs</a>
-            <a class="margin-link" href="#">Code</a>
-            <a class="margin-link" href="#">Contact</a>
+            <button class="mdc-button mdc-button--raised">Home</button>
+            <button class="mdc-button mdc-button--raised">About</button>
+            <button class="mdc-button mdc-button--raised">Docs</button>
+            <button class="mdc-button mdc-button--raised">Code</button>
+            <button class="mdc-button mdc-button--raised">Contact</button>
           </nav>
         </div>
-      </article> 
+      </article>
 
       <article span1x1 flex mock-ad class="artboard Delete_me">
-        <label class="Learn_to_delete_stuff_👇">Delete</label>
+        <label with-info class="Practice_deleting_stuff">
+          <summary>Delete</summary>
+          <i title="Select one or many elements and press delete to remove them from the page. You can also hold the delete button!">?</i>
+        </label>
+
         <div>
           <small class="Delete_this_too! For_funsies!">Delete this 😤 thing! 👇</small>
-          <h2 class="Press_the_delete_key!">Ad</h2> 
+          <h2 class="Press_the_delete_key!">Ad</h2>
         </div>
       </article>
 
       <article span1x1 padded class="artboard" grid="rows" horizontally-distributed="between">
-        <label>Guides</label>
-        <div>
-          <p class="tip">💡 Redlines & distance coming soon!</p>
-        </div> 
+        <label with-info class="Discover_alignment_issues">
+          <summary title="Hotkey is 'g'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M21,6H3C1.9,6,1,6.9,1,8v8c0,1.1,0.9,2,2,2h18c1.1,0,2-0.9,2-2V8C23,6.9,22.1,6,21,6z M21,16H3V8h2v4h2V8h2v4h2V8h2v4h2V8
+              h2v4h2V8h2V16z"/>
+            </svg>
+            Guides
+          </summary>
+          <i title="There's something off about the paragraph in this artboard.. perhaps the guides tool can help you find out what's wrong?">?</i>
+        </label>
+        <div class="tips">
+          <p> Redlines & distance coming soon!</p>
+        </div>
+
         <div fit-height grid vertically-aligned="center" horizontally-aligned="center">
           <h3>Am I in the center?<span class="👾_wtf_is_this? delete_it!">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h3>
         </div>
@@ -200,17 +263,30 @@
       <article span1x1 flex class="dark artboard For_fun-copy_my_styles">
         <div grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
           <div>
-            <h2><kbd>opt+delete</kbd></h2>
-            <h2>No undo yet..</h2>
-            <h2>BUT<br>
-              <small>You can unstyle</small>
+            <h2>#1 rule</h2>
+            <h2>
+              <small>Have some fun!</small>
             </h2>
           </div>
         </div>
       </article>
 
       <article span1x1 class="artboard" grid="rows" vertically-aligned="center" horizontally-distributed="between" vertically-distributed="equal">
-        <label>Inspect Tool</label>
+        <label with-info class="Instant_peek_into_designery_styles">
+          <summary title="Hotkey is 'i'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <g>
+                <rect x="11" y="7" width="2" height="2"/>
+                <rect x="11" y="11" width="2" height="6"/>
+                <path d="M12,2C6.48,2,2,6.48,2,12c0,5.52,4.48,10,10,10s10-4.48,10-10C22,6.48,17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8
+                  c0-4.41,3.59-8,8-8s8,3.59,8,8C20,16.41,16.41,20,12,20z"/>
+              </g>
+            </svg>
+            Inspect Tool
+          </summary>
+          <i title="Below is Google's new Google Material sidebar menu component, aren't you a bit curious about the font and that pink color? Why don't you choose the Inspect tool and hover on them?">?</i>
+        </label>
+
         <ul class="mdc-list demo-list demo-list-item-shaped">
           <li class="mdc-list-item mdc-ripple-upgraded mdc-list-item--activated" aria-selected="true" style="--mdc-ripple-fg-size:360px; --mdc-ripple-fg-scale:1.69977; --mdc-ripple-fg-translate-start:55.8906px, -156.16px; --mdc-ripple-fg-translate-end:120px, -156px;">
           <span class="mdc-list-item__graphic material-icons" aria-hidden="true">inbox</span>Inbox</li>
@@ -223,38 +299,99 @@
         </ul>
       </article>
 
+      <article padded class="artboard" grid="rows" vertically-distributed="around" horizontally-aligned="left">
+        <label with-info class="Instant_peek_into_accessibility_attributes">
+          <summary title="Hotkey is 'x'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M12,2c1.1,0,2,0.9,2,2s-0.9,2-2,2s-2-0.9-2-2S10.9,2,12,2z M21,9h-6v13h-2v-6h-2v6H9V9H3V7h18V9z"/>
+            </svg>
+            Accessibility Tool
+          </summary>
+          <i title="Consider yourself equipped to quick scope into accessibility design. Now you can quick check contrast, tab indexes, attributes and more. Give the tool a test on the contents below.">?</i>
+        </label>
+        <span good-contrast>Good contrast</span>
+        <span bad-contrast>Bad contrast</span>
+        <form>
+          <div class="mdc-form-field">
+            <div class="mdc-radio">
+              <input class="mdc-radio__native-control" type="radio" id="radio-1" name="radios">
+              <div class="mdc-radio__background">
+                <div class="mdc-radio__outer-circle"></div>
+                <div class="mdc-radio__inner-circle"></div>
+              </div>
+            </div>
+            <label for="radio-1">Radio 1</label>
+          </div>
+          <div class="mdc-form-field">
+            <div class="mdc-radio">
+              <input class="mdc-radio__native-control" type="radio" id="radio-2" name="radios" checked>
+              <div class="mdc-radio__background">
+                <div class="mdc-radio__outer-circle"></div>
+                <div class="mdc-radio__inner-circle"></div>
+              </div>
+            </div>
+            <label for="radio-2">Radio 2</label>
+          </div>
+          <div class="mdc-form-field">
+            <div class="mdc-radio">
+              <input class="mdc-radio__native-control" type="radio" id="radio-3" name="radios">
+              <div class="mdc-radio__background">
+                <div class="mdc-radio__outer-circle"></div>
+                <div class="mdc-radio__inner-circle"></div>
+              </div>
+            </div>
+            <label for="radio-3">Radio 3</label>
+          </div>
+          <div>
+            <button class="mdc-button mdc-button--outlined" type="reset">Reset</button>
+            <button class="mdc-button mdc-button--raised" type="submit">Submit</button>
+          </div>
+        </form>
+        <img src="assets/visbug.png" alt="Sweet VisBug logo" style="width: 4rem;">
+      </article>
+
       <article span1x1 padded class="artboard" grid="rows" vertically-distributed="between">
-        <label class="Learn_to_multiply_items_👇">Duplicate</label>
-        <div>
-          <p class="tip">💡 Press <kbd>cmd+d</kbd></p>
-        </div> 
-        <div fit-height grid vertically-aligned="center" horizontally-aligned="center" horizontally-distributed="around">
-          <button class="mdc-button mdc-button--raised" style="margin-bottom:0.5rem;">Submit</button>
+        <label with-info class="Practice_duplicating_stuff">
+          <summary>Duplicate</summary>
+          <i title="This comes in handy not only for utility but for chaos testing. How often do you want to see states from 1 to many? Here's your tool to very quickly test how your UI handles many of something.">?</i>
+        </label>
+        <div class="tips">
+          <p> Press <kbd>cmd+d</kbd></p>
         </div>
-      </article>   
+        <div fit-height grid vertically-aligned="center" horizontally-aligned="center" horizontally-distributed="around">
+          <button class="mdc-button mdc-button--raised" style="margin-bottom:0.5rem;">Dupe Me</button>
+        </div>
+      </article>
 
       <article copy_paste padded span2x1 class="artboard" grid vertically-aligned="center" vertically-distributed="between">
-        <label>Copy/Paste Elements</label>
-        <div>
-          <p class="tip">💡 Copy the circle <b>from the left box</b> and paste it <b>in the right box</b></p>
-          <p class="tip">💡 Works across tabs!</b></p>
+        <label with-info class="Practice_cutting_or_copying_an_element_from_one_place_to_another">
+          <summary>Copy/Cut & Paste Elements</summary>
+          <i title="There's a bunch of creative use cases for this tool. This tool will also put your design system components to a portability test. Go ahead and see how well certain elements move around the page.">?</i>
+        </label>
+        <div class="tips">
+          <p>Copy the circle from the left box <kbd>cmd+c</kbd></p>
+          <p>Paste it in the right box <kbd>cmd+v</kbd></p>
+          <p>Did I mention <b>it works across tabs!</b></p>
         </div>
-        <div grid horizontally-distributed="around" vertically-aligned="center">
-          <div class="outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
-            <div class="filled-circle"></div>
+        <div class="Copy_and_paste_simple_elements" grid horizontally-distributed="around" vertically-aligned="center">
+          <div class="Copy_the_circle_in_this_square outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
+            <div class="Copy_me filled-circle"></div>
           </div>
-          <div class="outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
+          <div class="Paste_here outlined-square" grid horizontally-distributed="around" vertically-aligned="center">
           </div>
         </div>
       </article>
 
       <article span2x1 class="artboard" padded grid="rows" vertically-distributed="equal">
-        <label>Copy/Paste Styles</label>
-        <div>
-          <p class="tip">💡 Copy styles with <kbd>cmd+opt+c</kbd></p>
-          <p class="tip">💡 Paste copied styles with <kbd>cmd+opt+v</kbd></p>
-          <p class="tip">💡 <b>For fun:</b> copy the styles of a dark artboard and paste it over some light artboards</p>
-        </div> 
+        <label with-info class="Practice_transfering_styles_from_one_element_to_another">
+          <summary>Copy/Paste Styles</summary>
+          <i title="Stole this one from Sketch, but it lets you take the styles off of an element of many elements, and pase them onto 1 or many elements. It's super powerful! Try doing a 1:1 copy/paste, then try a multi-selection copy followed by a multi-selection paste! Power moves!">?</i>
+        </label>
+        <div class="tips">
+          <p> Copy styles with <kbd>cmd+opt+c</kbd></p>
+          <p> Paste copied styles with <kbd>cmd+opt+v</kbd></p>
+          <p> <b>For fun:</b> copy the styles of a dark artboard and paste it over some light artboards</p>
+        </div>
         <div fit-height grid vertically-aligned="center" horizontally-aligned="center" horizontally-distributed="around">
           <button class="mdc-button mdc-button--raised" style="background:hsl(0,0%,10%);color:hsl(0,0%,70%);">Copy my darkness</button>
           <button class="mdc-button mdc-button--raised">Join the darkside</button>
@@ -262,29 +399,38 @@
       </article>
 
       <article span2x2 padded class="artboard">
-        <label>Image Swap</label>
+        <label with-info class="Practice_swapping_out_images">
+          <summary>Image Swap</summary>
+          <i title="That's right, drag and drop images to replace them. You can drag an image in and drop it over an image. You can select one or many <img>'s in the page then drop a new image anywhere into the page. You can also swap out a background image by dragging in a new one! Try it out below, swap those out for some of your own folks or avatars!">?</i>
+        </label>
         <div image-grid>
-          <div>
-            <p class="tip">💡 Select all 4 images and drag in 4 new ones</p>
-            <p class="tip">💡 Drag a new image onto any one of these too</p>
+          <div class="tips">
+            <p>Select all 4 images and drag in some new ones</p>
+            <p>OR just drag a new image onto any one of these</p>
           </div>
-          <img src="http://i.pravatar.cc/300?img=7" alt="">
-          <img src="http://i.pravatar.cc/300?img=24" alt="">
-          <img src="http://i.pravatar.cc/300?img=22" alt="">
-          <img src="http://i.pravatar.cc/300?img=16" alt="">
+          <img class="drag_in_a_new_image!" src="assets/hero-1.svg" alt="Female toon walking">
+          <img class="drag_in_a_new_image!" src="assets/hero-2.svg" alt="Male toon walking">
+          <img class="drag_in_a_new_image!" src="assets/hero-3.svg" alt="Female toon walking">
+          <img class="drag_in_a_new_image!" src="assets/hero-4.svg" alt="Female upside down walking">
         </div>
       </article>
 
-      <article span2x1 padded class="artboard">
-        <label>Accessibility Tool</label>
-      </article> 
-
-      <article span3x1 class="artboard" padded grid vertically-distributed="equal">
-        <label>Text Styles</label>
-        <div>
-          <p class="tip">💡 Multiselect these headings and edit the ramp with the font tool</p>
+      <article span3x1 class="artboard" padded grid vertically-distributed="between">
+        <label with-info class="Practice_manipulating_typography">
+          <summary title="Hotkey is 'f'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M9 4v3h5v12h3V7h5V4H9zm-6 8h3v7h3v-7h3V9H3v3z"/>
+            </svg>
+            Text Styles
+          </summary>
+          <i title="You can now edit font styles almost like you're in a design tool, most the things you need I hope are just a tap away. This tool also has some super powers, one of which is really handy with type styles. Let's try it: multi-select all the headers below, select the font styles tool, then press up on your keyboard. Notice how the type ramp is maintained as they all increase size within the ratio contraints originally created.">?</i>
+        </label>
+        <div class="tips">
+          <p>Hotkey <kbd>f</kbd></p>
+          <p>The font in this artboard is the system font. It has lots of weights and is very elegant at large or small sizes. Can you make it look better?</p>
+          <p>Multiselect these headings and edit the ramp with the font tool, what ramp styles do you like?</p>
         </div>
-        <div text-styles>
+        <div text-styles class="Multiselect_each_header_here_and_change_their_fontsize!">
           <h1>The quick brown fox jumps over the lazy dog</h1>
           <h2>The quick brown fox jumps over the lazy dog</h2>
           <h3>The quick brown fox jumps over the lazy dog</h3>
@@ -292,39 +438,67 @@
           <h5>The quick brown fox jumps over the lazy dog</h5>
           <h6>The quick brown fox jumps over the lazy dog</h6>
         </div>
-      </article> 
+      </article>
 
-      <article span2x1 class="artboard" padded grid vertically-distributed="between">
-        <label>Move Tool</label>
-        <div>
-          <p class="tip">💡 <b>Fix the order</b> of the circles below</p>
+      <article span2x1 class="artboard" padded grid="rows" vertically-distributed="between">
+        <label with-info class="Practice_moving_elements_around_a_webpage">
+          <summary title="Hotkey is 'v'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M15 7.5V2H9v5.5l3 3 3-3zM7.5 9H2v6h5.5l3-3-3-3zM9 16.5V22h6v-5.5l-3-3-3 3zM16.5 9l-3 3 3 3H22V9h-5.5z"/>
+            </svg>
+            Move Tool
+          </summary>
+          <i title="Moving things around the DOM is very different than anything a designer deals with day to day. This artboard has a straightforward beginner setup for you to play with. Try rearranging artboards when you're ready for the next step. ">?</i>
+        </label>
+        <div class="tips">
+          <p><b>Fix the order</b> of the circles below</p>
+          <p><b>Tip:</b> left and right are safe, up and down are difficult</p>
         </div>
-        <div ordered-numbers fit-height>
-          <div class="filled-circle">3</div>
-          <div class="filled-circle">5</div>
-          <div class="filled-circle">4</div>
-          <div class="filled-circle">1</div>
-          <div class="filled-circle">2</div>
+        <div ordered-numbers fit-height grid vertically-aligned="center">
+          <div class="Use_left_and_right_arrows filled-circle">3</div>
+          <div class="Use_left_and_right_arrows filled-circle">5</div>
+          <div class="Use_left_and_right_arrows filled-circle">4</div>
+          <div class="Use_left_and_right_arrows filled-circle">1</div>
+          <div class="Use_left_and_right_arrows filled-circle">2</div>
         </div>
-      </article> 
+      </article>
 
       <article span1x2 class="artboard" padded grid="rows" vertically-distributed="equal" horizontally-aligned="center">
-        <label>Move Tool</label>
-        <p class="tip">💡 Flow direction can make left/right be up/down 🤔</p>
+        <label with-info class="Practice_moving_elements_around_a_webpage">
+          <summary title="Hotkey is 'v'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M15 7.5V2H9v5.5l3 3 3-3zM7.5 9H2v6h5.5l3-3-3-3zM9 16.5V22h6v-5.5l-3-3-3 3zM16.5 9l-3 3 3 3H22V9h-5.5z"/>
+            </svg>
+            Move Tool
+          </summary>
+          <i title="This board was created specifically to teach you about display direction. Element order matters, but display direction can make it looks like they're stacked, but really they're all in 1 group, but they're laid out vertically. Tricky, but only for a short bit. Play here and get a grip on it!">?</i>
+        </label>
+        <div class="tips">
+          <p>Flow direction can make left/right be up/down 🤔</p>
+          <p><b>Fix the order</b> of the stop light below</p>
+        </div>
         <div stop-light fit-height>
           <div class="filled-circle green"></div>
           <div class="filled-circle yellow"></div>
           <div class="filled-circle red"></div>
         </div>
-      </article> 
+      </article>
 
       <article span2x1 padded class="artboard" grid="rows">
-        <label>Edit Text Tool</label>
+        <label with-info class="Practice_editing_text_by_setting_your_hourly_rate">
+          <summary title="Hotkey is 'e'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+            </svg>
+            Edit Text Tool
+          </summary>
+          <i title="What are you worth? Double click the text to change what you should be paid!">?</i>
+        </label>
         <div fit-height grid="rows" vertically-aligned="center" horizontally-aligned="center">
           <h1 class="Doubleclick_to_edit">I'm worth $100 /hr</h1>
           <small class="Doubleclick_to_edit">How much are you worth? Edit the text to specify your rate.</small>
         </div>
-      </article> 
+      </article>
 
       <article span1x1 flex class="dark artboard For_fun-copy_my_styles">
         <div grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
@@ -336,15 +510,18 @@
             </h2>
           </div>
         </div>
-      </article> 
+      </article>
 
-      <article span2x2 class="artboard" grid horizontally-distributed="equal">
-        <label>Inline SVG</label>
-        <div padded>
-          <p class="tip">💡 delete, copy, paste, duplicate</p>
-          <p class="tip">💡 change color, move x/y, inspect</p>
+      <article padded span2x2 class="artboard" grid="rows" horizontally-distributed="space-between">
+        <label with-info class="Practice_manipulating_inline_svg">
+          <summary>Inline SVG</summary>
+          <i title="This one can really blow someones mind, but it requires that your engineers are using inline SVG. If they are, then you almost have a full blown vector art tool in your browser now. More features coming soon, but for now, you can do a whole lot of stuff. Almost anything you can do to HTML elements, you can do to SVG nodes. Cool right!?">?</i>
+        </label>
+        <div padded class="tips">
+          <p>Delete, copy, paste, & duplicate svg!</p>
+          <p>Change color, move x/y, & inspect svg!</p>
         </div>
-        <div grid vertically-aligned="center" horizontally-aligned="center">
+        <div class="Play_with_this_svg!" fit-height grid vertically-aligned="center" horizontally-aligned="center">
           <svg height="90%" width="90%" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <defs>
               <filter x="0.0%" y="0.0%" width="100.0%" height="100.0%" filterUnits="objectBoundingBox" id="filter-1">
@@ -357,7 +534,7 @@
               </filter>
               <filter id="filter-2">
                 <feBlend in="SourceGraphic" mode="multiply"/>
-              </filter>   
+              </filter>
             </defs>
             <g id="VisBug" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
               <path d="M434,144 C469.898509,144 499,114.898509 499,79 C499,43.1014913 469.898509,14 434,14 C398.101491,14 369,43.1014913 369,79 C369,114.898509 398.101491,144 434,144 Z" id="k" fill="#000000" fill-rule="nonzero"></path>
@@ -369,12 +546,20 @@
             </g>
           </svg>
         </div>
-      </article> 
+      </article>
 
       <article span2x1 padded class="artboard" grid="rows" horizontally-distributed="between">
-        <label>Padding Tool</label>
-        <div>
-          <p class="tip">💡 Hotkey <kbd>p</kbd></p>
+        <label with-info class="Practice_changing_space_inside_elements">
+          <summary title="Hotkey is 'p'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm2 4v-2H3c0 1.1.89 2 2 2zM3 9h2V7H3v2zm12 12h2v-2h-2v2zm4-18H9c-1.11 0-2 .9-2 2v10c0 1.1.89 2 2 2h10c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 12H9V5h10v10zm-8 6h2v-2h-2v2zm-4 0h2v-2H7v2z"/>
+            </svg>
+            Padding Tool
+          </summary>
+          <i title="Like the margin tool, this one can feel strange at first. I totally get it, was for me too. But of all the ways I went about designing this interaction, this was by far the fastest to learn and most capable. Practice it by making the links below more spacious, then try to make a nice looking condensed version.">?</i>
+        </label>
+        <div class="tips">
+          <p> Hotkey <kbd>p</kbd></p>
         </div>
         <div fit-height grid vertically-aligned="center" horizontally-aligned="center">
           <nav>
@@ -385,14 +570,25 @@
             <a class="padding-link" href="#">Contact</a>
           </nav>
         </div>
-      </article> 
+      </article>
 
-      <article span1x1 padded class="artboard">
-        <label>Drop Shadow Tool</label>
-        <div>
-          <p class="tip">💡 Hotkey <kbd>d</kbd></p>
+      <article span1x1 padded class="artboard" grid="rows" horizontally-distributed="between">
+        <label with-info class="Practice_changing_drop_shadows">
+          <summary>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69zM12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6c3.31 0 6 2.69 6 6s-2.69 6-6 6z"/>
+            </svg>
+            Drop Shadow Tool
+          </summary>
+          <i title="This one is an odd one but fit into the keyboard matrix really well and ends up being quite fun. Try changing the direction of the light source below, almost feels like you control the sun.">?</i>
+        </label>
+        <div class="tips">
+          <p>Hotkey <kbd>d</kbd></p>
         </div>
-      </article> 
+        <div fit-height grid vertically-aligned="center" horizontally-aligned="center">
+          <div class="filled-circle shadow-circle"></div>
+        </div>
+      </article>
 
       <article span1x1 flex class="dark artboard">
         <div grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
@@ -402,49 +598,126 @@
           </div>
           <h2>for help</h2>
         </div>
-      </article> 
+      </article>
 
-      <article span1x1 padded class="artboard">
-        <label>Position Tool</label>
-        <div>
-          <p class="tip">💡 Hotkey <kbd>l</kbd></p>
+      <article span1x1 padded class="artboard" grid="rows" horizontally-distributed="between">
+        <label with-info class="Practice_moving_anything_anywhere_by_dragging">
+          <summary title="Hotkey is 'l'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M15.54 5.54L13.77 7.3 12 5.54 10.23 7.3 8.46 5.54 12 2zm2.92 10l-1.76-1.77L18.46 12l-1.76-1.77 1.76-1.77L22 12zm-10 2.92l1.77-1.76L12 18.46l1.77-1.76 1.77 1.76L12 22zm-2.92-10l1.76 1.77L5.54 12l1.76 1.77-1.76 1.77L2 12z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            Position Tool
+          </summary>
+          <i title="This plus the delete tool can really help you get an idea out without caring about the document or how things flow. It's a great escape hatch and dramatic design changing tool. Go nuts with it, use it on much more than the current artboard.">?</i>
+        </label>
+        <div class="tips">
+          <p> Hotkey <kbd>l</kbd></p>
+          <p> Click to select, then click hold and drag anything around</p>
+        </div>
+        <div fit-height grid vertically-aligned="center" horizontally-aligned="center">
+          <p style="text-align: center;">Move this artboard to somewhere wierd!</p>
         </div>
       </article>
 
-      <article span2x1 padded class="artboard">
-        <label>Align Tool</label>
-        <div>
-          <p class="tip">💡 Hotkey <kbd>a</kbd></p>
+      <article span2x1 padded class="artboard" grid="rows" horizontally-distributed="between">
+        <label with-info class="Practice_aligning_distributing_and_changing_layout_direction">
+          <summary title="Hotkey is 'a'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="transform:rotateZ(90deg);">
+              <path d="M10 20h4V4h-4v16zm-6 0h4v-8H4v8zM16 9v11h4V9h-4z"/>
+            </svg>
+            Align Tool
+          </summary>
+          <i title="This puts all the handy buttons from the pathfinder tool at your fingertips. This tool is much more powerful than it may appear on the surface. Expect more tutorials and trainers coming to help you get the best out of this tool. For now, try selecting the container of the following text nodes, select the align tool, then use your arrow keys to align the elements around. Hold shift to change the way they distribute too.">?</i>
+        </label>
+        <div class="tips">
+          <p> Hotkey <kbd>a</kbd></p>
         </div>
-      </article> 
+        <div class="Use_the_align_tool_arrow_keys_on_me!" fit-height grid vertically-aligned="center" horizontally-aligned="center">
+          <a class="padding-link" href="#">Left</a>
+          <a class="padding-link" href="#">Right</a>
+          <a class="padding-link" href="#">Up</a>
+          <a class="padding-link" href="#">Down</a>
+          <a class="padding-link" href="#">Shift+Left</a>
+        </div>
+      </article>
 
-      <article span2x1 padded class="artboard">
-        <label>Search Tool</label>
-        <div>
-          <p class="tip">💡 Hotkey <kbd>s</kbd></p>
+      <article span1x1 flex class="dark artboard For_fun-copy_my_styles">
+        <div grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
+          <div>
+            <!-- <h2><kbd>opt+delete</kbd></h2> -->
+            <h2>No undo..</h2>
+            <h2>yet!</h2>
+            <h2>BUT<br>
+              <small>You can unstyle</small>
+            </h2>
+          </div>
         </div>
-      </article> 
+      </article>
 
-      <article span1x1 grid="rows" padded class="artboard Delete_styles">
-        <label class="Learn_to_delete_styles_👇">Delete styles</label>
-        <div>
-          <p class="tip">💡 Press <kbd>opt+del</kbd> to remove inline styles</p>
+      <article span2x1 padded class="artboard" grid="rows" horizontally-distributed="between">
+        <label with-info class="Practice_selecting_elements_programatically">
+          <summary title="Hotkey is 's'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+            </svg>
+            Search Tool
+          </summary>
+          <i title="This can help you either be more specific about what you're selecting or massively select lots of elements at the same time. It's a great way to select things you know by name or type. I really wish a design tool has this feature. Give it a shot!">?</i>
+        </label>
+        <div class="tips">
+          <p> Hotkey <kbd>s</kbd></p>
         </div>
-        <div>
+        <div class="Use_the_search_tool_to_select_elements!" fit-height grid="rows" vertically-aligned="center" horizontally-aligned="center">
+          <h4 class="Select_me_programmatically search-title">Select me by searching ".search-title"</h4>
+          <div class="Select_all_my_children_programatically">
+            <a class="search-link" href="#">Search</a>
+            <a class="search-link" href="#">".search-link"</a>
+            <a class="search-link" href="#">To</a>
+            <a class="search-link" href="#">Select</a>
+            <a class="search-link" href="#">Us</a>
+          </div>
+        </div>
+      </article>
+
+      <article span2x1 grid="rows" padded class="artboard Delete_styles" grid="rows" horizontally-distributed="between">
+        <label with-info class="Practice_deleting_styles_kinda_undoing!">
+          <summary>Delete styles</summary>
+          <i title="With one swift keypress you can remove all the changes you made and put the element back to it's initial state and design.">?</i>
+        </label>
+        <div class="tips">
+          <p> Press <kbd>opt+del</kbd> to remove inline styles</p>
           <small class="Fix_me!">Ew, get rid of these terrible edits someone (me) did! 👇</small>
         </div>
+        <div fit-height grid vertically-aligned="center" horizontally-aligned="center">
+          <h2 style="font-size: 3rem; color: green; text-shadow: 0 2px 4px red; font-weight: bold;">Fix Me!</h2>
+        </div>
       </article>
 
-      <article span2x2 padded class="artboard">
-        <label>Foreground / Background Color</label>
-        <div>
-          <p class="tip">💡 Hotkey <kbd>h</kbd></p>
-          <p class="tip">💡 Hotkey <kbd>[</kbd> or <kbd>]</kbd> to switch between foreground/background</p>
+      <article span2x2 padded class="artboard" grid="rows" horizontally-distributed="between">
+        <label with-info class="Practice_changing_colors_with_your_keyboard!">
+          <summary title="Hotkey is 'h'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+            </svg>
+            HueShift
+          </summary>
+          <i title="This is my favorite tool of all of them, and I really want you to get a feel of what's it's doing. So here's a little sandbox, go nuts, really really give this tool a try!">?</i>
+        </label>
+        <div class="tips">
+          <p> Hotkey <kbd>h</kbd></p>
+          <p> Hotkey <kbd>[</kbd> or <kbd>]</kbd> to switch between foreground/background</p>
         </div>
-      </article> 
+        <div bgfg fit-height grid vertically-aligned="center" horizontally-aligned="center" horizontally-distributed="around">
+          <div class="filled-circle google-blue">1</div>
+          <div class="filled-circle google-red">2</div>
+          <div class="filled-circle google-yellow">3</div>
+          <div class="filled-circle google-green">4</div>
+        </div>
+      </article>
 
     </main>
-    
+
     <script src="bundle.js" defer></script>
   </body>
 </html>
