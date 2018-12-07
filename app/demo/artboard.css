@@ -74,6 +74,7 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        line-height: 1.1;
 
         &:hover {
           color: var(--theme-color);
@@ -94,6 +95,10 @@
       margin-top: 0;
       margin-bottom: 0;
       font-size: 0.8rem;
+
+      @media (max-width: 480px) {
+        font-size: 1rem;
+      }
     }
   }
 
