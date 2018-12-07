@@ -1,6 +1,6 @@
 {
   "name": "VisBug",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "extension:css": "postcss app/extension.css -o extension/toolbar/bundle.css",
     "extension:copy": "cp app/bundle.js extension/toolbar/ && cp -R app/tuts/ extension/tuts/",
     "extension:zip": "rm -rf ./extension/build/* && mkdir ./visbug_v$npm_package_version && cp -R ./extension/* ./visbug_v$npm_package_version/ && zip -r ./extension/build/visbug_v$npm_package_version.zip ./visbug_v$npm_package_version && rm -rf ./visbug_v$npm_package_version",
-    "deploy": "gcloud app deploy --project=google.com:atoms-sandbox"
+    "deploy": "gcloud app deploy --project=visbug-1337"
   },
   "author": "",
   "license": "ISC",
@@ -27,7 +27,7 @@
     "ragrid": "^1.0.5"
   },
   "devDependencies": {
-    "browser-sync": "^2.24.6",
+    "browser-sync": "^2.26.3",
     "concurrently": "^3.5.1",
     "postcss": "^6.0.22",
     "postcss-cli": "^5.0.1",

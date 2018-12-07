@@ -5,7 +5,7 @@
     color: red;
     border: 2px solid red;
     padding: 2rem;
-    animation: pulse-annoyingly 0.7s linear infinite;
+    animation: pulse-annoyingly 1s linear infinite;
   }
 }
 
