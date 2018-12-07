@@ -21,7 +21,22 @@
     border: 1px solid var(--darker-grey);
     box-shadow: none;
     color: var(--lighter-grey);
-    text-shadow: 0 0.5px var(--darkest-grey);
+  }
+
+  &.message {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 1.5rem;
+
+    & > h2 {
+      font-weight: bold;
+    }
+
+    & > p {
+      line-height: 1.5;
+      margin-bottom: 0;
+    }
   }
 
   & > label {
@@ -36,7 +51,6 @@
     font-size: 0.8rem;
     font-weight: lighter;
     color: var(--lightest-grey);
-    text-shadow: 0 0.5px 0 black;
     white-space: nowrap;
 
     & > summary {

@@ -43,7 +43,6 @@ html[light] {
 
   & .artboard label {
     color: var(--light-grey);
-    text-shadow: 0 0.5px 0 var(--dark-grey);
   }
 
   & kbd {

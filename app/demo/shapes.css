@@ -43,8 +43,18 @@
   fill: var(--grey);
 }
 
-[bgfg] > .filled-circle {
-  font-size: 5vw;
-  width: 15vw;
-  height: 15vw;
+[bgfg] {
+  width: 100%;
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-template-columns: 15vw 15vw;
+  grid-template-rows: 15vw 15vw;
+  justify-content: space-around;
+  margin-top: 0.5rem;
+
+  & > .filled-circle {
+    font-size: 5vw;
+    width: 100%;
+    height: 100%;
+  }
 }

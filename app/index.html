@@ -76,7 +76,7 @@
           <a title="Powered By"><svg aria-labelledby="javascript-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z"/></svg></a>
         </div>
 
-        <div filters>
+        <!-- <div filters>
           <div>
             <span>Learn</span>
             <select>
@@ -88,7 +88,7 @@
               <option>Advanced</option>
             </select>
           </div>
-        </div>
+        </div> -->
 
         <!-- <dl>
           <dt>Try it out on this page</dt>
@@ -100,6 +100,18 @@
           <dt>Essentials</dt>
           <dd>Bring your design tool hotkeys to the web, multiselect in new powerful ways, chaos test, break things, spelunk, remix & bend. Makes any webpage feel like an artboard.</dd>
         </dl> -->
+      </article>
+
+      <article span1x1 class="dark artboard message">
+        <h2>Welcome!</h2>
+        <p>You've arrived at the "try before you buy" sandbox and playground.</p>
+        <p><b>Each artboard is tailor made to provoke your design brain and teach you a feature.</b></p>
+      </article>
+
+      <article id="mobile-info" style="display: none;" span1x1 class="dark artboard message">
+        <h2>📱 Mobile Users!</h2>
+        <p>VisBug is very much a desktop centric tool. BUT! If you're in a browser with a nice HTML color input, then you can have some fun too.</p>
+        <p>Here's how: Tap stuff, look for the text and fill icons under the toolbar, tap one, and use your operating systems HTML5 color input to <b>change colors of elements, even SVG!</b> 💀🤘</p>
       </article>
 
       <article span1x1 flex class="artboard">
@@ -136,18 +148,6 @@
             <div class="filled-square"></div>
             <div class="filled-square"></div>
             <div class="Press_shift+tab! filled-square"></div>
-          </div>
-        </div>
-      </article>
-
-      <article span1x1 flex class="dark artboard">
-        <div grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
-          <div>
-            <h2>Try the</h2>
-            <h2><b>Keyboard Trainers</b></h2>
-            <h2>
-              <small>Press <b>?</b> with any tool</small>
-            </h2>
           </div>
         </div>
       </article>
@@ -196,11 +196,23 @@
         </label>
 
         <div class="tips">
-          <p>Click one of these squares and then click color under the toolbar to get a picker!</p>
+          <p>Click one of these squares, then click a color icon under the toolbar to get a picker!</p>
         </div>
         <div class="google-blue">This</div>
         <div class="google-red">is</div>
         <div class="google-yellow">rad</div>
+      </article>
+
+      <article span1x1 flex class="dark artboard">
+        <div grid="rows" horizontally-aligned="center" vertically-aligned="center" vertically-distributed="around">
+          <div>
+            <h2>Try the</h2>
+            <h2><b>Keyboard Trainers</b></h2>
+            <h2>
+              <small>Press <b>?</b> with any tool</small>
+            </h2>
+          </div>
+        </div>
       </article>
 
       <article span1x2 padded class="artboard" grid="rows" horizontally-distributed="between">
@@ -705,10 +717,10 @@
           <i title="This is my favorite tool of all of them, and I really want you to get a feel of what's it's doing. So here's a little sandbox, go nuts, really really give this tool a try!">?</i>
         </label>
         <div class="tips">
-          <p> Hotkey <kbd>h</kbd></p>
-          <p> Hotkey <kbd>[</kbd> or <kbd>]</kbd> to switch between foreground/background</p>
+          <p>Hotkey <kbd>[</kbd> or <kbd>]</kbd> to switch between foreground/background</p>
+          <p>Try multi-selecting all these circles and changing their hue contextually, it makes a pretty light show</p>
         </div>
-        <div bgfg fit-height grid vertically-aligned="center" horizontally-aligned="center" horizontally-distributed="around">
+        <div bgfg fit-height>
           <div class="filled-circle google-blue">1</div>
           <div class="filled-circle google-red">2</div>
           <div class="filled-circle google-yellow">3</div>
