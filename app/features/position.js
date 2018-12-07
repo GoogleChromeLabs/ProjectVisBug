@@ -1,22 +1,22 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { getStyle, getSide, showHideSelected } from '../utilities/'
+import { metaKey, getStyle, getSide, showHideSelected } from '../utilities/'
 
 const key_events = 'up,down,left,right'
   .split(',')
-  .reduce((events, event) => 
+  .reduce((events, event) =>
     `${events},${event},alt+${event},shift+${event},shift+alt+${event}`
   , '')
   .substring(1)
 
-const command_events = 'cmd+up,cmd+shift+up,cmd+down,cmd+shift+down'
+const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down`
 
 export function Position() {
   this._els = []
 
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
-      
+
     e.preventDefault()
     positionElement($('[data-selected=true]'), handler.key)
   })
@@ -152,7 +152,7 @@ export function positionElement(els, direction) {
     .map(el => ensurePositionable(el))
     .map(el => showHideSelected(el))
     .map(el => ({
-        el, 
+        el,
         ...extractCurrentValueAndSide(el, direction),
         amount:   direction.split('+').includes('shift') ? 10 : 1,
         negative: determineNegativity(el, direction),
@@ -160,7 +160,7 @@ export function positionElement(els, direction) {
     .map(payload =>
       Object.assign(payload, {
         position: payload.negative
-          ? payload.current + payload.amount 
+          ? payload.current + payload.amount
           : payload.current - payload.amount
       }))
     .forEach(({el, style, position}) =>
@@ -198,7 +198,7 @@ const extractCurrentValueAndSide = (el, direction) => {
 
 const extractSVGTranslate = translate =>
   translate.substring(
-    translate.indexOf('(') + 1, 
+    translate.indexOf('(') + 1,
     translate.indexOf(')')
   ).split(',')
   .map(val => parseFloat(val))
@@ -222,7 +222,7 @@ const determineNegativity = (el, direction) =>
     : direction.split('+').includes('alt')
 
 const ensurePositionable = el => {
-  if (el instanceof HTMLElement) 
+  if (el instanceof HTMLElement)
     el.style.position = 'relative'
   return el
 }

@@ -26,3 +26,11 @@ export const createClassname = (el, ellipse = false) => {
     ? rawClassname.substring(0,30) + '...'
     : rawClassname
 }
+
+export const metaKey = window.navigator.platform.includes('Mac')
+  ? 'cmd'
+  : 'ctrl'
+
+export const altKey = window.navigator.platform.includes('Mac')
+  ? 'opt'
+  : 'alt'

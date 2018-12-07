@@ -1,12 +1,13 @@
 import { HotkeyMap } from './base.element'
-import { boxshadow as icon } from '../tool-pallete/toolpallete.icons' 
+import { boxshadow as icon } from '../tool-pallete/toolpallete.icons'
+import { metaKey } from '../../utilities';
 
 export class BoxshadowHotkeys extends HotkeyMap {
   constructor() {
     super()
 
     this._hotkey    = 'd'
-    this._usedkeys  = ['shift','cmd']
+    this._usedkeys  = ['shift',metaKey]
     this.tool       = 'boxshadow'
   }
 

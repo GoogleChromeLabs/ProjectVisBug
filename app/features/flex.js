@@ -1,20 +1,20 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { getStyle } from '../utilities/'
+import { metaKey, getStyle } from '../utilities/'
 
 const key_events = 'up,down,left,right'
   .split(',')
-  .reduce((events, event) => 
+  .reduce((events, event) =>
     `${events},${event},shift+${event}`
   , '')
   .substring(1)
 
-const command_events = 'cmd+up,cmd+down,cmd+left,cmd+right'
+const command_events = `${metaKey}+up,${metaKey}+down,${metaKey}+left,${metaKey}+right`
 
 export function Flex(selector) {
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
-      
+
     e.preventDefault()
 
     let selectedNodes = $(selector)
@@ -35,7 +35,7 @@ export function Flex(selector) {
 
     let selectedNodes = $(selector)
       , keys = handler.key.split('+')
-    
+
     changeDirection(selectedNodes, keys.includes('left') ? 'row' : 'column')
   })
 
@@ -75,8 +75,8 @@ const h_alignOptions  = ['flex-start','center','flex-end']
 export function changeHAlignment(els, direction) {
   els
     .map(ensureFlex)
-    .map(el => ({ 
-      el, 
+    .map(el => ({
+      el,
       style:    'justifyContent',
       current:  accountForOtherJustifyContent(getStyle(el, 'justifyContent'), 'align'),
       direction: direction.split('+').includes('left'),
@@ -84,7 +84,7 @@ export function changeHAlignment(els, direction) {
     .map(payload =>
       Object.assign(payload, {
         value: payload.direction
-          ? h_alignMap[payload.current] - 1 
+          ? h_alignMap[payload.current] - 1
           : h_alignMap[payload.current] + 1
       }))
     .forEach(({el, style, value}) =>
@@ -97,8 +97,8 @@ const v_alignOptions  = ['flex-start','center','flex-end']
 export function changeVAlignment(els, direction) {
   els
     .map(ensureFlex)
-    .map(el => ({ 
-      el, 
+    .map(el => ({
+      el,
       style:    'alignItems',
       current:  getStyle(el, 'alignItems'),
       direction: direction.split('+').includes('up'),
@@ -106,7 +106,7 @@ export function changeVAlignment(els, direction) {
     .map(payload =>
       Object.assign(payload, {
         value: payload.direction
-          ? h_alignMap[payload.current] - 1 
+          ? h_alignMap[payload.current] - 1
           : h_alignMap[payload.current] + 1
       }))
     .forEach(({el, style, value}) =>
@@ -119,8 +119,8 @@ const h_distributionOptions  = ['space-around','','space-between']
 export function changeHDistribution(els, direction) {
   els
     .map(ensureFlex)
-    .map(el => ({ 
-      el, 
+    .map(el => ({
+      el,
       style:    'justifyContent',
       current:  accountForOtherJustifyContent(getStyle(el, 'justifyContent'), 'distribute'),
       direction: direction.split('+').includes('left'),
@@ -128,7 +128,7 @@ export function changeHDistribution(els, direction) {
     .map(payload =>
       Object.assign(payload, {
         value: payload.direction
-          ? h_distributionMap[payload.current] - 1 
+          ? h_distributionMap[payload.current] - 1
           : h_distributionMap[payload.current] + 1
       }))
     .forEach(({el, style, value}) =>
@@ -141,8 +141,8 @@ const v_distributionOptions  = ['space-around','','space-between']
 export function changeVDistribution(els, direction) {
   els
     .map(ensureFlex)
-    .map(el => ({ 
-      el, 
+    .map(el => ({
+      el,
       style:    'alignContent',
       current:  getStyle(el, 'alignContent'),
       direction: direction.split('+').includes('up'),
@@ -150,7 +150,7 @@ export function changeVDistribution(els, direction) {
     .map(payload =>
       Object.assign(payload, {
         value: payload.direction
-          ? v_distributionMap[payload.current] - 1 
+          ? v_distributionMap[payload.current] - 1
           : v_distributionMap[payload.current] + 1
       }))
     .forEach(({el, style, value}) =>

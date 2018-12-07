@@ -1,11 +1,10 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
-import { EditText } from './text'
 import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
 import { queryPage } from './search'
-import { htmlStringToDom, createClassname, isOffBounds, getStyles } from '../utilities/'
+import { metaKey, htmlStringToDom, createClassname, isOffBounds, getStyles } from '../utilities/'
 
 export function Selectable() {
   const elements          = $('body')
@@ -24,17 +23,17 @@ export function Selectable() {
     document.addEventListener('copy', on_copy)
     document.addEventListener('cut', on_cut)
     document.addEventListener('paste', on_paste)
-    
+
     watchCommandKey()
 
-    hotkeys('cmd+alt+c', on_copy_styles)
-    hotkeys('cmd+alt+v', e => on_paste_styles())
+    hotkeys(`${metaKey}+alt+c`, on_copy_styles)
+    hotkeys(`${metaKey}+alt+v`, e => on_paste_styles())
     hotkeys('esc', on_esc)
-    hotkeys('cmd+d', on_duplicate)
+    hotkeys(`${metaKey}+d`, on_duplicate)
     hotkeys('backspace,del,delete', on_delete)
     hotkeys('alt+del,alt+backspace', on_clearstyles)
-    hotkeys('cmd+e,cmd+shift+e', on_expand_selection)
-    hotkeys('cmd+g,cmd+shift+g', on_group)
+    hotkeys(`${metaKey}+e,${metaKey}+shift+e`, on_expand_selection)
+    hotkeys(`${metaKey}+g,${metaKey}+shift+g`, on_group)
     hotkeys('tab,shift+tab,enter,shift+enter', on_keyboard_traversal)
   }
 
@@ -49,11 +48,11 @@ export function Selectable() {
     document.removeEventListener('cut', on_cut)
     document.removeEventListener('paste', on_paste)
 
-    hotkeys.unbind('esc,cmd+d,backspace,del,delete,alt+del,alt+backspace,cmd+e,cmd+shift+e,cmd+g,cmd+shift+g,tab,shift+tab,enter,shift+enter')
+    hotkeys.unbind(`esc,${metaKey}+d,backspace,del,delete,alt+del,alt+backspace,${metaKey}+e,${metaKey}+shift+e,${metaKey}+g,${metaKey}+shift+g,tab,shift+tab,enter,shift+enter`)
   }
 
   const on_click = e => {
-    if (isOffBounds(e.target) && !selected.filter(el => el == e.target).length) 
+    if (isOffBounds(e.target) && !selected.filter(el => el == e.target).length)
       return
 
     e.preventDefault()
@@ -103,7 +102,7 @@ export function Selectable() {
       if (hotkeys.ctrl && selected.length) {
         $('pb-handles, pb-label').forEach(el =>
           el.style.display = 'none')
-        
+
         did_hide = true
       }
     }
@@ -118,7 +117,7 @@ export function Selectable() {
     }
   }
 
-  const on_esc = _ => 
+  const on_esc = _ =>
     selected.length && unselect_all()
 
   const on_duplicate = e => {
@@ -131,7 +130,7 @@ export function Selectable() {
     e.preventDefault()
   }
 
-  const on_delete = e => 
+  const on_delete = e =>
     selected.length && delete_all()
 
   const on_clearstyles = e =>
@@ -193,7 +192,7 @@ export function Selectable() {
     e.preventDefault()
 
     expandSelection({
-      query:  combineNodeNameAndClass(selected[0]), 
+      query:  combineNodeNameAndClass(selected[0]),
       all:    key.includes('shift'),
     })
   }
@@ -229,9 +228,9 @@ export function Selectable() {
   }
 
   const on_selection = e =>
-    !isOffBounds(e.target) 
-    && selected.length 
-    && selected[0].textContent != e.target.textContent 
+    !isOffBounds(e.target)
+    && selected.length
+    && selected[0].textContent != e.target.textContent
     && e.preventDefault()
 
   const on_keyboard_traversal = (e, {key}) => {
@@ -282,7 +281,7 @@ export function Selectable() {
 
   const unselect_all = () => {
     selected
-      .forEach(el => 
+      .forEach(el =>
         $(el).attr({
           'data-selected':      null,
           'data-selected-hide': null,
@@ -307,14 +306,14 @@ export function Selectable() {
       else if (canMoveLeft(el)) return canMoveLeft(el)
       else if (el.parentNode)   return el.parentNode
     })
-    
+
     Array.from([...selected, ...labels, ...handles]).forEach(el =>
       el.remove())
 
     labels    = []
     handles   = []
     selected  = []
-    
+
     selected_after_delete.forEach(el =>
       select(el))
   }
@@ -329,7 +328,7 @@ export function Selectable() {
       if (!potentials) return
 
       const root_node_index = potentials.reduce((index, node, i) =>
-        combineNodeNameAndClass(node) == query 
+        combineNodeNameAndClass(node) == query
           ? index = i
           : index
       , null)
@@ -439,7 +438,7 @@ export function Selectable() {
     }
   }
 
-  const createObserver = (node, {label,handle}) => 
+  const createObserver = (node, {label,handle}) =>
     new MutationObserver(list => {
       setLabel(node, label)
       setHandle(node, handle)
