@@ -2,7 +2,7 @@ main {
   --card-size: 70vw;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(var(--card-size), 1fr));
-  grid-auto-rows: minmax(var(--card-size), 1fr);
+  grid-auto-rows: minmax(var(--card-size), max-content);
   grid-auto-flow: dense;
   grid-gap: 1rem 2rem;
   padding: 1rem 2rem;
