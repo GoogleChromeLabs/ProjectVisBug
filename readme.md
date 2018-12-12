@@ -5,7 +5,7 @@
   <a href="https://www.npmjs.com/package/visbug"><img src="https://img.shields.io/npm/dt/visbug.svg" alt="downloads" ></a>
 </p>
 
-# VisBug
+# 「VisBug」
 
 > Open source web design tools
 
