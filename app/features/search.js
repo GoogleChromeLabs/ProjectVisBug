@@ -59,7 +59,7 @@ export function queryPage(query, fn) {
   if (query == 'text')      query = 'p,caption,a,h1,h2,h3,h4,h5,h6,small,date,time,li,dt,dd'
 
   if (!query) return SelectorEngine.unselect_all()
-  if (query == '.' || query == '#') return
+  if (query == '.' || query == '#' || query.trim().endsWith(',')) return
 
   try {
     let matches = $(query + ':not(tool-pallete):not(script):not(hotkey-map):not(.pb-metatip):not(pb-label):not(pb-handles)')
