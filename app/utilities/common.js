@@ -8,6 +8,19 @@ export const getSide = direction => {
   return start
 }
 
+export const getNodeIndex = el => {
+  return [...el.parentElement.parentElement.children]
+    .indexOf(el.parentElement)
+}
+
+export function showEdge(el) {
+  return el.animate([
+    { outline: '1px solid transparent' },
+    { outline: '1px solid hsla(330, 100%, 71%, 80%)' },
+    { outline: '1px solid transparent' },
+  ], 600)
+}
+
 let timeoutMap = {}
 export const showHideSelected = (el, duration = 750) => {
   el.setAttribute('data-selected-hide', true)

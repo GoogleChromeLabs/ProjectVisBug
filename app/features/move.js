@@ -1,10 +1,10 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
+import { getNodeIndex, showEdge } from '../utilities/'
 
 const key_events = 'up,down,left,right'
 // todo: indicator for when node can descend
 // todo: indicator where left and right will go
-// todo: indicator when left or right hit dead ends
 export function Moveable(selector) {
   hotkeys(key_events, (e, {key}) => {
     if (e.cancelBubble) return
@@ -45,33 +45,30 @@ export function moveElement(el, direction) {
 
     case 'up':
       if (canMoveUp(el))
-        el.parentNode.parentNode.prepend(el)
+        popOut({el})
       break
 
     case 'down':
-      // edge case behavior, user test
-      if (!el.nextElementSibling && el.parentNode && el.parentNode.parentNode)
-        el.parentNode.parentNode.insertBefore(el, el.parentNode.parentNode.children[[...el.parentElement.parentElement.children].indexOf(el.parentElement) + 1])
-      if (canMoveDown(el))
+      if (canMoveUnder(el))
+        popOut({el, under: true})
+      else if (canMoveDown(el))
         el.nextElementSibling.prepend(el)
       break
   }
 }
 
-export const canMoveLeft = el => el.previousElementSibling
-export const canMoveRight = el => el.nextElementSibling
-export const canMoveDown = el => 
-  el.nextElementSibling && el.nextElementSibling.children.length
-export const canMoveUp = el => 
-  el.parentNode && el.parentNode.parentNode
+export const canMoveLeft    = el => el.previousElementSibling
+export const canMoveRight   = el => el.nextElementSibling
+export const canMoveDown    = el => el.nextElementSibling && el.nextElementSibling.children.length
+export const canMoveUnder   = el => !el.nextElementSibling && el.parentNode && el.parentNode.parentNode
+export const canMoveUp      = el => el.parentNode && el.parentNode.parentNode
 
-export function showEdge(el) {
-  return el.animate([
-    { outline: '1px solid transparent' },
-    { outline: '1px solid hsla(330, 100%, 71%, 80%)' },
-    { outline: '1px solid transparent' },
-  ], 600)
-}
+export const popOut = ({el, under = false}) =>
+  el.parentNode.parentNode.insertBefore(el, 
+    el.parentNode.parentNode.children[
+      under
+        ? getNodeIndex(el) + 1
+        : getNodeIndex(el)]) 
 
 export function updateFeedback(el) {
   let options = ''
