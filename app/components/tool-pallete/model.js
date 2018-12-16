@@ -199,7 +199,7 @@ export const ToolModel = {
     tool:        'font',
     icon:        Icons.font,
     label:       'Font Styles',
-    description: 'Change size, alignment, leading, kerning, & weight',
+    description: 'Change size, alignment, leading, letter-spacing, & weight',
     instruction: `<div table>
                     <div>
                       <b>Size:</b>
@@ -214,7 +214,7 @@ export const ToolModel = {
                       <span>Shift + ▲ ▼</span>
                     </div>
                     <div>
-                      <b>Kerning:</b>
+                      <b>Letter-spacing:</b>
                       <span>Shift + ◀ ▶</span>
                     </div>
                     <div>
