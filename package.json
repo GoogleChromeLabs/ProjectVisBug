@@ -17,7 +17,7 @@
     "extension:copy": "cp app/bundle.js extension/toolbar/ && cp -R app/tuts/ extension/tuts/",
     "extension:zip": "rm -rf ./extension/build/* && mkdir ./visbug_v$npm_package_version && cp -R ./extension/* ./visbug_v$npm_package_version/ && zip -r ./extension/build/visbug_v$npm_package_version.zip ./visbug_v$npm_package_version && rm -rf ./visbug_v$npm_package_version",
     "deploy": "gcloud app deploy --project=visbug-1337",
-    "test": "ava -v",
+    "test": "ava",
     "test:dev": "ava -v -w"
   },
   "author": "",
