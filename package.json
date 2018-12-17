@@ -16,7 +16,9 @@
     "extension:css": "postcss app/extension.css -o extension/toolbar/bundle.css",
     "extension:copy": "cp app/bundle.js extension/toolbar/ && cp -R app/tuts/ extension/tuts/",
     "extension:zip": "rm -rf ./extension/build/* && mkdir ./visbug_v$npm_package_version && cp -R ./extension/* ./visbug_v$npm_package_version/ && zip -r ./extension/build/visbug_v$npm_package_version.zip ./visbug_v$npm_package_version && rm -rf ./visbug_v$npm_package_version",
-    "deploy": "gcloud app deploy --project=visbug-1337"
+    "deploy": "gcloud app deploy --project=visbug-1337",
+    "test": "ava -v",
+    "test:dev": "ava -v -w"
   },
   "author": "",
   "license": "ISC",
@@ -27,6 +29,7 @@
     "ragrid": "^1.0.5"
   },
   "devDependencies": {
+    "ava": "^1.0.1",
     "browser-sync": "^2.26.3",
     "concurrently": "^3.5.1",
     "postcss": "^6.0.22",
@@ -34,6 +37,7 @@
     "postcss-import": "^11.1.0",
     "postcss-loader": "^2.1.5",
     "postcss-preset-env": "^6.0.7",
+    "puppeteer": "^1.11.0",
     "rollup": "^0.60.7",
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-postcss": "^1.6.2"
