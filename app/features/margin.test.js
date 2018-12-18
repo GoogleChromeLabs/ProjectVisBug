@@ -52,16 +52,28 @@ test('Remove margin from side', async t => {
   await page.evaluateHandle(`document.querySelector('[intro] h2').click()`)
   t.is(await getMarginTop(page), '')
 
-  await page.keyboard.press('ArrowUp', { delay: 10 })
-  await page.keyboard.press('ArrowUp', { delay: 10 })
-
-  t.is(await getMarginTop(page), '2px')
+  await page.keyboard.press('ArrowUp')
+  t.is(await getMarginTop(page), '1px')
 
   await page.keyboard.down('Alt')
-  await page.keyboard.press('ArrowUp')
+  await page.keyboard.down('ArrowUp')
   await page.keyboard.up('Alt')
+  await page.keyboard.up('ArrowUp')
+  t.is(await getMarginTop(page), '0px')
 
-  t.is(await getMarginTop(page), '1px')
+  t.pass()
+})
+
+test('Can change values by 10 with shift key', async t => {
+  const { page } = t.context
+
+  await page.evaluateHandle(`document.querySelector('[intro] h2').click()`)
+  t.is(await getMarginTop(page), '')
+
+  await page.keyboard.down('Shift')
+  await page.keyboard.press('ArrowUp')
+  await page.keyboard.up('Shift')
+  t.is(await getMarginTop(page), '10px')
 
   t.pass()
 })
