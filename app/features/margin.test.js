@@ -1,11 +1,7 @@
 import test from 'ava'
 import puppeteer from 'puppeteer'
 
-const marginMode = async page =>
-  await page.evaluateHandle(`document.querySelector('tool-pallete').shadowRoot.querySelector('li[data-tool="margin"]').click()`)
-
-const getActiveTool = async page =>
-  await page.$eval('tool-pallete', el => el.activeTool)
+import { changeMode, getActiveTool } from '../../tests/helpers'
 
 const getMarginTop = async page =>
   await page.$eval('[intro] h2', el => el.style.marginTop)
@@ -15,11 +11,15 @@ test.beforeEach(async t => {
   t.context.page     = await t.context.browser.newPage()
 
   await t.context.page.goto('http://localhost:3000')
-  await marginMode(t.context.page)
+  await changeMode({
+    page: t.context.page,
+    tool: 'margin'
+  })
 })
 
 test('Can Be Activated', async t => {
-  t.is(await getActiveTool(t.context.page), 'margin')
+  const { page } = t.context
+  t.is(await getActiveTool(page), 'margin')
   t.pass()
 })
 

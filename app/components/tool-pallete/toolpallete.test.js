@@ -1,20 +1,21 @@
 import test from 'ava'
 import puppeteer from 'puppeteer'
 
-const chrome = {}
+import { getActiveTool } from '../../../tests/helpers'
 
-test.before(async () => {
-  chrome.browser  = await puppeteer.launch()
-  chrome.page     = await chrome.browser.newPage()
+test.beforeEach(async t => {
+  t.context.browser  = await puppeteer.launch()
+  t.context.page     = await t.context.browser.newPage()
 
-  await chrome.page.goto('http://localhost:3000')
+  await t.context.page.goto('http://localhost:3000')
 })
 
 test('Activated', async t => {
-  t.is(await chrome.page.$eval('tool-pallete', el => el.activeTool), 'guides')
+  const { page } = t.context
+  t.is(await getActiveTool(page), 'guides')
 })
 
-test.after.always(async () => {
-  await chrome.page.close()
-  await chrome.browser.close()
+test.afterEach(async ({context:{ page, browser }}) => {
+  await page.close()
+  await browser.close()
 })
