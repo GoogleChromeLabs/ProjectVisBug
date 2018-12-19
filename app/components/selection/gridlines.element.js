@@ -4,7 +4,7 @@ export class Gridlines extends HTMLElement {
 
   constructor() {
     super()
-    this.$shadow = this.attachShadow({mode: 'open'})
+    this.$shadow = this.attachShadow({mode: 'closed'})
   }
 
   connectedCallback() {}
