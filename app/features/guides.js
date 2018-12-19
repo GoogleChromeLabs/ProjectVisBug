@@ -9,7 +9,7 @@ export function Guides() {
   window.addEventListener('scroll', hideGridlines)
 
   return () => {
-    $('body').off('mouseover', on_hover)
+    $('body').off('mousemove', on_hover)
     $('body').off('mouseout', on_hoverout)
     window.removeEventListener('scroll', hideGridlines)
     hideGridlines()
