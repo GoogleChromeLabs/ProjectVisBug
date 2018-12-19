@@ -7,7 +7,12 @@ import { queryPage } from './search'
 import { metaKey, htmlStringToDom, createClassname, isOffBounds, getStyles } from '../utilities/'
 
 export function Selectable() {
-  const elements          = $('body')
+  const [body]            = $('body')
+  const shadows           = $('*')
+                              .filter(node => !isOffBounds(node))
+                              .filter(node => node.shadowRoot)
+                              .map(node => node)
+  const elements          = $([body, ...shadows])
   let selected            = []
   let selectedCallbacks   = []
   let labels              = []

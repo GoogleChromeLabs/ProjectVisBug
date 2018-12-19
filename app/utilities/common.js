@@ -58,12 +58,12 @@ export const htmlStringToDom = (htmlString = "") =>
     .body.firstChild
 
 export const isOffBounds = node =>
-  node.closest &&
-  (node.closest('tool-pallete') 
-  || node.closest('hotkey-map')
-  || node.closest('pb-metatip')
-  || node.closest('pb-ally')
-  || node.closest('pb-label')
-  || node.closest('pb-handles')
-  || node.closest('pb-gridlines')
+  node.closest && (
+       // node.closest('tool-pallete') 
+    node.closest('hotkey-map')
+    || node.closest('pb-metatip')
+    || node.closest('pb-ally')
+    || node.closest('pb-label')
+    || node.closest('pb-handles')
+    || node.closest('pb-gridlines')
   )
