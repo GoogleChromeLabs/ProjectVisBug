@@ -1,7 +1,7 @@
 import $ from 'blingblingjs'
 import { nodeKey } from './strings'
 
-export const deepElementFromPoint = (x,y) => {
+export const deepElementFromPoint = (x, y) => {
   const el = document.elementFromPoint(x, y)
   
   return el.shadowRoot
