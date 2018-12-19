@@ -10,12 +10,7 @@ import {
 } from '../utilities/'
 
 export function Selectable() {
-  const [body]            = $('body')
-  const shadows           = $('*')
-                              .filter(node => !isOffBounds(node))
-                              .filter(node => node.shadowRoot)
-                              .map(node => node)
-  const elements          = $([body, ...shadows])
+  const elements          = $('body')
   let selected            = []
   let selectedCallbacks   = []
   let labels              = []
@@ -25,12 +20,7 @@ export function Selectable() {
     elements.forEach(el => el.addEventListener('click', on_click, true))
     elements.forEach(el => el.addEventListener('dblclick', on_dblclick, true))
     elements.on('selectstart', on_selection)
-    elements.on('mousemove', ({clientX, clientY}) => {
-      document
-        .elementFromPoint(clientX, clientY)
-        .setAttribute('data-hover', true)
-    })
-    // elements.on('mouseover', on_hover)
+    elements.on('mousemove', on_hover)
     elements.on('mouseout', on_hoverout)
 
     document.addEventListener('copy', on_copy)
@@ -54,7 +44,7 @@ export function Selectable() {
     elements.forEach(el => el.removeEventListener('click', on_click, true))
     elements.forEach(el => el.removeEventListener('dblclick', on_dblclick, true))
     elements.off('selectstart', on_selection)
-    elements.off('mouseover', on_hover)
+    elements.off('mousemove', on_hover)
     elements.off('mouseout', on_hoverout)
 
     document.removeEventListener('copy', on_copy)
@@ -278,7 +268,8 @@ export function Selectable() {
     }
   }
 
-  const on_hover = ({target}) => {
+  const on_hover = e => {
+    const target = deepElementFromPoint(e.clientX, e.clientY)
     if (isOffBounds(target)) return
     target.setAttribute('data-hover', true)
   }
