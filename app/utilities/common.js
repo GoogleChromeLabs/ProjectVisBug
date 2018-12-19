@@ -1,6 +1,16 @@
 import $ from 'blingblingjs'
 import { nodeKey } from './strings'
 
+export const deepElementFromPoint = (x,y) => {
+  const el = document.elementFromPoint(x, y)
+  
+  return el.shadowRoot
+    ? el.shadowRoot.elementFromPoint(x, y)
+    : el
+
+  // todo: see if a scenario exists where this should be recursive?
+}
+
 export const getSide = direction => {
   let start = direction.split('+').pop().replace(/^\w/, c => c.toUpperCase())
   if (start == 'Up') start = 'Top'
@@ -59,8 +69,8 @@ export const htmlStringToDom = (htmlString = "") =>
 
 export const isOffBounds = node =>
   node.closest && (
-       // node.closest('tool-pallete') 
-    node.closest('hotkey-map')
+       node.closest('tool-pallete') 
+    || node.closest('hotkey-map')
     || node.closest('pb-metatip')
     || node.closest('pb-ally')
     || node.closest('pb-label')

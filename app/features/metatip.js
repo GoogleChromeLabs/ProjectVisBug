@@ -2,7 +2,7 @@ import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { TinyColor } from '@ctrl/tinycolor'
 import { queryPage } from './search'
-import { getStyles, camelToDash, isOffBounds } from '../utilities/'
+import { getStyles, camelToDash, isOffBounds, deepElementFromPoint } from '../utilities/'
 
 const tip_map = new Map()
 
@@ -10,7 +10,7 @@ const tip_map = new Map()
 // - node recycling (for new target) no need to create/delete
 // - make single function create/update
 export function MetaTip(selectorEngine) {
-  const template = ({target: el}) => {
+  const template = el => {
     const { width, height } = el.getBoundingClientRect()
     const styles = getStyles(el)
       .map(style => Object.assign(style, {
@@ -135,35 +135,37 @@ export function MetaTip(selectorEngine) {
   }
 
   const mouseMove = e => {
-    if (isOffBounds(e.target)) return
+    const target = deepElementFromPoint(e.clientX, e.clientY)
+
+    if (isOffBounds(target)) return
 
     e.altKey
-      ? e.target.setAttribute('data-pinhover', true)
-      : e.target.removeAttribute('data-pinhover')
+      ? target.setAttribute('data-pinhover', true)
+      : target.removeAttribute('data-pinhover')
 
     // if node is in our hash (already created)
-    if (tip_map.has(e.target)) {
+    if (tip_map.has(target)) {
       // return if it's pinned
-      if (e.target.hasAttribute('data-metatip')) 
+      if (target.hasAttribute('data-metatip')) 
         return
       // otherwise update position
-      const { tip } = tip_map.get(e.target)
+      const { tip } = tip_map.get(target)
 
       update_tip(tip, e)
     }
     // create new tip
     else {
-      const tip = template(e)
+      const tip = template(target)
       document.body.appendChild(tip)
 
       update_tip(tip, e)
 
       $(tip).on('query', linkQueryClicked)
       $(tip).on('unquery', linkQueryHoverOut)
-      $(e.target).on('mouseout DOMNodeRemoved', mouseOut)
-      $(e.target).on('click', togglePinned)
+      $(target).on('mouseout DOMNodeRemoved', mouseOut)
+      $(target).on('click', togglePinned)
 
-      tip_map.set(e.target, { tip, e })
+      tip_map.set(target, { tip, e })
 
       // tip.animate([
       //   {transform: 'translateY(-5px)', opacity: 0},
@@ -200,7 +202,7 @@ export function MetaTip(selectorEngine) {
 
   for (const {tip,e} of tip_map.values()) {
     tip.style.display = 'block'
-    tip.innerHTML = template(e).innerHTML
+    tip.innerHTML = template(e.target).innerHTML
     tip.on('mouseout', mouseOut)
     tip.on('click', togglePinned)
   }

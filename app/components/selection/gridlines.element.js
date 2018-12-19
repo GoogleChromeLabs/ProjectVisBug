@@ -70,7 +70,7 @@ export class Gridlines extends HTMLElement {
           left:0;
           overflow:visible;
           pointer-events:none;
-          z-index:9997;
+          z-index:2147483642;
         }
       </style>
     `

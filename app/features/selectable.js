@@ -4,7 +4,10 @@ import hotkeys from 'hotkeys-js'
 import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
 import { queryPage } from './search'
-import { metaKey, htmlStringToDom, createClassname, isOffBounds, getStyles } from '../utilities/'
+import { 
+  metaKey, htmlStringToDom, createClassname, 
+  isOffBounds, getStyles, deepElementFromPoint 
+} from '../utilities/'
 
 export function Selectable() {
   const [body]            = $('body')
@@ -22,7 +25,12 @@ export function Selectable() {
     elements.forEach(el => el.addEventListener('click', on_click, true))
     elements.forEach(el => el.addEventListener('dblclick', on_dblclick, true))
     elements.on('selectstart', on_selection)
-    elements.on('mouseover', on_hover)
+    elements.on('mousemove', ({clientX, clientY}) => {
+      document
+        .elementFromPoint(clientX, clientY)
+        .setAttribute('data-hover', true)
+    })
+    // elements.on('mouseover', on_hover)
     elements.on('mouseout', on_hoverout)
 
     document.addEventListener('copy', on_copy)
@@ -57,17 +65,19 @@ export function Selectable() {
   }
 
   const on_click = e => {
-    if (isOffBounds(e.target) && !selected.filter(el => el == e.target).length)
+    const target = deepElementFromPoint(e.clientX, e.clientY)
+
+    if (isOffBounds(target) && !selected.filter(el => el == target).length)
       return
 
     e.preventDefault()
     if (!e.altKey) e.stopPropagation()
     if (!e.shiftKey) unselect_all()
 
-    if(e.shiftKey && e.target.hasAttribute('data-label-id'))
-      unselect(e.target.getAttribute('data-label-id'))
+    if(e.shiftKey && target.hasAttribute('data-label-id'))
+      unselect(target.getAttribute('data-label-id'))
     else
-    select(e.target)
+    select(target)
   }
 
   const unselect = id => {
