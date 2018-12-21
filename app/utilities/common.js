@@ -3,12 +3,21 @@ import { nodeKey } from './strings'
 
 export const deepElementFromPoint = (x, y) => {
   const el = document.elementFromPoint(x, y)
-  
-  return el.shadowRoot
-    ? el.shadowRoot.elementFromPoint(x, y)
-    : el
 
-  // todo: see if a scenario exists where this should be recursive?
+  const crawlShadows = node => {
+    if (node.shadowRoot) {
+      const potential = node.shadowRoot.elementFromPoint(x, y)
+
+      if (potential == node)          return node
+      else if (potential.shadowRoot)  return crawlShadows(potential)
+      else                            return potential
+    }
+    else return node
+  }
+
+  const nested_shadow = crawlShadows(el)
+
+  return nested_shadow || el
 }
 
 export const getSide = direction => {
