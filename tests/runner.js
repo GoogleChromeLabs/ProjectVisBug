@@ -7,4 +7,4 @@ exec('npm test', (error, stdout, stderr) =>
     ? server.kill(error)
     : console.log(stdout))
 
-server.kill()
+server.kill('SIGHUP')
