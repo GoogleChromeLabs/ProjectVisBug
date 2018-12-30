@@ -52,7 +52,12 @@ export function provideSelectorEngine(Engine) {
   SelectorEngine = Engine
 }
 
-export function queryPage(query, fn) {
+export async function queryPage(query, fn) {
+  // todo: should be pulled from a plugin registry module
+  // todo: should stash a cleanup method to be called when query doesnt match
+  if (query === 'blank page')
+    return (await import('../plugins/blank-page.js'))()
+
   if (query == 'links')     query = 'a'
   if (query == 'buttons')   query = 'button'
   if (query == 'images')    query = 'img'
