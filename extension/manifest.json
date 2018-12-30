@@ -8,7 +8,7 @@
     "activeTab"
   ],
   "background": {
-    "persistent": true,
+    "persistent": false,
     "scripts": [
       "pixelbug.js"
     ]
