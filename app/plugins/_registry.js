@@ -1,9 +1,10 @@
 import { commands as BlankPageCommands } from './blank-page'
-import { commands as BarrelRoleCommands } from './barrel-role'
+import { commands as BarrelRollCommands } from './barrel-roll'
 
+// todo: grab commands dynamically
 const command_pool = [
   [BlankPageCommands, './blank-page.js'],
-  [BarrelRoleCommands, './barrel-role.js'],
+  [BarrelRollCommands, './barrel-roll.js'],
 ]
 
 export const PluginRegistry = new Map()

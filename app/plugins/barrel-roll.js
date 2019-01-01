@@ -1,5 +1,5 @@
 export const commands = [
-  'do a barrel role',
+  'do a barrel roll',
 ]
 
 export default async function() {
@@ -8,7 +8,7 @@ export default async function() {
   await document.body.animate([
     { transform: 'rotateZ(0)' },
     { transform: 'rotateZ(1turn)' },
-  ], { duration: 2500 }).finished
+  ], { duration: 2000 }).finished
 
   document.body.style.transformOrigin = ''
 }
