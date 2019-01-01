@@ -1,5 +1,6 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
+import { PluginRegistry, loadPlugin } from '../plugins/_registry'
 
 let SelectorEngine
 
@@ -52,11 +53,10 @@ export function provideSelectorEngine(Engine) {
   SelectorEngine = Engine
 }
 
-export async function queryPage(query, fn) {
-  // todo: should be pulled from a plugin registry module
+export function queryPage(query, fn) {
   // todo: should stash a cleanup method to be called when query doesnt match
-  if (query === 'blank page')
-    return (await import('../plugins/blank-page.js'))()
+  if (PluginRegistry.has(query))
+    return loadPlugin(query)
 
   if (query == 'links')     query = 'a'
   if (query == 'buttons')   query = 'button'
