@@ -4,6 +4,7 @@ const entries = [
   'barrel-roll.js',
   'pesticide.js',
   'construct.js',
+  'construct.debug.js',
 ]
 
 
