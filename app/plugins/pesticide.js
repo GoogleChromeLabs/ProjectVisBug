@@ -1,4 +1,4 @@
-import { loadStyles } from '../utilities/styles'
+import { loadStyles } from '../utilities/styles.js'
 
 export const commands = [
   'pesticide',

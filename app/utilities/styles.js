@@ -1,4 +1,4 @@
-import { desiredPropMap } from './design-properties'
+import { desiredPropMap } from './design-properties.js'
 
 export const getStyle = (el, name) => {
   if (document.defaultView && document.defaultView.getComputedStyle) {
