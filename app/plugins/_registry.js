@@ -5,11 +5,16 @@ import { commands as pesticide_commands, default as PesticidePlugin } from './pe
 import { commands as construct_commands, default as ConstructPlugin } from './construct'
 import { commands as construct_debug_commands, default as ConstructDebugPlugin } from './construct.debug'
 
-export const PluginRegistry = new Map(Object.entries(
-  ...translate_commands.map(command =>        ({[command]:TranslatePlugin})),
-  ...blank_page_commands.map(command =>       ({[command]:BlankPagePlugin})),
-  ...barrel_roll_commands.map(command =>      ({[command]:BarrelRollPlugin})),
-  ...pesticide_commands.map(command =>        ({[command]:PesticidePlugin})),
-  ...construct_commands.map(command =>        ({[command]:ConstructPlugin})),
-  ...construct_debug_commands.map(command =>  ({[command]:ConstructDebugPlugin})),
-))
+const commandsToHash = (plugin_commands, plugin_fn) =>
+  plugin_commands.reduce((commands, command) =>
+    Object.assign(commands, {[command]:plugin_fn})
+  , {})
+
+export const PluginRegistry = new Map(Object.entries({
+  ...commandsToHash(translate_commands, TranslatePlugin),
+  ...commandsToHash(blank_page_commands, BlankPagePlugin),
+  ...commandsToHash(barrel_roll_commands, BarrelRollPlugin),
+  ...commandsToHash(pesticide_commands, PesticidePlugin),
+  ...commandsToHash(construct_commands, ConstructPlugin),
+  ...commandsToHash(construct_debug_commands, ConstructDebugPlugin),
+}))
