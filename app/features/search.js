@@ -1,6 +1,6 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { PluginRegistry, loadPlugin } from '../plugins/_registry'
+import { PluginRegistry } from '../plugins/_registry'
 
 let SelectorEngine
 
@@ -55,8 +55,8 @@ export function provideSelectorEngine(Engine) {
 
 export function queryPage(query, fn) {
   // todo: should stash a cleanup method to be called when query doesnt match
-  if (PluginRegistry.has(query))
-    return loadPlugin(query)
+  if (PluginRegistry.has(query)) 
+    return PluginRegistry.get(query)(query)
 
   if (query == 'links')     query = 'a'
   if (query == 'buttons')   query = 'button'

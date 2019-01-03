@@ -1,36 +1,15 @@
-// PLUGINS: register your entry point here
-const entries = [
-  'blank-page.js',
-  'barrel-roll.js',
-  'pesticide.js',
-  'construct.js',
-  'construct.debug.js',
-  'translate.js'
-]
+import { commands as translate_commands, default as TranslatePlugin } from './translate'
+import { commands as blank_page_commands, default as BlankPagePlugin } from './blank-page'
+import { commands as barrel_roll_commands, default as BarrelRollPlugin } from './barrel-roll'
+import { commands as pesticide_commands, default as PesticidePlugin } from './pesticide'
+import { commands as construct_commands, default as ConstructPlugin } from './construct'
+import { commands as construct_debug_commands, default as ConstructDebugPlugin } from './construct.debug'
 
-
-
-
-// async load plugins, ensure commands are unique
-const PluginRegistry = new Map()
-
-entries.forEach(async entry => {
-  const { commands } = await import(`./plugins/${entry}`)
-
-  commands.forEach(command => {
-    if (PluginRegistry.has(command))
-      throw new Error('Command already registered')
-    else
-      PluginRegistry.set(command, entry)
-  })
-})
-
-const loadPlugin = async command => {
-  const path = PluginRegistry.get(command)
-  return (await import(`../plugins/${path}`)).default(command)
-}
-
-export {
-  PluginRegistry,
-  loadPlugin,
-}
+export const PluginRegistry = new Map(Object.entries(
+  ...translate_commands.map(command =>        ({[command]:TranslatePlugin})),
+  ...blank_page_commands.map(command =>       ({[command]:BlankPagePlugin})),
+  ...barrel_roll_commands.map(command =>      ({[command]:BarrelRollPlugin})),
+  ...pesticide_commands.map(command =>        ({[command]:PesticidePlugin})),
+  ...construct_commands.map(command =>        ({[command]:ConstructPlugin})),
+  ...construct_debug_commands.map(command =>  ({[command]:ConstructDebugPlugin})),
+))
