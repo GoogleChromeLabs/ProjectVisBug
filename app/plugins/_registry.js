@@ -26,7 +26,7 @@ entries.forEach(async entry => {
 
 const loadPlugin = async command => {
   const path = PluginRegistry.get(command)
-  return (await import(`../plugins/${path}`)).default()
+  return (await import(`../plugins/${path}`)).default(command)
 }
 
 export {
