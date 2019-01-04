@@ -4,6 +4,7 @@ import { commands as pesticide_commands, default as PesticidePlugin } from './pe
 import { commands as construct_commands, default as ConstructPlugin } from './construct'
 import { commands as construct_debug_commands, default as ConstructDebugPlugin } from './construct.debug'
 import { commands as wireframe_commands, default as WireframePlugin } from './wireframe'
+import { commands as outline_commands, default as OutlinePlugin } from './outline'
 
 const commandsToHash = (plugin_commands, plugin_fn) =>
   plugin_commands.reduce((commands, command) =>
@@ -17,6 +18,7 @@ export const PluginRegistry = new Map(Object.entries({
   ...commandsToHash(construct_commands, ConstructPlugin),
   ...commandsToHash(construct_debug_commands, ConstructDebugPlugin),
   ...commandsToHash(wireframe_commands, WireframePlugin),
+  ...commandsToHash(outline_commands, OutlinePlugin),
 }))
 
 export const PluginHints = [
@@ -26,4 +28,5 @@ export const PluginHints = [
   construct_commands[0],
   construct_debug_commands[0],
   wireframe_commands[0],
+  outline_commands[0],
 ].map(command => `/${command}`)

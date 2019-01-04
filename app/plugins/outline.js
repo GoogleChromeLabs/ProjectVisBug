@@ -1,13 +1,15 @@
 export const commands = [
-  'wireframe',
+  'outline',
 ]
 
 export default async function() {
   const styles = `
     *:not(path):not(g) {
-      color: hsla(210, 100%, 100%, 0.9) !important;
-      background: hsla(210, 100%, 50%, 0.5) !important;
-      outline: solid 0.25rem hsla(210, 100%, 100%, 0.5) !important;
+      color: hsl(0, 0%, 0%) !important;
+      text-shadow: none !important;
+      background: hsl(0, 0%, 100%) !important;
+      outline: 1px solid hsla(0, 0%, 0%, 0.5) !important;
+      border-color: transparent !important;
       box-shadow: none !important;
     }
   `
