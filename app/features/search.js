@@ -1,13 +1,23 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { PluginRegistry } from '../plugins/_registry'
+import { PluginRegistry, PluginHints } from '../plugins/_registry'
 
 let SelectorEngine
 
 // create input
 const search_base = document.createElement('div')
 search_base.classList.add('search')
-search_base.innerHTML = `<input type="text" placeholder="ex: images, .btn, button, text, ..."/>`
+search_base.innerHTML = `
+  <input list="visbug-plugins" type="text" placeholder="ex: images, .btn, button, text, ..."/>
+  <datalist id="visbug-plugins">
+    ${PluginHints.reduce((options, command) => 
+      options += `<option value="${command}">`
+    , '')}
+    <option value="images">
+    <option value="text">
+    <option value="button.primary">
+  </datalist>
+`
 
 const search        = $(search_base)
 const searchInput   = $('input', search_base)
