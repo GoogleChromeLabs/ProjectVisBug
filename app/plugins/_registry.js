@@ -6,7 +6,7 @@ import { commands as construct_debug_commands, default as ConstructDebugPlugin }
 
 const commandsToHash = (plugin_commands, plugin_fn) =>
   plugin_commands.reduce((commands, command) =>
-    Object.assign(commands, {[command]:plugin_fn})
+    Object.assign(commands, {[`/${command}`]:plugin_fn})
   , {})
 
 export const PluginRegistry = new Map(Object.entries({
@@ -16,3 +16,11 @@ export const PluginRegistry = new Map(Object.entries({
   ...commandsToHash(construct_commands, ConstructPlugin),
   ...commandsToHash(construct_debug_commands, ConstructDebugPlugin),
 }))
+
+export const PluginHints = [
+  blank_page_commands[0],
+  barrel_roll_commands[0],
+  pesticide_commands[0],
+  construct_commands[0],
+  construct_debug_commands[0],
+].map(command => `/${command}`)
