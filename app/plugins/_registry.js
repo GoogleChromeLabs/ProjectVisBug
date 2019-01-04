@@ -3,6 +3,7 @@ import { commands as barrel_roll_commands, default as BarrelRollPlugin } from '.
 import { commands as pesticide_commands, default as PesticidePlugin } from './pesticide'
 import { commands as construct_commands, default as ConstructPlugin } from './construct'
 import { commands as construct_debug_commands, default as ConstructDebugPlugin } from './construct.debug'
+import { commands as wireframe_commands, default as WireframePlugin } from './wireframe'
 
 const commandsToHash = (plugin_commands, plugin_fn) =>
   plugin_commands.reduce((commands, command) =>
@@ -15,6 +16,7 @@ export const PluginRegistry = new Map(Object.entries({
   ...commandsToHash(pesticide_commands, PesticidePlugin),
   ...commandsToHash(construct_commands, ConstructPlugin),
   ...commandsToHash(construct_debug_commands, ConstructDebugPlugin),
+  ...commandsToHash(wireframe_commands, WireframePlugin),
 }))
 
 export const PluginHints = [
@@ -23,4 +25,5 @@ export const PluginHints = [
   pesticide_commands[0],
   construct_commands[0],
   construct_debug_commands[0],
+  wireframe_commands[0],
 ].map(command => `/${command}`)
