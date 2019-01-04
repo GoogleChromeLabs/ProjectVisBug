@@ -15,7 +15,8 @@ search_base.innerHTML = `
     , '')}
     <option value="images">search</option>
     <option value="text">search</option>
-    <option value="button.primary">search</option>
+    <option value="h1, h2, h3">example</option>
+    <option value="nav, footer">example</option>
   </datalist>
 `
 
