@@ -1,4 +1,3 @@
-import { commands as translate_commands, default as TranslatePlugin } from './translate'
 import { commands as blank_page_commands, default as BlankPagePlugin } from './blank-page'
 import { commands as barrel_roll_commands, default as BarrelRollPlugin } from './barrel-roll'
 import { commands as pesticide_commands, default as PesticidePlugin } from './pesticide'
@@ -11,7 +10,6 @@ const commandsToHash = (plugin_commands, plugin_fn) =>
   , {})
 
 export const PluginRegistry = new Map(Object.entries({
-  ...commandsToHash(translate_commands, TranslatePlugin),
   ...commandsToHash(blank_page_commands, BlankPagePlugin),
   ...commandsToHash(barrel_roll_commands, BarrelRollPlugin),
   ...commandsToHash(pesticide_commands, PesticidePlugin),

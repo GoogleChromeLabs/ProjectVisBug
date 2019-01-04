@@ -1,17 +1,11 @@
-// PLUGINS: register your entry point here
 const entries = [
   'blank-page.js',
   'barrel-roll.js',
   'pesticide.js',
   'construct.js',
   'construct.debug.js',
-  'translate.js'
 ]
 
-
-
-
-// async load plugins, ensure commands are unique
 const PluginRegistry = new Map()
 
 entries.forEach(async entry => {
