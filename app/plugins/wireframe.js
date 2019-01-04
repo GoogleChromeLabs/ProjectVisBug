@@ -1,5 +1,6 @@
 export const commands = [
   'wireframe',
+  'blueprint',
 ]
 
 export default async function() {
