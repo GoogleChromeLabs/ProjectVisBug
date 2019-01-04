@@ -11,11 +11,11 @@ search_base.innerHTML = `
   <input list="visbug-plugins" type="text" placeholder="ex: images, .btn, button, text, ..."/>
   <datalist id="visbug-plugins">
     ${PluginHints.reduce((options, command) => 
-      options += `<option value="${command}">`
+      options += `<option value="${command}">plugin</option>`
     , '')}
-    <option value="images">
-    <option value="text">
-    <option value="button.primary">
+    <option value="images">search</option>
+    <option value="text">search</option>
+    <option value="button.primary">search</option>
   </datalist>
 `
 
