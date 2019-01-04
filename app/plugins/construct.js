@@ -6,5 +6,5 @@ export const commands = [
 ]
 
 export default async function() {
-  await loadStyles(['https://rawgit.com/t7/construct.css/master/css/construct.boxes.css'])
+  await loadStyles(['https://cdn.jsdelivr.net/gh/t7/construct.css@master/css/construct.boxes.css'])
 }
