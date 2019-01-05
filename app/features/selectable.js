@@ -263,8 +263,12 @@ export function Selectable() {
     }
   }
 
-  const on_hover = ({target}) => {
+  const on_hover = e => {
+    const { target } = e
+
     if (isOffBounds(target)) return
+    if (e.altKey) return overlayDistanceUI(target)
+
     target.setAttribute('data-hover', true)
   }
 
@@ -372,6 +376,14 @@ export function Selectable() {
       observer.disconnect()
       parentObserver.disconnect()
     })
+  }
+
+  const overlayDistanceUI = $target => {
+    if (selected.length === 1 && $('tool-pallete')[0].activeTool === 'guides') {
+      const [$anchor] = selected
+      console.log($anchor)
+      console.log($target)
+    }
   }
 
   const setLabel = (el, label) =>
