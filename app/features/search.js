@@ -13,10 +13,12 @@ search_base.innerHTML = `
     ${PluginHints.reduce((options, command) => 
       options += `<option value="${command}">plugin</option>`
     , '')}
-    <option value="images">search</option>
-    <option value="text">search</option>
-    <option value="h1, h2, h3">example</option>
-    <option value="nav, footer">example</option>
+    <option value="h1, h2, h3, .get-multiple">example</option>
+    <option value="nav > a:first-child">example</option>
+    <option value="#get-by-id">example</option>
+    <option value=".get-by.class-names">example</option>
+    <option value="images">alias</option>
+    <option value="text">alias</option>
   </datalist>
 `
 
