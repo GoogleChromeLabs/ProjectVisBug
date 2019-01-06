@@ -6,6 +6,11 @@ body {
   outline: 1px dashed hsla(330, 80%, 71%, 50%);
 }
 
+[data-measuring=true] {
+  outline: 1px solid hsl(330, 80%, 71%);
+  cursor: crosshair;
+}
+
 [data-selected=true] {
   transition: all 0.15s ease;
 }

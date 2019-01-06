@@ -12,12 +12,13 @@ export function Selectable() {
   let selectedCallbacks   = []
   let labels              = []
   let handles             = []
+  let distances           = []
 
   const listen = () => {
     elements.forEach(el => el.addEventListener('click', on_click, true))
     elements.forEach(el => el.addEventListener('dblclick', on_dblclick, true))
     elements.on('selectstart', on_selection)
-    elements.on('mouseover', on_hover)
+    elements.on('mousemove', on_hover)
     elements.on('mouseout', on_hoverout)
 
     document.addEventListener('copy', on_copy)
@@ -41,7 +42,7 @@ export function Selectable() {
     elements.forEach(el => el.removeEventListener('click', on_click, true))
     elements.forEach(el => el.removeEventListener('dblclick', on_dblclick, true))
     elements.off('selectstart', on_selection)
-    elements.off('mouseover', on_hover)
+    elements.off('mousemove', on_hover)
     elements.off('mouseout', on_hoverout)
 
     document.removeEventListener('copy', on_copy)
@@ -80,7 +81,8 @@ export function Selectable() {
           'data-selected':      null,
           'data-selected-hide': null,
           'data-label-id':      null,
-          'data-hover': null
+          'data-hover':         null,
+          'data-measuring':     null,
       }))
 
     selected = selected.filter(node => node.getAttribute('data-label-id') !== id)
@@ -265,15 +267,23 @@ export function Selectable() {
 
   const on_hover = e => {
     const { target } = e
-
     if (isOffBounds(target)) return
-    if (e.altKey) return overlayDistanceUI(target)
+
+    if (e.altKey) {
+      target.setAttribute('data-measuring', true)
+      return overlayDistanceUI(target)
+    }
+    else if (target.hasAttribute('data-measuring'))
+      target.removeAttribute('data-measuring')
 
     target.setAttribute('data-hover', true)
   }
 
   const on_hoverout = ({target}) => {
-    target.removeAttribute('data-hover')
+    $(target).attr({
+      'data-hover':     null,
+      'data-measuring': null,
+    })
   }
 
   const select = el => {
@@ -380,9 +390,36 @@ export function Selectable() {
 
   const overlayDistanceUI = $target => {
     if (selected.length === 1 && $('tool-pallete')[0].activeTool === 'guides') {
-      const [$anchor] = selected
-      console.log($anchor)
-      console.log($target)
+      // todo: create less observers
+      const observer = new IntersectionObserver(([$anchor, $target], observer) => {
+        // todo: escape if distance already created
+        // if (!distances[parseInt($anchor.getAttribute('data-label-id'))])
+        console.log($anchor.boundingRect)
+        console.log($target.boundingRect)
+
+        const line_model = {
+          length: 0,
+          x: 0,
+          y: 0,
+        }
+
+        // determine relationship: in/out || quadrant
+        // using relationship, extract distance(s) and positions <array>
+        // use position/distance data to create lines
+
+        const distance = document.createElement('pb-distance')
+
+        distance.position = {
+          line_model:     line_model,
+          node_label_id:  distances.length,
+        }
+
+        document.body.appendChild(distance)
+        distances[distances.length] = distance
+      })
+
+      observer.observe(selected[0])
+      observer.observe($target)
     }
   }
 
