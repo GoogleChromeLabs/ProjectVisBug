@@ -7,7 +7,7 @@ body {
 }
 
 [data-measuring=true] {
-  outline: 1px solid hsl(330, 80%, 71%);
+  outline: 1px solid hsl(267, 100%, 58%);
   cursor: crosshair;
 }
 

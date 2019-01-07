@@ -284,6 +284,11 @@ export function Selectable() {
       'data-hover':     null,
       'data-measuring': null,
     })
+    if (distances.length) {
+      distances.forEach(node =>
+        node.remove())
+      distances = []
+    }
   }
 
   const select = el => {
@@ -391,31 +396,39 @@ export function Selectable() {
   const overlayDistanceUI = $target => {
     if (selected.length === 1 && $('tool-pallete')[0].activeTool === 'guides') {
       // todo: create less observers
-      const observer = new IntersectionObserver(([$anchor, $target], observer) => {
-        // todo: escape if distance already created
-        // if (!distances[parseInt($anchor.getAttribute('data-label-id'))])
-        console.log($anchor.boundingRect)
-        console.log($target.boundingRect)
+      const observer = new IntersectionObserver(([anchor, target], observer) => {
+        if (distances[parseInt(anchor.target.getAttribute('data-label-id'))]) 
+          return
 
         const line_model = {
-          length: 0,
-          x: 0,
-          y: 0,
+          width:  0,
+          x:      0,
+          y:      0,
         }
 
         // determine relationship: in/out || quadrant
         // using relationship, extract distance(s) and positions <array>
-        // use position/distance data to create lines
+        
+        // on right
+        if (anchor.boundingClientRect.right < target.boundingClientRect.left) {
+          line_model.x      = anchor.boundingClientRect.right
+          line_model.y      = anchor.boundingClientRect.top + (anchor.boundingClientRect.height / 2)
+          line_model.width  = target.boundingClientRect.left - anchor.boundingClientRect.right
+        }
 
-        const distance = document.createElement('pb-distance')
+        // pretty up value
+        line_model.width = Math.round(line_model.width.toFixed(1) * 100) / 100
 
-        distance.position = {
-          line_model:     line_model,
+        // create visual element
+        const measurement = document.createElement('pb-distance')
+
+        measurement.position = {
+          line_model,
           node_label_id:  distances.length,
         }
 
-        document.body.appendChild(distance)
-        distances[distances.length] = distance
+        document.body.appendChild(measurement)
+        distances[distances.length] = measurement
       })
 
       observer.observe(selected[0])

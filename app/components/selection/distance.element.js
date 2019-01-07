@@ -1,5 +1,3 @@
-import $ from 'blingblingjs'
-
 export class Distance extends HTMLElement {
   
   constructor() {
@@ -7,54 +5,72 @@ export class Distance extends HTMLElement {
     this.$shadow = this.attachShadow({mode: 'open'})
   }
 
-  connectedCallback() {
-    window.addEventListener('resize', this.on_resize.bind(this))
-  }
-  disconnectedCallback() {
-    window.removeEventListener('resize', this.on_resize)
-  }
+  connectedCallback() {}
+  disconnectedCallback() {}
 
-  on_resize() {
-    window.requestAnimationFrame(() => {
-      const node_label_id = this.$shadow.host.getAttribute('data-label-id')
-      const [source_el] = $(`[data-label-id="${node_label_id}"]`)
-
-      this.position = {
-        node_label_id,
-        boundingRect: source_el.getBoundingClientRect(),
-      }
-    })
+  set position({line_model, node_label_id}) {
+    this.$shadow.innerHTML  = this.render(line_model, node_label_id)
   }
 
-  set position({boundingRect, node_label_id}) {
-    this.$shadow.innerHTML  = this.render(boundingRect, node_label_id)
-  }
-
-  render({ x, y, width, height, top, left }, node_label_id) {
+  render({ x, y, width }, node_label_id) {
     this.$shadow.host.setAttribute('data-label-id', node_label_id)
     return `
-      ${this.styles({top,left})}
-      <svg 
-        class="pb-distance"
-        width="${width}" height="${height}" 
-        viewBox="0 0 ${width} ${height}" 
-        version="1.1" xmlns="http://www.w3.org/2000/svg"
-      >
-        <rect stroke="hotpink" fill="none" width="100%" height="100%"></rect>
-      </svg>
+      ${this.styles({y,x,width})}
+      <figure>
+        <figcaption>${width}px</figcaption>
+        <span></span>
+        <div></div>
+        <span></span>
+      </figure>
     `
   }
 
-  styles({top,left}) {
+  styles({y,x,width}) {
     return `
       <style>
-        :host > svg {
+        :host {
+          --line-color: hsl(267, 100%, 58%);
+          --line-width: 1px;
+
+          display: grid;
+          grid-template-rows: auto auto;
+          align-items: center;
+          justify-content: center;
+          font-size: 16px;
+        }
+
+        :host > figure {
+          margin: 0;
           position: absolute;
-          top: ${top + window.scrollY}px;
-          left: ${left}px;
+          width: ${width}px;
+          top: ${y - 21 + window.scrollY}px;
+          left: ${x}px;
           overflow: visible;
           pointer-events: none;
           z-index: 10010;
+
+          display: grid;
+          grid-template-columns: auto 1fr auto;
+          grid-template-rows: auto 0.75em;
+          align-items: center;
+        }
+
+        :host > figure figcaption {
+          grid-column: 1/4;
+          color: hotpink;
+          text-align: center;
+          font-size: 0.75em;
+        }
+
+        :host > figure span {
+          background: var(--line-color);
+          height: 100%;
+          width: var(--line-width);
+        }
+
+        :host > figure div {
+          background: var(--line-color);
+          height: var(--line-width);
         }
       </style>
     `
