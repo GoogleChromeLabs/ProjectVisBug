@@ -269,7 +269,7 @@ export function Selectable() {
     const { target } = e
     if (isOffBounds(target)) return
 
-    if (e.altKey) {
+    if (e.altKey && selected.length === 1) {
       target.setAttribute('data-measuring', true)
       return overlayDistanceUI(target)
     }
@@ -400,35 +400,63 @@ export function Selectable() {
         if (distances[parseInt(anchor.target.getAttribute('data-label-id'))]) 
           return
 
-        const line_model = {
-          width:  0,
-          x:      0,
-          y:      0,
-        }
+        const measurements = []
 
         // determine relationship: in/out || quadrant
         // using relationship, extract distance(s) and positions <array>
         
-        // on right
         if (anchor.boundingClientRect.right < target.boundingClientRect.left) {
-          line_model.x      = anchor.boundingClientRect.right
-          line_model.y      = anchor.boundingClientRect.top + (anchor.boundingClientRect.height / 2)
-          line_model.width  = target.boundingClientRect.left - anchor.boundingClientRect.right
+          measurements.push({
+            x: anchor.boundingClientRect.right,
+            y: anchor.boundingClientRect.top + (anchor.boundingClientRect.height / 2),
+            d: target.boundingClientRect.left - anchor.boundingClientRect.right,
+            q: 'right',
+          })
+        }
+        if (anchor.boundingClientRect.left > target.boundingClientRect.right) {
+          measurements.push({
+            x: target.boundingClientRect.right,
+            y: anchor.boundingClientRect.top + (anchor.boundingClientRect.height / 2),
+            d: anchor.boundingClientRect.left - target.boundingClientRect.right,
+            q: 'left',
+          })
         }
 
-        // pretty up value
-        line_model.width = Math.round(line_model.width.toFixed(1) * 100) / 100
-
-        // create visual element
-        const measurement = document.createElement('pb-distance')
-
-        measurement.position = {
-          line_model,
-          node_label_id:  distances.length,
+        if (anchor.boundingClientRect.top > target.boundingClientRect.bottom) {
+          measurements.push({
+            x: anchor.boundingClientRect.left + (anchor.boundingClientRect.width / 2),
+            y: target.boundingClientRect.bottom,
+            d: anchor.boundingClientRect.top - target.boundingClientRect.bottom,
+            q: 'top',
+            v: true,
+          })
         }
 
-        document.body.appendChild(measurement)
-        distances[distances.length] = measurement
+        if (anchor.boundingClientRect.bottom < target.boundingClientRect.top) {
+          measurements.push({
+            x: anchor.boundingClientRect.left + (anchor.boundingClientRect.width / 2),
+            y: anchor.boundingClientRect.bottom,
+            d: target.boundingClientRect.top - anchor.boundingClientRect.bottom,
+            q: 'bottom',
+            v: true,
+          })
+        }
+
+        measurements
+          .map(measurement => Object.assign(measurement, {
+            d: Math.round(measurement.d.toFixed(1) * 100) / 100
+          }))
+          .forEach(measurement => {
+            const $measurement = document.createElement('pb-distance')
+
+            $measurement.position = {
+              line_model:     measurement,
+              node_label_id:  distances.length,
+            }
+
+            document.body.appendChild($measurement)
+            distances[distances.length] = $measurement
+          })
       })
 
       observer.observe(selected[0])

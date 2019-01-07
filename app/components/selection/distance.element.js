@@ -12,65 +12,73 @@ export class Distance extends HTMLElement {
     this.$shadow.innerHTML  = this.render(line_model, node_label_id)
   }
 
-  render({ x, y, width }, node_label_id) {
+  render(measurements, node_label_id) {
     this.$shadow.host.setAttribute('data-label-id', node_label_id)
     return `
-      ${this.styles({y,x,width})}
-      <figure>
-        <figcaption>${width}px</figcaption>
-        <span></span>
+      ${this.styles(measurements)}
+      <figure quadrant="measurements.q">
         <div></div>
-        <span></span>
+        <figcaption><b>${measurements.d}</b>px</figcaption>
+        <div></div>
       </figure>
     `
   }
 
-  styles({y,x,width}) {
+  styles({y,x,d,q,v = false}) {
     return `
       <style>
         :host {
           --line-color: hsl(267, 100%, 58%);
           --line-width: 1px;
-
-          display: grid;
-          grid-template-rows: auto auto;
-          align-items: center;
-          justify-content: center;
           font-size: 16px;
         }
 
         :host > figure {
           margin: 0;
           position: absolute;
-          width: ${width}px;
-          top: ${y - 21 + window.scrollY}px;
+          ${v
+            ? `height: ${d}px; width: 5px;`
+            : `width: ${d - 1}px; height: 5px;`}
+          top: ${y + window.scrollY}px;
           left: ${x}px;
+          transform: ${v
+            ? 'translateX(-50%)'
+            : 'translateY(-50%)'};
           overflow: visible;
           pointer-events: none;
           z-index: 10010;
 
-          display: grid;
-          grid-template-columns: auto 1fr auto;
-          grid-template-rows: auto 0.75em;
+          display: flex;
           align-items: center;
+          flex-direction: ${v ? 'column' : 'row'};
         }
 
         :host > figure figcaption {
-          grid-column: 1/4;
           color: hotpink;
+          text-shadow: 0 0.5px 0 hsla(0, 0%, 0%, 25%);
           text-align: center;
-          font-size: 0.75em;
+          line-height: 0.9;
+          font-size: 0.6em;
+          padding: 1px;
         }
 
         :host > figure span {
           background: var(--line-color);
-          height: 100%;
-          width: var(--line-width);
+          ${v
+            ? 'height: var(--line-width); width: 5px;'
+            : 'width: var(--line-width); height: 5px;'}
         }
 
         :host > figure div {
+          flex: 2;
           background: var(--line-color);
-          height: var(--line-width);
+          ${v
+            ? 'width: var(--line-width);'
+            : 'height: var(--line-width);'}
+        }
+
+        :host figure > div${q === 'top' || q === 'left' ? ':last-of-type' : ':first-of-type'} {
+          background: linear-gradient(to ${q}, hotpink 0%, var(--line-color) 100%);
         }
       </style>
     `
