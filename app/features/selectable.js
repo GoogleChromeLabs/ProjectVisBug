@@ -399,8 +399,10 @@ export function Selectable() {
 
   const overlayDistanceUI = $target => {
     if (selected.length === 1 && $('tool-pallete')[0].activeTool === 'guides') {
+      const [$anchor] = selected
+
       const observer = new IntersectionObserver(([anchor, target], observer) => {
-        if (distances[parseInt(anchor.target.getAttribute('data-label-id'))]) 
+        if (!target || distances[parseInt(anchor.target.getAttribute('data-label-id'))]) 
           return
 
         const measurements = []
@@ -527,9 +529,12 @@ export function Selectable() {
             document.body.appendChild($measurement)
             distances[distances.length] = $measurement
           })
+
+        observer.unobserve($anchor)
+        observer.unobserve($target)
       })
 
-      observer.observe(selected[0])
+      observer.observe($anchor)
       observer.observe($target)
     }
   }
