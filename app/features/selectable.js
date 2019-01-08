@@ -5,6 +5,7 @@ import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
 import { queryPage } from './search'
 import { metaKey, htmlStringToDom, createClassname, isOffBounds, getStyles } from '../utilities/'
+import { createMeasurements, clearMeasurements } from './measurements'
 
 export function Selectable() {
   const elements          = $('body')
@@ -12,7 +13,6 @@ export function Selectable() {
   let selectedCallbacks   = []
   let labels              = []
   let handles             = []
-  let distances           = []
 
   const listen = () => {
     elements.forEach(el => el.addEventListener('click', on_click, true))
@@ -266,21 +266,20 @@ export function Selectable() {
   }
 
   const on_hover = e => {
-    const { target } = e
-    if (isOffBounds(target)) return
+    const { target:$target } = e
+    if (isOffBounds($target)) return
 
-    if (e.altKey && selected.length === 1 && selected[0] != target) {
-      target.setAttribute('data-measuring', true)
-      return overlayDistanceUI(target)
+    if (e.altKey && $('tool-pallete')[0].activeTool === 'guides' && selected.length === 1 && selected[0] != $target) {
+      $target.setAttribute('data-measuring', true)
+      const [$anchor] = selected
+      return createMeasurements({$anchor, $target})
     }
-    else if (target.hasAttribute('data-measuring') || distances.length) {
-      target.removeAttribute('data-measuring')
-      distances.forEach(node =>
-        node.remove())
-      distances = []
+    else if ($target.hasAttribute('data-measuring')) {
+      $target.removeAttribute('data-measuring')
+      clearMeasurements()
     }
 
-    target.setAttribute('data-hover', true)
+    $target.setAttribute('data-hover', true)
   }
 
   const on_hoverout = ({target}) => {
@@ -288,11 +287,7 @@ export function Selectable() {
       'data-hover':     null,
       'data-measuring': null,
     })
-    if (distances.length) {
-      distances.forEach(node =>
-        node.remove())
-      distances = []
-    }
+    clearMeasurements()
   }
 
   const select = el => {
@@ -395,148 +390,6 @@ export function Selectable() {
       observer.disconnect()
       parentObserver.disconnect()
     })
-  }
-
-  const overlayDistanceUI = $target => {
-    if (selected.length === 1 && $('tool-pallete')[0].activeTool === 'guides') {
-      const [$anchor] = selected
-
-      const observer = new IntersectionObserver(([anchor, target], observer) => {
-        if (!target || distances[parseInt(anchor.target.getAttribute('data-label-id'))]) 
-          return
-
-        const measurements = []
-
-        // right
-        if (anchor.boundingClientRect.right < target.boundingClientRect.left) {
-          measurements.push({
-            x: anchor.boundingClientRect.right,
-            y: anchor.boundingClientRect.top + (anchor.boundingClientRect.height / 2),
-            d: target.boundingClientRect.left - anchor.boundingClientRect.right,
-            q: 'right',
-          })
-        }
-        if (anchor.boundingClientRect.right < target.boundingClientRect.right && anchor.boundingClientRect.right > target.boundingClientRect.left) {
-          measurements.push({
-            x: anchor.boundingClientRect.right,
-            y: anchor.boundingClientRect.top + (anchor.boundingClientRect.height / 2),
-            d: target.boundingClientRect.right - anchor.boundingClientRect.right,
-            q: 'right',
-          })
-        }
-        // left
-        if (anchor.boundingClientRect.left > target.boundingClientRect.right) {
-          measurements.push({
-            x: target.boundingClientRect.right,
-            y: anchor.boundingClientRect.top + (anchor.boundingClientRect.height / 2),
-            d: anchor.boundingClientRect.left - target.boundingClientRect.right,
-            q: 'left',
-          })
-        }
-        if (anchor.boundingClientRect.left > target.boundingClientRect.left && anchor.boundingClientRect.left < target.boundingClientRect.right) {
-          measurements.push({
-            x: target.boundingClientRect.left,
-            y: anchor.boundingClientRect.top + (anchor.boundingClientRect.height / 2),
-            d: anchor.boundingClientRect.left - target.boundingClientRect.left,
-            q: 'left',
-          })
-        }
-        // top
-        if (anchor.boundingClientRect.top > target.boundingClientRect.bottom) {
-          measurements.push({
-            x: anchor.boundingClientRect.left + (anchor.boundingClientRect.width / 2),
-            y: target.boundingClientRect.bottom,
-            d: anchor.boundingClientRect.top - target.boundingClientRect.bottom,
-            q: 'top',
-            v: true,
-          })
-        }
-        if (anchor.boundingClientRect.top > target.boundingClientRect.top && anchor.boundingClientRect.top < target.boundingClientRect.bottom) {
-          measurements.push({
-            x: anchor.boundingClientRect.left + (anchor.boundingClientRect.width / 2),
-            y: target.boundingClientRect.top,
-            d: anchor.boundingClientRect.top - target.boundingClientRect.top,
-            q: 'top',
-            v: true,
-          })
-        }
-        // bottom
-        if (anchor.boundingClientRect.bottom < target.boundingClientRect.top) {
-          measurements.push({
-            x: anchor.boundingClientRect.left + (anchor.boundingClientRect.width / 2),
-            y: anchor.boundingClientRect.bottom,
-            d: target.boundingClientRect.top - anchor.boundingClientRect.bottom,
-            q: 'bottom',
-            v: true,
-          })
-        }
-        if (anchor.boundingClientRect.bottom < target.boundingClientRect.bottom && anchor.boundingClientRect.bottom > target.boundingClientRect.top) {
-          measurements.push({
-            x: anchor.boundingClientRect.left + (anchor.boundingClientRect.width / 2),
-            y: anchor.boundingClientRect.bottom,
-            d: target.boundingClientRect.bottom - anchor.boundingClientRect.bottom,
-            q: 'bottom',
-            v: true,
-          })
-        }
-
-        // inside left/right
-        if (anchor.boundingClientRect.right > target.boundingClientRect.right && anchor.boundingClientRect.left < target.boundingClientRect.left) {
-          measurements.push({
-            x: target.boundingClientRect.right,
-            y: anchor.boundingClientRect.top + (anchor.boundingClientRect.height / 2),
-            d: anchor.boundingClientRect.right - target.boundingClientRect.right,
-            q: 'left',
-          })
-          measurements.push({
-            x: anchor.boundingClientRect.left,
-            y: anchor.boundingClientRect.top + (anchor.boundingClientRect.height / 2),
-            d: target.boundingClientRect.left - anchor.boundingClientRect.left,
-            q: 'right',
-          })
-        }
-
-        // inside top/right
-        if (anchor.boundingClientRect.top < target.boundingClientRect.top && anchor.boundingClientRect.bottom > target.boundingClientRect.bottom) {
-          measurements.push({
-            x: anchor.boundingClientRect.left + (anchor.boundingClientRect.width / 2),
-            y: anchor.boundingClientRect.top,
-            d: target.boundingClientRect.top - anchor.boundingClientRect.top,
-            q: 'bottom',
-            v: true,
-          })
-          measurements.push({
-            x: anchor.boundingClientRect.left + (anchor.boundingClientRect.width / 2),
-            y: target.boundingClientRect.bottom,
-            d: anchor.boundingClientRect.bottom - target.boundingClientRect.bottom,
-            q: 'top',
-            v: true,
-          })
-        }
-
-        measurements
-          .map(measurement => Object.assign(measurement, {
-            d: Math.round(measurement.d.toFixed(1) * 100) / 100
-          }))
-          .forEach(measurement => {
-            const $measurement = document.createElement('pb-distance')
-
-            $measurement.position = {
-              line_model:     measurement,
-              node_label_id:  distances.length,
-            }
-
-            document.body.appendChild($measurement)
-            distances[distances.length] = $measurement
-          })
-
-        observer.unobserve($anchor)
-        observer.unobserve($target)
-      })
-
-      observer.observe($anchor)
-      observer.observe($target)
-    }
   }
 
   const setLabel = (el, label) =>
