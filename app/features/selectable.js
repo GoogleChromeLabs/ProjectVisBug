@@ -269,7 +269,7 @@ export function Selectable() {
     const { target } = e
     if (isOffBounds(target)) return
 
-    if (e.altKey && selected.length === 1) {
+    if (e.altKey && selected.length === 1 && selected[0] != target) {
       target.setAttribute('data-measuring', true)
       return overlayDistanceUI(target)
     }
@@ -395,16 +395,13 @@ export function Selectable() {
 
   const overlayDistanceUI = $target => {
     if (selected.length === 1 && $('tool-pallete')[0].activeTool === 'guides') {
-      // todo: create less observers
       const observer = new IntersectionObserver(([anchor, target], observer) => {
         if (distances[parseInt(anchor.target.getAttribute('data-label-id'))]) 
           return
 
         const measurements = []
 
-        // determine relationship: in/out || quadrant
-        // using relationship, extract distance(s) and positions <array>
-        
+        // right
         if (anchor.boundingClientRect.right < target.boundingClientRect.left) {
           measurements.push({
             x: anchor.boundingClientRect.right,
@@ -413,6 +410,15 @@ export function Selectable() {
             q: 'right',
           })
         }
+        if (anchor.boundingClientRect.right < target.boundingClientRect.right && anchor.boundingClientRect.right > target.boundingClientRect.left) {
+          measurements.push({
+            x: anchor.boundingClientRect.right,
+            y: anchor.boundingClientRect.top + (anchor.boundingClientRect.height / 2),
+            d: target.boundingClientRect.right - anchor.boundingClientRect.right,
+            q: 'right',
+          })
+        }
+        // left
         if (anchor.boundingClientRect.left > target.boundingClientRect.right) {
           measurements.push({
             x: target.boundingClientRect.right,
@@ -421,7 +427,15 @@ export function Selectable() {
             q: 'left',
           })
         }
-
+        if (anchor.boundingClientRect.left > target.boundingClientRect.left && anchor.boundingClientRect.left < target.boundingClientRect.right) {
+          measurements.push({
+            x: target.boundingClientRect.left,
+            y: anchor.boundingClientRect.top + (anchor.boundingClientRect.height / 2),
+            d: anchor.boundingClientRect.left - target.boundingClientRect.left,
+            q: 'left',
+          })
+        }
+        // top
         if (anchor.boundingClientRect.top > target.boundingClientRect.bottom) {
           measurements.push({
             x: anchor.boundingClientRect.left + (anchor.boundingClientRect.width / 2),
@@ -431,12 +445,64 @@ export function Selectable() {
             v: true,
           })
         }
-
+        if (anchor.boundingClientRect.top > target.boundingClientRect.top && anchor.boundingClientRect.top < target.boundingClientRect.bottom) {
+          measurements.push({
+            x: anchor.boundingClientRect.left + (anchor.boundingClientRect.width / 2),
+            y: target.boundingClientRect.top,
+            d: anchor.boundingClientRect.top - target.boundingClientRect.top,
+            q: 'top',
+            v: true,
+          })
+        }
+        // bottom
         if (anchor.boundingClientRect.bottom < target.boundingClientRect.top) {
           measurements.push({
             x: anchor.boundingClientRect.left + (anchor.boundingClientRect.width / 2),
             y: anchor.boundingClientRect.bottom,
             d: target.boundingClientRect.top - anchor.boundingClientRect.bottom,
+            q: 'bottom',
+            v: true,
+          })
+        }
+        if (anchor.boundingClientRect.bottom < target.boundingClientRect.bottom && anchor.boundingClientRect.bottom > target.boundingClientRect.top) {
+          measurements.push({
+            x: anchor.boundingClientRect.left + (anchor.boundingClientRect.width / 2),
+            y: anchor.boundingClientRect.bottom,
+            d: target.boundingClientRect.bottom - anchor.boundingClientRect.bottom,
+            q: 'bottom',
+            v: true,
+          })
+        }
+
+        // inside left/right
+        if (anchor.boundingClientRect.right > target.boundingClientRect.right && anchor.boundingClientRect.left < target.boundingClientRect.left) {
+          measurements.push({
+            x: target.boundingClientRect.right,
+            y: anchor.boundingClientRect.top + (anchor.boundingClientRect.height / 2),
+            d: anchor.boundingClientRect.right - target.boundingClientRect.right,
+            q: 'right',
+          })
+          measurements.push({
+            x: anchor.boundingClientRect.left,
+            y: anchor.boundingClientRect.top + (anchor.boundingClientRect.height / 2),
+            d: target.boundingClientRect.left - anchor.boundingClientRect.left,
+            q: 'left',
+          })
+        }
+
+        // inside top/right
+        if (anchor.boundingClientRect.top < target.boundingClientRect.top && anchor.boundingClientRect.bottom > target.boundingClientRect.bottom) {
+          measurements.push({
+            x: anchor.boundingClientRect.left + (anchor.boundingClientRect.width / 2),
+            y: anchor.boundingClientRect.top,
+            d: target.boundingClientRect.top - anchor.boundingClientRect.top,
+            q: 'top',
+            v: true,
+          })
+          measurements.push({
+            x: anchor.boundingClientRect.left + (anchor.boundingClientRect.width / 2),
+            y: target.boundingClientRect.bottom,
+            d: anchor.boundingClientRect.bottom - target.boundingClientRect.bottom,
             q: 'bottom',
             v: true,
           })
