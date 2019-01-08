@@ -273,8 +273,12 @@ export function Selectable() {
       target.setAttribute('data-measuring', true)
       return overlayDistanceUI(target)
     }
-    else if (target.hasAttribute('data-measuring'))
+    else if (target.hasAttribute('data-measuring') || distances.length) {
       target.removeAttribute('data-measuring')
+      distances.forEach(node =>
+        node.remove())
+      distances = []
+    }
 
     target.setAttribute('data-hover', true)
   }
