@@ -38,7 +38,7 @@ export class Distance extends HTMLElement {
           position: absolute;
           ${v
             ? `height: ${d}px; width: 5px;`
-            : `width: ${d - 1}px; height: 5px;`}
+            : `width: ${d}px; height: 5px;`}
           top: ${y + window.scrollY}px;
           left: ${x}px;
           transform: ${v
