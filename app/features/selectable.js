@@ -480,13 +480,13 @@ export function Selectable() {
             x: target.boundingClientRect.right,
             y: anchor.boundingClientRect.top + (anchor.boundingClientRect.height / 2),
             d: anchor.boundingClientRect.right - target.boundingClientRect.right,
-            q: 'right',
+            q: 'left',
           })
           measurements.push({
             x: anchor.boundingClientRect.left,
             y: anchor.boundingClientRect.top + (anchor.boundingClientRect.height / 2),
             d: target.boundingClientRect.left - anchor.boundingClientRect.left,
-            q: 'left',
+            q: 'right',
           })
         }
 
@@ -496,14 +496,14 @@ export function Selectable() {
             x: anchor.boundingClientRect.left + (anchor.boundingClientRect.width / 2),
             y: anchor.boundingClientRect.top,
             d: target.boundingClientRect.top - anchor.boundingClientRect.top,
-            q: 'top',
+            q: 'bottom',
             v: true,
           })
           measurements.push({
             x: anchor.boundingClientRect.left + (anchor.boundingClientRect.width / 2),
             y: target.boundingClientRect.bottom,
             d: anchor.boundingClientRect.bottom - target.boundingClientRect.bottom,
-            q: 'bottom',
+            q: 'top',
             v: true,
           })
         }
