@@ -42,6 +42,7 @@ export function ColorPicker(pallete, selectorEngine) {
 
     if (elements.length == 1) {
       const el = elements[0]
+      const meaningfulDontMatter = pallete.host.active_tool.dataset.tool === 'hueshift'
 
       if (el instanceof SVGElement) {
         FG = new TinyColor('rgb(0, 0, 0)')
@@ -82,17 +83,17 @@ export function ColorPicker(pallete, selectorEngine) {
       
       foregroundPicker.attr('style', `
         --contextual_color: ${new_fg};
-        display: ${isMeaningfulForeground ? 'inline-flex' : 'none'};
+        display: ${isMeaningfulForeground || meaningfulDontMatter ? 'inline-flex' : 'none'};
       `)
 
       backgroundPicker.attr('style', `
         --contextual_color: ${new_bg};
-        display: ${isMeaningfulBackground ? 'inline-flex' : 'none'};
+        display: ${isMeaningfulBackground || meaningfulDontMatter ? 'inline-flex' : 'none'};
       `)
 
       borderPicker.attr('style', `
         --contextual_color: ${new_bo};
-        display: ${isMeaningfulBorder ? 'inline-flex' : 'none'};
+        display: ${isMeaningfulBorder || meaningfulDontMatter ? 'inline-flex' : 'none'};
       `)
     }
     else {
