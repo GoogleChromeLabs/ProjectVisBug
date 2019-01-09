@@ -86,8 +86,10 @@ export function changeHue(els, direction, prop, Color) {
           return { el, current: background.color.toHsl(), style: background.style }
         case 'foreground':
           return { el, current: foreground.color.toHsl(), style: foreground.style }
-        case 'border':
+        case 'border': {
+          if (el.style.border === '') el.style.border = '1px solid black'
           return { el, current: border.color.toHsl(), style: border.style }
+        }
       }
     })
     .map(payload =>
