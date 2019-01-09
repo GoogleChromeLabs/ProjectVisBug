@@ -98,19 +98,20 @@ export function ColorPicker(pallete, selectorEngine) {
     }
     else {
       // show all 3 if they've selected more than 1 node
+      // todo: this is giving up, and can be solved
       foregroundPicker.attr('style', `
-        --active_color: ${this.active_color == 'foreground' ? 'hotpink': ''};
-        display: 'inline-flex'};
+        box-shadow: ${this.active_color == 'foreground' ? '0 0 0 2px hotpink' : 'none'};
+        display: inline-flex;
       `)
 
       backgroundPicker.attr('style', `
-        --active_color: ${this.active_color == 'background' ? 'hotpink': ''};
-        display: 'inline-flex'};
+        box-shadow: ${this.active_color == 'background' ? '0 0 0 2px hotpink' : 'none'};
+        display: inline-flex;
       `)
 
       borderPicker.attr('style', `
-        --active_color: ${this.active_color == 'border' ? 'hotpink': ''};
-        display: 'inline-flex'};
+        box-shadow: ${this.active_color == 'border' ? '0 0 0 2px hotpink' : 'none'};
+        display: inline-flex;
       `)
     }
   })
@@ -121,17 +122,18 @@ export function ColorPicker(pallete, selectorEngine) {
   const setActive = key => {
     removeActive()
     this.active_color = key
+
     if (key === 'foreground')
-      foregroundPicker[0].style.setProperty('--active_color', 'hotpink')
+      foregroundPicker[0].style.boxShadow = '0 0 0 2px hotpink'
     if (key === 'background')
-      backgroundPicker[0].style.setProperty('--active_color', 'hotpink')
+      backgroundPicker[0].style.boxShadow = '0 0 0 2px hotpink'
     if (key === 'border')
-      borderPicker[0].style.setProperty('--active_color', 'hotpink')
+      borderPicker[0].style.boxShadow = '0 0 0 2px hotpink'
   }
 
   const removeActive = () =>
-    [foregroundPicker, backgroundPicker, borderPicker].forEach(picker =>
-      picker[0].style.removeProperty('--active_color'))
+    [foregroundPicker, backgroundPicker, borderPicker].forEach(([picker]) =>
+      picker.style.boxShadow = 'none')
 
   return {
     getActive,
