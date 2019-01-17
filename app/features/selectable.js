@@ -4,6 +4,8 @@ import hotkeys from 'hotkeys-js'
 import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
 import { queryPage } from './search'
+import { createMeasurements, clearMeasurements } from './measurements'
+
 import { 
   metaKey, htmlStringToDom, createClassname, 
   isOffBounds, getStyles, deepElementFromPoint 
@@ -20,9 +22,10 @@ export function Selectable() {
   const listen = () => {
     elements.forEach(el => el.addEventListener('click', on_click, true))
     elements.forEach(el => el.addEventListener('dblclick', on_dblclick, true))
+
     elements.on('selectstart', on_selection)
     elements.on('mousemove', on_hover)
-    elements.on('mouseover', on_hover)
+    elements.on('mouseout', on_hoverout)
 
     document.addEventListener('copy', on_copy)
     document.addEventListener('cut', on_cut)
@@ -44,9 +47,10 @@ export function Selectable() {
   const unlisten = () => {
     elements.forEach(el => el.removeEventListener('click', on_click, true))
     elements.forEach(el => el.removeEventListener('dblclick', on_dblclick, true))
+
     elements.off('selectstart', on_selection)
     elements.off('mousemove', on_hover)
-    elements.off('mouseover', on_hover)
+    elements.off('mouseout', on_hoverout)
 
     document.removeEventListener('copy', on_copy)
     document.removeEventListener('cut', on_cut)
@@ -86,7 +90,8 @@ export function Selectable() {
           'data-selected':      null,
           'data-selected-hide': null,
           'data-label-id':      null,
-          'data-hover': null
+          'data-hover':         null,
+          'data-measuring':     null,
       }))
 
     selected = selected.filter(node => node.getAttribute('data-label-id') !== id)
@@ -270,9 +275,30 @@ export function Selectable() {
   }
 
   const on_hover = e => {
-    const target = deepElementFromPoint(e.clientX, e.clientY)
-    if (isOffBounds(target)) return
-    overlayHoverUI(target)
+    const $target = deepElementFromPoint(e.clientX, e.clientY)
+    if (isOffBounds($target)) return
+
+    overlayHoverUI($target)
+
+    if (e.altKey && $('tool-pallete')[0].activeTool === 'guides' && selected.length === 1 && selected[0] != $target) {
+      $target.setAttribute('data-measuring', true)
+      const [$anchor] = selected
+      return createMeasurements({$anchor, $target})
+    }
+    else if ($target.hasAttribute('data-measuring')) {
+      $target.removeAttribute('data-measuring')
+      clearMeasurements()
+    }
+
+    $target.setAttribute('data-hover', true)
+  }
+
+  const on_hoverout = ({target}) => {
+    $(target).attr({
+      'data-hover':     null,
+      'data-measuring': null,
+    })
+    clearMeasurements()
   }
 
   const select = el => {

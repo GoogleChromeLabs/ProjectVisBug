@@ -1,0 +1,152 @@
+let distances = []
+
+export function createMeasurements({$anchor, $target}) {
+  const observer = new IntersectionObserver(([anchor, target], observer) => {
+    const anchorBounds = anchor.boundingClientRect
+    const targetBounds = target.boundingClientRect
+
+    if (!target || distances[parseInt(anchor.target.getAttribute('data-label-id'))]) 
+      return
+
+    const measurements = []
+
+    // right
+    if (anchorBounds.right < targetBounds.left) {
+      measurements.push({
+        x: anchorBounds.right,
+        y: anchorBounds.top + (anchorBounds.height / 2),
+        d: targetBounds.left - anchorBounds.right,
+        q: 'right',
+      })
+    }
+    if (anchorBounds.right < targetBounds.right && anchorBounds.right > targetBounds.left) {
+      measurements.push({
+        x: anchorBounds.right,
+        y: anchorBounds.top + (anchorBounds.height / 2),
+        d: targetBounds.right - anchorBounds.right,
+        q: 'right',
+      })
+    }
+
+    // left
+    if (anchorBounds.left > targetBounds.right) {
+      measurements.push({
+        x: targetBounds.right,
+        y: anchorBounds.top + (anchorBounds.height / 2),
+        d: anchorBounds.left - targetBounds.right,
+        q: 'left',
+      })
+    }
+    if (anchorBounds.left > targetBounds.left && anchorBounds.left < targetBounds.right) {
+      measurements.push({
+        x: targetBounds.left,
+        y: anchorBounds.top + (anchorBounds.height / 2),
+        d: anchorBounds.left - targetBounds.left,
+        q: 'left',
+      })
+    }
+
+    // top
+    if (anchorBounds.top > targetBounds.bottom) {
+      measurements.push({
+        x: anchorBounds.left + (anchorBounds.width / 2),
+        y: targetBounds.bottom,
+        d: anchorBounds.top - targetBounds.bottom,
+        q: 'top',
+        v: true,
+      })
+    }
+    if (anchorBounds.top > targetBounds.top && anchorBounds.top < targetBounds.bottom) {
+      measurements.push({
+        x: anchorBounds.left + (anchorBounds.width / 2),
+        y: targetBounds.top,
+        d: anchorBounds.top - targetBounds.top,
+        q: 'top',
+        v: true,
+      })
+    }
+
+    // bottom
+    if (anchorBounds.bottom < targetBounds.top) {
+      measurements.push({
+        x: anchorBounds.left + (anchorBounds.width / 2),
+        y: anchorBounds.bottom,
+        d: targetBounds.top - anchorBounds.bottom,
+        q: 'bottom',
+        v: true,
+      })
+    }
+    if (anchorBounds.bottom < targetBounds.bottom && anchorBounds.bottom > targetBounds.top) {
+      measurements.push({
+        x: anchorBounds.left + (anchorBounds.width / 2),
+        y: anchorBounds.bottom,
+        d: targetBounds.bottom - anchorBounds.bottom,
+        q: 'bottom',
+        v: true,
+      })
+    }
+
+    // inside left/right
+    if (anchorBounds.right > targetBounds.right && anchorBounds.left < targetBounds.left) {
+      measurements.push({
+        x: targetBounds.right,
+        y: anchorBounds.top + (anchorBounds.height / 2),
+        d: anchorBounds.right - targetBounds.right,
+        q: 'left',
+      })
+      measurements.push({
+        x: anchorBounds.left,
+        y: anchorBounds.top + (anchorBounds.height / 2),
+        d: targetBounds.left - anchorBounds.left,
+        q: 'right',
+      })
+    }
+
+    // inside top/right
+    if (anchorBounds.top < targetBounds.top && anchorBounds.bottom > targetBounds.bottom) {
+      measurements.push({
+        x: anchorBounds.left + (anchorBounds.width / 2),
+        y: anchorBounds.top,
+        d: targetBounds.top - anchorBounds.top,
+        q: 'bottom',
+        v: true,
+      })
+      measurements.push({
+        x: anchorBounds.left + (anchorBounds.width / 2),
+        y: targetBounds.bottom,
+        d: anchorBounds.bottom - targetBounds.bottom,
+        q: 'top',
+        v: true,
+      })
+    }
+
+    // create custom elements for all created measurements
+    measurements
+      .map(measurement => Object.assign(measurement, {
+        d: Math.round(measurement.d.toFixed(1) * 100) / 100
+      }))
+      .forEach(measurement => {
+        const $measurement = document.createElement('pb-distance')
+
+        $measurement.position = {
+          line_model:     measurement,
+          node_label_id:  distances.length,
+        }
+
+        document.body.appendChild($measurement)
+        distances[distances.length] = $measurement
+      })
+
+    observer.unobserve($anchor)
+    observer.unobserve($target)
+  })
+
+  observer.observe($anchor)
+  observer.observe($target)
+}
+
+export function clearMeasurements() {
+  distances.forEach(node =>
+    node.remove())
+  distances = []
+}

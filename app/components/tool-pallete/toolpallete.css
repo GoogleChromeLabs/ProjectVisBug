@@ -2,6 +2,10 @@ body {
   min-height: 100vh;
 }
 
+[data-measuring=true] {
+  cursor: crosshair;
+}
+
 [data-selected=true] {
   transition: all 0.15s ease;
 }

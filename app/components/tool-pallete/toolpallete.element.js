@@ -4,7 +4,7 @@ import styles     from './toolpallete.element.css'
 
 import {
   Handles, Label, Overlay, Gridlines,
-  Hotkeys, Metatip, Ally,
+  Hotkeys, Metatip, Ally, Distance,
 } from '../'
 
 import {

@@ -1,6 +1,8 @@
 :host {
   --theme-bg: hsl(0,0%,100%);
   --theme-color: hotpink;
+  --theme-blue: hsl(188, 90%, 45%);
+  --theme-purple: hsl(267, 100%, 58%);
   --theme-icon_color: hsl(0,0%,20%);
   --theme-icon_hover-bg: hsl(0,0%,95%);
 }
