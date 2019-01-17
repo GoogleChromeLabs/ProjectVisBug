@@ -4,7 +4,7 @@ export class Gridlines extends HTMLElement {
 
   constructor() {
     super()
-    this.$shadow = this.attachShadow({mode: 'open'})
+    this.$shadow = this.attachShadow({mode: 'closed'})
   }
 
   connectedCallback() {}
@@ -70,7 +70,7 @@ export class Gridlines extends HTMLElement {
           left:0;
           overflow:visible;
           pointer-events:none;
-          z-index:9997;
+          z-index:2147483642;
         }
       </style>
     `

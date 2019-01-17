@@ -4,7 +4,7 @@ export class Label extends HTMLElement {
   
   constructor() {
     super()
-    this.$shadow = this.attachShadow({mode: 'open'})
+    this.$shadow = this.attachShadow({mode: 'closed'})
   }
 
   connectedCallback() {
@@ -78,7 +78,7 @@ export class Label extends HTMLElement {
           top: ${top + window.scrollY}px;
           left: ${left - 1}px;
           max-width: ${width + (window.innerWidth - left - width - 20)}px;
-          z-index: 10000;
+          z-index: 2147483645;
           transform: translateY(-100%);
           background: hsl(330, 100%, 71%);
           text-shadow: 0 0.5px 0 hsl(330, 100%, 61%);

@@ -4,7 +4,7 @@ export class Handles extends HTMLElement {
   
   constructor() {
     super()
-    this.$shadow = this.attachShadow({mode: 'open'})
+    this.$shadow = this.attachShadow({mode: 'closed'})
   }
 
   connectedCallback() {
@@ -62,7 +62,7 @@ export class Handles extends HTMLElement {
           left: ${left}px;
           overflow: visible;
           pointer-events: none;
-          z-index: 10010;
+          z-index: 2147483644;
         }
       </style>
     `

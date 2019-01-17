@@ -25,7 +25,7 @@ export class HotkeyMap extends HTMLElement {
       space:  {3:10},
     }
 
-    this.$shadow    = this.attachShadow({mode: 'open'})
+    this.$shadow    = this.attachShadow({mode: 'closed'})
 
     this._hotkey    = ''
     this._usedkeys  = []

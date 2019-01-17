@@ -2,7 +2,7 @@
 
 :host {
   position: absolute;
-  z-index: 99999;
+  z-index: 2147483647;
   direction: ltr;
   font-size: 16px;
   font-family: system-ui;

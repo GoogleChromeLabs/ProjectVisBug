@@ -1,6 +1,25 @@
 import $ from 'blingblingjs'
 import { nodeKey } from './strings'
 
+export const deepElementFromPoint = (x, y) => {
+  const el = document.elementFromPoint(x, y)
+
+  const crawlShadows = node => {
+    if (node.shadowRoot) {
+      const potential = node.shadowRoot.elementFromPoint(x, y)
+
+      if (potential == node)          return node
+      else if (potential.shadowRoot)  return crawlShadows(potential)
+      else                            return potential
+    }
+    else return node
+  }
+
+  const nested_shadow = crawlShadows(el)
+
+  return nested_shadow || el
+}
+
 export const getSide = direction => {
   let start = direction.split('+').pop().replace(/^\w/, c => c.toUpperCase())
   if (start == 'Up') start = 'Top'
@@ -58,12 +77,12 @@ export const htmlStringToDom = (htmlString = "") =>
     .body.firstChild
 
 export const isOffBounds = node =>
-  node.closest &&
-  (node.closest('tool-pallete') 
-  || node.closest('hotkey-map')
-  || node.closest('pb-metatip')
-  || node.closest('pb-ally')
-  || node.closest('pb-label')
-  || node.closest('pb-handles')
-  || node.closest('pb-gridlines')
+  node.closest && (
+       node.closest('tool-pallete') 
+    || node.closest('hotkey-map')
+    || node.closest('pb-metatip')
+    || node.closest('pb-ally')
+    || node.closest('pb-label')
+    || node.closest('pb-handles')
+    || node.closest('pb-gridlines')
   )
