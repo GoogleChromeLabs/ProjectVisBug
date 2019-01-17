@@ -37,12 +37,23 @@ export function HueShift(Color) {
       : changeHue($('[data-selected=true]'), keys, 'h', Color)
   })
 
-  hotkeys('[,]', (e, handler) => {
+  hotkeys(']', (e, handler) => {
+    e.preventDefault()
+
+    if (this.active_color == 'foreground')
+      this.active_color = 'background'
+    else if (this.active_color == 'background')
+      this.active_color = 'border'
+
+    Color.setActive(this.active_color)
+  })
+
+  hotkeys('[', (e, handler) => {
     e.preventDefault()
 
     if (this.active_color == 'background')
       this.active_color = 'foreground'
-    else if (this.active_color == 'foreground')
+    else if (this.active_color == 'border')
       this.active_color = 'background'
 
     Color.setActive(this.active_color)
@@ -67,7 +78,7 @@ export function changeHue(els, direction, prop, Color) {
   els
     .map(el => showHideSelected(el))
     .map(el => {
-      const { foreground, background } = extractPalleteColors(el)
+      const { foreground, background, border } = extractPalleteColors(el)
 
       // todo: teach hueshift to do handle color
       switch(Color.getActive()) {
@@ -75,6 +86,10 @@ export function changeHue(els, direction, prop, Color) {
           return { el, current: background.color.toHsl(), style: background.style }
         case 'foreground':
           return { el, current: foreground.color.toHsl(), style: foreground.style }
+        case 'border': {
+          if (el.style.border === '') el.style.border = '1px solid black'
+          return { el, current: border.color.toHsl(), style: border.style }
+        }
       }
     })
     .map(payload =>
@@ -120,6 +135,10 @@ export function extractPalleteColors(el) {
       background: {
         style: 'fill',
         color: new TinyColor(getStyle(el, 'fill')),
+      },
+      border: {
+        style: 'outline',
+        color: new TinyColor(getStyle(el, 'outline')),
       }
     }
   }
@@ -132,6 +151,10 @@ export function extractPalleteColors(el) {
       background: {
         style: 'backgroundColor',
         color: new TinyColor(getStyle(el, 'backgroundColor')),
+      },
+      border: {
+        style: 'borderColor',
+        color: new TinyColor(getStyle(el, 'borderColor')),
       }
     }
 }
