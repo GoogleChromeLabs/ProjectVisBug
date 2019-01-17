@@ -46,3 +46,15 @@ export const getComputedBackgroundColor = el => {
 
   return background
 }
+
+export const loadStyles = async stylesheets => {
+  const fetches = await Promise.all(stylesheets.map(url => fetch(url)))
+  const texts   = await Promise.all(fetches.map(url => url.text()))
+  const style   = document.createElement('style')
+
+  style.textContent = texts.reduce((styles, fileContents) => 
+    styles + fileContents
+  , '')
+
+  document.head.appendChild(style)
+}

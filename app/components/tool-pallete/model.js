@@ -240,7 +240,7 @@ export const ToolModel = {
     tool:        'search',
     icon:        Icons.search,
     label:       'Search',
-    description: 'Select elements by searching for them',
+    description: 'Select elements programatically by searching for them or use built in plugins with special commands',
     instruction: '',
   },
 }

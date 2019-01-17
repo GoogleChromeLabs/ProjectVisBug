@@ -1,12 +1,26 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
+import { PluginRegistry, PluginHints } from '../plugins/_registry'
 
 let SelectorEngine
 
 // create input
 const search_base = document.createElement('div')
 search_base.classList.add('search')
-search_base.innerHTML = `<input type="text" placeholder="ex: images, .btn, button, text, ..."/>`
+search_base.innerHTML = `
+  <input list="visbug-plugins" type="text" placeholder="ex: images, .btn, button, text, ..."/>
+  <datalist id="visbug-plugins">
+    ${PluginHints.reduce((options, command) => 
+      options += `<option value="${command}">plugin</option>`
+    , '')}
+    <option value="h1, h2, h3, .get-multiple">example</option>
+    <option value="nav > a:first-child">example</option>
+    <option value="#get-by-id">example</option>
+    <option value=".get-by.class-names">example</option>
+    <option value="images">alias</option>
+    <option value="text">alias</option>
+  </datalist>
+`
 
 const search        = $(search_base)
 const searchInput   = $('input', search_base)
@@ -53,6 +67,10 @@ export function provideSelectorEngine(Engine) {
 }
 
 export function queryPage(query, fn) {
+  // todo: should stash a cleanup method to be called when query doesnt match
+  if (PluginRegistry.has(query)) 
+    return PluginRegistry.get(query)(query)
+
   if (query == 'links')     query = 'a'
   if (query == 'buttons')   query = 'button'
   if (query == 'images')    query = 'img'
