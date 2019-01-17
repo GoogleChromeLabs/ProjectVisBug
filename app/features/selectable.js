@@ -14,6 +14,7 @@ export function Selectable() {
   let selected            = []
   let selectedCallbacks   = []
   let labels              = []
+  let hovers              = []
   let handles             = []
 
   const listen = () => {
@@ -21,7 +22,7 @@ export function Selectable() {
     elements.forEach(el => el.addEventListener('dblclick', on_dblclick, true))
     elements.on('selectstart', on_selection)
     elements.on('mousemove', on_hover)
-    elements.on('mouseout', on_hoverout)
+    elements.on('mouseover', on_hover)
 
     document.addEventListener('copy', on_copy)
     document.addEventListener('cut', on_cut)
@@ -45,7 +46,7 @@ export function Selectable() {
     elements.forEach(el => el.removeEventListener('dblclick', on_dblclick, true))
     elements.off('selectstart', on_selection)
     elements.off('mousemove', on_hover)
-    elements.off('mouseout', on_hoverout)
+    elements.off('mouseover', on_hover)
 
     document.removeEventListener('copy', on_copy)
     document.removeEventListener('cut', on_cut)
@@ -72,7 +73,7 @@ export function Selectable() {
 
   const unselect = id => {
 
-    [...labels, ...handles]
+    [...labels, ...handles, ...hovers]
       .filter(node =>
           node.getAttribute('data-label-id') === id)
         .forEach(node =>
@@ -105,7 +106,7 @@ export function Selectable() {
 
     document.onkeydown = function(e) {
       if (hotkeys.ctrl && selected.length) {
-        $('pb-handles, pb-label').forEach(el =>
+        $('pb-handles, pb-label, pb-hovers').forEach(el =>
           el.style.display = 'none')
 
         did_hide = true
@@ -114,7 +115,7 @@ export function Selectable() {
 
     document.onkeyup = function(e) {
       if (did_hide) {
-        $('pb-handles, pb-label').forEach(el =>
+        $('pb-handles, pb-label, pb-hovers').forEach(el =>
           el.style.display = null)
 
         did_hide = false
@@ -271,11 +272,7 @@ export function Selectable() {
   const on_hover = e => {
     const target = deepElementFromPoint(e.clientX, e.clientY)
     if (isOffBounds(target)) return
-    target.setAttribute('data-hover', true)
-  }
-
-  const on_hoverout = ({target}) => {
-    target.removeAttribute('data-hover')
+    overlayHoverUI(target)
   }
 
   const select = el => {
@@ -295,14 +292,12 @@ export function Selectable() {
           'data-hover':         null,
         }))
 
-    handles.forEach(el =>
-      el.remove())
-
-    labels.forEach(el =>
+    Array.from([...handles, ...labels, ...hovers]).forEach(el =>
       el.remove())
 
     labels    = []
     handles   = []
+    hovers    = []
     selected  = []
   }
 
@@ -313,10 +308,11 @@ export function Selectable() {
       else if (el.parentNode)   return el.parentNode
     })
 
-    Array.from([...selected, ...labels, ...handles]).forEach(el =>
+    Array.from([...selected, ...labels, ...handles, ...hovers]).forEach(el =>
       el.remove())
 
     labels    = []
+    hovers    = []
     handles   = []
     selected  = []
 
@@ -353,6 +349,15 @@ export function Selectable() {
 
   const combineNodeNameAndClass = node =>
     `${node.nodeName.toLowerCase()}${createClassname(node)}`
+
+  const overlayHoverUI = el => {
+    let hover = createHover(el)
+
+    $(el).on('mouseout', e =>{
+      hover && hover.remove()
+      e.target.removeEventListener(e.type, arguments.callee)
+    })
+  }
 
   const overlayMetaUI = el => {
     let handle = createHandle(el)
@@ -434,6 +439,22 @@ export function Selectable() {
 
       handles[handles.length] = handle
       return handle
+    }
+  }
+
+  const createHover = el => {
+    if (!hovers[parseInt(el.getAttribute('data-label-id'))]) {
+      const hover = document.createElement('pb-hovers')
+
+      hover.position = {
+        boundingRect:   el.getBoundingClientRect(),
+        node_label_id:  hovers.length,
+      }
+
+      document.body.appendChild(hover)
+
+      hovers[hovers.length] = hover
+      return hover
     }
   }
 

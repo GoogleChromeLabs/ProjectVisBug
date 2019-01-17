@@ -2,10 +2,6 @@ body {
   min-height: 100vh;
 }
 
-[data-hover=true] {
-  outline: 1px dashed hsla(330, 80%, 71%, 50%);
-}
-
 [data-selected=true] {
   transition: all 0.15s ease;
 }
