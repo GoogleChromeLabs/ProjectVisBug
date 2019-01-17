@@ -78,7 +78,7 @@ export class Label extends HTMLElement {
           top: ${top + window.scrollY}px;
           left: ${left - 1}px;
           max-width: ${width + (window.innerWidth - left - width - 20)}px;
-          z-index: 2147483645;
+          z-index: 2147483643;
           transform: translateY(-100%);
           background: hsl(330, 100%, 71%);
           text-shadow: 0 0.5px 0 hsl(330, 100%, 61%);
