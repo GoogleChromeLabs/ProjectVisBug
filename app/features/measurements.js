@@ -2,10 +2,16 @@ let distances = []
 
 export function createMeasurements({$anchor, $target}) {
   const observer = new IntersectionObserver(([anchor, target], observer) => {
+    if (!target || !target.boundingClientRect || !anchor || !anchor.boundingClientRect) { 
+      observer.unobserve($anchor)
+      observer.unobserve($target)
+      return
+    }
+
     const anchorBounds = anchor.boundingClientRect
     const targetBounds = target.boundingClientRect
 
-    if (!target || distances[parseInt(anchor.target.getAttribute('data-label-id'))]) 
+    if (distances[parseInt(anchor.target.getAttribute('data-label-id'))]) 
       return
 
     const measurements = []
