@@ -28,14 +28,14 @@
   },
   "devDependencies": {
     "browser-sync": "^2.26.3",
-    "concurrently": "^3.5.1",
-    "postcss": "^6.0.22",
-    "postcss-cli": "^5.0.1",
-    "postcss-import": "^11.1.0",
-    "postcss-loader": "^2.1.5",
-    "postcss-preset-env": "^6.0.7",
-    "rollup": "^0.60.7",
-    "rollup-plugin-node-resolve": "^3.3.0",
-    "rollup-plugin-postcss": "^1.6.2"
+    "concurrently": "^4.1.0",
+    "postcss": "^7.0.7",
+    "postcss-cli": "^6.1.1",
+    "postcss-import": "^12.0.1",
+    "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^6.5.0",
+    "rollup": "^1.0.1",
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-postcss": "^1.6.3"
   }
 }
