@@ -1,4 +1,3 @@
-import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { metaKey, getStyle } from '../utilities/'
 
@@ -11,13 +10,13 @@ const key_events = 'up,down,left,right'
 
 const command_events = `${metaKey}+up,${metaKey}+down,${metaKey}+left,${metaKey}+right`
 
-export function Flex(selector) {
+export function Flex({selection}) {
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
 
     e.preventDefault()
 
-    let selectedNodes = $(selector)
+    let selectedNodes = selection()
       , keys = handler.key.split('+')
 
     if (keys.includes('left') || keys.includes('right'))
@@ -33,7 +32,7 @@ export function Flex(selector) {
   hotkeys(command_events, (e, handler) => {
     e.preventDefault()
 
-    let selectedNodes = $(selector)
+    let selectedNodes = selection()
       , keys = handler.key.split('+')
 
     changeDirection(selectedNodes, keys.includes('left') ? 'row' : 'column')

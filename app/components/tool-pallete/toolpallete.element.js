@@ -142,19 +142,19 @@ export default class ToolPallete extends HTMLElement {
   }
 
   move() {
-    this.deactivate_feature = Moveable('[data-selected=true]')
+    this.deactivate_feature = Moveable(this.selectorEngine)
   }
 
   margin() {
-    this.deactivate_feature = Margin('[data-selected=true]')
+    this.deactivate_feature = Margin(this.selectorEngine)
   }
 
   padding() {
-    this.deactivate_feature = Padding('[data-selected=true]')
+    this.deactivate_feature = Padding(this.selectorEngine)
   }
 
   font() {
-    this.deactivate_feature = Font('[data-selected=true]')
+    this.deactivate_feature = Font(this.selectorEngine)
   }
 
   text() {
@@ -164,7 +164,7 @@ export default class ToolPallete extends HTMLElement {
   }
 
   align() {
-    this.deactivate_feature = Flex('[data-selected=true]')
+    this.deactivate_feature = Flex(this.selectorEngine)
   }
 
   search() {
@@ -172,7 +172,7 @@ export default class ToolPallete extends HTMLElement {
   }
 
   boxshadow() {
-    this.deactivate_feature = BoxShadow('[data-selected=true]')
+    this.deactivate_feature = BoxShadow(this.selectorEngine)
   }
 
   hueshift() {

@@ -1,4 +1,3 @@
-import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { metaKey, getStyle, getSide, showHideSelected } from '../utilities/'
 
@@ -12,17 +11,17 @@ const key_events = 'up,down,left,right'
 
 const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down`
 
-export function Padding(selector) {
+export function Padding({selection}) {
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
 
     e.preventDefault()
-    padElement($(selector), handler.key)
+    padElement(selection(), handler.key)
   })
 
   hotkeys(command_events, (e, handler) => {
     e.preventDefault()
-    padAllElementSides($(selector), handler.key)
+    padAllElementSides(selection(), handler.key)
   })
 
   return () => {

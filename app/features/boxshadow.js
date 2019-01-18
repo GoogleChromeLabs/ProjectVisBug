@@ -1,4 +1,3 @@
-import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { metaKey, getStyle, showHideSelected } from '../utilities/'
 
@@ -11,13 +10,13 @@ const key_events = 'up,down,left,right'
 
 const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down,${metaKey}+left,${metaKey}+shift+left,${metaKey}+right,${metaKey}+shift+right`
 
-export function BoxShadow(selector) {
+export function BoxShadow({selection}) {
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
 
     e.preventDefault()
 
-    let selectedNodes = $(selector)
+    let selectedNodes = selection()
       , keys = handler.key.split('+')
 
     if (keys.includes('left') || keys.includes('right'))
@@ -34,8 +33,8 @@ export function BoxShadow(selector) {
     e.preventDefault()
     let keys = handler.key.split('+')
     keys.includes('left') || keys.includes('right')
-      ? changeBoxShadow($(selector), keys, 'opacity')
-      : changeBoxShadow($(selector), keys, 'inset')
+      ? changeBoxShadow(selection(), keys, 'opacity')
+      : changeBoxShadow(selection(), keys, 'inset')
   })
 
   return () => {

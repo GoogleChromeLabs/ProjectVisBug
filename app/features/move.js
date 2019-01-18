@@ -1,18 +1,17 @@
-import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { getNodeIndex, showEdge } from '../utilities/'
 
 const key_events = 'up,down,left,right'
 // todo: indicator for when node can descend
 // todo: indicator where left and right will go
-export function Moveable(selector) {
+export function Moveable({selection}) {
   hotkeys(key_events, (e, {key}) => {
     if (e.cancelBubble) return
       
     e.preventDefault()
     e.stopPropagation()
     
-    $(selector).forEach(el => {
+    selection().forEach(el => {
       moveElement(el, key)
       updateFeedback(el)
     })

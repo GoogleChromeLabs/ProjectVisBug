@@ -1,4 +1,3 @@
-import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { metaKey, getStyle, showHideSelected } from '../utilities/'
 
@@ -11,13 +10,13 @@ const key_events = 'up,down,left,right'
 
 const command_events = `${metaKey}+up,${metaKey}+down`
 
-export function Font(selector) {
+export function Font({selection}) {
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
 
     e.preventDefault()
 
-    let selectedNodes = $(selector)
+    let selectedNodes = selection()
       , keys = handler.key.split('+')
 
     if (keys.includes('left') || keys.includes('right'))
@@ -33,11 +32,11 @@ export function Font(selector) {
   hotkeys(command_events, (e, handler) => {
     e.preventDefault()
     let keys = handler.key.split('+')
-    changeFontWeight($(selector), keys.includes('up') ? 'up' : 'down')
+    changeFontWeight(selection(), keys.includes('up') ? 'up' : 'down')
   })
 
   hotkeys('cmd+b', e => {
-    $(selector).forEach(el =>
+    selection().forEach(el =>
       el.style.fontWeight =
         el.style.fontWeight == 'bold'
           ? null
@@ -45,7 +44,7 @@ export function Font(selector) {
   })
 
   hotkeys('cmd+i', e => {
-    $(selector).forEach(el =>
+    selection().forEach(el =>
       el.style.fontStyle =
         el.style.fontStyle == 'italic'
           ? null

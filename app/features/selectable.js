@@ -60,23 +60,22 @@ export function Selectable() {
   }
 
   const on_click = e => {
-    const target = deepElementFromPoint(e.clientX, e.clientY)
+    const $target = deepElementFromPoint(e.clientX, e.clientY)
 
-    if (isOffBounds(target) && !selected.filter(el => el == target).length)
+    if (isOffBounds($target) && !selected.filter(el => el == $target).length)
       return
 
     e.preventDefault()
     if (!e.altKey) e.stopPropagation()
     if (!e.shiftKey) unselect_all()
 
-    if(e.shiftKey && target.hasAttribute('data-label-id'))
-      unselect(target.getAttribute('data-label-id'))
+    if(e.shiftKey && $target.hasAttribute('data-label-id'))
+      unselect($target.getAttribute('data-label-id'))
     else
-    select(target)
+      select($target)
   }
 
   const unselect = id => {
-
     [...labels, ...handles, ...hovers]
       .filter(node =>
           node.getAttribute('data-label-id') === id)
@@ -308,6 +307,9 @@ export function Selectable() {
     tellWatchers()
   }
 
+  const selection = () => 
+    selected
+
   const unselect_all = () => {
     selected
       .forEach(el =>
@@ -518,9 +520,10 @@ export function Selectable() {
 
   return {
     select,
+    selection,
     unselect_all,
     onSelectedUpdate,
     removeSelectedCallback,
-    disconnect
+    disconnect,
   }
 }
