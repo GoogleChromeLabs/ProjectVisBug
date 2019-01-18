@@ -14,12 +14,7 @@ body {
   display: none;
 }
 
-[data-selected-hide=true] {
-  outline: none;
-}
-
 [data-selected=true][contenteditable=true] {
-  outline: none;
   caret-color: hotpink;
 }
 
