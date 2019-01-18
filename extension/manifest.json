@@ -1,6 +1,6 @@
 {
   "name": "VisBug",
-  "version": "0.1.18",
+  "version": "0.2.0",
   "description": "Open source browser design tools",
   "manifest_version": 2,
   "icons": { "128": "icons/visbug.png" },
