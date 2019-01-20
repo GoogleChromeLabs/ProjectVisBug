@@ -5,6 +5,8 @@ import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
 import { queryPage } from './search'
 import { createMeasurements, clearMeasurements } from './measurements'
+import { showTip as showMetaTip, removeAll as removeAllMetaTips } from './metatip'
+import { showTip as showAccessibilityTip, removeAll as removeAllAccessibilityTips } from './accessibility'
 
 import { 
   metaKey, htmlStringToDom, createClassname, 
@@ -249,28 +251,64 @@ export function Selectable() {
     e.preventDefault()
     e.stopPropagation()
 
-    const current = selected[0]
+    const [current] = selected
 
     if (key.includes('shift')) {
-      if (key.includes('tab') && canMoveLeft(current)) {
+      const element_to_left     = canMoveLeft(current)
+      const has_parent_element  = canMoveUp(current)
+
+      if (key.includes('tab') && element_to_left) {
         unselect_all()
-        select(canMoveLeft(current))
+        select(element_to_left)
+        show_tip(element_to_left)
       }
-      if (key.includes('enter') && canMoveUp(current)) {
+      if (key.includes('enter') && has_parent_element) {
         unselect_all()
         select(current.parentNode)
+        show_tip(current.parentNode)
       }
     }
     else {
-      if (key.includes('tab') && canMoveRight(current)) {
+      const element_to_right    = canMoveRight(current)
+      const has_child_elements  = current.children.length
+
+      if (key.includes('tab') && element_to_right) {
         unselect_all()
-        select(canMoveRight(current))
+        select(element_to_right)
+        show_tip(element_to_right)
       }
-      if (key.includes('enter') && current.children.length) {
+      if (key.includes('enter') && has_child_elements) {
         unselect_all()
         select(current.children[0])
+        show_tip(current.children[0])
       }
     }
+  }
+
+  const show_tip = el => {
+    const active_tool = $('tool-pallete')[0].activeTool
+    let tipFactory
+
+    if (active_tool === 'accessibility') {
+      removeAllAccessibilityTips()
+      tipFactory = showAccessibilityTip
+    }
+    else if (active_tool === 'inspector') {
+      removeAllMetaTips()
+      tipFactory = showMetaTip
+    }
+
+    if (!tipFactory) return
+
+    const {top, left} = el.getBoundingClientRect()
+    const { pageYOffset, pageXOffset } = window
+
+    tipFactory(el, {
+      clientY:  top,
+      clientX:  left,
+      pageY:    pageYOffset + top - 10,
+      pageX:    pageXOffset + left + 20,
+    })
   }
 
   const on_hover = e => {
