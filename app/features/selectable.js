@@ -247,42 +247,43 @@ export function Selectable() {
     && e.preventDefault()
 
   const on_keyboard_traversal = (e, {key}) => {
-    if (selected.length !== 1) return
+    if (!selected.length) return
 
     e.preventDefault()
     e.stopPropagation()
 
-    const [current] = selected
+    const targets = selected.reduce((flat, node) => {
+      const element_to_left     = canMoveLeft(node)
+      const element_to_right    = canMoveRight(node)
+      const has_parent_element  = canMoveUp(node)
+      const has_child_elements  = node.children.length
 
-    if (key.includes('shift')) {
-      const element_to_left     = canMoveLeft(current)
-      const has_parent_element  = canMoveUp(current)
+      if (key.includes('shift')) {
+        if (key.includes('tab') && element_to_left)
+          flat.push(element_to_left)
+        else if (key.includes('enter') && has_parent_element)
+          flat.push(node.parentNode)
+        else
+          flat.push(node)
+      }
+      else {
+        if (key.includes('tab') && element_to_right)
+          flat.push(element_to_right)
+        else if (key.includes('enter') && has_child_elements)
+          flat.push(node.children[0])
+        else
+          flat.push(node)
+      }
 
-      if (key.includes('tab') && element_to_left) {
-        unselect_all()
-        select(element_to_left)
-        show_tip(element_to_left)
-      }
-      if (key.includes('enter') && has_parent_element) {
-        unselect_all()
-        select(current.parentNode)
-        show_tip(current.parentNode)
-      }
-    }
-    else {
-      const element_to_right    = canMoveRight(current)
-      const has_child_elements  = current.children.length
+      return flat
+    }, [])
 
-      if (key.includes('tab') && element_to_right) {
-        unselect_all()
-        select(element_to_right)
-        show_tip(element_to_right)
-      }
-      if (key.includes('enter') && has_child_elements) {
-        unselect_all()
-        select(current.children[0])
-        show_tip(current.children[0])
-      }
+    if (targets.length) {
+      unselect_all()
+      targets.forEach(node => {
+        select(node)
+        show_tip(node)
+      })
     }
   }
 
@@ -555,7 +556,7 @@ export function Selectable() {
   }
 
   const on_select_children = (e, {key}) => {
-    targets = selected
+    const targets = selected
       .filter(node => node.children.length)
       .reduce((flat, {children}) => 
         [...flat, ...Array.from(children)], [])
