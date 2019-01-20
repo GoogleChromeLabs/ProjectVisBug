@@ -16,6 +16,8 @@ export function Accessibility() {
 
   // restore any pinned & hidden due to tool change
   for (const {tip,e} of tip_map.values()) {
+    if (!e.target) continue
+      
     tip.style.display = 'block'
     tip.innerHTML = template(e.target).innerHTML
     tip.on('mouseout', mouseOut)
@@ -94,7 +96,7 @@ export function removeAll() {
   for (const {tip} of tip_map.values()) {
     try { tip.remove() }
     catch (err) {}
-    
+
     $(tip).off('mouseout DOMNodeRemoved', mouseOut)
     $(tip).off('click', togglePinned)
   }

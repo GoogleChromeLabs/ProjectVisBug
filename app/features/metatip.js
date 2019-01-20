@@ -15,6 +15,8 @@ export function MetaTip(selectorEngine) {
   hotkeys('esc', _ => removeAll())
 
   for (const {tip,e} of tip_map.values()) {
+    if (!e.target) continue
+      
     tip.style.display = 'block'
     tip.innerHTML = template(e.target).innerHTML
     tip.on('mouseout', mouseOut)
@@ -97,6 +99,7 @@ export function removeAll() {
   for (const {tip} of tip_map.values()) {
     try { tip.remove() }
     catch (err) {}
+
     $(tip).off('mouseout DOMNodeRemoved', mouseOut)
     $(tip).off('click', togglePinned)
     $('a', tip).off('click', linkQueryClicked)
