@@ -562,6 +562,9 @@ export function Selectable() {
         [...flat, ...Array.from(children)], [])
     
     if (targets.length) {
+      e.preventDefault()
+      e.stopPropagation()
+      
       unselect_all()
       targets.forEach(node => select(node))
     }
