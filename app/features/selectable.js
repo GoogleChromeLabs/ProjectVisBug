@@ -44,6 +44,7 @@ export function Selectable() {
     hotkeys(`${metaKey}+e,${metaKey}+shift+e`, on_expand_selection)
     hotkeys(`${metaKey}+g,${metaKey}+shift+g`, on_group)
     hotkeys('tab,shift+tab,enter,shift+enter', on_keyboard_traversal)
+    hotkeys(`${metaKey}+shift+enter`, on_select_children)
   }
 
   const unlisten = () => {
@@ -551,6 +552,18 @@ export function Selectable() {
   const disconnect = () => {
     unselect_all()
     unlisten()
+  }
+
+  const on_select_children = (e, {key}) => {
+    targets = selected
+      .filter(node => node.children.length)
+      .reduce((flat, {children}) => 
+        [...flat, ...Array.from(children)], [])
+    
+    if (targets.length) {
+      unselect_all()
+      targets.forEach(node => select(node))
+    }
   }
 
   watchImagesForUpload()
