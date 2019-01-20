@@ -32,6 +32,7 @@ export const desiredAccessibilityMap = [
   'for',
   'alt',
   'title',
+  'type',
 ]
 
 export const largeWCAG2TextMap = [
