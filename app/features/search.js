@@ -30,15 +30,9 @@ export function Search(node) {
 
   searchInput.on('input', onQuery)
   searchInput.on('keydown', stopBubbling)
-  // searchInput.on('blur', hideSearchBar)
 
   showSearchBar()
   searchInput[0].focus()
-
-  // hotkeys('escape,esc', (e, handler) => {
-  //   hideSearchBar()
-  //   hotkeys.unbind('escape,esc')
-  // })
 
   return () => {
     hideSearchBar()

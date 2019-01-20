@@ -53,12 +53,6 @@ export const ToolModel = {
                     </div>
                   </div>`,
   },
-  // r: {
-  //   tool:        'resize',
-  //   icon:        Icons.resize,
-  //   label:       'Resize',
-  //   description: ''
-  // },
   m: {
     tool:        'margin',
     icon:        Icons.margin,
@@ -99,12 +93,6 @@ export const ToolModel = {
                     </div>
                   </div>`
   },
-  // b: {
-  //   tool:        'border',
-  //   icon:        Icons.border,
-  //   label:       'Border',
-  //   description: ''
-  // },
   a: {
     tool:        'align',
     icon:        Icons.align,
@@ -173,12 +161,6 @@ export const ToolModel = {
                     </div>
                   </div>`,
   },
-  // t: {
-  //   tool:        'transform',
-  //   icon:        Icons.transform,
-  //   label:       '3D Transform',
-  //   description: ''
-  // },
   l: {
     tool:        'position',
     icon:        Icons.position,
@@ -230,12 +212,6 @@ export const ToolModel = {
     description: 'Change any text on the page with a <b>double click</b>',
     instruction: '',
   },
-  // c: {
-  //   tool:        'screenshot',
-  //   icon:        Icons.camera,
-  //   label:       'Screenshot',
-  //   description: 'Screenshot selected elements or the entire page'
-  // },
   s: {
     tool:        'search',
     icon:        Icons.search,

@@ -110,7 +110,6 @@ const findBackgroundImages = el => {
     const prop = getStyle(node, 'background-image')
     const match = src_regex.exec(prop)
 
-    // if (match) collection.push(match[1])
     if (match) collection.push(node)
 
     return collection
