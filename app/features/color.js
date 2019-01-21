@@ -65,8 +65,8 @@ export function ColorPicker(pallete, selectorEngine) {
       let bo = BO.toHexString()
 
       isMeaningfulForeground = FG.originalInput !== 'rgb(0, 0, 0)' || (el.children.length === 0 && el.textContent !== '')
-      isMeaningfulBackground = BG.originalInput !== 'rgba(0, 0, 0, 0)' 
-      isMeaningfulBorder     = BO.originalInput !== 'rgb(0, 0, 0)' 
+      isMeaningfulBackground = BG.originalInput !== 'rgba(0, 0, 0, 0)'
+      isMeaningfulBorder     = BO.originalInput !== 'rgb(0, 0, 0)'
 
       if (isMeaningfulForeground && !isMeaningfulBackground)
         setActive('foreground')
@@ -80,7 +80,7 @@ export function ColorPicker(pallete, selectorEngine) {
       fgInput.attr('value', new_fg)
       bgInput.attr('value', new_bg)
       boInput.attr('value', new_bo)
-      
+
       foregroundPicker.attr('style', `
         --contextual_color: ${new_fg};
         display: ${isMeaningfulForeground || meaningfulDontMatter ? 'inline-flex' : 'none'};
@@ -100,17 +100,17 @@ export function ColorPicker(pallete, selectorEngine) {
       // show all 3 if they've selected more than 1 node
       // todo: this is giving up, and can be solved
       foregroundPicker.attr('style', `
-        box-shadow: ${this.active_color == 'foreground' ? '0 0 0 2px hotpink' : 'none'};
+        box-shadow: ${this.active_color == 'foreground' ? '0 0 0 2px hotpink' : '0 0.25em 0.5em hsla(0,0%,0%,10%)'};
         display: inline-flex;
       `)
 
       backgroundPicker.attr('style', `
-        box-shadow: ${this.active_color == 'background' ? '0 0 0 2px hotpink' : 'none'};
+        box-shadow: ${this.active_color == 'background' ? '0 0 0 2px hotpink' : '0 0.25em 0.5em hsla(0,0%,0%,10%)'};
         display: inline-flex;
       `)
 
       borderPicker.attr('style', `
-        box-shadow: ${this.active_color == 'border' ? '0 0 0 2px hotpink' : 'none'};
+        box-shadow: ${this.active_color == 'border' ? '0 0 0 2px hotpink' : '0 0.25em 0.5em hsla(0,0%,0%,10%)'};
         display: inline-flex;
       `)
     }
@@ -138,9 +138,9 @@ export function ColorPicker(pallete, selectorEngine) {
   return {
     getActive,
     setActive,
-    foreground: { color: color => 
+    foreground: { color: color =>
       foregroundPicker[0].style.setProperty('--contextual_color', color)},
-    background: { color: color => 
+    background: { color: color =>
       backgroundPicker[0].style.setProperty('--contextual_color', color)}
   }
 }
