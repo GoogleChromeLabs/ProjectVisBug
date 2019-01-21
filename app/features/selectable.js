@@ -8,9 +8,9 @@ import { createMeasurements, clearMeasurements } from './measurements'
 import { showTip as showMetaTip, removeAll as removeAllMetaTips } from './metatip'
 import { showTip as showAccessibilityTip, removeAll as removeAllAccessibilityTips } from './accessibility'
 
-import { 
-  metaKey, htmlStringToDom, createClassname, 
-  isOffBounds, getStyles, deepElementFromPoint 
+import {
+  metaKey, htmlStringToDom, createClassname,
+  isOffBounds, getStyles, deepElementFromPoint
 } from '../utilities/'
 
 export function Selectable() {
@@ -252,7 +252,7 @@ export function Selectable() {
     e.preventDefault()
     e.stopPropagation()
 
-    const targets = selected.reduce((flat, node) => {
+    const targets = selected.reduce((flat_n_unique, node) => {
       const element_to_left     = canMoveLeft(node)
       const element_to_right    = canMoveRight(node)
       const has_parent_element  = canMoveUp(node)
@@ -260,25 +260,25 @@ export function Selectable() {
 
       if (key.includes('shift')) {
         if (key.includes('tab') && element_to_left)
-          flat.push(element_to_left)
+          flat_n_unique.add(element_to_left)
         else if (key.includes('enter') && has_parent_element)
-          flat.push(node.parentNode)
+          flat_n_unique.add(node.parentNode)
         else
-          flat.push(node)
+          flat_n_unique.add(node)
       }
       else {
         if (key.includes('tab') && element_to_right)
-          flat.push(element_to_right)
+          flat_n_unique.add(element_to_right)
         else if (key.includes('enter') && has_child_elements)
-          flat.push(node.children[0])
+          flat_n_unique.add(node.children[0])
         else
-          flat.push(node)
+          flat_n_unique.add(node)
       }
 
-      return flat
-    }, [])
+      return flat_n_unique
+    }, new Set())
 
-    if (targets.length) {
+    if (targets.size) {
       unselect_all()
       targets.forEach(node => {
         select(node)
@@ -347,7 +347,7 @@ export function Selectable() {
     tellWatchers()
   }
 
-  const selection = () => 
+  const selection = () =>
     selected
 
   const unselect_all = () => {
@@ -558,13 +558,13 @@ export function Selectable() {
   const on_select_children = (e, {key}) => {
     const targets = selected
       .filter(node => node.children.length)
-      .reduce((flat, {children}) => 
+      .reduce((flat, {children}) =>
         [...flat, ...Array.from(children)], [])
-    
+
     if (targets.length) {
       e.preventDefault()
       e.stopPropagation()
-      
+
       unselect_all()
       targets.forEach(node => select(node))
     }
