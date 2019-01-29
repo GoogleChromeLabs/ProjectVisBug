@@ -100,7 +100,7 @@ export function Selectable() {
 
     document.onkeydown = function(e) {
       if (hotkeys.ctrl && selected.length) {
-        $('pb-handles, pb-label').forEach(el =>
+        $('visbug-handles, visbug-label').forEach(el =>
           el.style.display = 'none')
 
         did_hide = true
@@ -109,7 +109,7 @@ export function Selectable() {
 
     document.onkeyup = function(e) {
       if (did_hide) {
-        $('pb-handles, pb-label').forEach(el =>
+        $('visbug-handles, visbug-label').forEach(el =>
           el.style.display = null)
 
         did_hide = false
@@ -379,7 +379,7 @@ export function Selectable() {
 
   const createLabel = (el, text) => {
     if (!labels[parseInt(el.getAttribute('data-label-id'))]) {
-      const label = document.createElement('pb-label')
+      const label = document.createElement('visbug-label')
 
       label.text = text
       label.position = {
@@ -417,7 +417,7 @@ export function Selectable() {
 
   const createHandle = el => {
     if (!handles[parseInt(el.getAttribute('data-label-id'))]) {
-      const handle = document.createElement('pb-handles')
+      const handle = document.createElement('visbug-handles')
 
       handle.position = {
         boundingRect:   el.getBoundingClientRect(),

@@ -64,4 +64,4 @@ export class Hotkeys extends HTMLElement {
   }
 }
 
-customElements.define('pb-hotkeys', Hotkeys)
+customElements.define('visbug-hotkeys', Hotkeys)

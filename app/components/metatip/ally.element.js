@@ -23,4 +23,4 @@ export class Ally extends Metatip {
   }
 }
 
-customElements.define('pb-ally', Ally)
+customElements.define('visbug-ally', Ally)

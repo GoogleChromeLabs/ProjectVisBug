@@ -47,8 +47,8 @@ export function MetaTip(selectorEngine) {
       el.getAttribute('style') && el.getAttribute('style').includes(style.prop)
         ? 0
         : 1)
-    
-    let tip = document.createElement('pb-metatip')
+
+    let tip = document.createElement('visbug-metatip')
 
     tip.meta = {
       el, 

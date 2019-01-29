@@ -7,7 +7,7 @@ const tip_map = new Map()
 
 export function Accessibility() {
   const template = ({target: el}) => {
-    let tip = document.createElement('pb-ally')
+    let tip = document.createElement('visbug-ally')
 
     const contrast_results = determineColorContrast(el)
     const ally_attributes = getA11ys(el)
