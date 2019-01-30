@@ -409,13 +409,17 @@ export function Selectable() {
   const overlayHoverUI = el => {
     let hover = createHover(el)
 
-    $(el).on('mouseout blur DOMNodeRemoved', ({target, type}) =>{
-      hover && hover.remove()
+    $(el).on('mouseout', ({target, type}) => {
+      if (hover && hover.remove) {
+        hover.remove()
+        hover_node = null
+      }
+      
       $(target).attr({
         'data-hover':     null,
         'data-measuring': null,
       })
-      hover_node = null
+      
       target.removeEventListener(type, arguments.callee)
     })
   }
