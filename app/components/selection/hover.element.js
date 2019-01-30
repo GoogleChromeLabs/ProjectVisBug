@@ -10,13 +10,18 @@ export class Hover extends Handles {
   render({ x, y, width, height, top, left }) {
     return `
       ${this.styles({top,left})}
-      <svg
-        class="pb-hover"
-        width="${width}" height="${height}"
-        viewBox="0 0 ${width} ${height}"
-        version="1.1" xmlns="http://www.w3.org/2000/svg"
-      >
-        <rect stroke-width="1px" stroke="hsl(267, 100%, 58%)" fill="none" width="100%" height="100%"></rect>
+      <style>
+        :host rect {
+          width: 100%;
+          height: 100%;
+          vector-effect: non-scaling-stroke;
+          stroke: hsl(267, 100%, 58%);
+          stroke-width: 1px;
+          fill: none;
+        }
+      </style>
+      <svg width="${width}" height="${height}">
+        <rect></rect>
       </svg>
     `
   }
