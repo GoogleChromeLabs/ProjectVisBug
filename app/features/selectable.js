@@ -18,8 +18,8 @@ export function Selectable() {
   let selected            = []
   let selectedCallbacks   = []
   let labels              = []
-  let hovers              = []
   let handles             = []
+  let hover_node          = []
 
   const listen = () => {
     elements.forEach(el => el.addEventListener('click', on_click, true))
@@ -27,7 +27,6 @@ export function Selectable() {
 
     elements.on('selectstart', on_selection)
     elements.on('mousemove', on_hover)
-    elements.on('mouseout', on_hoverout)
 
     document.addEventListener('copy', on_copy)
     document.addEventListener('cut', on_cut)
@@ -53,7 +52,6 @@ export function Selectable() {
 
     elements.off('selectstart', on_selection)
     elements.off('mousemove', on_hover)
-    elements.off('mouseout', on_hoverout)
 
     document.removeEventListener('copy', on_copy)
     document.removeEventListener('cut', on_cut)
@@ -79,7 +77,7 @@ export function Selectable() {
   }
 
   const unselect = id => {
-    [...labels, ...handles, ...hovers]
+    [...labels, ...handles]
       .filter(node =>
           node.getAttribute('data-label-id') === id)
         .forEach(node =>
@@ -113,7 +111,7 @@ export function Selectable() {
 
     document.onkeydown = function(e) {
       if (hotkeys.ctrl && selected.length) {
-        $('pb-handles, pb-label, pb-hovers').forEach(el =>
+        $('pb-handles, pb-label, pb-hover').forEach(el =>
           el.style.display = 'none')
 
         did_hide = true
@@ -122,7 +120,7 @@ export function Selectable() {
 
     document.onkeyup = function(e) {
       if (did_hide) {
-        $('pb-handles, pb-label, pb-hovers').forEach(el =>
+        $('pb-handles, pb-label, pb-hover').forEach(el =>
           el.style.display = null)
 
         did_hide = false
@@ -332,14 +330,6 @@ export function Selectable() {
     $target.setAttribute('data-hover', true)
   }
 
-  const on_hoverout = ({target}) => {
-    $(target).attr({
-      'data-hover':     null,
-      'data-measuring': null,
-    })
-    clearMeasurements()
-  }
-
   const select = el => {
     el.setAttribute('data-selected', true)
     overlayMetaUI(el)
@@ -360,12 +350,11 @@ export function Selectable() {
           'data-hover':         null,
         }))
 
-    Array.from([...handles, ...labels, ...hovers]).forEach(el =>
+    Array.from([...handles, ...labels]).forEach(el =>
       el.remove())
 
     labels    = []
     handles   = []
-    hovers    = []
     selected  = []
   }
 
@@ -376,11 +365,10 @@ export function Selectable() {
       else if (el.parentNode)   return el.parentNode
     })
 
-    Array.from([...selected, ...labels, ...handles, ...hovers]).forEach(el =>
+    Array.from([...selected, ...labels, ...handles]).forEach(el =>
       el.remove())
 
     labels    = []
-    hovers    = []
     handles   = []
     selected  = []
 
@@ -421,9 +409,14 @@ export function Selectable() {
   const overlayHoverUI = el => {
     let hover = createHover(el)
 
-    $(el).on('mouseout', e =>{
+    $(el).on('mouseout blur DOMNodeRemoved', ({target, type}) =>{
       hover && hover.remove()
-      e.target.removeEventListener(e.type, arguments.callee)
+      $(target).attr({
+        'data-hover':     null,
+        'data-measuring': null,
+      })
+      hover_node = null
+      target.removeEventListener(type, arguments.callee)
     })
   }
 
@@ -511,18 +504,18 @@ export function Selectable() {
   }
 
   const createHover = el => {
-    if (!hovers[parseInt(el.getAttribute('data-label-id'))]) {
-      const hover = document.createElement('pb-hovers')
+    if (!el.hasAttribute('data-hover')) {
+      if (hover_node && hover_node.remove) hover_node.remove()
 
-      hover.position = {
-        boundingRect:   el.getBoundingClientRect(),
-        node_label_id:  hovers.length,
+      hover_node = document.createElement('pb-hover')
+
+      hover_node.position = {
+        boundingRect: el.getBoundingClientRect(),
       }
 
-      document.body.appendChild(hover)
+      document.body.appendChild(hover_node)
 
-      hovers[hovers.length] = hover
-      return hover
+      return hover_node
     }
   }
 
