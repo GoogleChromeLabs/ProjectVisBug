@@ -29,7 +29,7 @@ export const getComputedBackgroundColor = el => {
   let background = getStyle(el, 'background-color')
 
   if (background === 'rgba(0, 0, 0, 0)') {
-    let node  = el.parentNode
+    let node  = findNearestParentElement(el)
       , found = false
 
     while(!found) {
@@ -40,12 +40,24 @@ export const getComputedBackgroundColor = el => {
         background = bg
       }
 
-      node = node.parentNode
+      node = findNearestParentElement(node)
+
+      if (node.nodeName === 'HTML') {
+        found = true
+        background = 'white'
+      }
     }
   }
 
   return background
 }
+
+export const findNearestParentElement = el =>
+  el.parentNode && el.parentNode.nodeType === 1
+    ? el.parentNode
+    : el.parentNode.nodeName === '#document-fragment'
+      ? el.parentNode.host
+      : el.parentNode.parentNode.host
 
 export const loadStyles = async stylesheets => {
   const fetches = await Promise.all(stylesheets.map(url => fetch(url)))
