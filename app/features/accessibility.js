@@ -93,13 +93,11 @@ export function hideAll() {
 }
 
 export function removeAll() {
-  for (const {tip} of tip_map.values()) {
-    try { tip.remove() }
-    catch (err) {}
-
-    $(tip).off('mouseout DOMNodeRemoved', mouseOut)
-    $(tip).off('click', togglePinned)
-  }
+  tip_map.forEach(({tip}, target) => {
+    tip.remove()
+    $(target).off('mouseout DOMNodeRemoved', mouseOut)
+    $(target).off('click', togglePinned)
+  })
   
   $('[data-metatip]').attr('data-metatip', null)
 
