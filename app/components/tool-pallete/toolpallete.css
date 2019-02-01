@@ -10,6 +10,10 @@ body {
   transition: all 0.15s ease;
 }
 
+[data-pseudo-select=true] {
+  outline: 1px dashed hsl(267, 100%, 58%);
+}
+
 [data-selected-hide=true][data-selected=true]:after {
   display: none;
 }

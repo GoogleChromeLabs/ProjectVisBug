@@ -91,7 +91,7 @@ export function Selectable() {
           'data-selected':      null,
           'data-selected-hide': null,
           'data-label-id':      null,
-          'data-hover':         null,
+          'data-pseudo-select':         null,
           'data-measuring':     null,
       }))
 
@@ -330,7 +330,7 @@ export function Selectable() {
       clearMeasurements()
     }
 
-    $target.setAttribute('data-hover', true)
+    $target.setAttribute('data-pseudo-select', true)
   }
 
   const select = el => {
@@ -351,7 +351,7 @@ export function Selectable() {
           'data-selected':      null,
           'data-selected-hide': null,
           'data-label-id':      null,
-          'data-hover':         null,
+          'data-pseudo-select':         null,
         }))
 
     Array.from([...handles, ...labels]).forEach(el =>
@@ -420,7 +420,7 @@ export function Selectable() {
       }
       
       $(target).attr({
-        'data-hover':     null,
+        'data-pseudo-select':     null,
         'data-measuring': null,
       })
       
@@ -474,20 +474,20 @@ export function Selectable() {
         if (!detail.text) return
         this.query_text = detail.text
 
-        queryPage('[data-hover]', el =>
-          el.setAttribute('data-hover', null))
+        queryPage('[data-pseudo-select]', el =>
+          el.setAttribute('data-pseudo-select', null))
 
         queryPage(this.query_text + ':not([data-selected])', el =>
           detail.activator === 'mouseenter'
-            ? el.setAttribute('data-hover', true)
+            ? el.setAttribute('data-pseudo-select', true)
             : select(el))
       })
 
       $(label).on('mouseleave', e => {
         e.preventDefault()
         e.stopPropagation()
-        queryPage('[data-hover]', el =>
-          el.setAttribute('data-hover', null))
+        queryPage('[data-pseudo-select]', el =>
+          el.setAttribute('data-pseudo-select', null))
       })
 
       labels[labels.length] = label
@@ -512,7 +512,7 @@ export function Selectable() {
   }
 
   const createHover = el => {
-    if (!el.hasAttribute('data-hover')) {
+    if (!el.hasAttribute('data-pseudo-select')) {
       if (hover_node && hover_node.remove) hover_node.remove()
 
       hover_node = document.createElement('pb-hover')
