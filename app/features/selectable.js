@@ -10,7 +10,8 @@ import { showTip as showAccessibilityTip, removeAll as removeAllAccessibilityTip
 
 import {
   metaKey, htmlStringToDom, createClassname,
-  isOffBounds, getStyles, deepElementFromPoint
+  isOffBounds, getStyles, deepElementFromPoint,
+  isSelectorValid
 } from '../utilities/'
 
 export function Selectable() {
@@ -201,11 +202,13 @@ export function Selectable() {
 
   const on_expand_selection = (e, {key}) => {
     e.preventDefault()
+    const query = combineNodeNameAndClass(selected[0])
 
-    expandSelection({
-      query:  combineNodeNameAndClass(selected[0]),
-      all:    key.includes('shift'),
-    })
+    if (isSelectorValid(query))
+      expandSelection({
+        query, 
+        all: key.includes('shift'),
+      })
   }
 
   const on_group = (e, {key}) => {
@@ -313,7 +316,7 @@ export function Selectable() {
 
   const on_hover = e => {
     const $target = deepElementFromPoint(e.clientX, e.clientY)
-    if (isOffBounds($target)) return
+    if (isOffBounds($target) || $target.hasAttribute('data-selected')) return
 
     overlayHoverUI($target)
 
@@ -333,6 +336,7 @@ export function Selectable() {
   const select = el => {
     el.setAttribute('data-selected', true)
     overlayMetaUI(el)
+    $('pb-hover').forEach(node => node.remove())
     selected.unshift(el)
     tellWatchers()
   }

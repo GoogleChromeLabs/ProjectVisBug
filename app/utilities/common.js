@@ -60,9 +60,11 @@ export const showHideNodeLabel = (el, show = false) => {
   if (!el.hasAttribute('data-label-id')) 
     return
 
+  const label_id = el.getAttribute('data-label-id')
+
   const nodes = $(`
-    pb-label[data-label-id="${el.getAttribute('data-label-id')}"],
-    pb-handles[data-label-id="${el.getAttribute('data-label-id')}"]
+    pb-label[data-label-id="${label_id}"],
+    pb-handles[data-label-id="${label_id}"]
   `)
 
   nodes.length && show
@@ -86,3 +88,10 @@ export const isOffBounds = node =>
     || node.closest('pb-handles')
     || node.closest('pb-gridlines')
   )
+
+export const isSelectorValid = (qs => (
+  selector => {
+    try { qs(selector) } catch (e) { return false }
+    return true
+  }
+))(s => document.createDocumentFragment().querySelector(s))
