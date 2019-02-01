@@ -112,7 +112,7 @@
   align-items: center;
   justify-content: flex-end;
   text-align: right;
-  white-space: pre;
+  /* white-space: pre; */
 }
 
 :host [text] {
