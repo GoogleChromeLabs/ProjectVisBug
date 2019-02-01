@@ -10,22 +10,22 @@ import {
 const tip_map = new Map()
 
 export function Accessibility() {
-  $('body').on('mousemove', mouse_move)
+  $('body').on('mousemove', mouseMove)
 
   hotkeys('esc', _ => removeAll())
 
   // restore any pinned & hidden due to tool change
-  for (const {tip,e} of tip_map.values()) {
-    if (!e.target) continue
+  for (const {tip,e:{target}} of tip_map.values()) {
+    if (!target) continue
       
     tip.style.display = 'block'
-    tip.innerHTML = template(e.target).innerHTML
-    tip.on('mouseout', mouseOut)
-    tip.on('click', togglePinned)
+    tip.innerHTML = template(target).innerHTML
+    target.on('mouseout', mouseOut)
+    target.on('click', togglePinned)
   }
 
   return () => {
-    $('body').off('mousemove', mouse_move)
+    $('body').off('mousemove', mouseMove)
     hotkeys.unbind('esc')
     hideAll()
   }
@@ -35,7 +35,7 @@ export function showTip(target, e) {
   // if node is in our hash (already created)
   if (tip_map.has(target)) {
     // return if it's pinned
-    if (target.hasAttribute('data-metatip')) 
+    if (target.hasAttribute('data-allytip')) 
       return
     // otherwise update position
     const { tip } = tip_map.get(target)
@@ -85,11 +85,11 @@ export function updateTip(tip, e) {
 }
 
 export function hideAll() {
-  for (const {tip} of tip_map.values()) {
+  tip_map.forEach(({tip}, target) => {
     tip.style.display = 'none'
-    $(tip).off('mouseout DOMNodeRemoved', mouseOut)
-    $(tip).off('click', togglePinned)
-  }
+    $(target).off('mouseout DOMNodeRemoved', mouseOut)
+    $(target).off('click', togglePinned)
+  })
 }
 
 export function removeAll() {
@@ -99,7 +99,7 @@ export function removeAll() {
     $(target).off('click', togglePinned)
   })
   
-  $('[data-metatip]').attr('data-metatip', null)
+  $('[data-allytip]').attr('data-allytip', null)
 
   tip_map.clear()
 }
@@ -167,26 +167,36 @@ const tip_position = (node, e, north, west) => ({
 })
 
 const mouseOut = ({target}) => {
-  if (!target.hasAttribute('data-metatip'))
-    removeAll()
+  if (!target.hasAttribute('data-allytip') && tip_map.has(target))
+    wipe(tip_map.get(target))
+}
+
+const wipe = ({tip, e:{target}}) => {
+  tip.remove()
+  $(target).off('mouseout DOMNodeRemoved', mouseOut)
+  $(target).off('click', togglePinned)
+  tip_map.delete(target)
 }
 
 const togglePinned = e => {
   if (e.altKey) {
-    !e.target.hasAttribute('data-metatip')
-      ? e.target.setAttribute('data-metatip', true)
-      : e.target.removeAttribute('data-metatip')
+    !e.target.hasAttribute('data-allytip')
+      ? e.target.setAttribute('data-allytip', true)
+      : e.target.removeAttribute('data-allytip')
   }
 }
 
-const mouse_move = e => {
+const toggleTargetCursor = (key, target) =>
+  key
+    ? target.setAttribute('data-pinhover', true)
+    : target.removeAttribute('data-pinhover')
+
+const mouseMove = e => {
   const target = deepElementFromPoint(e.clientX, e.clientY)
 
   if (isOffBounds(target)) return
 
-  e.altKey
-    ? target.setAttribute('data-pinhover', true)
-    : target.removeAttribute('data-pinhover')
+  toggleTargetCursor(e.altKey, target)
 
   showTip(target, e)
 }

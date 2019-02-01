@@ -14,13 +14,13 @@ export function MetaTip(selectorEngine) {
 
   hotkeys('esc', _ => removeAll())
 
-  for (const {tip,e} of tip_map.values()) {
-    if (!e.target) continue
+  for (const {tip,e:{target}} of tip_map.values()) {
+    if (!target) continue
       
     tip.style.display = 'block'
-    tip.innerHTML = template(e.target).innerHTML
-    tip.on('mouseout', mouseOut)
-    tip.on('click', togglePinned)
+    tip.innerHTML = template(target).innerHTML
+    target.on('mouseout', mouseOut)
+    target.on('click', togglePinned)
   }
 
   return () => {
@@ -87,12 +87,12 @@ export function updateTip(tip, e) {
 }
 
 export function hideAll() {
-  for (const {tip} of tip_map.values()) {
+  tip_map.forEach(({tip}, target) => {
     tip.style.display = 'none'
-    $(tip).off('mouseout DOMNodeRemoved', mouseOut)
-    $(tip).off('click', togglePinned)
-    $('a', tip).off('click', linkQueryClicked)
-  }
+    $(target).off('mouseout DOMNodeRemoved', mouseOut)
+    $(target).off('click', togglePinned)
+    $('a', target).off('click', linkQueryClicked)
+  })
 }
 
 export function removeAll() {
@@ -174,8 +174,15 @@ const tip_position = (node, e, north, west) => ({
 })
 
 const mouseOut = ({target}) => {
-  if (!target.hasAttribute('data-metatip'))
-    removeAll()
+  if (!target.hasAttribute('data-metatip') && tip_map.has(target))
+    wipe(tip_map.get(target))
+}
+
+const wipe = ({tip, e:{target}}) => {
+  tip.remove()
+  $(target).off('mouseout DOMNodeRemoved', mouseOut)
+  $(target).off('click', togglePinned)
+  tip_map.delete(target)
 }
 
 const togglePinned = e => {
@@ -203,14 +210,17 @@ const linkQueryHoverOut = e => {
     el.setAttribute('data-hover', null))
 }
 
+const toggleTargetCursor = (key, target) =>
+  key
+    ? target.setAttribute('data-pinhover', true)
+    : target.removeAttribute('data-pinhover')
+
 const mouseMove = e => {
   const target = deepElementFromPoint(e.clientX, e.clientY)
 
   if (isOffBounds(target)) return
 
-  e.altKey
-    ? target.setAttribute('data-pinhover', true)
-    : target.removeAttribute('data-pinhover')
+  toggleTargetCursor(e.altKey, target)
 
   showTip(target, e)
 }
