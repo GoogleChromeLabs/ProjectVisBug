@@ -1,7 +1,7 @@
 import $ from 'blingblingjs'
 
 export class Handles extends HTMLElement {
-  
+
   constructor() {
     super()
     this.$shadow = this.attachShadow({mode: 'closed'})
@@ -19,6 +19,8 @@ export class Handles extends HTMLElement {
       const node_label_id = this.$shadow.host.getAttribute('data-label-id')
       const [source_el] = $(`[data-label-id="${node_label_id}"]`)
 
+      if (!source_el) return
+
       this.position = {
         node_label_id,
         boundingRect: source_el.getBoundingClientRect(),
@@ -34,10 +36,10 @@ export class Handles extends HTMLElement {
     this.$shadow.host.setAttribute('data-label-id', node_label_id)
     return `
       ${this.styles({top,left})}
-      <svg 
+      <svg
         class="pb-handles"
-        width="${width}" height="${height}" 
-        viewBox="0 0 ${width} ${height}" 
+        width="${width}" height="${height}"
+        viewBox="0 0 ${width} ${height}"
         version="1.1" xmlns="http://www.w3.org/2000/svg"
       >
         <rect stroke="hotpink" fill="none" width="100%" height="100%"></rect>
