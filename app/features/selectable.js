@@ -329,8 +329,6 @@ export function Selectable() {
       $target.removeAttribute('data-measuring')
       clearMeasurements()
     }
-
-    $target.setAttribute('data-pseudo-select', true)
   }
 
   const select = el => {
@@ -351,7 +349,7 @@ export function Selectable() {
           'data-selected':      null,
           'data-selected-hide': null,
           'data-label-id':      null,
-          'data-pseudo-select':         null,
+          'data-pseudo-select': null,
         }))
 
     Array.from([...handles, ...labels]).forEach(el =>
