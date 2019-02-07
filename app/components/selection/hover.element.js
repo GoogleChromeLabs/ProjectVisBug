@@ -19,6 +19,10 @@ export class Hover extends Handles {
           stroke-width: 1px;
           fill: none;
         }
+
+        :host > svg {
+          z-index: 2147483642;
+        }
       </style>
       <svg width="${width}" height="${height}">
         <rect></rect>
