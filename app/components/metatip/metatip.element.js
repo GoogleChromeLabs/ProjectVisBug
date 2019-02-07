@@ -3,19 +3,18 @@ import { createClassname } from '../../utilities/'
 import styles from './metatip.element.css'
 
 export class Metatip extends HTMLElement {
-  
+
   constructor() {
     super()
     this.$shadow = this.attachShadow({mode: 'closed'})
   }
 
   connectedCallback() {
-    $('h5 > a', this.$shadow).on('click mouseenter', this.dispatchQuery.bind(this))
-    $('h5 > a', this.$shadow).on('mouseleave', this.dispatchUnQuery.bind(this))
+    $(this.$shadow.host).on('mouseenter', this.observe.bind(this))
   }
 
   disconnectedCallback() {
-    $('h5 > a', this.$shadow).off('click', this.dispatchQuery)
+    this.unobserve()
   }
 
   dispatchQuery(e) {
@@ -28,10 +27,21 @@ export class Metatip extends HTMLElement {
     }))
   }
 
+  observe() {
+    $('h5 > a', this.$shadow).on('click mouseenter', this.dispatchQuery.bind(this))
+    $('h5 > a', this.$shadow).on('mouseleave', this.dispatchUnQuery.bind(this))
+  }
+
+  unobserve() {
+    $('h5 > a', this.$shadow).off('click mouseenter', this.dispatchQuery.bind(this))
+    $('h5 > a', this.$shadow).off('mouseleave', this.dispatchUnQuery.bind(this))
+  }
+
   dispatchUnQuery(e) {
     this.$shadow.host.dispatchEvent(new CustomEvent('unquery', {
       bubbles: true
     }))
+    this.unobserve()
   }
 
   set meta(data) {
@@ -54,8 +64,8 @@ export class Metatip extends HTMLElement {
           }
         </h5>
         <small>
-          <span">${Math.round(width)}</span>px 
-          <span divider>×</span> 
+          <span">${Math.round(width)}</span>px
+          <span divider>×</span>
           <span>${Math.round(height)}</span>px
         </small>
         <div>${notLocalModifications.reduce((items, item) => `
