@@ -77,4 +77,4 @@ export class Gridlines extends HTMLElement {
   }
 }
 
-customElements.define('pb-gridlines', Gridlines)
+customElements.define('visbug-gridlines', Gridlines)

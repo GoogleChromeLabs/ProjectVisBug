@@ -110,4 +110,4 @@ export class Label extends HTMLElement {
   }
 }
 
-customElements.define('pb-label', Label)
+customElements.define('visbug-label', Label)

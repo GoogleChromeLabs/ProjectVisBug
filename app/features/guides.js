@@ -58,7 +58,7 @@ const showGridlines = node => {
     gridlines.update = node.getBoundingClientRect()
   }
   else {
-    gridlines = document.createElement('pb-gridlines')
+    gridlines = document.createElement('visbug-gridlines')
     gridlines.position = node.getBoundingClientRect()
 
     document.body.appendChild(gridlines)

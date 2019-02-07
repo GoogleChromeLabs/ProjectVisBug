@@ -80,7 +80,7 @@ export function queryPage(query, fn) {
   if (query == '.' || query == '#' || query.trim().endsWith(',')) return
 
   try {
-    let matches = $(query + ':not(tool-pallete):not(script):not(hotkey-map):not(.pb-metatip):not(pb-label):not(pb-handles)')
+    let matches = $(query + ':not(tool-pallete):not(script):not(hotkey-map):not(.visbug-metatip):not(visbug-label):not(visbug-handles)')
     if (!matches.length) matches = $(query)
     if (!fn) SelectorEngine.unselect_all()
     if (matches.length)

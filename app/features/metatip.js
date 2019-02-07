@@ -31,7 +31,7 @@ export function MetaTip() {
 const mouseMove = e => {
   const target = deepElementFromPoint(e.clientX, e.clientY)
 
-  if (isOffBounds(target) || target.nodeName === 'PB-METATIP' || target.hasAttribute('data-metatip')) { // aka: mouse out
+  if (isOffBounds(target) || target.nodeName === 'VISBUG-METATIP' || target.hasAttribute('data-metatip')) { // aka: mouse out
     if (state.active.tip) {
       wipe({
         tip: state.active.tip,
@@ -121,7 +121,7 @@ export function removeAll() {
   state.tips.clear()
 }
 
-const render = (el, tip = document.createElement('pb-metatip')) => {
+const render = (el, tip = document.createElement('visbug-metatip')) => {
   const { width, height } = el.getBoundingClientRect()
   const styles = getStyles(el)
     .map(style => Object.assign(style, {

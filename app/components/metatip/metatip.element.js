@@ -96,4 +96,4 @@ export class Metatip extends HTMLElement {
   }
 }
 
-customElements.define('pb-metatip', Metatip)
+customElements.define('visbug-metatip', Metatip)

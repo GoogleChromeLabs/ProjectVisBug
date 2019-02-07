@@ -34,7 +34,7 @@ export function Accessibility() {
 const mouseMove = e => {
   const target = deepElementFromPoint(e.clientX, e.clientY)
 
-  if (isOffBounds(target) || target.nodeName === 'PB-ALLYTIP' || target.hasAttribute('data-allytip')) { // aka: mouse out
+  if (isOffBounds(target) || target.nodeName === 'VISBUG-ALLYTIP' || target.hasAttribute('data-allytip')) { // aka: mouse out
     if (state.active.tip) {
       wipe({
         tip: state.active.tip,
@@ -124,7 +124,7 @@ export function removeAll() {
   state.tips.clear()
 }
 
-const render = (el, tip = document.createElement('pb-ally')) => {
+const render = (el, tip = document.createElement('visbug-ally')) => {
   const contrast_results = determineColorContrast(el)
   const ally_attributes = getA11ys(el)
 

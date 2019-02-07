@@ -37,7 +37,7 @@ export class Handles extends HTMLElement {
     return `
       ${this.styles({top,left})}
       <svg
-        class="pb-handles"
+        class="visbug-handles"
         width="${width}" height="${height}"
         viewBox="0 0 ${width} ${height}"
         version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -71,4 +71,4 @@ export class Handles extends HTMLElement {
   }
 }
 
-customElements.define('pb-handles', Handles)
+customElements.define('visbug-handles', Handles)

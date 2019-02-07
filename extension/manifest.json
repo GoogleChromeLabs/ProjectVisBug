@@ -11,7 +11,7 @@
   "background": {
     "persistent": true,
     "scripts": [
-      "pixelbug.js"
+      "visbug.js"
     ]
   },
   "browser_action": {
