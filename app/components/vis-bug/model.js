@@ -1,7 +1,7 @@
-import * as Icons from './toolpallete.icons'
+import * as Icons from './vis-bug.icons'
 import { metaKey, altKey } from '../../utilities/'
 
-export const ToolModel = {
+export const VisBugModel = {
   g: {
     tool:        'guides',
     icon:        Icons.guides,

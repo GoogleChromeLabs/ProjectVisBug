@@ -6,6 +6,6 @@ export const commands = [
 
 export default function() {
   document
-    .querySelectorAll('body > *:not(tool-pallete):not(script)')
+    .querySelectorAll('body > *:not(vis-bug):not(script)')
     .forEach(node => node.remove())
 }

@@ -104,7 +104,7 @@ export function Selectable() {
     e.preventDefault()
     e.stopPropagation()
     if (isOffBounds(e.target)) return
-    $('tool-pallete')[0].toolSelected('text')
+    $('vis-bug')[0].toolSelected('text')
   }
 
   const watchCommandKey = e => {
@@ -289,7 +289,7 @@ export function Selectable() {
   }
 
   const show_tip = el => {
-    const active_tool = $('tool-pallete')[0].activeTool
+    const active_tool = $('vis-bug')[0].activeTool
     let tipFactory
 
     if (active_tool === 'accessibility') {
@@ -320,7 +320,7 @@ export function Selectable() {
 
     overlayHoverUI($target)
 
-    if (e.altKey && $('tool-pallete')[0].activeTool === 'guides' && selected.length === 1 && selected[0] != $target) {
+    if (e.altKey && $('vis-bug')[0].activeTool === 'guides' && selected.length === 1 && selected[0] != $target) {
       $target.setAttribute('data-measuring', true)
       const [$anchor] = selected
       return createMeasurements({$anchor, $target})
@@ -334,7 +334,7 @@ export function Selectable() {
   const select = el => {
     el.setAttribute('data-selected', true)
     overlayMetaUI(el)
-    $('pb-hover').forEach(node => node.remove())
+    $('visbug-hover').forEach(node => node.remove())
     selected.unshift(el)
     tellWatchers()
   }
@@ -513,7 +513,7 @@ export function Selectable() {
     if (!el.hasAttribute('data-pseudo-select')) {
       if (hover_node && hover_node.remove) hover_node.remove()
 
-      hover_node = document.createElement('pb-hover')
+      hover_node = document.createElement('visbug-hover')
 
       hover_node.position = {
         boundingRect: el.getBoundingClientRect(),

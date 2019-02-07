@@ -1,6 +1,6 @@
 import $          from 'blingblingjs'
 import hotkeys    from 'hotkeys-js'
-import styles     from './toolpallete.element.css'
+import styles     from './vis-bug.element.css'
 
 import {
   Handles, Label, Overlay, Gridlines,
@@ -13,16 +13,16 @@ import {
   Guides, Screenshot, Position, Accessibility
 } from '../../features/'
 
-import { ToolModel }              from './model'
-import * as Icons                 from './toolpallete.icons'
+import { VisBugModel }              from './model'
+import * as Icons                 from './vis-bug.icons'
 import { provideSelectorEngine }  from '../../features/search'
 import { metaKey }                from '../../utilities/'
 
-export default class ToolPallete extends HTMLElement {
+export default class VisBug extends HTMLElement {
   constructor() {
     super()
 
-    this.toolbar_model  = ToolModel
+    this.toolbar_model  = VisBugModel
     this._tutsBaseURL   = 'tuts' // can be set by content script
     this.$shadow        = this.attachShadow({mode: 'closed'})
   }
@@ -219,4 +219,4 @@ export default class ToolPallete extends HTMLElement {
   }
 }
 
-customElements.define('tool-pallete', ToolPallete)
+customElements.define('vis-bug', VisBug)

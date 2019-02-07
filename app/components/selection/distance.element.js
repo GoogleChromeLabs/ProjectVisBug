@@ -1,5 +1,5 @@
 export class Distance extends HTMLElement {
-  
+
   constructor() {
     super()
     this.$shadow = this.attachShadow({mode: 'open'})
@@ -85,4 +85,4 @@ export class Distance extends HTMLElement {
   }
 }
 
-customElements.define('pb-distance', Distance)
+customElements.define('visbug-distance', Distance)

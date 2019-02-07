@@ -1,6 +1,6 @@
-var pallete = document.createElement('tool-pallete')
+var visbug = document.createElement('vis-bug')
 var src_path = chrome.extension.getURL(`tuts/guides.gif`)
 
-pallete.tutsBaseURL = src_path.slice(0, src_path.lastIndexOf('/'))
+visbug.tutsBaseURL = src_path.slice(0, src_path.lastIndexOf('/'))
 
-document.body.prepend(pallete)
+document.body.prepend(visbug)

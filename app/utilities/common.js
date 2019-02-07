@@ -80,7 +80,7 @@ export const htmlStringToDom = (htmlString = "") =>
 
 export const isOffBounds = node =>
   node.closest && (
-       node.closest('tool-pallete')
+       node.closest('vis-bug')
     || node.closest('hotkey-map')
     || node.closest('visbug-metatip')
     || node.closest('visbug-ally')

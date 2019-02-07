@@ -31,4 +31,4 @@ export class Hover extends Handles {
   }
 }
 
-customElements.define('pb-hover', Hover)
+customElements.define('visbug-hover', Hover)

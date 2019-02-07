@@ -16,7 +16,7 @@ import { TextHotkeys }          from './text.element'
 import { SearchHotkeys }        from './search.element'
 
 export class Hotkeys extends HTMLElement {
-  
+
   constructor() {
     super()
 
@@ -59,7 +59,7 @@ export class Hotkeys extends HTMLElement {
 
   showTool() {
     this.cur_tool = this.tool_map[
-      $('tool-pallete')[0].activeTool]
+      $('vis-bug')[0].activeTool]
     this.cur_tool.show()
   }
 }
