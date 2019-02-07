@@ -12,7 +12,7 @@ const state = {
   tips: new Map(),
 }
 
-export function MetaTip(selectorEngine) {
+export function MetaTip() {
   $('body').on('mousemove', mouseMove)
   $('body').on('click', togglePinned)
 
@@ -200,7 +200,6 @@ const togglePinned = e => {
 
   if (e.altKey && !target.hasAttribute('data-metatip')) {
     target.setAttribute('data-metatip', true)
-    // clone and clear active so new hovers dont reuse
     state.tips.set(target, {
       tip: state.active.tip,
       e,
