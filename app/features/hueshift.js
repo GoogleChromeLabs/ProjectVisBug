@@ -21,7 +21,7 @@ export function HueShift(Color) {
 
     e.preventDefault()
 
-    let selectedNodes = $('[data-selected=true]')
+    let selectedNodes = this.elements
       , keys = handler.key.split('+')
 
     keys.includes('left') || keys.includes('right')
@@ -33,8 +33,8 @@ export function HueShift(Color) {
     e.preventDefault()
     let keys = handler.key.split('+')
     keys.includes('left') || keys.includes('right')
-      ? changeHue($('[data-selected=true]'), keys, 'a', Color)
-      : changeHue($('[data-selected=true]'), keys, 'h', Color)
+      ? changeHue(this.elements, keys, 'a', Color)
+      : changeHue(this.elements, keys, 'h', Color)
   })
 
   hotkeys(']', (e, handler) => {
@@ -59,8 +59,10 @@ export function HueShift(Color) {
     Color.setActive(this.active_color)
   })
 
-  const onNodesSelected = els =>
+  const onNodesSelected = els => {
+    this.elements = els
     Color.setActive(this.active_color)
+  }
 
   const disconnect = () => {
     hotkeys.unbind(key_events)
