@@ -11,21 +11,22 @@ export function ColorPicker(pallete, selectorEngine) {
   const boInput           = $('input', borderPicker[0])
 
   this.active_color       = 'background'
+  this.elements           = []
 
   // set colors
   fgInput.on('input', e =>
-    $('[data-selected=true]').map(el =>
+    this.elements.map(el =>
       el.style['color'] = e.target.value))
 
   bgInput.on('input', e =>
-    $('[data-selected=true]').map(el =>
+    this.elements.map(el =>
       el.style[el instanceof SVGElement
         ? 'fill'
         : 'backgroundColor'
       ] = e.target.value))
 
   boInput.on('input', e =>
-    $('[data-selected=true]').map(el =>
+    this.elements.map(el =>
       el.style[el instanceof SVGElement
         ? 'stroke'
         : 'border-color'
@@ -34,14 +35,15 @@ export function ColorPicker(pallete, selectorEngine) {
   // read colors
   selectorEngine.onSelectedUpdate(elements => {
     if (!elements.length) return
+    this.elements = elements
 
     let isMeaningfulForeground  = false
     let isMeaningfulBackground  = false
     let isMeaningfulBorder      = false
     let FG, BG, BO
 
-    if (elements.length == 1) {
-      const el = elements[0]
+    if (this.elements.length == 1) {
+      const el = this.elements[0]
       const meaningfulDontMatter = pallete.host.active_tool.dataset.tool === 'hueshift'
 
       if (el instanceof SVGElement) {
