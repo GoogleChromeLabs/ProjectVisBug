@@ -42,8 +42,8 @@ export const showHideNodeLabel = (el, show = false) => {
     return
 
   const nodes = $(`
-    pb-label[data-label-id="${el.getAttribute('data-label-id')}"],
-    pb-handles[data-label-id="${el.getAttribute('data-label-id')}"]
+    visbug-label[data-label-id="${el.getAttribute('data-label-id')}"],
+    visbug-handles[data-label-id="${el.getAttribute('data-label-id')}"]
   `)
 
   nodes.length && show
@@ -61,9 +61,9 @@ export const isOffBounds = node =>
   node.closest &&
   (node.closest('tool-pallete') 
   || node.closest('hotkey-map')
-  || node.closest('pb-metatip')
-  || node.closest('pb-ally')
-  || node.closest('pb-label')
-  || node.closest('pb-handles')
-  || node.closest('pb-gridlines')
+  || node.closest('visbug-metatip')
+  || node.closest('visbug-ally')
+  || node.closest('visbug-label')
+  || node.closest('visbug-handles')
+  || node.closest('visbug-gridlines')
   )

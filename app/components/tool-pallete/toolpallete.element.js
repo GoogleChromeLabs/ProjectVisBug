@@ -88,7 +88,7 @@ export default class ToolPallete extends HTMLElement {
   render() {
     return `
       ${this.styles()}
-      <pb-hotkeys></pb-hotkeys>
+      <visbug-hotkeys></visbug-hotkeys>
       <ol>
         ${Object.entries(this.toolbar_model).reduce((list, [key, tool]) => `
           ${list}
