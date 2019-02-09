@@ -14,7 +14,8 @@ const key_events = 'up,down,left,right'
 const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down,${metaKey}+left,${metaKey}+shift+left,${metaKey}+right,${metaKey}+shift+right`
 
 export function HueShift(Color) {
-  this.active_color = Color.getActive()
+  this.active_color   = Color.getActive()
+  this.elements       = []
 
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
