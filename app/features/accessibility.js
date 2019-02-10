@@ -68,6 +68,7 @@ export function showTip(target, e) {
   else { // update content
     render(target, state.active.tip)
     state.active.target = target
+    positionTip(state.active.tip, e)
   }
 }
 
