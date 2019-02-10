@@ -387,8 +387,9 @@ export function Selectable() {
       const potentials = $(query)
       if (!potentials) return
 
+      const [anchor] = selected
       const root_node_index = potentials.reduce((index, node, i) =>
-        combineNodeNameAndClass(node) == query
+        node == anchor
           ? index = i
           : index
       , null)
