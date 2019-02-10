@@ -134,6 +134,11 @@ const render = (el, tip = document.createElement('visbug-ally')) => {
       ? ally.value = `<span text>${ally.value}</span>`
       : ally)
 
+  ally_attributes.map(ally =>
+    ally.prop.includes('title')
+      ? ally.value = `<span text longform>${ally.value}</span>`
+      : ally)
+
   tip.meta = {
     el,
     ally_attributes,
