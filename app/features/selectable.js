@@ -411,11 +411,27 @@ export function Selectable() {
 
   const overlayHoverUI = el => {
     let hover = createHover(el)
+    let label = createLabel(el, `
+      <a>${el.nodeName.toLowerCase()}</a>
+      <a>${el.id && '#' + el.id}</a>
+      ${createClassname(el).split('.')
+        .filter(name => name != '')
+        .reduce((links, name) => `
+          ${links}
+          <a>.${name}</a>
+        `, '')
+      }
+    `, 'hsl(267, 100%, 58%)')
 
     $(el).on('mouseout', ({target, type}) => {
       if (hover && hover.remove) {
         hover.remove()
         hover_node = null
+      }
+
+      if (label && label.remove) {
+        label.remove()
+        labels = labels.filter(el => el != label)
       }
 
       $(target).attr({
@@ -456,7 +472,7 @@ export function Selectable() {
   const setLabel = (el, label) =>
     label.update = el.getBoundingClientRect()
 
-  const createLabel = (el, text) => {
+  const createLabel = (el, text, color = 'hsl(330, 100%, 71%)') => {
     if (!labels[parseInt(el.getAttribute('data-label-id'))]) {
       const label = document.createElement('visbug-label')
 
@@ -465,6 +481,7 @@ export function Selectable() {
         boundingRect:   el.getBoundingClientRect(),
         node_label_id:  labels.length,
       }
+      label.style = `--label-bg: ${color}`
       el.setAttribute('data-label-id', labels.length)
 
       document.body.appendChild(label)

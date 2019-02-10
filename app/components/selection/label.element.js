@@ -80,7 +80,7 @@ export class Label extends HTMLElement {
           max-width: ${width + (window.innerWidth - left - width - 20)}px;
           z-index: 2147483643;
           transform: translateY(-100%);
-          background: hsl(330, 100%, 71%);
+          background: var(--label-bg, hotpink);
           text-shadow: 0 0.5px 0 hsl(330, 100%, 61%);
           color: white;
           display: inline-flex;
