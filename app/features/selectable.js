@@ -15,7 +15,7 @@ import {
 } from '../utilities/'
 
 export function Selectable() {
-  const elements          = $('body')
+  const page              = document.body
   let selected            = []
   let selectedCallbacks   = []
   let labels              = []
@@ -23,11 +23,11 @@ export function Selectable() {
   let hover_node          = []
 
   const listen = () => {
-    elements.forEach(el => el.addEventListener('click', on_click, true))
-    elements.forEach(el => el.addEventListener('dblclick', on_dblclick, true))
+    page.addEventListener('click', on_click, true)
+    page.addEventListener('dblclick', on_dblclick, true)
 
-    elements.on('selectstart', on_selection)
-    elements.on('mousemove', on_hover)
+    page.on('selectstart', on_selection)
+    page.on('mousemove', on_hover)
 
     document.addEventListener('copy', on_copy)
     document.addEventListener('cut', on_cut)
@@ -48,11 +48,11 @@ export function Selectable() {
   }
 
   const unlisten = () => {
-    elements.forEach(el => el.removeEventListener('click', on_click, true))
-    elements.forEach(el => el.removeEventListener('dblclick', on_dblclick, true))
+    page.removeEventListener('click', on_click, true)
+    page.removeEventListener('dblclick', on_dblclick, true)
 
-    elements.off('selectstart', on_selection)
-    elements.off('mousemove', on_hover)
+    page.off('selectstart', on_selection)
+    page.off('mousemove', on_hover)
 
     document.removeEventListener('copy', on_copy)
     document.removeEventListener('cut', on_cut)
