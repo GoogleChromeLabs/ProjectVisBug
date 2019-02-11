@@ -71,7 +71,7 @@ export function Selectable() {
     if (!e.altKey) e.stopPropagation()
     if (!e.shiftKey) unselect_all()
 
-    if(e.shiftKey && $target.hasAttribute('data-label-id'))
+    if(e.shiftKey && $target.hasAttribute('data-selected'))
       unselect($target.getAttribute('data-label-id'))
     else
       select($target)
@@ -435,8 +435,9 @@ export function Selectable() {
       }
 
       $(target).attr({
-        'data-pseudo-select':     null,
-        'data-measuring': null,
+        'data-pseudo-select': null,
+        'data-label-id':      null,
+        'data-measuring':     null,
       })
 
       target.removeEventListener(type, arguments.callee)
@@ -528,7 +529,7 @@ export function Selectable() {
   }
 
   const createHover = el => {
-    if (!el.hasAttribute('data-pseudo-select')) {
+    if (!el.hasAttribute('data-pseudo-select') && !el.hasAttribute('data-label-id')) {
       if (hover_node && hover_node.remove) hover_node.remove()
 
       hover_node = document.createElement('visbug-hover')
