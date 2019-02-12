@@ -46,7 +46,7 @@ export class Distance extends HTMLElement {
             : 'translateY(-50%)'};
           overflow: visible;
           pointer-events: none;
-          z-index: 10010;
+          z-index: 2147483646;
 
           display: flex;
           align-items: center;
@@ -54,12 +54,16 @@ export class Distance extends HTMLElement {
         }
 
         :host > figure figcaption {
-          color: hotpink;
-          text-shadow: 0 0.5px 0 hsla(0, 0%, 0%, 25%);
+          color: white;
+          text-shadow: 0 0.5px 0 hsla(0, 0%, 0%, 0.4);
+          background: var(--line-color);
+          border-radius: 1rem;
           text-align: center;
-          line-height: 0.9;
-          font-size: 0.6em;
-          padding: 1px;
+          line-height: 1.1;
+          font-size: 0.7em;
+          font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+          padding: 0.25em 0.5em;
+          font-variant-numeric: proportional-num oldstyle-nums stacked-fractions slashed-zero;
         }
 
         :host > figure span {

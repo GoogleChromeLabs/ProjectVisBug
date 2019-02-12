@@ -1,7 +1,7 @@
 import $ from 'blingblingjs'
 
 export class Label extends HTMLElement {
-  
+
   constructor() {
     super()
     this.$shadow = this.attachShadow({mode: 'closed'})
@@ -81,13 +81,13 @@ export class Label extends HTMLElement {
           z-index: 2147483643;
           transform: translateY(-100%);
           background: var(--label-bg, hotpink);
-          text-shadow: 0 0.5px 0 hsl(330, 100%, 61%);
+          text-shadow: 0 0.5px 0 hsla(0, 0%, 0%, 0.4);
           color: white;
           display: inline-flex;
           justify-content: center;
           font-size: 0.8em;
           font-weight: normal;
-          font-family: sans-serif;
+          font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
           white-space: nowrap;
           padding: 0.25em 0.4em 0.15em;
           line-height: 1.1;
