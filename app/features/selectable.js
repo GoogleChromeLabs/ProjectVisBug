@@ -20,7 +20,12 @@ export function Selectable() {
   let selectedCallbacks   = []
   let labels              = []
   let handles             = []
-  let hover_node          = []
+
+  const hover_state       = {
+    target:   null,
+    element:  null,
+    label:    null,
+  }
 
   const listen = () => {
     page.addEventListener('click', on_click, true)
@@ -333,8 +338,11 @@ export function Selectable() {
 
   const select = el => {
     el.setAttribute('data-selected', true)
+    el.setAttribute('data-label-id', labels.length)
+
+    clearHover()
+
     overlayMetaUI(el)
-    $('visbug-hover').forEach(node => node.remove())
     selected.unshift(el)
     tellWatchers()
   }
@@ -410,8 +418,11 @@ export function Selectable() {
     `${node.nodeName.toLowerCase()}${createClassname(node)}`
 
   const overlayHoverUI = el => {
-    let hover = createHover(el)
-    let label = createLabel(el, `
+    if (hover_state.target === el) return
+
+    hover_state.target  = el
+    hover_state.element = createHover(el)
+    hover_state.label = createHoverLabel(el, `
       <a>${el.nodeName.toLowerCase()}</a>
       <a>${el.id && '#' + el.id}</a>
       ${createClassname(el).split('.')
@@ -421,27 +432,16 @@ export function Selectable() {
           <a>.${name}</a>
         `, '')
       }
-    `, 'hsl(267, 100%, 58%)')
+    `)
+  }
 
-    $(el).on('mouseout', ({target, type}) => {
-      if (hover && hover.remove) {
-        hover.remove()
-        hover_node = null
-      }
+  const clearHover = () => {
+    hover_state.element.remove()
+    hover_state.label.remove()
 
-      if (label && label.remove) {
-        label.remove()
-        labels = labels.filter(el => el != label)
-      }
-
-      $(target).attr({
-        'data-pseudo-select': null,
-        'data-label-id':      null,
-        'data-measuring':     null,
-      })
-
-      target.removeEventListener(type, arguments.callee)
-    })
+    hover_state.target  = null
+    hover_state.element = null
+    hover_state.label   = null
   }
 
   const overlayMetaUI = el => {
@@ -473,17 +473,17 @@ export function Selectable() {
   const setLabel = (el, label) =>
     label.update = el.getBoundingClientRect()
 
-  const createLabel = (el, text, color = 'hsl(330, 100%, 71%)') => {
-    if (!labels[parseInt(el.getAttribute('data-label-id'))]) {
+  const createLabel = (el, text) => {
+    const id = parseInt(el.getAttribute('data-label-id') || 0)
+
+    if (!labels[id]) {
       const label = document.createElement('visbug-label')
 
       label.text = text
       label.position = {
         boundingRect:   el.getBoundingClientRect(),
-        node_label_id:  labels.length,
+        node_label_id:  id,
       }
-      label.style = `--label-bg: ${color}`
-      el.setAttribute('data-label-id', labels.length)
 
       document.body.appendChild(label)
 
@@ -508,17 +508,20 @@ export function Selectable() {
       })
 
       labels[labels.length] = label
+
       return label
     }
   }
 
   const createHandle = el => {
-    if (!handles[parseInt(el.getAttribute('data-label-id'))]) {
+    const id = parseInt(el.getAttribute('data-label-id') || 0)
+
+    if (!handles[id]) {
       const handle = document.createElement('visbug-handles')
 
       handle.position = {
         boundingRect:   el.getBoundingClientRect(),
-        node_label_id:  handles.length,
+        node_label_id:  id,
       }
 
       document.body.appendChild(handle)
@@ -530,17 +533,39 @@ export function Selectable() {
 
   const createHover = el => {
     if (!el.hasAttribute('data-pseudo-select') && !el.hasAttribute('data-label-id')) {
-      if (hover_node && hover_node.remove) hover_node.remove()
+      if (hover_state.element && hover_state.element.remove)
+        hover_state.element.remove()
 
-      hover_node = document.createElement('visbug-hover')
+      hover_state.element = document.createElement('visbug-hover')
 
-      hover_node.position = {
+      hover_state.element.position = {
         boundingRect: el.getBoundingClientRect(),
       }
 
-      document.body.appendChild(hover_node)
+      document.body.appendChild(hover_state.element)
 
-      return hover_node
+      return hover_state.element
+    }
+  }
+
+  const createHoverLabel = (el, text) => {
+    if (!el.hasAttribute('data-pseudo-select') && !el.hasAttribute('data-label-id')) {
+      if (hover_state.label && hover_state.label.remove)
+        hover_state.label.remove()
+
+      hover_state.label = document.createElement('visbug-label')
+
+      hover_state.label.text = text
+      hover_state.label.position = {
+        boundingRect:   el.getBoundingClientRect(),
+        node_label_id:  'hover',
+      }
+
+      hover_state.label.style = `--label-bg: hsl(267, 100%, 58%)`
+
+      document.body.appendChild(hover_state.label)
+
+      return hover_state.label
     }
   }
 
