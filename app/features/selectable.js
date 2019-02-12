@@ -207,7 +207,11 @@ export function Selectable() {
 
   const on_expand_selection = (e, {key}) => {
     e.preventDefault()
-    const query = combineNodeNameAndClass(selected[0])
+
+    const [root] = selected
+    if (!root) return
+
+    const query = combineNodeNameAndClass(root)
 
     if (isSelectorValid(query))
       expandSelection({
@@ -321,7 +325,9 @@ export function Selectable() {
 
   const on_hover = e => {
     const $target = deepElementFromPoint(e.clientX, e.clientY)
-    if (isOffBounds($target) || $target.hasAttribute('data-selected')) return
+
+    if (isOffBounds($target) || $target.hasAttribute('data-selected'))
+      return clearHover()
 
     overlayHoverUI($target)
 
@@ -436,8 +442,10 @@ export function Selectable() {
   }
 
   const clearHover = () => {
-    hover_state.element.remove()
-    hover_state.label.remove()
+    if (!hover_state.target) return
+
+    hover_state.element && hover_state.element.remove()
+    hover_state.label && hover_state.label.remove()
 
     hover_state.target  = null
     hover_state.element = null
@@ -474,7 +482,7 @@ export function Selectable() {
     label.update = el.getBoundingClientRect()
 
   const createLabel = (el, text) => {
-    const id = parseInt(el.getAttribute('data-label-id') || 0)
+    const id = parseInt(el.getAttribute('data-label-id'))
 
     if (!labels[id]) {
       const label = document.createElement('visbug-label')
@@ -492,7 +500,7 @@ export function Selectable() {
         this.query_text = detail.text
 
         queryPage('[data-pseudo-select]', el =>
-          el.setAttribute('data-pseudo-select', null))
+          el.removeAttribute('data-pseudo-select'))
 
         queryPage(this.query_text + ':not([data-selected])', el =>
           detail.activator === 'mouseenter'
@@ -504,7 +512,7 @@ export function Selectable() {
         e.preventDefault()
         e.stopPropagation()
         queryPage('[data-pseudo-select]', el =>
-          el.setAttribute('data-pseudo-select', null))
+          el.removeAttribute('data-pseudo-select'))
       })
 
       labels[labels.length] = label
@@ -514,7 +522,7 @@ export function Selectable() {
   }
 
   const createHandle = el => {
-    const id = parseInt(el.getAttribute('data-label-id') || 0)
+    const id = parseInt(el.getAttribute('data-label-id'))
 
     if (!handles[id]) {
       const handle = document.createElement('visbug-handles')
@@ -533,7 +541,7 @@ export function Selectable() {
 
   const createHover = el => {
     if (!el.hasAttribute('data-pseudo-select') && !el.hasAttribute('data-label-id')) {
-      if (hover_state.element && hover_state.element.remove)
+      if (hover_state.element)
         hover_state.element.remove()
 
       hover_state.element = document.createElement('visbug-hover')
@@ -542,7 +550,7 @@ export function Selectable() {
         boundingRect: el.getBoundingClientRect(),
       }
 
-      document.body.appendChild(hover_state.element)
+      document.body.prepend(hover_state.element)
 
       return hover_state.element
     }
@@ -550,7 +558,7 @@ export function Selectable() {
 
   const createHoverLabel = (el, text) => {
     if (!el.hasAttribute('data-pseudo-select') && !el.hasAttribute('data-label-id')) {
-      if (hover_state.label && hover_state.label.remove)
+      if (hover_state.label)
         hover_state.label.remove()
 
       hover_state.label = document.createElement('visbug-label')
@@ -563,7 +571,7 @@ export function Selectable() {
 
       hover_state.label.style = `--label-bg: hsl(267, 100%, 58%)`
 
-      document.body.appendChild(hover_state.label)
+      document.body.prepend(hover_state.label)
 
       return hover_state.label
     }
