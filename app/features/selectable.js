@@ -550,7 +550,7 @@ export function Selectable() {
         boundingRect: el.getBoundingClientRect(),
       }
 
-      document.body.prepend(hover_state.element)
+      document.body.appendChild(hover_state.element)
 
       return hover_state.element
     }
@@ -571,7 +571,7 @@ export function Selectable() {
 
       hover_state.label.style = `--label-bg: hsl(267, 100%, 58%)`
 
-      document.body.prepend(hover_state.label)
+      document.body.appendChild(hover_state.label)
 
       return hover_state.label
     }
