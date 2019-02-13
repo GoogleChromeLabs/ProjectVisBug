@@ -7,7 +7,12 @@ export const VisBugModel = {
     icon:        Icons.guides,
     label:       'Guides',
     description: 'Verify alignment & check your grid',
-    instruction: '',
+    instruction: `<div table>
+                    <div>
+                      <b>Measure:</b>
+                      <span>${altKey} + hover</span>
+                    </div>
+                  </div>`,
   },
   i: {
     tool:        'inspector',
