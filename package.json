@@ -11,7 +11,7 @@
     "postversion": "npm run extension",
     "dev:js": "rollup -c -w",
     "dev:css": "postcss app/index.css -o app/bundle.css -w",
-    "dev:server": "browser-sync start --server 'app' --files 'app/index.html,app/bundle.css,app/bundle.js' --no-open",
+    "dev:server": "browser-sync start --server \"app\" --files \"app/index.html,app/bundle.css,app/bundle.js\" --no-open",
     "extension": "rollup -c && npm run extension:css && npm run extension:copy && npm run extension:zip",
     "extension:css": "postcss app/extension.css -o extension/toolbar/bundle.css",
     "extension:copy": "cp app/bundle.js extension/toolbar/ && cp -R app/tuts/ extension/tuts/",
