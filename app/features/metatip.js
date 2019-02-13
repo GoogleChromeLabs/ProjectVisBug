@@ -12,7 +12,11 @@ const state = {
   tips: new Map(),
 }
 
-export function MetaTip() {
+const services = {}
+
+export function MetaTip({select}) {
+  services.selectors = {select}
+
   $('body').on('mousemove', mouseMove)
   $('body').on('click', togglePinned)
 
@@ -213,21 +217,21 @@ const togglePinned = e => {
   }
 }
 
-const linkQueryClicked = ({detail}) => {
-  if (!detail.text) return
+const linkQueryClicked = ({detail:{ text, activator }}) => {
+  if (!text) return
 
-  queryPage('[data-hover]', el =>
-    el.setAttribute('data-hover', null))
+  queryPage('[data-pseudo-select]', el =>
+    el.removeAttribute('data-pseudo-select'))
 
-  queryPage(detail.text + ':not([data-selected])', el =>
-    detail.activator === 'mouseenter'
-      ? el.setAttribute('data-hover', true)
-      : selectorEngine.select(el))
+  queryPage(text + ':not([data-selected])', el =>
+    activator === 'mouseenter'
+      ? el.setAttribute('data-pseudo-select', true)
+      : services.selectors.select(el))
 }
 
 const linkQueryHoverOut = e => {
-  queryPage('[data-hover]', el =>
-    el.setAttribute('data-hover', null))
+  queryPage('[data-pseudo-select]', el =>
+    el.removeAttribute('data-pseudo-select'))
 }
 
 const toggleTargetCursor = (key, target) =>
