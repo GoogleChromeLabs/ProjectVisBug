@@ -3,6 +3,7 @@ import { getStyle } from '../utilities/'
 
 let imgs      = []
   , overlays  = []
+  , dragItem
 
 export function watchImagesForUpload() {
   imgs = $([
@@ -21,6 +22,8 @@ const initWatchers = imgs => {
   $(document.body).on('dragover', onDragEnter)
   $(document.body).on('dragleave', onDragLeave)
   $(document.body).on('drop', onDrop)
+  $(document.body).on('dragstart', onDragStart)
+  $(document.body).on('dragend', onDragEnd)
 }
 
 const clearWatchers = imgs => {
@@ -30,6 +33,8 @@ const clearWatchers = imgs => {
   $(document.body).off('dragenter', onDragEnter)
   $(document.body).off('dragleave', onDragLeave)
   $(document.body).off('drop', onDrop)
+  $(document.body).on('dragstart', onDragStart)
+  $(document.body).on('dragend', onDragEnd)
   imgs = []
 }
 
@@ -39,6 +44,16 @@ const previewFile = file => {
     reader.readAsDataURL(file)
     reader.onloadend = () => resolve(reader.result)
   })
+}
+
+//only fired for in-page drag events, track what the user picked up
+const onDragStart = e => {
+  dragItem = e.target//track the item being dragged
+}
+
+//only fired for in-page drag events
+const onDragEnd = e => {
+  dragItem = undefined//untrack item
 }
 
 const onDragEnter = e => {
@@ -55,14 +70,16 @@ const onDragEnter = e => {
 const onDragLeave = e => 
   hideOverlays()
 
+
 const onDrop = async e => {
   e.stopPropagation()
   e.preventDefault()
 
   const selectedImages = $('img[data-selected=true]')
-
-  const srcs = await Promise.all(
-    [...e.dataTransfer.files].map(previewFile))
+  
+  
+  const srcs = e.dataTransfer.files.length ? await Promise.all([...e.dataTransfer.files].map(previewFile)) 
+    : [dragItem.src]
   
   if (!selectedImages.length)
     if (e.target.nodeName === 'IMG')
