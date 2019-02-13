@@ -429,7 +429,7 @@ export function Selectable() {
     hover_state.target  = el
     hover_state.element = createHover(el)
     hover_state.label = createHoverLabel(el, `
-      <a>${el.nodeName.toLowerCase()}</a>
+      <a node>${el.nodeName.toLowerCase()}</a>
       <a>${el.id && '#' + el.id}</a>
       ${createClassname(el).split('.')
         .filter(name => name != '')
@@ -455,7 +455,7 @@ export function Selectable() {
   const overlayMetaUI = el => {
     let handle = createHandle(el)
     let label  = createLabel(el, `
-      <a>${el.nodeName.toLowerCase()}</a>
+      <a node>${el.nodeName.toLowerCase()}</a>
       <a>${el.id && '#' + el.id}</a>
       ${createClassname(el).split('.')
         .filter(name => name != '')

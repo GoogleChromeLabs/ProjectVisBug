@@ -49,14 +49,23 @@
     color: inherit;
     text-overflow: ellipsis;
     overflow: hidden;
+    cursor: pointer;
 
     &:hover {
-      color: var(--theme-color); 
+      color: var(--theme-color);
       text-decoration: underline;
     }
 
     &:empty {
       display: none;
+    }
+
+    &[node]:before {
+      content: "\003c";
+    }
+
+    &[node]:after {
+      content: "\003e";
     }
   }
 }
@@ -89,7 +98,7 @@
   text-decoration: none;
 }
 
-:host [brand], 
+:host [brand],
 :host [divider] {
   color: var(--theme-color);
 }

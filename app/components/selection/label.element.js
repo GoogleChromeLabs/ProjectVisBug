@@ -105,6 +105,14 @@ export class Label extends HTMLElement {
           text-decoration: underline;
           color: white;
         }
+
+        :host a[node]:before {
+          content: "\\003c";
+        }
+
+        :host a[node]:after {
+          content: "\\003e";
+        }
       </style>
     `
   }

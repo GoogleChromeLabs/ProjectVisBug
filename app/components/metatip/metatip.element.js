@@ -53,13 +53,13 @@ export class Metatip extends HTMLElement {
       ${this.styles()}
       <figure>
         <h5>
-          <a href="#">${el.nodeName.toLowerCase()}</a>
-          <a href="#">${el.id && '#' + el.id}</a>
+          <a node>${el.nodeName.toLowerCase()}</a>
+          <a>${el.id && '#' + el.id}</a>
           ${createClassname(el).split('.')
             .filter(name => name != '')
             .reduce((links, name) => `
               ${links}
-              <a href="#">.${name}</a>
+              <a>.${name}</a>
             `, '')
           }
         </h5>
