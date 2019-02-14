@@ -10,6 +10,11 @@ export function ColorPicker(pallete, selectorEngine) {
   const bgInput           = $('input', backgroundPicker[0])
   const boInput           = $('input', borderPicker[0])
 
+  const shadows = {
+    active:   'rgba(0, 0, 0, 0.1) 0px 0.25em 0.5em, 0 0 0 2px hotpink',
+    inactive: 'rgba(0, 0, 0, 0.1) 0px 0.25em 0.5em',
+  }
+
   this.active_color       = 'background'
   this.elements           = []
 
@@ -102,17 +107,17 @@ export function ColorPicker(pallete, selectorEngine) {
       // show all 3 if they've selected more than 1 node
       // todo: this is giving up, and can be solved
       foregroundPicker.attr('style', `
-        box-shadow: ${this.active_color == 'foreground' ? '0 0 0 2px hotpink' : '0 0.25em 0.5em hsla(0,0%,0%,10%)'};
+        box-shadow: ${this.active_color == 'foreground' ? shadows.active : shadows.inactive};
         display: inline-flex;
       `)
 
       backgroundPicker.attr('style', `
-        box-shadow: ${this.active_color == 'background' ? '0 0 0 2px hotpink' : '0 0.25em 0.5em hsla(0,0%,0%,10%)'};
+        box-shadow: ${this.active_color == 'background' ? shadows.active : shadows.inactive};
         display: inline-flex;
       `)
 
       borderPicker.attr('style', `
-        box-shadow: ${this.active_color == 'border' ? '0 0 0 2px hotpink' : '0 0.25em 0.5em hsla(0,0%,0%,10%)'};
+        box-shadow: ${this.active_color == 'border' ? shadows.active : shadows.inactive};
         display: inline-flex;
       `)
     }
@@ -126,16 +131,16 @@ export function ColorPicker(pallete, selectorEngine) {
     this.active_color = key
 
     if (key === 'foreground')
-      foregroundPicker[0].style.boxShadow = '0 0 0 2px hotpink'
+      foregroundPicker[0].style.boxShadow = shadows.active
     if (key === 'background')
-      backgroundPicker[0].style.boxShadow = '0 0 0 2px hotpink'
+      backgroundPicker[0].style.boxShadow = shadows.active
     if (key === 'border')
-      borderPicker[0].style.boxShadow = '0 0 0 2px hotpink'
+      borderPicker[0].style.boxShadow = shadows.active
   }
 
   const removeActive = () =>
     [foregroundPicker, backgroundPicker, borderPicker].forEach(([picker]) =>
-      picker.style.boxShadow = '0 0.25em 0.5em hsla(0,0%,0%,10%)')
+      picker.style.boxShadow = shadows.inactive)
 
   return {
     getActive,
