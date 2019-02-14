@@ -81,6 +81,7 @@ export class Label extends HTMLElement {
           z-index: 2147483643;
           transform: translateY(-100%);
           background: var(--label-bg, hotpink);
+          border-radius: 0.2em 0.2em 0 0;
           text-shadow: 0 0.5px 0 hsla(0, 0%, 0%, 0.4);
           color: white;
           display: inline-flex;
