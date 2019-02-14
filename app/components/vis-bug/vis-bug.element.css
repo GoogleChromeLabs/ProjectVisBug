@@ -236,6 +236,7 @@
   box-sizing: border-box;
   border: white;
   padding: 0;
+  cursor: pointer;
 }
 
 :host input[type='color']:focus {
