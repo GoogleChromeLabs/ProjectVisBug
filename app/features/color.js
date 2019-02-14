@@ -135,7 +135,7 @@ export function ColorPicker(pallete, selectorEngine) {
 
   const removeActive = () =>
     [foregroundPicker, backgroundPicker, borderPicker].forEach(([picker]) =>
-      picker.style.boxShadow = 'none')
+      picker.style.boxShadow = '0 0.25em 0.5em hsla(0,0%,0%,10%)')
 
   return {
     getActive,
