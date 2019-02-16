@@ -187,7 +187,8 @@ const extractCurrentValueAndSide = (el, direction) => {
       : x
   }
   else {
-    style   = getSide(direction).toLowerCase()
+    const side = getSide(direction).toLowerCase()
+    style = (side === 'top' || side === 'bottom') ? 'top' : 'left'
     current = getStyle(el, style)
 
     current === 'auto'
@@ -219,9 +220,7 @@ const setTranslateOnSVG = (el, direction, position) => {
 }
 
 const determineNegativity = (el, direction) =>
-  el instanceof SVGElement
-    ? direction.includes('right') || direction.includes('down')
-    : direction.split('+').includes('alt')
+  direction.includes('right') || direction.includes('down')
 
 const ensurePositionable = el => {
   if (el instanceof HTMLElement)

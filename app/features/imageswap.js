@@ -3,6 +3,7 @@ import { getStyle } from '../utilities/'
 
 let imgs      = []
   , overlays  = []
+  , dragItem
 
 export function watchImagesForUpload() {
   imgs = $([
@@ -21,6 +22,8 @@ const initWatchers = imgs => {
   $(document.body).on('dragover', onDragEnter)
   $(document.body).on('dragleave', onDragLeave)
   $(document.body).on('drop', onDrop)
+  $(document.body).on('dragstart', onDragStart)
+  $(document.body).on('dragend', onDragEnd)
 }
 
 const clearWatchers = imgs => {
@@ -30,6 +33,8 @@ const clearWatchers = imgs => {
   $(document.body).off('dragenter', onDragEnter)
   $(document.body).off('dragleave', onDragLeave)
   $(document.body).off('drop', onDrop)
+  $(document.body).on('dragstart', onDragStart)
+  $(document.body).on('dragend', onDragEnd)
   imgs = []
 }
 
@@ -40,6 +45,13 @@ const previewFile = file => {
     reader.onloadend = () => resolve(reader.result)
   })
 }
+
+// only fired for in-page drag events, track what the user picked up
+const onDragStart = ({target}) =>
+  dragItem = target
+
+const onDragEnd = e =>
+  dragItem = undefined
 
 const onDragEnter = e => {
   e.preventDefault()
@@ -55,29 +67,35 @@ const onDragEnter = e => {
 const onDragLeave = e => 
   hideOverlays()
 
+
 const onDrop = async e => {
   e.stopPropagation()
   e.preventDefault()
 
   const selectedImages = $('img[data-selected=true]')
-
-  const srcs = await Promise.all(
-    [...e.dataTransfer.files].map(previewFile))
   
-  if (!selectedImages.length)
-    if (e.target.nodeName === 'IMG')
-      e.target.src = srcs[0]
-    else
-      imgs
-        .filter(img => img.contains(e.target))
-        .forEach(img => 
-          img.style.backgroundImage = `url(${srcs[0]})`)
-  else if (selectedImages.length) {
-    let i = 0
-    selectedImages.forEach(img => {
-      img.src = srcs[i++]
-      if (i >= srcs.length) i = 0
-    })
+  const srcs = e.dataTransfer.files.length 
+    ? await Promise.all([...e.dataTransfer.files]
+      .filter(file => file.type.includes('image'))
+      .map(previewFile)) 
+    : [dragItem.src]
+  
+  if (srcs.length) {
+    if (!selectedImages.length)
+      if (e.target.nodeName === 'IMG')
+        e.target.src = srcs[0]
+      else
+        imgs
+          .filter(img => img.contains(e.target))
+          .forEach(img => 
+            img.style.backgroundImage = `url(${srcs[0]})`)
+    else if (selectedImages.length) {
+      let i = 0
+      selectedImages.forEach(img => {
+        img.src = srcs[i++]
+        if (i >= srcs.length) i = 0
+      })
+    }
   }
 
   hideOverlays()
