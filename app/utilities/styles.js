@@ -59,6 +59,17 @@ export const findNearestParentElement = el =>
       ? el.parentNode.host
       : el.parentNode.parentNode.host
 
+export const findNearestChildElement = el => {
+  if (el.shadowRoot && el.shadowRoot.children.length) {
+    return [...el.shadowRoot.children]
+      .filter(({nodeName}) => 
+        !['LINK','STYLE','SCRIPT','HTML','HEAD'].includes(nodeName)
+      )[0]
+  }
+  else if (el.children.length)
+    return el.children[0]
+}
+
 export const loadStyles = async stylesheets => {
   const fetches = await Promise.all(stylesheets.map(url => fetch(url)))
   const texts   = await Promise.all(fetches.map(url => url.text()))

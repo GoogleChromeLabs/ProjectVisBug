@@ -11,7 +11,7 @@ import { showTip as showAccessibilityTip, removeAll as removeAllAccessibilityTip
 import {
   metaKey, htmlStringToDom, createClassname,
   isOffBounds, getStyles, deepElementFromPoint,
-  isSelectorValid
+  isSelectorValid, findNearestChildElement
 } from '../utilities/'
 
 export function Selectable() {
@@ -266,13 +266,13 @@ export function Selectable() {
       const element_to_left     = canMoveLeft(node)
       const element_to_right    = canMoveRight(node)
       const has_parent_element  = canMoveUp(node)
-      const has_child_elements  = node.children.length
+      const has_child_elements  = findNearestChildElement(node)
 
       if (key.includes('shift')) {
         if (key.includes('tab') && element_to_left)
           flat_n_unique.add(element_to_left)
         else if (key.includes('enter') && has_parent_element)
-          flat_n_unique.add(node.parentNode)
+          flat_n_unique.add(has_parent_element)
         else
           flat_n_unique.add(node)
       }
@@ -280,7 +280,7 @@ export function Selectable() {
         if (key.includes('tab') && element_to_right)
           flat_n_unique.add(element_to_right)
         else if (key.includes('enter') && has_child_elements)
-          flat_n_unique.add(node.children[0])
+          flat_n_unique.add(has_child_elements)
         else
           flat_n_unique.add(node)
       }
