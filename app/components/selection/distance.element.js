@@ -57,12 +57,12 @@ export class Distance extends HTMLElement {
           color: white;
           text-shadow: 0 0.5px 0 hsla(0, 0%, 0%, 0.4);
           background: var(--line-color);
-          border-radius: 1rem;
+          border-radius: 1em;
           text-align: center;
           line-height: 1.1;
           font-size: 0.7em;
           font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
-          padding: 0.25em 0.5em;
+          padding: 0.25em 0.5em 0.275em;
           font-variant-numeric: proportional-num oldstyle-nums stacked-fractions slashed-zero;
         }
 
