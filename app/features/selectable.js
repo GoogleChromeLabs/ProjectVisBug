@@ -11,7 +11,7 @@ import { showTip as showAccessibilityTip, removeAll as removeAllAccessibilityTip
 import {
   metaKey, htmlStringToDom, createClassname,
   isOffBounds, getStyles, deepElementFromPoint,
-  isSelectorValid, findNearestChildElement
+  isSelectorValid, findNearestChildElement, findNearestParentElement
 } from '../utilities/'
 
 export function Selectable() {
@@ -265,7 +265,7 @@ export function Selectable() {
     const targets = selected.reduce((flat_n_unique, node) => {
       const element_to_left     = canMoveLeft(node)
       const element_to_right    = canMoveRight(node)
-      const has_parent_element  = canMoveUp(node)
+      const has_parent_element  = findNearestParentElement(node)
       const has_child_elements  = findNearestChildElement(node)
 
       if (key.includes('shift')) {
