@@ -4,21 +4,35 @@ import hotkeys from 'hotkeys-js'
 import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
 import { queryPage } from './search'
-import { metaKey, htmlStringToDom, createClassname, isOffBounds, getStyles } from '../utilities/'
+import { createMeasurements, clearMeasurements } from './measurements'
+import { showTip as showMetaTip, removeAll as removeAllMetaTips } from './metatip'
+import { showTip as showAccessibilityTip, removeAll as removeAllAccessibilityTips } from './accessibility'
+
+import {
+  metaKey, htmlStringToDom, createClassname,
+  isOffBounds, getStyles, deepElementFromPoint,
+  isSelectorValid, findNearestChildElement
+} from '../utilities/'
 
 export function Selectable() {
-  const elements          = $('body')
+  const page              = document.body
   let selected            = []
   let selectedCallbacks   = []
   let labels              = []
   let handles             = []
 
+  const hover_state       = {
+    target:   null,
+    element:  null,
+    label:    null,
+  }
+
   const listen = () => {
-    elements.forEach(el => el.addEventListener('click', on_click, true))
-    elements.forEach(el => el.addEventListener('dblclick', on_dblclick, true))
-    elements.on('selectstart', on_selection)
-    elements.on('mouseover', on_hover)
-    elements.on('mouseout', on_hoverout)
+    page.addEventListener('click', on_click, true)
+    page.addEventListener('dblclick', on_dblclick, true)
+
+    page.on('selectstart', on_selection)
+    page.on('mousemove', on_hover)
 
     document.addEventListener('copy', on_copy)
     document.addEventListener('cut', on_cut)
@@ -35,14 +49,15 @@ export function Selectable() {
     hotkeys(`${metaKey}+e,${metaKey}+shift+e`, on_expand_selection)
     hotkeys(`${metaKey}+g,${metaKey}+shift+g`, on_group)
     hotkeys('tab,shift+tab,enter,shift+enter', on_keyboard_traversal)
+    hotkeys(`${metaKey}+shift+enter`, on_select_children)
   }
 
   const unlisten = () => {
-    elements.forEach(el => el.removeEventListener('click', on_click, true))
-    elements.forEach(el => el.removeEventListener('dblclick', on_dblclick, true))
-    elements.off('selectstart', on_selection)
-    elements.off('mouseover', on_hover)
-    elements.off('mouseout', on_hoverout)
+    page.removeEventListener('click', on_click, true)
+    page.removeEventListener('dblclick', on_dblclick, true)
+
+    page.off('selectstart', on_selection)
+    page.off('mousemove', on_hover)
 
     document.removeEventListener('copy', on_copy)
     document.removeEventListener('cut', on_cut)
@@ -52,21 +67,22 @@ export function Selectable() {
   }
 
   const on_click = e => {
-    if (isOffBounds(e.target) && !selected.filter(el => el == e.target).length)
+    const $target = deepElementFromPoint(e.clientX, e.clientY)
+
+    if (isOffBounds($target) && !selected.filter(el => el == $target).length)
       return
 
     e.preventDefault()
     if (!e.altKey) e.stopPropagation()
     if (!e.shiftKey) unselect_all()
 
-    if(e.shiftKey && e.target.hasAttribute('data-label-id'))
-      unselect(e.target.getAttribute('data-label-id'))
+    if(e.shiftKey && $target.hasAttribute('data-selected'))
+      unselect($target.getAttribute('data-label-id'))
     else
-    select(e.target)
+      select($target)
   }
 
   const unselect = id => {
-
     [...labels, ...handles]
       .filter(node =>
           node.getAttribute('data-label-id') === id)
@@ -80,7 +96,8 @@ export function Selectable() {
           'data-selected':      null,
           'data-selected-hide': null,
           'data-label-id':      null,
-          'data-hover': null
+          'data-pseudo-select':         null,
+          'data-measuring':     null,
       }))
 
     selected = selected.filter(node => node.getAttribute('data-label-id') !== id)
@@ -92,7 +109,7 @@ export function Selectable() {
     e.preventDefault()
     e.stopPropagation()
     if (isOffBounds(e.target)) return
-    $('tool-pallete')[0].toolSelected('text')
+    $('vis-bug')[0].toolSelected('text')
   }
 
   const watchCommandKey = e => {
@@ -100,7 +117,7 @@ export function Selectable() {
 
     document.onkeydown = function(e) {
       if (hotkeys.ctrl && selected.length) {
-        $('pb-handles, pb-label').forEach(el =>
+        $('visbug-handles, visbug-label, visbug-hover').forEach(el =>
           el.style.display = 'none')
 
         did_hide = true
@@ -109,7 +126,7 @@ export function Selectable() {
 
     document.onkeyup = function(e) {
       if (did_hide) {
-        $('pb-handles, pb-label').forEach(el =>
+        $('visbug-handles, visbug-label, visbug-hover').forEach(el =>
           el.style.display = null)
 
         did_hide = false
@@ -191,10 +208,16 @@ export function Selectable() {
   const on_expand_selection = (e, {key}) => {
     e.preventDefault()
 
-    expandSelection({
-      query:  combineNodeNameAndClass(selected[0]),
-      all:    key.includes('shift'),
-    })
+    const [root] = selected
+    if (!root) return
+
+    const query = combineNodeNameAndClass(root)
+
+    if (isSelectorValid(query))
+      expandSelection({
+        query,
+        all: key.includes('shift'),
+      })
   }
 
   const on_group = (e, {key}) => {
@@ -234,50 +257,104 @@ export function Selectable() {
     && e.preventDefault()
 
   const on_keyboard_traversal = (e, {key}) => {
-    if (selected.length !== 1) return
+    if (!selected.length) return
 
     e.preventDefault()
     e.stopPropagation()
 
-    const current = selected[0]
+    const targets = selected.reduce((flat_n_unique, node) => {
+      const element_to_left     = canMoveLeft(node)
+      const element_to_right    = canMoveRight(node)
+      const has_parent_element  = canMoveUp(node)
+      const has_child_elements  = findNearestChildElement(node)
 
-    if (key.includes('shift')) {
-      if (key.includes('tab') && canMoveLeft(current)) {
-        unselect_all()
-        select(canMoveLeft(current))
+      if (key.includes('shift')) {
+        if (key.includes('tab') && element_to_left)
+          flat_n_unique.add(element_to_left)
+        else if (key.includes('enter') && has_parent_element)
+          flat_n_unique.add(has_parent_element)
+        else
+          flat_n_unique.add(node)
       }
-      if (key.includes('enter') && canMoveUp(current)) {
-        unselect_all()
-        select(current.parentNode)
+      else {
+        if (key.includes('tab') && element_to_right)
+          flat_n_unique.add(element_to_right)
+        else if (key.includes('enter') && has_child_elements)
+          flat_n_unique.add(has_child_elements)
+        else
+          flat_n_unique.add(node)
       }
-    }
-    else {
-      if (key.includes('tab') && canMoveRight(current)) {
-        unselect_all()
-        select(canMoveRight(current))
-      }
-      if (key.includes('enter') && current.children.length) {
-        unselect_all()
-        select(current.children[0])
-      }
+
+      return flat_n_unique
+    }, new Set())
+
+    if (targets.size) {
+      unselect_all()
+      targets.forEach(node => {
+        select(node)
+        show_tip(node)
+      })
     }
   }
 
-  const on_hover = ({target}) => {
-    if (isOffBounds(target)) return
-    target.setAttribute('data-hover', true)
+  const show_tip = el => {
+    const active_tool = $('vis-bug')[0].activeTool
+    let tipFactory
+
+    if (active_tool === 'accessibility') {
+      removeAllAccessibilityTips()
+      tipFactory = showAccessibilityTip
+    }
+    else if (active_tool === 'inspector') {
+      removeAllMetaTips()
+      tipFactory = showMetaTip
+    }
+
+    if (!tipFactory) return
+
+    const {top, left} = el.getBoundingClientRect()
+    const { pageYOffset, pageXOffset } = window
+
+    tipFactory(el, {
+      clientY:  top,
+      clientX:  left,
+      pageY:    pageYOffset + top - 10,
+      pageX:    pageXOffset + left + 20,
+    })
   }
 
-  const on_hoverout = ({target}) => {
-    target.removeAttribute('data-hover')
+  const on_hover = e => {
+    const $target = deepElementFromPoint(e.clientX, e.clientY)
+
+    if (isOffBounds($target) || $target.hasAttribute('data-selected'))
+      return clearHover()
+
+    overlayHoverUI($target)
+
+    if (e.altKey && $('vis-bug')[0].activeTool === 'guides' && selected.length === 1 && selected[0] != $target) {
+      $target.setAttribute('data-measuring', true)
+      const [$anchor] = selected
+      return createMeasurements({$anchor, $target})
+    }
+    else if ($target.hasAttribute('data-measuring')) {
+      $target.removeAttribute('data-measuring')
+      clearMeasurements()
+    }
   }
 
   const select = el => {
     el.setAttribute('data-selected', true)
+    el.setAttribute('data-label-id', labels.length)
+
+    clearHover()
+
     overlayMetaUI(el)
     selected.unshift(el)
     tellWatchers()
   }
+
+  const selection = () =>
+    selected
 
   const unselect_all = () => {
     selected
@@ -286,13 +363,10 @@ export function Selectable() {
           'data-selected':      null,
           'data-selected-hide': null,
           'data-label-id':      null,
-          'data-hover':         null,
+          'data-pseudo-select': null,
         }))
 
-    handles.forEach(el =>
-      el.remove())
-
-    labels.forEach(el =>
+    Array.from([...handles, ...labels]).forEach(el =>
       el.remove())
 
     labels    = []
@@ -327,8 +401,9 @@ export function Selectable() {
       const potentials = $(query)
       if (!potentials) return
 
+      const [anchor] = selected
       const root_node_index = potentials.reduce((index, node, i) =>
-        combineNodeNameAndClass(node) == query
+        node == anchor
           ? index = i
           : index
       , null)
@@ -348,10 +423,39 @@ export function Selectable() {
   const combineNodeNameAndClass = node =>
     `${node.nodeName.toLowerCase()}${createClassname(node)}`
 
+  const overlayHoverUI = el => {
+    if (hover_state.target === el) return
+
+    hover_state.target  = el
+    hover_state.element = createHover(el)
+    hover_state.label = createHoverLabel(el, `
+      <a node>${el.nodeName.toLowerCase()}</a>
+      <a>${el.id && '#' + el.id}</a>
+      ${createClassname(el).split('.')
+        .filter(name => name != '')
+        .reduce((links, name) => `
+          ${links}
+          <a>.${name}</a>
+        `, '')
+      }
+    `)
+  }
+
+  const clearHover = () => {
+    if (!hover_state.target) return
+
+    hover_state.element && hover_state.element.remove()
+    hover_state.label && hover_state.label.remove()
+
+    hover_state.target  = null
+    hover_state.element = null
+    hover_state.label   = null
+  }
+
   const overlayMetaUI = el => {
     let handle = createHandle(el)
     let label  = createLabel(el, `
-      <a>${el.nodeName.toLowerCase()}</a>
+      <a node>${el.nodeName.toLowerCase()}</a>
       <a>${el.id && '#' + el.id}</a>
       ${createClassname(el).split('.')
         .filter(name => name != '')
@@ -378,15 +482,16 @@ export function Selectable() {
     label.update = el.getBoundingClientRect()
 
   const createLabel = (el, text) => {
-    if (!labels[parseInt(el.getAttribute('data-label-id'))]) {
-      const label = document.createElement('pb-label')
+    const id = parseInt(el.getAttribute('data-label-id'))
+
+    if (!labels[id]) {
+      const label = document.createElement('visbug-label')
 
       label.text = text
       label.position = {
         boundingRect:   el.getBoundingClientRect(),
-        node_label_id:  labels.length,
+        node_label_id:  id,
       }
-      el.setAttribute('data-label-id', labels.length)
 
       document.body.appendChild(label)
 
@@ -394,40 +499,81 @@ export function Selectable() {
         if (!detail.text) return
         this.query_text = detail.text
 
-        queryPage('[data-hover]', el =>
-          el.setAttribute('data-hover', null))
+        queryPage('[data-pseudo-select]', el =>
+          el.removeAttribute('data-pseudo-select'))
 
         queryPage(this.query_text + ':not([data-selected])', el =>
           detail.activator === 'mouseenter'
-            ? el.setAttribute('data-hover', true)
+            ? el.setAttribute('data-pseudo-select', true)
             : select(el))
       })
 
       $(label).on('mouseleave', e => {
         e.preventDefault()
         e.stopPropagation()
-        queryPage('[data-hover]', el =>
-          el.setAttribute('data-hover', null))
+        queryPage('[data-pseudo-select]', el =>
+          el.removeAttribute('data-pseudo-select'))
       })
 
       labels[labels.length] = label
+
       return label
     }
   }
 
   const createHandle = el => {
-    if (!handles[parseInt(el.getAttribute('data-label-id'))]) {
-      const handle = document.createElement('pb-handles')
+    const id = parseInt(el.getAttribute('data-label-id'))
+
+    if (!handles[id]) {
+      const handle = document.createElement('visbug-handles')
 
       handle.position = {
         boundingRect:   el.getBoundingClientRect(),
-        node_label_id:  handles.length,
+        node_label_id:  id,
       }
 
       document.body.appendChild(handle)
 
       handles[handles.length] = handle
       return handle
+    }
+  }
+
+  const createHover = el => {
+    if (!el.hasAttribute('data-pseudo-select') && !el.hasAttribute('data-label-id')) {
+      if (hover_state.element)
+        hover_state.element.remove()
+
+      hover_state.element = document.createElement('visbug-hover')
+
+      hover_state.element.position = {
+        boundingRect: el.getBoundingClientRect(),
+      }
+
+      document.body.appendChild(hover_state.element)
+
+      return hover_state.element
+    }
+  }
+
+  const createHoverLabel = (el, text) => {
+    if (!el.hasAttribute('data-pseudo-select') && !el.hasAttribute('data-label-id')) {
+      if (hover_state.label)
+        hover_state.label.remove()
+
+      hover_state.label = document.createElement('visbug-label')
+
+      hover_state.label.text = text
+      hover_state.label.position = {
+        boundingRect:   el.getBoundingClientRect(),
+        node_label_id:  'hover',
+      }
+
+      hover_state.label.style = `--label-bg: hsl(267, 100%, 58%)`
+
+      document.body.appendChild(hover_state.label)
+
+      return hover_state.label
     }
   }
 
@@ -460,14 +606,30 @@ export function Selectable() {
     unlisten()
   }
 
+  const on_select_children = (e, {key}) => {
+    const targets = selected
+      .filter(node => node.children.length)
+      .reduce((flat, {children}) =>
+        [...flat, ...Array.from(children)], [])
+
+    if (targets.length) {
+      e.preventDefault()
+      e.stopPropagation()
+
+      unselect_all()
+      targets.forEach(node => select(node))
+    }
+  }
+
   watchImagesForUpload()
   listen()
 
   return {
     select,
+    selection,
     unselect_all,
     onSelectedUpdate,
     removeSelectedCallback,
-    disconnect
+    disconnect,
   }
 }

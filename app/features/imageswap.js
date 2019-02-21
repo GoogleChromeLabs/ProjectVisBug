@@ -46,15 +46,12 @@ const previewFile = file => {
   })
 }
 
-//only fired for in-page drag events, track what the user picked up
-const onDragStart = e => {
-  dragItem = e.target//track the item being dragged
-}
+// only fired for in-page drag events, track what the user picked up
+const onDragStart = ({target}) =>
+  dragItem = target
 
-//only fired for in-page drag events
-const onDragEnd = e => {
-  dragItem = undefined//untrack item
-}
+const onDragEnd = e =>
+  dragItem = undefined
 
 const onDragEnter = e => {
   e.preventDefault()
@@ -77,24 +74,28 @@ const onDrop = async e => {
 
   const selectedImages = $('img[data-selected=true]')
   
-  
-  const srcs = e.dataTransfer.files.length ? await Promise.all([...e.dataTransfer.files].map(previewFile)) 
+  const srcs = e.dataTransfer.files.length 
+    ? await Promise.all([...e.dataTransfer.files]
+      .filter(file => file.type.includes('image'))
+      .map(previewFile)) 
     : [dragItem.src]
   
-  if (!selectedImages.length)
-    if (e.target.nodeName === 'IMG')
-      e.target.src = srcs[0]
-    else
-      imgs
-        .filter(img => img.contains(e.target))
-        .forEach(img => 
-          img.style.backgroundImage = `url(${srcs[0]})`)
-  else if (selectedImages.length) {
-    let i = 0
-    selectedImages.forEach(img => {
-      img.src = srcs[i++]
-      if (i >= srcs.length) i = 0
-    })
+  if (srcs.length) {
+    if (!selectedImages.length)
+      if (e.target.nodeName === 'IMG')
+        e.target.src = srcs[0]
+      else
+        imgs
+          .filter(img => img.contains(e.target))
+          .forEach(img => 
+            img.style.backgroundImage = `url(${srcs[0]})`)
+    else if (selectedImages.length) {
+      let i = 0
+      selectedImages.forEach(img => {
+        img.src = srcs[i++]
+        if (i >= srcs.length) i = 0
+      })
+    }
   }
 
   hideOverlays()
@@ -108,7 +109,7 @@ const showOverlay = (node, i) => {
     overlay.update = rect
   }
   else {
-    overlays[i] = document.createElement('pb-overlay')
+    overlays[i] = document.createElement('visbug-overlay')
     overlays[i].position = rect
     document.body.appendChild(overlays[i])
   }

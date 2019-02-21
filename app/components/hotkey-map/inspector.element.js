@@ -1,5 +1,5 @@
 import { HotkeyMap } from './base.element'
-import { inspector as icon } from '../tool-pallete/toolpallete.icons'
+import { inspector as icon } from '../vis-bug/vis-bug.icons'
 import { altKey } from '../../utilities';
 
 export class InspectorHotkeys extends HotkeyMap {

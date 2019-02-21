@@ -1,4 +1,3 @@
-import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { metaKey, getStyle, getSide, showHideSelected } from '../utilities/'
 
@@ -12,17 +11,17 @@ const key_events = 'up,down,left,right'
 
 const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down`
 
-export function Margin(selector) {
+export function Margin({selection}) {
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
 
     e.preventDefault()
-    pushElement($(selector), handler.key)
+    pushElement(selection(), handler.key)
   })
 
   hotkeys(command_events, (e, handler) => {
     e.preventDefault()
-    pushAllElementSides($(selector), handler.key)
+    pushAllElementSides(selection(), handler.key)
   })
 
   return () => {

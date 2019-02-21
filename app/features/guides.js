@@ -1,22 +1,23 @@
 import $ from 'blingblingjs'
-import { isOffBounds } from '../utilities/'
+import { isOffBounds, deepElementFromPoint } from '../utilities/'
 
 let gridlines
 
 export function Guides() {
-  $('body').on('mouseover', on_hover)
+  $('body').on('mousemove', on_hover)
   $('body').on('mouseout', on_hoverout)
   window.addEventListener('scroll', hideGridlines)
 
   return () => {
-    $('body').off('mouseover', on_hover)
+    $('body').off('mousemove', on_hover)
     $('body').off('mouseout', on_hoverout)
     window.removeEventListener('scroll', hideGridlines)
     hideGridlines()
   }
 }
 
-const on_hover = ({target}) => {
+const on_hover = e => {
+  const target = deepElementFromPoint(e.clientX, e.clientY)
   if (isOffBounds(target)) return
   showGridlines(target)
 }
@@ -29,7 +30,7 @@ export function createGuide(vert = true) {
     left: 0;
     background: hsla(330, 100%, 71%, 70%);
     pointer-events: none;
-    z-index: 9997;
+    z-index: 2147483643;
   `
 
   vert 
@@ -39,37 +40,14 @@ export function createGuide(vert = true) {
         transform: rotate(180deg);
       `
     : styles += `
-      height: 1px;
-      width: 100vw;
-    `
+        height: 1px;
+        width: 100vw;
+      `
 
   guide.style = styles
 
   return guide
 }
-
-// export function Guides() {
-//   let v = createGuide()
-//     , h = createGuide(false)
-
-//   document.body.appendChild(v)
-//   document.body.appendChild(h)
-//   document.body.style.cursor = 'crosshair'
-
-//   const mouseMove = e => {
-//     v.style.left  = e.clientX + 'px'
-//     h.style.top   = e.clientY + 'px'
-//   }
-
-//   $('body').on('mousemove', mouseMove)
-
-//   return () => {
-//     $('body').off('mousemove', mouseMove)
-//     document.body.removeChild(v)
-//     document.body.removeChild(h)
-//     document.body.style.cursor = null
-//   }
-// }
 
 const on_hoverout = ({target}) =>
   hideGridlines()
@@ -80,7 +58,7 @@ const showGridlines = node => {
     gridlines.update = node.getBoundingClientRect()
   }
   else {
-    gridlines = document.createElement('pb-gridlines')
+    gridlines = document.createElement('visbug-gridlines')
     gridlines.position = node.getBoundingClientRect()
 
     document.body.appendChild(gridlines)

@@ -1,5 +1,5 @@
 import { HotkeyMap } from './base.element'
-import { guides as icon } from '../tool-pallete/toolpallete.icons' 
+import { guides as icon } from '../vis-bug/vis-bug.icons'
 
 export class GuidesHotkeys extends HotkeyMap {
   constructor() {

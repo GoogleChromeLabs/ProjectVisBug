@@ -14,14 +14,15 @@ const key_events = 'up,down,left,right'
 const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down,${metaKey}+left,${metaKey}+shift+left,${metaKey}+right,${metaKey}+shift+right`
 
 export function HueShift(Color) {
-  this.active_color = Color.getActive()
+  this.active_color   = Color.getActive()
+  this.elements       = []
 
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
 
     e.preventDefault()
 
-    let selectedNodes = $('[data-selected=true]')
+    let selectedNodes = this.elements
       , keys = handler.key.split('+')
 
     keys.includes('left') || keys.includes('right')
@@ -33,23 +34,36 @@ export function HueShift(Color) {
     e.preventDefault()
     let keys = handler.key.split('+')
     keys.includes('left') || keys.includes('right')
-      ? changeHue($('[data-selected=true]'), keys, 'a', Color)
-      : changeHue($('[data-selected=true]'), keys, 'h', Color)
+      ? changeHue(this.elements, keys, 'a', Color)
+      : changeHue(this.elements, keys, 'h', Color)
   })
 
-  hotkeys('[,]', (e, handler) => {
+  hotkeys(']', (e, handler) => {
+    e.preventDefault()
+
+    if (this.active_color == 'foreground')
+      this.active_color = 'background'
+    else if (this.active_color == 'background')
+      this.active_color = 'border'
+
+    Color.setActive(this.active_color)
+  })
+
+  hotkeys('[', (e, handler) => {
     e.preventDefault()
 
     if (this.active_color == 'background')
       this.active_color = 'foreground'
-    else if (this.active_color == 'foreground')
+    else if (this.active_color == 'border')
       this.active_color = 'background'
 
     Color.setActive(this.active_color)
   })
 
-  const onNodesSelected = els =>
+  const onNodesSelected = els => {
+    this.elements = els
     Color.setActive(this.active_color)
+  }
 
   const disconnect = () => {
     hotkeys.unbind(key_events)
@@ -67,7 +81,7 @@ export function changeHue(els, direction, prop, Color) {
   els
     .map(el => showHideSelected(el))
     .map(el => {
-      const { foreground, background } = extractPalleteColors(el)
+      const { foreground, background, border } = extractPalleteColors(el)
 
       // todo: teach hueshift to do handle color
       switch(Color.getActive()) {
@@ -75,6 +89,10 @@ export function changeHue(els, direction, prop, Color) {
           return { el, current: background.color.toHsl(), style: background.style }
         case 'foreground':
           return { el, current: foreground.color.toHsl(), style: foreground.style }
+        case 'border': {
+          if (el.style.border === '') el.style.border = '1px solid black'
+          return { el, current: border.color.toHsl(), style: border.style }
+        }
       }
     })
     .map(payload =>
@@ -120,6 +138,10 @@ export function extractPalleteColors(el) {
       background: {
         style: 'fill',
         color: new TinyColor(getStyle(el, 'fill')),
+      },
+      border: {
+        style: 'outline',
+        color: new TinyColor(getStyle(el, 'outline')),
       }
     }
   }
@@ -132,6 +154,10 @@ export function extractPalleteColors(el) {
       background: {
         style: 'backgroundColor',
         color: new TinyColor(getStyle(el, 'backgroundColor')),
+      },
+      border: {
+        style: 'borderColor',
+        color: new TinyColor(getStyle(el, 'borderColor')),
       }
     }
 }

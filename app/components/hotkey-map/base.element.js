@@ -1,7 +1,7 @@
 import $            from 'blingblingjs'
 import hotkeys      from 'hotkeys-js'
 import styles       from './base.element.css'
-import * as Icons   from '../tool-pallete/toolpallete.icons'
+import * as Icons   from '../vis-bug/vis-bug.icons'
 import { metaKey, altKey }  from '../../utilities/'
 
 export class HotkeyMap extends HTMLElement {
@@ -25,7 +25,7 @@ export class HotkeyMap extends HTMLElement {
       space:  {3:10},
     }
 
-    this.$shadow    = this.attachShadow({mode: 'open'})
+    this.$shadow    = this.attachShadow({mode: 'closed'})
 
     this._hotkey    = ''
     this._usedkeys  = []

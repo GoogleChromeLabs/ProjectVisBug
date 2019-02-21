@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
-    <title>PixelBug Copy 2</title>
+    <title>VisBug Copy 2</title>
     <desc>Created with Sketch.</desc>
     <defs>
         <filter x="0.0%" y="0.0%" width="100.0%" height="100.0%" filterUnits="objectBoundingBox" id="filter-1">
@@ -13,7 +13,7 @@
             </feMerge>
         </filter>
     </defs>
-    <g id="PixelBug-Copy-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g id="VisBug-Copy-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <path d="M434,144 C469.898509,144 499,114.898509 499,79 C499,43.1014913 469.898509,14 434,14 C398.101491,14 369,43.1014913 369,79 C369,114.898509 398.101491,144 434,144 Z" id="k" fill="#000000" fill-rule="nonzero"></path>
         <g id="multiply-group" filter="url(#filter-1)" transform="translate(-26.000000, -26.000000)" fill-rule="nonzero">
             <path d="M252.849285,316.021385 C384.402163,316.021385 491.046841,224.539715 491.046841,224.539715 C491.046841,224.539715 384.402163,133.058045 252.849285,133.058045 C121.296407,133.058045 14.6517289,224.539715 14.6517289,224.539715 C14.6517289,224.539715 121.296407,316.021385 252.849285,316.021385 Z" id="c" fill="#00FFFF" style="mix-blend-mode: multiply;" transform="translate(252.849285, 224.539715) rotate(-30.000000) translate(-252.849285, -224.539715) "></path>

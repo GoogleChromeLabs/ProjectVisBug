@@ -12,25 +12,27 @@ const key_events = 'up,down,left,right'
 const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down`
 
 export function Position() {
-  this._els = []
+  const state = {
+    elements: []
+  }
 
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
 
     e.preventDefault()
-    positionElement($('[data-selected=true]'), handler.key)
+    positionElement(state.elements, handler.key)
   })
 
   const onNodesSelected = els => {
-    this._els.forEach(el =>
+    state.elements.forEach(el =>
       el.teardown())
 
-    this._els = els.map(el =>
+    state.elements = els.map(el =>
       draggable(el))
   }
 
   const disconnect = () => {
-    this._els.forEach(el => el.teardown())
+    state.elements.forEach(el => el.teardown())
     hotkeys.unbind(key_events)
     hotkeys.unbind('up,down,left,right')
   }
@@ -102,6 +104,7 @@ export function draggable(el) {
 
   const onMouseUp = e => {
     e.preventDefault()
+    e.stopPropagation()
 
     this.state.mouse.down = false
     el.style.willChange = null
@@ -141,10 +144,9 @@ export function draggable(el) {
   }
 
   setup()
+  el.teardown = teardown
 
-  return {
-    teardown
-  }
+  return el
 }
 
 export function positionElement(els, direction) {
