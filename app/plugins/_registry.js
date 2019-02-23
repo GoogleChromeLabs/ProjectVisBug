@@ -7,6 +7,7 @@ import { commands as wireframe_commands, default as WireframePlugin } from './wi
 import { commands as skeleton_commands, default as SkeletonPlugin } from './skeleton'
 import { commands as tag_debugger_commands, default as TagDebuggerPlugin } from './tag-debugger'
 import { commands as revenge_commands, default as RevengePlugin } from './revenge'
+import { commands as tota11y_commands, default as Tota11yPlugin } from './tota11y'
 
 const commandsToHash = (plugin_commands, plugin_fn) =>
   plugin_commands.reduce((commands, command) =>
@@ -23,6 +24,7 @@ export const PluginRegistry = new Map(Object.entries({
   ...commandsToHash(skeleton_commands, SkeletonPlugin),
   ...commandsToHash(tag_debugger_commands, TagDebuggerPlugin),
   ...commandsToHash(revenge_commands, RevengePlugin),
+  ...commandsToHash(tota11y_commands, Tota11yPlugin),
 }))
 
 export const PluginHints = [
@@ -35,4 +37,5 @@ export const PluginHints = [
   skeleton_commands[0],
   tag_debugger_commands[0],
   revenge_commands[0],
+  tota11y_commands[0],
 ].map(command => `/${command}`)
