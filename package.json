@@ -22,7 +22,7 @@
     "deploy": "gcloud app deploy --project=visbug-1337",
     "test": "ava",
     "test:dev": "ava -v -w",
-    "test:ci": "node tests/runner.js"
+    "test:ci": "start-server-and-test http://localhost:3000"
   },
   "author": "",
   "license": "ISC",
@@ -31,7 +31,8 @@
     "blingblingjs": "^2.0.2",
     "hotkeys-js": "^3.3.5",
     "query-selector-shadow-dom": "^0.3.2",
-    "ragrid": "^1.0.5"
+    "ragrid": "^1.0.5",
+    "start-server-and-test": "^1.7.11"
   },
   "devDependencies": {
     "ava": "^1.0.1",
