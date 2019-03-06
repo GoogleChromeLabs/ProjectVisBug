@@ -8,6 +8,111 @@ test.beforeEach(setupPptrTab)
 test('Should have guides as default tool', async t => {
   const { page } = t.context
   t.is(await getActiveTool(page), 'guides')
+  t.pass()
+})
+
+test('Should have 13 tools', async t => {
+  const { page } = t.context
+  const tools = await page.evaluate(`document.querySelector('vis-bug').$shadow.querySelectorAll('ol:first-of-type > li').length`)
+
+  t.is(tools, 13)
+  t.pass()
+})
+
+test('Should have 13 key trainers', async t => {
+  const { page } = t.context
+  const trainers = await page.evaluate(`document.querySelector('vis-bug').$shadow.querySelectorAll('visbug-hotkeys > *').length`)
+
+  t.is(trainers, 13)
+  t.pass()
+})
+
+test('Should have 3 color pickers', async t => {
+  const { page } = t.context
+  const pickers = await page.evaluate(`document.querySelector('vis-bug').$shadow.querySelectorAll('ol[colors] > li').length`)
+
+  t.is(pickers, 3)
+  t.pass()
+})
+
+test('Should show 2 overlay elements on hover', async t => {
+  const { page } = t.context
+
+  await page.mouse.move(100, 200)
+
+  const hover_elements = await page.evaluate(`document.querySelectorAll('visbug-hover').length`)
+  const label_elements = await page.evaluate(`document.querySelectorAll('visbug-label').length`)
+
+  t.is(hover_elements, 1)
+  t.is(label_elements, 1)
+  t.pass()
+})
+
+test('Should allow selecting 1 element', async t => {
+  const { page } = t.context
+
+  await page.click(`[intro]`)
+
+  const handles_elements = await page.evaluate(`document.querySelectorAll('visbug-handles').length`)
+  const label_elements = await page.evaluate(`document.querySelectorAll('visbug-label').length`)
+
+  t.is(handles_elements, 1)
+  t.is(label_elements, 1)
+
+  t.pass()
+})
+
+test('Should allow multi-selection', async t => {
+  const { page } = t.context
+
+  await page.click(`.artboard:nth-of-type(1)`)
+  await page.keyboard.down('Shift')
+  await page.click(`.artboard:nth-of-type(2)`)
+  await page.keyboard.up('Shift')
+
+  const handles_elements = await page.evaluate(`document.querySelectorAll('visbug-handles').length`)
+  const label_elements = await page.evaluate(`document.querySelectorAll('visbug-label').length`)
+
+  t.is(handles_elements, 2)
+  t.is(label_elements, 2)
+
+  t.pass()
+})
+
+test('Should allow deselecting', async t => {
+  const { page } = t.context
+
+  await page.click(`.artboard:nth-of-type(1)`)
+
+  const handles_elements = await page.evaluate(`document.querySelectorAll('visbug-handles').length`)
+  const label_elements = await page.evaluate(`document.querySelectorAll('visbug-label').length`)
+
+  t.is(handles_elements, 1)
+  t.is(label_elements, 1)
+
+  await page.keyboard.press('Escape')
+
+  const new_handles_elements = await page.evaluate(`document.querySelectorAll('visbug-handles').length`)
+  const new_label_elements = await page.evaluate(`document.querySelectorAll('visbug-label').length`)
+
+  t.is(new_handles_elements, 0)
+  t.is(new_label_elements, 0)
+
+  t.pass()
+})
+
+test('Should be hideable', async t => {
+  const { page } = t.context
+
+  await page.keyboard.down('Control')
+  await page.keyboard.down(',')
+  await page.keyboard.up('Control')
+  await page.keyboard.up(',')
+
+  const visibility = await page.evaluate(`document.querySelector('vis-bug').$shadow.host.style.display`)
+
+  t.pass(visibility, 'none')
+  t.pass()
 })
 
 test.afterEach(teardownPptrTab)
