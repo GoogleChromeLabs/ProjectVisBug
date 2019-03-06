@@ -1,16 +1,17 @@
 {
   "name": "VisBug",
-  "version": "0.1.17",
+  "version": "0.2.11",
   "description": "Open source browser design tools",
   "manifest_version": 2,
   "icons": { "128": "icons/visbug.png" },
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "contextMenus"
   ],
   "background": {
     "persistent": true,
     "scripts": [
-      "pixelbug.js"
+      "visbug.js"
     ]
   },
   "browser_action": {
@@ -20,19 +21,7 @@
     }
   },
   "web_accessible_resources": [
-    "tuts/accessibility.gif",
-    "tuts/align.gif",
-    "tuts/boxshadow.gif",
-    "tuts/font.gif",
-    "tuts/guides.gif",
-    "tuts/hueshift.gif",
-    "tuts/inspector.gif",
-    "tuts/margin.gif",
-    "tuts/move.gif",
-    "tuts/padding.gif",
-    "tuts/position.gif",
-    "tuts/search.gif",
-    "tuts/text.gif"
+    "tuts/*"
   ],
   "commands": {
     "_execute_browser_action": {

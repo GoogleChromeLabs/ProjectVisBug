@@ -2,7 +2,7 @@
 
 :host {
   position: absolute;
-  z-index: 99999;
+  z-index: 2147483647;
   direction: ltr;
   font-size: 16px;
   font-family: system-ui;
@@ -49,14 +49,23 @@
     color: inherit;
     text-overflow: ellipsis;
     overflow: hidden;
+    cursor: pointer;
 
     &:hover {
-      color: var(--theme-color); 
+      color: var(--theme-color);
       text-decoration: underline;
     }
 
     &:empty {
       display: none;
+    }
+
+    &[node]:before {
+      content: "\003c";
+    }
+
+    &[node]:after {
+      content: "\003e";
     }
   }
 }
@@ -89,7 +98,7 @@
   text-decoration: none;
 }
 
-:host [brand], 
+:host [brand],
 :host [divider] {
   color: var(--theme-color);
 }
@@ -112,11 +121,20 @@
   align-items: center;
   justify-content: flex-end;
   text-align: right;
-  white-space: pre;
+  /* white-space: pre; */
 }
 
 :host [text] {
   white-space: normal;
+}
+
+:host [longform] {
+  background: var(--theme-icon_hover-bg);
+  padding: 0.5em 0.75em;
+  border-radius: 0.25em;
+  font-family: sans-serif;
+  text-align: left;
+  line-height: 1.5;
 }
 
 :host [color] {

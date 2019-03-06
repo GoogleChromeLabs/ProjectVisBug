@@ -7,9 +7,9 @@
 
 # 「VisBug」
 
-> Open source web design tools
+> Open source web design debug tools
 
-- **Simple** as point, click & tinker
+- Point, click & tinker
 - Edit or style **any page**, in **any state**, like it's an artboard
 - **Hover inspect** styles, accessibility and alignment
 - **Nitpick** layouts & content, **in the real end environment**, at any device size
@@ -20,6 +20,10 @@
 - **Make more decisions** on the front end of your site/app (a11y, responsive, edge cases, etc)
 - **No waiting** for developers to expose their legos, **just go direct** and edit the end state (regardless of framework) and **execute/test an idea**
 
+<br>
+<br>
+<br>
+
 ### Give **power to designers & content creators**, in a place where they currently feel they have little to none, **by bringing design tool interactions and hotkeys to the browser**
 
 Check out the [list of features me and other's are wishing for](https://github.com/GoogleChromeLabs/ProjectVisBug/issues?q=is%3Aopen+is%3Aissue+label%3A%22%E2%9A%A1%EF%B8%8F+feature%22). There's a lot of fun stuff planned or in demand. Cast your vote on a feature, leave some feedback or add clarity. 
@@ -29,7 +33,7 @@ Let's do this **design community, I'm looking at you!** Make a GitHub account an
 
 > 🤔 **It's not:**
 >
-> -   **A competitor** to design tools like Figma, Sketch, XD, etc; **it's a complement**
+> -   **A competitor** to design authoring tools like Figma, Sketch, XD, etc; **it's a complement**
 > -   Something you would use **to start from scratch**
 > -   A **design system recognizer**, enforcer, enabler, or anything
 > -   An **interaction** prototyping tool

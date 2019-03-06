@@ -29,7 +29,7 @@ export const getComputedBackgroundColor = el => {
   let background = getStyle(el, 'background-color')
 
   if (background === 'rgba(0, 0, 0, 0)') {
-    let node  = el.parentNode
+    let node  = findNearestParentElement(el)
       , found = false
 
     while(!found) {
@@ -40,9 +40,44 @@ export const getComputedBackgroundColor = el => {
         background = bg
       }
 
-      node = node.parentNode
+      node = findNearestParentElement(node)
+
+      if (node.nodeName === 'HTML') {
+        found = true
+        background = 'white'
+      }
     }
   }
 
   return background
+}
+
+export const findNearestParentElement = el =>
+  el.parentNode && el.parentNode.nodeType === 1
+    ? el.parentNode
+    : el.parentNode.nodeName === '#document-fragment'
+      ? el.parentNode.host
+      : el.parentNode.parentNode.host
+
+export const findNearestChildElement = el => {
+  if (el.shadowRoot && el.shadowRoot.children.length) {
+    return [...el.shadowRoot.children]
+      .filter(({nodeName}) => 
+        !['LINK','STYLE','SCRIPT','HTML','HEAD'].includes(nodeName)
+      )[0]
+  }
+  else if (el.children.length)
+    return el.children[0]
+}
+
+export const loadStyles = async stylesheets => {
+  const fetches = await Promise.all(stylesheets.map(url => fetch(url)))
+  const texts   = await Promise.all(fetches.map(url => url.text()))
+  const style   = document.createElement('style')
+
+  style.textContent = texts.reduce((styles, fileContents) => 
+    styles + fileContents
+  , '')
+
+  document.head.appendChild(style)
 }

@@ -1,10 +1,10 @@
 import $          from 'blingblingjs'
 import hotkeys    from 'hotkeys-js'
-import styles     from './toolpallete.element.css'
+import styles     from './vis-bug.element.css'
 
 import {
   Handles, Label, Overlay, Gridlines,
-  Hotkeys, Metatip, Ally,
+  Hotkeys, Metatip, Ally, Distance,
 } from '../'
 
 import {
@@ -13,18 +13,18 @@ import {
   Guides, Screenshot, Position, Accessibility
 } from '../../features/'
 
-import { ToolModel }              from './model'
-import * as Icons                 from './toolpallete.icons'
+import { VisBugModel }              from './model'
+import * as Icons                 from './vis-bug.icons'
 import { provideSelectorEngine }  from '../../features/search'
 import { metaKey }                from '../../utilities/'
 
-export default class ToolPallete extends HTMLElement {
+export default class VisBug extends HTMLElement {
   constructor() {
     super()
 
-    this.toolbar_model  = ToolModel
+    this.toolbar_model  = VisBugModel
     this._tutsBaseURL   = 'tuts' // can be set by content script
-    this.$shadow        = this.attachShadow({mode: 'open'})
+    this.$shadow        = this.attachShadow({mode: 'closed'})
   }
 
   connectedCallback() {
@@ -88,7 +88,7 @@ export default class ToolPallete extends HTMLElement {
   render() {
     return `
       ${this.styles()}
-      <pb-hotkeys></pb-hotkeys>
+      <visbug-hotkeys></visbug-hotkeys>
       <ol>
         ${Object.entries(this.toolbar_model).reduce((list, [key, tool]) => `
           ${list}
@@ -142,19 +142,19 @@ export default class ToolPallete extends HTMLElement {
   }
 
   move() {
-    this.deactivate_feature = Moveable('[data-selected=true]')
+    this.deactivate_feature = Moveable(this.selectorEngine)
   }
 
   margin() {
-    this.deactivate_feature = Margin('[data-selected=true]')
+    this.deactivate_feature = Margin(this.selectorEngine)
   }
 
   padding() {
-    this.deactivate_feature = Padding('[data-selected=true]')
+    this.deactivate_feature = Padding(this.selectorEngine)
   }
 
   font() {
-    this.deactivate_feature = Font('[data-selected=true]')
+    this.deactivate_feature = Font(this.selectorEngine)
   }
 
   text() {
@@ -164,7 +164,7 @@ export default class ToolPallete extends HTMLElement {
   }
 
   align() {
-    this.deactivate_feature = Flex('[data-selected=true]')
+    this.deactivate_feature = Flex(this.selectorEngine)
   }
 
   search() {
@@ -172,7 +172,7 @@ export default class ToolPallete extends HTMLElement {
   }
 
   boxshadow() {
-    this.deactivate_feature = BoxShadow('[data-selected=true]')
+    this.deactivate_feature = BoxShadow(this.selectorEngine)
   }
 
   hueshift() {
@@ -219,4 +219,4 @@ export default class ToolPallete extends HTMLElement {
   }
 }
 
-customElements.define('tool-pallete', ToolPallete)
+customElements.define('vis-bug', VisBug)

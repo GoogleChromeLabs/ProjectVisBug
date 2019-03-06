@@ -1,6 +1,8 @@
 export { Handles }    from './selection/handles.element'
+export { Hover }      from './selection/hover.element'
 export { Label }      from './selection/label.element'
 export { Gridlines }  from './selection/gridlines.element'
+export { Distance }   from './selection/distance.element'
 export { Overlay }    from './selection/overlay.element'
 
 export { Metatip }    from './metatip/metatip.element'

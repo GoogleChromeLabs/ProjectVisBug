@@ -1,13 +1,18 @@
-import * as Icons from './toolpallete.icons'
+import * as Icons from './vis-bug.icons'
 import { metaKey, altKey } from '../../utilities/'
 
-export const ToolModel = {
+export const VisBugModel = {
   g: {
     tool:        'guides',
     icon:        Icons.guides,
     label:       'Guides',
     description: 'Verify alignment & check your grid',
-    instruction: '',
+    instruction: `<div table>
+                    <div>
+                      <b>Measure:</b>
+                      <span>${altKey} + hover</span>
+                    </div>
+                  </div>`,
   },
   i: {
     tool:        'inspector',
@@ -240,7 +245,7 @@ export const ToolModel = {
     tool:        'search',
     icon:        Icons.search,
     label:       'Search',
-    description: 'Select elements by searching for them',
+    description: 'Select elements programatically by searching for them or use built in plugins with special commands',
     instruction: '',
   },
 }

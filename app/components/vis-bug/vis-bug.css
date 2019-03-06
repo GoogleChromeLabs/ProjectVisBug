@@ -2,24 +2,23 @@ body {
   min-height: 100vh;
 }
 
-[data-hover=true] {
-  outline: 1px dashed hsla(330, 80%, 71%, 50%);
+[data-measuring=true] {
+  cursor: crosshair;
 }
 
 [data-selected=true] {
   transition: all 0.15s ease;
 }
 
+[data-pseudo-select=true] {
+  outline: 1px dashed hsl(267, 100%, 58%);
+}
+
 [data-selected-hide=true][data-selected=true]:after {
   display: none;
 }
 
-[data-selected-hide=true] {
-  outline: none;
-}
-
 [data-selected=true][contenteditable=true] {
-  outline: none;
   caret-color: hotpink;
 }
 

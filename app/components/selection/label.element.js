@@ -1,10 +1,10 @@
 import $ from 'blingblingjs'
 
 export class Label extends HTMLElement {
-  
+
   constructor() {
     super()
-    this.$shadow = this.attachShadow({mode: 'open'})
+    this.$shadow = this.attachShadow({mode: 'closed'})
   }
 
   connectedCallback() {
@@ -78,16 +78,17 @@ export class Label extends HTMLElement {
           top: ${top + window.scrollY}px;
           left: ${left - 1}px;
           max-width: ${width + (window.innerWidth - left - width - 20)}px;
-          z-index: 10000;
+          z-index: 2147483643;
           transform: translateY(-100%);
-          background: hsl(330, 100%, 71%);
-          text-shadow: 0 0.5px 0 hsl(330, 100%, 61%);
+          background: var(--label-bg, hotpink);
+          border-radius: 0.2em 0.2em 0 0;
+          text-shadow: 0 0.5px 0 hsla(0, 0%, 0%, 0.4);
           color: white;
           display: inline-flex;
           justify-content: center;
           font-size: 0.8em;
           font-weight: normal;
-          font-family: sans-serif;
+          font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
           white-space: nowrap;
           padding: 0.25em 0.4em 0.15em;
           line-height: 1.1;
@@ -105,9 +106,17 @@ export class Label extends HTMLElement {
           text-decoration: underline;
           color: white;
         }
+
+        :host a[node]:before {
+          content: "\\003c";
+        }
+
+        :host a[node]:after {
+          content: "\\003e";
+        }
       </style>
     `
   }
 }
 
-customElements.define('pb-label', Label)
+customElements.define('visbug-label', Label)

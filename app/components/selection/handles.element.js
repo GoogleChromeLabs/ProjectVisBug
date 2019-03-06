@@ -1,10 +1,10 @@
 import $ from 'blingblingjs'
 
 export class Handles extends HTMLElement {
-  
+
   constructor() {
     super()
-    this.$shadow = this.attachShadow({mode: 'open'})
+    this.$shadow = this.attachShadow({mode: 'closed'})
   }
 
   connectedCallback() {
@@ -18,6 +18,8 @@ export class Handles extends HTMLElement {
     window.requestAnimationFrame(() => {
       const node_label_id = this.$shadow.host.getAttribute('data-label-id')
       const [source_el] = $(`[data-label-id="${node_label_id}"]`)
+
+      if (!source_el) return
 
       this.position = {
         node_label_id,
@@ -34,10 +36,10 @@ export class Handles extends HTMLElement {
     this.$shadow.host.setAttribute('data-label-id', node_label_id)
     return `
       ${this.styles({top,left})}
-      <svg 
-        class="pb-handles"
-        width="${width}" height="${height}" 
-        viewBox="0 0 ${width} ${height}" 
+      <svg
+        class="visbug-handles"
+        width="${width}" height="${height}"
+        viewBox="0 0 ${width} ${height}"
         version="1.1" xmlns="http://www.w3.org/2000/svg"
       >
         <rect stroke="hotpink" fill="none" width="100%" height="100%"></rect>
@@ -62,11 +64,11 @@ export class Handles extends HTMLElement {
           left: ${left}px;
           overflow: visible;
           pointer-events: none;
-          z-index: 10010;
+          z-index: 2147483644;
         }
       </style>
     `
   }
 }
 
-customElements.define('pb-handles', Handles)
+customElements.define('visbug-handles', Handles)

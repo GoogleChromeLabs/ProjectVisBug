@@ -10,22 +10,28 @@ export function ColorPicker(pallete, selectorEngine) {
   const bgInput           = $('input', backgroundPicker[0])
   const boInput           = $('input', borderPicker[0])
 
+  const shadows = {
+    active:   'rgba(0, 0, 0, 0.1) 0px 0.25em 0.5em, 0 0 0 2px hotpink',
+    inactive: 'rgba(0, 0, 0, 0.1) 0px 0.25em 0.5em',
+  }
+
   this.active_color       = 'background'
+  this.elements           = []
 
   // set colors
   fgInput.on('input', e =>
-    $('[data-selected=true]').map(el =>
+    this.elements.map(el =>
       el.style['color'] = e.target.value))
 
   bgInput.on('input', e =>
-    $('[data-selected=true]').map(el =>
+    this.elements.map(el =>
       el.style[el instanceof SVGElement
         ? 'fill'
         : 'backgroundColor'
       ] = e.target.value))
 
   boInput.on('input', e =>
-    $('[data-selected=true]').map(el =>
+    this.elements.map(el =>
       el.style[el instanceof SVGElement
         ? 'stroke'
         : 'border-color'
@@ -34,14 +40,16 @@ export function ColorPicker(pallete, selectorEngine) {
   // read colors
   selectorEngine.onSelectedUpdate(elements => {
     if (!elements.length) return
+    this.elements = elements
 
     let isMeaningfulForeground  = false
     let isMeaningfulBackground  = false
     let isMeaningfulBorder      = false
     let FG, BG, BO
 
-    if (elements.length == 1) {
-      const el = elements[0]
+    if (this.elements.length == 1) {
+      const el = this.elements[0]
+      const meaningfulDontMatter = pallete.host.active_tool.dataset.tool === 'hueshift'
 
       if (el instanceof SVGElement) {
         FG = new TinyColor('rgb(0, 0, 0)')
@@ -64,8 +72,8 @@ export function ColorPicker(pallete, selectorEngine) {
       let bo = BO.toHexString()
 
       isMeaningfulForeground = FG.originalInput !== 'rgb(0, 0, 0)' || (el.children.length === 0 && el.textContent !== '')
-      isMeaningfulBackground = BG.originalInput !== 'rgba(0, 0, 0, 0)' 
-      isMeaningfulBorder     = BO.originalInput !== 'rgb(0, 0, 0)' 
+      isMeaningfulBackground = BG.originalInput !== 'rgba(0, 0, 0, 0)'
+      isMeaningfulBorder     = BO.originalInput !== 'rgb(0, 0, 0)'
 
       if (isMeaningfulForeground && !isMeaningfulBackground)
         setActive('foreground')
@@ -79,37 +87,38 @@ export function ColorPicker(pallete, selectorEngine) {
       fgInput.attr('value', new_fg)
       bgInput.attr('value', new_bg)
       boInput.attr('value', new_bo)
-      
+
       foregroundPicker.attr('style', `
         --contextual_color: ${new_fg};
-        display: ${isMeaningfulForeground ? 'inline-flex' : 'none'};
+        display: ${isMeaningfulForeground || meaningfulDontMatter ? 'inline-flex' : 'none'};
       `)
 
       backgroundPicker.attr('style', `
         --contextual_color: ${new_bg};
-        display: ${isMeaningfulBackground ? 'inline-flex' : 'none'};
+        display: ${isMeaningfulBackground || meaningfulDontMatter ? 'inline-flex' : 'none'};
       `)
 
       borderPicker.attr('style', `
         --contextual_color: ${new_bo};
-        display: ${isMeaningfulBorder ? 'inline-flex' : 'none'};
+        display: ${isMeaningfulBorder || meaningfulDontMatter ? 'inline-flex' : 'none'};
       `)
     }
     else {
       // show all 3 if they've selected more than 1 node
+      // todo: this is giving up, and can be solved
       foregroundPicker.attr('style', `
-        --active_color: ${this.active_color == 'foreground' ? 'hotpink': ''};
-        display: 'inline-flex'};
+        box-shadow: ${this.active_color == 'foreground' ? shadows.active : shadows.inactive};
+        display: inline-flex;
       `)
 
       backgroundPicker.attr('style', `
-        --active_color: ${this.active_color == 'background' ? 'hotpink': ''};
-        display: 'inline-flex'};
+        box-shadow: ${this.active_color == 'background' ? shadows.active : shadows.inactive};
+        display: inline-flex;
       `)
 
       borderPicker.attr('style', `
-        --active_color: ${this.active_color == 'border' ? 'hotpink': ''};
-        display: 'inline-flex'};
+        box-shadow: ${this.active_color == 'border' ? shadows.active : shadows.inactive};
+        display: inline-flex;
       `)
     }
   })
@@ -120,24 +129,25 @@ export function ColorPicker(pallete, selectorEngine) {
   const setActive = key => {
     removeActive()
     this.active_color = key
+
     if (key === 'foreground')
-      foregroundPicker[0].style.setProperty('--active_color', 'hotpink')
+      foregroundPicker[0].style.boxShadow = shadows.active
     if (key === 'background')
-      backgroundPicker[0].style.setProperty('--active_color', 'hotpink')
+      backgroundPicker[0].style.boxShadow = shadows.active
     if (key === 'border')
-      borderPicker[0].style.setProperty('--active_color', 'hotpink')
+      borderPicker[0].style.boxShadow = shadows.active
   }
 
   const removeActive = () =>
-    [foregroundPicker, backgroundPicker, borderPicker].forEach(picker =>
-      picker[0].style.removeProperty('--active_color'))
+    [foregroundPicker, backgroundPicker, borderPicker].forEach(([picker]) =>
+      picker.style.boxShadow = shadows.inactive)
 
   return {
     getActive,
     setActive,
-    foreground: { color: color => 
+    foreground: { color: color =>
       foregroundPicker[0].style.setProperty('--contextual_color', color)},
-    background: { color: color => 
+    background: { color: color =>
       backgroundPicker[0].style.setProperty('--contextual_color', color)}
   }
 }

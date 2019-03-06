@@ -1,4 +1,4 @@
-import ToolPallete from './components/tool-pallete/toolpallete.element'
+import VisBug from './components/vis-bug/vis-bug.element'
 import { metaKey } from './utilities'
 
 if ('ontouchstart' in document.documentElement)

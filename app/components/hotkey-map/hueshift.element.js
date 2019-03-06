@@ -1,5 +1,5 @@
 import { HotkeyMap } from './base.element'
-import { hueshift as icon } from '../tool-pallete/toolpallete.icons'
+import { hueshift as icon } from '../vis-bug/vis-bug.icons'
 import { metaKey, altKey } from '../../utilities';
 
 export class HueshiftHotkeys extends HotkeyMap {

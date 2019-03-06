@@ -2,7 +2,7 @@ export class Overlay extends HTMLElement {
   
   constructor() {
     super()
-    this.$shadow = this.attachShadow({mode: 'open'})
+    this.$shadow = this.attachShadow({mode: 'closed'})
   }
 
   connectedCallback() {}
@@ -27,7 +27,7 @@ export class Overlay extends HTMLElement {
   render({id, top, left, height, width}) {
     return `
       <svg 
-        class="pb-overlay"
+        class="visbug-overlay"
         overlay-id="${id}"
         style="
           display:none;
@@ -51,4 +51,4 @@ export class Overlay extends HTMLElement {
   }
 }
 
-customElements.define('pb-overlay', Overlay)
+customElements.define('visbug-overlay', Overlay)
