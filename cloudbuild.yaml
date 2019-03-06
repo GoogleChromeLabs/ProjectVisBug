@@ -1,7 +1,7 @@
 steps:
 - name: 'gcr.io/cloud-builders/npm'
   args: ['install']
-- name: 'alekzonder/puppeteer'
+- name: 'buildkite/puppeteer'
   args: ['run', 'test:ci']
 - name: 'gcr.io/cloud-builders/npm'
   args: ['run', 'bundle']
