@@ -1,32 +1,34 @@
 import test from 'ava'
-import puppeteer from 'puppeteer'
 
-import { changeMode, getActiveTool } from '../../tests/helpers'
+import { setupPptrTab, teardownPptrTab, changeMode, getActiveTool } 
+from '../../tests/helpers'
+
+const tool            = 'margin'
+const test_selector   = '[intro] b'
 
 const getMarginTop = async page =>
-  await page.$eval('[intro] b', el => el.style.marginTop)
+  await page.$eval(test_selector, el => 
+    el.style.marginTop)
 
 test.beforeEach(async t => {
-  t.context.browser  = await puppeteer.launch()
-  t.context.page     = await t.context.browser.newPage()
+  await setupPptrTab(t)
 
-  await t.context.page.goto('http://localhost:3000')
   await changeMode({
+    tool,
     page: t.context.page,
-    tool: 'margin'
   })
 })
 
 test('Can Be Activated', async t => {
   const { page } = t.context
-  t.is(await getActiveTool(page), 'margin')
+  t.is(await getActiveTool(page), tool)
   t.pass()
 })
 
 test('Can Be Deactivated', async t => {
   const { page } = t.context
 
-  t.is(await getActiveTool(page), 'margin')
+  t.is(await getActiveTool(page), tool)
   await page.evaluateHandle(`document.querySelector('vis-bug').$shadow.querySelector('li[data-tool="padding"]').click()`)
   t.is(await getActiveTool(page), 'padding')
 
@@ -36,7 +38,7 @@ test('Can Be Deactivated', async t => {
 test('Adds margin to side', async t => {
   const { page } = t.context
 
-  await page.click(`[intro] h2`)
+  await page.click(test_selector)
 
   t.is(await getMarginTop(page), '')
 
@@ -50,7 +52,7 @@ test('Adds margin to side', async t => {
 test('Remove margin from side', async t => {
   const { page } = t.context
 
-  await page.click(`[intro] h2`)
+  await page.click(test_selector)
   t.is(await getMarginTop(page), '')
 
   await page.keyboard.press('ArrowUp')
@@ -68,7 +70,7 @@ test('Remove margin from side', async t => {
 test('Can change values by 10 with shift key', async t => {
   const { page } = t.context
 
-  await page.click(`[intro] h2`)
+  await page.click(`[intro] b`)
   t.is(await getMarginTop(page), '')
 
   await page.keyboard.down('Shift')
@@ -79,7 +81,4 @@ test('Can change values by 10 with shift key', async t => {
   t.pass()
 })
 
-test.afterEach(async ({context:{ page, browser }}) => {
-  await page.close()
-  await browser.close()
-})
+test.afterEach(teardownPptrTab)
