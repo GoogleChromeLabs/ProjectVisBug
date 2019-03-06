@@ -4,7 +4,7 @@ import puppeteer from 'puppeteer'
 import { changeMode, getActiveTool } from '../../tests/helpers'
 
 const getMarginTop = async page =>
-  await page.$eval('[intro] h2', el => el.style.marginTop)
+  await page.$eval('[intro] b', el => el.style.marginTop)
 
 test.beforeEach(async t => {
   t.context.browser  = await puppeteer.launch()
@@ -27,7 +27,7 @@ test('Can Be Deactivated', async t => {
   const { page } = t.context
 
   t.is(await getActiveTool(page), 'margin')
-  await page.evaluateHandle(`document.querySelector('tool-pallete').shadowRoot.querySelector('li[data-tool="padding"]').click()`)
+  await page.evaluateHandle(`document.querySelector('vis-bug').$shadow.querySelector('li[data-tool="padding"]').click()`)
   t.is(await getActiveTool(page), 'padding')
 
   t.pass()
@@ -36,7 +36,8 @@ test('Can Be Deactivated', async t => {
 test('Adds margin to side', async t => {
   const { page } = t.context
 
-  await page.evaluateHandle(`document.querySelector('[intro] h2').click()`)
+  await page.click(`[intro] h2`)
+
   t.is(await getMarginTop(page), '')
 
   await page.keyboard.press('ArrowUp')
@@ -49,7 +50,7 @@ test('Adds margin to side', async t => {
 test('Remove margin from side', async t => {
   const { page } = t.context
 
-  await page.evaluateHandle(`document.querySelector('[intro] h2').click()`)
+  await page.click(`[intro] h2`)
   t.is(await getMarginTop(page), '')
 
   await page.keyboard.press('ArrowUp')
@@ -67,7 +68,7 @@ test('Remove margin from side', async t => {
 test('Can change values by 10 with shift key', async t => {
   const { page } = t.context
 
-  await page.evaluateHandle(`document.querySelector('[intro] h2').click()`)
+  await page.click(`[intro] h2`)
   t.is(await getMarginTop(page), '')
 
   await page.keyboard.down('Shift')

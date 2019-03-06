@@ -1,8 +1,8 @@
 const changeMode = async ({page, tool}) =>
-  await page.evaluateHandle(`document.querySelector('tool-pallete').shadowRoot.querySelector('li[data-tool=${tool}]').click()`)
+  await page.evaluateHandle(`document.querySelector('vis-bug').$shadow.querySelector('li[data-tool=${tool}]').click()`)
 
 const getActiveTool = async page =>
-  await page.$eval('tool-pallete', el => 
+  await page.$eval('vis-bug', el =>
     el.activeTool)
 
 export {
