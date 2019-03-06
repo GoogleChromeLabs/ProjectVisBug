@@ -29,7 +29,7 @@ test('Can Be Deactivated', async t => {
   const { page } = t.context
 
   t.is(await getActiveTool(page), tool)
-  await page.evaluateHandle(`document.querySelector('vis-bug').$shadow.querySelector('li[data-tool="padding"]').click()`)
+  await page.evaluate(`document.querySelector('vis-bug').$shadow.querySelector('li[data-tool="padding"]').click()`)
   t.is(await getActiveTool(page), 'padding')
 
   t.pass()
@@ -70,7 +70,7 @@ test('Remove margin from side', async t => {
 test('Can change values by 10 with shift key', async t => {
   const { page } = t.context
 
-  await page.click(`[intro] b`)
+  await page.click(test_selector)
   t.is(await getMarginTop(page), '')
 
   await page.keyboard.down('Shift')
