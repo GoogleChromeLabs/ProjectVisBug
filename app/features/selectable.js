@@ -527,10 +527,7 @@ export function Selectable() {
     if (!handles[id]) {
       const handle = document.createElement('visbug-handles')
 
-      handle.position = {
-        boundingRect:   el.getBoundingClientRect(),
-        node_label_id:  id,
-      }
+      handle.position = { el, node_label_id: id }
 
       document.body.appendChild(handle)
 
@@ -545,10 +542,7 @@ export function Selectable() {
         hover_state.element.remove()
 
       hover_state.element = document.createElement('visbug-hover')
-
-      hover_state.element.position = {
-        boundingRect: el.getBoundingClientRect(),
-      }
+      hover_state.element.position = {el}
 
       document.body.appendChild(hover_state.element)
 
@@ -577,10 +571,10 @@ export function Selectable() {
     }
   }
 
-  const setHandle = (node, handle) => {
+  const setHandle = (el, handle) => {
     handle.position = {
-      boundingRect:   node.getBoundingClientRect(),
-      node_label_id:  node.getAttribute('data-label-id'),
+      el,
+      node_label_id:  el.getAttribute('data-label-id'),
     }
   }
 

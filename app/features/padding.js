@@ -23,13 +23,13 @@ export function Padding(visbug) {
     padAllElementSides(visbug.selection(), handler.key)
   })
 
-  visbug.onSelectedUpdate(paintBackground)
+  visbug.onSelectedUpdate(paintBackgrounds)
 
   return () => {
     hotkeys.unbind(key_events)
     hotkeys.unbind(command_events)
     hotkeys.unbind('up,down,left,right') // bug in lib?
-    visbug.removeSelectedCallback(paintBackground)
+    visbug.removeSelectedCallback(paintBackgrounds)
   }
 }
 
@@ -64,43 +64,38 @@ export function padAllElementSides(els, keycommand) {
     .forEach(side => padElement(els, spoof + side))
 }
 
-function paintBackground(els) {
+function paintBackgrounds(els) {
   els.forEach(el => {
-    const label_id          = el.getAttribute('data-label-id')
-    const bounds            = el.getBoundingClientRect()
-    const styleOM           = el.computedStyleMap()
-    const calculatedStyle   = getStyle(el, 'padding')
-
-    const padding = {
-      top:    styleOM.get('padding-top').value,
-      right:  styleOM.get('padding-right').value,
-      bottom: styleOM.get('padding-bottom').value,
-      left:   styleOM.get('padding-left').value,
-    }
-
-    const $el_handle = document
+    const label_id = el.getAttribute('data-label-id')
+    document
       .querySelector(`visbug-handles[data-label-id="${label_id}"]`)
-      .$shadow
+      .backdrop = {
+        markup: paintBackground(el, label_id),
+        update: paintBackground,
+      }
+  })
+}
 
-    const handle_style = $el_handle.querySelector('svg').style
-    
-    if (calculatedStyle === '0px')
-      return
+function paintBackground(el, label_id) {
+  const bounds            = el.getBoundingClientRect()
+  const styleOM           = el.computedStyleMap()
+  const calculatedStyle   = getStyle(el, 'padding')
 
-    const highlight = document.createElement('div')
+  const padding = {
+    top:    styleOM.get('padding-top').value,
+    right:  styleOM.get('padding-right').value,
+    bottom: styleOM.get('padding-bottom').value,
+    left:   styleOM.get('padding-left').value,
+  }
+  
+  if (calculatedStyle === '0px')
+    return
 
-    highlight.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-        <defs>
-          <pattern id="pinstripe" patternUnits="userSpaceOnUse" width="10" height="10" patternTransform="rotate(-45)" class="pattern">
-            <line x1="0" y="0" x2="0" y2="10" stroke="hotpink" stroke-width="1"></line>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#pinstripe)"></rect>
-      </svg>
-    `
+  const total_height  = bounds.height + padding.bottom + padding.top
+  const total_width   = bounds.width + padding.right + padding.left
 
-    highlight.style = `
+  return `
+    <div style="
       position: absolute;
       z-index: 1;
       width: ${bounds.width}px;
@@ -116,12 +111,15 @@ function paintBackground(els) {
         0 ${bounds.height - padding.bottom}px, 0 100%, 
         100% 100%, 100% 0%
       );
-    `
-
-    const has_child = $el_handle.querySelector('div')
-
-    has_child
-      ? $el_handle.replaceChild(highlight, has_child)
-      : $el_handle.appendChild(highlight)
-  })
+    ">
+      <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+        <defs>
+          <pattern id="pinstripe" patternUnits="userSpaceOnUse" width="10" height="10" patternTransform="rotate(-45)" class="pattern">
+            <line x1="0" y="0" x2="0" y2="10" stroke="hotpink" stroke-width="1"></line>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#pinstripe)"></rect>
+      </svg>
+    </div>
+   `
 }
