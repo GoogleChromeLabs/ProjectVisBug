@@ -67,6 +67,11 @@ export function padAllElementSides(els, keycommand) {
 function paintBackgrounds(els) {
   els.forEach(el => {
     const label_id = el.getAttribute('data-label-id')
+
+    document
+      .querySelector(`visbug-label[data-label-id="${label_id}"]`)
+      .style.opacity = 0
+
     document
       .querySelector(`visbug-handles[data-label-id="${label_id}"]`)
       .backdrop = {
