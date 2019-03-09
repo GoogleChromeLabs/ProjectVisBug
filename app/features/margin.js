@@ -102,7 +102,7 @@ function paintBackground(el, label_id) {
       height: ${total_height}px;
       top: ${bounds.top + window.scrollY - margin.top}px;
       left: ${bounds.left - margin.left}px;
-      background-color: hsla(330, 100%, 71%, 8%);
+      background-color: hsla(330, 100%, 71%, 15%);
       clip-path: polygon(
         0% 0%, 0% 100%, ${margin.left}px 100%, 
         ${margin.left}px ${margin.top}px, 
@@ -114,8 +114,8 @@ function paintBackground(el, label_id) {
     ">
       <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
         <defs>
-          <pattern id="pinstripe" patternUnits="userSpaceOnUse" width="10" height="10" patternTransform="rotate(-45)" class="pattern">
-            <line x1="0" y="0" x2="0" y2="10" stroke="hotpink" stroke-width="1"></line>
+          <pattern id="pinstripe" patternUnits="userSpaceOnUse" width="10" height="10" patternTransform="rotate(45)" class="pattern">
+            <line x1="0" y="0" x2="0" y2="10" stroke="hsla(330, 100%, 71%, 80%)" stroke-width="1"></line>
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#pinstripe)"></rect>
