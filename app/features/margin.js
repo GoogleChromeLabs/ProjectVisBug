@@ -30,6 +30,7 @@ export function Margin(visbug) {
     hotkeys.unbind(command_events)
     hotkeys.unbind('up,down,left,right') // bug in lib?
     visbug.removeSelectedCallback(paintBackgrounds)
+    removeBackgrounds(visbug.selection())
   }
 }
 
@@ -75,13 +76,27 @@ function paintBackgrounds(els) {
     document
       .querySelector(`visbug-handles[data-label-id="${label_id}"]`)
       .backdrop = {
-        markup: paintBackground(el, label_id),
-        update: paintBackground,
+        markup: createBackdrop(el, label_id),
+        update: createBackdrop,
       }
   })
 }
 
-function paintBackground(el, label_id) {
+function removeBackgrounds(els) {
+  els.forEach(el => {
+    const label_id = el.getAttribute('data-label-id')
+
+    document
+      .querySelector(`visbug-label[data-label-id="${label_id}"]`)
+      .style.opacity = 1
+
+    document
+      .querySelector(`visbug-handles[data-label-id="${label_id}"]`)
+      .$shadow.querySelector('div').remove()
+  })
+}
+
+function createBackdrop(el, label_id) {
   const bounds            = el.getBoundingClientRect()
   const styleOM           = el.computedStyleMap()
   const calculatedStyle   = getStyle(el, 'margin')
