@@ -50,7 +50,7 @@ export class BoxModel extends HTMLElement {
       <div style="
         pointer-events: none;
         position: absolute;
-        z-index: 1;
+        z-index: 2147483644;
         width: ${drawable.width}px;
         height: ${drawable.height}px;
         top: ${drawable.top}px;
