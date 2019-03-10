@@ -29,27 +29,29 @@ export class Handles extends HTMLElement {
   }
 
   set position({el, node_label_id}) {
-    if (this._backdrop)
-      this._backdrop.markup = this._backdrop.update (el, node_label_id)
-
     this.$shadow.innerHTML = this.render(el.getBoundingClientRect(), node_label_id)
+
+    if (this._backdrop) {
+      this.backdrop = {
+        element: this._backdrop.update (el, node_label_id),
+        update:  this._backdrop.update,
+      }
+    }
   }
 
   set backdrop(bd) {
     this._backdrop = bd
 
-    const highlight = document.createElement('div')
-    const has_child = this.$shadow.querySelector('div')
+    const cur_child = this.$shadow.querySelector('visbug-boxmodel')
 
-    highlight.innerHTML = bd.markup
-
-    has_child
-      ? this.$shadow.replaceChild(highlight, has_child)
-      : this.$shadow.appendChild(highlight)
+    cur_child
+      ? this.$shadow.replaceChild(bd.element, cur_child)
+      : this.$shadow.appendChild(bd.element)
   }
 
   render({ x, y, width, height, top, left }, node_label_id) {
     this.$shadow.host.setAttribute('data-label-id', node_label_id)
+    
     return `
       ${this.styles({top,left})}
       <svg
@@ -68,7 +70,6 @@ export class Handles extends HTMLElement {
         <circle fill="hotpink" cx="${width/2}" cy="${height}" r="2"></circle>
         <circle fill="hotpink" cx="${width}" cy="${height/2}" r="2"></circle>
       </svg>
-      ${this._backdrop && this._backdrop.markup || ''}
     `
   }
 

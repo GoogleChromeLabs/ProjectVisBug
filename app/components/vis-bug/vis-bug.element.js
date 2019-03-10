@@ -4,7 +4,7 @@ import styles     from './vis-bug.element.css'
 
 import {
   Handles, Label, Overlay, Gridlines,
-  Hotkeys, Metatip, Ally, Distance,
+  Hotkeys, Metatip, Ally, Distance, BoxModel,
 } from '../'
 
 import {

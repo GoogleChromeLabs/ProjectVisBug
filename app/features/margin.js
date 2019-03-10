@@ -76,8 +76,8 @@ function paintBackgrounds(els) {
     document
       .querySelector(`visbug-handles[data-label-id="${label_id}"]`)
       .backdrop = {
-        markup: createBackdrop(el, label_id),
-        update: createBackdrop,
+        element:  createVisual(el, label_id),
+        update:   createVisual,
       }
   })
 }
@@ -92,16 +92,16 @@ function removeBackgrounds(els) {
 
     document
       .querySelector(`visbug-handles[data-label-id="${label_id}"]`)
-      .$shadow.querySelector('div').remove()
+      .$shadow.querySelector('visbug-boxmodel').remove()
   })
 }
 
-function createBackdrop(el, label_id) {
+function createVisual(el, label_id) {
   const bounds            = el.getBoundingClientRect()
   const styleOM           = el.computedStyleMap()
   const calculatedStyle   = getStyle(el, 'margin')
 
-  const margin = {
+  const sides = {
     top:    styleOM.get('margin-top').value,
     right:  styleOM.get('margin-right').value,
     bottom: styleOM.get('margin-bottom').value,
@@ -111,35 +111,8 @@ function createBackdrop(el, label_id) {
   if (calculatedStyle === '0px')
     return
 
-  const total_height  = bounds.height + margin.bottom + margin.top
-  const total_width   = bounds.width + margin.right + margin.left
+  const boxdisplay = document.createElement('visbug-boxmodel')
+  boxdisplay.position = { mode: 'margin', bounds, sides }
 
-  return `
-    <div style="
-      position: absolute;
-      z-index: 1;
-      width: ${total_width}px;
-      height: ${total_height}px;
-      top: ${bounds.top + window.scrollY - margin.top}px;
-      left: ${bounds.left - margin.left}px;
-      background-color: hsla(330, 100%, 71%, 15%);
-      clip-path: polygon(
-        0% 0%, 0% 100%, ${margin.left}px 100%, 
-        ${margin.left}px ${margin.top}px, 
-        ${total_width - margin.right}px ${margin.top}px, 
-        ${total_width - margin.right}px ${total_height - margin.bottom}px, 
-        0 ${total_height - margin.bottom}px, 0 100%, 
-        100% 100%, 100% 0%
-      );
-    ">
-      <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-        <defs>
-          <pattern id="pinstripe" patternUnits="userSpaceOnUse" width="10" height="10" patternTransform="rotate(45)" class="pattern">
-            <line x1="0" y="0" x2="0" y2="10" stroke="hsla(330, 100%, 71%, 80%)" stroke-width="1"></line>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#pinstripe)"></rect>
-      </svg>
-    </div>
-   `
+  return boxdisplay
 }
