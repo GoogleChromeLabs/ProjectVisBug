@@ -108,11 +108,16 @@ export function createPaddingVisual(el, hover = false) {
       left:   styleOM.get('padding-left').value,
     }
 
+    Object.entries(sides).forEach(([side, val]) => {
+      if (typeof val !== 'number')
+        sides[side] = parseInt(getStyle(el, 'padding'+'-'+side).slice(0, -2))
+    })
+
     boxdisplay.position = { 
       mode: 'padding',
       color: hover ? 'purple' : 'pink',
       bounds, 
-      sides ,
+      sides,
     }
   }
 
