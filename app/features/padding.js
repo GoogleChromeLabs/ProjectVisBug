@@ -76,8 +76,8 @@ function paintBackgrounds(els) {
     document
       .querySelector(`visbug-handles[data-label-id="${label_id}"]`)
       .backdrop = {
-        element:  createVisual(el, label_id),
-        update:   createVisual,
+        element:  createPaddingVisual(el),
+        update:   createPaddingVisual,
       }
   })
 }
@@ -85,34 +85,36 @@ function paintBackgrounds(els) {
 function removeBackgrounds(els) {
   els.forEach(el => {
     const label_id = el.getAttribute('data-label-id')
+    const label = document.querySelector(`visbug-label[data-label-id="${label_id}"]`)
+    const boxmodel = document.querySelector(`visbug-handles[data-label-id="${label_id}"]`)
+      .$shadow.querySelector('visbug-boxmodel')
 
-    document
-      .querySelector(`visbug-label[data-label-id="${label_id}"]`)
-      .style.opacity = 1
-
-    document
-      .querySelector(`visbug-handles[data-label-id="${label_id}"]`)
-      .$shadow.querySelector('visbug-boxmodel').remove()
+    label.style.opacity = 1
+    if (boxmodel) boxmodel.remove()
   })
 }
 
-function createVisual(el, label_id) {
+export function createPaddingVisual(el, hover = false) {
   const bounds            = el.getBoundingClientRect()
   const styleOM           = el.computedStyleMap()
   const calculatedStyle   = getStyle(el, 'padding')
+  const boxdisplay        = document.createElement('visbug-boxmodel')
 
-  const sides = {
-    top:    styleOM.get('padding-top').value,
-    right:  styleOM.get('padding-right').value,
-    bottom: styleOM.get('padding-bottom').value,
-    left:   styleOM.get('padding-left').value,
+  if (calculatedStyle !== '0px') {
+    const sides = {
+      top:    styleOM.get('padding-top').value,
+      right:  styleOM.get('padding-right').value,
+      bottom: styleOM.get('padding-bottom').value,
+      left:   styleOM.get('padding-left').value,
+    }
+
+    boxdisplay.position = { 
+      mode: 'padding',
+      color: hover ? 'purple' : 'pink',
+      bounds, 
+      sides ,
+    }
   }
-  
-  if (calculatedStyle === '0px')
-    return
-
-  const boxdisplay = document.createElement('visbug-boxmodel')
-  boxdisplay.position = { mode: 'padding', bounds, sides }
 
   return boxdisplay
 }

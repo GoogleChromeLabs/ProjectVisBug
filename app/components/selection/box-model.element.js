@@ -12,7 +12,7 @@ export class BoxModel extends HTMLElement {
     this.$shadow.innerHTML  = this.render(payload)
   }
 
-  render({mode, bounds, sides}) {
+  render({mode, bounds, sides, color = 'pink'}) {
     const total_height  = bounds.height + sides.bottom + sides.top
     const total_width   = bounds.width + sides.right + sides.left
 
@@ -37,15 +37,25 @@ export class BoxModel extends HTMLElement {
       }
     }
 
+    if (color === 'pink') {
+      drawable.bg = 'hsla(330, 100%, 71%, 15%)'
+      drawable.stripe = 'hsla(330, 100%, 71%, 80%)'
+    }
+    else {
+      drawable.bg = 'hsla(267, 100%, 58%, 15%)'
+      drawable.stripe = 'hsla(267, 100%, 58%, 80%)'
+    }
+
     return `
       <div style="
+        pointer-events: none;
         position: absolute;
         z-index: 1;
         width: ${drawable.width}px;
         height: ${drawable.height}px;
         top: ${drawable.top}px;
         left: ${drawable.left}px;
-        background-color: hsla(330, 100%, 71%, 15%);
+        background-color: ${drawable.bg};
         clip-path: polygon(
           0% 0%, 0% 100%, ${sides.left}px 100%, 
           ${sides.left}px ${sides.top}px, 
@@ -58,7 +68,7 @@ export class BoxModel extends HTMLElement {
         <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
           <defs>
             <pattern id="pinstripe" patternUnits="userSpaceOnUse" width="10" height="10" patternTransform="${drawable.rotation}" class="pattern">
-              <line x1="0" y="0" x2="0" y2="10" stroke="hsla(330, 100%, 71%, 80%)" stroke-width="1"></line>
+              <line x1="0" y="0" x2="0" y2="10" stroke="${drawable.stripe}" stroke-width="1"></line>
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#pinstripe)"></rect>

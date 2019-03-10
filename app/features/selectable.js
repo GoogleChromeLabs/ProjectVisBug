@@ -5,6 +5,9 @@ import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
 import { queryPage } from './search'
 import { createMeasurements, clearMeasurements } from './measurements'
+import { createMarginVisual } from './margin'
+import { createPaddingVisual } from './padding'
+
 import { showTip as showMetaTip, removeAll as removeAllMetaTips } from './metatip'
 import { showTip as showAccessibilityTip, removeAll as removeAllAccessibilityTips } from './accessibility'
 
@@ -325,16 +328,25 @@ export function Selectable() {
 
   const on_hover = e => {
     const $target = deepElementFromPoint(e.clientX, e.clientY)
+    const tool = $('vis-bug')[0].activeTool
 
     if (isOffBounds($target) || $target.hasAttribute('data-selected'))
       return clearHover()
 
     overlayHoverUI($target)
 
-    if (e.altKey && $('vis-bug')[0].activeTool === 'guides' && selected.length === 1 && selected[0] != $target) {
+    if (e.altKey && tool === 'guides' && selected.length === 1 && selected[0] != $target) {
       $target.setAttribute('data-measuring', true)
       const [$anchor] = selected
-      return createMeasurements({$anchor, $target})
+      createMeasurements({$anchor, $target})
+    }
+    else if (tool === 'margin' && !hover_state.element.$shadow.querySelector('visbug-boxmodel')) {
+      hover_state.element.$shadow.appendChild(
+        createMarginVisual(hover_state.target, true))
+    }
+    else if (tool === 'padding' && !hover_state.element.$shadow.querySelector('visbug-boxmodel')) {
+      hover_state.element.$shadow.appendChild(
+        createPaddingVisual(hover_state.target, true))
     }
     else if ($target.hasAttribute('data-measuring')) {
       $target.removeAttribute('data-measuring')

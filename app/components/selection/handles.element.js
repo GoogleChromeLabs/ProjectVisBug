@@ -33,7 +33,7 @@ export class Handles extends HTMLElement {
 
     if (this._backdrop) {
       this.backdrop = {
-        element: this._backdrop.update (el, node_label_id),
+        element: this._backdrop.update(el),
         update:  this._backdrop.update,
       }
     }
