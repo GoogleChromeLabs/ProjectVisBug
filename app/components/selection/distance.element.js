@@ -8,27 +8,42 @@ export class Distance extends HTMLElement {
   connectedCallback() {}
   disconnectedCallback() {}
 
-  set position({line_model, node_label_id}) {
-    this.$shadow.innerHTML  = this.render(line_model, node_label_id)
+  set position(payload) {
+    this.$shadow.innerHTML = this.render(payload)
   }
 
-  render(measurements, node_label_id) {
+  render({line_model, node_label_id}) {
     this.$shadow.host.setAttribute('data-label-id', node_label_id)
     return `
-      ${this.styles(measurements)}
+      ${this.styles(line_model)}
       <figure quadrant="measurements.q">
         <div></div>
-        <figcaption><b>${measurements.d}</b>px</figcaption>
+        <figcaption><b>${line_model.d}</b>px</figcaption>
         <div></div>
       </figure>
     `
   }
 
-  styles({y,x,d,q,v = false}) {
+  styles({y,x,d,q,v = false, color}) {
+    const colors = {}
+    if (color) {
+      const single = color === 'pink' 
+        ? 'hotpink' 
+        : 'hsl(267, 100%, 58%)'
+
+      colors.line = single
+      colors.base = single
+    }
+    else {
+      colors.line = 'hsl(267, 100%, 58%)'
+      colors.base = 'hotpink'
+    }
+
     return `
       <style>
         :host {
-          --line-color: hsl(267, 100%, 58%);
+          --line-color: ${colors.line};
+          --line-base: ${colors.base};
           --line-width: 1px;
           font-size: 16px;
         }
@@ -38,12 +53,9 @@ export class Distance extends HTMLElement {
           position: absolute;
           ${v
             ? `height: ${d}px; width: 5px;`
-            : `width: ${d}px; height: 5px;`}
+            : `min-width: ${d}px; height: 5px;`}
           top: ${y + window.scrollY}px;
-          left: ${x}px;
-          transform: ${v
-            ? 'translateX(-50%)'
-            : 'translateY(-50%)'};
+          ${q === 'left' ? 'right' : 'left'}: ${x}px;
           overflow: visible;
           pointer-events: none;
           z-index: 2147483646;
@@ -82,7 +94,7 @@ export class Distance extends HTMLElement {
         }
 
         :host figure > div${q === 'top' || q === 'left' ? ':last-of-type' : ':first-of-type'} {
-          background: linear-gradient(to ${q}, hotpink 0%, var(--line-color) 100%);
+          background: linear-gradient(to ${q}, var(--line-base) 0%, var(--line-color) 100%);
         }
       </style>
     `
