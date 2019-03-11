@@ -341,10 +341,12 @@ export function Selectable() {
       createMeasurements({$anchor, $target})
     }
     else if (tool === 'margin' && !hover_state.element.$shadow.querySelector('visbug-boxmodel')) {
+      hover_state.label.style.opacity = 0
       hover_state.element.$shadow.appendChild(
         createMarginVisual(hover_state.target, true))
     }
     else if (tool === 'padding' && !hover_state.element.$shadow.querySelector('visbug-boxmodel')) {
+      hover_state.label.style.opacity = 0
       hover_state.element.$shadow.appendChild(
         createPaddingVisual(hover_state.target, true))
     }
