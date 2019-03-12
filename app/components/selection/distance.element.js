@@ -27,8 +27,8 @@ export class Distance extends HTMLElement {
   styles({y,x,d,q,v = false, color}) {
     const colors = {}
     if (color) {
-      const single = color === 'pink' 
-        ? 'hotpink' 
+      const single = color === 'pink'
+        ? 'hotpink'
         : 'hsl(267, 100%, 58%)'
 
       colors.line = single
@@ -68,6 +68,7 @@ export class Distance extends HTMLElement {
         :host > figure figcaption {
           color: white;
           text-shadow: 0 0.5px 0 hsla(0, 0%, 0%, 0.4);
+          box-shadow: 0 0.5px 0 hsla(0, 0%, 0%, 0.4);
           background: var(--line-color);
           border-radius: 1em;
           text-align: center;
