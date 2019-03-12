@@ -1,5 +1,5 @@
 export class BoxModel extends HTMLElement {
-  
+
   constructor() {
     super()
     this.$shadow = this.attachShadow({mode: 'closed'})
@@ -75,11 +75,11 @@ export class BoxModel extends HTMLElement {
           left: ${this.drawable.left}px;
           background-color: ${this.drawable.bg};
           clip-path: polygon(
-            0% 0%, 0% 100%, ${sides.left}px 100%, 
-            ${sides.left}px ${sides.top}px, 
-            ${this.drawable.width - sides.right}px ${sides.top}px, 
-            ${this.drawable.width - sides.right}px ${this.drawable.height - sides.bottom}px, 
-            0 ${this.drawable.height - sides.bottom}px, 0 100%, 
+            0% 0%, 0% 100%, ${sides.left}px 100%,
+            ${sides.left}px ${sides.top}px,
+            ${this.drawable.width - sides.right}px ${sides.top}px,
+            ${this.drawable.width - sides.right}px ${this.drawable.height - sides.bottom}px,
+            0 ${this.drawable.height - sides.bottom}px, 0 100%,
             100% 100%, 100% 0%
           );
         }
@@ -88,16 +88,15 @@ export class BoxModel extends HTMLElement {
   }
 
   createMeasurements({mode, bounds, sides, color}) {
-    const viewport = {
-      width:  window.innerWidth,
-      height: window.innerHeight,
-    }
+    const win_width   = window.innerWidth
+    const pill_height = 18
+    const offset      = 3
 
     if (mode === 'margin') {
       if (sides.top) {
         this.createMeasurement({
-          x: bounds.left + (bounds.width / 2) - 3,
-          y: bounds.top - sides.top,
+          x: bounds.left + (bounds.width / 2) - offset,
+          y: bounds.top - sides.top - (sides.top < pill_height ? pill_height - sides.top : 0),
           d: sides.top,
           q: 'top',
           v: true,
@@ -106,7 +105,7 @@ export class BoxModel extends HTMLElement {
       }
       if (sides.bottom) {
         this.createMeasurement({
-          x: bounds.left + (bounds.width / 2) - 3,
+          x: bounds.left + (bounds.width / 2) - offset,
           y: bounds.bottom,
           d: sides.bottom,
           q: 'bottom',
@@ -117,7 +116,7 @@ export class BoxModel extends HTMLElement {
       if (sides.right) {
         this.createMeasurement({
           x: bounds.right,
-          y: bounds.top + (bounds.height / 2) - 3,
+          y: bounds.top + (bounds.height / 2) - offset,
           d: sides.right,
           q: 'right',
           v: false,
@@ -126,8 +125,8 @@ export class BoxModel extends HTMLElement {
       }
       if (sides.left) {
         this.createMeasurement({
-          x: viewport.width - bounds.left,
-          y: bounds.top + (bounds.height / 2) - 3,
+          x: win_width - bounds.left,
+          y: bounds.top + (bounds.height / 2) - offset,
           d: sides.left,
           q: 'left',
           v: false,
@@ -138,8 +137,8 @@ export class BoxModel extends HTMLElement {
     else if (mode === 'padding') {
       if (sides.top) {
         this.createMeasurement({
-          x: bounds.left + (bounds.width / 2) - 3,
-          y: bounds.top + (sides.top < 18 && sides.top > 11 ? sides.top - 11 : 0),
+          x: bounds.left + (bounds.width / 2) - offset,
+          y: bounds.top - (sides.top < pill_height ? pill_height - sides.top : 0),
           d: sides.top,
           q: 'top',
           v: true,
@@ -148,7 +147,7 @@ export class BoxModel extends HTMLElement {
       }
        if (sides.bottom) {
          this.createMeasurement({
-           x: bounds.left + (bounds.width / 2) - 3,
+           x: bounds.left + (bounds.width / 2) - offset,
            y: bounds.bottom - sides.bottom,
            d: sides.bottom,
            q: 'bottom',
@@ -159,7 +158,7 @@ export class BoxModel extends HTMLElement {
        if (sides.right) {
          this.createMeasurement({
            x: bounds.right - sides.right,
-           y: bounds.top + (bounds.height / 2) - 3,
+           y: bounds.top + (bounds.height / 2) - offset,
            d: sides.right,
            q: 'right',
            v: false,
@@ -168,8 +167,8 @@ export class BoxModel extends HTMLElement {
        }
        if (sides.left) {
          this.createMeasurement({
-           x: viewport.width - bounds.left - sides.left,
-           y: bounds.top + (bounds.height / 2) - 3,
+           x: win_width - bounds.left - sides.left,
+           y: bounds.top + (bounds.height / 2) - offset,
            d: sides.left,
            q: 'left',
            v: false,
