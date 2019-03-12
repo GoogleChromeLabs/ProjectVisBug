@@ -59,7 +59,6 @@ export class Distance extends HTMLElement {
           overflow: visible;
           pointer-events: none;
           z-index: 2147483646;
-
           display: flex;
           align-items: center;
           flex-direction: ${v ? 'column' : 'row'};
