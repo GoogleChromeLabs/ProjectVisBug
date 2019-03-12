@@ -48,24 +48,8 @@ export class BoxModel extends HTMLElement {
     }
 
     return `
-      <div style="
-        pointer-events: none;
-        position: absolute;
-        z-index: 2147483642;
-        width: ${this.drawable.width}px;
-        height: ${this.drawable.height}px;
-        top: ${this.drawable.top}px;
-        left: ${this.drawable.left}px;
-        background-color: ${this.drawable.bg};
-        clip-path: polygon(
-          0% 0%, 0% 100%, ${sides.left}px 100%, 
-          ${sides.left}px ${sides.top}px, 
-          ${this.drawable.width - sides.right}px ${sides.top}px, 
-          ${this.drawable.width - sides.right}px ${this.drawable.height - sides.bottom}px, 
-          0 ${this.drawable.height - sides.bottom}px, 0 100%, 
-          100% 100%, 100% 0%
-        );
-      ">
+      ${this.styles({sides})}
+      <div mask>
         <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
           <defs>
             <pattern id="pinstripe" patternUnits="userSpaceOnUse" width="10" height="10" patternTransform="${this.drawable.rotation}" class="pattern">
@@ -78,7 +62,37 @@ export class BoxModel extends HTMLElement {
     `
   }
 
+  styles({sides}) {
+    return `
+      <style>
+        :host [mask] {
+          pointer-events: none;
+          position: absolute;
+          z-index: 2147483642;
+          width: ${this.drawable.width}px;
+          height: ${this.drawable.height}px;
+          top: ${this.drawable.top}px;
+          left: ${this.drawable.left}px;
+          background-color: ${this.drawable.bg};
+          clip-path: polygon(
+            0% 0%, 0% 100%, ${sides.left}px 100%, 
+            ${sides.left}px ${sides.top}px, 
+            ${this.drawable.width - sides.right}px ${sides.top}px, 
+            ${this.drawable.width - sides.right}px ${this.drawable.height - sides.bottom}px, 
+            0 ${this.drawable.height - sides.bottom}px, 0 100%, 
+            100% 100%, 100% 0%
+          );
+        }
+      </style>
+    `
+  }
+
   createMeasurements({mode, bounds, sides, color}) {
+    const viewport = {
+      width:  window.innerWidth,
+      height: window.innerHeight,
+    }
+
     if (mode === 'margin') {
       if (sides.top) {
         this.createMeasurement({
@@ -112,7 +126,7 @@ export class BoxModel extends HTMLElement {
       }
       if (sides.left) {
         this.createMeasurement({
-          x: window.innerWidth - bounds.left,
+          x: viewport.width - bounds.left,
           y: bounds.top + (bounds.height / 2) - 3,
           d: sides.left,
           q: 'left',
@@ -120,6 +134,48 @@ export class BoxModel extends HTMLElement {
           color,
         })
       }
+    }
+    else if (mode === 'padding') {
+      if (sides.top) {
+        this.createMeasurement({
+          x: bounds.left + (bounds.width / 2) - 3,
+          y: bounds.top + (sides.top < 18 && sides.top > 11 ? sides.top - 11 : 0),
+          d: sides.top,
+          q: 'top',
+          v: true,
+          color,
+        })
+      }
+       if (sides.bottom) {
+         this.createMeasurement({
+           x: bounds.left + (bounds.width / 2) - 3,
+           y: bounds.bottom - sides.bottom,
+           d: sides.bottom,
+           q: 'bottom',
+           v: true,
+           color,
+         })
+       }
+       if (sides.right) {
+         this.createMeasurement({
+           x: bounds.right - sides.right,
+           y: bounds.top + (bounds.height / 2) - 3,
+           d: sides.right,
+           q: 'right',
+           v: false,
+           color,
+         })
+       }
+       if (sides.left) {
+         this.createMeasurement({
+           x: viewport.width - bounds.left - sides.left,
+           y: bounds.top + (bounds.height / 2) - 3,
+           d: sides.left,
+           q: 'left',
+           v: false,
+           color,
+         })
+       }
     }
   }
 
