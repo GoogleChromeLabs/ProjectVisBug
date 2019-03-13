@@ -4,7 +4,7 @@ import styles     from './vis-bug.element.css'
 
 import {
   Handles, Label, Overlay, Gridlines,
-  Hotkeys, Metatip, Ally, Distance,
+  Hotkeys, Metatip, Ally, Distance, BoxModel,
 } from '../'
 
 import {
@@ -38,6 +38,7 @@ export default class VisBug extends HTMLElement {
 
   disconnectedCallback() {
     this.deactivate_feature()
+    this.cleanup()
     this.selectorEngine.disconnect()
     hotkeys.unbind(
       Object.keys(this.toolbar_model).reduce((events, key) =>
@@ -67,6 +68,19 @@ export default class VisBug extends HTMLElement {
           : 'none')
 
     this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
+  }
+
+  cleanup() {
+    const bye = [
+      ...document.getElementsByTagName('visbug-hover'),
+      ...document.getElementsByTagName('visbug-handles'),
+      ...document.getElementsByTagName('visbug-label'),
+      ...document.getElementsByTagName('visbug-gridlines'),
+    ].forEach(el => el.remove())
+
+    document.querySelectorAll('[data-pseudo-select=true]')
+      .forEach(el =>
+        el.removeAttribute('data-pseudo-select'))
   }
 
   toolSelected(el) {
