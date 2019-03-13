@@ -2,6 +2,7 @@
 
 :host {
   --line-color: hsl(267, 100%, 58%);
+  --line-width: 1px;
   --distance-h: 5px;
   --distance-w: 5px;
   --line-w: 5px;
@@ -50,6 +51,10 @@
   background: var(--line-color);
   width: var(--line-w);
   height: var(--line-h);
+}
+
+:host figure > div:last-of-type {
+  background: linear-gradient(to var(--quadrant), hotpink 0%, var(--line-color) 100%);
 }
 
 /* :host figure > div${q === 'top' || q === 'left' ? ':last-of-type' : ':first-of-type'} {
