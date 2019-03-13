@@ -24,7 +24,11 @@
 <br>
 <br>
 
-### Give **power to designers & content creators**, in a place where they currently feel they have little to none, **by bringing design tool interactions and hotkeys to the browser**
+<h3 style="font-weight:300; max-width: 40ch;"><b>Give power</b> to designers & content creators, in a place where they currently feel they have little to none, <b>by bringing design tool interactions<b> to the browser</h3>
+
+<br>
+<br>
+<br>
 
 Check out the [list of features me and other's are wishing for](https://github.com/GoogleChromeLabs/ProjectVisBug/issues?q=is%3Aopen+is%3Aissue+label%3A%22%E2%9A%A1%EF%B8%8F+feature%22). There's a lot of fun stuff planned or in demand. Cast your vote on a feature, leave some feedback or add clarity. 
 
@@ -37,6 +41,10 @@ Let's do this **design community, I'm looking at you!** Make a GitHub account an
 > -   Something you would use **to start from scratch**
 > -   A **design system recognizer**, enforcer, enabler, or anything
 > -   An **interaction** prototyping tool
+
+<br>
+<br>
+<br>
 
 ## Installation
 
@@ -56,14 +64,7 @@ Let's do this **design community, I'm looking at you!** Make a GitHub account an
 npm i visbug
 ```
 
-## Tool Architecture
-**VisBug is a custom element** on your page that intercepts interactions, selecting the item(s) instead, and then provides keyboard driven patterns to manipulate the selected DOM nodes. It can do these things on any page without the need for extension or browser priveledges. Extension integrations are to power a 2nd screen experience, while also providing browser specific features to enhance the experience. 
 
-The illusion of selection and hover interactions are **more custom elements**. They are sag positioned overtop the elements to provide the same visual feedback that design tools do. It is essential that these elements leverage the shadow DOM; they're in a foreign environment yet need to look the same across any page. 
-
-**Each tool is a function** that gets called when the user changes tools, and expects the feature function to return a function for disassembly/cleanup. Think of it as, "hey feature, you're up" and then later "hey feature, your turn is up, clean up." 
-
-It's the responsibility of each feature to register keyboard listeners and handle the manipulations. It's a courtesty to expose functions from a feature for other features to use. **Features must be able to handle multiselect**. 
 
 
 ## Contribute
