@@ -2,13 +2,14 @@ import { default as handle_css }   from './selection/handles.element.css'
 import { default as hover_css }    from './selection/hover.element.css'
 import { default as distance_css } from './selection/distance.element.css'
 
-const HandleStyles   = new CSSStyleSheet()
-const HoverStyles    = new CSSStyleSheet()
-const DistanceStyles = new CSSStyleSheet()
+const constructStylesheet = (styles, stylesheet = new CSSStyleSheet()) => {
+  stylesheet.replaceSync(styles)
+  return stylesheet
+}
 
-HandleStyles.replaceSync(handle_css)
-HoverStyles.replaceSync(hover_css)
-DistanceStyles.replaceSync(distance_css)
+const HandleStyles   = constructStylesheet(handle_css)
+const HoverStyles    = constructStylesheet(hover_css)
+const DistanceStyles = constructStylesheet(distance_css)
 
 export {
   HandleStyles,
