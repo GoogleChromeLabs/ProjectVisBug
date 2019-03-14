@@ -55,5 +55,5 @@
 
 :host figure:matches([quadrant="bottom"], [quadrant="right"]) > div:first-of-type,
 :host figure:matches([quadrant="top"], [quadrant="left"]) > div:last-of-type {
-  background: red;
+  background: linear-gradient(to var(--quadrant), hotpink 0%, var(--line-color) 100%);
 }
