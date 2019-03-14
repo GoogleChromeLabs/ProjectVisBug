@@ -42,10 +42,10 @@
   }
 
   &[node]:before {
-    content: "\\003c";
+    content: "\003c";
   }
 
   &[node]:after {
-    content: "\\003e";
+    content: "\003e";
   }
 }
