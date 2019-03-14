@@ -3,6 +3,7 @@ import { default as hover_css }    from './selection/hover.element.css'
 import { default as distance_css } from './selection/distance.element.css'
 import { default as gridline_css } from './selection/gridlines.element.css'
 import { default as label_css }    from './selection/label.element.css'
+import { default as overlay_css }  from './selection/overlay.element.css'
 
 const constructStylesheet = (styles, stylesheet = new CSSStyleSheet()) => {
   stylesheet.replaceSync(styles)
@@ -13,7 +14,8 @@ const HandleStyles   = constructStylesheet(handle_css)
 const HoverStyles    = constructStylesheet(hover_css)
 const DistanceStyles = constructStylesheet(distance_css)
 const GridlineStyles = constructStylesheet(gridline_css)
-const LabelStyles = constructStylesheet(label_css)
+const LabelStyles    = constructStylesheet(label_css)
+const OverlayStyles  = constructStylesheet(overlay_css)
 
 export {
   HandleStyles,
@@ -21,4 +23,5 @@ export {
   DistanceStyles,
   GridlineStyles,
   LabelStyles,
+  OverlayStyles,
 }
