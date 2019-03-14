@@ -1,0 +1,10 @@
+/* todo: import z-index */
+
+:host > svg {
+  position:fixed;
+  top:0;
+  left:0;
+  overflow:visible;
+  pointer-events:none;
+  z-index:2147483642;
+}
