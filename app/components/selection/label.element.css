@@ -1,0 +1,51 @@
+/* todo: import z-index */
+
+:host {
+  font-size: 16px;
+
+  --top: 0;
+  --left: 0;
+  --max-width: 0;
+}
+
+:host > span {
+  position: absolute;
+  top: var(--top);
+  left: var(--left);
+  max-width: var(--max-width);
+  z-index: 2147483643;
+  transform: translateY(-100%);
+  background: var(--label-bg, hotpink);
+  border-radius: 0.2em 0.2em 0 0;
+  text-shadow: 0 0.5px 0 hsla(0, 0%, 0%, 0.4);
+  color: white;
+  display: inline-flex;
+  justify-content: center;
+  font-size: 0.8em;
+  font-weight: normal;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+  white-space: nowrap;
+  padding: 0.25em 0.4em 0.15em;
+  line-height: 1.1;
+}
+
+:host a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  &:hover {
+    text-decoration: underline;
+    color: white;
+  }
+
+  &[node]:before {
+    content: "\\003c";
+  }
+
+  &[node]:after {
+    content: "\\003e";
+  }
+}
