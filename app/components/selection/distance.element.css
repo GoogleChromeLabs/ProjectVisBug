@@ -1,12 +1,12 @@
-/* todo: import a var */
+@import "../_variables.css";
 
 :host {
-  --line-color: hsl(267, 100%, 58%);
+  --line-color: var(--theme-purple);
   --line-width: 1px;
   --distance-h: 5px;
   --distance-w: 5px;
-  --line-w: 5px;
-  --line-h: 5px;
+  --line-w: 1px;
+  --line-h: 1px;
   font-size: 16px;
 }
 
@@ -53,10 +53,7 @@
   height: var(--line-h);
 }
 
-:host figure > div:last-of-type {
-  background: linear-gradient(to var(--quadrant), hotpink 0%, var(--line-color) 100%);
+:host figure:matches([quadrant="bottom"], [quadrant="right"]) > div:first-of-type,
+:host figure:matches([quadrant="top"], [quadrant="left"]) > div:last-of-type {
+  background: red;
 }
-
-/* :host figure > div${q === 'top' || q === 'left' ? ':last-of-type' : ':first-of-type'} {
-  background: linear-gradient(to ${q}, hotpink 0%, var(--line-color) 100%);
-} */
