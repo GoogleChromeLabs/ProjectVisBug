@@ -9,7 +9,13 @@ export class Hover extends Handles {
     this.$shadow.adoptedStyleSheets = [HandleStyles, HoverStyles]
   }
 
-  render({ x, y, width, height, top, left }) {
+  set position({el}) {
+    // const {top, left} = el.getBoundingClientRect()
+    this.style.setProperty('--top', `${top + window.scrollY}px`)
+    this.style.setProperty('--left', `${left}px`)
+  }
+
+  render({ width, height, top, left }) {
     this.style.setProperty('--top', `${top + window.scrollY}px`)
     this.style.setProperty('--left', `${left}px`)
 
