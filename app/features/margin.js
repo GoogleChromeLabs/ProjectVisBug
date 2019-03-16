@@ -35,23 +35,20 @@ export function Margin(visbug) {
 }
 
 export function pushElement(els, direction) {
-  els
-    .map(el => showHideSelected(el))
-    .map(el => ({
-      el,
-      style:    'margin' + getSide(direction),
-      current:  parseInt(getStyle(el, 'margin' + getSide(direction)), 10),
-      amount:   direction.split('+').includes('shift') ? 10 : 1,
-      negative: direction.split('+').includes('alt'),
-    }))
-    .map(payload =>
-      Object.assign(payload, {
-        margin: payload.negative
-          ? payload.current - payload.amount
-          : payload.current + payload.amount
-      }))
-    .forEach(({el, style, margin}) =>
-      el.style[style] = `${margin < 0 ? 0 : margin}px`)
+  els.forEach(el => {
+    showHideSelected(el)
+
+    const styles = el.computedStyleMap()
+    const style = 'margin-' + getSide(direction)
+    const {value, unit} = styles.get(style)
+    const amount = direction.split('+').includes('shift') ? 10 : 1
+    const negative = direction.split('+').includes('alt')
+    const new_value = negative 
+      ? value - amount
+      : value + amount
+
+    el.style.setProperty(style, new_value+unit, 'important')
+  })
 }
 
 export function pushAllElementSides(els, keycommand) {

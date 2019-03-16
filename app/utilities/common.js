@@ -21,9 +21,9 @@ export const deepElementFromPoint = (x, y) => {
 }
 
 export const getSide = direction => {
-  let start = direction.split('+').pop().replace(/^\w/, c => c.toUpperCase())
-  if (start == 'Up') start = 'Top'
-  if (start == 'Down') start = 'Bottom'
+  let start = direction.split('+').pop()
+  if (start == 'up') start = 'top'
+  if (start == 'down') start = 'bottom'
   return start
 }
 
