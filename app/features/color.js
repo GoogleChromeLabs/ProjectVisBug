@@ -2,6 +2,11 @@ import $ from 'blingblingjs'
 import { TinyColor } from '@ctrl/tinycolor'
 import { getStyle } from '../utilities/'
 
+const state = {
+  active_color: 'background',
+  elements: [],
+}
+
 export function ColorPicker(pallete, selectorEngine) {
   const foregroundPicker  = $('#foreground', pallete)
   const backgroundPicker  = $('#background', pallete)
@@ -15,23 +20,20 @@ export function ColorPicker(pallete, selectorEngine) {
     inactive: 'rgba(0, 0, 0, 0.1) 0px 0.25em 0.5em',
   }
 
-  this.active_color       = 'background'
-  this.elements           = []
-
   // set colors
   fgInput.on('input', e =>
-    this.elements.map(el =>
+    state.elements.map(el =>
       el.style['color'] = e.target.value))
 
   bgInput.on('input', e =>
-    this.elements.map(el =>
+    state.elements.map(el =>
       el.style[el instanceof SVGElement
         ? 'fill'
         : 'backgroundColor'
       ] = e.target.value))
 
   boInput.on('input', e =>
-    this.elements.map(el =>
+    state.elements.map(el =>
       el.style[el instanceof SVGElement
         ? 'stroke'
         : 'border-color'
@@ -40,15 +42,15 @@ export function ColorPicker(pallete, selectorEngine) {
   // read colors
   selectorEngine.onSelectedUpdate(elements => {
     if (!elements.length) return
-    this.elements = elements
+    state.elements = elements
 
     let isMeaningfulForeground  = false
     let isMeaningfulBackground  = false
     let isMeaningfulBorder      = false
     let FG, BG, BO
 
-    if (this.elements.length == 1) {
-      const el = this.elements[0]
+    if (state.elements.length == 1) {
+      const el = state.elements[0]
       const meaningfulDontMatter = pallete.host.active_tool.dataset.tool === 'hueshift'
 
       if (el instanceof SVGElement) {
@@ -107,28 +109,28 @@ export function ColorPicker(pallete, selectorEngine) {
       // show all 3 if they've selected more than 1 node
       // todo: this is giving up, and can be solved
       foregroundPicker.attr('style', `
-        box-shadow: ${this.active_color == 'foreground' ? shadows.active : shadows.inactive};
+        box-shadow: ${state.active_color == 'foreground' ? shadows.active : shadows.inactive};
         display: inline-flex;
       `)
 
       backgroundPicker.attr('style', `
-        box-shadow: ${this.active_color == 'background' ? shadows.active : shadows.inactive};
+        box-shadow: ${state.active_color == 'background' ? shadows.active : shadows.inactive};
         display: inline-flex;
       `)
 
       borderPicker.attr('style', `
-        box-shadow: ${this.active_color == 'border' ? shadows.active : shadows.inactive};
+        box-shadow: ${state.active_color == 'border' ? shadows.active : shadows.inactive};
         display: inline-flex;
       `)
     }
   })
 
   const getActive = () =>
-    this.active_color
+    state.active_color
 
   const setActive = key => {
     removeActive()
-    this.active_color = key
+    state.active_color = key
 
     if (key === 'foreground')
       foregroundPicker[0].style.boxShadow = shadows.active
