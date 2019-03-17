@@ -35,7 +35,6 @@ export function Margin(visbug) {
 }
 
 export function pushElement(els, direction) {
-  const side = (getSide(direction) === 'Top' || getSide(direction) === 'Bottom') ? 'Top' : 'Left'
   els
     .map(el => showHideSelected(el))
     .map(el => ({
