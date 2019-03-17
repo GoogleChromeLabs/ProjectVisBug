@@ -35,14 +35,15 @@ export function Margin(visbug) {
 }
 
 export function pushElement(els, direction) {
+  const side = (getSide(direction) === 'Top' || getSide(direction) === 'Bottom') ? 'Top' : 'Left'
   els
     .map(el => showHideSelected(el))
     .map(el => ({
       el,
-      style:    'margin' + getSide(direction),
-      current:  parseInt(getStyle(el, 'margin' + getSide(direction)), 10),
+      style:    'margin' + side,
+      current:  parseInt(getStyle(el, 'margin' + side), 10),
       amount:   direction.split('+').includes('shift') ? 10 : 1,
-      negative: direction.split('+').includes('alt'),
+      negative: direction.split('+').includes('down') || direction.split('+').includes('right'),
     }))
     .map(payload =>
       Object.assign(payload, {
@@ -50,8 +51,10 @@ export function pushElement(els, direction) {
           ? payload.current - payload.amount
           : payload.current + payload.amount
       }))
-    .forEach(({el, style, margin}) =>
-      el.style[style] = `${margin < 0 ? 0 : margin}px`)
+    .forEach(({el, style, margin}) =>{
+      return el.style[style] = `${margin}px`
+    }
+      )
 }
 
 export function pushAllElementSides(els, keycommand) {
@@ -59,7 +62,6 @@ export function pushAllElementSides(els, keycommand) {
   let spoof = ''
 
   if (combo.includes('shift'))  spoof = 'shift+' + spoof
-  if (combo.includes('down'))   spoof = 'alt+' + spoof
 
   'up,down,left,right'.split(',')
     .forEach(side => pushElement(els, spoof + side))
