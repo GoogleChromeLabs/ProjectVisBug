@@ -50,10 +50,7 @@ export function pushElement(els, direction) {
           ? payload.current - payload.amount
           : payload.current + payload.amount
       }))
-    .forEach(({el, style, margin}) =>{
-      return el.style[style] = `${margin}px`
-    }
-      )
+    .forEach(({el, style, margin}) => el.style[style] = `${margin}px`)
 }
 
 export function pushAllElementSides(els, keycommand) {
