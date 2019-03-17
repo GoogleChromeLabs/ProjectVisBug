@@ -40,10 +40,10 @@ export function pushElement(els, direction) {
     .map(el => showHideSelected(el))
     .map(el => ({
       el,
-      style:    'margin' + side,
-      current:  parseInt(getStyle(el, 'margin' + side), 10),
+      style:    'margin' + getSide(direction),
+      current:  parseInt(getStyle(el, 'margin' + getSide(direction)), 10),
       amount:   direction.split('+').includes('shift') ? 10 : 1,
-      negative: direction.split('+').includes('down') || direction.split('+').includes('right'),
+      negative: direction.split('+').includes('alt'),
     }))
     .map(payload =>
       Object.assign(payload, {
