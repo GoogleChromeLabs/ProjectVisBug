@@ -1,7 +1,7 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { querySelectorAllDeep } from 'query-selector-shadow-dom'
-import { PluginRegistry, PluginHints } from '../plugins/_registry'
+// import { PluginRegistry, PluginHints } from '../plugins/_registry'
 
 let SelectorEngine
 
@@ -11,9 +11,6 @@ search_base.classList.add('search')
 search_base.innerHTML = `
   <input list="visbug-plugins" type="text" placeholder="ex: images, .btn, button, text, ..."/>
   <datalist id="visbug-plugins">
-    ${PluginHints.reduce((options, command) =>
-      options += `<option value="${command}">plugin</option>`
-    , '')}
     <option value="h1, h2, h3, .get-multiple">example</option>
     <option value="nav > a:first-child">example</option>
     <option value="#get-by-id">example</option>
@@ -22,6 +19,10 @@ search_base.innerHTML = `
     <option value="text">alias</option>
   </datalist>
 `
+
+// ${PluginHints.reduce((options, command) =>
+//   options += `<option value="${command}">plugin</option>`
+// , '')}
 
 const search        = $(search_base)
 const searchInput   = $('input', search_base)
