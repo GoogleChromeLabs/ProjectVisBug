@@ -19,7 +19,7 @@ const toggleIn = ({id:tab_id}) => {
   // fresh start in tab
   else {
     chrome.tabs.insertCSS(tab_id,     { file: 'toolbar/bundle.css' })
-    chrome.tabs.executeScript(tab_id, { file: 'web-components.polyfill.js' })
+    // chrome.tabs.executeScript(tab_id, { file: 'web-components.polyfill.js' })
     chrome.tabs.executeScript(tab_id, { file: 'toolbar/bundle.js' })
     chrome.tabs.executeScript(tab_id, { file: 'toolbar/inject.js' })
 
