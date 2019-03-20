@@ -37,6 +37,14 @@ export const desiredPropMap = {
   gridAutoFlow:        'row',
 }
 
+if (navigator.userAgent.search('Firefox')) {
+  desiredPropMap.backgroundSize = 'auto auto'
+  desiredPropMap.borderWidth    = ''
+  desiredPropMap.borderRadius   = ''
+  desiredPropMap.padding        = ''
+  desiredPropMap.margin         = ''
+}
+
 export const desiredAccessibilityMap = [
   'role',
   'tabindex',
