@@ -24,8 +24,11 @@ export class Hover extends Handles {
           z-index: 2147483642;
         }
       </style>
-      <svg width="${width}" height="${height}">
-        <rect></rect>
+      <svg
+        width="${width}" height="${height}"
+        viewBox="0 0 ${width} ${height}"
+      >
+        <rect fill="none" width="100%" height="100%"></rect>
       </svg>
     `
   }
