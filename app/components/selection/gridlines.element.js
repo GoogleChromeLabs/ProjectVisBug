@@ -41,7 +41,7 @@ export class Gridlines extends HTMLElement {
     const { winHeight, winWidth } = windowBounds()
 
     return `
-      ${this.styles({top,left})}
+      ${this.styles()}
       <svg
         width="100%" height="100%"
         viewBox="0 0 ${winWidth} ${winHeight}"
@@ -64,6 +64,10 @@ export class Gridlines extends HTMLElement {
   styles({top,left}) {
     return `
       <style>
+        :host {
+          --color: rebeccapurple;
+        }
+
         :host > svg {
           position:fixed;
           top:0;
@@ -74,7 +78,7 @@ export class Gridlines extends HTMLElement {
         }
 
         :host rect, :host line {
-          stroke: rebeccapurple;
+          stroke: var(--color);
         }
 
         :host line {

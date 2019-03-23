@@ -68,6 +68,7 @@ const stickGuide = els => {
     state.stuck = []
   }
 
+  state.gridlines.style.setProperty('--color', 'hotpink')
   state.stuck.push(state.gridlines)
   state.gridlines = null
 }
