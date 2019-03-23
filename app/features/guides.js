@@ -3,15 +3,20 @@ import { isOffBounds, deepElementFromPoint } from '../utilities/'
 
 let gridlines
 
-export function Guides() {
+export function Guides(visbug) {
   $('body').on('mousemove', on_hover)
   $('body').on('mouseout', on_hoverout)
+
   window.addEventListener('scroll', hideGridlines)
+  visbug.onSelectedUpdate(stickGuide)
 
   return () => {
     $('body').off('mousemove', on_hover)
     $('body').off('mouseout', on_hoverout)
+
     window.removeEventListener('scroll', hideGridlines)
+    visbug.removeSelectedCallback(stickGuide)
+
     hideGridlines()
   }
 }
@@ -47,6 +52,10 @@ export function createGuide(vert = true) {
   guide.style = styles
 
   return guide
+}
+
+const stickGuide = els => {
+  console.info(els)
 }
 
 const on_hoverout = ({target}) =>
