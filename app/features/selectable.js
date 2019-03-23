@@ -333,7 +333,11 @@ export function Selectable() {
     if (isOffBounds($target) || $target.hasAttribute('data-selected'))
       return clearHover()
 
-    overlayHoverUI($target)
+    overlayHoverUI({
+      el: $target,
+      no_hover: tool === 'guides',
+      no_label: tool !== 'inspector',
+    })
 
     if (e.altKey && tool === 'guides' && selected.length === 1 && selected[0] != $target) {
       $target.setAttribute('data-measuring', true)
@@ -341,12 +345,10 @@ export function Selectable() {
       createMeasurements({$anchor, $target})
     }
     else if (tool === 'margin' && !hover_state.element.$shadow.querySelector('visbug-boxmodel')) {
-      hover_state.label.style.opacity = 0
       hover_state.element.$shadow.appendChild(
         createMarginVisual(hover_state.target, true))
     }
     else if (tool === 'padding' && !hover_state.element.$shadow.querySelector('visbug-boxmodel')) {
-      hover_state.label.style.opacity = 0
       hover_state.element.$shadow.appendChild(
         createPaddingVisual(hover_state.target, true))
     }
@@ -357,12 +359,20 @@ export function Selectable() {
   }
 
   const select = el => {
+    const id = handles.length
+    const tool = $('vis-bug')[0].activeTool
+
     el.setAttribute('data-selected', true)
-    el.setAttribute('data-label-id', labels.length)
+    el.setAttribute('data-label-id', id)
 
     clearHover()
 
-    overlayMetaUI(el)
+    overlayMetaUI({
+      el,
+      id,
+      no_label: tool !== 'inspector',
+    })
+
     selected.unshift(el)
     tellWatchers()
   }
@@ -437,22 +447,27 @@ export function Selectable() {
   const combineNodeNameAndClass = node =>
     `${node.nodeName.toLowerCase()}${createClassname(node)}`
 
-  const overlayHoverUI = el => {
+  const overlayHoverUI = ({el, no_hover = false, no_label = true}) => {
     if (hover_state.target === el) return
+    hover_state.target = el
 
-    hover_state.target  = el
-    hover_state.element = createHover(el)
-    hover_state.label = createHoverLabel(el, `
-      <a node>${el.nodeName.toLowerCase()}</a>
-      <a>${el.id && '#' + el.id}</a>
-      ${createClassname(el).split('.')
-        .filter(name => name != '')
-        .reduce((links, name) => `
-          ${links}
-          <a>.${name}</a>
-        `, '')
-      }
-    `)
+    hover_state.element = no_hover
+      ? null
+      : createHover(el)
+
+    hover_state.label   = no_label
+      ? null
+      : createHoverLabel(el, `
+          <a node>${el.nodeName.toLowerCase()}</a>
+          <a>${el.id && '#' + el.id}</a>
+          ${createClassname(el).split('.')
+            .filter(name => name != '')
+            .reduce((links, name) => `
+              ${links}
+              <a>.${name}</a>
+            `, '')
+          }
+        `)
   }
 
   const clearHover = () => {
@@ -466,19 +481,25 @@ export function Selectable() {
     hover_state.label   = null
   }
 
-  const overlayMetaUI = el => {
-    let handle = createHandle(el)
-    let label  = createLabel(el, `
-      <a node>${el.nodeName.toLowerCase()}</a>
-      <a>${el.id && '#' + el.id}</a>
-      ${createClassname(el).split('.')
-        .filter(name => name != '')
-        .reduce((links, name) => `
-          ${links}
-          <a>.${name}</a>
-        `, '')
-      }
-    `)
+  const overlayMetaUI = ({el, id, no_label = true}) => {
+    let handle = createHandle({el, id})
+    let label  = no_label
+      ? null
+      : createLabel({
+          el,
+          id,
+          template: `
+            <a node>${el.nodeName.toLowerCase()}</a>
+            <a>${el.id && '#' + el.id}</a>
+            ${createClassname(el).split('.')
+              .filter(name => name != '')
+              .reduce((links, name) => `
+                ${links}
+                <a>.${name}</a>
+              `, '')
+            }
+          `
+        })
 
     let observer        = createObserver(el, {handle,label})
     let parentObserver  = createObserver(el, {handle,label})
@@ -495,13 +516,11 @@ export function Selectable() {
   const setLabel = (el, label) =>
     label.update = el.getBoundingClientRect()
 
-  const createLabel = (el, text) => {
-    const id = parseInt(el.getAttribute('data-label-id'))
-
+  const createLabel = ({el, id, template}) => {
     if (!labels[id]) {
       const label = document.createElement('visbug-label')
 
-      label.text = text
+      label.text = template
       label.position = {
         boundingRect:   el.getBoundingClientRect(),
         node_label_id:  id,
@@ -535,9 +554,7 @@ export function Selectable() {
     }
   }
 
-  const createHandle = el => {
-    const id = parseInt(el.getAttribute('data-label-id'))
-
+  const createHandle = ({el, id}) => {
     if (!handles[id]) {
       const handle = document.createElement('visbug-handles')
 
@@ -594,8 +611,8 @@ export function Selectable() {
 
   const createObserver = (node, {label,handle}) =>
     new MutationObserver(list => {
-      setLabel(node, label)
-      setHandle(node, handle)
+      label && setLabel(node, label)
+      handle && setHandle(node, handle)
     })
 
   const onSelectedUpdate = (cb, immediateCallback = true) => {
