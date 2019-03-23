@@ -145,6 +145,8 @@ export function createMeasurements({$anchor, $target}) {
 }
 
 export function clearMeasurements() {
+  if (!state.distances) return
+
   $('[data-measuring]').forEach(el =>
     el.removeAttribute('data-measuring'))
 

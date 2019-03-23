@@ -1,5 +1,6 @@
 import $ from 'blingblingjs'
 import { isOffBounds, deepElementFromPoint } from '../utilities/'
+import { clearMeasurements } from './measurements'
 
 let gridlines
 
@@ -17,6 +18,7 @@ export function Guides(visbug) {
     window.removeEventListener('scroll', hideGridlines)
     visbug.removeSelectedCallback(stickGuide)
 
+    clearMeasurements()
     hideGridlines()
   }
 }
