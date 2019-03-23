@@ -76,6 +76,8 @@ export function Selectable() {
       return
 
     e.preventDefault()
+    clearMeasurements()
+
     if (!e.altKey) e.stopPropagation()
     if (!e.shiftKey) unselect_all()
 
@@ -336,10 +338,10 @@ export function Selectable() {
     overlayHoverUI({
       el: $target,
       no_hover: tool === 'guides',
-      no_label: tool !== 'inspector',
+      no_label: tool !== 'inspector' && tool !== 'guides',
     })
 
-    if (e.altKey && tool === 'guides' && selected.length === 1 && selected[0] != $target) {
+    if (tool === 'guides' && selected.length === 1 && selected[0] != $target) {
       $target.setAttribute('data-measuring', true)
       const [$anchor] = selected
       createMeasurements({$anchor, $target})
@@ -353,7 +355,6 @@ export function Selectable() {
         createPaddingVisual(hover_state.target, true))
     }
     else if ($target.hasAttribute('data-measuring')) {
-      $target.removeAttribute('data-measuring')
       clearMeasurements()
     }
   }

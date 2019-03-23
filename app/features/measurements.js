@@ -1,3 +1,5 @@
+import $ from 'blingblingjs'
+
 const state = {
   distances:  [],
   target:     null,
@@ -143,6 +145,9 @@ export function createMeasurements({$anchor, $target}) {
 }
 
 export function clearMeasurements() {
+  $('[data-measuring]').forEach(el =>
+    el.removeAttribute('data-measuring'))
+
   state.distances.forEach(node => node.remove())
   state.distances = []
 }
