@@ -21,6 +21,7 @@ export class Gridlines extends HTMLElement {
     const svg = this.$shadow.children[1]
 
     svg.setAttribute('viewBox', `0 0 ${winWidth} ${winHeight}`)
+    svg.style.top = window.scrollY + 'px'
     svg.children[0].setAttribute('width', width + 'px')
     svg.children[0].setAttribute('height', height + 'px')
     svg.children[0].setAttribute('x', left)
@@ -61,7 +62,7 @@ export class Gridlines extends HTMLElement {
     `
   }
 
-  styles({top,left}) {
+  styles() {
     return `
       <style>
         :host {
@@ -69,8 +70,8 @@ export class Gridlines extends HTMLElement {
         }
 
         :host > svg {
-          position:fixed;
-          top:0;
+          position:absolute;
+          top:${window.scrollY}px;
           left:0;
           overflow:visible;
           pointer-events:none;
