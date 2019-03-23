@@ -338,7 +338,7 @@ export function Selectable() {
     overlayHoverUI({
       el: $target,
       no_hover: tool === 'guides',
-      no_label: tool !== 'inspector' && tool !== 'guides',
+      no_label: tool !== 'guides',
     })
 
     if (tool === 'guides' && selected.length === 1 && selected[0] != $target) {
@@ -371,7 +371,7 @@ export function Selectable() {
     overlayMetaUI({
       el,
       id,
-      no_label: tool !== 'inspector',
+      no_label: tool !== 'inspector' && tool !== 'accessibility',
     })
 
     selected.unshift(el)
