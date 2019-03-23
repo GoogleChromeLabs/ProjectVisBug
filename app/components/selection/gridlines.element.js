@@ -48,15 +48,15 @@ export class Gridlines extends HTMLElement {
         version="1.1" xmlns="http://www.w3.org/2000/svg"
       >
         <rect
-          stroke="hotpink" fill="none"
+          fill="none"
           width="${width}" height="${height}"
           x="${x}" y="${y}"
           style="display:none;"
         ></rect>
-        <line x1="${x}" y1="0" x2="${x}" y2="${winHeight}" stroke="hotpink" stroke-dasharray="2" stroke-dashoffset="3"></line>
-        <line x1="${x + width}" y1="0" x2="${x + width}" y2="${winHeight}" stroke="hotpink" stroke-dasharray="2" stroke-dashoffset="3"></line>
-        <line x1="0" y1="${y}" x2="${winWidth}" y2="${y}" stroke="hotpink" stroke-dasharray="2" stroke-dashoffset="3"></line>
-        <line x1="0" y1="${y + height}" x2="${winWidth}" y2="${y + height}" stroke="hotpink" stroke-dasharray="2" stroke-dashoffset="3"></line>
+        <line x1="${x}" y1="0" x2="${x}" y2="${winHeight}"></line>
+        <line x1="${x + width}" y1="0" x2="${x + width}" y2="${winHeight}"></line>
+        <line x1="0" y1="${y}" x2="${winWidth}" y2="${y}"></line>
+        <line x1="0" y1="${y + height}" x2="${winWidth}" y2="${y + height}"></line>
       </svg>
     `
   }
@@ -71,6 +71,15 @@ export class Gridlines extends HTMLElement {
           overflow:visible;
           pointer-events:none;
           z-index:2147483642;
+        }
+
+        :host rect, :host line {
+          stroke: rebeccapurple;
+        }
+
+        :host line {
+          stroke-dasharray: 2;
+          stroke-dasharray-offset: 3;
         }
       </style>
     `
