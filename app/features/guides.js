@@ -2,7 +2,10 @@ import $ from 'blingblingjs'
 import { isOffBounds, deepElementFromPoint } from '../utilities/'
 import { clearMeasurements } from './measurements'
 
-let gridlines
+const state = {
+  gridlines: null,
+  stuck: [],
+}
 
 export function Guides(visbug) {
   $('body').on('mousemove', on_hover)
@@ -57,26 +60,35 @@ export function createGuide(vert = true) {
 }
 
 const stickGuide = els => {
-  console.info(els)
+  if (!state.gridlines) return
+
+  if (state.stuck.length >= els.length) {
+    state.stuck.forEach(el =>
+      el.remove())
+    state.stuck = []
+  }
+
+  state.stuck.push(state.gridlines)
+  state.gridlines = null
 }
 
 const on_hoverout = ({target}) =>
   hideGridlines()
 
 const showGridlines = node => {
-  if (gridlines) {
-    gridlines.style.display = null
-    gridlines.update = node.getBoundingClientRect()
+  if (state.gridlines) {
+    state.gridlines.style.display = null
+    state.gridlines.update = node.getBoundingClientRect()
   }
   else {
-    gridlines = document.createElement('visbug-gridlines')
-    gridlines.position = node.getBoundingClientRect()
+    state.gridlines = document.createElement('visbug-gridlines')
+    state.gridlines.position = node.getBoundingClientRect()
 
-    document.body.appendChild(gridlines)
+    document.body.appendChild(state.gridlines)
   }
 }
 
 const hideGridlines = node => {
-  if (!gridlines) return
-  gridlines.style.display = 'none'
+  if (!state.gridlines) return
+  state.gridlines.style.display = 'none'
 }
