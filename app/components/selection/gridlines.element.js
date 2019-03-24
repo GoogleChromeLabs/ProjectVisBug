@@ -15,13 +15,12 @@ export class Gridlines extends HTMLElement {
   }
 
   set update({ width, height, top, left }) {
-    const { winHeight, winWidth } = windowBounds()
+    const { winWidth, winHeight } = windowBounds()
 
     this.$shadow.host.style.display = 'block'
     const svg = this.$shadow.children[1]
 
     svg.setAttribute('viewBox', `0 0 ${winWidth} ${winHeight}`)
-    svg.style.top = window.scrollY + 'px'
     svg.children[0].setAttribute('width', width + 'px')
     svg.children[0].setAttribute('height', height + 'px')
     svg.children[0].setAttribute('x', left)
@@ -30,16 +29,18 @@ export class Gridlines extends HTMLElement {
     svg.children[1].setAttribute('x2', left)
     svg.children[2].setAttribute('x1', left + width)
     svg.children[2].setAttribute('x2', left + width)
-    svg.children[3].setAttribute('y1', top)
-    svg.children[3].setAttribute('y2', top)
+    svg.children[3].setAttribute('y1', top + window.scrollY)
+    svg.children[3].setAttribute('y2', top + window.scrollY)
     svg.children[3].setAttribute('x2', winWidth)
-    svg.children[4].setAttribute('y1', top + height)
-    svg.children[4].setAttribute('y2', top + height)
+    svg.children[4].setAttribute('y1', top + window.scrollY + height)
+    svg.children[4].setAttribute('y2', top + window.scrollY + height)
     svg.children[4].setAttribute('x2', winWidth)
   }
 
   render({ x, y, width, height, top, left }) {
-    const { winHeight, winWidth } = windowBounds()
+    const { winWidth, winHeight } = windowBounds()
+    const { offsetHeight } = document.body
+    const calced_y = y + window.scrollY
 
     return `
       ${this.styles()}
@@ -54,10 +55,10 @@ export class Gridlines extends HTMLElement {
           x="${x}" y="${y}"
           style="display:none;"
         ></rect>
-        <line x1="${x}" y1="0" x2="${x}" y2="${winHeight}"></line>
-        <line x1="${x + width}" y1="0" x2="${x + width}" y2="${winHeight}"></line>
-        <line x1="0" y1="${y}" x2="${winWidth}" y2="${y}"></line>
-        <line x1="0" y1="${y + height}" x2="${winWidth}" y2="${y + height}"></line>
+        <line x1="${x}" y1="0" x2="${x}" y2="${offsetHeight}"></line>
+        <line x1="${x + width}" y1="0" x2="${x + width}" y2="${offsetHeight}"></line>
+        <line x1="0" y1="${calced_y}" x2="${winWidth}" y2="${calced_y}"></line>
+        <line x1="0" y1="${calced_y + height}" x2="${winWidth}" y2="${calced_y + height}"></line>
       </svg>
     `
   }
@@ -71,7 +72,7 @@ export class Gridlines extends HTMLElement {
 
         :host > svg {
           position:absolute;
-          top:${window.scrollY}px;
+          top:0;
           left:0;
           overflow:visible;
           pointer-events:none;
