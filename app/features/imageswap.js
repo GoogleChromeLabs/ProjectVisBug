@@ -53,19 +53,37 @@ const onDragStart = ({target}) =>
 const onDragEnd = e =>
   dragItem = undefined
 
-const onDragEnter = e => {
+const onDragEnter =async e => {
   e.preventDefault()
-  const pre_selected = $('img[data-selected=true]')
+  e.stopPropagation()
 
-  if (!pre_selected.length)
-    showOverlay(e.currentTarget, 0)
-  else
-    pre_selected.forEach((img, i) =>
-      showOverlay(img, i))
+  const pre_selected = $('img[data-selected=true]')
+  if(imgs.some(img => img === e.target)){
+    if(!pre_selected.length){
+      if(! e.dataTransfer.types.some(type => type === 'Files')){
+        previewDrop(e.target);
+      }
+      showOverlay(e.currentTarget, 0)
+    }else{
+      if(pre_selected.some(node => node == e.target) && ! e.dataTransfer.types.some(type => type === 'Files')){
+        pre_selected.forEach(node => previewDrop(node))
+      }
+      pre_selected.forEach((img, i) =>
+        showOverlay(img, i))
+    }
+  }
 }
 
-const onDragLeave = e => 
+const onDragLeave = e => {
+  e.stopPropagation()
+  const pre_selected = $('img[data-selected=true]')
+  if(! pre_selected.some(node => node === e.target))
+    resetPreviewed(e.target)
+  else
+    pre_selected.forEach(node => resetPreviewed(node))
+
   hideOverlays()
+}
 
 
 const onDrop = async e => {
@@ -88,6 +106,7 @@ const onDrop = async e => {
     if (targetImages.length){
       let i = 0
       targetImages.forEach(img => {
+        clearDragHistory(img)
         img.src = srcs[i]
         if(img.srcset !== '')
           img.srcset = srcs[i]
@@ -106,6 +125,7 @@ const onDrop = async e => {
       imgs
         .filter(img => img.contains(e.target))
         .forEach(img => {
+          clearDragHistory(img)
           if(window.getComputedStyle(img).backgroundImage != 'none')
             img.style.backgroundImage = `url(${srcs[0]})`
         })
@@ -147,4 +167,44 @@ const findBackgroundImages = el => {
 
     return collection
   }, [])
+}
+
+const previewDrop = async (node) => {
+  if(! ['lastSrc','lastSrcset','lastSiblings','lastBackgroundImage'].some(prop => node[prop])){
+    const setSrc = dragItem.currentSrc
+    if(window.getComputedStyle(node).backgroundImage !== 'none'){
+      node.lastBackgroundImage = window.getComputedStyle(node).backgroundImage
+      node.style.backgroundImage = `url(${setSrc})`
+    }else{
+      node.lastSrc = node.src
+      node.lastSrcset = node.srcset
+      const sibSource = Array.from(node.parentElement.children).filter(node => node.tagName === 'SOURCE')
+      if(sibSource.length){
+        node.lastSiblings = sibSource
+        sibSource.forEach(sib => sib.parentElement.removeChild(sib))
+      }
+      node.srcset = ''
+      node.src = setSrc
+    }
+  }
+}
+
+const resetPreviewed = (node) => {
+  if(node.lastSrc)
+    node.src = node.lastSrc
+
+  if(node.lastSrcset)
+    node.srcset = node.lastSrcset
+
+  if(node.lastSiblings)
+    node.lastSiblings.forEach(sib => node.parentElement.insertBefore(sib, node))
+
+  if(node.lastBackgroundImage)
+    node.style.backgroundImage = node.lastBackgroundImage
+
+  clearDragHistory(node)
+}
+
+const clearDragHistory = (node) => {
+  ['lastSrc','lastSrcset','lastSiblings','lastBackgroundImage'].forEach(prop => node[prop] = null)
 }
