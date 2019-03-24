@@ -73,28 +73,42 @@ const onDrop = async e => {
   e.preventDefault()
 
   const selectedImages = $('img[data-selected=true]')
-  
-  const srcs = e.dataTransfer.files.length 
+
+  const srcs = e.dataTransfer.files.length
     ? await Promise.all([...e.dataTransfer.files]
       .filter(file => file.type.includes('image'))
-      .map(previewFile)) 
-    : [dragItem.src]
-  
+      .map(previewFile))
+    : [dragItem.currentSrc]
+
   if (srcs.length) {
-    if (!selectedImages.length)
-      if (e.target.nodeName === 'IMG')
-        e.target.src = srcs[0]
-      else
-        imgs
-          .filter(img => img.contains(e.target))
-          .forEach(img => 
-            img.style.backgroundImage = `url(${srcs[0]})`)
-    else if (selectedImages.length) {
+    const targetImages = selectedImages.length && selectedImages.some(img => img == e.target) ? selectedImages
+      : e.target.nodeName === 'IMG' && !selectedImages.length ? [e.target]
+      : [];
+
+    if (targetImages.length){
       let i = 0
-      selectedImages.forEach(img => {
-        img.src = srcs[i++]
-        if (i >= srcs.length) i = 0
+      targetImages.forEach(img => {
+        img.src = srcs[i]
+        if(img.srcset !== '')
+          img.srcset = srcs[i]
+        const sources = Array.from(img.parentElement.children)
+          .filter(sibling => sibling.nodeName === 'SOURCE')
+        if(sources){
+          sources.forEach(source => {
+            if(!source.media || window.matchMedia(source.media).matches){
+              source.srcset = srcs[i]
+            }
+          })
+        }
+        i = ++i % srcs.length
       })
+    }else{
+      imgs
+        .filter(img => img.contains(e.target))
+        .forEach(img => {
+          if(window.getComputedStyle(img).backgroundImage != 'none')
+            img.style.backgroundImage = `url(${srcs[0]})`
+        })
     }
   }
 
