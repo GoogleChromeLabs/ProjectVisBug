@@ -1,5 +1,6 @@
 import hotkeys from 'hotkeys-js'
 import { metaKey, getStyle } from '../utilities/'
+import { createMeasurements, clearMeasurements } from './measurements'
 
 const key_events = 'up,down,left,right'
   .split(',')
@@ -10,38 +11,52 @@ const key_events = 'up,down,left,right'
 
 const command_events = `${metaKey}+up,${metaKey}+down,${metaKey}+left,${metaKey}+right`
 
-export function Flex({selection}) {
+export function Flex(visbug) {
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
 
     e.preventDefault()
 
-    let selectedNodes = selection()
+    let selectedNodes = visbug.selection()
       , keys = handler.key.split('+')
 
-    if (keys.includes('left') || keys.includes('right'))
-      keys.includes('shift')
-        ? changeHDistribution(selectedNodes, handler.key)
-        : changeHAlignment(selectedNodes, handler.key)
-    else
-      keys.includes('shift')
-        ? changeVDistribution(selectedNodes, handler.key)
-        : changeVAlignment(selectedNodes, handler.key)
+    selectedNodes.forEach(node => {
+      const direction = getStyle(node, 'flexDirection')
+      
+      if (direction === 'row') {
+        if (keys.includes('left') || keys.includes('right'))
+          keys.includes('shift')
+            ? changeHDistribution(selectedNodes, handler.key)
+            : changeHAlignment(selectedNodes, handler.key)
+        else
+          keys.includes('shift')
+            ? changeVDistribution(selectedNodes, handler.key)
+            : changeVAlignment(selectedNodes, handler.key)
+      }
+      else {
+        debugger
+      }
+    })
+
+    
   })
 
   hotkeys(command_events, (e, handler) => {
     e.preventDefault()
 
-    let selectedNodes = selection()
+    let selectedNodes = visbug.selection()
       , keys = handler.key.split('+')
 
     changeDirection(selectedNodes, keys.includes('left') ? 'row' : 'column')
   })
 
+  visbug.onSelectedUpdate(highlightChildren)
+
   return () => {
     hotkeys.unbind(key_events)
     hotkeys.unbind(command_events)
     hotkeys.unbind('up,down,left,right')
+    visbug.removeSelectedCallback(highlightChildren)
   }
 }
 
@@ -58,6 +73,21 @@ const accountForOtherJustifyContent = (cur, want) => {
 
   return cur
 }
+
+const highlightChildren = els => {
+    els.forEach((el, i) => {
+      [...el.children].forEach((child, n) => {
+        if (el.children.length > 0 && n > 0)
+           createMeasurements({
+             $anchor: el.children[n - 1],
+             $target: child,
+           })
+        const child_hover = document.createElement('visbug-hover')
+        child_hover.position = {el: child}
+        document.body.appendChild(child_hover)
+      })
+    })
+  }
 
 // todo: support reversing direction
 export function changeDirection(els, value) {
