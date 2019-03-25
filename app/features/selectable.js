@@ -334,8 +334,10 @@ export function Selectable() {
     const $target = deepElementFromPoint(e.clientX, e.clientY)
     const tool = $('vis-bug')[0].activeTool
 
-    if (isOffBounds($target) || $target.hasAttribute('data-selected'))
+    if (isOffBounds($target) || $target.hasAttribute('data-selected')) {
+      clearMeasurements()
       return clearHover()
+    }
 
     overlayHoverUI({
       el: $target,
@@ -356,7 +358,7 @@ export function Selectable() {
       hover_state.element.$shadow.appendChild(
         createPaddingVisual(hover_state.target, true))
     }
-    else if ($target.hasAttribute('data-measuring')) {
+    else if ($target.hasAttribute('data-measuring') || selected.includes($target)) {
       clearMeasurements()
     }
   }
