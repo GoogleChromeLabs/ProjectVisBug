@@ -81,7 +81,7 @@ const stickGuide = els => {
     ]
   }
 
-  state.gridlines.remove()
+  state.gridlines && state.gridlines.remove()
   state.gridlines = null
 }
 
