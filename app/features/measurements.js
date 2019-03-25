@@ -153,3 +153,9 @@ export function clearMeasurements() {
   state.distances.forEach(node => node.remove())
   state.distances = []
 }
+
+export function takeMeasurementOwnership() {
+  const distances = [...state.distances]
+  state.distances = []
+  return distances
+}

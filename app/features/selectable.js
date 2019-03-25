@@ -76,10 +76,12 @@ export function Selectable() {
       return
 
     e.preventDefault()
-    clearMeasurements()
-
     if (!e.altKey) e.stopPropagation()
-    if (!e.shiftKey) unselect_all()
+
+    if (!e.shiftKey) {
+      unselect_all()
+      clearMeasurements()
+    }
 
     if(e.shiftKey && $target.hasAttribute('data-selected'))
       unselect($target.getAttribute('data-label-id'))
@@ -341,7 +343,7 @@ export function Selectable() {
       no_label: tool !== 'guides',
     })
 
-    if (tool === 'guides' && selected.length === 1 && selected[0] != $target) {
+    if (tool === 'guides' && selected.length >= 1 && !selected.includes($target)) {
       $target.setAttribute('data-measuring', true)
       const [$anchor] = selected
       createMeasurements({$anchor, $target})

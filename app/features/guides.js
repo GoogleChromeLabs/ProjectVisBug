@@ -1,10 +1,14 @@
 import $ from 'blingblingjs'
 import { isOffBounds, deepElementFromPoint } from '../utilities/'
-import { clearMeasurements } from './measurements'
+import { clearMeasurements, takeMeasurementOwnership } from './measurements'
 
 const state = {
-  gridlines: null,
-  stuck: [],
+  gridlines:    null,
+  measurements: null,
+  stuck:        {
+    count:        0,
+    measurements: [],
+  },
 }
 
 export function Guides(visbug) {
@@ -60,20 +64,28 @@ export function createGuide(vert = true) {
 }
 
 const stickGuide = els => {
-  if (!state.gridlines) return
+   if (!els.length) return
 
-  if (state.stuck.length >= els.length) {
-    state.stuck.forEach(el =>
-      el.remove())
-    state.stuck = []
+  if (state.stuck.count >= els.length) {
+    state.stuck.measurements.forEach(el => el.remove())
+    state.stuck.measurements = []
+    state.stuck.count = 0
   }
 
-  state.gridlines.style.setProperty('--color', 'hotpink')
-  state.stuck.push(state.gridlines)
+  state.stuck.count++
+
+  if (els.length > 1) {
+    state.stuck.measurements = [
+      ...state.stuck.measurements,
+      ...takeMeasurementOwnership(),
+    ]
+  }
+
+  state.gridlines.remove()
   state.gridlines = null
 }
 
-const on_hoverout = ({target}) =>
+const on_hoverout = () =>
   hideGridlines()
 
 const showGridlines = node => {
@@ -89,7 +101,7 @@ const showGridlines = node => {
   }
 }
 
-const hideGridlines = node => {
+const hideGridlines = () => {
   if (!state.gridlines) return
   state.gridlines.style.display = 'none'
 }
