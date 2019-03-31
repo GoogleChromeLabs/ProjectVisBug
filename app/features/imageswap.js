@@ -60,12 +60,12 @@ const onDragEnter =async e => {
   const pre_selected = $('img[data-selected=true]')
   if(imgs.some(img => img === e.target)){
     if(!pre_selected.length){
-      if(! e.dataTransfer.types.some(type => type === 'Files')){
+      if(! isFileEvent(e)){
         previewDrop(e.target);
       }
       showOverlay(e.currentTarget, 0)
     }else{
-      if(pre_selected.some(node => node == e.target) && ! e.dataTransfer.types.some(type => type === 'Files')){
+      if(pre_selected.some(node => node == e.target) && ! isFileEvent(e)){
         pre_selected.forEach(node => previewDrop(node))
       }
       pre_selected.forEach((img, i) =>
@@ -85,17 +85,11 @@ const onDragLeave = e => {
   hideOverlays()
 }
 
-
 const onDrop = async e => {
   e.stopPropagation()
   e.preventDefault()
 
-
-  const srcs = e.dataTransfer.files.length
-  ? await Promise.all([...e.dataTransfer.files]
-    .filter(file => file.type.includes('image'))
-    .map(previewFile))
-    : [dragItem.currentSrc]
+  const srcs = await getTransferData(dragItem, e)
 
   if (srcs.length) {
     const selectedImages = $('img[data-selected=true]')
@@ -106,17 +100,27 @@ const onDrop = async e => {
     }else{
       const bgImages = getTargetBackgroundImages(imgs, e);
       updateBackgroundImages(bgImages, srcs[0])
-
     }
   }
 
   hideOverlays()
 }
 
+const getTransferData = async (dragItem, e) => {
+  if(dragItem)
+    return [dragItem.currentSrc]
+
+  return e.dataTransfer.files.length
+  ? await Promise.all([...e.dataTransfer.files]
+    .filter(file => file.type.includes('image'))
+    .map(previewFile))
+    : []
+}
+
 const getTargetContentImages = (selected, e) => {
   return selected.length && selected.some(img => img == e.target) ? selected
-      : e.target.nodeName === 'IMG' && !selected.length ? [e.target]
-      : []
+    : e.target.nodeName === 'IMG' && !selected.length ? [e.target]
+    : []
 }
 
 const updateContentImages = (images, srcs) => {
@@ -202,16 +206,21 @@ const previewDrop = async (node) => {
       node.lastBackgroundImage = window.getComputedStyle(node).backgroundImage
       node.style.backgroundImage = `url(${setSrc})`
     }else{
-      node.lastSrc = node.src
-      node.lastSrcset = node.srcset
-      const sibSource = Array.from(node.parentElement.children).filter(node => node.tagName === 'SOURCE')
-      if(sibSource.length){
-        node.lastSiblings = sibSource
-        sibSource.forEach(sib => sib.parentElement.removeChild(sib))
-      }
-      node.srcset = ''
-      node.src = setSrc
+      cacheImageState(node)
+      updateContentImage(node, setSrc)
     }
+  }
+}
+
+const cacheImageState = (image) => {
+  image.lastSrc = image.src
+  image.lastSrcset = image.srcset
+  const sibSource = getPictureSourcesToUpdate(image)
+  if(sibSource.length){
+    sibSource.forEach(sib => {
+      sib.lastSrcset = sib.srcset
+      sib.lastSrc = sib.src
+    })
   }
 }
 
@@ -222,8 +231,12 @@ const resetPreviewed = (node) => {
   if(node.lastSrcset)
     node.srcset = node.lastSrcset
 
-  if(node.lastSiblings)
-    node.lastSiblings.forEach(sib => node.parentElement.insertBefore(sib, node))
+  const sources = getPictureSourcesToUpdate(node)
+  if(sources.length)
+    sources.forEach(source => {
+      source.srcset = source.lastSrcset
+      source.src = source.lastSrc
+    })
 
   if(node.lastBackgroundImage)
     node.style.backgroundImage = node.lastBackgroundImage
@@ -232,5 +245,14 @@ const resetPreviewed = (node) => {
 }
 
 const clearDragHistory = (node) => {
-  ['lastSrc','lastSrcset','lastSiblings','lastBackgroundImage'].forEach(prop => node[prop] = null)
+  ['lastSrc','lastSrcset','lastBackgroundImage'].forEach(prop => node[prop] = null)
+  sources = getPictureSourcesToUpdate(node)
+  if(sources){
+    sources.forEach(source => {
+      source.lastSrcset = null
+      source.lastSrc = null
+    })
+  }
 }
+
+const isFileEvent = (e) => e.dataTransfer.types.some(type => type === 'Files')
