@@ -90,49 +90,75 @@ const onDrop = async e => {
   e.stopPropagation()
   e.preventDefault()
 
-  const selectedImages = $('img[data-selected=true]')
 
   const srcs = e.dataTransfer.files.length
-    ? await Promise.all([...e.dataTransfer.files]
-      .filter(file => file.type.includes('image'))
-      .map(previewFile))
+  ? await Promise.all([...e.dataTransfer.files]
+    .filter(file => file.type.includes('image'))
+    .map(previewFile))
     : [dragItem.currentSrc]
 
   if (srcs.length) {
-    const targetImages = selectedImages.length && selectedImages.some(img => img == e.target) ? selectedImages
-      : e.target.nodeName === 'IMG' && !selectedImages.length ? [e.target]
-      : [];
+    const selectedImages = $('img[data-selected=true]')
+    const targetImages = getTargetContentImages(selectedImages, e)
 
     if (targetImages.length){
-      let i = 0
-      targetImages.forEach(img => {
-        clearDragHistory(img)
-        img.src = srcs[i]
-        if(img.srcset !== '')
-          img.srcset = srcs[i]
-        const sources = Array.from(img.parentElement.children)
-          .filter(sibling => sibling.nodeName === 'SOURCE')
-        if(sources){
-          sources.forEach(source => {
-            if(!source.media || window.matchMedia(source.media).matches){
-              source.srcset = srcs[i]
-            }
-          })
-        }
-        i = ++i % srcs.length
-      })
+      updateContentImages(targetImages, srcs)
     }else{
-      imgs
-        .filter(img => img.contains(e.target))
-        .forEach(img => {
-          clearDragHistory(img)
-          if(window.getComputedStyle(img).backgroundImage != 'none')
-            img.style.backgroundImage = `url(${srcs[0]})`
-        })
+      const bgImages = getTargetBackgroundImages(imgs, e);
+      updateBackgroundImages(bgImages, srcs[0])
+
     }
   }
 
   hideOverlays()
+}
+
+const getTargetContentImages = (selected, e) => {
+  return selected.length && selected.some(img => img == e.target) ? selected
+      : e.target.nodeName === 'IMG' && !selected.length ? [e.target]
+      : []
+}
+
+const updateContentImages = (images, srcs) => {
+  let i = 0
+  images.forEach(img => {
+    clearDragHistory(img)
+    updateContentImage(img, srcs[i])
+    i = ++i % srcs.length
+  })
+}
+
+const updateContentImage = (img, src) => {
+  img.src = src
+  if(img.srcset !== '')
+    img.srcset = src
+  const sources = getPictureSourcesToUpdate(img)
+  if(sources.length){
+    sources.forEach(source => {
+        source.srcset = src
+    })
+  }
+}
+
+const getTargetBackgroundImages = (images, e) => {
+  return images
+    .filter(img => img.contains(e.target))
+}
+
+const updateBackgroundImages = (images, src) => {
+  images
+    .forEach(img => {
+      clearDragHistory(img)
+      if(window.getComputedStyle(img).backgroundImage != 'none')
+        img.style.backgroundImage = `url(${src})`
+    })
+}
+
+const getPictureSourcesToUpdate = (img) => {
+  const sources = Array.from(img.parentElement.children)
+    .filter(sibling => sibling.nodeName === 'SOURCE')
+    .filter(source => !source.media || window.matchMedia(source.media).matches)
+  return sources
 }
 
 const showOverlay = (node, i) => {
