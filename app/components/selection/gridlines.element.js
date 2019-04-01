@@ -67,7 +67,7 @@ export class Gridlines extends HTMLElement {
     return `
       <style>
         :host {
-          --color: rebeccapurple;
+          --color: hotpink;
         }
 
         :host > svg {
