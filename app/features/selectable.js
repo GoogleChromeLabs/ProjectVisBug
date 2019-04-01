@@ -395,7 +395,11 @@ export function Selectable() {
           'data-pseudo-select': null,
         }))
 
-    Array.from([...handles, ...labels]).forEach(el =>
+    Array.from([
+      ...handles, 
+      ...labels, 
+      ...$('visbug-distance')
+    ]).forEach(el =>
       el.remove())
 
     labels    = []
