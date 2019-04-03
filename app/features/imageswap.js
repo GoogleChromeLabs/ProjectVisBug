@@ -234,8 +234,10 @@ const resetPreviewed = (node) => {
   const sources = getPictureSourcesToUpdate(node)
   if(sources.length)
     sources.forEach(source => {
-      source.srcset = source.lastSrcset
-      source.src = source.lastSrc
+      if(source.lastSrcset)
+        source.srcset = source.lastSrcset
+      if(source.lastSrc)
+        source.src = source.lastSrc
     })
 
   if(node.lastBackgroundImage)
