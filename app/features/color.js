@@ -19,23 +19,32 @@ export function ColorPicker(pallete, selectorEngine) {
   this.elements           = []
 
   // set colors
-  fgInput.on('input', e =>
+  fgInput.on('input', ({target:{value}}) => {
     this.elements.map(el =>
-      el.style['color'] = e.target.value))
+      el.style['color'] = value)
 
-  bgInput.on('input', e =>
+    foregroundPicker[0].style.setProperty(`--contextual_color`, value)
+  })
+
+  bgInput.on('input', ({target:{value}}) => {
     this.elements.map(el =>
       el.style[el instanceof SVGElement
         ? 'fill'
         : 'backgroundColor'
-      ] = e.target.value))
+      ] = value)
 
-  boInput.on('input', e =>
+    backgroundPicker[0].style.setProperty(`--contextual_color`, value)
+  })
+
+  boInput.on('input', ({target:{value}}) => {
     this.elements.map(el =>
       el.style[el instanceof SVGElement
         ? 'stroke'
         : 'border-color'
-      ] = e.target.value))
+      ] = e.target.value)
+
+    borderPicker[0].style.setProperty(`--contextual_color`, value)
+  })
 
   // read colors
   selectorEngine.onSelectedUpdate(elements => {
