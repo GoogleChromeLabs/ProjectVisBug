@@ -6,10 +6,10 @@ export class Label extends HTMLElement {
   constructor() {
     super()
     this.$shadow = this.attachShadow({mode: 'closed'})
-    this.$shadow.adoptedStyleSheets = [LabelStyles]
   }
 
   connectedCallback() {
+    this.$shadow.adoptedStyleSheets = [LabelStyles]
     $('a', this.$shadow).on('click mouseenter', this.dispatchQuery.bind(this))
     window.addEventListener('resize', this.on_resize.bind(this))
   }

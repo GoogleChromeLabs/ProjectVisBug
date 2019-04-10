@@ -6,10 +6,12 @@ export class Gridlines extends HTMLElement {
   constructor() {
     super()
     this.$shadow = this.attachShadow({mode: 'closed'})
-    this.$shadow.adoptedStyleSheets = [GridlineStyles]
   }
 
-  connectedCallback() {}
+  connectedCallback() {
+    this.$shadow.adoptedStyleSheets = [GridlineStyles]
+  }
+  
   disconnectedCallback() {}
 
   set position(boundingRect) {

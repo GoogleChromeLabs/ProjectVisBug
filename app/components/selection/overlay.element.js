@@ -5,10 +5,12 @@ export class Overlay extends HTMLElement {
   constructor() {
     super()
     this.$shadow = this.attachShadow({mode: 'closed'})
-    this.$shadow.adoptedStyleSheets = [OverlayStyles]
   }
 
-  connectedCallback() {}
+  connectedCallback() {
+    this.$shadow.adoptedStyleSheets = [OverlayStyles]
+  }
+  
   disconnectedCallback() {}
 
   set position(boundingRect) {

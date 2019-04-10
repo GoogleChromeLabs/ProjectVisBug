@@ -5,10 +5,12 @@ export class Distance extends HTMLElement {
   constructor() {
     super()
     this.$shadow = this.attachShadow({mode: 'open'})
-    this.$shadow.adoptedStyleSheets = [DistanceStyles]
   }
 
-  connectedCallback() {}
+  connectedCallback() {
+    this.$shadow.adoptedStyleSheets = [DistanceStyles]
+  }
+  
   disconnectedCallback() {}
 
   set position({line_model, node_label_id}) {

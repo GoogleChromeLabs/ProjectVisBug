@@ -13,7 +13,8 @@ import {
   Guides, Screenshot, Position, Accessibility
 } from '../../features/'
 
-import { VisBugModel }              from './model'
+import { VisBugStyles }           from '../styles.store'
+import { VisBugModel }            from './model'
 import * as Icons                 from './vis-bug.icons'
 import { provideSelectorEngine }  from '../../features/search'
 import { metaKey }                from '../../utilities/'
@@ -28,6 +29,8 @@ export default class VisBug extends HTMLElement {
   }
 
   connectedCallback() {
+    this.$shadow.adoptedStylesheeets = [VisBugStyles]
+
     if (!this.$shadow.innerHTML)
       this.setup()
 

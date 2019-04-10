@@ -3,6 +3,10 @@ import hotkeys      from 'hotkeys-js'
 import styles       from './base.element.css'
 import * as Icons   from '../vis-bug/vis-bug.icons'
 import { metaKey, altKey }  from '../../utilities/'
+import $                   from 'blingblingjs'
+import hotkeys             from 'hotkeys-js'
+import * as Icons          from '../vis-bug/vis-bug.icons'
+import { HotkeymapStyles } from '../styles.store'
 
 export class HotkeyMap extends HTMLElement {
 
@@ -34,6 +38,7 @@ export class HotkeyMap extends HTMLElement {
   }
 
   connectedCallback() {
+    this.$shadow.adoptedStyleSheets = [HotkeymapStyles]
     this.$shift  = $('[keyboard] > section > [shift]', this.$shadow)
     this.$ctrl   = $('[keyboard] > section > [ctrl]', this.$shadow)
     this.$alt    = $(`[keyboard] > section > [${altKey}]`, this.$shadow)
@@ -117,7 +122,6 @@ export class HotkeyMap extends HTMLElement {
 
   render() {
     return `
-      ${this.styles()}
       <article>
         <div tool-icon>
           <span>
@@ -160,14 +164,6 @@ export class HotkeyMap extends HTMLElement {
           </div>
         </div>
       </article>
-    `
-  }
-
-  styles() {
-    return `
-      <style>
-        ${styles}
-      </style>
     `
   }
 }

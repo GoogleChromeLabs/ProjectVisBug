@@ -1,4 +1,3 @@
-import $ from 'blingblingjs'
 import { Handles } from './handles.element'
 import { HandleStyles, HoverStyles } from '../styles.store'
 
@@ -6,13 +5,7 @@ export class Hover extends Handles {
 
   constructor() {
     super()
-    this.$shadow.adoptedStyleSheets = [HandleStyles, HoverStyles]
-  }
-
-  set position({el}) {
-    // const {top, left} = el.getBoundingClientRect()
-    this.style.setProperty('--top', `${top + window.scrollY}px`)
-    this.style.setProperty('--left', `${left}px`)
+    this.styles = [HandleStyles, HoverStyles]
   }
 
   render({ width, height, top, left }) {

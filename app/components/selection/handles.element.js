@@ -6,12 +6,14 @@ export class Handles extends HTMLElement {
   constructor() {
     super()
     this.$shadow = this.attachShadow({mode: 'closed'})
-    this.$shadow.adoptedStyleSheets = [HandleStyles]
+    this.styles = [HandleStyles]
   }
 
   connectedCallback() {
+    this.$shadow.adoptedStyleSheets = this.styles
     window.addEventListener('resize', this.on_resize.bind(this))
   }
+  
   disconnectedCallback() {
     window.removeEventListener('resize', this.on_resize)
   }

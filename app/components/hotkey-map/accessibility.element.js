@@ -11,15 +11,12 @@ export class AccessibilityHotkeys extends HotkeyMap {
     this.tool       = 'accessibility'
   }
 
-  connectedCallback() {}
-
   show() {
     this.$shadow.host.style.display = 'flex'
   }
 
   render() {
     return `
-      ${this.styles()}
       <article>
         <div tool-icon>
           <span>
