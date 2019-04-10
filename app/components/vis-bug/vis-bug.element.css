@@ -11,6 +11,9 @@
 }
 
 :host > ol {
+  all: initial;
+  font-size: 16px;
+  font-family: system-ui;
   display: flex;
   flex-direction: column;
   margin: 1em 0 0.5em 1em;
