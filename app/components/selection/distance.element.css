@@ -21,7 +21,7 @@
   right: var(--right);
   overflow: visible;
   pointer-events: none;
-  z-index: 2147483646;
+  z-index: var(--layer-3);
   display: flex;
   align-items: center;
   flex-direction: var(--direction);

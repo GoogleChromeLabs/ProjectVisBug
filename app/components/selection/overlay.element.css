@@ -1,4 +1,4 @@
-/* todo: import z-index */
+@import "../_variables.css";
 
 :host svg {
   display: none;
@@ -7,7 +7,7 @@
   left: var(--left);
   overflow: visible;
   pointer-events: none;
-  z-index: 999;
+  z-index: var(--layer-5);
 
   & > rect {
     fill: hsla(330, 100%, 71%, 0.5);

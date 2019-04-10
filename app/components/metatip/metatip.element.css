@@ -2,7 +2,7 @@
 
 :host {
   position: absolute;
-  z-index: 2147483647;
+  z-index: var(--layer-top);
 
   --arrow-width: 15px;
   --arrow-height: 8px;
@@ -142,10 +142,10 @@
   position: relative;
   top: 1px;
   display: inline-block;
-  width: 0.6em;
-  height: 0.6em;
+  width: 1em;
+  height: 1em;
   border-radius: 50%;
-  margin-right: 0.25em;
+  margin-right: .5em;
 }
 
 :host [local-modifications] {

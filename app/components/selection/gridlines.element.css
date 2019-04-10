@@ -1,4 +1,4 @@
-/* todo: import z-index */
+@import "../_variables.css";
 
 :host > svg {
   position:fixed;
@@ -6,5 +6,5 @@
   left:0;
   overflow:visible;
   pointer-events:none;
-  z-index:2147483642;
+  z-index:var(--layer-5);
 }

@@ -1,4 +1,4 @@
-/* todo: import z-index */
+@import "../_variables.css";
 
 :host {
   font-size: 16px;
@@ -13,7 +13,7 @@
   top: var(--top);
   left: var(--left);
   max-width: var(--max-width);
-  z-index: 2147483643;
+  z-index: var(--layer-4);
   transform: translateY(-100%);
   background: var(--label-bg, hotpink);
   border-radius: 0.2em 0.2em 0 0;
