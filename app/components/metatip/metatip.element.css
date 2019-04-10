@@ -3,9 +3,6 @@
 :host {
   position: absolute;
   z-index: 2147483647;
-  direction: ltr;
-  font-size: 16px;
-  font-family: system-ui;
 
   --arrow-width: 15px;
   --arrow-height: 8px;
@@ -20,6 +17,10 @@
 }
 
 :host figure {
+  all: initial;
+  direction: ltr;
+  font-size: 16px;
+  font-family: system-ui;
   max-width: 50vw;
   background: white;
   color: var(--theme-icon_color);
