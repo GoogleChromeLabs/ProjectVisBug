@@ -115,6 +115,12 @@ main {
   width: 100%;
   grid-template-columns: repeat(5, 5rem);
   justify-content: space-around;
+
+  & > .filled-circle:nth-child(1) { background: hsl(200, 50%, 50%); }
+  & > .filled-circle:nth-child(2) { background: hsl(225, 50%, 50%); }
+  & > .filled-circle:nth-child(3) { background: hsl(250, 50%, 50%); }
+  & > .filled-circle:nth-child(4) { background: hsl(275, 50%, 50%); }
+  & > .filled-circle:nth-child(5) { background: hsl(300, 50%, 50%); }
 }
 
 nav {
