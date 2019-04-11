@@ -124,7 +124,7 @@ const getTransferData = async (dragItem, e) => {
 }
 
 const getTargetContentImages = (selected, e) =>
-  selected.length && selected.some(img => img == e.target) ? selected
+  selected.length ? selected
     : e.target.nodeName === 'IMG' && !selected.length ? [e.target]
     : []
 
