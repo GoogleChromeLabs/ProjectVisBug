@@ -428,8 +428,14 @@
             <p>Select all 4 images and drag in some new ones</p>
             <p>OR just drag a new image onto any one of these</p>
           </div>
-          <img class="drag_in_a_new_image!" src="assets/hero-1.svg" alt="Female toon walking">
-          <img class="drag_in_a_new_image!" src="assets/hero-2.svg" alt="Male toon walking">
+          <picture class="drag_in_a_new_image! works_on_picture_elements_too">
+            <source srcset='assets/hero-1.svg' />
+            <img src='assets/hero-1.svg' alt="Female toon walking" />
+          </picture>
+          <picture class="drag_in_a_new_image!">
+            <source srcset='assets/hero-2.svg' media="(min-width:1000px)" />
+            <img src='assets/hero-3.svg' alt="Toon walking" />
+          </picture>
           <img class="drag_in_a_new_image!" src="assets/hero-3.svg" alt="Female toon walking">
           <img class="drag_in_a_new_image!" src="assets/hero-4.svg" alt="Female upside down walking">
         </div>
@@ -733,24 +739,6 @@
           <div class="filled-circle google-red">2</div>
           <div class="filled-circle google-yellow">3</div>
           <div class="filled-circle google-green">4</div>
-        </div>
-      </article>
-      <article span2x2 padded class="artboard pictures">
-        <div class="tips">
-          <p>Images swap with picture elements and srcset too!</p>
-        </div>
-        <div fit-height bgfg>
-          <picture>
-            <source srcset='assets/so.webp' />
-            <img src='assets/so.jpg' alt="So" />
-          </picture>
-          <picture>
-            <source srcset='assets/drag.jpg' media="(min-width:1000px)" />
-            <img src='assets/drag2.jpg' alt="Drag" />
-          </picture>
-          <img srcset="assets/such2x.jpg 2x" src='assets/such.jpg' alt="Such" />
-          <img src='assets/drop.jpg' alt="Drop" />
-          <!-- <div class='background_image' style='background-image:url(assets/drop.jpg);background-repeat: none;background-size:cover;'></div> -->
         </div>
       </article>
 
