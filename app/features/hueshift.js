@@ -119,8 +119,8 @@ export function changeHue(els, direction, prop, Color) {
       let color = new TinyColor(current).setAlpha(current.a)
       el.style[style] = color.toHslString()
 
-      if (style == 'color') Color.foreground.color(color.toHexString())
-      if (style == 'backgroundColor') Color.background.color(color.toHexString())
+      if (style == 'color') Color.foreground.color(color.toHslString())
+      if (style == 'backgroundColor') Color.background.color(color.toHslString())
     })
 }
 

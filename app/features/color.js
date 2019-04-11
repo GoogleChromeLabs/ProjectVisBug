@@ -76,9 +76,9 @@ export function ColorPicker(pallete, selectorEngine) {
           : new TinyColor(getStyle(el, 'borderColor'))
       }
 
-      let fg = FG.toHexString()
-      let bg = BG.toHexString()
-      let bo = BO.toHexString()
+      let fg = FG.toHslString()
+      let bg = BG.toHslString()
+      let bo = BO.toHslString()
 
       isMeaningfulForeground = FG.originalInput !== 'rgb(0, 0, 0)' || (el.children.length === 0 && el.textContent !== '')
       isMeaningfulBackground = BG.originalInput !== 'rgba(0, 0, 0, 0)'
