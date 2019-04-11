@@ -158,7 +158,7 @@
 :host [colors] > li {
   overflow: hidden;
   border-radius: 50%;
-  box-shadow: 0 0.25em 0.5em hsla(0,0%,0%,10%);
+  box-shadow: 0 0 0 2px white, 0 0.25em 0.5em hsla(0,0%,0%,25%);
   background: var(--contextual_color);
   margin-bottom: 0.5em;
 

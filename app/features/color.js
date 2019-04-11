@@ -11,8 +11,8 @@ export function ColorPicker(pallete, selectorEngine) {
   const boInput           = $('input', borderPicker[0])
 
   const shadows = {
-    active:   'rgba(0, 0, 0, 0.1) 0px 0.25em 0.5em, 0 0 0 2px hotpink',
-    inactive: 'rgba(0, 0, 0, 0.1) 0px 0.25em 0.5em',
+    active:   '0 0 0 2px hotpink, rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em',
+    inactive: '0 0 0 2px white, rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em',
   }
 
   this.active_color       = 'background'
