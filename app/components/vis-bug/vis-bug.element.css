@@ -219,8 +219,8 @@
 }
 
 :host [colors] > li > svg {
-  fill: hsl(0,0%,50%);
-  mix-blend-mode: difference;
+  fill: var(--icon_color);
+  mix-blend-mode: luminosity;
   filter: brightness(0.5);
 }
 

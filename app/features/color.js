@@ -92,6 +92,9 @@ export function ColorPicker(pallete, selectorEngine) {
       const new_fg = isMeaningfulForeground ? fg : ''
       const new_bg = isMeaningfulBackground ? bg : ''
       const new_bo = isMeaningfulBorder ? bo : ''
+      const fg_icon = isMeaningfulForeground ? FG.spin(90).mix(new TinyColor('#999')).toHslString() : ''
+      const bg_icon = isMeaningfulBackground ? BG.spin(90).mix(new TinyColor('#999')).toHslString() : ''
+      const bo_icon = isMeaningfulBorder ? BO.spin(90).mix(new TinyColor('#999')).toHslString() : ''
 
       fgInput.attr('value', new_fg)
       bgInput.attr('value', new_bg)
@@ -99,16 +102,19 @@ export function ColorPicker(pallete, selectorEngine) {
 
       foregroundPicker.attr('style', `
         --contextual_color: ${new_fg};
+        --icon_color: ${fg_icon};
         display: ${isMeaningfulForeground || meaningfulDontMatter ? 'inline-flex' : 'none'};
       `)
 
       backgroundPicker.attr('style', `
         --contextual_color: ${new_bg};
+        --icon_color: ${bg_icon};
         display: ${isMeaningfulBackground || meaningfulDontMatter ? 'inline-flex' : 'none'};
       `)
 
       borderPicker.attr('style', `
         --contextual_color: ${new_bo};
+        --icon_color: ${bo_icon};
         display: ${isMeaningfulBorder || meaningfulDontMatter ? 'inline-flex' : 'none'};
       `)
     }
@@ -118,16 +124,22 @@ export function ColorPicker(pallete, selectorEngine) {
       foregroundPicker.attr('style', `
         box-shadow: ${this.active_color == 'foreground' ? shadows.active : shadows.inactive};
         display: inline-flex;
+        --contextual_color: transparent;
+        --icon_color: hsla(0,0%,0%,80%);
       `)
 
       backgroundPicker.attr('style', `
         box-shadow: ${this.active_color == 'background' ? shadows.active : shadows.inactive};
         display: inline-flex;
+        --contextual_color: transparent;
+        --icon_color: hsla(0,0%,0%,80%);
       `)
 
       borderPicker.attr('style', `
         box-shadow: ${this.active_color == 'border' ? shadows.active : shadows.inactive};
         display: inline-flex;
+        --contextual_color: transparent;
+        --icon_color: hsla(0,0%,0%,80%);
       `)
     }
   })
