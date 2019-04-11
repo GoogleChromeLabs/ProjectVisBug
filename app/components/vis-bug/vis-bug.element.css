@@ -219,8 +219,9 @@
 }
 
 :host [colors] > li > svg {
-  fill: hsla(0,0%,70%,100%);
-  mix-blend-mode: luminosity;
+  fill: hsl(0,0%,50%);
+  mix-blend-mode: difference;
+  filter: brightness(0.5);
 }
 
 :host [colors] > li > svg > rect:last-child {
