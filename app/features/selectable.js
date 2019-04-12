@@ -393,6 +393,8 @@ export function Selectable() {
     labels    = []
     handles   = []
     selected  = []
+
+    tellWatchers()
   }
 
   const delete_all = () => {
