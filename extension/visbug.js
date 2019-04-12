@@ -36,7 +36,7 @@ const toggleIn = ({id:tab_id}) => {
 chrome.browserAction.onClicked.addListener(toggleIn)
 
 chrome.contextMenus.create({
-  title: 'Inspect'
+  title: 'Debug'
 })
 
 chrome.contextMenus.onClicked.addListener((menuInfo, tab) => {
