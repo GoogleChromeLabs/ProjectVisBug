@@ -190,12 +190,10 @@ export default class VisBug extends HTMLElement {
   }
 
   hueshift() {
-    let feature = HueShift(this.colorPicker)
-    this.selectorEngine.onSelectedUpdate(feature.onNodesSelected)
-    this.deactivate_feature = () => {
-      this.selectorEngine.removeSelectedCallback(feature.onNodesSelected)
-      feature.disconnect()
-    }
+    this.deactivate_feature = HueShift({
+      Color:  this.colorPicker,
+      Visbug: this.selectorEngine,
+    })
   }
 
   inspector() {
