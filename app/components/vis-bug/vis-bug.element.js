@@ -10,7 +10,7 @@ import {
 import {
   Selectable, Moveable, Padding, Margin, EditText, Font,
   Flex, Search, ColorPicker, BoxShadow, HueShift, MetaTip,
-  Guides, Screenshot, Position, Accessibility
+  Guides, Screenshot, Position, Accessibility, draggable
 } from '../../features/'
 
 import { VisBugModel }              from './model'
@@ -52,6 +52,8 @@ export default class VisBug extends HTMLElement {
     $('li[data-tool]', this.$shadow).on('click', e =>
       this.toolSelected(e.currentTarget) && e.stopPropagation())
 
+    draggable(this);
+
     Object.entries(this.toolbar_model).forEach(([key, value]) =>
       hotkeys(key, e => {
         e.preventDefault()
@@ -77,6 +79,8 @@ export default class VisBug extends HTMLElement {
       ...document.getElementsByTagName('visbug-label'),
       ...document.getElementsByTagName('visbug-gridlines'),
     ].forEach(el => el.remove())
+
+    this.teardown();
 
     document.querySelectorAll('[data-pseudo-select=true]')
       .forEach(el =>
