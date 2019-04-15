@@ -131,10 +131,11 @@ export function draggable(el) {
   }
 
   const onMouseMove = e => {
+    if (!state.mouse.down) return
+
     e.preventDefault()
     e.stopPropagation()
 
-    if (!state.mouse.down) return
 
     if (el instanceof SVGElement) {
       el.setAttribute('transform', `translate(
