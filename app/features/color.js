@@ -40,8 +40,8 @@ export function ColorPicker(pallete, selectorEngine) {
     this.elements.map(el =>
       el.style[el instanceof SVGElement
         ? 'stroke'
-        : 'border-color'
-      ] = e.target.value)
+        : 'borderColor'
+      ] = value)
 
     borderPicker[0].style.setProperty(`--contextual_color`, value)
   })
