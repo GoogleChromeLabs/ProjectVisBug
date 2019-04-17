@@ -86,12 +86,13 @@ export function ColorPicker(pallete, selectorEngine) {
       else if (isMeaningfulBackground && !isMeaningfulForeground)
         setActive('background')
 
-      const new_fg = isMeaningfulForeground ? fg : ''
-      const new_bg = isMeaningfulBackground ? bg : ''
-      const new_bo = isMeaningfulBorder ? bo : ''
-      const fg_icon = isMeaningfulForeground ? FG.spin(90).mix(new TinyColor('#999')).toHslString() : ''
-      const bg_icon = isMeaningfulBackground ? BG.spin(90).mix(new TinyColor('#999')).toHslString() : ''
-      const bo_icon = isMeaningfulBorder ? BO.spin(90).mix(new TinyColor('#999')).toHslString() : ''
+      const new_fg = isMeaningfulForeground   ? fg : ''
+      const new_bg = isMeaningfulBackground   ? bg : ''
+      const new_bo = isMeaningfulBorder       ? bo : ''
+
+      const fg_icon = isMeaningfulForeground  ? healthyContrastColor(FG) : ''
+      const bg_icon = isMeaningfulBackground  ? healthyContrastColor(BG) : ''
+      const bo_icon = isMeaningfulBorder      ? healthyContrastColor(BO) : ''
 
       fgInput.attr('value', new_fg)
       bgInput.attr('value', new_bg)
@@ -164,4 +165,25 @@ export function ColorPicker(pallete, selectorEngine) {
     background: { color: color =>
       backgroundPicker[0].style.setProperty('--contextual_color', color)}
   }
+}
+
+export const healthyContrastColor = color => {
+  let contrast = color.clone()
+
+  if (contrast.getLuminance() < .3) 
+    contrast = contrast.lighten(20)
+  else if (contrast.getBrightness() < 50) 
+    contrast = contrast.brighten(20)
+
+  if (contrast.getLuminance() > .7) 
+    contrast = contrast.darken(20)
+  else if (contrast.getBrightness() > 200) 
+    contrast = contrast.darken(20)
+
+  if (contrast.isDark())   
+    contrast = contrast.tint(30)
+  else if (contrast.isLight())  
+    contrast = contrast.shade(30)
+
+  return contrast.toHslString()
 }
