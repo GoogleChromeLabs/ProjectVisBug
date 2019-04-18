@@ -18,7 +18,7 @@ export function createMeasurements({$anchor, $target}) {
   if (anchorBounds.right < targetBounds.left) {
     measurements.push({
       x: anchorBounds.right,
-      y: anchorBounds.top + (anchorBounds.height / 2),
+      y: anchorBounds.top + (anchorBounds.height / 2) - 3,
       d: targetBounds.left - anchorBounds.right,
       q: 'right',
     })
@@ -26,7 +26,7 @@ export function createMeasurements({$anchor, $target}) {
   if (anchorBounds.right < targetBounds.right && anchorBounds.right > targetBounds.left) {
     measurements.push({
       x: anchorBounds.right,
-      y: anchorBounds.top + (anchorBounds.height / 2),
+      y: anchorBounds.top + (anchorBounds.height / 2) - 3,
       d: targetBounds.right - anchorBounds.right,
       q: 'right',
     })
@@ -35,16 +35,16 @@ export function createMeasurements({$anchor, $target}) {
   // left
   if (anchorBounds.left > targetBounds.right) {
     measurements.push({
-      x: targetBounds.right,
-      y: anchorBounds.top + (anchorBounds.height / 2),
+      x: window.innerWidth - anchorBounds.left,
+      y: anchorBounds.top + (anchorBounds.height / 2) - 3,
       d: anchorBounds.left - targetBounds.right,
       q: 'left',
     })
   }
   if (anchorBounds.left > targetBounds.left && anchorBounds.left < targetBounds.right) {
     measurements.push({
-      x: targetBounds.left,
-      y: anchorBounds.top + (anchorBounds.height / 2),
+      x: window.innerWidth - anchorBounds.left,
+      y: anchorBounds.top + (anchorBounds.height / 2) - 3,
       d: anchorBounds.left - targetBounds.left,
       q: 'left',
     })
@@ -53,7 +53,7 @@ export function createMeasurements({$anchor, $target}) {
   // top
   if (anchorBounds.top > targetBounds.bottom) {
     measurements.push({
-      x: anchorBounds.left + (anchorBounds.width / 2),
+      x: anchorBounds.left + (anchorBounds.width / 2) - 3,
       y: targetBounds.bottom,
       d: anchorBounds.top - targetBounds.bottom,
       q: 'top',
@@ -62,7 +62,7 @@ export function createMeasurements({$anchor, $target}) {
   }
   if (anchorBounds.top > targetBounds.top && anchorBounds.top < targetBounds.bottom) {
     measurements.push({
-      x: anchorBounds.left + (anchorBounds.width / 2),
+      x: anchorBounds.left + (anchorBounds.width / 2) - 3,
       y: targetBounds.top,
       d: anchorBounds.top - targetBounds.top,
       q: 'top',
@@ -73,7 +73,7 @@ export function createMeasurements({$anchor, $target}) {
   // bottom
   if (anchorBounds.bottom < targetBounds.top) {
     measurements.push({
-      x: anchorBounds.left + (anchorBounds.width / 2),
+      x: anchorBounds.left + (anchorBounds.width / 2) - 3,
       y: anchorBounds.bottom,
       d: targetBounds.top - anchorBounds.bottom,
       q: 'bottom',
@@ -82,7 +82,7 @@ export function createMeasurements({$anchor, $target}) {
   }
   if (anchorBounds.bottom < targetBounds.bottom && anchorBounds.bottom > targetBounds.top) {
     measurements.push({
-      x: anchorBounds.left + (anchorBounds.width / 2),
+      x: anchorBounds.left + (anchorBounds.width / 2) - 3,
       y: anchorBounds.bottom,
       d: targetBounds.bottom - anchorBounds.bottom,
       q: 'bottom',
@@ -93,14 +93,14 @@ export function createMeasurements({$anchor, $target}) {
   // inside left/right
   if (anchorBounds.right > targetBounds.right && anchorBounds.left < targetBounds.left) {
     measurements.push({
-      x: targetBounds.right,
-      y: anchorBounds.top + (anchorBounds.height / 2),
+      x: window.innerWidth - anchorBounds.right,
+      y: anchorBounds.top + (anchorBounds.height / 2) - 3,
       d: anchorBounds.right - targetBounds.right,
       q: 'left',
     })
     measurements.push({
       x: anchorBounds.left,
-      y: anchorBounds.top + (anchorBounds.height / 2),
+      y: anchorBounds.top + (anchorBounds.height / 2) - 3,
       d: targetBounds.left - anchorBounds.left,
       q: 'right',
     })
@@ -109,14 +109,14 @@ export function createMeasurements({$anchor, $target}) {
   // inside top/right
   if (anchorBounds.top < targetBounds.top && anchorBounds.bottom > targetBounds.bottom) {
     measurements.push({
-      x: anchorBounds.left + (anchorBounds.width / 2),
+      x: anchorBounds.left + (anchorBounds.width / 2) - 3,
       y: anchorBounds.top,
       d: targetBounds.top - anchorBounds.top,
       q: 'bottom',
       v: true,
     })
     measurements.push({
-      x: anchorBounds.left + (anchorBounds.width / 2),
+      x: anchorBounds.left + (anchorBounds.width / 2) - 3,
       y: targetBounds.bottom,
       d: anchorBounds.bottom - targetBounds.bottom,
       q: 'top',

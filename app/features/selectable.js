@@ -5,6 +5,9 @@ import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
 import { queryPage } from './search'
 import { createMeasurements, clearMeasurements } from './measurements'
+import { createMarginVisual } from './margin'
+import { createPaddingVisual } from './padding'
+
 import { showTip as showMetaTip, removeAll as removeAllMetaTips } from './metatip'
 import { showTip as showAccessibilityTip, removeAll as removeAllAccessibilityTips } from './accessibility'
 
@@ -135,7 +138,7 @@ export function Selectable() {
   }
 
   const on_esc = _ =>
-    selected.length && unselect_all()
+    unselect_all()
 
   const on_duplicate = e => {
     const root_node = selected[0]
@@ -325,16 +328,27 @@ export function Selectable() {
 
   const on_hover = e => {
     const $target = deepElementFromPoint(e.clientX, e.clientY)
+    const tool = $('vis-bug')[0].activeTool
 
     if (isOffBounds($target) || $target.hasAttribute('data-selected'))
       return clearHover()
 
     overlayHoverUI($target)
 
-    if (e.altKey && $('vis-bug')[0].activeTool === 'guides' && selected.length === 1 && selected[0] != $target) {
+    if (e.altKey && tool === 'guides' && selected.length === 1 && selected[0] != $target) {
       $target.setAttribute('data-measuring', true)
       const [$anchor] = selected
-      return createMeasurements({$anchor, $target})
+      createMeasurements({$anchor, $target})
+    }
+    else if (tool === 'margin' && !hover_state.element.$shadow.querySelector('visbug-boxmodel')) {
+      hover_state.label.style.opacity = 0
+      hover_state.element.$shadow.appendChild(
+        createMarginVisual(hover_state.target, true))
+    }
+    else if (tool === 'padding' && !hover_state.element.$shadow.querySelector('visbug-boxmodel')) {
+      hover_state.label.style.opacity = 0
+      hover_state.element.$shadow.appendChild(
+        createPaddingVisual(hover_state.target, true))
     }
     else if ($target.hasAttribute('data-measuring')) {
       $target.removeAttribute('data-measuring')
@@ -366,12 +380,21 @@ export function Selectable() {
           'data-pseudo-select': null,
         }))
 
-    Array.from([...handles, ...labels]).forEach(el =>
+    $('[data-pseudo-select]').forEach(hover =>
+      hover.removeAttribute('data-pseudo-select'))
+
+    Array.from([
+      ...$('visbug-handles'), 
+      ...$('visbug-label'), 
+      ...$('visbug-hover'),
+    ]).forEach(el =>
       el.remove())
 
     labels    = []
     handles   = []
     selected  = []
+
+    tellWatchers()
   }
 
   const delete_all = () => {
@@ -527,10 +550,7 @@ export function Selectable() {
     if (!handles[id]) {
       const handle = document.createElement('visbug-handles')
 
-      handle.position = {
-        boundingRect:   el.getBoundingClientRect(),
-        node_label_id:  id,
-      }
+      handle.position = { el, node_label_id: id }
 
       document.body.appendChild(handle)
 
@@ -545,10 +565,7 @@ export function Selectable() {
         hover_state.element.remove()
 
       hover_state.element = document.createElement('visbug-hover')
-
-      hover_state.element.position = {
-        boundingRect: el.getBoundingClientRect(),
-      }
+      hover_state.element.position = {el}
 
       document.body.appendChild(hover_state.element)
 
@@ -577,10 +594,10 @@ export function Selectable() {
     }
   }
 
-  const setHandle = (node, handle) => {
+  const setHandle = (el, handle) => {
     handle.position = {
-      boundingRect:   node.getBoundingClientRect(),
-      node_label_id:  node.getAttribute('data-label-id'),
+      el,
+      node_label_id:  el.getAttribute('data-label-id'),
     }
   }
 

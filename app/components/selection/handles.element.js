@@ -23,17 +23,35 @@ export class Handles extends HTMLElement {
 
       this.position = {
         node_label_id,
-        boundingRect: source_el.getBoundingClientRect(),
+        el: source_el,
       }
     })
   }
 
-  set position({boundingRect, node_label_id}) {
-    this.$shadow.innerHTML  = this.render(boundingRect, node_label_id)
+  set position({el, node_label_id}) {
+    this.$shadow.innerHTML = this.render(el.getBoundingClientRect(), node_label_id)
+
+    if (this._backdrop) {
+      this.backdrop = {
+        element: this._backdrop.update(el),
+        update:  this._backdrop.update,
+      }
+    }
+  }
+
+  set backdrop(bd) {
+    this._backdrop = bd
+
+    const cur_child = this.$shadow.querySelector('visbug-boxmodel')
+
+    cur_child
+      ? this.$shadow.replaceChild(bd.element, cur_child)
+      : this.$shadow.appendChild(bd.element)
   }
 
   render({ x, y, width, height, top, left }, node_label_id) {
     this.$shadow.host.setAttribute('data-label-id', node_label_id)
+    
     return `
       ${this.styles({top,left})}
       <svg

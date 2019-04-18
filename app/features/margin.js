@@ -1,7 +1,6 @@
 import hotkeys from 'hotkeys-js'
 import { metaKey, getStyle, getSide, showHideSelected } from '../utilities/'
 
-// todo: show margin color
 const key_events = 'up,down,left,right'
   .split(',')
   .reduce((events, event) =>
@@ -11,23 +10,27 @@ const key_events = 'up,down,left,right'
 
 const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down`
 
-export function Margin({selection}) {
+export function Margin(visbug) {
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
 
     e.preventDefault()
-    pushElement(selection(), handler.key)
+    pushElement(visbug.selection(), handler.key)
   })
 
   hotkeys(command_events, (e, handler) => {
     e.preventDefault()
-    pushAllElementSides(selection(), handler.key)
+    pushAllElementSides(visbug.selection(), handler.key)
   })
+
+  visbug.onSelectedUpdate(paintBackgrounds)
 
   return () => {
     hotkeys.unbind(key_events)
     hotkeys.unbind(command_events)
     hotkeys.unbind('up,down,left,right') // bug in lib?
+    visbug.removeSelectedCallback(paintBackgrounds)
+    removeBackgrounds(visbug.selection())
   }
 }
 
@@ -60,4 +63,65 @@ export function pushAllElementSides(els, keycommand) {
 
   'up,down,left,right'.split(',')
     .forEach(side => pushElement(els, spoof + side))
+}
+
+function paintBackgrounds(els) {
+  els.forEach(el => {
+    const label_id = el.getAttribute('data-label-id')
+
+    document
+      .querySelector(`visbug-label[data-label-id="${label_id}"]`)
+      .style.opacity = 0
+
+    document
+      .querySelector(`visbug-handles[data-label-id="${label_id}"]`)
+      .backdrop = {
+        element:  createMarginVisual(el),
+        update:   createMarginVisual,
+      }
+  })
+}
+
+function removeBackgrounds(els) {
+  els.forEach(el => {
+    const label_id = el.getAttribute('data-label-id')
+    const label = document.querySelector(`visbug-label[data-label-id="${label_id}"]`)
+    const boxmodel = document.querySelector(`visbug-handles[data-label-id="${label_id}"]`)
+      .$shadow.querySelector('visbug-boxmodel')
+
+    label.style.opacity = 1
+    if (boxmodel) boxmodel.remove()
+  })
+}
+
+export function createMarginVisual(el, hover = false) {
+  const bounds            = el.getBoundingClientRect()
+  const styleOM           = el.computedStyleMap()
+  const calculatedStyle   = getStyle(el, 'margin')
+  const boxdisplay        = document.createElement('visbug-boxmodel')
+
+  if (calculatedStyle !== '0px') {
+    const sides = {
+      top:    styleOM.get('margin-top').value,
+      right:  styleOM.get('margin-right').value,
+      bottom: styleOM.get('margin-bottom').value,
+      left:   styleOM.get('margin-left').value,
+    }
+
+    Object.entries(sides).forEach(([side, val]) => {
+      if (typeof val !== 'number')
+        val = parseInt(getStyle(el, 'padding'+'-'+side).slice(0, -2))
+
+      sides[side] = Math.round(val.toFixed(1) * 100) / 100
+    })
+
+    boxdisplay.position = { 
+      mode: 'margin',
+      color: hover ? 'purple' : 'pink',
+      bounds, 
+      sides,
+    }
+  }
+
+  return boxdisplay
 }
