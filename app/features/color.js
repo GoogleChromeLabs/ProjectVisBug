@@ -15,19 +15,20 @@ export function ColorPicker(pallete, selectorEngine) {
     inactive: '0 0 0 2px white, rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em',
   }
 
-  this.active_color       = 'background'
-  this.elements           = []
+  const state = {
+    active_color: undefined,
+    elements:     [],
+  }
 
-  // set colors
   fgInput.on('input', ({target:{value}}) => {
-    this.elements.map(el =>
+    state.elements.map(el =>
       el.style['color'] = value)
 
     foregroundPicker[0].style.setProperty(`--contextual_color`, value)
   })
 
   bgInput.on('input', ({target:{value}}) => {
-    this.elements.map(el =>
+    state.elements.map(el =>
       el.style[el instanceof SVGElement
         ? 'fill'
         : 'backgroundColor'
@@ -37,7 +38,7 @@ export function ColorPicker(pallete, selectorEngine) {
   })
 
   boInput.on('input', ({target:{value}}) => {
-    this.elements.map(el =>
+    state.elements.map(el =>
       el.style[el instanceof SVGElement
         ? 'stroke'
         : 'borderColor'
@@ -47,15 +48,15 @@ export function ColorPicker(pallete, selectorEngine) {
   })
 
   const extractColors = elements => {
-    this.elements = elements
+    state.elements = elements
 
     let isMeaningfulForeground  = false
     let isMeaningfulBackground  = false
     let isMeaningfulBorder      = false
     let FG, BG, BO
 
-    if (this.elements.length == 1) {
-      const el = this.elements[0]
+    if (state.elements.length == 1) {
+      const el = state.elements[0]
 
       if (el instanceof SVGElement) {
         FG = new TinyColor('rgb(0, 0, 0)')
@@ -117,19 +118,19 @@ export function ColorPicker(pallete, selectorEngine) {
       // show all 3 if they've selected more than 1 node
       // todo: this is giving up, and can be solved
       foregroundPicker.attr('style', `
-        box-shadow: ${this.active_color == 'foreground' ? shadows.active : shadows.inactive};
+        box-shadow: ${state.active_color == 'foreground' ? shadows.active : shadows.inactive};
         --contextual_color: transparent;
         --icon_color: hsla(0,0%,0%,80%);
       `)
 
       backgroundPicker.attr('style', `
-        box-shadow: ${this.active_color == 'background' ? shadows.active : shadows.inactive};
+        box-shadow: ${state.active_color == 'background' ? shadows.active : shadows.inactive};
         --contextual_color: transparent;
         --icon_color: hsla(0,0%,0%,80%);
       `)
 
       borderPicker.attr('style', `
-        box-shadow: ${this.active_color == 'border' ? shadows.active : shadows.inactive};
+        box-shadow: ${state.active_color == 'border' ? shadows.active : shadows.inactive};
         --contextual_color: transparent;
         --icon_color: hsla(0,0%,0%,80%);
       `)
@@ -137,11 +138,11 @@ export function ColorPicker(pallete, selectorEngine) {
   }
 
   const getActive = () =>
-    this.active_color
+    state.active_color
 
   const setActive = key => {
     removeActive()
-    this.active_color = key
+    state.active_color = key
 
     if (key === 'foreground')
       foregroundPicker[0].style.boxShadow = shadows.active

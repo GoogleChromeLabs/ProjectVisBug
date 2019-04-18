@@ -113,15 +113,15 @@ export default class VisBug extends HTMLElement {
         `,'')}
       </ol>
       <ol colors>
-        <li style="display: none;" class="color" id="foreground" aria-label="Text" aria-description="Change the text color">
+        <li class="color" id="foreground" aria-label="Text" aria-description="Change the text color">
           <input type="color" value="">
           ${Icons.color_text}
         </li>
-        <li style="display: none;" class="color" id="background" aria-label="Background or Fill" aria-description="Change the background color or fill of svg">
+        <li class="color" id="background" aria-label="Background or Fill" aria-description="Change the background color or fill of svg">
           <input type="color" value="">
           ${Icons.color_background}
         </li>
-        <li style="display: none;" class="color" id="border" aria-label="Border or Stroke" aria-description="Change the border color or stroke of svg">
+        <li class="color" id="border" aria-label="Border or Stroke" aria-description="Change the border color or stroke of svg">
           <input type="color" value="">
           ${Icons.color_border}
         </li>
