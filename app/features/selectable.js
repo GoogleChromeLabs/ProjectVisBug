@@ -520,12 +520,11 @@ export function Selectable() {
 
       $(label).on('query', ({detail}) => {
         if (!detail.text) return
-        this.query_text = detail.text
 
         queryPage('[data-pseudo-select]', el =>
           el.removeAttribute('data-pseudo-select'))
 
-        queryPage(this.query_text + ':not([data-selected])', el =>
+        queryPage(detail.text + ':not([data-selected])', el =>
           detail.activator === 'mouseenter'
             ? el.setAttribute('data-pseudo-select', true)
             : select(el))
