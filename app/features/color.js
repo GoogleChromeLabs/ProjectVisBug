@@ -16,32 +16,43 @@ export function ColorPicker(pallete, selectorEngine) {
   const boInput           = $('input', borderPicker[0])
 
   const shadows = {
-    active:   'rgba(0, 0, 0, 0.1) 0px 0.25em 0.5em, 0 0 0 2px hotpink',
-    inactive: 'rgba(0, 0, 0, 0.1) 0px 0.25em 0.5em',
+    active:   '0 0 0 2px hotpink, rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em',
+    inactive: '0 0 0 2px white, rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em',
   }
 
-  // set colors
-  fgInput.on('input', e =>
-    state.elements.map(el =>
-      el.style['color'] = e.target.value))
+  const state = {
+    active_color: undefined,
+    elements:     [],
+  }
 
-  bgInput.on('input', e =>
+  fgInput.on('input', ({target:{value}}) => {
+    state.elements.map(el =>
+      el.style['color'] = value)
+
+    foregroundPicker[0].style.setProperty(`--contextual_color`, value)
+  })
+
+  bgInput.on('input', ({target:{value}}) => {
     state.elements.map(el =>
       el.style[el instanceof SVGElement
         ? 'fill'
         : 'backgroundColor'
-      ] = e.target.value))
+      ] = value)
 
-  boInput.on('input', e =>
+    backgroundPicker[0].style.setProperty(`--contextual_color`, value)
+  })
+
+  boInput.on('input', ({target:{value}}) => {
     state.elements.map(el =>
       el.style[el instanceof SVGElement
         ? 'stroke'
-        : 'border-color'
-      ] = e.target.value))
+        : 'borderColor'
+      ] = value)
 
-  // read colors
-  selectorEngine.onSelectedUpdate(elements => {
-    if (!elements.length) return
+    borderPicker[0].style.setProperty(`--contextual_color`, value)
+  })
+
+  const extractColors = elements => {
     state.elements = elements
 
     let isMeaningfulForeground  = false
@@ -51,7 +62,6 @@ export function ColorPicker(pallete, selectorEngine) {
 
     if (state.elements.length == 1) {
       const el = state.elements[0]
-      const meaningfulDontMatter = pallete.host.active_tool.dataset.tool === 'hueshift'
 
       if (el instanceof SVGElement) {
         FG = new TinyColor('rgb(0, 0, 0)')
@@ -69,9 +79,9 @@ export function ColorPicker(pallete, selectorEngine) {
           : new TinyColor(getStyle(el, 'borderColor'))
       }
 
-      let fg = FG.toHexString()
-      let bg = BG.toHexString()
-      let bo = BO.toHexString()
+      let fg = FG.toHslString()
+      let bg = BG.toHslString()
+      let bo = BO.toHslString()
 
       isMeaningfulForeground = FG.originalInput !== 'rgb(0, 0, 0)' || (el.children.length === 0 && el.textContent !== '')
       isMeaningfulBackground = BG.originalInput !== 'rgba(0, 0, 0, 0)'
@@ -82,9 +92,13 @@ export function ColorPicker(pallete, selectorEngine) {
       else if (isMeaningfulBackground && !isMeaningfulForeground)
         setActive('background')
 
-      const new_fg = isMeaningfulForeground ? fg : ''
-      const new_bg = isMeaningfulBackground ? bg : ''
-      const new_bo = isMeaningfulBorder ? bo : ''
+      const new_fg = isMeaningfulForeground   ? fg : ''
+      const new_bg = isMeaningfulBackground   ? bg : ''
+      const new_bo = isMeaningfulBorder       ? bo : ''
+
+      const fg_icon = isMeaningfulForeground  ? healthyContrastColor(FG) : ''
+      const bg_icon = isMeaningfulBackground  ? healthyContrastColor(BG) : ''
+      const bo_icon = isMeaningfulBorder      ? healthyContrastColor(BO) : ''
 
       fgInput.attr('value', new_fg)
       bgInput.attr('value', new_bg)
@@ -92,17 +106,17 @@ export function ColorPicker(pallete, selectorEngine) {
 
       foregroundPicker.attr('style', `
         --contextual_color: ${new_fg};
-        display: ${isMeaningfulForeground || meaningfulDontMatter ? 'inline-flex' : 'none'};
+        --icon_color: ${fg_icon};
       `)
 
       backgroundPicker.attr('style', `
         --contextual_color: ${new_bg};
-        display: ${isMeaningfulBackground || meaningfulDontMatter ? 'inline-flex' : 'none'};
+        --icon_color: ${bg_icon};
       `)
 
       borderPicker.attr('style', `
         --contextual_color: ${new_bo};
-        display: ${isMeaningfulBorder || meaningfulDontMatter ? 'inline-flex' : 'none'};
+        --icon_color: ${bo_icon};
       `)
     }
     else {
@@ -110,20 +124,23 @@ export function ColorPicker(pallete, selectorEngine) {
       // todo: this is giving up, and can be solved
       foregroundPicker.attr('style', `
         box-shadow: ${state.active_color == 'foreground' ? shadows.active : shadows.inactive};
-        display: inline-flex;
+        --contextual_color: transparent;
+        --icon_color: hsla(0,0%,0%,80%);
       `)
 
       backgroundPicker.attr('style', `
         box-shadow: ${state.active_color == 'background' ? shadows.active : shadows.inactive};
-        display: inline-flex;
+        --contextual_color: transparent;
+        --icon_color: hsla(0,0%,0%,80%);
       `)
 
       borderPicker.attr('style', `
         box-shadow: ${state.active_color == 'border' ? shadows.active : shadows.inactive};
-        display: inline-flex;
+        --contextual_color: transparent;
+        --icon_color: hsla(0,0%,0%,80%);
       `)
     }
-  })
+  }
 
   const getActive = () =>
     state.active_color
@@ -144,6 +161,8 @@ export function ColorPicker(pallete, selectorEngine) {
     [foregroundPicker, backgroundPicker, borderPicker].forEach(([picker]) =>
       picker.style.boxShadow = shadows.inactive)
 
+  selectorEngine.onSelectedUpdate(extractColors)
+
   return {
     getActive,
     setActive,
@@ -152,4 +171,18 @@ export function ColorPicker(pallete, selectorEngine) {
     background: { color: color =>
       backgroundPicker[0].style.setProperty('--contextual_color', color)}
   }
+}
+
+export const healthyContrastColor = color => {
+  let contrast = color.clone()
+
+  contrast = contrast.getLuminance() < .5
+    ? contrast.lighten(30)
+    : contrast.brighten(30)
+
+  contrast = contrast.isDark()
+    ? contrast.tint(50)
+    : contrast.shade(50)
+
+  return contrast.toHslString()
 }

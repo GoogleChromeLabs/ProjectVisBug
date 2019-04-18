@@ -1,6 +1,6 @@
 {
   "name": "VisBug",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,7 @@
     "deploy": "gcloud app deploy --project=visbug-1337"
   },
   "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "@ctrl/tinycolor": "^2.0.0",
     "blingblingjs": "^2.0.2",
