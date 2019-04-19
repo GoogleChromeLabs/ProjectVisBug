@@ -7,20 +7,13 @@ const setupPptrTab = async t => {
   await t.context.page.goto('http://localhost:3000')
 }
 
-const teardownPptrTab = async ({context:{ page, browser }}) => {
+export const teardownPptrTab = async ({context:{ page, browser }}) => {
   await page.close()
 }
 
-const changeMode = async ({page, tool}) =>
+export const changeMode = async ({page, tool}) =>
   await page.evaluateHandle(`document.querySelector('vis-bug').$shadow.querySelector('li[data-tool=${tool}]').click()`)
 
-const getActiveTool = async page =>
+export const getActiveTool = async page =>
   await page.$eval('vis-bug', el =>
     el.activeTool)
-
-export {
-  setupPptrTab,
-  teardownPptrTab,
-  changeMode,
-  getActiveTool,
-}
