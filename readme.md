@@ -1,8 +1,9 @@
 <p align="center">
   <img src="./assets/visbug.png" width="300" height="300" alt="visbug">
   <br>
-  <a href="https://www.npmjs.org/package/visbug"><img src="https://img.shields.io/npm/v/visbug.svg?style=flat" alt="npm"></a>
-  <a href="https://www.npmjs.com/package/visbug"><img src="https://img.shields.io/npm/dt/visbug.svg" alt="downloads" ></a>
+  <a href="https://www.npmjs.org/package/visbug"><img src="https://img.shields.io/npm/v/visbug.svg?style=flat" alt="npm latest version number"></a>
+  <a href="https://travis-ci.org/GoogleChromeLabs/ProjectVisBug"><img src="https://travis-ci.org/GoogleChromeLabs/ProjectVisBug.svg?branch=master" alt="travis build status"></a>
+  <a href="https://www.npmjs.com/package/visbug"><img src="https://img.shields.io/npm/dt/visbug.svg" alt="npm downloads" ></a>
 </p>
 
 # 「VisBug」
