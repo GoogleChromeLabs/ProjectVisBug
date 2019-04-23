@@ -10,7 +10,7 @@ import {
 import {
   Selectable, Moveable, Padding, Margin, EditText, Font,
   Flex, Search, ColorPicker, BoxShadow, HueShift, MetaTip,
-  Guides, Screenshot, Position, Accessibility
+  Guides, Screenshot, Position, Accessibility, draggable
 } from '../../features/'
 
 import { VisBugStyles }           from '../styles.store'
@@ -55,6 +55,8 @@ export default class VisBug extends HTMLElement {
     $('li[data-tool]', this.$shadow).on('click', e =>
       this.toolSelected(e.currentTarget) && e.stopPropagation())
 
+    draggable(this);
+
     Object.entries(this.toolbar_model).forEach(([key, value]) =>
       hotkeys(key, e => {
         e.preventDefault()
@@ -80,6 +82,8 @@ export default class VisBug extends HTMLElement {
       ...document.getElementsByTagName('visbug-label'),
       ...document.getElementsByTagName('visbug-gridlines'),
     ].forEach(el => el.remove())
+
+    this.teardown();
 
     document.querySelectorAll('[data-pseudo-select=true]')
       .forEach(el =>
@@ -116,15 +120,15 @@ export default class VisBug extends HTMLElement {
         `,'')}
       </ol>
       <ol colors>
-        <li style="display: none;" class="color" id="foreground" aria-label="Text" aria-description="Change the text color">
+        <li class="color" id="foreground" aria-label="Text" aria-description="Change the text color">
           <input type="color" value="">
           ${Icons.color_text}
         </li>
-        <li style="display: none;" class="color" id="background" aria-label="Background or Fill" aria-description="Change the background color or fill of svg">
+        <li class="color" id="background" aria-label="Background or Fill" aria-description="Change the background color or fill of svg">
           <input type="color" value="">
           ${Icons.color_background}
         </li>
-        <li style="display: none;" class="color" id="border" aria-label="Border or Stroke" aria-description="Change the border color or stroke of svg">
+        <li class="color" id="border" aria-label="Border or Stroke" aria-description="Change the border color or stroke of svg">
           <input type="color" value="">
           ${Icons.color_border}
         </li>
@@ -193,12 +197,10 @@ export default class VisBug extends HTMLElement {
   }
 
   hueshift() {
-    let feature = HueShift(this.colorPicker)
-    this.selectorEngine.onSelectedUpdate(feature.onNodesSelected)
-    this.deactivate_feature = () => {
-      this.selectorEngine.removeSelectedCallback(feature.onNodesSelected)
-      feature.disconnect()
-    }
+    this.deactivate_feature = HueShift({
+      Color:  this.colorPicker,
+      Visbug: this.selectorEngine,
+    })
   }
 
   inspector() {
