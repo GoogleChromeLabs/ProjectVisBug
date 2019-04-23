@@ -158,8 +158,8 @@
 :host [colors] > li {
   overflow: hidden;
   border-radius: 50%;
-  box-shadow: 0 0.25em 0.5em hsla(0,0%,0%,10%);
-  background: var(--theme-bg);
+  box-shadow: 0 0 0 2px white, 0 0.25em 0.5em hsla(0,0%,0%,25%);
+  background: var(--contextual_color);
   margin-bottom: 0.5em;
 
   &:first-child {
@@ -219,8 +219,9 @@
 }
 
 :host [colors] > li > svg {
-  position: relative;
-  top: -2px;
+  fill: var(--icon_color);
+  mix-blend-mode: luminosity;
+  filter: brightness(0.5);
 }
 
 :host [colors] > li > svg > rect:last-child {

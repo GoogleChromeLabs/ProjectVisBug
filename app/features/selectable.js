@@ -142,7 +142,7 @@ export function Selectable() {
   }
 
   const on_esc = _ =>
-    selected.length && unselect_all()
+    unselect_all()
 
   const on_duplicate = e => {
     const root_node = selected[0]
@@ -395,16 +395,22 @@ export function Selectable() {
           'data-pseudo-select': null,
         }))
 
+    $('[data-pseudo-select]').forEach(hover =>
+      hover.removeAttribute('data-pseudo-select'))
+
     Array.from([
-      ...handles, 
-      ...labels, 
-      ...$('visbug-distance')
+      ...$('visbug-handles'), 
+      ...$('visbug-label'), 
+      ...$('visbug-hover'),
+      ...$('visbug-distance'),
     ]).forEach(el =>
       el.remove())
 
     labels    = []
     handles   = []
     selected  = []
+
+    tellWatchers()
   }
 
   const delete_all = () => {

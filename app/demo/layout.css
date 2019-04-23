@@ -4,7 +4,7 @@ main {
   grid-template-columns: repeat(auto-fit, minmax(var(--card-size), 1fr));
   grid-auto-rows: minmax(var(--card-size), max-content);
   grid-auto-flow: dense;
-  grid-gap: 1rem 2rem;
+  gap: 1rem 2rem;
   padding: 1rem 2rem;
 
   @media (min-width:480px) {
@@ -50,7 +50,7 @@ main {
 
 [image-grid] {
   display: grid;
-  grid-gap: 0.5rem;
+  gap: .5rem;
   height: 100%;
   align-items: space-between;
   justify-content: space-between;
@@ -73,7 +73,7 @@ main {
   margin-top: 1rem;
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
-  grid-gap: 0.5rem;
+  gap: .5rem;
 
   & :matches(h1,h2,h3,h4,h5,h6) {
     margin: 0;
@@ -84,7 +84,7 @@ main {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  grid-gap: 0.5rem;
+  gap: .5rem;
 
   & > div {
     border-radius: 1rem;
@@ -130,6 +130,6 @@ nav {
     text-align: center;
     margin: 5px;
     border: 1px solid var(--darkest-grey);
-    border-radius: 0.25rem;
+    border-radius: .25rem;
   }
 }

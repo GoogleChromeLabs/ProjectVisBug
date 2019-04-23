@@ -12,5 +12,6 @@ export { BoxShadow } from './boxshadow'
 export { HueShift } from './hueshift'
 export { Guides } from './guides'
 export { Screenshot } from './screenshot'
-export { Position } from './position'
+export { Position, draggable } from './position'
 export { Accessibility } from './accessibility'
+
