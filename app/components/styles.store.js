@@ -5,6 +5,7 @@ import { default as distance_css }   from './selection/distance.element.css'
 import { default as gridline_css }   from './selection/gridlines.element.css'
 import { default as label_css }      from './selection/label.element.css'
 import { default as overlay_css }    from './selection/overlay.element.css'
+import { default as boxmodel_css }   from './selection/box-model.element.css'
 import { default as hotkeymap_css }  from './hotkey-map/base.element.css'
 
 const constructStylesheet = (styles, stylesheet = new CSSStyleSheet()) => {
@@ -19,4 +20,5 @@ export const DistanceStyles  = constructStylesheet(distance_css)
 export const GridlineStyles  = constructStylesheet(gridline_css)
 export const LabelStyles     = constructStylesheet(label_css)
 export const OverlayStyles   = constructStylesheet(overlay_css)
+export const BoxModelStyles  = constructStylesheet(boxmodel_css)
 export const HotkeymapStyles = constructStylesheet(hotkeymap_css)
