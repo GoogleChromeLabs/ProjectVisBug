@@ -4,13 +4,14 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 2147483646;
+  z-index: var(--layer-1);
   max-width: min-content;
-  font-size: 16px;
-  font-family: system-ui;
 }
 
 :host > ol {
+  all: initial;
+  font-size: 16px;
+  font-family: system-ui;
   display: flex;
   flex-direction: column;
   margin: 1em 0 0.5em 1em;
@@ -88,7 +89,7 @@
     & figcaption {
       padding: 1em;
       display: grid;
-      grid-gap: 0.5em;
+      gap: 0.5em;
 
       & > :matches(h2,p) {
         margin: 0;
@@ -112,7 +113,7 @@
 
       & [table] {
         display: grid;
-        grid-gap: 0.5em;
+        gap: 0.5em;
 
         & > div {
           display: grid;

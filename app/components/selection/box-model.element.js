@@ -1,3 +1,5 @@
+import { BoxModelStyles } from '../styles.store'
+
 export class BoxModel extends HTMLElement {
 
   constructor() {
@@ -6,7 +8,10 @@ export class BoxModel extends HTMLElement {
     this.drawable = {}
   }
 
-  connectedCallback() {}
+  connectedCallback() {
+    this.$shadow.adoptedStyleSheets = [BoxModelStyles]
+  }
+
   disconnectedCallback() {}
 
   set position(payload) {
@@ -47,8 +52,9 @@ export class BoxModel extends HTMLElement {
       this.drawable.stripe = 'hsla(267, 100%, 58%, 80%)'
     }
 
+    this.styles({sides})
+
     return `
-      ${this.styles({sides})}
       <div mask>
         <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
           <defs>
@@ -63,28 +69,19 @@ export class BoxModel extends HTMLElement {
   }
 
   styles({sides}) {
-    return `
-      <style>
-        :host [mask] {
-          pointer-events: none;
-          position: absolute;
-          z-index: 2147483642;
-          width: ${this.drawable.width}px;
-          height: ${this.drawable.height}px;
-          top: ${this.drawable.top}px;
-          left: ${this.drawable.left}px;
-          background-color: ${this.drawable.bg};
-          clip-path: polygon(
-            0% 0%, 0% 100%, ${sides.left}px 100%,
-            ${sides.left}px ${sides.top}px,
-            ${this.drawable.width - sides.right}px ${sides.top}px,
-            ${this.drawable.width - sides.right}px ${this.drawable.height - sides.bottom}px,
-            0 ${this.drawable.height - sides.bottom}px, 0 100%,
-            100% 100%, 100% 0%
-          );
-        }
-      </style>
-    `
+    this.style.setProperty('--width', `${this.drawable.width}px`)
+    this.style.setProperty('--height', `${this.drawable.height}px`)
+    this.style.setProperty('--top', `${this.drawable.top}px`)
+    this.style.setProperty('--left', `${this.drawable.left}px`)
+    this.style.setProperty('--bg', `${this.drawable.bg}`)
+
+    this.style.setProperty('--target-left', `${sides.left}px`)
+    this.style.setProperty('--target-top', `${sides.top}px`)
+    this.style.setProperty('--target-right', `${sides.right}px`)
+    this.style.setProperty('--target-bottom', `${sides.bottom}px`)
+
+    this.style.setProperty('--offset-right', `${this.drawable.width - sides.right}px`)
+    this.style.setProperty('--offset-bottom', `${this.drawable.height - sides.bottom}px`)
   }
 
   createMeasurements({mode, bounds, sides, color}) {
