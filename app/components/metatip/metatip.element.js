@@ -1,6 +1,6 @@
 import $ from 'blingblingjs'
 import { createClassname } from '../../utilities/'
-import styles from './metatip.element.css'
+import { MetatipStyles } from '../styles.store'
 
 export class Metatip extends HTMLElement {
 
@@ -10,6 +10,7 @@ export class Metatip extends HTMLElement {
   }
 
   connectedCallback() {
+    this.$shadow.adoptedStyleSheets = [MetatipStyles]
     $(this.$shadow.host).on('mouseenter', this.observe.bind(this))
   }
 
@@ -50,7 +51,6 @@ export class Metatip extends HTMLElement {
 
   render({el, width, height, localModifications, notLocalModifications}) {
     return `
-      ${this.styles()}
       <figure>
         <h5>
           <a node>${el.nodeName.toLowerCase()}</a>
@@ -84,14 +84,6 @@ export class Metatip extends HTMLElement {
           </div>
         ` : ''}
       </figure>
-    `
-  }
-
-  styles() {
-    return `
-      <style>
-        ${styles}
-      </style>
     `
   }
 }
