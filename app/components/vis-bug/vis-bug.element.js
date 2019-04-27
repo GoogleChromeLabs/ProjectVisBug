@@ -1,6 +1,5 @@
 import $          from 'blingblingjs'
 import hotkeys    from 'hotkeys-js'
-import styles     from './vis-bug.element.css'
 
 import {
   Handles, Label, Overlay, Gridlines,
@@ -29,7 +28,7 @@ export default class VisBug extends HTMLElement {
   }
 
   connectedCallback() {
-    this.$shadow.adoptedStylesheeets = [VisBugStyles]
+    this.$shadow.adoptedStyleSheets = [VisBugStyles]
 
     if (!this.$shadow.innerHTML)
       this.setup()
@@ -108,7 +107,6 @@ export default class VisBug extends HTMLElement {
 
   render() {
     return `
-      ${this.styles()}
       <visbug-hotkeys></visbug-hotkeys>
       <ol>
         ${Object.entries(this.toolbar_model).reduce((list, [key, tool]) => `
@@ -133,14 +131,6 @@ export default class VisBug extends HTMLElement {
           ${Icons.color_border}
         </li>
       </ol>
-    `
-  }
-
-  styles() {
-    return `
-      <style>
-        ${styles}
-      </style>
     `
   }
 

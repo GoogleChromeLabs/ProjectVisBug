@@ -89,7 +89,7 @@
     & figcaption {
       padding: 1em;
       display: grid;
-      grid-gap: 0.5em;
+      gap: 0.5em;
 
       & > :matches(h2,p) {
         margin: 0;
@@ -113,7 +113,7 @@
 
       & [table] {
         display: grid;
-        grid-gap: 0.5em;
+        gap: 0.5em;
 
         & > div {
           display: grid;
