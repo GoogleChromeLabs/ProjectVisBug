@@ -565,9 +565,8 @@ export function Selectable() {
         hover_state.element.remove()
 
       hover_state.element = document.createElement('visbug-hover')
-      hover_state.element.position = {el}
-
       document.body.appendChild(hover_state.element)
+      hover_state.element.position = {el}
 
       return hover_state.element
     }
@@ -579,6 +578,7 @@ export function Selectable() {
         hover_state.label.remove()
 
       hover_state.label = document.createElement('visbug-label')
+      document.body.appendChild(hover_state.label)
 
       hover_state.label.text = text
       hover_state.label.position = {
@@ -586,9 +586,8 @@ export function Selectable() {
         node_label_id:  'hover',
       }
 
-      hover_state.label.style = `--label-bg: hsl(267, 100%, 58%)`
+      hover_state.label.style.setProperty(`--label-bg`, `hsl(267, 100%, 58%)`)
 
-      document.body.appendChild(hover_state.label)
 
       return hover_state.label
     }

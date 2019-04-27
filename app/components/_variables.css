@@ -5,4 +5,11 @@
   --theme-purple: hsl(267, 100%, 58%);
   --theme-icon_color: hsl(0,0%,20%);
   --theme-icon_hover-bg: hsl(0,0%,95%);
+
+  --layer-top: 2147483647;
+  --layer-1: 2147483646;
+  --layer-2: 2147483645;
+  --layer-3: 2147483644;
+  --layer-4: 2147483643;
+  --layer-5: 2147483642;
 }
