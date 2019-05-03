@@ -109,7 +109,7 @@ export function dropWatch($el) {
 
 export function dragUnwatch(e) {
   if (!state.drag.src) return
-    
+
   const $el = state.drag.src
 
   $el.off('dragover', dragOver)
@@ -130,13 +130,14 @@ export function dragEnter(e) {
 }
 
 export function dragDrop(e) {
-  swapElements(state.drag.src[0], e.target)
+  swapElements(state.drag.src[0], e.currentTarget)
 }
 
 export function swapElements(obj1, obj2) {
   // save the location of obj2
-  var parent2 = obj2.parentNode
-  var next2 = obj2.nextSibling
+  const parent2 = obj2.parentNode
+  const next2 = obj2.nextSibling
+
   // special case for obj1 is the next sibling of obj2
   if (next2 === obj1) {
     // just put obj1 before obj2
