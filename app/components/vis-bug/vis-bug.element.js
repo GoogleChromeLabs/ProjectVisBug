@@ -35,7 +35,10 @@ export default class VisBug extends HTMLElement {
 
     this.selectorEngine = Selectable()
     this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
+    
     provideSelectorEngine(this.selectorEngine)
+
+    this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
   }
 
   disconnectedCallback() {
@@ -70,8 +73,6 @@ export default class VisBug extends HTMLElement {
         this.$shadow.host.style.display === 'none'
           ? 'block'
           : 'none')
-
-    this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
   }
 
   cleanup() {
@@ -202,7 +203,7 @@ export default class VisBug extends HTMLElement {
   }
 
   guides() {
-    this.deactivate_feature = Guides()
+    this.deactivate_feature = Guides(this.selectorEngine)
   }
 
   screenshot() {
