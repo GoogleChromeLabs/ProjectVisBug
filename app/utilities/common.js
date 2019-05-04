@@ -95,3 +95,13 @@ export const isSelectorValid = (qs => (
     return true
   }
 ))(s => document.createDocumentFragment().querySelector(s))
+
+export const swapElements = (src, target) => {
+  var temp = document.createElement("div")
+
+  src.parentNode.insertBefore(temp, src)
+  target.parentNode.insertBefore(src, target)
+  temp.parentNode.insertBefore(target, temp)
+
+  temp.parentNode.removeChild(temp)
+}

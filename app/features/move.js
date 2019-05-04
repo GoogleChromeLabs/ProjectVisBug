@@ -1,6 +1,6 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { getNodeIndex, showEdge } from '../utilities/'
+import { getNodeIndex, showEdge, swapElements } from '../utilities/'
 
 const key_events = 'up,down,left,right'
 const state = {
@@ -135,16 +135,6 @@ function dragDrop({currentTarget}) {
 
   swapElements(src, currentTarget)
   currentTarget.removeAttribute('data-dropzone')
-}
-
-export function swapElements(src, target) {
-  var temp = document.createElement("div")
-
-  src.parentNode.insertBefore(temp, src)
-  target.parentNode.insertBefore(src, target)
-  temp.parentNode.insertBefore(target, temp)
-
-  temp.parentNode.removeChild(temp)
 }
 
 export function clearListeners() {
