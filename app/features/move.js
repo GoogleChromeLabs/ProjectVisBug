@@ -97,39 +97,39 @@ export function dragNDrop(selection) {
     dropWatch($(sibling)))
 }
 
-export function dragWatch($el) {
+function dragWatch($el) {
   state.drag.src = $el
   $el.attr('draggable', true)
 }
 
-export function dragUnwatch($el) {
+function dragUnwatch($el) {
   state.drag.src = null
   $el.attr('draggable', null)
 }
 
-export function dropWatch($el) {
+function dropWatch($el) {
   $el.on('dragover', dragOver)
   $el.on('dragleave', dragExit)
   $el.on('drop', dragDrop)
   $el.attr('data-pseudo-select', true)
 }
 
-export function dropUnwatch($el) {
+function dropUnwatch($el) {
   $el.off('dragover', dragOver)
   $el.off('dragleave', dragExit)
   $el.off('drop', dragDrop)
   $el.attr('data-pseudo-select', null)
 }
 
-export function dragOver(e) {
+function dragOver(e) {
   e.currentTarget.setAttribute('data-dropzone', true)
 }
 
-export function dragExit(e) {
+function dragExit(e) {
   e.currentTarget.removeAttribute('data-dropzone')
 }
 
-export function dragDrop({currentTarget}) {
+function dragDrop({currentTarget}) {
   const [src] = state.drag.src
   if (!src) return
 
@@ -155,7 +155,7 @@ export function clearListeners() {
     dropUnwatch($(sibling)))
 }
 
-export function updateFeedback(el) {
+function updateFeedback(el) {
   let options = ''
   // get current elements offset/size
   if (canMoveLeft(el))  options += '⇠'
