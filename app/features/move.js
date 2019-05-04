@@ -5,8 +5,9 @@ import { getNodeIndex, showEdge } from '../utilities/'
 const key_events = 'up,down,left,right'
 const state = {
   drag: {
-    src: null,
-    target: null,
+    src:      [],
+    target:   null,
+    siblings: [],
   }
 }
 // todo: indicator for when node can descend
@@ -82,54 +83,45 @@ export const popOut = ({el, under = false}) =>
 export function dragNDrop(selection) {
   if (selection.length !== 1) return
 
-  const [rootnode] = selection
-  const siblings = rootnode.parentNode.children.length
-    ? [...rootnode.parentNode.children]
+  clearListeners()
+
+  const [src] = selection
+  state.drag.siblings = src.parentNode.children.length
+    ? [...src.parentNode.children]
         .filter(child => !child.hasAttribute('data-selected'))
     : []
 
-  dragWatch($(rootnode))
+  dragWatch($(src))
 
-  siblings.forEach(sibling => 
+  state.drag.siblings.forEach(sibling => 
     dropWatch($(sibling)))
 }
 
 export function dragWatch($el) {
   state.drag.src = $el
-
   $el.attr('draggable', true)
-  // $el.on('dragend', dragUnwatch)
+}
+
+export function dragUnwatch($el) {
+  state.drag.src = null
+  $el.attr('draggable', null)
 }
 
 export function dropWatch($el) {
   $el.on('dragover', dragOver)
-  // $el.on('dragenter', dragEnter)
   $el.on('dragleave', dragExit)
   $el.on('drop', dragDrop)
 }
 
-export function dragUnwatch(e) {
-  if (!state.drag.src) return
-
-  const $el = state.drag.src
-
+export function dropUnwatch($el) {
   $el.off('dragover', dragOver)
-  // $el.off('dragenter', dragEnter)
   $el.off('dragleave', dragExit)
   $el.off('drop', dragDrop)
-  $el.off('dragend', dragUnwatch)
-
-  $el.attr('draggable', null)
-  state.drag.src = null
 }
 
 export function dragOver(e) {
   e.currentTarget.setAttribute('data-pseudo-select', true)
 }
-
-// export function dragEnter(e) {
-//   e.currentTarget.setAttribute('data-pseudo-select', true)
-// }
 
 export function dragExit(e) {
   e.currentTarget.removeAttribute('data-pseudo-select')
@@ -151,6 +143,14 @@ export function swapElements(src, target) {
   temp.parentNode.insertBefore(target, temp)
 
   temp.parentNode.removeChild(temp)
+}
+
+export function clearListeners() {
+  state.drag.src.forEach(src =>
+    dragUnwatch($(src)))
+
+  state.drag.siblings.forEach(sibling => 
+    dropUnwatch($(sibling)))
 }
 
 export function updateFeedback(el) {
