@@ -30,6 +30,10 @@ body {
   cursor: not-allowed;
 }
 
+[data-potention-dropzone=true] {
+  outline: 1px dashed hsl(267, 100%, 58%);
+}
+
 [data-dropzone=true] {
   position: relative;
   outline: none;

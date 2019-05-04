@@ -114,14 +114,14 @@ function dropWatch($el) {
   $el.on('dragover', dragOver)
   $el.on('dragleave', dragExit)
   $el.on('drop', dragDrop)
-  $el.attr('data-pseudo-select', true)
+  $el.attr('data-potention-dropzone', true)
 }
 
 function dropUnwatch($el) {
   $el.off('dragover', dragOver)
   $el.off('dragleave', dragExit)
   $el.off('drop', dragDrop)
-  $el.attr('data-pseudo-select', null)
+  $el.attr('data-potention-dropzone', null)
 }
 
 function dragOver(e) {
