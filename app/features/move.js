@@ -98,12 +98,13 @@ export function dragWatch($el) {
   state.drag.src = $el
 
   $el.attr('draggable', true)
-  $el.on('dragend', dragUnwatch)
+  // $el.on('dragend', dragUnwatch)
 }
 
 export function dropWatch($el) {
   $el.on('dragover', dragOver)
-  $el.on('dragenter', dragEnter)
+  // $el.on('dragenter', dragEnter)
+  $el.on('dragleave', dragExit)
   $el.on('drop', dragDrop)
 }
 
@@ -113,7 +114,8 @@ export function dragUnwatch(e) {
   const $el = state.drag.src
 
   $el.off('dragover', dragOver)
-  $el.off('dragenter', dragEnter)
+  // $el.off('dragenter', dragEnter)
+  $el.off('dragleave', dragExit)
   $el.off('drop', dragDrop)
   $el.off('dragend', dragUnwatch)
 
@@ -122,39 +124,33 @@ export function dragUnwatch(e) {
 }
 
 export function dragOver(e) {
-  // console.log('over', e)
+  e.currentTarget.setAttribute('data-pseudo-select', true)
 }
 
-export function dragEnter(e) {
-  // console.log('enter', e)
+// export function dragEnter(e) {
+//   e.currentTarget.setAttribute('data-pseudo-select', true)
+// }
+
+export function dragExit(e) {
+  e.currentTarget.removeAttribute('data-pseudo-select')
 }
 
-export function dragDrop(e) {
-  swapElements(state.drag.src[0], e.currentTarget)
+export function dragDrop({currentTarget}) {
+  const [src] = state.drag.src
+  if (!src) return
+
+  swapElements(src, currentTarget)
+  currentTarget.removeAttribute('data-pseudo-select')
 }
 
-export function swapElements(obj1, obj2) {
-  // save the location of obj2
-  const parent2 = obj2.parentNode
-  const next2 = obj2.nextSibling
+export function swapElements(src, target) {
+  var temp = document.createElement("div")
 
-  // special case for obj1 is the next sibling of obj2
-  if (next2 === obj1) {
-    // just put obj1 before obj2
-    parent2.insertBefore(obj1, obj2)
-  } else {
-    // insert obj2 right before obj1
-    obj1.parentNode.insertBefore(obj2, obj1)
+  src.parentNode.insertBefore(temp, src)
+  target.parentNode.insertBefore(src, target)
+  temp.parentNode.insertBefore(target, temp)
 
-    // now insert obj1 where obj2 was
-    if (next2) {
-      // if there was an element after obj2, then insert obj1 right before that
-      parent2.insertBefore(obj1, next2)
-    } else {
-      // otherwise, just append as last child
-      parent2.appendChild(obj1)
-    }
-  }
+  temp.parentNode.removeChild(temp)
 }
 
 export function updateFeedback(el) {
