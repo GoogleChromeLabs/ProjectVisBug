@@ -111,20 +111,22 @@ export function dropWatch($el) {
   $el.on('dragover', dragOver)
   $el.on('dragleave', dragExit)
   $el.on('drop', dragDrop)
+  $el.attr('data-pseudo-select', true)
 }
 
 export function dropUnwatch($el) {
   $el.off('dragover', dragOver)
   $el.off('dragleave', dragExit)
   $el.off('drop', dragDrop)
+  $el.attr('data-pseudo-select', null)
 }
 
 export function dragOver(e) {
-  e.currentTarget.setAttribute('data-pseudo-select', true)
+  e.currentTarget.setAttribute('data-dropzone', true)
 }
 
 export function dragExit(e) {
-  e.currentTarget.removeAttribute('data-pseudo-select')
+  e.currentTarget.removeAttribute('data-dropzone')
 }
 
 export function dragDrop({currentTarget}) {
@@ -132,7 +134,7 @@ export function dragDrop({currentTarget}) {
   if (!src) return
 
   swapElements(src, currentTarget)
-  currentTarget.removeAttribute('data-pseudo-select')
+  currentTarget.removeAttribute('data-dropzone')
 }
 
 export function swapElements(src, target) {

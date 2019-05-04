@@ -29,3 +29,7 @@ body {
 [data-metatip=true][data-pinhover=true] {
   cursor: not-allowed;
 }
+
+[data-dropzone=true] {
+  outline: 1px dashed hotpink;
+}
