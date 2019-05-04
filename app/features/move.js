@@ -124,20 +124,24 @@ function dropUnwatch($el) {
   $el.attr('data-potention-dropzone', null)
 }
 
-function dragOver(e) {
-  e.currentTarget.setAttribute('data-dropzone', true)
+function dragOver({currentTarget}) {
+  currentTarget.setAttribute('data-dropzone', true)
+
+  const [src] = state.drag.src
+  if (src)
+    swapElements(src, currentTarget)
 }
 
-function dragExit(e) {
-  e.currentTarget.removeAttribute('data-dropzone')
+function dragExit({currentTarget}) {
+  currentTarget.removeAttribute('data-dropzone')
 }
 
 function dragDrop({currentTarget}) {
-  const [src] = state.drag.src
-  if (!src) return
-
-  swapElements(src, currentTarget)
   currentTarget.removeAttribute('data-dropzone')
+
+  const [src] = state.drag.src
+  if (src)
+    swapElements(src, currentTarget)
 }
 
 export function clearListeners() {
