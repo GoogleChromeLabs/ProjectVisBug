@@ -1,6 +1,7 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { getNodeIndex, showEdge, swapElements } from '../utilities/'
+import { toggleWatching } from './imageswap'
 
 const key_events = 'up,down,left,right'
 const state = {
@@ -27,8 +28,10 @@ export function Moveable(visbug) {
   })
 
   visbug.onSelectedUpdate(dragNDrop)
+  toggleWatching({watch: false})
 
   return () => {
+    toggleWatching({watch: true})
     hotkeys.unbind(key_events)
   }
 }
