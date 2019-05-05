@@ -94,62 +94,59 @@ export function dragNDrop(selection) {
         .filter(child => !child.hasAttribute('data-selected'))
     : []
 
-  dragWatch($(src))
+  srcWatch($(src))
 
   state.drag.siblings.forEach(sibling => 
-    dropWatch($(sibling)))
+    siblingWatch($(sibling)))
 }
 
-function dragWatch($el) {
+function srcWatch($el) {
   state.drag.src = $el
   $el.attr('draggable', true)
-}
-
-function dragUnwatch($el) {
-  state.drag.src = null
-  $el.attr('draggable', null)
-}
-
-function dropWatch($el) {
-  $el.on('dragover', dragOver)
   $el.on('dragleave', dragExit)
   $el.on('drop', dragDrop)
-  $el.attr('data-potention-dropzone', true)
 }
 
-function dropUnwatch($el) {
-  $el.off('dragover', dragOver)
+function srcUnwatch($el) {
+  state.drag.src = null
+  $el.attr('draggable', null)
   $el.off('dragleave', dragExit)
   $el.off('drop', dragDrop)
-  $el.attr('data-potention-dropzone', null)
 }
 
-function dragOver({currentTarget}) {
-  currentTarget.setAttribute('data-dropzone', true)
+function siblingWatch($el) {
+  $el.on('dragover', dragOver)
+  $el.attr('data-potential-dropzone', true)
+}
+
+function siblingUnwatch($el) {
+  $el.off('dragover', dragOver)
+  $el.attr('data-potential-dropzone', null)
+}
+
+function dragOver(e) {
+  console.log('swap', e)
+  e.currentTarget.setAttribute('data-potential-dropzone', true)
 
   const [src] = state.drag.src
   if (src)
-    swapElements(src, currentTarget)
+    swapElements(src, e.currentTarget)
 }
 
-function dragExit({currentTarget}) {
-  currentTarget.removeAttribute('data-dropzone')
+function dragExit(e) {
+  console.log('exit', e)
 }
 
-function dragDrop({currentTarget}) {
-  currentTarget.removeAttribute('data-dropzone')
-
-  const [src] = state.drag.src
-  if (src)
-    swapElements(src, currentTarget)
+function dragDrop(e) {
+  console.log('drop', e)
 }
 
 export function clearListeners() {
   state.drag.src.forEach(src =>
-    dragUnwatch($(src)))
+    srcUnwatch($(src)))
 
   state.drag.siblings.forEach(sibling => 
-    dropUnwatch($(sibling)))
+    siblingUnwatch($(sibling)))
 }
 
 function updateFeedback(el) {

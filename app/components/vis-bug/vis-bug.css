@@ -30,11 +30,11 @@ body {
   cursor: not-allowed;
 }
 
-[data-potention-dropzone=true] {
+[data-potential-dropzone=true] {
   outline: 1px dashed hsl(267, 100%, 58%);
 }
 
-[data-dropzone=true] {
+/* [data-dropzone=true] {
   position: relative;
   outline: none;
 
@@ -63,4 +63,4 @@ body {
     transform: scale(1.1,1.1);
     opacity: 0;
   }
-}
+} */
