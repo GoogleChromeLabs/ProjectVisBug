@@ -26,10 +26,9 @@ test('Can insert text content', async t => {
   const { page } = t.context
 
   await page.click(test_selector)
-  await page.keyboard.down('f')
-  await page.keyboard.down('o')
-  await page.keyboard.up('o')
-  await page.keyboard.down('o')
+
+  await page.keyboard.type('foo')
+
   t.true((await page.$eval(test_selector, el => el.innerHTML)).includes('foo'))
 
   t.pass()
@@ -43,10 +42,8 @@ test('Can delete text content', async t => {
 
   await page.click(test_selector)
 
-  await page.keyboard.down('Delete')
-  await page.keyboard.up('Delete')
-  await page.keyboard.down('Delete')
-  await page.keyboard.up('Delete')
+  await page.keyboard.press('Delete')
+  await page.keyboard.press('Delete')
 
   const now = await page.$eval(test_selector, el => el.innerHTML)
 
