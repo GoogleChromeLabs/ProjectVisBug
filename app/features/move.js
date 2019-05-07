@@ -7,7 +7,6 @@ const key_events = 'up,down,left,right'
 const state = {
   drag: {
     src:      [],
-    target:   null,
     siblings: [],
   }
 }
@@ -17,10 +16,10 @@ const state = {
 export function Moveable(visbug) {
   hotkeys(key_events, (e, {key}) => {
     if (e.cancelBubble) return
-      
+
     e.preventDefault()
     e.stopPropagation()
-    
+
     visbug.selection().forEach(el => {
       moveElement(el, key)
       updateFeedback(el)
@@ -32,6 +31,7 @@ export function Moveable(visbug) {
 
   return () => {
     toggleWatching({watch: true})
+    clearListeners()
     hotkeys.unbind(key_events)
   }
 }
@@ -77,11 +77,11 @@ export const canMoveUnder   = el => !el.nextElementSibling && el.parentNode && e
 export const canMoveUp      = el => el.parentNode && el.parentNode.parentNode
 
 export const popOut = ({el, under = false}) =>
-  el.parentNode.parentNode.insertBefore(el, 
+  el.parentNode.parentNode.insertBefore(el,
     el.parentNode.parentNode.children[
       under
         ? getNodeIndex(el) + 1
-        : getNodeIndex(el)]) 
+        : getNodeIndex(el)])
 
 export function dragNDrop(selection) {
   if (selection.length !== 1) return
@@ -94,62 +94,60 @@ export function dragNDrop(selection) {
         .filter(child => !child.hasAttribute('data-selected'))
     : []
 
-  dragWatch($(src))
+  srcWatch(src)
 
-  state.drag.siblings.forEach(sibling => 
-    dropWatch($(sibling)))
+  state.drag.siblings
+    .forEach(siblingWatch)
 }
 
-function dragWatch($el) {
-  state.drag.src = $el
-  $el.attr('draggable', true)
+function srcWatch(src) {
+  const $src = $(src)
+  state.drag.src = src
+  $(src.parentNode).on('dragleave', dragExit)
+  $src.on('drop', dragDrop)
+  $src.attr('draggable', true)
 }
 
-function dragUnwatch($el) {
+function srcUnwatch(src) {
+  const $src = $(src)
   state.drag.src = null
-  $el.attr('draggable', null)
+  $src.attr('draggable', null)
+  $(src.parentNode).off('dragleave', dragExit)
+  $src.off('drop', dragDrop)
 }
 
-function dropWatch($el) {
-  $el.on('dragover', dragOver)
-  $el.on('dragleave', dragExit)
-  $el.on('drop', dragDrop)
-  $el.attr('data-potention-dropzone', true)
+function siblingWatch(sibling) {
+  const $sibling = $(sibling)
+  $sibling.on('dragover', dragOver)
+  $sibling.attr('data-potential-dropzone', true)
 }
 
-function dropUnwatch($el) {
-  $el.off('dragover', dragOver)
-  $el.off('dragleave', dragExit)
-  $el.off('drop', dragDrop)
-  $el.attr('data-potention-dropzone', null)
+function siblingUnwatch(sibling) {
+  const $sibling = $(sibling)
+  $sibling.off('dragover', dragOver)
+  $sibling.attr('data-potential-dropzone', null)
 }
 
 function dragOver({currentTarget}) {
   currentTarget.setAttribute('data-dropzone', true)
 
-  const [src] = state.drag.src
-  if (src)
-    swapElements(src, currentTarget)
+  if (state.drag.src)
+    swapElements(state.drag.src, currentTarget)
 }
 
-function dragExit({currentTarget}) {
-  currentTarget.removeAttribute('data-dropzone')
+function dragExit(e) {
+  if (e.target === e.currentTarget)
+    console.log('exit')
 }
 
-function dragDrop({currentTarget}) {
-  currentTarget.removeAttribute('data-dropzone')
-
-  const [src] = state.drag.src
-  if (src)
-    swapElements(src, currentTarget)
+function dragDrop(e) {
+  console.log('drop')
 }
 
 export function clearListeners() {
-  state.drag.src.forEach(src =>
-    dragUnwatch($(src)))
-
-  state.drag.siblings.forEach(sibling => 
-    dropUnwatch($(sibling)))
+  state.drag.src && srcUnwatch(state.drag.src)
+  state.drag.siblings
+    .forEach(siblingUnwatch)
 }
 
 function updateFeedback(el) {
