@@ -105,6 +105,8 @@ function srcWatch($el) {
   $el.attr('draggable', true)
   $el.on('dragleave', dragExit)
   $el.on('drop', dragDrop)
+  const $parent = $el[0].parentNode
+  $parent.on('dragover', dragOver)
 }
 
 function srcUnwatch($el) {
@@ -112,33 +114,43 @@ function srcUnwatch($el) {
   $el.attr('draggable', null)
   $el.off('dragleave', dragExit)
   $el.off('drop', dragDrop)
+  const $parent = $el[0].parentNode
+  $parent.off('dragover', dragOver)
 }
 
 function siblingWatch($el) {
-  $el.on('dragover', dragOver)
+  // $el.on('dragover', dragOver)
   $el.attr('data-potential-dropzone', true)
 }
 
 function siblingUnwatch($el) {
-  $el.off('dragover', dragOver)
+  // $el.off('dragover', dragOver)
   $el.attr('data-potential-dropzone', null)
 }
 
 function dragOver(e) {
-  console.log('swap', e)
-  e.currentTarget.setAttribute('data-potential-dropzone', true)
+  if (e.target.hasAttribute('data-selected')) return
+  state.drag.target = e.currentTarget
 
   const [src] = state.drag.src
-  if (src)
-    swapElements(src, e.currentTarget)
+  src && swapElements(state.drag.src[0], state.drag.target)
+}
+
+function srcDragOver(e) {
+  console.log('src over')
 }
 
 function dragExit(e) {
   console.log('exit', e)
+  // todo: unswap if not a confirmed drop
+  if (state.drag.target)
+    console.log('undo')
 }
 
 function dragDrop(e) {
   console.log('drop', e)
+  // todo: confirm swap state
+  // state.drag.target = null
 }
 
 export function clearListeners() {
