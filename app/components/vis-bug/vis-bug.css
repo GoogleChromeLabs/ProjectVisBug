@@ -33,3 +33,11 @@ body {
 [data-potential-dropzone=true]:not([data-selected]) {
   outline: 1px dashed hsl(267, 100%, 58%);
 }
+
+[draggable=true] {
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
