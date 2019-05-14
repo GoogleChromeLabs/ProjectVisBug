@@ -105,7 +105,7 @@ function srcWatch(src) {
   const $src = $(src)
   state.drag.src = src
   // $(src.parentNode).on('dragleave', dragExit)
-  $src.on('drop', dragDrop)
+  // $src.on('drop', dragDrop)
   $src.attr('draggable', true)
 }
 
@@ -114,7 +114,7 @@ function srcUnwatch(src) {
   state.drag.src = null
   $src.attr('draggable', null)
   // $(src.parentNode).off('dragleave', dragExit)
-  $src.off('drop', dragDrop)
+  // $src.off('drop', dragDrop)
 }
 
 function siblingWatch(sibling) {
