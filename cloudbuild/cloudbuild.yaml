@@ -1,0 +1,11 @@
+# In this directory, run the following command to build this builder.
+# $ gcloud builds submit . --config=cloudbuild.yaml
+
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/make', '.']
+- name: 'gcr.io/$PROJECT_ID/make'
+  args: ['-v']
+
+images:
+- 'gcr.io/$PROJECT_ID/make'
