@@ -1,0 +1,36 @@
+@import "../_variables.css";
+
+:host rect {
+  width: 5px;
+  height: 5px;
+  vector-effect: non-scaling-stroke;
+  stroke: var(--theme-color);
+  stroke-width: 1px;
+  fill: none;
+  stroke-dasharray: 10px;
+  stroke-dashoffset: 5px;
+  x: 1px;
+  y: 1px;
+
+  &:nth-child(2) {
+    x: calc(100% - 6px);
+    y: 1px;
+    stroke-dashoffset: 0;
+  }
+
+  &:nth-child(3) {
+    x: calc(100% - 6px);
+    y: calc(100% - 6px);
+    stroke-dashoffset: 15px;
+  }
+
+  &:nth-child(4) {
+    x: 1px;
+    y: calc(100% - 6px);
+    stroke-dashoffset: 10px;
+  }
+}
+
+:host > svg {
+  z-index: var(--layer-5);
+}

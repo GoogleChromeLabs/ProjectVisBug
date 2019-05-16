@@ -5,6 +5,7 @@ export { Gridlines }  from './selection/gridlines.element'
 export { Distance }   from './selection/distance.element'
 export { Overlay }    from './selection/overlay.element'
 export { BoxModel }   from './selection/box-model.element'
+export { Corners }    from './selection/corners.element'
 
 export { Metatip }    from './metatip/metatip.element'
 export { Ally }       from './metatip/ally.element'
