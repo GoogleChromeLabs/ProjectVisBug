@@ -132,7 +132,7 @@ function siblingUnwatch(sibling) {
 
   state.hover.elements.forEach(sibling => 
     sibling.remove())
-  
+
   state.hover.observers.forEach(observer => 
     observer.disconnect())
 }
@@ -153,7 +153,7 @@ function dragDrop(e) {
 }
 
 function createDropzoneUI(el) {
-  const hover = document.createElement('visbug-hover')
+  const hover = document.createElement('visbug-corners')
 
   hover.position = {el}
   document.body.appendChild(hover)
