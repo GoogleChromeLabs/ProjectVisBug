@@ -9,7 +9,11 @@ const state = {
     src:      [],
     target:   null,
     siblings: [],
-  }
+  },
+  hover: {
+    elements: [],
+    observers: [],
+  },
 }
 // todo: indicator for when node can descend
 // todo: indicator where left and right will go
@@ -118,15 +122,19 @@ function srcUnwatch(src) {
 }
 
 function siblingWatch(sibling) {
-  const $sibling = $(sibling)
-  $sibling.on('dragover', dragOver)
-  $sibling.attr('data-potential-dropzone', true)
+  $(sibling).on('dragover', dragOver)
+  state.hover.elements.push(
+    createDropzoneUI(sibling))
 }
 
 function siblingUnwatch(sibling) {
-  const $sibling = $(sibling)
-  $sibling.off('dragover', dragOver)
-  $sibling.attr('data-potential-dropzone', null)
+  $(sibling).off('dragover', dragOver)
+
+  state.hover.elements.forEach(sibling => 
+    sibling.remove())
+  
+  state.hover.observers.forEach(observer => 
+    observer.disconnect())
 }
 
 function dragOver(e) {
@@ -142,6 +150,25 @@ function dragExit(e) {
 
 function dragDrop(e) {
   console.log('drop')
+}
+
+function createDropzoneUI(el) {
+  const hover = document.createElement('visbug-hover')
+
+  hover.position = {el}
+  document.body.appendChild(hover)
+
+  const observer = new MutationObserver(list =>
+    hover.position = {el})
+
+  observer.observe(el.parentNode, { 
+    childList: true, 
+    subtree: true, 
+  })
+
+  state.hover.observers.push(observer)
+
+  return hover
 }
 
 export function clearListeners() {
