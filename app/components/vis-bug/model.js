@@ -6,11 +6,19 @@ export const VisBugModel = {
     tool:        'guides',
     icon:        Icons.guides,
     label:       'Guides',
-    description: 'Verify alignment & check your grid',
+    description: 'Verify alignment & measure distances',
     instruction: `<div table>
                     <div>
+                      <b>Element Guides:</b>
+                      <span>hover</span>
+                    </div>
+                    <div>
                       <b>Measure:</b>
-                      <span>${altKey} + hover</span>
+                      <span>click+hover</span>
+                    </div>
+                    <div>
+                      <b>Sticky Measurements:</b>
+                      <span>shift+click</span>
                     </div>
                   </div>`,
   },
