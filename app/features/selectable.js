@@ -467,7 +467,7 @@ export function Selectable() {
     hover_state.target = el
 
     hover_state.element = no_hover
-      ? null
+      ? createCorners(el)
       : createHover(el)
 
     hover_state.label   = no_label
@@ -613,6 +613,19 @@ export function Selectable() {
 
 
       return hover_state.label
+    }
+  }
+
+  const createCorners = el => {
+    if (!el.hasAttribute('data-pseudo-select') && !el.hasAttribute('data-label-id')) {
+      if (hover_state.element)
+        hover_state.element.remove()
+
+      hover_state.element = document.createElement('visbug-corners')
+      document.body.appendChild(hover_state.element)
+      hover_state.element.position = {el}
+
+      return hover_state.element
     }
   }
 
