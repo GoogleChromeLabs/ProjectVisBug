@@ -6,7 +6,7 @@ import { toggleWatching } from './imageswap'
 const key_events = 'up,down,left,right'
 const state = {
   drag: {
-    src:      [],
+    src:      null,
     target:   null,
     siblings: [],
   },
@@ -16,7 +16,6 @@ const state = {
   },
 }
 // todo: indicator for when node can descend
-// todo: indicator where left and right will go
 // todo: have it work with shadowDOM
 export function Moveable(visbug) {
   hotkeys(key_events, (e, {key}) => {
@@ -36,6 +35,7 @@ export function Moveable(visbug) {
 
   return () => {
     toggleWatching({watch: true})
+    visbug.removeSelectedCallback(dragNDrop)
     clearListeners()
     hotkeys.unbind(key_events)
   }
@@ -123,15 +123,11 @@ function srcUnwatch(src) {
 
 function siblingWatch(sibling) {
   $(sibling).on('dragover', dragOver)
-  state.hover.elements.push(
-    createDropzoneUI(sibling))
+  state.hover.elements.push(createDropzoneUI(sibling))
 }
 
 function siblingUnwatch(sibling) {
   $(sibling).off('dragover', dragOver)
-
-  state.hover.elements.forEach(sibling => 
-    sibling.remove())
 
   state.hover.observers.forEach(observer => 
     observer.disconnect())
@@ -173,8 +169,12 @@ function createDropzoneUI(el) {
 
 export function clearListeners() {
   state.drag.src && srcUnwatch(state.drag.src)
+
   state.drag.siblings
     .forEach(siblingUnwatch)
+
+  state.hover.elements.forEach(hover => 
+    hover.remove())
 }
 
 function updateFeedback(el) {
