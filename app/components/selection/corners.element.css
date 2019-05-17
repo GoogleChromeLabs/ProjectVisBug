@@ -4,9 +4,10 @@
   width: 5px;
   height: 5px;
   vector-effect: non-scaling-stroke;
-  stroke: var(--theme-color);
+  stroke: var(--theme-purple);
   stroke-width: 1px;
   fill: none;
+  stroke-linecap: round;
   stroke-dasharray: 10px;
   stroke-dashoffset: 5px;
   x: 1px;
