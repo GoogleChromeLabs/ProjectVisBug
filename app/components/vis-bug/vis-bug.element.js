@@ -33,7 +33,7 @@ export default class VisBug extends HTMLElement {
     if (!this.$shadow.innerHTML)
       this.setup()
 
-    this.selectorEngine = Selectable()
+    this.selectorEngine = Selectable(this)
     this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
     
     provideSelectorEngine(this.selectorEngine)
