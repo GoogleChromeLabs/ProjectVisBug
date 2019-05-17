@@ -89,7 +89,8 @@ export const popOut = ({el, under = false}) =>
         : getNodeIndex(el)])
 
 export function dragNDrop(selection) {
-  if (selection.length !== 1) return
+  if (selection.length !== 1 || selection[0] instanceof SVGElement) 
+    return
 
   clearListeners()
 
