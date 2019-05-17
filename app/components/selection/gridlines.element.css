@@ -1,7 +1,7 @@
 @import "../_variables.css";
 
 :host {
-  --color: hotpink;
+  --color: var(--theme-color);
 }
 
 :host > svg {

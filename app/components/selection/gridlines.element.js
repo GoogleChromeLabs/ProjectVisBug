@@ -27,7 +27,6 @@ export class Gridlines extends HTMLElement {
 
     svg.setAttribute('viewBox', `0 0 ${winWidth} ${winHeight}`)
     rect.setAttribute('width', width + 'px')
-    rect.setAttribute('height', height + 'px')
     rect.setAttribute('x', left)
     rect.setAttribute('y', top)
     line1.setAttribute('x1', left)
@@ -49,7 +48,7 @@ export class Gridlines extends HTMLElement {
 
     return `
       <svg
-        width="100%" height="100%"
+        width="100%"
         viewBox="0 0 ${winWidth} ${winHeight}"
         version="1.1" xmlns="http://www.w3.org/2000/svg"
       >
