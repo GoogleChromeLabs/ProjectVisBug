@@ -79,7 +79,7 @@ export function Selectable() {
     if (!e.altKey) e.stopPropagation()
 
     if (!e.shiftKey) {
-      unselect_all()
+      unselect_all(false)
       clearMeasurements()
     }
 
@@ -385,7 +385,7 @@ export function Selectable() {
   const selection = () =>
     selected
 
-  const unselect_all = () => {
+  const unselect_all = (tell = true) => {
     selected
       .forEach(el =>
         $(el).attr({
@@ -410,7 +410,7 @@ export function Selectable() {
     handles   = []
     selected  = []
 
-    tellWatchers()
+    tell && tellWatchers()
   }
 
   const delete_all = () => {
