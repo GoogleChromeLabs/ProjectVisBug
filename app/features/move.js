@@ -7,7 +7,7 @@ const key_events = 'up,down,left,right'
 const state = {
   drag: {
     src:      null,
-    target:   null,
+    parent:   null,
     siblings: [],
   },
   hover: {
@@ -94,68 +94,76 @@ export function dragNDrop(selection) {
   if (selection.length !== 1 || selection[0] instanceof SVGElement) 
     return 
 
-  const [src] = selection
-  state.drag.siblings = src.parentNode.children.length
-    ? [...src.parentNode.children]
-        .filter(child => !child.hasAttribute('data-selected'))
-    : []
+   const [src] = selection
+   const {parentNode} = src
 
-  srcWatch(src)
+  state.drag.siblings = [...parentNode.children]
+  state.drag.parent   = parentNode
 
-  state.drag.siblings
-    .forEach(siblingWatch)
+  moveWatch(state.drag.parent)
 }
 
-function srcWatch(src) {
-  const $src = $(src)
-  state.drag.src = src
-  $(src.parentNode).on('mouseleave', dragDrop)
-  $src.on('drop', dragDrop)
-  $src.attr('draggable', true)
+const moveWatch = node => {
+  const $node = $(node)
+
+  $node.on('mouseleave', dragDrop)
+  $node.on('dragstart', dragStart)
+  $node.on('drop', dragDrop)
+
+  state.drag.siblings.forEach(sibling =>
+    $(sibling).on('dragover', dragOver))
+
+  state.drag.siblings.forEach(sibling => {
+    sibling.setAttribute('draggable', true)
+    state.hover.elements.push(createDropzoneUI(sibling))
+    $(sibling).on('dragover', dragOver)
+  })
 }
 
-function srcUnwatch(src) {
-  const $src = $(src)
-  state.drag.src = null
-  $src.attr('draggable', null)
-  $(src.parentNode).off('mouseleave', dragDrop)
-  $src.off('drop', dragDrop)
+const moveUnwatch = node => {
+  const $node = $(node)
+
+  $node.off('mouseleave', dragDrop)
+  $node.off('dragstart', dragStart)
+  $node.off('drop', dragDrop)
+
+  state.drag.siblings.forEach(sibling => {
+    sibling.removeAttribute('draggable')
+    state.hover.elements.push(createDropzoneUI(sibling))
+    $(sibling).off('dragover', dragOver)
+  })
 }
 
-function siblingWatch(sibling) {
-  $(sibling).on('dragover', dragOver)
-  state.hover.elements.push(createDropzoneUI(sibling))
+const dragStart = ({target}) => {
+  state.drag.src = target
+  ghostNode(target)
+  target.setAttribute('visbug-drag-src', true)
 }
 
-function siblingUnwatch(sibling) {
-  $(sibling).off('dragover', dragOver)
-
-  state.hover.observers.forEach(observer => 
-    observer.disconnect())
-}
-
-function dragOver(e) {
-  if (e.target.hasAttribute('data-selected')) return
+const dragOver = e => {
+  if (e.target.hasAttribute('visbug-drag-src')) return
   
-  state.drag.target = e.currentTarget
-  swapElements(state.drag.src, state.drag.target)
-
-  ghostNode(state.drag.src)
+  swapElements(state.drag.src, e.currentTarget)
 }
 
-function dragDrop(e) {
+const dragDrop = e => {
+  if (!state.drag.src) return
+
+  state.drag.src.removeAttribute('visbug-drag-src')
   ghostBuster(state.drag.src)
 }
 
-function ghostNode(node) {
-  node.style.opacity = 0.01
+const ghostNode = ({style}) => {
+  style.transition  += 'opacity .25s ease-out'
+  style.opacity     = 0.01
 }
 
-function ghostBuster(node) {
-  node.style.opacity = null
+const ghostBuster = ({style}) => {
+  style.transition  = null
+  style.opacity     = null
 }
 
-function createDropzoneUI(el) {
+const createDropzoneUI = el => {
   const hover = document.createElement('visbug-corners')
 
   hover.position = {el}
@@ -175,16 +183,16 @@ function createDropzoneUI(el) {
 }
 
 export function clearListeners() {
-  state.drag.src && srcUnwatch(state.drag.src)
+  moveUnwatch(state.drag.parent)
 
-  state.drag.siblings
-    .forEach(siblingUnwatch)
+  state.hover.observers.forEach(observer => 
+    observer.disconnect())
 
   state.hover.elements.forEach(hover => 
     hover.remove())
 }
 
-function updateFeedback(el) {
+const updateFeedback = el => {
   let options = ''
   // get current elements offset/size
   if (canMoveLeft(el))  options += '⇠'
