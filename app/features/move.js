@@ -109,8 +109,8 @@ export function dragNDrop(selection) {
 function srcWatch(src) {
   const $src = $(src)
   state.drag.src = src
-  // $(src.parentNode).on('dragleave', dragExit)
-  // $src.on('drop', dragDrop)
+  $(src.parentNode).on('mouseleave', dragDrop)
+  $src.on('drop', dragDrop)
   $src.attr('draggable', true)
 }
 
@@ -118,8 +118,8 @@ function srcUnwatch(src) {
   const $src = $(src)
   state.drag.src = null
   $src.attr('draggable', null)
-  // $(src.parentNode).off('dragleave', dragExit)
-  // $src.off('drop', dragDrop)
+  $(src.parentNode).off('mouseleave', dragDrop)
+  $src.off('drop', dragDrop)
 }
 
 function siblingWatch(sibling) {
@@ -139,14 +139,20 @@ function dragOver(e) {
   
   state.drag.target = e.currentTarget
   swapElements(state.drag.src, state.drag.target)
-}
 
-function dragExit(e) {
-  console.log('exit')
+  ghostNode(state.drag.src)
 }
 
 function dragDrop(e) {
-  console.log('drop')
+  ghostBuster(state.drag.src)
+}
+
+function ghostNode(node) {
+  node.style.opacity = 0.01
+}
+
+function ghostBuster(node) {
+  node.style.opacity = null
 }
 
 function createDropzoneUI(el) {
