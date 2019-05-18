@@ -467,7 +467,7 @@ export function Selectable(visbug) {
     hover_state.target = el
 
     hover_state.element = no_hover
-      ? createCorners(el)
+      ? null
       : createHover(el)
 
     hover_state.label   = no_label
