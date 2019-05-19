@@ -142,6 +142,9 @@ const dragStart = ({target}) => {
   target.setAttribute('visbug-drag-src', true)
   state.hover.dropzones.push(createDropzoneUI(target))
 
+  $('visbug-hover').forEach(el =>
+    el.remove())
+
   if (state.drag.siblings.has(target))
     state.drag.siblings.get(target).style.opacity = 0.01
 }
