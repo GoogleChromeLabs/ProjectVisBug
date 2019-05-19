@@ -156,17 +156,19 @@ const dragOver = e => {
   swapElements(state.drag.src, e.currentTarget)
 }
 
-const dragDrop = ({target}) => {
+const dragDrop = e => {
   if (!state.drag.src) return
 
   state.drag.src.removeAttribute('visbug-drag-src')
   ghostBuster(state.drag.src)
 
-  if (state.drag.siblings.has(target))
-    state.drag.siblings.get(target).style.opacity = null
+  if (state.drag.siblings.has(state.drag.src))
+    state.drag.siblings.get(state.drag.src).style.opacity = null
 
   state.hover.dropzones.forEach(zone =>
     zone.remove())
+
+  state.drag.src = null
 }
 
 const siblingHoverIn = ({target}) => {
