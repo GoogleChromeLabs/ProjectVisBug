@@ -124,7 +124,7 @@ export function Selectable(visbug) {
 
     document.onkeydown = function(e) {
       if (hotkeys.ctrl && selected.length) {
-        $('visbug-handles, visbug-label, visbug-hover').forEach(el =>
+        $('visbug-handles, visbug-label, visbug-hover, visbug-grip').forEach(el =>
           el.style.display = 'none')
 
         did_hide = true
@@ -133,7 +133,7 @@ export function Selectable(visbug) {
 
     document.onkeyup = function(e) {
       if (did_hide) {
-        $('visbug-handles, visbug-label, visbug-hover').forEach(el =>
+        $('visbug-handles, visbug-label, visbug-hover, visbug-grip').forEach(el =>
           el.style.display = null)
 
         did_hide = false
@@ -334,7 +334,7 @@ export function Selectable(visbug) {
     const $target = deepElementFromPoint(e.clientX, e.clientY)
     const tool = visbug.activeTool
 
-    if (isOffBounds($target) || $target.hasAttribute('data-selected')) {
+    if (isOffBounds($target) || $target.hasAttribute('data-selected') || $target.hasAttribute('draggable')) {
       clearMeasurements()
       return clearHover()
     }

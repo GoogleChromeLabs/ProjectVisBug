@@ -8,10 +8,10 @@ const state = {
   drag: {
     src:      null,
     parent:   null,
-    siblings: [],
+    siblings: new Map(),
   },
   hover: {
-    elements: [],
+    dropzones: [],
     observers: [],
   },
 }
@@ -94,11 +94,14 @@ export function dragNDrop(selection) {
   if (selection.length !== 1 || selection[0] instanceof SVGElement) 
     return 
 
-   const [src] = selection
-   const {parentNode} = src
+  const [src] = selection
+  const {parentNode} = src
 
-  state.drag.siblings = [...parentNode.children]
-  state.drag.parent   = parentNode
+  Array.from(parentNode.children).forEach(sibling => {
+    state.drag.siblings.set(sibling, createGripUI(sibling))
+  })
+
+  state.drag.parent = parentNode
 
   moveWatch(state.drag.parent)
 }
@@ -110,13 +113,11 @@ const moveWatch = node => {
   $node.on('dragstart', dragStart)
   $node.on('drop', dragDrop)
 
-  state.drag.siblings.forEach(sibling =>
-    $(sibling).on('dragover', dragOver))
-
-  state.drag.siblings.forEach(sibling => {
+  state.drag.siblings.forEach((grip, sibling) => {
     sibling.setAttribute('draggable', true)
-    state.hover.elements.push(createDropzoneUI(sibling))
     $(sibling).on('dragover', dragOver)
+    $(sibling).on('mouseenter', siblingHoverIn)
+    $(sibling).on('mouseleave', siblingHoverOut)
   })
 }
 
@@ -127,10 +128,11 @@ const moveUnwatch = node => {
   $node.off('dragstart', dragStart)
   $node.off('drop', dragDrop)
 
-  state.drag.siblings.forEach(sibling => {
+  state.drag.siblings.forEach((grip, sibling) => {
     sibling.removeAttribute('draggable')
-    state.hover.elements.push(createDropzoneUI(sibling))
     $(sibling).off('dragover', dragOver)
+    $(sibling).off('mouseenter', siblingHoverIn)
+    $(sibling).off('mouseleave', siblingHoverOut)
   })
 }
 
@@ -138,6 +140,10 @@ const dragStart = ({target}) => {
   state.drag.src = target
   ghostNode(target)
   target.setAttribute('visbug-drag-src', true)
+  state.hover.dropzones.push(createDropzoneUI(target))
+
+  if (state.drag.siblings.has(target))
+    state.drag.siblings.get(target).style.opacity = 0.01
 }
 
 const dragOver = e => {
@@ -146,15 +152,37 @@ const dragOver = e => {
   swapElements(state.drag.src, e.currentTarget)
 }
 
-const dragDrop = e => {
+const dragDrop = ({target}) => {
   if (!state.drag.src) return
 
   state.drag.src.removeAttribute('visbug-drag-src')
   ghostBuster(state.drag.src)
+
+  if (state.drag.siblings.has(target))
+    state.drag.siblings.get(target).style.opacity = null
+
+  state.hover.dropzones.forEach(zone =>
+    zone.remove())
+}
+
+const siblingHoverIn = ({target}) => {
+  if (!state.drag.siblings.has(target))
+    return
+
+  state.drag.siblings.get(target)
+    .toggleHovering({hovering:true})
+}
+
+const siblingHoverOut = ({target}) => {
+  if (!state.drag.siblings.has(target))
+    return
+
+  state.drag.siblings.get(target)
+    .toggleHovering({hovering:false})
 }
 
 const ghostNode = ({style}) => {
-  style.transition  += 'opacity .25s ease-out'
+  style.transition  = 'opacity .25s ease-out'
   style.opacity     = 0.01
 }
 
@@ -164,13 +192,13 @@ const ghostBuster = ({style}) => {
 }
 
 const createDropzoneUI = el => {
-  const hover = document.createElement('visbug-corners')
+  const zone = document.createElement('visbug-corners')
 
-  hover.position = {el}
-  document.body.appendChild(hover)
+  zone.position = {el}
+  document.body.appendChild(zone)
 
   const observer = new MutationObserver(list =>
-    hover.position = {el})
+    zone.position = {el})
 
   observer.observe(el.parentNode, { 
     childList: true, 
@@ -179,7 +207,26 @@ const createDropzoneUI = el => {
 
   state.hover.observers.push(observer)
 
-  return hover
+  return zone
+}
+
+const createGripUI = el => {
+  const grip = document.createElement('visbug-grip')
+
+  grip.position = {el}
+  document.body.appendChild(grip)
+
+  const observer = new MutationObserver(list =>
+    grip.position = {el})
+
+  observer.observe(el.parentNode, { 
+    childList: true, 
+    subtree: true, 
+  })
+
+  state.hover.observers.push(observer)
+
+  return grip
 }
 
 export function clearListeners() {
@@ -188,8 +235,15 @@ export function clearListeners() {
   state.hover.observers.forEach(observer => 
     observer.disconnect())
 
-  state.hover.elements.forEach(hover => 
-    hover.remove())
+  state.hover.dropzones.forEach(zone => 
+    zone.remove())
+
+  state.drag.siblings.forEach((grip, sibling) => 
+    grip.remove())
+
+  state.hover.observers = []
+  state.hover.dropzones = []
+  state.drag.siblings.clear()
 }
 
 const updateFeedback = el => {

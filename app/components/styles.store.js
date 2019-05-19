@@ -9,6 +9,7 @@ import { default as overlay_css }    from './selection/overlay.element.css'
 import { default as boxmodel_css }   from './selection/box-model.element.css'
 import { default as metatip_css }    from './metatip/metatip.element.css'
 import { default as hotkeymap_css }  from './hotkey-map/base.element.css'
+import { default as grip_css }       from './selection/grip.element.css'
 
 const constructStylesheet = (styles, stylesheet = new CSSStyleSheet()) => {
   stylesheet.replaceSync(styles)
@@ -26,3 +27,4 @@ export const LabelStyles     = constructStylesheet(label_css)
 export const OverlayStyles   = constructStylesheet(overlay_css)
 export const BoxModelStyles  = constructStylesheet(boxmodel_css)
 export const HotkeymapStyles = constructStylesheet(hotkeymap_css)
+export const GripStyles      = constructStylesheet(grip_css)
