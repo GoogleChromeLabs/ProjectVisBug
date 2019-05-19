@@ -150,7 +150,8 @@ const dragStart = ({target}) => {
 }
 
 const dragOver = e => {
-  if (e.target.hasAttribute('visbug-drag-src')) return
+  if (e.target.hasAttribute('visbug-drag-src') || e.currentTarget.hasAttribute('visbug-drag-src')) 
+    return
   
   swapElements(state.drag.src, e.currentTarget)
 }
