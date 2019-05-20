@@ -70,7 +70,10 @@ export function provideSelectorEngine(Engine) {
 export function queryPage(query, fn) {
   // todo: should stash a cleanup method to be called when query doesnt match
   if (PluginRegistry.has(query))
-    return PluginRegistry.get(query)(query)
+    return PluginRegistry.get(query)({
+      selected: SelectorEngine.selection(),
+      query
+    })
 
   if (query == 'links')     query = 'a'
   if (query == 'buttons')   query = 'button'
