@@ -39,11 +39,10 @@ export default async (selectedElement) => {
       element.appendChild(suffledElementsArray[i])
     }
   };
-  const elem = selectedElement;
-  console.log("elem", selectedElement)
-  const siblings = getSiblings(elem);
-  console.log(siblings)
-  const shuffledSiblings = shuffle(siblings);
-  console.log(shuffledSiblings)
-  appendSuffledSiblings(elem, shuffledSiblings);
+  const { selected } = selectedElement;
+  selected.map(selectedElem => {
+    const siblings = getSiblings(selectedElem);
+    const shuffledSiblings = shuffle(siblings);
+    appendSuffledSiblings(selectedElem, shuffledSiblings);
+  })
 }
