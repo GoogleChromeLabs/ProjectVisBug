@@ -8,6 +8,7 @@ import { commands as skeleton_commands, default as SkeletonPlugin } from './skel
 import { commands as tag_debugger_commands, default as TagDebuggerPlugin } from './tag-debugger'
 import { commands as revenge_commands, default as RevengePlugin } from './revenge'
 import { commands as tota11y_commands, default as Tota11yPlugin } from './tota11y'
+import { commands as shuffle_commands, default as ShufflePlugin } from './shuffle'
 
 const commandsToHash = (plugin_commands, plugin_fn) =>
   plugin_commands.reduce((commands, command) =>
@@ -25,6 +26,7 @@ export const PluginRegistry = new Map(Object.entries({
   ...commandsToHash(tag_debugger_commands, TagDebuggerPlugin),
   ...commandsToHash(revenge_commands, RevengePlugin),
   ...commandsToHash(tota11y_commands, Tota11yPlugin),
+  ...commandsToHash(shuffle_commands, ShufflePlugin),
 }))
 
 export const PluginHints = [
@@ -38,4 +40,5 @@ export const PluginHints = [
   tag_debugger_commands[0],
   revenge_commands[0],
   tota11y_commands[0],
+  shuffle_commands[0],
 ].map(command => `/${command}`)
