@@ -385,7 +385,7 @@ export function Selectable(visbug) {
   const selection = () =>
     selected
 
-  const unselect_all = ({silent = false}) => {
+  const unselect_all = ({silent = false} = {}) => {
     selected
       .forEach(el =>
         $(el).attr({
