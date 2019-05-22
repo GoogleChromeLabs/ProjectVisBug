@@ -79,7 +79,7 @@ export function Selectable(visbug) {
     if (!e.altKey) e.stopPropagation()
 
     if (!e.shiftKey) {
-      unselect_all(false)
+      unselect_all({silent:true})
       clearMeasurements()
     }
 
@@ -296,7 +296,7 @@ export function Selectable(visbug) {
     }, new Set())
 
     if (targets.size) {
-      unselect_all()
+      unselect_all({silent:true})
       targets.forEach(node => {
         select(node)
         show_tip(node)
@@ -385,7 +385,7 @@ export function Selectable(visbug) {
   const selection = () =>
     selected
 
-  const unselect_all = (tell = true) => {
+  const unselect_all = ({silent = false}) => {
     selected
       .forEach(el =>
         $(el).attr({
@@ -410,7 +410,7 @@ export function Selectable(visbug) {
     handles   = []
     selected  = []
 
-    tell && tellWatchers()
+    !silent && tellWatchers()
   }
 
   const delete_all = () => {
