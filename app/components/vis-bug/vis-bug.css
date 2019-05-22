@@ -36,4 +36,8 @@ body {
   &:active {
     cursor: grabbing;
   }
+
+  & :matches(a, img) {
+    -webkit-user-drag: none !important;
+  }
 }
