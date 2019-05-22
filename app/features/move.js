@@ -144,22 +144,28 @@ const moveUnwatch = node => {
 }
 
 const dragStart = ({target}) => {
+  if (!state.drag.siblings.has(target))
+    return
+
   state.drag.src = target
-  ghostNode(target)
-  target.setAttribute('visbug-drag-src', true)
   state.hover.dropzones.push(createDropzoneUI(target))
+  state.drag.siblings.get(target).style.opacity = 0.01
+
+  target.setAttribute('visbug-drag-src', true)
+  ghostNode(target)
 
   $('visbug-hover').forEach(el =>
     el.remove())
-
-  if (state.drag.siblings.has(target))
-    state.drag.siblings.get(target).style.opacity = 0.01
 }
 
 const dragOver = e => {
-  if (e.target.hasAttribute('visbug-drag-src') || e.currentTarget.hasAttribute('visbug-drag-src')) 
-    return
-  
+  if (
+    !state.drag.src || 
+    e.target.hasAttribute('visbug-drag-src') || 
+    e.currentTarget.hasAttribute('visbug-drag-src') || 
+    !state.drag.siblings.has(e.currentTarget)
+  ) return
+
   swapElements(state.drag.src, e.currentTarget)
 }
 
