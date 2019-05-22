@@ -89,6 +89,9 @@ export const popOut = ({el, under = false}) =>
         : getNodeIndex(el)])
 
 export function dragNDrop(selection) {
+  if (!selection.length)
+    return
+
   clearListeners()
 
   const [src] = selection
