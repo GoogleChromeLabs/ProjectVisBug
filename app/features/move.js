@@ -91,11 +91,15 @@ export const popOut = ({el, under = false}) =>
 export function dragNDrop(selection) {
   clearListeners()
 
-  if (selection.length !== 1 || selection[0] instanceof SVGElement) 
-    return 
-
   const [src] = selection
   const {parentNode} = src
+
+  const tooManySelected       = selection.length !== 1
+  const hasNoSiblingsToDrag   = parentNode.children.length <= 1
+  const isAnSVG               = src instanceof SVGElement
+
+  if (tooManySelected || hasNoSiblingsToDrag || isAnSVG) 
+    return 
 
   Array.from(parentNode.children).forEach(sibling => {
     state.drag.siblings.set(sibling, createGripUI(sibling))
