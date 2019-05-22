@@ -9,6 +9,7 @@ const state = {
     src:      null,
     parent:   null,
     siblings: new Map(),
+    swapping: false,
   },
   hover: {
     dropzones: [],
@@ -160,13 +161,19 @@ const dragStart = ({target}) => {
 
 const dragOver = e => {
   if (
+    state.drag.swapping || 
     !state.drag.src || 
     e.target.hasAttribute('visbug-drag-src') || 
-    e.currentTarget.hasAttribute('visbug-drag-src') || 
-    !state.drag.siblings.has(e.currentTarget)
+    !state.drag.siblings.has(e.currentTarget) ||
+    e.currentTarget !== e.target
   ) return
 
-  swapElements(state.drag.src, e.currentTarget)
+  state.drag.swapping = true
+  swapElements(state.drag.src, e.target)
+
+  setTimeout(() => 
+    state.drag.swapping = false
+  , 500)
 }
 
 const dragDrop = e => {
