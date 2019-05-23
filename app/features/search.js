@@ -1,6 +1,7 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { querySelectorAllDeep } from 'query-selector-shadow-dom'
+import { notList } from '../utilities'
 import { PluginRegistry, PluginHints } from '../plugins/_registry'
 
 let SelectorEngine
@@ -84,7 +85,7 @@ export function queryPage(query, fn) {
   if (query == '.' || query == '#' || query.trim().endsWith(',')) return
 
   try {
-    let matches = querySelectorAllDeep(query + ':not(vis-bug):not(script):not(hotkey-map):not(.visbug-metatip):not(visbug-label):not(visbug-handles)')
+    let matches = querySelectorAllDeep(query + notList)
     if (!matches.length) matches = querySelectorAllDeep(query)
     if (!fn) SelectorEngine.unselect_all()
     if (matches.length)
