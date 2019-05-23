@@ -8,10 +8,6 @@ export class Grip extends Handles {
     this.styles = [HandleStyles, GripStyles]
   }
 
-  connectedCallback() {
-    this.$shadow.adoptedStyleSheets = this.styles
-  }
-
   toggleHovering({hovering}) {
     hovering
       ? this.$shadow.children[0].setAttribute('hovering', true)
