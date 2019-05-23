@@ -86,11 +86,13 @@ export function queryPage(query, fn) {
   try {
     let matches = querySelectorAllDeep(query + ':not(vis-bug):not(script):not(hotkey-map):not(.visbug-metatip):not(visbug-label):not(visbug-handles)')
     if (!matches.length) matches = querySelectorAllDeep(query)
-    if (matches.length)
+    if (matches.length) {
+      SelectorEngine.unselect_all()
       matches.forEach(el =>
         fn
           ? fn(el)
           : SelectorEngine.select(el))
+    }
   }
   catch (err) {}
 }
