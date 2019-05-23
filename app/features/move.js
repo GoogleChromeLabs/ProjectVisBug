@@ -1,15 +1,16 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { getNodeIndex, showEdge, swapElements } from '../utilities/'
+import { getNodeIndex, showEdge, swapElements, notList } from '../utilities/'
 import { toggleWatching } from './imageswap'
 
 const key_events = 'up,down,left,right'
 const state = {
   drag: {
-    src:      null,
-    parent:   null,
-    siblings: new Map(),
-    swapping: false,
+    src:        null,
+    parent:     null,
+    parent_ui:  [],
+    siblings:   new Map(),
+    swapping:   false,
   },
   hover: {
     dropzones: [],
@@ -95,21 +96,23 @@ export function dragNDrop(selection) {
 
   clearListeners()
 
-  const [src] = selection
-  const {parentNode} = src
+  const [src]         = selection
+  const {parentNode}  = src
+
+  const validMoveableChildren = [...parentNode.querySelectorAll(':scope > *' + notList)]
 
   const tooManySelected       = selection.length !== 1
-  const hasNoSiblingsToDrag   = parentNode.children.length <= 1
+  const hasNoSiblingsToDrag   = validMoveableChildren.length <= 1
   const isAnSVG               = src instanceof SVGElement
 
   if (tooManySelected || hasNoSiblingsToDrag || isAnSVG) 
     return 
 
-  Array.from(parentNode.children).forEach(sibling => {
-    state.drag.siblings.set(sibling, createGripUI(sibling))
-  })
+  validMoveableChildren.forEach(sibling =>
+    state.drag.siblings.set(sibling, createGripUI(sibling)))
 
-  state.drag.parent = parentNode
+  state.drag.parent     = parentNode
+  state.drag.parent_ui  = createParentUI(parentNode)
 
   moveWatch(state.drag.parent)
 }
@@ -156,7 +159,7 @@ const dragStart = ({target}) => {
   ghostNode(target)
 
   $('visbug-hover').forEach(el =>
-    el.remove())
+    !el.hasAttribute('visbug-drag-container') && el.remove())
 }
 
 const dragOver = e => {
@@ -255,6 +258,25 @@ const createGripUI = el => {
   return grip
 }
 
+const createParentUI = parent => {
+  const hover = document.createElement('visbug-hover')
+  const label = document.createElement('visbug-label')
+
+  hover.position = {el:parent}
+  hover.setAttribute('visbug-drag-container', true)
+
+  label.text = 'Drag & Drop'
+  label.position = {
+    boundingRect: parent.getBoundingClientRect(),
+  }
+  label.style.setProperty('--label-bg', 'var(--theme-purple)')
+
+  document.body.appendChild(hover)
+  document.body.appendChild(label)
+
+  return [hover,label]
+}
+
 export function clearListeners() {
   moveUnwatch(state.drag.parent)
 
@@ -267,8 +289,12 @@ export function clearListeners() {
   state.drag.siblings.forEach((grip, sibling) => 
     grip.remove())
 
+  state.drag.parent_ui.forEach(ui => 
+    ui.remove())
+
   state.hover.observers = []
   state.hover.dropzones = []
+  state.drag.parent_ui  = []
   state.drag.siblings.clear()
 }
 
