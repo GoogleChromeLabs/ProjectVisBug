@@ -265,14 +265,24 @@ const createParentUI = parent => {
   hover.position = {el:parent}
   hover.setAttribute('visbug-drag-container', true)
 
-  label.text = 'Drag & Drop'
-  label.position = {
-    boundingRect: parent.getBoundingClientRect(),
-  }
+  label.text = 'Drag & Drop Group'
+  label.position = {boundingRect: parent.getBoundingClientRect()}
   label.style.setProperty('--label-bg', 'var(--theme-purple)')
 
   document.body.appendChild(hover)
   document.body.appendChild(label)
+
+  const observer = new MutationObserver(list => {
+    hover.position = {el:parent}
+    label.position = {boundingRect: parent.getBoundingClientRect()}
+  })
+
+  observer.observe(parent, { 
+    childList: true, 
+    subtree: true, 
+  })
+
+  state.hover.observers.push(observer)
 
   return [hover,label]
 }
