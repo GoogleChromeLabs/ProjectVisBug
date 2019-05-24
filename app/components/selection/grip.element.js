@@ -20,8 +20,11 @@ export class Grip extends Handles {
 
     return `
       <svg width="${width}" height="${height}">
+        <pattern id="stripes" patternUnits="userSpaceOnUse" width="4" height="4">
+          <line x="0" y1="0" x2="0" y2="4" style="stroke:hsla(330, 100%, 71%, 50%); stroke-width: 3;" />
+        </pattern>
         <g>
-          <rect></rect>
+          <rect fill="url(#stripes)" />
         </g>
       </svg>
     `

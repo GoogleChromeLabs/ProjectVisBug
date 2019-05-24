@@ -6,7 +6,6 @@
 
 :host rect {
   vector-effect: non-scaling-stroke;
-  fill: hsla(330, 100%, 71%, 50%);
   height: .5em;
   width: 20%;
   max-width: 10vmax;
