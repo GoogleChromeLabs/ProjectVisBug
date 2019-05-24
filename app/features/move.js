@@ -265,7 +265,7 @@ const createParentUI = parent => {
   hover.position = {el:parent}
   hover.setAttribute('visbug-drag-container', true)
 
-  label.text = 'Drag & Drop Group'
+  label.text = 'Drag Bounds'
   label.position = {boundingRect: parent.getBoundingClientRect()}
   label.style.setProperty('--label-bg', 'var(--theme-purple)')
 
