@@ -2,8 +2,8 @@ import $          from 'blingblingjs'
 import hotkeys    from 'hotkeys-js'
 
 import {
-  Handles, Label, Overlay, Gridlines,
-  Hotkeys, Metatip, Ally, Distance, BoxModel,
+  Handles, Label, Overlay, Gridlines, Corners,
+  Hotkeys, Metatip, Ally, Distance, BoxModel, Grip
 } from '../'
 
 import {
@@ -33,7 +33,7 @@ export default class VisBug extends HTMLElement {
     if (!this.$shadow.innerHTML)
       this.setup()
 
-    this.selectorEngine = Selectable()
+    this.selectorEngine = Selectable(this)
     this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
     
     provideSelectorEngine(this.selectorEngine)

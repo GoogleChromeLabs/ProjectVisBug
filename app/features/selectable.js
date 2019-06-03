@@ -17,7 +17,7 @@ import {
   isSelectorValid, findNearestChildElement, findNearestParentElement
 } from '../utilities/'
 
-export function Selectable() {
+export function Selectable(visbug) {
   const page              = document.body
   let selected            = []
   let selectedCallbacks   = []
@@ -79,7 +79,7 @@ export function Selectable() {
     if (!e.altKey) e.stopPropagation()
 
     if (!e.shiftKey) {
-      unselect_all()
+      unselect_all({silent:true})
       clearMeasurements()
     }
 
@@ -116,7 +116,7 @@ export function Selectable() {
     e.preventDefault()
     e.stopPropagation()
     if (isOffBounds(e.target)) return
-    $('vis-bug')[0].toolSelected('text')
+    visbug.toolSelected('text')
   }
 
   const watchCommandKey = e => {
@@ -124,7 +124,7 @@ export function Selectable() {
 
     document.onkeydown = function(e) {
       if (hotkeys.ctrl && selected.length) {
-        $('visbug-handles, visbug-label, visbug-hover').forEach(el =>
+        $('visbug-handles, visbug-label, visbug-hover, visbug-grip').forEach(el =>
           el.style.display = 'none')
 
         did_hide = true
@@ -133,7 +133,7 @@ export function Selectable() {
 
     document.onkeyup = function(e) {
       if (did_hide) {
-        $('visbug-handles, visbug-label, visbug-hover').forEach(el =>
+        $('visbug-handles, visbug-label, visbug-hover, visbug-grip').forEach(el =>
           el.style.display = null)
 
         did_hide = false
@@ -296,7 +296,7 @@ export function Selectable() {
     }, new Set())
 
     if (targets.size) {
-      unselect_all()
+      unselect_all({silent:true})
       targets.forEach(node => {
         select(node)
         show_tip(node)
@@ -305,7 +305,7 @@ export function Selectable() {
   }
 
   const show_tip = el => {
-    const active_tool = $('vis-bug')[0].activeTool
+    const active_tool = visbug.activeTool
     let tipFactory
 
     if (active_tool === 'accessibility') {
@@ -332,9 +332,9 @@ export function Selectable() {
 
   const on_hover = e => {
     const $target = deepElementFromPoint(e.clientX, e.clientY)
-    const tool = $('vis-bug')[0].activeTool
+    const tool = visbug.activeTool
 
-    if (isOffBounds($target) || $target.hasAttribute('data-selected')) {
+    if (isOffBounds($target) || $target.hasAttribute('data-selected') || $target.hasAttribute('draggable')) {
       clearMeasurements()
       return clearHover()
     }
@@ -365,7 +365,7 @@ export function Selectable() {
 
   const select = el => {
     const id = handles.length
-    const tool = $('vis-bug')[0].activeTool
+    const tool = visbug.activeTool
 
     el.setAttribute('data-selected', true)
     el.setAttribute('data-label-id', id)
@@ -385,7 +385,7 @@ export function Selectable() {
   const selection = () =>
     selected
 
-  const unselect_all = () => {
+  const unselect_all = ({silent = false} = {}) => {
     selected
       .forEach(el =>
         $(el).attr({
@@ -410,7 +410,7 @@ export function Selectable() {
     handles   = []
     selected  = []
 
-    tellWatchers()
+    !silent && tellWatchers()
   }
 
   const delete_all = () => {
@@ -613,6 +613,19 @@ export function Selectable() {
 
 
       return hover_state.label
+    }
+  }
+
+  const createCorners = el => {
+    if (!el.hasAttribute('data-pseudo-select') && !el.hasAttribute('data-label-id')) {
+      if (hover_state.element)
+        hover_state.element.remove()
+
+      hover_state.element = document.createElement('visbug-corners')
+      document.body.appendChild(hover_state.element)
+      hover_state.element.position = {el}
+
+      return hover_state.element
     }
   }
 
