@@ -1,10 +1,9 @@
 import $          from 'blingblingjs'
 import hotkeys    from 'hotkeys-js'
-import styles     from './vis-bug.element.css'
 
 import {
-  Handles, Label, Overlay, Gridlines,
-  Hotkeys, Metatip, Ally, Distance, BoxModel,
+  Handles, Label, Overlay, Gridlines, Corners,
+  Hotkeys, Metatip, Ally, Distance, BoxModel, Grip
 } from '../'
 
 import {
@@ -13,7 +12,8 @@ import {
   Guides, Screenshot, Position, Accessibility, draggable
 } from '../../features/'
 
-import { VisBugModel }              from './model'
+import { VisBugStyles }           from '../styles.store'
+import { VisBugModel }            from './model'
 import * as Icons                 from './vis-bug.icons'
 import { provideSelectorEngine }  from '../../features/search'
 import { metaKey }                from '../../utilities/'
@@ -28,12 +28,17 @@ export default class VisBug extends HTMLElement {
   }
 
   connectedCallback() {
+    this.$shadow.adoptedStyleSheets = [VisBugStyles]
+
     if (!this.$shadow.innerHTML)
       this.setup()
 
-    this.selectorEngine = Selectable()
+    this.selectorEngine = Selectable(this)
     this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
+    
     provideSelectorEngine(this.selectorEngine)
+
+    this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
   }
 
   disconnectedCallback() {
@@ -68,8 +73,6 @@ export default class VisBug extends HTMLElement {
         this.$shadow.host.style.display === 'none'
           ? 'block'
           : 'none')
-
-    this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
   }
 
   cleanup() {
@@ -105,7 +108,6 @@ export default class VisBug extends HTMLElement {
 
   render() {
     return `
-      ${this.styles()}
       <visbug-hotkeys></visbug-hotkeys>
       <ol>
         ${Object.entries(this.toolbar_model).reduce((list, [key, tool]) => `
@@ -130,14 +132,6 @@ export default class VisBug extends HTMLElement {
           ${Icons.color_border}
         </li>
       </ol>
-    `
-  }
-
-  styles() {
-    return `
-      <style>
-        ${styles}
-      </style>
     `
   }
 
@@ -209,7 +203,7 @@ export default class VisBug extends HTMLElement {
   }
 
   guides() {
-    this.deactivate_feature = Guides()
+    this.deactivate_feature = Guides(this.selectorEngine)
   }
 
   screenshot() {

@@ -3,7 +3,7 @@
 :host {
   display: none;
   position: fixed;
-  z-index: 99998;
+  z-index: var(--layer-top);
   align-items: center;
   justify-content: center;
   width: 100vw;

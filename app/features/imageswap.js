@@ -5,6 +5,10 @@ let imgs      = []
   , overlays  = []
   , dragItem
 
+const state = {
+  watching: true,
+}
+
 export function watchImagesForUpload() {
   imgs = $([
     ...document.images,
@@ -14,6 +18,10 @@ export function watchImagesForUpload() {
 
   clearWatchers(imgs)
   initWatchers(imgs)
+}
+
+export function toggleWatching({watch}) {
+  state.watching = watch
 }
 
 const initWatchers = imgs => {
@@ -168,6 +176,8 @@ const getPictureSourcesToUpdate = img =>
       !source.media || window.matchMedia(source.media).matches)
 
 const showOverlay = (node, i) => {
+  if (!state.watching) return
+
   const rect    = node.getBoundingClientRect()
   const overlay = overlays[i]
 

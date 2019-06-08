@@ -6,11 +6,19 @@ export const VisBugModel = {
     tool:        'guides',
     icon:        Icons.guides,
     label:       'Guides',
-    description: 'Verify alignment & check your grid',
+    description: 'Verify alignment & measure distances',
     instruction: `<div table>
                     <div>
+                      <b>Element Guides:</b>
+                      <span>hover</span>
+                    </div>
+                    <div>
                       <b>Measure:</b>
-                      <span>${altKey} + hover</span>
+                      <span>click+hover</span>
+                    </div>
+                    <div>
+                      <b>Sticky Measurements:</b>
+                      <span>shift+click</span>
                     </div>
                   </div>`,
   },
@@ -42,8 +50,12 @@ export const VisBugModel = {
     tool:        'move',
     icon:        Icons.move,
     label:       'Move',
-    description: 'Push elements in & out of their container, or shuffle them within it',
+    description: 'Move elements laterally or in, out, over, and under',
     instruction: `<div table>
+                    <div>
+                      <b>Lateral:</b>
+                      <span>click then drag</span>
+                    </div>
                     <div>
                       <b>Lateral:</b>
                       <span>◀ ▶</span>
@@ -53,7 +65,7 @@ export const VisBugModel = {
                       <span>▲</span>
                     </div>
                     <div>
-                      <b>Down and in:</b>
+                      <b>Down+in, out+under:</b>
                       <span>▼</span>
                     </div>
                   </div>`,

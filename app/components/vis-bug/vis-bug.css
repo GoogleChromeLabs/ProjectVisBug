@@ -29,3 +29,15 @@ body {
 [data-metatip=true][data-pinhover=true] {
   cursor: not-allowed;
 }
+
+[draggable=true] {
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  & :matches(a, img) {
+    -webkit-user-drag: none !important;
+  }
+}
