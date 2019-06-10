@@ -36,16 +36,56 @@ const toggleIn = ({id:tab_id}) => {
 chrome.browserAction.onClicked.addListener(toggleIn)
 
 chrome.contextMenus.create({
-  title: 'Debug'
+  id:       'launcher',
+  title:    'Toggle',
+  contexts: ['all'],
 })
 
-chrome.contextMenus.onClicked.addListener((menuInfo, tab) => {
-  toggleIn(tab)
+// todo: load values from ext storage
+const color_options = {
+  hsla: {
+    checked: true,
+  },
+  hex: {
+    checked: false,
+  },
+  rgba: {
+    checked: false,
+  },
+  // 'as authored',
+  // 'lch'
+}
 
-  chrome.tabs.query({active: true, currentWindow: true}, function([tab]) {
-    tab && chrome.tabs.sendMessage(tab.id, {
-      action: 'toolSelected',
-      params: 'inspector',
+Object
+  .entries(color_options)
+  .forEach(([key, {checked}]) => {
+    chrome.contextMenus.create({
+      id:       key,
+      title:    key,
+      checked:  checked,
+      type:     'radio',
+      contexts: ['all'],
     })
-  })
+})
+
+chrome.contextMenus.onClicked.addListener(({menuItemId}, tab) => {
+  // toggle visbug active state
+  if (menuItemId === 'launcher') {
+    toggleIn(tab)
+
+    // chrome.tabs.query({active: true, currentWindow: true}, function([tab]) {
+    //   tab && chrome.tabs.sendMessage(tab.id, {
+    //     action: 'toolSelected',
+    //     params: 'inspector',
+    //   })
+    // })
+  }
+  else {
+    chrome.tabs.query({active: true, currentWindow: true}, function([tab]) {
+      tab && chrome.tabs.sendMessage(tab.id, {
+        action: 'colorMode',
+        params: menuItemId,
+      })
+    })
+  }
 })
