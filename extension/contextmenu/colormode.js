@@ -22,30 +22,37 @@ const sendColorMode = () => {
   })
 }
 
-// load synced color choice on load
-chrome.storage.sync.get([storagekey], value => {
-  let found_value = value[storagekey]
+const getColorMode = () => {
+  chrome.storage.sync.get([storagekey], value => {
+    let found_value = value[storagekey]
 
-  const is_default = found_value
-    ? value[storagekey] === defaultcolormode
-    : false
+    const is_default = found_value
+      ? value[storagekey] === defaultcolormode
+      : false
 
-  // first run
-  if (!found_value && !is_default) {
-    found_value = defaultcolormode
-    chrome.storage.sync.set({[storagekey]: defaultcolormode})
-  }
-  // storage has value, update contextmenu radio list
-  else if (found_value) {
-    chrome.contextMenus.update(found_value, {
-      checked: true,
+    // first run
+    if (!found_value && !is_default) {
+      found_value = defaultcolormode
+      chrome.storage.sync.set({[storagekey]: defaultcolormode})
+    }
+
+    // update checked state of color contextmenu radio list
+    color_options.forEach(option => {
+      chrome.contextMenus.update(option, {
+        checked: option === found_value
+      })
     })
-  }
 
-  // send visbug user preference
-  colormodestate.mode = found_value
-  sendColorMode()
-})
+    // send visbug user preference
+    colormodestate.mode = found_value
+    sendColorMode()
+
+    return found_value
+  })
+}
+
+// load synced color choice on load
+getColorMode()
 
 chrome.contextMenus.create({
   id:     'color-mode',
