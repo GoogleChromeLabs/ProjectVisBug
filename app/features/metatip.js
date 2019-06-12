@@ -128,6 +128,8 @@ export function removeAll() {
 
 const render = (el, tip = document.createElement('visbug-metatip')) => {
   const { width, height } = el.getBoundingClientRect()
+  const colormode = $('vis-bug')[0]._colormode
+
   const styles = getStyles(el)
     .map(style => Object.assign(style, {
       prop: camelToDash(style.prop)
@@ -139,7 +141,7 @@ const render = (el, tip = document.createElement('visbug-metatip')) => {
     )
     .map(style => {
       if (style.prop.includes('color') || style.prop.includes('Color') || style.prop.includes('fill') || style.prop.includes('stroke'))
-        style.value = `<span color style="background-color:${style.value};"></span>${new TinyColor(style.value).toHslString()}`
+        style.value = `<span color style="background-color:${style.value};"></span>${new TinyColor(style.value)[colormode]()}`
 
       if (style.prop.includes('font-family') && style.value.length > 25)
         style.value = style.value.slice(0,25) + '...'

@@ -18,6 +18,12 @@ import * as Icons                 from './vis-bug.icons'
 import { provideSelectorEngine }  from '../../features/search'
 import { metaKey }                from '../../utilities/'
 
+const modemap = {
+  'hex':  'toHexString',
+  'hsla': 'toHslString',
+  'rgba': 'toRgbString',
+}
+
 export default class VisBug extends HTMLElement {
   constructor() {
     super()
@@ -228,10 +234,9 @@ export default class VisBug extends HTMLElement {
     this.setup()
   }
 
+  // set by extension contextmenu.js colormode storage state
   set colorMode(mode) {
-    this._colormode = mode
-    console.log(mode)
-    // this.updateColorMode()
+    this._colormode = modemap[mode]
   }
 }
 
