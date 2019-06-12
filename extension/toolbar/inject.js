@@ -7,5 +7,5 @@ document.body.prepend(visbug)
 
 chrome.runtime.onMessage.addListener(request => {
   if (request.action === 'COLOR_MODE')
-    visbug.colorMode = request.params.color
+    visbug.colorMode = request.params.mode
 })
