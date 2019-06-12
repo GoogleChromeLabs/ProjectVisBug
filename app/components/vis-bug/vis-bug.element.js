@@ -227,6 +227,12 @@ export default class VisBug extends HTMLElement {
     this._tutsBaseURL = url
     this.setup()
   }
+
+  set colorMode(mode) {
+    this._colormode = mode
+    console.log(mode)
+    // this.updateColorMode()
+  }
 }
 
 customElements.define('vis-bug', VisBug)
