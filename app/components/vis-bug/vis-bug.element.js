@@ -41,7 +41,7 @@ export default class VisBug extends HTMLElement {
 
     this.selectorEngine = Selectable(this)
     this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
-    
+
     provideSelectorEngine(this.selectorEngine)
 
     this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
@@ -59,6 +59,7 @@ export default class VisBug extends HTMLElement {
 
   setup() {
     this.$shadow.innerHTML = this.render()
+    this._colormode = modemap['hsla']
 
     $('li[data-tool]', this.$shadow).on('click', e =>
       this.toolSelected(e.currentTarget) && e.stopPropagation())
@@ -234,9 +235,12 @@ export default class VisBug extends HTMLElement {
     this.setup()
   }
 
-  // set by extension contextmenu.js colormode storage state
   set colorMode(mode) {
     this._colormode = modemap[mode]
+  }
+
+  get colorMode() {
+    return this._colormode
   }
 }
 
