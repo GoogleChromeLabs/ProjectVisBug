@@ -38,9 +38,16 @@ chrome.storage.sync.get([storagekey], value => {
   }
 })
 
+chrome.contextMenus.create({
+  id:     'color-mode',
+  title:  'Colors',
+  contexts: ['all'],
+})
+
 color_options.forEach(option => {
   chrome.contextMenus.create({
     id:       option,
+    parentId: 'color-mode',
     title:    ' '+option,
     checked:  false,
     type:     'radio',
@@ -48,7 +55,9 @@ color_options.forEach(option => {
   })
 })
 
-chrome.contextMenus.onClicked.addListener(({menuItemId}, tab) => {
+chrome.contextMenus.onClicked.addListener(({parentMenuItemId, menuItemId}, tab) => {
+  if (parentMenuItemId !== 'color-mode') return
+
   chrome.storage.sync.set({[storagekey]: menuItemId})
   sendColorMode(menuItemId)
 })
