@@ -24,7 +24,8 @@ const sendColorMode = () => {
 
 // load synced color choice on load
 chrome.storage.sync.get([storagekey], value => {
-  const found_value = value[storagekey]
+  let found_value = value[storagekey]
+
   const is_default = found_value
     ? value[storagekey] === defaultcolormode
     : false
