@@ -35,4 +35,12 @@ const toggleIn = ({id:tab_id}) => {
 
 chrome.browserAction.onClicked.addListener(toggleIn)
 
+chrome.contextMenus.create({
+  id:     'launcher',
+  title:  'Show/Hide',
+})
 
+chrome.contextMenus.onClicked.addListener(({menuItemId}, tab) => {
+  if (menuItemId === 'launcher')
+    toggleIn(tab)
+})
