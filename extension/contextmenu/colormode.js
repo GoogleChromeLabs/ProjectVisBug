@@ -9,11 +9,15 @@ const color_options = [
   // 'lch'
 ]
 
-const sendColorMode = mode => {
+const colormodestate = {
+  mode: defaultcolormode
+}
+
+const sendColorMode = () => {
   chrome.tabs.query({active: true, currentWindow: true}, ([tab]) => {
     tab && chrome.tabs.sendMessage(tab.id, {
       action: 'COLOR_MODE',
-      params: {mode},
+      params: {mode:colormodestate.mode},
     })
   })
 }
@@ -25,17 +29,21 @@ chrome.storage.sync.get([storagekey], value => {
     ? value[storagekey] === defaultcolormode
     : false
 
+  // first run
   if (!found_value && !is_default) {
+    found_value = defaultcolormode
     chrome.storage.sync.set({[storagekey]: defaultcolormode})
   }
-  else {
-    if (!is_default)
-      sendColorMode(found_value)
-
+  // storage has value, update contextmenu radio list
+  else if (found_value) {
     chrome.contextMenus.update(found_value, {
       checked: true,
     })
   }
+
+  // send visbug user preference
+  colormodestate.mode = found_value
+  sendColorMode()
 })
 
 chrome.contextMenus.create({
@@ -59,5 +67,7 @@ chrome.contextMenus.onClicked.addListener(({parentMenuItemId, menuItemId}, tab) 
   if (parentMenuItemId !== 'color-mode') return
 
   chrome.storage.sync.set({[storagekey]: menuItemId})
-  sendColorMode(menuItemId)
+  colormodestate.mode = menuItemId
+
+  sendColorMode()
 })

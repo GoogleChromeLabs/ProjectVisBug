@@ -14,6 +14,7 @@ const toggleIn = ({id:tab_id}) => {
   else if (state.loaded[tab_id] && !state.injected[tab_id]) {
     chrome.tabs.executeScript(tab_id, { file: 'toolbar/inject.js' })
     state.injected[tab_id] = true
+    sendColorMode()
   }
 
   // fresh start in tab
@@ -25,6 +26,7 @@ const toggleIn = ({id:tab_id}) => {
 
     state.loaded[tab_id]    = true
     state.injected[tab_id]  = true
+    sendColorMode()
   }
 
   chrome.tabs.onUpdated.addListener(function(tabId) {
@@ -32,15 +34,3 @@ const toggleIn = ({id:tab_id}) => {
       state.loaded[tabId] = false
   })
 }
-
-chrome.browserAction.onClicked.addListener(toggleIn)
-
-chrome.contextMenus.create({
-  id:     'launcher',
-  title:  'Show/Hide',
-})
-
-chrome.contextMenus.onClicked.addListener(({menuItemId}, tab) => {
-  if (menuItemId === 'launcher')
-    toggleIn(tab)
-})

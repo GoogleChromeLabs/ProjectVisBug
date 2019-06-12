@@ -14,7 +14,8 @@
     "persistent": true,
     "scripts": [
       "visbug.js",
-      "contextmenu.js"
+      "contextmenu/launcher.js",
+      "contextmenu/colormode.js"
     ]
   },
   "browser_action": {
