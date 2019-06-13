@@ -5,8 +5,13 @@ const color_options = [
   'hsla',
   'hex',
   'rgba',
+  // 'hsv',
+  // 'lch',
+  // 'lab',
+  // 'hcl',
+  // 'cmyk',
+  // 'gl',
   // 'as authored',
-  // 'lch'
 ]
 
 const colormodestate = {
