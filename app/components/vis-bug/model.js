@@ -178,11 +178,11 @@ export const VisBugModel = {
                     </div>
                     <div>
                       <b>Blur:</b>
-                      <span>Shift + ▲ ▼</span>
+                      <span>${altKey} + ▲ ▼</span>
                     </div>
                     <div>
                       <b>Spread:</b>
-                      <span>Shift + ◀ ▶</span>
+                      <span>${altKey} + ◀ ▶</span>
                     </div>
                     <div>
                       <b>Opacity:</b>
