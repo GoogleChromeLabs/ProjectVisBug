@@ -2,7 +2,9 @@ import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { TinyColor } from '@ctrl/tinycolor'
 import { queryPage } from './search'
-import { getStyles, camelToDash, isOffBounds, deepElementFromPoint } from '../utilities/'
+import { getStyles, camelToDash, isOffBounds, 
+         deepElementFromPoint, getShadowValues
+} from '../utilities/'
 
 const state = {
   active: {
@@ -143,6 +145,11 @@ const render = (el, tip = document.createElement('visbug-metatip')) => {
       // todo: map text-shadow and box-shadow colors to user preference
       if (style.prop.includes('color') || style.prop.includes('Color') || style.prop.includes('fill') || style.prop.includes('stroke'))
         style.value = `<span color style="background-color:${style.value};"></span>${new TinyColor(style.value)[colormode]()}`
+
+      if (style.prop.includes('box-shadow') || style.prop.includes('text-shadow')) {
+        const [, color, x, y, blur, spread] = getShadowValues(style.value)
+        style.value = `${new TinyColor(color)[colormode]()} ${x} ${y} ${blur} ${spread}`
+      }
 
       if (style.prop.includes('font-family') && style.value.length > 25)
         style.value = style.value.slice(0,25) + '...'

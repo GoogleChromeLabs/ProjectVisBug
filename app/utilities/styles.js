@@ -81,3 +81,7 @@ export const loadStyles = async stylesheets => {
 
   document.head.appendChild(style)
 }
+
+// returns [full, color, x, y, blur, spread]
+export const getShadowValues = shadow =>
+  /([^\)]+\)) ([^\s]+) ([^\s]+) ([^\s]+) ([^\s]+)/.exec(shadow)
