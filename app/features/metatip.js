@@ -193,7 +193,7 @@ const tip_position = (node, e, north, west) => ({
 })
 
 const handleBlur = ({target}) => {
-  if (!target.hasAttribute('data-metatip') && state.tips.has(target))
+  if (target.hasAttribute && !target.hasAttribute('data-metatip') && state.tips.has(target))
     wipe(state.tips.get(target))
 }
 

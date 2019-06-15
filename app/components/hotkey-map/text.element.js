@@ -10,15 +10,12 @@ export class TextHotkeys extends HotkeyMap {
     this.tool       = 'text'
   }
 
-  connectedCallback() {}
-
   show() {
     this.$shadow.host.style.display = 'flex'
   }
 
   render() {
     return `
-      ${this.styles()}
       <article>
         <div tool-icon>
           <span>

@@ -1,11 +1,11 @@
 import { Handles } from './handles.element'
-import { HandleStyles, HoverStyles } from '../styles.store'
+import { HandleStyles, CornerStyles } from '../styles.store'
 
-export class Hover extends Handles {
+export class Corners extends Handles {
 
   constructor() {
     super()
-    this.styles = [HandleStyles, HoverStyles]
+    this.styles = [HandleStyles, CornerStyles]
   }
 
   render({ width, height, top, left }) {
@@ -15,9 +15,12 @@ export class Hover extends Handles {
     return `
       <svg width="${width}" height="${height}">
         <rect></rect>
+        <rect></rect>
+        <rect></rect>
+        <rect></rect>
       </svg>
     `
   }
 }
 
-customElements.define('visbug-hover', Hover)
+customElements.define('visbug-corners', Corners)

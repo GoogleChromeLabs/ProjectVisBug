@@ -6,7 +6,7 @@ body {
   cursor: crosshair;
 }
 
-[data-selected=true] {
+body:not([testing]) [data-selected=true] {
   transition: all 0.15s ease;
 }
 
@@ -28,4 +28,16 @@ body {
 
 [data-metatip=true][data-pinhover=true] {
   cursor: not-allowed;
+}
+
+[draggable=true] {
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  & :matches(a, img) {
+    -webkit-user-drag: none !important;
+  }
 }

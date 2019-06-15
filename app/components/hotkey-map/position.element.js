@@ -11,15 +11,12 @@ export class PositionHotkeys extends HotkeyMap {
     this.tool       = 'position'
   }
 
-  connectedCallback() {}
-
   show() {
     this.$shadow.host.style.display = 'flex'
   }
 
   render() {
     return `
-      ${this.styles()}
       <article>
         <div tool-icon>
           <span>

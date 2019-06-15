@@ -1,0 +1,17 @@
+@import "../_variables.css";
+
+:host svg {
+  display: none;
+  position: absolute;
+  top: var(--top);
+  left: var(--left);
+  overflow: visible;
+  pointer-events: none;
+  z-index: var(--layer-5);
+
+  & > rect {
+    fill: hsla(330, 100%, 71%, 0.5);
+    width: 100%;
+    height: 100%;
+  }
+}

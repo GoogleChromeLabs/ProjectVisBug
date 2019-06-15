@@ -1,0 +1,24 @@
+@import "../_variables.css";
+
+:host {
+  --color: var(--theme-color);
+}
+
+:host > svg {
+  position:absolute;
+  top:0;
+  left:0;
+  overflow:visible;
+  pointer-events:none;
+  z-index:var(--layer-5);
+}
+
+:host rect, 
+:host line {
+  stroke: var(--color);
+}
+
+:host line {
+  stroke-dasharray: 2;
+  stroke-dasharray-offset: 3;
+}

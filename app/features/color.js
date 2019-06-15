@@ -84,7 +84,7 @@ export function ColorPicker(pallete, selectorEngine) {
 
       if (isMeaningfulForeground && !isMeaningfulBackground)
         setActive('foreground')
-      else if (isMeaningfulBackground && !isMeaningfulForeground)
+      else if (isMeaningfulBackground && !isMeaningfulForeground || isMeaningfulBackground && isMeaningfulForeground)
         setActive('background')
 
       const new_fg = isMeaningfulForeground   ? fg : ''

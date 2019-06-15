@@ -1,0 +1,18 @@
+:host [mask] {
+  pointer-events: none;
+  position: absolute;
+  z-index: var(--layer-5);
+  width: var(--width);
+  height: var(--height);
+  top: var(--top);
+  left: var(--left);
+  background-color: var(--bg);
+  clip-path: polygon(
+    0% 0%, 0% 100%, var(--target-left) 100%,
+    var(--target-left) var(--target-top),
+    var(--offset-right) var(--target-top),
+    var(--offset-right) var(--offset-bottom),
+    0 var(--offset-bottom), 0 100%,
+    100% 100%, 100% 0%
+  );
+}
