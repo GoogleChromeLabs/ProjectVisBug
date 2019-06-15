@@ -5,6 +5,7 @@ export const setupPptrTab = async t => {
   t.context.page     = await t.context.browser.newPage()
 
   await t.context.page.goto('http://localhost:3000')
+  await t.context.page.evaluateHandle(`document.body.setAttribute('testing', true)`)
 }
 
 export const teardownPptrTab = async ({context:{ page, browser }}) => {
