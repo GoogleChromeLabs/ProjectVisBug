@@ -6,17 +6,15 @@ from '../../tests/helpers'
 const tool            = 'boxshadow'
 const test_selector   = '[intro] b'
 
-const getShadowValues = (str) => {
-    const pattern = /([^\)]+\)) ([^\s]+) ([^\s]+) ([^\s]+) ([^\s]+)/
-    const matches = pattern.exec(str)
+const getShadowValues = async (page, testEl = test_selector) => {
+  const shadowStr = await page.$eval(testEl, el => el.style.boxShadow)
+  return parseShadowValues(shadowStr)
+}
 
-    return {
-        color : matches[1],
-        x : matches[2],
-        y : matches[3],
-        blur : matches[4],
-        spread : matches[5],
-    }
+const parseShadowValues = (str) => {
+    const [,color,x,y,blur,spread,inset] = /([^\)]+\)) ([^\s]+) ([^\s]+) ([^\s]+) ([^\s]+)( inset)?/.exec(str)
+
+    return { color, x, y, blur, spread, inset : inset !== undefined }
 }
 
 test.beforeEach(async t => {
@@ -39,9 +37,13 @@ test('Can adjust X position', async t => {
 
   await page.click(test_selector)
   await page.keyboard.press('ArrowRight')
-  const shadowStr = await page.$eval(test_selector, el => el.style.boxShadow)
-  const shadow = getShadowValues(shadowStr)
+  let shadow = await getShadowValues(page)
   t.true(shadow.x == "1px")
+  //test shift case
+  await page.keyboard.down('Shift')
+  await page.keyboard.press('ArrowRight')
+  shadow = await getShadowValues(page)
+  t.true(shadow.x == "11px")
 
   t.pass()
 })
@@ -52,9 +54,13 @@ test('Can adjust Y position', async t => {
 
   await page.click(test_selector)
   await page.keyboard.press('ArrowDown')
-  const shadowStr = await page.$eval(test_selector, el => el.style.boxShadow)
-  const shadow = getShadowValues(shadowStr)
+  let shadow = await getShadowValues(page)
   t.true(shadow.y == "1px")
+  //test shift case
+  await page.keyboard.down('Shift')
+  await page.keyboard.press('ArrowDown')
+  shadow = await getShadowValues(page)
+  t.true(shadow.y == "11px")
 
   t.pass()
 })
@@ -64,12 +70,15 @@ test('Shadow Blur Works', async t => {
 
   await page.click(test_selector)
   await page.keyboard.press('ArrowDown')
+  await page.keyboard.down('Alt')
+  await page.keyboard.press('ArrowUp')
+  let shadow = await getShadowValues(page)
+  t.true(shadow.blur == "1px")
+  //test shift case
   await page.keyboard.down('Shift')
   await page.keyboard.press('ArrowUp')
-  const shadowStr = await page.$eval(test_selector, el => el.style.boxShadow)
-  const shadow = getShadowValues(shadowStr)
-  console.log(shadow)
-  t.true(shadow.blur == "1px")
+  shadow = await getShadowValues(page)
+  t.true(shadow.blur == "11px")
 
   t.pass()
 })
@@ -79,14 +88,31 @@ test('Shadow Spread Works', async t => {
 
   await page.click(test_selector)
   await page.keyboard.press('ArrowDown')
+  await page.keyboard.down('Alt')
+  await page.keyboard.press('ArrowRight')
+  let shadow = await getShadowValues(page)
+  t.true(shadow.spread == "1px")
+  //test shift case
   await page.keyboard.down('Shift')
   await page.keyboard.press('ArrowRight')
-  const shadowStr = await page.$eval(test_selector, el => el.style.boxShadow)
-  const shadow = getShadowValues(shadowStr)
-  t.true(shadow.spread == "1px")
+  shadow = await getShadowValues(page)
+  t.true(shadow.spread == "11px")
 
   t.pass()
 })
+
+// test('Shadow can be set to inset', async t => {
+//   const { page } = t.context
+
+//   await page.click(test_selector)
+//   await page.keyboard.press('ArrowDown')
+//   await page.keyboard.down('Control')
+//   await page.keyboard.press('ArrowDown')
+//   const shadow = await getShadowValues(page)
+//   t.true(shadow.inset)
+
+//   t.pass()
+// })
 
 
 test.afterEach(teardownPptrTab)
