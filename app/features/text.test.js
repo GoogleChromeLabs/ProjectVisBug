@@ -47,7 +47,7 @@ test('Can delete text content', async t => {
 
   const now = await page.$eval(test_selector, el => el.innerHTML)
 
-  t.true(original.length == now.length + 2)
+  t.true(original.length === now.length + 2)
 
   t.pass()
 })

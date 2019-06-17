@@ -31,16 +31,16 @@ test('Can adjust justify-content', async t => {
   await page.click(test_selector)
   await page.keyboard.press('ArrowRight')
   let justifyStr = await page.$eval(test_selector, el => el.style.justifyContent)
-  t.true(justifyStr == "center")
+  t.true(justifyStr === "center")
 
   await page.keyboard.press('ArrowRight')
   justifyStr = await page.$eval(test_selector, el => el.style.justifyContent)
-  t.true(justifyStr == "flex-end")
+  t.true(justifyStr === "flex-end")
 
   await page.keyboard.press('ArrowLeft')
   await page.keyboard.press('ArrowLeft')
   justifyStr = await page.$eval(test_selector, el => el.style.justifyContent)
-  t.true(justifyStr == "flex-start")
+  t.true(justifyStr === "flex-start")
 
   t.pass()
 })
@@ -52,16 +52,16 @@ test('Can adjust align-items', async t => {
   await page.click(test_selector)
   await page.keyboard.press('ArrowDown')
   let alignStr = await page.$eval(test_selector, el => el.style.alignItems)
-  t.true(alignStr == "center")
+  t.true(alignStr === "center")
 
   await page.keyboard.press('ArrowDown')
   alignStr = await page.$eval(test_selector, el => el.style.alignItems)
-  t.true(alignStr == "flex-end")
+  t.true(alignStr === "flex-end")
 
   await page.keyboard.press('ArrowUp')
   await page.keyboard.press('ArrowUp')
   alignStr = await page.$eval(test_selector, el => el.style.alignItems)
-  t.true(alignStr == "flex-start")
+  t.true(alignStr === "flex-start")
 
   t.pass()
 })
@@ -74,7 +74,7 @@ test('Can apply space-around', async t => {
   await page.keyboard.down('Shift')
   await page.keyboard.press('ArrowLeft')
   let justifyStr = await page.$eval(test_selector, el => el.style.justifyContent)
-  t.true(justifyStr == "space-around")
+  t.true(justifyStr === "space-around")
 
   t.pass()
 })
@@ -87,7 +87,7 @@ test('Can apply space-between', async t => {
   await page.keyboard.down('Shift')
   await page.keyboard.press('ArrowRight')
   let justifyStr = await page.$eval(test_selector, el => el.style.justifyContent)
-  t.true(justifyStr == "space-between")
+  t.true(justifyStr === "space-between")
 
   t.pass()
 })

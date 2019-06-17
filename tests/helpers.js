@@ -18,3 +18,8 @@ export const changeMode = async ({page, tool}) =>
 export const getActiveTool = async page =>
   await page.$eval('vis-bug', el =>
     el.activeTool)
+
+export const pptrMetaKey = async page => {
+  let isMac = await page.evaluate(_ => window.navigator.platform.includes('Mac'))
+  return isMac ? "Meta" : "Control"
+}

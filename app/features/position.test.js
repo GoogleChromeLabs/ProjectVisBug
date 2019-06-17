@@ -29,12 +29,12 @@ test('Test Nudge Up/Down Works', async t => {
 
   await page.keyboard.press('ArrowUp')
   const changedPageTop = await page.$eval(test_selector, el => el.getBoundingClientRect().top)
-  t.true(originalPageTop - 1 == changedPageTop)
+  t.true(originalPageTop - 1 === changedPageTop)
 
   await page.keyboard.press('ArrowDown')
   await page.keyboard.press('ArrowDown')
   const finalPageTop = await page.$eval(test_selector, el => el.getBoundingClientRect().top)
-  t.true(originalPageTop + 1 == finalPageTop)
+  t.true(originalPageTop + 1 === finalPageTop)
 
   t.pass()
 })
@@ -47,12 +47,12 @@ test('Test Nudge Left/Right Works', async t => {
 
   await page.keyboard.press('ArrowLeft')
   const changedPageLeft = await page.$eval(test_selector, el => el.getBoundingClientRect().left)
-  t.true(originalPageLeft - 1 == changedPageLeft)
+  t.true(originalPageLeft - 1 === changedPageLeft)
 
   await page.keyboard.press('ArrowRight')
   await page.keyboard.press('ArrowRight')
   const finalPageLeft = await page.$eval(test_selector, el => el.getBoundingClientRect().left)
-  t.true(originalPageLeft + 1 == finalPageLeft)
+  t.true(originalPageLeft + 1 === finalPageLeft)
 
   t.pass()
 })
@@ -65,7 +65,7 @@ test('Test Shift Nudge Up/Down Works', async t => {
   await page.keyboard.down("Shift")
   await page.keyboard.press('ArrowUp')
   const changedPageTop = await page.$eval(test_selector, el => el.getBoundingClientRect().top)
-  t.true(originalPageTop - 10 == changedPageTop)
+  t.true(originalPageTop - 10 === changedPageTop)
   t.pass()
 })
 
