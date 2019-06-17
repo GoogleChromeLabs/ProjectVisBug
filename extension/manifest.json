@@ -6,12 +6,16 @@
   "icons": { "128": "icons/visbug.png" },
   "permissions": [
     "activeTab",
-    "contextMenus"
+    "contextMenus",
+    "tabs",
+    "storage"
   ],
   "background": {
     "persistent": true,
     "scripts": [
-      "visbug.js"
+      "visbug.js",
+      "contextmenu/launcher.js",
+      "contextmenu/colormode.js"
     ]
   },
   "browser_action": {

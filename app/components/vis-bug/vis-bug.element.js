@@ -18,6 +18,12 @@ import * as Icons                 from './vis-bug.icons'
 import { provideSelectorEngine }  from '../../features/search'
 import { metaKey }                from '../../utilities/'
 
+const modemap = {
+  'hex':  'toHexString',
+  'hsla': 'toHslString',
+  'rgba': 'toRgbString',
+}
+
 export default class VisBug extends HTMLElement {
   constructor() {
     super()
@@ -35,7 +41,7 @@ export default class VisBug extends HTMLElement {
 
     this.selectorEngine = Selectable(this)
     this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
-    
+
     provideSelectorEngine(this.selectorEngine)
 
     this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
@@ -53,6 +59,7 @@ export default class VisBug extends HTMLElement {
 
   setup() {
     this.$shadow.innerHTML = this.render()
+    this._colormode = modemap['hsla']
 
     $('li[data-tool]', this.$shadow).on('click', e =>
       this.toolSelected(e.currentTarget) && e.stopPropagation())
@@ -226,6 +233,14 @@ export default class VisBug extends HTMLElement {
   set tutsBaseURL(url) {
     this._tutsBaseURL = url
     this.setup()
+  }
+
+  set colorMode(mode) {
+    this._colormode = modemap[mode]
+  }
+
+  get colorMode() {
+    return this._colormode
   }
 }
 
