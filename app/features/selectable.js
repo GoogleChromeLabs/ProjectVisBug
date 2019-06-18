@@ -36,7 +36,6 @@ export function Selectable(visbug) {
 
     page.on('selectstart', on_selection)
     page.on('mousemove', on_hover)
-copy
     document.addEventListener('', on_copy)
     document.addEventListener('cut', on_cut)
     document.addEventListener('paste', on_paste)
@@ -197,22 +196,17 @@ copy
 
   const on_copy_styles = async e => {
     e.preventDefault()
+
     this.copied_styles = selected.map(el =>
       getStyles(el))
 
     try {
-      const styles = this.copied_styles[0].reduce((message, item) => {
-        message += `${camelToDash(item.prop)}: ${item.value};`
-
-        if (this.copied_styles[this.copied_styles[0].length - 1] !== item)
-          message = `${message}
-`
-        
-        return message
-      }, "")
+      const styles = this.copied_styles[0].reduce((message, item) =>
+        [...message, `${camelToDash(item.prop)}: ${item.value};`]
+      , []).join('\n')
 
       const {state} = await navigator.permissions.query({name:'clipboard-write'})
-      
+
       if (styles && state === 'granted') {
         await navigator.clipboard.writeText(styles)
         console.log('copied!')
@@ -420,8 +414,8 @@ copy
       hover.removeAttribute('data-pseudo-select'))
 
     Array.from([
-      ...$('visbug-handles'), 
-      ...$('visbug-label'), 
+      ...$('visbug-handles'),
+      ...$('visbug-label'),
       ...$('visbug-hover'),
       ...$('visbug-distance'),
     ]).forEach(el =>
