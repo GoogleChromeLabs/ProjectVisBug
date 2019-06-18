@@ -12,7 +12,7 @@ import { showTip as showMetaTip, removeAll as removeAllMetaTips } from './metati
 import { showTip as showAccessibilityTip, removeAll as removeAllAccessibilityTips } from './accessibility'
 
 import {
-  metaKey, htmlStringToDom, createClassname,
+  metaKey, htmlStringToDom, createClassname, camelToDash,
   isOffBounds, getStyles, deepElementFromPoint,
   isSelectorValid, findNearestChildElement, findNearestParentElement
 } from '../utilities/'
@@ -36,8 +36,8 @@ export function Selectable(visbug) {
 
     page.on('selectstart', on_selection)
     page.on('mousemove', on_hover)
-
-    document.addEventListener('copy', on_copy)
+copy
+    document.addEventListener('', on_copy)
     document.addEventListener('cut', on_cut)
     document.addEventListener('paste', on_paste)
 
@@ -195,10 +195,31 @@ export function Selectable(visbug) {
     }
   }
 
-  const on_copy_styles = e => {
+  const on_copy_styles = async e => {
     e.preventDefault()
     this.copied_styles = selected.map(el =>
       getStyles(el))
+
+    try {
+      const styles = this.copied_styles[0].reduce((message, item) => {
+        message += `${camelToDash(item.prop)}: ${item.value};`
+
+        if (this.copied_styles[this.copied_styles[0].length - 1] !== item)
+          message = `${message}
+`
+        
+        return message
+      }, "")
+
+      const {state} = await navigator.permissions.query({name:'clipboard-write'})
+      
+      if (styles && state === 'granted') {
+        await navigator.clipboard.writeText(styles)
+        console.log('copied!')
+      }
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   const on_paste_styles = (index = 0) =>
