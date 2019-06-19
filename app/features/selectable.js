@@ -15,7 +15,8 @@ import { showTip as showAccessibilityTip, removeAll as removeAllAccessibilityTip
 import {
   metaKey, htmlStringToDom, createClassname, camelToDash,
   isOffBounds, getStyles, deepElementFromPoint, getShadowValues,
-  isSelectorValid, findNearestChildElement, findNearestParentElement
+  isSelectorValid, findNearestChildElement, findNearestParentElement,
+  getTextShadowValues
 } from '../utilities/'
 
 export function Selectable(visbug) {
@@ -202,18 +203,22 @@ export function Selectable(visbug) {
       getStyles(el))
 
     try {
+      const colormode = $('vis-bug')[0].colorMode
+
       const styles = this.copied_styles[0]
         .map(({prop,value}) => {
-          const colormode = $('vis-bug')[0].colorMode
-
           if (prop.includes('color') || prop.includes('background-color') || prop.includes('Color') || prop.includes('fill') || prop.includes('stroke'))
             value = new TinyColor(value)[colormode]()
 
-          if (prop.includes('box-shadow') || prop.includes('text-shadow')) {
+          if (prop.includes('boxShadow')) {
             const [, color, x, y, blur, spread] = getShadowValues(value)
             value = `${new TinyColor(color)[colormode]()} ${x} ${y} ${blur} ${spread}`
           }
 
+          if (prop.includes('textShadow')) {
+            const [, color, x, y, blur] = getTextShadowValues(value)
+            value = `${new TinyColor(color)[colormode]()} ${x} ${y} ${blur}`
+          }
           return {prop,value}
         })
         .reduce((message, item) =>

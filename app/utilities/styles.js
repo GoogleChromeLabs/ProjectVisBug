@@ -85,3 +85,7 @@ export const loadStyles = async stylesheets => {
 // returns [full, color, x, y, blur, spread]
 export const getShadowValues = shadow =>
   /([^\)]+\)) ([^\s]+) ([^\s]+) ([^\s]+) ([^\s]+)/.exec(shadow)
+
+// returns [full, color, x, y, blur]
+export const getTextShadowValues = shadow =>
+  /([^\)]+\)) ([^\s]+) ([^\s]+) ([^\s]+)/.exec(shadow)
