@@ -143,7 +143,7 @@ const render = (el, tip = document.createElement('visbug-metatip')) => {
         : true
     )
     .map(style => {
-      if (style.prop.includes('color') || style.prop.includes('background-color') || style.prop.includes('Color') || style.prop.includes('fill') || style.prop.includes('stroke'))
+      if (style.prop.includes('color') || style.prop.includes('background-color') || style.prop.includes('border-color') || style.prop.includes('Color') || style.prop.includes('fill') || style.prop.includes('stroke'))
         style.value = `<span color style="background-color:${style.value};"></span>${new TinyColor(style.value)[colormode]()}`
 
       if (style.prop.includes('box-shadow')) {

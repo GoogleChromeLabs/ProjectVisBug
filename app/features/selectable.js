@@ -207,7 +207,7 @@ export function Selectable(visbug) {
 
       const styles = this.copied_styles[0]
         .map(({prop,value}) => {
-          if (prop.includes('color') || prop.includes('background-color') || prop.includes('Color') || prop.includes('fill') || prop.includes('stroke'))
+          if (prop.includes('color') || prop.includes('background-color') || prop.includes('border-color') || prop.includes('Color') || prop.includes('fill') || prop.includes('stroke'))
             value = new TinyColor(value)[colormode]()
 
           if (prop.includes('boxShadow')) {
