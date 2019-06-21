@@ -26,20 +26,27 @@ export const getStyles = el => {
   // we want if it has border width > 0
   // i made it look really hard
   const trueBorderColors = Object.entries(el.style)
-    .filter(([prop]) => prop === 'borderColor' || prop === 'borderWidth')
+    .filter(([prop]) => prop === 'borderColor' || prop === 'borderWidth' || prop === 'borderStyle')
     .map(([prop, value]) => ([
       prop, 
       computedStyle[prop].replace(/, rgba/g, '\rrgba'),
     ]))
 
-  const { borderColor, borderWidth } = Object.fromEntries(trueBorderColors)
+  const { borderColor, borderWidth, borderStyle } = Object.fromEntries(trueBorderColors)
   const vettedBorders = []
 
-  if (parseInt(borderWidth) > 0)
+  // todo: push border style!
+  if (parseInt(borderWidth) > 0) {
     vettedBorders.push({
       prop: 'borderColor',
       value: borderColor,
     })
+
+    vettedBorders.push({
+      prop: 'borderStyle',
+      value: borderStyle,
+    })
+  }
 
   return [
     ...vettedStyles, 
