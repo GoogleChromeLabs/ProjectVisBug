@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "ava": "^1.4.1",
-    "browser-sync": "^2.26.5",
+    "browser-sync": "^2.26.7",
     "concurrently": "^4.1.0",
     "esm": "^3.2.22",
     "postcss": "^7.0.14",
