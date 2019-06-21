@@ -92,7 +92,6 @@ export function queryPage(query, fn) {
     let matches = querySelectorAllDeep(query + notList)
     if (!matches.length) matches = querySelectorAllDeep(query)
     if (matches.length) {
-      SelectorEngine.unselect_all()
       matches.forEach(el =>
         fn
           ? fn(el)
