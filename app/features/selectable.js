@@ -341,7 +341,7 @@ export function Selectable(visbug) {
 
     overlayHoverUI({
       el: $target,
-      no_hover: tool === 'guides',
+      // no_hover: tool === 'guides',
       no_label: tool !== 'guides',
     })
 
