@@ -8,13 +8,19 @@
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  background: hsl(0,0%,95%);
+  background: var(--theme-icon_hover-bg);
   font-size: 16px;
   font-family: system-ui;
 
-  --light-grey: hsl(0,0%,90%);
-  --grey: hsl(0,0%,60%);
-  --dark-grey: hsl(0,0%,40%);
+  --light-grey: hsl(0 0% 90%);
+  --grey: hsl(0 0% 60%);
+  --dark-grey: hsl(0 0% 40%);
+
+  @media (prefers-color-scheme: dark) {
+    --light-grey: hsl(0 0% 20%);
+    --grey: hsl(0 0% 60%);
+    --dark-grey: hsl(0 0% 80%);
+  }
 }
 
 :host [command] {
@@ -41,7 +47,7 @@
 
 :host [card] {
   padding: 1em;
-  background: white;
+  background: var(--theme-bg);
   box-shadow: 0 0.5em 3em hsla(0,0%,0%,20%);
   border-radius: 0.5em;
   color: var(--dark-grey);
@@ -110,7 +116,7 @@
 
 :host span[pressed="true"] {
   background: var(--theme-color);
-  color: white;
+  color: var(--theme-bg);
 }
 
 :host span:not([pressed="true"]):matches([used]) {

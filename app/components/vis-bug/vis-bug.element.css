@@ -44,7 +44,7 @@
       background-color: var(--theme-icon_hover-bg);
     }
     &:active {
-      background-color: hsl(0,0%,90%);
+      background-color: var(--theme-icon_active-bg);
     }
   }
 
@@ -71,8 +71,8 @@
     top: 0;
     z-index: -2;
     pointer-events: none;
-    background: white;
-    color: hsl(0,0%,30%);
+    background: var(--theme-bg);
+    color: var(--theme-text_color);
     box-shadow: 0 0.1em 4.5em hsla(0,0%,0%,15%);
     border-radius: 1em;
 
@@ -109,6 +109,7 @@
         font-size: 1em;
         line-height: 1.5;
         padding-right: 3em;
+        color: var(--theme-icon_color);
       }
 
       & [table] {
@@ -125,7 +126,7 @@
     }
 
     & [hotkey] {
-      border-radius: 5em;
+      border-radius: .25em;
       height: 1.5em;
       width: 1.5em;
       display: inline-flex;
@@ -136,6 +137,7 @@
       font-weight: 300;
       font-size: 0.5em;
       text-transform: uppercase;
+      box-shadow: 0 2px 2px hsla(0 0% 0% / .25)
     }
   }
 
@@ -159,7 +161,7 @@
 :host [colors] > li {
   overflow: hidden;
   border-radius: 50%;
-  box-shadow: 0 0 0 2px white, 0 0.25em 0.5em hsla(0,0%,0%,25%);
+  box-shadow: 0 0 0 2px var(--theme-bg), 0 0.25em 0.5em hsla(0,0%,0%,25%);
   background: var(--contextual_color);
   margin-bottom: 0.5em;
 
@@ -212,6 +214,7 @@
   width: 250px;
   box-sizing: border-box;
   caret-color: hotpink;
+  background-color: var(--theme-bg);
 
   &::placeholder {
     font-weight: lighter;

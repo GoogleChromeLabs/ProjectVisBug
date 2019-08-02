@@ -22,8 +22,8 @@
   font-size: 16px;
   font-family: system-ui;
   max-width: 50vw;
-  background: white;
-  color: var(--theme-icon_color);
+  background: var(--theme-bg);
+  color: var(--theme-text_color);
   line-height: initial;
   padding: 0.5em;
   margin: 0;
@@ -36,7 +36,7 @@
 
   &:after {
     content: "";
-    background: white;
+    background: var(--theme-bg);
     width: var(--arrow-width);
     height: var(--arrow-height);
     clip-path: var(--arrow);
@@ -88,7 +88,7 @@
 
 :host small {
   font-size: 0.7em;
-  color: hsl(0,0%,60%);
+  color: var(--theme-icon_color);
 
   & > span {
     color: hsl(0,0%,20%);
@@ -111,13 +111,13 @@
   margin: 0.5em 0 0;
   padding: 0;
   list-style-type: none;
-  color: hsl(0,0%,40%);
+  color: var(--theme-icon_color);
   font-size: 0.8em;
   font-family: 'Dank Mono', 'Operator Mono', 'Inconsolata', 'Fira Mono', 'SF Mono', 'Monaco', 'Droid Sans Mono', 'Source Code Pro', monospace;
 }
 
 :host [value] {
-  color: var(--theme-icon_color);
+  color: var(--theme-text_color);
   display: inline-flex;
   align-items: center;
   justify-content: flex-end;
