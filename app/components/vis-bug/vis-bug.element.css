@@ -215,6 +215,7 @@
   box-sizing: border-box;
   caret-color: hotpink;
   background-color: var(--theme-bg);
+  color: var(--theme-text_color);
 
   &::placeholder {
     font-weight: lighter;
