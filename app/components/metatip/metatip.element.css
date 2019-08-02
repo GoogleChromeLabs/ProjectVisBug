@@ -157,5 +157,5 @@
 :host [contrast] > span {
   padding: 0 0.5em 0.1em;
   border-radius: 1em;
-  box-shadow: 0 0 0 1px hsl(0,0%,90%);
+  box-shadow: 0 0 0 1px var(--theme-icon_active-bg);
 }
