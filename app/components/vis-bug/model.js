@@ -54,7 +54,7 @@ export const VisBugModel = {
     instruction: `<div table>
                     <div>
                       <b>Lateral:</b>
-                      <span>click then drag</span>
+                      <span>click container ⇒ drag child</span>
                     </div>
                     <div>
                       <b>Lateral:</b>
@@ -67,6 +67,10 @@ export const VisBugModel = {
                     <div>
                       <b>Down+in, out+under:</b>
                       <span>▼</span>
+                    </div>
+                    <div>
+                      <b>Trainer:</b>
+                      <span>shift + /</span>
                     </div>
                   </div>`,
   },
@@ -94,6 +98,10 @@ export const VisBugModel = {
                       <b>All Sides:</b>
                       <span>${metaKey} +  ▲ ▼</span>
                     </div>
+                    <div>
+                      <b>Trainer:</b>
+                      <span>shift + /</span>
+                    </div>
                   </div>`,
   },
   p: {
@@ -113,6 +121,10 @@ export const VisBugModel = {
                     <div>
                       <b>All Sides:</b>
                       <span>${metaKey} +  ▲ ▼</span>
+                    </div>
+                    <div>
+                      <b>Trainer:</b>
+                      <span>shift + /</span>
                     </div>
                   </div>`
   },
@@ -140,6 +152,10 @@ export const VisBugModel = {
                       <b>Direction:</b>
                       <span>${metaKey} +  ◀ ▼</span>
                     </div>
+                    <div>
+                      <b>Trainer:</b>
+                      <span>shift + /</span>
+                    </div>
                   </div>`,
   },
   h: {
@@ -163,6 +179,10 @@ export const VisBugModel = {
                     <div>
                       <b>Opacity:</b>
                       <span>${metaKey} +  ◀ ▶</span>
+                    </div>
+                    <div>
+                      <b>Trainer:</b>
+                      <span>shift + /</span>
                     </div>
                   </div>`,
   },
@@ -237,6 +257,10 @@ export const VisBugModel = {
                     <div>
                       <b>Weight:</b>
                       <span>${metaKey} + ▲ ▼</span>
+                    </div>
+                    <div>
+                      <b>Trainer:</b>
+                      <span>shift + /</span>
                     </div>
                   </div>`,
   },
