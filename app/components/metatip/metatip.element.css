@@ -22,7 +22,8 @@
   font-size: 16px;
   font-family: system-ui;
   max-width: 50vw;
-  background: var(--theme-bg);
+  background: var(--theme-bd);
+  backdrop-filter: blur(5px);
   color: var(--theme-text_color);
   line-height: initial;
   padding: 0.5em;
@@ -34,6 +35,7 @@
   line-height: initial;
   filter: drop-shadow(0 var(--shadow-direction) 0.5em hsla(0,0%,0%,35%));
 
+  border: 1px solid white;
   &:after {
     content: "";
     background: var(--theme-bg);
@@ -130,7 +132,7 @@
 }
 
 :host [longform] {
-  background: var(--theme-icon_hover-bg);
+  background: var(--theme-bg);
   padding: 0.5em 0.75em;
   border-radius: 0.25em;
   font-family: sans-serif;
