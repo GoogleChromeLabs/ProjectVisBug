@@ -35,7 +35,7 @@
   line-height: initial;
   filter: drop-shadow(0 var(--shadow-direction) 0.5em hsla(0,0%,0%,35%));
 
-  border: 1px solid white;
+  border: 1px solid var(--theme-bg);
   &:after {
     content: "";
     background: var(--theme-bg);
@@ -132,7 +132,7 @@
 }
 
 :host [longform] {
-  background: var(--theme-bg);
+  background: var(--theme-icon_hover-bg);
   padding: 0.5em 0.75em;
   border-radius: 0.25em;
   font-family: sans-serif;
