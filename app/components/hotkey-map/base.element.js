@@ -22,7 +22,7 @@ export class HotkeyMap extends HTMLElement {
       tab:    {0:2},
       caps:   {0:3,11:3},
       shift:  {0:6,11:6},
-      space:  {3:10},
+      space:  {2:10},
     }
 
     this.$shadow    = this.attachShadow({mode: 'closed'})
