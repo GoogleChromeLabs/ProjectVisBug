@@ -194,13 +194,16 @@ export function Selectable(visbug) {
     }
   }
 
-  const on_paste = e => {
+  const on_paste = (e, index = 0) => {
     const clipData = e.clipboardData.getData('text/html')
     const potentialHTML = clipData || this.copy_backup
-    if (selected[0] && potentialHTML) {
+
+    if (selected.length && potentialHTML) {
       e.preventDefault()
-      selected[0].appendChild(
-        htmlStringToDom(potentialHTML))
+
+      selected.forEach(el =>
+        el.appendChild(
+          htmlStringToDom(potentialHTML)))
     }
   }
 
