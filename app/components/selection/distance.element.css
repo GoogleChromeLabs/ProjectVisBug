@@ -16,7 +16,6 @@
   position: absolute;
   height: var(--distance-h);
   width: var(--distance-w);
-  width: max-content;
   top: var(--top);
   left: var(--left);
   right: var(--right);
@@ -29,6 +28,7 @@
 }
 
 :host > figure figcaption {
+  width: max-content;
   color: white;
   text-shadow: 0 0.5px 0 hsla(0, 0%, 0%, 0.4);
   box-shadow: 0 0.5px 0 hsla(0, 0%, 0%, 0.4);
