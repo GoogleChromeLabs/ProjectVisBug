@@ -64,7 +64,7 @@ export default class VisBug extends HTMLElement {
     $('li[data-tool]', this.$shadow).on('click', e =>
       this.toolSelected(e.currentTarget) && e.stopPropagation())
 
-    draggable(this);
+    draggable(this)
 
     Object.entries(this.toolbar_model).forEach(([key, value]) =>
       hotkeys(key, e => {
