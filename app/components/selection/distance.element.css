@@ -16,6 +16,7 @@
   position: absolute;
   height: var(--distance-h);
   width: var(--distance-w);
+  width: max-content;
   top: var(--top);
   left: var(--left);
   right: var(--right);
