@@ -38,7 +38,7 @@ export function Selectable(visbug) {
 
     page.on('selectstart', on_selection)
     page.on('mousemove', on_hover)
-    document.addEventListener('', on_copy)
+    document.addEventListener('copy', on_copy)
     document.addEventListener('cut', on_cut)
     document.addEventListener('paste', on_paste)
 
@@ -162,7 +162,7 @@ export function Selectable(visbug) {
     selected.forEach(el =>
       el.attr('style', null))
 
-  const on_copy = e => {
+  const on_copy = async e => {
     // if user has selected text, dont try to copy an element
     if (window.getSelection().toString().length)
       return
@@ -171,8 +171,16 @@ export function Selectable(visbug) {
       e.preventDefault()
       let $node = selected[0].cloneNode(true)
       $node.removeAttribute('data-selected')
+
       this.copy_backup = $node.outerHTML
       e.clipboardData.setData('text/html', this.copy_backup)
+
+      const {state} = await navigator.permissions.query({name:'clipboard-write'})
+
+      if (state === 'granted') {
+        await navigator.clipboard.writeText(this.copy_backup)
+        console.info('copied!')
+      }
     }
   }
 
@@ -229,10 +237,10 @@ export function Selectable(visbug) {
 
       if (styles && state === 'granted') {
         await navigator.clipboard.writeText(styles)
-        console.log('copied!')
+        console.info('copied!')
       }
     } catch(e) {
-      console.log(e)
+      console.warn(e)
     }
   }
 
