@@ -3,18 +3,28 @@
 :host {
   display: none;
   position: fixed;
+  top: 0;
+  left: 0;
   z-index: var(--layer-top);
   align-items: center;
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  background: hsl(0,0%,95%);
+  background: var(--theme-bd-2);
+  backdrop-filter: blur(5px);
   font-size: 16px;
   font-family: system-ui;
+  cursor: initial;
 
-  --light-grey: hsl(0,0%,90%);
-  --grey: hsl(0,0%,60%);
-  --dark-grey: hsl(0,0%,40%);
+  --light-grey: hsl(0 0% 90%);
+  --grey: hsl(0 0% 60%);
+  --dark-grey: hsl(0 0% 40%);
+
+  @media (prefers-color-scheme: dark) {
+    --light-grey: hsl(0 0% 20%);
+    --grey: hsl(0 0% 60%);
+    --dark-grey: hsl(0 0% 80%);
+  }
 }
 
 :host [command] {
@@ -41,8 +51,7 @@
 
 :host [card] {
   padding: 1em;
-  background: white;
-  box-shadow: 0 0.5em 3em hsla(0,0%,0%,20%);
+  background: var(--theme-bg);
   border-radius: 0.5em;
   color: var(--dark-grey);
   display: flex;
@@ -110,11 +119,12 @@
 
 :host span[pressed="true"] {
   background: var(--theme-color);
-  color: white;
+  color: var(--theme-bg);
 }
 
 :host span:not([pressed="true"]):matches([used]) {
   background: var(--light-grey);
+  cursor: pointer;
 }
 
 :host span[hotkey] {

@@ -10,7 +10,7 @@ let SelectorEngine
 const search_base = document.createElement('div')
 search_base.classList.add('search')
 search_base.innerHTML = `
-  <input list="visbug-plugins" type="text" placeholder="ex: images, .btn, button, text, ..."/>
+  <input list="visbug-plugins" type="search" placeholder="ex: images, .btn, button, text, ..."/>
   <datalist id="visbug-plugins">
     ${PluginHints.reduce((options, command) =>
       options += `<option value="${command}">plugin</option>`

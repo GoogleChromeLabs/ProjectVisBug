@@ -2,27 +2,34 @@
 
 :host {
   position: fixed;
-  top: 0;
-  left: 0;
+
+  top: 10px;
+  left: 10px;
   z-index: var(--layer-1);
   max-width: min-content;
 }
 
 :host > ol {
   all: initial;
+  cursor: inherit;
   font-size: 16px;
   font-family: system-ui;
   display: flex;
   flex-direction: column;
-  margin: 1em 0 0.5em 1em;
+  margin: 0;
   padding: 0;
   list-style-type: none;
   border-radius: 2em;
+  backdrop-filter: blur(0);
 
-  &:not([colors]) {
+  &:first-of-type {
     box-shadow: 0 0.25em 0.5em hsla(0,0%,0%,10%);
-    background: hsla(0 0% 100% / .9);
     backdrop-filter: blur(5px);
+    background-color: var(--theme-bd-2);
+
+    @media (prefers-color-scheme: dark) {
+      box-shadow: 0 0.25em 0.5em hsla(0,0%,0%,50%);
+    }
   }
 }
 
@@ -42,10 +49,10 @@
   &[data-tool] {
     &:hover {
       cursor: pointer;
-      background-color: var(--theme-bg);
+      background-color: var(--theme-icon_hover-bg);
     }
     &:active {
-      background-color: hsl(0,0%,90%);
+      background-color: var(--theme-icon_active-bg);
     }
   }
 
@@ -62,7 +69,7 @@
   }
 
   @media (max-height: 768px) {
-    &:matches(:nth-of-type(10), :nth-of-type(11), :nth-of-type(12), :nth-of-type(13)) > aside {
+    &:matches(:nth-of-type(7),:nth-of-type(8), :nth-of-type(9), :nth-of-type(10), :nth-of-type(11), :nth-of-type(12), :nth-of-type(13)) > aside {
       top: auto;
     }
   }
@@ -76,8 +83,8 @@
     top: 0;
     z-index: -2;
     pointer-events: none;
-    background: white;
-    color: hsl(0,0%,30%);
+    background: var(--theme-bg);
+    color: var(--theme-text_color);
     box-shadow: 0 0.1em 4.5em hsla(0,0%,0%,15%);
     border-radius: 1em;
 
@@ -94,7 +101,7 @@
     & figcaption {
       padding: 1em;
       display: grid;
-      gap: 0.5em;
+      gap: 1em;
 
       & > :matches(h2,p) {
         margin: 0;
@@ -103,7 +110,6 @@
       & > h2 {
         font-size: 1.5em;
         line-height: 1.1;
-        margin-bottom: 0.5em;
         display: grid;
         grid-auto-flow: column;
         justify-content: space-between;
@@ -113,7 +119,7 @@
       & > p {
         font-size: 1em;
         line-height: 1.5;
-        padding-right: 3em;
+        color: var(--theme-icon_color);
       }
 
       & [table] {
@@ -130,7 +136,7 @@
     }
 
     & [hotkey] {
-      border-radius: 5em;
+      border-radius: .25em;
       height: 1.5em;
       width: 1.5em;
       display: inline-flex;
@@ -141,6 +147,7 @@
       font-weight: 300;
       font-size: 0.5em;
       text-transform: uppercase;
+      box-shadow: 0 2px 2px hsla(0 0% 0% / .25)
     }
   }
 
@@ -158,15 +165,14 @@
 }
 
 :host [colors] {
-  margin-top: 0;
+  margin-top: .5em;
 }
 
 :host [colors] > li {
   overflow: hidden;
   border-radius: 50%;
-  box-shadow: 0 0 0 2px white, 0 0.25em 0.5em hsla(0,0%,0%,25%);
+  box-shadow: 0 0 0 2px var(--theme-bg), 0 0.25em 0.5em hsla(0,0%,0%,25%);
   background: var(--contextual_color);
-  /* backdrop-filter: blur(5px); */
   margin-bottom: 0.5em;
 
   &:first-child {
@@ -218,8 +224,9 @@
   width: 250px;
   box-sizing: border-box;
   caret-color: hotpink;
-  /* background: hsla(0 0% 100% / .75);
-  backdrop-filter: blur(5px); */
+  background-color: var(--theme-bg);
+  color: var(--theme-text_color);
+  cursor: initial;
 
   &::placeholder {
     font-weight: lighter;
