@@ -26,6 +26,10 @@
     backdrop-filter: blur(5px);
     background-color: var(--theme-bd-2);
 
+    &:active {
+      cursor: grabbing !important;
+    }
+
     @media (prefers-color-scheme: dark) {
       box-shadow: 0 0.25em 0.5em hsla(0,0%,0%,50%);
     }
