@@ -25,7 +25,7 @@
 <br>
 <br>
 
-<h3 style="font-weight:300; max-width: 40ch;"><b>Give power</b> to designers & content creators, in a place where they currently feel they have little to none, <b>by bringing design tool interactions<b> to the browser</h3>
+<h3 style="font-weight:300; max-width: 40ch;"><b>Give power</b> to designers & content creators, in a place where they currently feel they have little to none, <b>by bringing design tool interactions</b> to the browser</h3>
 
 <br>
 <br>
