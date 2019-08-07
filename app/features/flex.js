@@ -35,7 +35,10 @@ export function Flex({selection}) {
     let selectedNodes = selection()
       , keys = handler.key.split('+')
 
-    changeDirection(selectedNodes, keys.includes('left') ? 'row' : 'column')
+    if (keys.includes('left') || keys.includes('right'))
+      changeDirection(selectedNodes, 'row')
+    else
+      changeDirection(selectedNodes, 'column')
   })
 
   return () => {
