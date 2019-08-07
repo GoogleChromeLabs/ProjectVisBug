@@ -141,16 +141,20 @@ export const VisBugModel = {
     description: `Create or modify flexbox direction, distribution & alignment`,
     instruction: `<div table>
                     <div>
+                      <b>Rows:</b>
+                      <span>${metaKey} + ▼</span>
+                    </div>
+                    <div>
+                      <b>Columns:</b>
+                      <span>${metaKey} + ▶</span>
+                    </div>
+                    <div>
                       <b>Alignment:</b>
                       <span>◀ ▶ ▲ ▼</span>
                     </div>
                     <div>
                       <b>Distribution:</b>
                       <span>Shift + ◀ ▶</span>
-                    </div>
-                    <div>
-                      <b>Direction:</b>
-                      <span>${metaKey} +  ◀ ▼</span>
                     </div>
                     <div>
                       <b>Trainer:</b>
