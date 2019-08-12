@@ -16,7 +16,10 @@ import { VisBugStyles }           from '../styles.store'
 import { VisBugModel }            from './model'
 import * as Icons                 from './vis-bug.icons'
 import { provideSelectorEngine }  from '../../features/search'
-import { metaKey }                from '../../utilities/'
+
+import { 
+  metaKey, applyStyle, showHideSelected
+}    from '../../utilities/'
 
 const modemap = {
   'hex':  'toHexString',
@@ -228,6 +231,15 @@ export default class VisBug extends HTMLElement {
       this.selectorEngine.removeSelectedCallback(feature.onNodesSelected)
       feature.disconnect()
     }
+  }
+
+  applyStyles(visbugPayload) {
+    this.selectorEngine
+      .selection()
+      .map(el => showHideSelected(el))
+      .forEach(el =>
+        applyStyle({el, ...visbugPayload
+      }))
   }
 
   get activeTool() {
