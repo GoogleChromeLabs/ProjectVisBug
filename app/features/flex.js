@@ -55,7 +55,7 @@ export function Flex(visbug) {
 export const ensureFlex = (el) => el.style.display = 'flex'
 export const assignLabel = (el) => $(el).attr('data-label', `display: ${getComputedStyle(el).display}`)
 
-const assignLabelAndEnsureFlex = callback => (els, ...args) => {
+const ensureFlexAndAssignLabel = callback => (els, ...args) => {
   els.forEach(el => { 
     ensureFlex(el)
     assignLabel(el)
@@ -74,14 +74,14 @@ const accountForOtherJustifyContent = (cur, want) => {
 }
 
 // todo: support reversing direction
-export const changeDirection = assignLabelAndEnsureFlex(
+export const changeDirection = ensureFlexAndAssignLabel(
   (els, value) => els.forEach(el => el.style.flexDirection = value)
 );
 
 const h_alignMap      = {normal: 0,'flex-start': 0,'center': 1,'flex-end': 2,}
 const h_alignOptions  = ['flex-start','center','flex-end']
 
-export const changeHAlignment = assignLabelAndEnsureFlex(
+export const changeHAlignment = ensureFlexAndAssignLabel(
   (els, direction) => 
     els
       .map(el => ({
@@ -103,7 +103,7 @@ export const changeHAlignment = assignLabelAndEnsureFlex(
 const v_alignMap      = {normal: 0,'flex-start': 0,'center': 1,'flex-end': 2,}
 const v_alignOptions  = ['flex-start','center','flex-end']
 
-export const changeVAlignment = assignLabelAndEnsureFlex(
+export const changeVAlignment = ensureFlexAndAssignLabel(
   (els, direction) => 
     els
       .map(el => ({
@@ -125,7 +125,7 @@ export const changeVAlignment = assignLabelAndEnsureFlex(
 const h_distributionMap      = {normal: 1,'space-around': 0,'': 1,'space-between': 2,}
 const h_distributionOptions  = ['space-around','','space-between']
 
-export const changeHDistribution = assignLabelAndEnsureFlex(
+export const changeHDistribution = ensureFlexAndAssignLabel(
   (els, direction) => 
     els
       .map(el => ({
@@ -147,7 +147,7 @@ export const changeHDistribution = assignLabelAndEnsureFlex(
 const v_distributionMap      = {normal: 1,'space-around': 0,'': 1,'space-between': 2,}
 const v_distributionOptions  = ['space-around','','space-between']
 
-export const changeVDistribution = assignLabelAndEnsureFlex(
+export const changeVDistribution = ensureFlexAndAssignLabel(
   (els, direction) =>
     els
       .map(el => ({
