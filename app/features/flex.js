@@ -1,3 +1,4 @@
+import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { metaKey, getStyle } from '../utilities/'
 
@@ -10,13 +11,13 @@ const key_events = 'up,down,left,right'
 
 const command_events = `${metaKey}+up,${metaKey}+down,${metaKey}+left,${metaKey}+right`
 
-export function Flex({selection}) {
+export function Flex(visbug) {
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
 
     e.preventDefault()
 
-    let selectedNodes = selection()
+    let selectedNodes = visbug.selection()
       , keys = handler.key.split('+')
 
     if (keys.includes('left') || keys.includes('right'))
@@ -32,7 +33,7 @@ export function Flex({selection}) {
   hotkeys(command_events, (e, handler) => {
     e.preventDefault()
 
-    let selectedNodes = selection()
+    let selectedNodes = visbug.selection()
       , keys = handler.key.split('+')
 
     if (keys.includes('left') || keys.includes('right'))
@@ -41,10 +42,13 @@ export function Flex({selection}) {
       changeDirection(selectedNodes, 'column')
   })
 
+  visbug.onSelectedUpdate(onSelectedUpdateHandler)
+
   return () => {
     hotkeys.unbind(key_events)
     hotkeys.unbind(command_events)
     hotkeys.unbind('up,down,left,right')
+    visbug.removeSelectedCallback(onSelectedUpdateHandler)
   }
 }
 
@@ -52,6 +56,13 @@ const ensureFlex = el => {
   el.style.display = 'flex'
   return el
 }
+
+export const assignLabel = (el) => { 
+  $(el).attr('data-label', `display: ${getComputedStyle(el).display}`)
+  return el
+} 
+
+export const onSelectedUpdateHandler = (el) => el.forEach(assignLabel)
 
 const accountForOtherJustifyContent = (cur, want) => {
   if (want == 'align' && (cur != 'flex-start' && cur != 'center' && cur != 'flex-end'))
@@ -66,6 +77,7 @@ const accountForOtherJustifyContent = (cur, want) => {
 export function changeDirection(els, value) {
   els
     .map(ensureFlex)
+    .map(assignLabel)
     .map(el => {
       el.style.flexDirection = value
     })
@@ -77,6 +89,7 @@ const h_alignOptions  = ['flex-start','center','flex-end']
 export function changeHAlignment(els, direction) {
   els
     .map(ensureFlex)
+    .map(assignLabel)
     .map(el => ({
       el,
       style:    'justifyContent',
@@ -99,6 +112,7 @@ const v_alignOptions  = ['flex-start','center','flex-end']
 export function changeVAlignment(els, direction) {
   els
     .map(ensureFlex)
+    .map(assignLabel)
     .map(el => ({
       el,
       style:    'alignItems',
@@ -121,6 +135,7 @@ const h_distributionOptions  = ['space-around','','space-between']
 export function changeHDistribution(els, direction) {
   els
     .map(ensureFlex)
+    .map(assignLabel)
     .map(el => ({
       el,
       style:    'justifyContent',
@@ -143,6 +158,7 @@ const v_distributionOptions  = ['space-around','','space-between']
 export function changeVDistribution(els, direction) {
   els
     .map(ensureFlex)
+    .map(assignLabel)
     .map(el => ({
       el,
       style:    'alignContent',
