@@ -52,17 +52,13 @@ export function Flex(visbug) {
   }
 }
 
-export const ensureFlex = (el) => el.style.display = 'flex'
-export const assignLabel = (el) => $(el).attr('data-label', `display: ${getComputedStyle(el).display}`)
-
-const ensureFlexAndAssignLabel = callback => (els, ...args) => {
-  els.forEach(el => { 
-    ensureFlex(el)
-    assignLabel(el)
-  })
-
-  return callback(els, ...args)
+const ensureFlex = el => {
+  el.style.display = 'flex'
+  return el
 }
+
+export const assignLabel = (el) => $(el).attr('data-label', `display: ${getComputedStyle(el).display}`)
+export const onSelectedUpdateHandler = (els) => els.forEach(assignLabel)
 
 const accountForOtherJustifyContent = (cur, want) => {
   if (want == 'align' && (cur != 'flex-start' && cur != 'center' && cur != 'flex-end'))
@@ -74,98 +70,103 @@ const accountForOtherJustifyContent = (cur, want) => {
 }
 
 // todo: support reversing direction
-export const changeDirection = ensureFlexAndAssignLabel(
-  (els, value) => els.forEach(el => el.style.flexDirection = value)
-);
+export function changeDirection(els, value) {
+  els
+    .map(ensureFlex)
+    .map(assignLabel)
+    .map(el => {
+      el.style.flexDirection = value
+    })
+}
 
 const h_alignMap      = {normal: 0,'flex-start': 0,'center': 1,'flex-end': 2,}
 const h_alignOptions  = ['flex-start','center','flex-end']
 
-export const changeHAlignment = ensureFlexAndAssignLabel(
-  (els, direction) => 
-    els
-      .map(el => ({
-        el,
-        style:    'justifyContent',
-        current:  accountForOtherJustifyContent(getStyle(el, 'justifyContent'), 'align'),
-        direction: direction.split('+').includes('left'),
+export function changeHAlignment(els, direction) {
+  els
+    .map(ensureFlex)
+    .map(assignLabel)
+    .map(el => ({
+      el,
+      style:    'justifyContent',
+      current:  accountForOtherJustifyContent(getStyle(el, 'justifyContent'), 'align'),
+      direction: direction.split('+').includes('left'),
+    }))
+    .map(payload =>
+      Object.assign(payload, {
+        value: payload.direction
+          ? h_alignMap[payload.current] - 1
+          : h_alignMap[payload.current] + 1
       }))
-      .map(payload =>
-        Object.assign(payload, {
-          value: payload.direction
-            ? h_alignMap[payload.current] - 1
-            : h_alignMap[payload.current] + 1
-        }))
-      .forEach(({el, style, value}) =>
-        el.style[style] = h_alignOptions[value < 0 ? 0 : value >= 2 ? 2: value])
-)
+    .forEach(({el, style, value}) =>
+      el.style[style] = h_alignOptions[value < 0 ? 0 : value >= 2 ? 2: value])
+}
 
 const v_alignMap      = {normal: 0,'flex-start': 0,'center': 1,'flex-end': 2,}
 const v_alignOptions  = ['flex-start','center','flex-end']
 
-export const changeVAlignment = ensureFlexAndAssignLabel(
-  (els, direction) => 
-    els
-      .map(el => ({
-        el,
-        style:    'alignItems',
-        current:  getStyle(el, 'alignItems'),
-        direction: direction.split('+').includes('up'),
+export function changeVAlignment(els, direction) {
+  els
+    .map(ensureFlex)
+    .map(assignLabel)
+    .map(el => ({
+      el,
+      style:    'alignItems',
+      current:  getStyle(el, 'alignItems'),
+      direction: direction.split('+').includes('up'),
+    }))
+    .map(payload =>
+      Object.assign(payload, {
+        value: payload.direction
+          ? h_alignMap[payload.current] - 1
+          : h_alignMap[payload.current] + 1
       }))
-      .map(payload =>
-        Object.assign(payload, {
-          value: payload.direction
-            ? h_alignMap[payload.current] - 1
-            : h_alignMap[payload.current] + 1
-        }))
-      .forEach(({el, style, value}) =>
-        el.style[style] = v_alignOptions[value < 0 ? 0 : value >= 2 ? 2: value])
-)
+    .forEach(({el, style, value}) =>
+      el.style[style] = v_alignOptions[value < 0 ? 0 : value >= 2 ? 2: value])
+}
 
 const h_distributionMap      = {normal: 1,'space-around': 0,'': 1,'space-between': 2,}
 const h_distributionOptions  = ['space-around','','space-between']
 
-export const changeHDistribution = ensureFlexAndAssignLabel(
-  (els, direction) => 
-    els
-      .map(el => ({
-        el,
-        style:    'justifyContent',
-        current:  accountForOtherJustifyContent(getStyle(el, 'justifyContent'), 'distribute'),
-        direction: direction.split('+').includes('left'),
+export function changeHDistribution(els, direction) {
+  els
+    .map(ensureFlex)
+    .map(assignLabel)
+    .map(el => ({
+      el,
+      style:    'justifyContent',
+      current:  accountForOtherJustifyContent(getStyle(el, 'justifyContent'), 'distribute'),
+      direction: direction.split('+').includes('left'),
+    }))
+    .map(payload =>
+      Object.assign(payload, {
+        value: payload.direction
+          ? h_distributionMap[payload.current] - 1
+          : h_distributionMap[payload.current] + 1
       }))
-      .map(payload =>
-        Object.assign(payload, {
-          value: payload.direction
-            ? h_distributionMap[payload.current] - 1
-            : h_distributionMap[payload.current] + 1
-        }))
-      .forEach(({el, style, value}) =>
-        el.style[style] = h_distributionOptions[value < 0 ? 0 : value >= 2 ? 2: value])
-)
+    .forEach(({el, style, value}) =>
+      el.style[style] = h_distributionOptions[value < 0 ? 0 : value >= 2 ? 2: value])
+}
 
 const v_distributionMap      = {normal: 1,'space-around': 0,'': 1,'space-between': 2,}
 const v_distributionOptions  = ['space-around','','space-between']
 
-export const changeVDistribution = ensureFlexAndAssignLabel(
-  (els, direction) =>
-    els
-      .map(el => ({
-        el,
-        style:    'alignContent',
-        current:  getStyle(el, 'alignContent'),
-        direction: direction.split('+').includes('up'),
+export function changeVDistribution(els, direction) {
+  els
+    .map(ensureFlex)
+    .map(assignLabel)
+    .map(el => ({
+      el,
+      style:    'alignContent',
+      current:  getStyle(el, 'alignContent'),
+      direction: direction.split('+').includes('up'),
+    }))
+    .map(payload =>
+      Object.assign(payload, {
+        value: payload.direction
+          ? v_distributionMap[payload.current] - 1
+          : v_distributionMap[payload.current] + 1
       }))
-      .map(payload =>
-        Object.assign(payload, {
-          value: payload.direction
-            ? v_distributionMap[payload.current] - 1
-            : v_distributionMap[payload.current] + 1
-        }))
-      .forEach(({el, style, value}) =>
-        el.style[style] = v_distributionOptions[value < 0 ? 0 : value >= 2 ? 2: value])
-)
-
-function onSelectedUpdateHandler(els) {
-  els.forEach(assignLabel)
+    .forEach(({el, style, value}) =>
+      el.style[style] = v_distributionOptions[value < 0 ? 0 : value >= 2 ? 2: value])
 }
