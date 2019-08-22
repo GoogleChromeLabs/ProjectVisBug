@@ -57,8 +57,12 @@ const ensureFlex = el => {
   return el
 }
 
-export const assignLabel = (el) => $(el).attr('data-label', `display: ${getComputedStyle(el).display}`)
-export const onSelectedUpdateHandler = (els) => els.forEach(assignLabel)
+export const assignLabel = (el) => { 
+  $(el).attr('data-label', `display: ${getComputedStyle(el).display}`)
+  return el
+} 
+
+export const onSelectedUpdateHandler = (el) => el.forEach(assignLabel)
 
 const accountForOtherJustifyContent = (cur, want) => {
   if (want == 'align' && (cur != 'flex-start' && cur != 'center' && cur != 'flex-end'))
