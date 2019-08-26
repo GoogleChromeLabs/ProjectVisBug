@@ -118,7 +118,7 @@
   font-family: 'Dank Mono', 'Operator Mono', 'Inconsolata', 'Fira Mono', 'SF Mono', 'Monaco', 'Droid Sans Mono', 'Source Code Pro', monospace;
 }
 
-:host [value], 
+:host [value],
 :host [local-change] {
   color: var(--theme-text_color);
   display: inline-grid;
@@ -157,6 +157,10 @@
   margin-top: 1rem;
   color: var(--theme-color);
   font-weight: bold;
+
+  & + div {
+    margin-bottom: 1em;
+  }
 }
 
 :host [contrast] > span {
