@@ -46,6 +46,7 @@ export default class VisBug extends HTMLElement {
     this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
 
     provideSelectorEngine(this.selectorEngine)
+    this.selectorEngine.onSelectedUpdate(selection => this.broadcastSelection(selection))
 
     this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
   }
@@ -240,6 +241,29 @@ export default class VisBug extends HTMLElement {
       .forEach(el =>
         applyStyle({el, ...visbugPayload
       }))
+  }
+
+  broadcastSelection(nodes) {
+    const stringifyElement = node => {
+      const {nodeName, classList, id, index, parentNode } = node
+      return `${id?'#'+id:''}${nodeName.toLowerCase()}${classList.length?'.'+ classList.toString().split(' ').join('.'):''}:nth-child(${[...parentNode.children].indexOf(node)+1})`
+    }
+
+    const selection_payload = [...nodes]
+      .map(node =>
+        `${stringifyElement(node.parentNode)} > ${stringifyElement(node)}`)
+
+    // todo: iterate over callbacks and invoke with payload
+    console.log(selection_payload)
+    this.consumeSelection(selection_payload)
+  }
+
+  consumeSelection(visbugSelectionPayload) {
+    const nodes = visbugSelectionPayload.flatMap(queryString => 
+      [...document.querySelectorAll(queryString)])
+
+    // this.selectorEngine.select(nodes)
+    console.log(nodes)
   }
 
   get activeTool() {
