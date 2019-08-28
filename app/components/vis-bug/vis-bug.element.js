@@ -253,9 +253,9 @@ export default class VisBug extends HTMLElement {
       .map(node =>
         `${stringifyElement(node.parentNode)} > ${stringifyElement(node)}`)
 
+    // todo: create a callback system here to be iterated on
     // todo: iterate over callbacks and invoke with payload
     console.log(selection_payload)
-    this.consumeSelection(selection_payload)
   }
 
   consumeSelection(visbugSelectionPayload) {
