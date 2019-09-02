@@ -28,7 +28,7 @@ export class Label extends HTMLElement {
 
       this.position = {
         node_label_id,
-        boundingRect: source_el.getBoundingClientRect(),
+        boundingRect: source_el['vis-box'],
       }
     })
   }

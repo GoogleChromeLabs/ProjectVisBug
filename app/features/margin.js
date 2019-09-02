@@ -89,7 +89,7 @@ function removeBackgrounds(els) {
 }
 
 export function createMarginVisual(el, hover = false) {
-  const bounds            = el.getBoundingClientRect()
+  const bounds            = el['vis-box']
   const styleOM           = el.computedStyleMap()
   const calculatedStyle   = getStyle(el, 'margin')
   const boxdisplay        = document.createElement('visbug-boxmodel')

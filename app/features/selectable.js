@@ -419,6 +419,7 @@ export function Selectable(visbug) {
     el.setAttribute('data-label-id', id)
 
     clearHover()
+    await setVisbox([el])
 
     overlayMetaUI({
       el,
@@ -426,7 +427,6 @@ export function Selectable(visbug) {
       no_label: tool !== 'inspector' && tool !== 'accessibility',
     })
 
-    await setVisbox([el])
     selected.unshift(el)
     tellWatchers()
   }
@@ -578,7 +578,7 @@ export function Selectable(visbug) {
   }
 
   const setLabel = (el, label) =>
-    label.update = el.getBoundingClientRect()
+    label.update = el['vis-box']
 
   const createLabel = ({el, id, template}) => {
     if (!labels[id]) {
@@ -586,7 +586,7 @@ export function Selectable(visbug) {
 
       label.text = template
       label.position = {
-        boundingRect:   el.getBoundingClientRect(),
+        boundingRect:   el['vis-box'],
         node_label_id:  id,
       }
 
@@ -654,7 +654,7 @@ export function Selectable(visbug) {
 
       hover_state.label.text = text
       hover_state.label.position = {
-        boundingRect:   el.getBoundingClientRect(),
+        boundingRect:   el['vis-box'],
         node_label_id:  'hover',
       }
 

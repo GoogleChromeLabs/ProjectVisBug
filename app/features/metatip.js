@@ -130,7 +130,7 @@ export function removeAll() {
 }
 
 const render = (el, tip = document.createElement('visbug-metatip')) => {
-  const { width, height } = el.getBoundingClientRect()
+  const { width, height } = el['vis-box']
   const colormode = $('vis-bug')[0].colorMode
 
   const styles = getStyles(el)
