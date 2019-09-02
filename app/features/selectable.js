@@ -420,15 +420,15 @@ export function Selectable(visbug) {
 
     clearHover()
 
-    selected.unshift(el)
-    await setVisbox(selected)
-    tellWatchers()
-
     overlayMetaUI({
       el,
       id,
-      no_label: !['inspector', 'accessibility', 'align'].includes(tool),
+      no_label: tool !== 'inspector' && tool !== 'accessibility',
     })
+
+    await setVisbox([el])
+    selected.unshift(el)
+    tellWatchers()
   }
 
   const selection = () =>
@@ -442,7 +442,6 @@ export function Selectable(visbug) {
           'data-selected-hide': null,
           'data-label-id':      null,
           'data-pseudo-select': null,
-          'data-label':         null
         }))
 
     $('[data-pseudo-select]').forEach(hover =>
@@ -547,25 +546,23 @@ export function Selectable(visbug) {
   }
 
   const overlayMetaUI = ({el, id, no_label = true}) => {
-    let defaultTemplate = `
-      <a node>${el.nodeName.toLowerCase()}</a>
-      <a>${el.id && '#' + el.id}</a>
-      ${createClassname(el).split('.')
-        .filter(name => name != '')
-        .reduce((links, name) => `
-          ${links}
-          <a>.${name}</a>
-        `, '')
-      }
-    `;
-
     let handle = createHandle({el, id})
     let label  = no_label
       ? null
       : createLabel({
           el,
           id,
-          template: $(el).attr('data-label') || defaultTemplate
+          template: `
+            <a node>${el.nodeName.toLowerCase()}</a>
+            <a>${el.id && '#' + el.id}</a>
+            ${createClassname(el).split('.')
+              .filter(name => name != '')
+              .reduce((links, name) => `
+                ${links}
+                <a>.${name}</a>
+              `, '')
+            }
+          `
         })
 
     let observer        = createObserver(el, {handle,label})
