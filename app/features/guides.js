@@ -1,5 +1,5 @@
 import $ from 'blingblingjs'
-import { isOffBounds, deepElementFromPoint } from '../utilities/'
+import { isOffBounds, deepElementFromPoint, setVisbox } from '../utilities/'
 import { clearMeasurements, takeMeasurementOwnership } from './measurements'
 
 const state = {
@@ -30,9 +30,10 @@ export function Guides(visbug) {
   }
 }
 
-const on_hover = e => {
+const on_hover = async e => {
   const target = deepElementFromPoint(e.clientX, e.clientY)
   if (isOffBounds(target)) return
+  await setVisbox([target])
   showGridlines(target)
 }
 
@@ -91,11 +92,11 @@ const on_hoverout = () =>
 const showGridlines = node => {
   if (state.gridlines) {
     state.gridlines.style.display = null
-    state.gridlines.update = node.getBoundingClientRect()
+    state.gridlines.update = node['vis-box']
   }
   else {
     state.gridlines = document.createElement('visbug-gridlines')
-    state.gridlines.position = node.getBoundingClientRect()
+    state.gridlines.position = node['vis-box']
 
     document.body.appendChild(state.gridlines)
   }

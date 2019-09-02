@@ -16,7 +16,7 @@ import {
   metaKey, htmlStringToDom, createClassname, camelToDash,
   isOffBounds, getStyles, deepElementFromPoint, getShadowValues,
   isSelectorValid, findNearestChildElement, findNearestParentElement,
-  getTextShadowValues
+  getTextShadowValues, setVisbox
 } from '../utilities/'
 
 export function Selectable(visbug) {
@@ -376,7 +376,7 @@ export function Selectable(visbug) {
     })
   }
 
-  const on_hover = e => {
+  const on_hover = async e => {
     const $target = deepElementFromPoint(e.clientX, e.clientY)
     const tool = visbug.activeTool
 
@@ -384,6 +384,8 @@ export function Selectable(visbug) {
       clearMeasurements()
       return clearHover()
     }
+
+    await setVisbox([$target])
 
     overlayHoverUI({
       el: $target,
@@ -409,7 +411,7 @@ export function Selectable(visbug) {
     }
   }
 
-  const select = el => {
+  const select = async el => {
     const id = handles.length
     const tool = visbug.activeTool
 
@@ -419,6 +421,7 @@ export function Selectable(visbug) {
     clearHover()
 
     selected.unshift(el)
+    await setVisbox(selected)
     tellWatchers()
 
     overlayMetaUI({
