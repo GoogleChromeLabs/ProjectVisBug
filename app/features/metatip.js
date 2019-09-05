@@ -238,19 +238,17 @@ const togglePinned = e => {
 const linkQueryClicked = ({detail:{ text, activator }}) => {
   if (!text) return
 
-  queryPage('[data-pseudo-select]', el =>
-    el.removeAttribute('data-pseudo-select'))
+  unPseudoQuery()
 
-  queryPage(text + ':not([data-selected])', el =>
+  queryPage(text + ':not([data-selected])', els =>
     activator === 'mouseenter'
-      ? el.setAttribute('data-pseudo-select', true)
-      : services.selectors.select(el))
+      ? $(els).attr('data-pseudo-select', true)
+      : services.selectors.select(els))
 }
 
-const linkQueryHoverOut = e => {
-  queryPage('[data-pseudo-select]', el =>
-    el.removeAttribute('data-pseudo-select'))
-}
+const unPseudoQuery = _ =>
+  queryPage('[data-pseudo-select]', els =>
+    $(els).attr('data-pseudo-select', null))
 
 const toggleTargetCursor = (key, target) =>
   key
@@ -259,13 +257,13 @@ const toggleTargetCursor = (key, target) =>
 
 const observe = ({tip, target}) => {
   $(tip).on('query', linkQueryClicked)
-  $(tip).on('unquery', linkQueryHoverOut)
+  $(tip).on('unquery', unPseudoQuery)
   $(target).on('DOMNodeRemoved', handleBlur)
 }
 
 const unobserve = ({tip, target}) => {
   $(tip).off('query', linkQueryClicked)
-  $(tip).off('unquery', linkQueryHoverOut)
+  $(tip).off('unquery', unPseudoQuery)
   $(target).off('DOMNodeRemoved', handleBlur)
 }
 

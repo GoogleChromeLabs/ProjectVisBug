@@ -616,20 +616,20 @@ export function Selectable(visbug) {
         if (!detail.text) return
         this.query_text = detail.text
 
-        queryPage('[data-pseudo-select]', el =>
-          el.removeAttribute('data-pseudo-select'))
+        queryPage('[data-pseudo-select]', els =>
+          $(els).attr('data-pseudo-select', null))
 
-        queryPage(this.query_text + ':not([data-selected])', el =>
+        queryPage(this.query_text + ':not([data-selected])', els =>
           detail.activator === 'mouseenter'
-            ? el.setAttribute('data-pseudo-select', true)
-            : select(el))
+            ? $(els).attr('data-pseudo-select', true)
+            : select(els))
       })
 
       $(label).on('mouseleave', e => {
         e.preventDefault()
         e.stopPropagation()
-        queryPage('[data-pseudo-select]', el =>
-          el.removeAttribute('data-pseudo-select'))
+        queryPage('[data-pseudo-select]', els =>
+          $(els).attr('data-pseudo-select', null))
       })
 
       labels[labels.length] = label
