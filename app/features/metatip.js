@@ -4,7 +4,7 @@ import { TinyColor } from '@ctrl/tinycolor'
 import { queryPage } from './search'
 import { getStyles, camelToDash, isOffBounds, 
          deepElementFromPoint, getShadowValues,
-         getTextShadowValues
+         getTextShadowValues, setVisbox
 } from '../utilities/'
 
 const state = {
@@ -35,7 +35,7 @@ export function MetaTip({select}) {
   }
 }
 
-const mouseMove = e => {
+const mouseMove = async e => {
   const target = deepElementFromPoint(e.clientX, e.clientY)
 
   if (isOffBounds(target) || target.nodeName === 'VISBUG-METATIP' || target.hasAttribute('data-metatip')) { // aka: mouse out
@@ -50,7 +50,7 @@ const mouseMove = e => {
   }
 
   toggleTargetCursor(e.altKey, target)
-
+  await setVisbox([target])
   showTip(target, e)
 }
 
