@@ -387,11 +387,17 @@ export function Selectable(visbug) {
 
     await setVisbox([$target])
 
+    const gui = document.createDocumentFragment()
     overlayHoverUI({
       el: $target,
       // no_hover: tool === 'guides',
       no_label: tool !== 'guides',
     })
+    
+    gui.append(hover_state.element)
+    gui.append(hover_state.label)
+
+    document.body.append(gui)
 
     if (tool === 'guides' && selected.length >= 1 && !selected.includes($target)) {
       $target.setAttribute('data-measuring', true)
