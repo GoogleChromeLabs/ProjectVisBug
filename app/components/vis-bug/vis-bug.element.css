@@ -234,6 +234,7 @@
   &::placeholder {
     font-weight: lighter;
     font-size: 0.8em;
+    color: var(--theme-icon_color);
   }
 }
 
