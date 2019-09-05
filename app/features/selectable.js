@@ -411,23 +411,29 @@ export function Selectable(visbug) {
     }
   }
 
-  const select = async el => {
-    const id = handles.length
-    const tool = visbug.activeTool
-
-    el.setAttribute('data-selected', true)
-    el.setAttribute('data-label-id', id)
+  const select = async els => {
+    els = typeof els === 'object'
+      ? [els]
+      : els
 
     clearHover()
-    await setVisbox([el])
+    await setVisbox(els)
 
-    overlayMetaUI({
-      el,
-      id,
-      no_label: tool !== 'inspector' && tool !== 'accessibility',
+    els.forEach(el => {
+      const id = handles.length
+      const tool = visbug.activeTool
+
+      el.setAttribute('data-selected', true)
+      el.setAttribute('data-label-id', id)
+
+      overlayMetaUI({
+        el,
+        id,
+        no_label: tool !== 'inspector' && tool !== 'accessibility',
+      })
     })
 
-    selected.unshift(el)
+    selected = [...selected, ...els]
     tellWatchers()
   }
 
