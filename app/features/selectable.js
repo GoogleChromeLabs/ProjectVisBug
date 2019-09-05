@@ -177,10 +177,8 @@ export function Selectable(visbug) {
 
       const {state} = await navigator.permissions.query({name:'clipboard-write'})
 
-      if (state === 'granted') {
+      if (state === 'granted')
         await navigator.clipboard.writeText(this.copy_backup)
-        console.info('copied!')
-      }
     }
   }
 
@@ -194,9 +192,10 @@ export function Selectable(visbug) {
     }
   }
 
-  const on_paste = (e, index = 0) => {
+  const on_paste = async (e, index = 0) => {
     const clipData = e.clipboardData.getData('text/html')
-    const potentialHTML = clipData || this.copy_backup
+    const globalClipboard = await navigator.clipboard.readText()
+    const potentialHTML = clipData || globalClipboard || this.copy_backup
 
     if (selected.length && potentialHTML) {
       e.preventDefault()
