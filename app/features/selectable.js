@@ -412,26 +412,34 @@ export function Selectable(visbug) {
   }
 
   const select = async els => {
-    els = typeof els === 'object'
-      ? [els]
-      : els
+    if (!els.length)
+      els = [els]
 
     clearHover()
     await setVisbox(els)
 
-    els.forEach(el => {
+    // for each item to be selected
+    // set visbug attributes and create gui overlay nodes
+    // reduce those nodes into 1 root fragment for one DOM append / incision
+    const gui = els.reduce((gui, el) => {
       const id = handles.length
       const tool = visbug.activeTool
 
       el.setAttribute('data-selected', true)
       el.setAttribute('data-label-id', id)
 
-      overlayMetaUI({
+      const nodes = overlayMetaUI({
         el,
         id,
         no_label: tool !== 'inspector' && tool !== 'accessibility',
       })
-    })
+
+      nodes.forEach(node => gui.append(node))
+
+      return gui
+    }, document.createDocumentFragment())
+
+    document.body.append(gui)
 
     selected = [...selected, ...els]
     tellWatchers()
@@ -552,8 +560,8 @@ export function Selectable(visbug) {
   }
 
   const overlayMetaUI = ({el, id, no_label = true}) => {
-    let handle = createHandle({el, id})
-    let label  = no_label
+    const handle = createHandle({el, id})
+    const label  = no_label
       ? null
       : createLabel({
           el,
@@ -571,8 +579,8 @@ export function Selectable(visbug) {
           `
         })
 
-    let observer        = createObserver(el, {handle,label})
-    let parentObserver  = createObserver(el, {handle,label})
+    const observer        = createObserver(el, {handle,label})
+    const parentObserver  = createObserver(el, {handle,label})
 
     observer.observe(el, { attributes: true })
     parentObserver.observe(el.parentNode, { childList:true, subtree:true })
@@ -581,6 +589,8 @@ export function Selectable(visbug) {
       observer.disconnect()
       parentObserver.disconnect()
     })
+
+    return [handle, label]
   }
 
   const setLabel = (el, label) =>
@@ -595,8 +605,6 @@ export function Selectable(visbug) {
         boundingRect:   el['vis-box'],
         node_label_id:  id,
       }
-
-      document.body.appendChild(label)
 
       $(label).on('query', ({detail}) => {
         if (!detail.text) return
@@ -629,10 +637,8 @@ export function Selectable(visbug) {
       const handle = document.createElement('visbug-handles')
 
       handle.position = { el, node_label_id: id }
-
-      document.body.appendChild(handle)
-
       handles[handles.length] = handle
+
       return handle
     }
   }
@@ -643,7 +649,6 @@ export function Selectable(visbug) {
         hover_state.element.remove()
 
       hover_state.element = document.createElement('visbug-hover')
-      document.body.appendChild(hover_state.element)
       hover_state.element.position = {el}
 
       return hover_state.element
@@ -656,7 +661,6 @@ export function Selectable(visbug) {
         hover_state.label.remove()
 
       hover_state.label = document.createElement('visbug-label')
-      document.body.appendChild(hover_state.label)
 
       hover_state.label.text = text
       hover_state.label.position = {
@@ -665,7 +669,6 @@ export function Selectable(visbug) {
       }
 
       hover_state.label.style.setProperty(`--label-bg`, `hsl(267, 100%, 58%)`)
-
 
       return hover_state.label
     }
