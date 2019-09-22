@@ -151,14 +151,14 @@ const render = (el, tip = document.createElement('visbug-ally')) => {
 const determineColorContrast = el => {
   // question: how to know if the current node is actually a black background?
   // question: is there an api for composited values?
-  const text      = getStyle(el, 'color')
+  const color     = getStyle(el, 'fill') || getStyle(el, 'stroke') || getStyle(el, 'color')
   const textSize  = getWCAG2TextSize(el)
 
   let background  = getComputedBackgroundColor(el)
 
   const [ aa_contrast, aaa_contrast ] = [
-    isReadable(background, text, { level: "AA", size: textSize.toLowerCase() }),
-    isReadable(background, text, { level: "AAA", size: textSize.toLowerCase() })
+    isReadable(background, color, { level: "AA", size: textSize.toLowerCase() }),
+    isReadable(background, color, { level: "AAA", size: textSize.toLowerCase() })
   ]
 
   return `
@@ -166,8 +166,8 @@ const determineColorContrast = el => {
     <span value contrast>
       <span style="
         background-color:${background};
-        color:${text};
-      ">${Math.floor(readability(background, text)  * 100) / 100}</span>
+        color:${color};
+      ">${Math.floor(readability(background, color)  * 100) / 100}</span>
     </span>
     <span prop>› AA ${textSize}</span>
     <span value style="${aa_contrast ? 'color:green;' : 'color:red'}">${aa_contrast ? '✓' : '×'}</span>
