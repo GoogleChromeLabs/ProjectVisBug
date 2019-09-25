@@ -152,7 +152,7 @@ const render = (el, tip = document.createElement('visbug-ally')) => {
 const determineColorContrast = el => {
   // question: how to know if the current node is actually a black background?
   // question: is there an api for composited values?
-  const color = el instanceof SVGElement
+  const foreground = el instanceof SVGElement
     ? (getStyle(el, 'fill') || getStyle(el, 'stroke'))
     : getStyle(el, 'color')
 
@@ -161,8 +161,8 @@ const determineColorContrast = el => {
   let background  = getComputedBackgroundColor(el)
 
   const [ aa_contrast, aaa_contrast ] = [
-    isReadable(background, color, { level: "AA", size: textSize.toLowerCase() }),
-    isReadable(background, color, { level: "AAA", size: textSize.toLowerCase() })
+    isReadable(background, foreground, { level: "AA", size: textSize.toLowerCase() }),
+    isReadable(background, foreground, { level: "AAA", size: textSize.toLowerCase() })
   ]
 
   return `
