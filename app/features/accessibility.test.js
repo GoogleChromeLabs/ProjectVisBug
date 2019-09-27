@@ -3,7 +3,7 @@ import { setupPptrTab, teardownPptrTab, getActiveTool, changeMode } from '../../
 
 test.beforeEach(setupPptrTab)
 
-const contrastValueSelector = `document.querySelector('visbug-ally').$shadow.querySelector("span[contrast]").textContent.trim()`
+const contrastValueSelector = `document.querySelector('visbug-ally').$shadow.querySelector('span[contrast]').textContent.trim()`
 
 test('Can be activated', async t => {
   const {page} = t.context;
@@ -38,7 +38,9 @@ test('Does not show a11y tooltip on <svg> node', async t => {
   const {page} = t.context;
   await changeMode({page, tool: 'accessibility'})
 
-  await page.mouse.click(175, 80) // an empty space of the first svg element
+  const svgEl = await page.$('svg')
+  const {x, y} = await svgEl.boundingBox()
+  await page.mouse.click(x + 1, y + 1) // an empty space of the first svg element
   const targetNodeName = await page.$eval('visbug-label', el => el.$shadow.querySelector('a[node]') .textContent)
   t.is(targetNodeName, 'svg')
   t.pass()
