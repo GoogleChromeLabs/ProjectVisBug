@@ -34,7 +34,8 @@ export function Accessibility() {
 const mouseMove = e => {
   const target = deepElementFromPoint(e.clientX, e.clientY)
 
-  if (isOffBounds(target) || target.nodeName === 'VISBUG-ALLYTIP' || target.hasAttribute('data-allytip')) { // aka: mouse out
+  if (isOffBounds(target) || target.nodeName.toUpperCase() === 'SVG' ||
+      target.nodeName === 'VISBUG-ALLYTIP' || target.hasAttribute('data-allytip')) { // aka: mouse out
     if (state.active.tip) {
       wipe({
         tip: state.active.tip,
@@ -151,14 +152,17 @@ const render = (el, tip = document.createElement('visbug-ally')) => {
 const determineColorContrast = el => {
   // question: how to know if the current node is actually a black background?
   // question: is there an api for composited values?
-  const text      = getStyle(el, 'color')
+  const foreground = el instanceof SVGElement
+    ? (getStyle(el, 'fill') || getStyle(el, 'stroke'))
+    : getStyle(el, 'color')
+
   const textSize  = getWCAG2TextSize(el)
 
   let background  = getComputedBackgroundColor(el)
 
   const [ aa_contrast, aaa_contrast ] = [
-    isReadable(background, text, { level: "AA", size: textSize.toLowerCase() }),
-    isReadable(background, text, { level: "AAA", size: textSize.toLowerCase() })
+    isReadable(background, foreground, { level: "AA", size: textSize.toLowerCase() }),
+    isReadable(background, foreground, { level: "AAA", size: textSize.toLowerCase() })
   ]
 
   return `
@@ -166,8 +170,8 @@ const determineColorContrast = el => {
     <span value contrast>
       <span style="
         background-color:${background};
-        color:${text};
-      ">${Math.floor(readability(background, text)  * 100) / 100}</span>
+        color:${foreground};
+      ">${Math.floor(readability(background, foreground)  * 100) / 100}</span>
     </span>
     <span prop>› AA ${textSize}</span>
     <span value style="${aa_contrast ? 'color:green;' : 'color:red'}">${aa_contrast ? '✓' : '×'}</span>
