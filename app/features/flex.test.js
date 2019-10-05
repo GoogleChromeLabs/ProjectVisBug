@@ -92,6 +92,81 @@ test('Can apply space-between', async t => {
   t.pass()
 })
 
+test('Can adjust wrapping', async t => {
+  const { page } = t.context
+
+  await page.click(test_selector)
+  await page.keyboard.down('Control')
+  await page.keyboard.down('Shift')
+  await page.keyboard.press('ArrowUp')
+  let wrapStr = await page.$eval(test_selector, el => el.style.flexWrap)
+  t.true(wrapStr === 'nowrap')
+
+  await page.keyboard.press('ArrowUp')
+  wrapStr = await page.$eval(test_selector, el => el.style.flexWrap)
+  t.true(wrapStr === 'nowrap')
+
+  await page.keyboard.press('ArrowDown')
+  wrapStr = await page.$eval(test_selector, el => el.style.flexWrap)
+  t.true(wrapStr === 'wrap')
+
+  await page.keyboard.press('ArrowDown')
+  wrapStr = await page.$eval(test_selector, el => el.style.flexWrap)
+  t.true(wrapStr === 'wrap')
+
+  t.pass()
+})
+
+test('Can adjust row order', async t => {
+  const { page } = t.context
+
+  await page.click(test_selector)
+  await page.keyboard.down('Control')
+  await page.keyboard.down('Shift')
+  await page.keyboard.press('ArrowLeft')
+  let dirStr = await page.$eval(test_selector, el => el.style.flexDirection)
+  t.true(dirStr === 'row-reverse')
+
+  await page.keyboard.press('ArrowLeft')
+  dirStr = await page.$eval(test_selector, el => el.style.flexDirection)
+  t.true(dirStr === 'row-reverse')
+
+  await page.keyboard.press('ArrowRight')
+  dirStr = await page.$eval(test_selector, el => el.style.flexDirection)
+  t.true(dirStr === 'row')
+
+  await page.keyboard.press('ArrowRight')
+  dirStr = await page.$eval(test_selector, el => el.style.flexDirection)
+  t.true(dirStr === 'row')
+
+  t.pass()
+})
+
+test('Can adjust column order', async t => {
+  const { page } = t.context
+
+  await page.click(test_selector)
+  await page.keyboard.down('Control')
+  await page.keyboard.press('ArrowUp')
+  await page.keyboard.down('Shift')
+  await page.keyboard.press('ArrowLeft')
+  let dirStr = await page.$eval(test_selector, el => el.style.flexDirection)
+  t.true(dirStr === 'column-reverse')
+
+  await page.keyboard.press('ArrowLeft')
+  dirStr = await page.$eval(test_selector, el => el.style.flexDirection)
+  t.true(dirStr === 'column-reverse')
+
+  await page.keyboard.press('ArrowRight')
+  dirStr = await page.$eval(test_selector, el => el.style.flexDirection)
+  t.true(dirStr === 'column')
+
+  await page.keyboard.press('ArrowRight')
+  dirStr = await page.$eval(test_selector, el => el.style.flexDirection)
+  t.true(dirStr === 'column')
+
+  t.pass()
+})
 
 
 test.afterEach(teardownPptrTab)
