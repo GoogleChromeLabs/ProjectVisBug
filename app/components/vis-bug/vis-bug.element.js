@@ -16,7 +16,10 @@ import { VisBugStyles }           from '../styles.store'
 import { VisBugModel }            from './model'
 import * as Icons                 from './vis-bug.icons'
 import { provideSelectorEngine }  from '../../features/search'
-import { metaKey }                from '../../utilities/'
+
+import { 
+  metaKey, applyStyle, showHideSelected
+}    from '../../utilities/'
 
 const modemap = {
   'hex':  'toHexString',
@@ -43,6 +46,7 @@ export default class VisBug extends HTMLElement {
     this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
 
     provideSelectorEngine(this.selectorEngine)
+    this.selectorEngine.onSelectedUpdate(selection => this.broadcastSelection(selection))
 
     this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
   }
@@ -228,6 +232,38 @@ export default class VisBug extends HTMLElement {
       this.selectorEngine.removeSelectedCallback(feature.onNodesSelected)
       feature.disconnect()
     }
+  }
+
+  applyStyles(visbugPayload) {
+    this.selectorEngine
+      .selection()
+      .map(el => showHideSelected(el))
+      .forEach(el =>
+        applyStyle({el, ...visbugPayload
+      }))
+  }
+
+  broadcastSelection(nodes) {
+    const stringifyElement = node => {
+      const {nodeName, classList, id, index, parentNode } = node
+      return `${id?'#'+id:''}${nodeName.toLowerCase()}${classList.length?'.'+ classList.toString().split(' ').join('.'):''}:nth-child(${[...parentNode.children].indexOf(node)+1})`
+    }
+
+    const selection_payload = [...nodes]
+      .map(node =>
+        `${stringifyElement(node.parentNode)} > ${stringifyElement(node)}`)
+
+    // todo: create a callback system here to be iterated on
+    // todo: iterate over callbacks and invoke with payload
+    console.log(selection_payload)
+  }
+
+  consumeSelection(visbugSelectionPayload) {
+    const nodes = visbugSelectionPayload.flatMap(queryString => 
+      [...document.querySelectorAll(queryString)])
+
+    // this.selectorEngine.select(nodes)
+    console.log(nodes)
   }
 
   get activeTool() {
