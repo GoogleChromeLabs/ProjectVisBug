@@ -19,7 +19,7 @@ export class AlignHotkeys extends HotkeyMap {
     this._side         = 'top left'
     this._direction    = 'row'
     this._distribution = distOptions[this._dtool]
-    this._wrap         = 'nowrap'
+    this._wrap         = 'no wrap'
 
     this.tool     = 'align'
   }
