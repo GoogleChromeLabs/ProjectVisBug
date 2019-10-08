@@ -138,7 +138,7 @@ export const VisBugModel = {
     tool:        'align',
     icon:        Icons.align,
     label:       'Flexbox Align',
-    description: `Create or modify flexbox direction, distribution, alignment & wrapping`,
+    description: `Create or modify flexbox direction, distribution, order & wrapping`,
     instruction: `<div table>
                     <div>
                       <b>Rows:</b>
