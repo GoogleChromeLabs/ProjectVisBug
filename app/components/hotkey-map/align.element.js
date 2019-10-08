@@ -32,7 +32,7 @@ export class AlignHotkeys extends HotkeyMap {
 
     if (hotkeys[metaKey] && hotkeys.shift) {
       if (code === 'ArrowUp')
-        negative = 'nowrap'
+        negative = 'no wrap'
       else if (code === 'ArrowDown')
         negative = 'wrap'
       else if (code === 'ArrowLeft')
