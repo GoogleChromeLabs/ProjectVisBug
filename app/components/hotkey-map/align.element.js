@@ -75,9 +75,10 @@ export class AlignHotkeys extends HotkeyMap {
       <span light> as </span>
       <span>${negative_modifier}:</span>
       <span side>${side}</span>
-      <span light> distributed </span>
-      <span amount>${amount}</span>
-      <span amount>${negative}</span>
+      <span light>, distributed </span>
+      <span amount>${amount},</span>
+      <span light> with </span>
+      <span>${negative}</span>
     `
   }
 
