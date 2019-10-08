@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import { setupPptrTab, teardownPptrTab, getActiveTool } 
+import { setupPptrTab, teardownPptrTab, getActiveTool }
 from '../../../tests/helpers'
 
 test.beforeEach(setupPptrTab)
@@ -87,6 +87,23 @@ test('Should be hideable', async t => {
   const visibility = await page.evaluate(`document.querySelector('vis-bug').$shadow.host.style.display`)
 
   t.pass(visibility, 'none')
+  t.pass()
+})
+
+test('Should accept valid execCommand', async t => {
+  const { page } = t.context
+  const execCommand = await page.evaluate(`document.querySelector('vis-bug').execCommand('pesticide')`)
+
+
+  t.is(execCommand, undefined)
+  t.pass()
+})
+
+test('Should throw on invalid execCommand', async t => {
+  const { page } = t.context
+  const execCommand = await page.evaluate(`document.querySelector('vis-bug').execCommand('invalid command')`)
+
+  t.deepEqual(execCommand, {})
   t.pass()
 })
 
