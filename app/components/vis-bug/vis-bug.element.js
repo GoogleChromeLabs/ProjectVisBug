@@ -17,6 +17,7 @@ import { VisBugModel }            from './model'
 import * as Icons                 from './vis-bug.icons'
 import { provideSelectorEngine }  from '../../features/search'
 import { metaKey }                from '../../utilities/'
+import { PluginRegistry }         from '../../plugins/_registry'
 
 const modemap = {
   'hex':  'toHexString',
@@ -228,6 +229,18 @@ export default class VisBug extends HTMLElement {
       this.selectorEngine.removeSelectedCallback(feature.onNodesSelected)
       feature.disconnect()
     }
+  }
+
+  execCommand(command) {
+    const query = `/${command}`;
+
+    if (PluginRegistry.has(query))
+      return PluginRegistry.get(query)({
+        selected: this.selectorEngine.selection(),
+        query
+      })
+
+    return Promise.resolve(new Error("Query not found"))
   }
 
   get activeTool() {
