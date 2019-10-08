@@ -232,7 +232,7 @@ export default class VisBug extends HTMLElement {
   }
 
   execCommand(command) {
-    const query = `/${command}`;
+    const query = `/${command}`
 
     if (PluginRegistry.has(query))
       return PluginRegistry.get(query)({
