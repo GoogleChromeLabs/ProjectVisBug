@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import { setupPptrTab, teardownPptrTab, changeMode, getActiveTool }
+import { setupPptrTab, teardownPptrTab, changeMode, getActiveTool, pptrMetaKey }
 from '../../tests/helpers'
 
 const tool            = 'align'
@@ -94,9 +94,10 @@ test('Can apply space-between', async t => {
 
 test('Can adjust wrapping', async t => {
   const { page } = t.context
+  const metaKey = await pptrMetaKey(page)
 
   await page.click(test_selector)
-  await page.keyboard.down('Control')
+  await page.keyboard.down(metaKey)
   await page.keyboard.down('Shift')
   await page.keyboard.press('ArrowUp')
   let wrapStr = await page.$eval(test_selector, el => el.style.flexWrap)
@@ -119,9 +120,10 @@ test('Can adjust wrapping', async t => {
 
 test('Can adjust row order', async t => {
   const { page } = t.context
+  const metaKey = await pptrMetaKey(page)
 
   await page.click(test_selector)
-  await page.keyboard.down('Control')
+  await page.keyboard.down(metaKey)
   await page.keyboard.down('Shift')
   await page.keyboard.press('ArrowLeft')
   let dirStr = await page.$eval(test_selector, el => el.style.flexDirection)
@@ -144,9 +146,10 @@ test('Can adjust row order', async t => {
 
 test('Can adjust column order', async t => {
   const { page } = t.context
+  const metaKey = await pptrMetaKey(page)
 
   await page.click(test_selector)
-  await page.keyboard.down('Control')
+  await page.keyboard.down(metaKey)
   await page.keyboard.press('ArrowUp')
   await page.keyboard.down('Shift')
   await page.keyboard.press('ArrowLeft')
