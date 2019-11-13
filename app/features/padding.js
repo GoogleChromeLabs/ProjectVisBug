@@ -1,7 +1,7 @@
 import hotkeys from 'hotkeys-js'
 import {
   metaKey, getStyle, getSide,
-  showHideSelected, applyStyle, publishPayload
+  showHideSelected, applyStyle
 } from '../utilities/'
 
 const key_events = 'up,down,left,right'
