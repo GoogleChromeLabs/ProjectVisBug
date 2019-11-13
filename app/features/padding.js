@@ -1,7 +1,7 @@
 import hotkeys from 'hotkeys-js'
-import { 
-  metaKey, getStyle, getSide, 
-  showHideSelected, applyStyle
+import {
+  metaKey, getStyle, getSide,
+  showHideSelected, applyStyle, publishPayload
 } from '../utilities/'
 
 const key_events = 'up,down,left,right'
@@ -54,7 +54,7 @@ export function padElement(els, direction) {
           : payload.current + payload.amount
       }))
     .map(({el, style, padding, current}) => ({
-      el, 
+      el,
       style,
       was: `${current}px`,
       is: `${padding < 0 ? 0 : padding}px`
@@ -117,10 +117,10 @@ export function createPaddingVisual(el, hover = false) {
       sides[side] = Math.round(val.toFixed(1) * 100) / 100
     })
 
-    boxdisplay.position = { 
+    boxdisplay.position = {
       mode: 'padding',
       color: hover ? 'purple' : 'pink',
-      bounds, 
+      bounds,
       sides,
     }
   }

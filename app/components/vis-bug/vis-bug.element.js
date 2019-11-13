@@ -17,7 +17,7 @@ import { VisBugModel }            from './model'
 import * as Icons                 from './vis-bug.icons'
 import { provideSelectorEngine }  from '../../features/search'
 
-import { 
+import {
   metaKey, applyStyle, showHideSelected
 }    from '../../utilities/'
 
@@ -69,7 +69,7 @@ export default class VisBug extends HTMLElement {
       this.toolSelected(e.currentTarget) && e.stopPropagation())
 
     draggable({
-      el:this, 
+      el:this,
       surface: this.$shadow.querySelector('ol:not([colors])'),
       cursor: 'grab',
     })
@@ -238,9 +238,12 @@ export default class VisBug extends HTMLElement {
     this.selectorEngine
       .selection()
       .map(el => showHideSelected(el))
-      .forEach(el =>
-        applyStyle({el, ...visbugPayload
-      }))
+      .forEach(el => {
+        const tagged = Object.assign(visbugPayload,
+          { synthetic: true },
+        )
+        applyStyle({el, ...tagged})
+      })
   }
 
   broadcastSelection(nodes) {
@@ -259,7 +262,7 @@ export default class VisBug extends HTMLElement {
   }
 
   consumeSelection(visbugSelectionPayload) {
-    const nodes = visbugSelectionPayload.flatMap(queryString => 
+    const nodes = visbugSelectionPayload.flatMap(queryString =>
       [...document.querySelectorAll(queryString)])
 
     // this.selectorEngine.select(nodes)
