@@ -1,5 +1,8 @@
 import hotkeys from 'hotkeys-js'
-import { metaKey, getStyle, getSide, showHideSelected } from '../utilities/'
+import {
+  metaKey, getStyle, getSide,
+  showHideSelected, applyStyle
+} from '../utilities/'
 
 const key_events = 'up,down,left,right'
   .split(',')
@@ -50,8 +53,7 @@ export function pushElement(els, direction) {
           ? payload.current - payload.amount
           : payload.current + payload.amount
       }))
-    .forEach(({el, style, margin}) =>
-      el.style[style] = `${margin < 0 ? 0 : margin}px`)
+    .forEach(applyStyle)
 }
 
 export function pushAllElementSides(els, keycommand) {
