@@ -18,7 +18,7 @@ export class HueshiftHotkeys extends HotkeyMap {
     let side                = '[arrow key]'
 
     // saturation
-    if (hotkeys.cmd) {
+    if (hotkeys[metaKey]) {
       side ='hue'
 
       if (code === 'ArrowDown')
