@@ -177,10 +177,8 @@ export function Selectable(visbug) {
 
       const {state} = await navigator.permissions.query({name:'clipboard-write'})
 
-      if (state === 'granted') {
+      if (state === 'granted')
         await navigator.clipboard.writeText(this.copy_backup)
-        console.info('copied!')
-      }
     }
   }
 
@@ -194,9 +192,10 @@ export function Selectable(visbug) {
     }
   }
 
-  const on_paste = (e, index = 0) => {
+  const on_paste = async (e, index = 0) => {
     const clipData = e.clipboardData.getData('text/html')
-    const potentialHTML = clipData || this.copy_backup
+    const globalClipboard = await navigator.clipboard.readText()
+    const potentialHTML = clipData || globalClipboard || this.copy_backup
 
     if (selected.length && potentialHTML) {
       e.preventDefault()
@@ -247,16 +246,26 @@ export function Selectable(visbug) {
     }
   }
 
-  const on_paste_styles = (index = 0) =>
-    selected.forEach(el => {
-      this.copied_styles[index]
-        .map(({prop, value}) =>
-          el.style[prop] = value)
+  const on_paste_styles = async (e, index = 0) => {
+    if (this.copied_styles) {
+      selected.forEach(el => {
+        this.copied_styles[index]
+          .map(({prop, value}) =>
+            el.style[prop] = value)
 
-      index >= this.copied_styles.length - 1
-        ? index = 0
-        : index++
-    })
+        index >= this.copied_styles.length - 1
+          ? index = 0
+          : index++
+      })
+    }
+    else {
+      const potentialStyles = await navigator.clipboard.readText()
+
+      if (selected.length && potentialStyles)
+        selected.forEach(el =>
+          el.style = potentialStyles)
+    }
+  }
 
   const on_expand_selection = (e, {key}) => {
     e.preventDefault()
