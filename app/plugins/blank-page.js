@@ -4,7 +4,7 @@ export const commands = [
   'clear canvas',
 ]
 
-export default function() {
+export default function () {
   document
     .querySelectorAll('body > *:not(vis-bug):not(script)')
     .forEach(node => node.remove())
