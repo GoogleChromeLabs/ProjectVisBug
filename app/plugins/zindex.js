@@ -1,31 +1,30 @@
 export const commands = [
     'zindex',
-    'z-index',
-    'show z-index',
+    'z-index'
 ]
 
 export default function () {
     // Fun prior art https://gist.github.com/paulirish/211209
-    const all = document.querySelectorAll('*')
-    const filtered = Array.from(all).filter(el => window.getComputedStyle(el).getPropertyValue('z-index') !== 'auto')
+    Array.from(document.querySelectorAll('*'))
+        .filter(el => el.computedStyleMap().get('z-index').value !== 'auto')
+        .filter(el => el.nodeName !== 'VIS-BUG')
+        .forEach(el => {
+            const color = `#${Math.floor(Math.random() * 16777215).toString(16)}`
+            const zindex = el.computedStyleMap().get('z-index').value
 
-    filtered.forEach(el => {
-        // Why 16777215? https://dev.to/akhil_001/generating-random-color-with-single-line-of-js-code-fhj
-        let color = `#${Math.floor(Math.random() * 16777215).toString(16)}`
-        let position = window.getComputedStyle(el).getPropertyValue('position')
+            const label = document.createElement('visbug-label')
 
-        if (position === 'absolute' || position === 'relative') {
-            el.style.position === 'relative'
-        }
+            label.text = `z-index: ${zindex}`
+            label.position = {
+                boundingRect: el.getBoundingClientRect()
+            }
+            label.style.setProperty(`--label-bg`, color)
 
-        el.style.outline = `1px solid ${color}`
+            const overlay = document.createElement('visbug-hover')
+            overlay.position = { el }
+            overlay.style.setProperty(`--hover-stroke`, color)
 
-        let overlay = document.createElement('span')
-        let zindex = window.getComputedStyle(el).getPropertyValue('z-index')
-        let contrast = '#' +
-            (Number('0x' + color.substr(1)).toString(10) > 0xffffff / 2 ? '000000' : 'ffffff')
-        overlay.textContent = `z-index: ${zindex}`
-        overlay.style.cssText = `background: ${color}; color: ${contrast}; position: 'absolute'; top: 0; left: 0; textIndent: 0;`
-        el.appendChild(overlay)
-    })
+            document.body.appendChild(label)
+            document.body.appendChild(overlay)
+        })
 }
