@@ -171,13 +171,9 @@ export function ColorPicker(pallete, selectorEngine) {
 export const healthyContrastColor = color => {
   let contrast = color.clone()
 
-  contrast = contrast.getLuminance() < .5
-    ? contrast.lighten(30)
-    : contrast.brighten(30)
-
   contrast = contrast.isDark()
-    ? contrast.tint(50)
-    : contrast.shade(50)
+    ? contrast.lighten(75)
+    : contrast.darken(50)
 
   return contrast.toHslString()
 }

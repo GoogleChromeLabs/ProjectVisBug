@@ -244,8 +244,6 @@
 
 :host [colors] > li > svg {
   fill: var(--icon_color);
-  mix-blend-mode: luminosity;
-  filter: brightness(0.5);
 }
 
 :host [colors] > li > svg > rect:last-child {
