@@ -96,6 +96,10 @@
     transform: translateX(-1em);
     will-change: transform, opacity;
 
+    @media (prefers-reduced-motion: reduce) {
+      transition-duration: 0s;
+    }
+
     & > figure {
       margin: 0;
       display: grid;
