@@ -33,7 +33,13 @@
   flex-wrap: nowrap;
   border-radius: 0.25em;
   line-height: initial;
-  filter: drop-shadow(0 var(--shadow-direction) 0.5em hsla(0,0%,0%,35%));
+
+  box-shadow:
+    0 3.6px 3.7px rgba(0, 0, 0, 0.101),
+    0 12.1px 12.3px rgba(0, 0, 0, 0.149),
+    0 -2px 4px rgba(0, 0, 0, 0.101),
+    0 -12.1px 24px rgba(0, 0, 0, 0.149),
+    0 54px 55px rgba(0, 0, 0, 0.25);
 
   border: 1px solid var(--theme-bg);
   &:after {

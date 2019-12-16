@@ -87,10 +87,6 @@ export function positionTip(tip, e) {
     ? 'var(--arrow-up)'
     : 'var(--arrow-down)')
 
-  tip.style.setProperty('--shadow-direction', north
-    ? 'var(--shadow-up)'
-    : 'var(--shadow-down)')
-
   tip.style.setProperty('--arrow-top', !north
     ? '-8px'
     : '100%')
