@@ -58,6 +58,24 @@ export const getStyles = el => {
   })
 }
 
+export const setVisbox = els => {
+  return new Promise(resolve => {
+    const observer = new IntersectionObserver(entries => {
+      observer.disconnect()
+
+      for (const entry of entries) {
+        const el = els.find(el => el === entry.target)
+        el['vis-box'] = entry.boundingClientRect  
+      }
+      
+      resolve(els)
+    })
+
+    for (const el of els)
+      observer.observe(el)  
+  })
+}
+
 export const getComputedBackgroundColor = el => {
   let background = getStyle(el, 'background-color')
 

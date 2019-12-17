@@ -33,7 +33,7 @@ export class Handles extends HTMLElement {
   }
 
   set position({el, node_label_id}) {
-    this.$shadow.innerHTML = this.render(el.getBoundingClientRect(), node_label_id)
+    this.$shadow.innerHTML = this.render(el['vis-box'], node_label_id)
 
     if (this._backdrop) {
       this.backdrop = {

@@ -91,11 +91,10 @@ export function queryPage(query, fn) {
   try {
     let matches = querySelectorAllDeep(query + notList)
     if (!matches.length) matches = querySelectorAllDeep(query)
-    if (matches.length) {
-      matches.forEach(el =>
-        fn
-          ? fn(el)
-          : SelectorEngine.select(el))
+      
+    else if (matches.length) {
+      if (fn) fn(matches)
+      else SelectorEngine.select(matches)
     }
   }
   catch (err) {}

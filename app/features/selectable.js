@@ -16,7 +16,7 @@ import {
   metaKey, htmlStringToDom, createClassname, camelToDash,
   isOffBounds, getStyles, deepElementFromPoint, getShadowValues,
   isSelectorValid, findNearestChildElement, findNearestParentElement,
-  getTextShadowValues
+  getTextShadowValues, setVisbox
 } from '../utilities/'
 
 export function Selectable(visbug) {
@@ -385,7 +385,7 @@ export function Selectable(visbug) {
     })
   }
 
-  const on_hover = e => {
+  const on_hover = async e => {
     const $target = deepElementFromPoint(e.clientX, e.clientY)
     const tool = visbug.activeTool
 
@@ -394,11 +394,19 @@ export function Selectable(visbug) {
       return clearHover()
     }
 
+    await setVisbox([$target])
+
+    const gui = document.createDocumentFragment()
     overlayHoverUI({
       el: $target,
       // no_hover: tool === 'guides',
       no_label: tool !== 'guides',
     })
+    
+    gui.append(hover_state.element)
+    gui.append(hover_state.label)
+
+    document.body.append(gui)
 
     if (tool === 'guides' && selected.length >= 1 && !selected.includes($target)) {
       $target.setAttribute('data-measuring', true)
@@ -418,22 +426,37 @@ export function Selectable(visbug) {
     }
   }
 
-  const select = el => {
-    const id = handles.length
-    const tool = visbug.activeTool
-
-    el.setAttribute('data-selected', true)
-    el.setAttribute('data-label-id', id)
+  const select = async els => {
+    if (!els.length)
+      els = [els]
 
     clearHover()
+    await setVisbox(els)
 
-    overlayMetaUI({
-      el,
-      id,
-      no_label: tool !== 'inspector' && tool !== 'accessibility',
-    })
+    // for each item to be selected
+    // set visbug attributes and create gui overlay nodes
+    // reduce those nodes into 1 root fragment for one DOM append / incision
+    const gui = els.reduce((gui, el) => {
+      const id = handles.length
+      const tool = visbug.activeTool
 
-    selected.unshift(el)
+      el.setAttribute('data-selected', true)
+      el.setAttribute('data-label-id', id)
+
+      const nodes = overlayMetaUI({
+        el,
+        id,
+        no_label: tool !== 'inspector' && tool !== 'accessibility',
+      })
+
+      nodes.forEach(node => gui.append(node))
+
+      return gui
+    }, document.createDocumentFragment())
+
+    document.body.append(gui)
+
+    selected = [...selected, ...els]
     tellWatchers()
   }
 
@@ -552,8 +575,8 @@ export function Selectable(visbug) {
   }
 
   const overlayMetaUI = ({el, id, no_label = true}) => {
-    let handle = createHandle({el, id})
-    let label  = no_label
+    const handle = createHandle({el, id})
+    const label  = no_label
       ? null
       : createLabel({
           el,
@@ -571,8 +594,8 @@ export function Selectable(visbug) {
           `
         })
 
-    let observer        = createObserver(el, {handle,label})
-    let parentObserver  = createObserver(el, {handle,label})
+    const observer        = createObserver(el, {handle,label})
+    const parentObserver  = createObserver(el, {handle,label})
 
     observer.observe(el, { attributes: true })
     parentObserver.observe(el.parentNode, { childList:true, subtree:true })
@@ -581,10 +604,12 @@ export function Selectable(visbug) {
       observer.disconnect()
       parentObserver.disconnect()
     })
+
+    return [handle, label]
   }
 
   const setLabel = (el, label) =>
-    label.update = el.getBoundingClientRect()
+    label.update = el['vis-box']
 
   const createLabel = ({el, id, template}) => {
     if (!labels[id]) {
@@ -592,30 +617,28 @@ export function Selectable(visbug) {
 
       label.text = template
       label.position = {
-        boundingRect:   el.getBoundingClientRect(),
+        boundingRect:   el['vis-box'],
         node_label_id:  id,
       }
-
-      document.body.appendChild(label)
 
       $(label).on('query', ({detail}) => {
         if (!detail.text) return
         this.query_text = detail.text
 
-        queryPage('[data-pseudo-select]', el =>
-          el.removeAttribute('data-pseudo-select'))
+        queryPage('[data-pseudo-select]', els =>
+          $(els).attr('data-pseudo-select', null))
 
-        queryPage(this.query_text + ':not([data-selected])', el =>
+        queryPage(this.query_text + ':not([data-selected])', els =>
           detail.activator === 'mouseenter'
-            ? el.setAttribute('data-pseudo-select', true)
-            : select(el))
+            ? $(els).attr('data-pseudo-select', true)
+            : select(els))
       })
 
       $(label).on('mouseleave', e => {
         e.preventDefault()
         e.stopPropagation()
-        queryPage('[data-pseudo-select]', el =>
-          el.removeAttribute('data-pseudo-select'))
+        queryPage('[data-pseudo-select]', els =>
+          $(els).attr('data-pseudo-select', null))
       })
 
       labels[labels.length] = label
@@ -629,10 +652,8 @@ export function Selectable(visbug) {
       const handle = document.createElement('visbug-handles')
 
       handle.position = { el, node_label_id: id }
-
-      document.body.appendChild(handle)
-
       handles[handles.length] = handle
+
       return handle
     }
   }
@@ -643,7 +664,6 @@ export function Selectable(visbug) {
         hover_state.element.remove()
 
       hover_state.element = document.createElement('visbug-hover')
-      document.body.appendChild(hover_state.element)
       hover_state.element.position = {el}
 
       return hover_state.element
@@ -656,16 +676,14 @@ export function Selectable(visbug) {
         hover_state.label.remove()
 
       hover_state.label = document.createElement('visbug-label')
-      document.body.appendChild(hover_state.label)
 
       hover_state.label.text = text
       hover_state.label.position = {
-        boundingRect:   el.getBoundingClientRect(),
+        boundingRect:   el['vis-box'],
         node_label_id:  'hover',
       }
 
       hover_state.label.style.setProperty(`--label-bg`, `hsl(267, 100%, 58%)`)
-
 
       return hover_state.label
     }

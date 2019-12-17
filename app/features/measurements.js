@@ -11,8 +11,8 @@ export function createMeasurements({$anchor, $target}) {
 
   if (state.distances.length) clearMeasurements()
 
-  const anchorBounds = $anchor.getBoundingClientRect()
-  const targetBounds = $target.getBoundingClientRect()
+  const anchorBounds = $anchor['vis-box']
+  const targetBounds = $target['vis-box']
 
   const measurements = []
 

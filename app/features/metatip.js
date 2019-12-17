@@ -4,7 +4,7 @@ import { TinyColor } from '@ctrl/tinycolor'
 import { queryPage } from './search'
 import { getStyles, camelToDash, isOffBounds, 
          deepElementFromPoint, getShadowValues,
-         getTextShadowValues
+         getTextShadowValues, setVisbox
 } from '../utilities/'
 
 const state = {
@@ -35,7 +35,7 @@ export function MetaTip({select}) {
   }
 }
 
-const mouseMove = e => {
+const mouseMove = async e => {
   const target = deepElementFromPoint(e.clientX, e.clientY)
 
   if (isOffBounds(target) || target.nodeName === 'VISBUG-METATIP' || target.hasAttribute('data-metatip')) { // aka: mouse out
@@ -50,7 +50,7 @@ const mouseMove = e => {
   }
 
   toggleTargetCursor(e.altKey, target)
-
+  await setVisbox([target])
   showTip(target, e)
 }
 
@@ -126,7 +126,7 @@ export function removeAll() {
 }
 
 const render = (el, tip = document.createElement('visbug-metatip')) => {
-  const { width, height } = el.getBoundingClientRect()
+  const { width, height } = el['vis-box']
   const colormode = $('vis-bug')[0].colorMode
 
   const styles = getStyles(el)
@@ -234,19 +234,17 @@ const togglePinned = e => {
 const linkQueryClicked = ({detail:{ text, activator }}) => {
   if (!text) return
 
-  queryPage('[data-pseudo-select]', el =>
-    el.removeAttribute('data-pseudo-select'))
+  unPseudoQuery()
 
-  queryPage(text + ':not([data-selected])', el =>
+  queryPage(text + ':not([data-selected])', els =>
     activator === 'mouseenter'
-      ? el.setAttribute('data-pseudo-select', true)
-      : services.selectors.select(el))
+      ? $(els).attr('data-pseudo-select', true)
+      : services.selectors.select(els))
 }
 
-const linkQueryHoverOut = e => {
-  queryPage('[data-pseudo-select]', el =>
-    el.removeAttribute('data-pseudo-select'))
-}
+const unPseudoQuery = _ =>
+  queryPage('[data-pseudo-select]', els =>
+    $(els).attr('data-pseudo-select', null))
 
 const toggleTargetCursor = (key, target) =>
   key
@@ -255,13 +253,13 @@ const toggleTargetCursor = (key, target) =>
 
 const observe = ({tip, target}) => {
   $(tip).on('query', linkQueryClicked)
-  $(tip).on('unquery', linkQueryHoverOut)
+  $(tip).on('unquery', unPseudoQuery)
   $(target).on('DOMNodeRemoved', handleBlur)
 }
 
 const unobserve = ({tip, target}) => {
   $(tip).off('query', linkQueryClicked)
-  $(tip).off('unquery', linkQueryHoverOut)
+  $(tip).off('unquery', unPseudoQuery)
   $(target).off('DOMNodeRemoved', handleBlur)
 }
 

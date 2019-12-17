@@ -178,7 +178,7 @@ const getPictureSourcesToUpdate = img =>
 const showOverlay = (node, i) => {
   if (!state.watching) return
 
-  const rect    = node.getBoundingClientRect()
+  const rect    = node['vis-box']
   const overlay = overlays[i]
 
   if (overlay) {
