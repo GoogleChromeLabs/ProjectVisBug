@@ -250,14 +250,14 @@ const linkQueryHoverOut = e => {
 }
 
 const observe = ({tip, target}) => {
-  $(tip).on('query', linkQueryClicked)
-  $(tip).on('unquery', linkQueryHoverOut)
+  // $(tip).on('query', linkQueryClicked)
+  // $(tip).on('unquery', linkQueryHoverOut)
   $(target).on('DOMNodeRemoved', handleBlur)
 }
 
 const unobserve = ({tip, target}) => {
-  $(tip).off('query', linkQueryClicked)
-  $(tip).off('unquery', linkQueryHoverOut)
+  // $(tip).off('query', linkQueryClicked)
+  // $(tip).off('unquery', linkQueryHoverOut)
   $(target).off('DOMNodeRemoved', handleBlur)
 }
 
