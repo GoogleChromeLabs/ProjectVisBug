@@ -2,10 +2,6 @@ body {
   min-height: 100vh;
 }
 
-[data-measuring=true] {
-  cursor: crosshair;
-}
-
 body:not([testing]) [data-selected=true] {
   transition: all 0.15s ease;
 }
@@ -22,12 +18,8 @@ body:not([testing]) [data-selected=true] {
   caret-color: hotpink;
 }
 
-[data-pinhover=true] {
+[data-measuring=true] {
   cursor: crosshair;
-}
-
-[data-metatip=true][data-pinhover=true] {
-  cursor: not-allowed;
 }
 
 [draggable=true] {

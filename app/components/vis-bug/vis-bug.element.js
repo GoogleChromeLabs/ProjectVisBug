@@ -66,7 +66,7 @@ export default class VisBug extends HTMLElement {
       this.toolSelected(e.currentTarget) && e.stopPropagation())
 
     draggable({
-      el:this, 
+      el:this,
       surface: this.$shadow.querySelector('ol:not([colors])'),
       cursor: 'grab',
     })
@@ -211,7 +211,7 @@ export default class VisBug extends HTMLElement {
   }
 
   accessibility() {
-    this.deactivate_feature = Accessibility()
+    this.deactivate_feature = Accessibility(this.selectorEngine)
   }
 
   guides() {

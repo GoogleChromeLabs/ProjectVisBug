@@ -2,7 +2,7 @@ import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { TinyColor } from '@ctrl/tinycolor'
 import { queryPage } from './search'
-import { getStyles, camelToDash, isOffBounds, 
+import { getStyles, camelToDash, isOffBounds,
          deepElementFromPoint, getShadowValues,
          getTextShadowValues
 } from '../utilities/'
@@ -17,11 +17,12 @@ const state = {
 
 const services = {}
 
-export function MetaTip({select}) {
-  services.selectors = {select}
+export function MetaTip(visbug) {
+  services.selectors = visbug.select
+  state.restoring = true
 
   $('body').on('mousemove', mouseMove)
-  $('body').on('click', togglePinned)
+  visbug.onSelectedUpdate(togglePinned)
 
   hotkeys('esc', _ => removeAll())
 
@@ -29,7 +30,7 @@ export function MetaTip({select}) {
 
   return () => {
     $('body').off('mousemove', mouseMove)
-    $('body').off('click', togglePinned)
+    visbug.removeSelectedCallback(togglePinned)
     hotkeys.unbind('esc')
     hideAll()
   }
@@ -48,8 +49,6 @@ const mouseMove = e => {
     }
     return
   }
-
-  toggleTargetCursor(e.altKey, target)
 
   showTip(target, e)
 }
@@ -214,21 +213,23 @@ const wipe = ({tip, e:{target}}) => {
   state.tips.delete(target)
 }
 
-const togglePinned = e => {
-  const target = deepElementFromPoint(e.clientX, e.clientY)
+const togglePinned = els => {
+  if (state.restoring) return state.restoring = false
 
-  if (e.altKey && !target.hasAttribute('data-metatip')) {
-    target.setAttribute('data-metatip', true)
-    state.tips.set(target, {
-      tip: state.active.tip,
-      e,
-    })
-    clearActive()
-  }
-  else if (target.hasAttribute('data-metatip')) {
-    target.removeAttribute('data-metatip')
-    wipe(state.tips.get(target))
-  }
+  els.forEach(el => {
+    if (!el.hasAttribute('data-metatip')) {
+      el.setAttribute('data-metatip', true)
+      state.tips.set(el, {
+        tip: state.active.tip,
+        e: {target:el},
+      })
+      clearActive()
+    }
+    else if (el.hasAttribute('data-metatip')) {
+      el.removeAttribute('data-metatip')
+      wipe(state.tips.get(el))
+    }
+  })
 }
 
 const linkQueryClicked = ({detail:{ text, activator }}) => {
@@ -247,11 +248,6 @@ const linkQueryHoverOut = e => {
   queryPage('[data-pseudo-select]', el =>
     el.removeAttribute('data-pseudo-select'))
 }
-
-const toggleTargetCursor = (key, target) =>
-  key
-    ? target.setAttribute('data-pinhover', true)
-    : target.removeAttribute('data-pinhover')
 
 const observe = ({tip, target}) => {
   $(tip).on('query', linkQueryClicked)
