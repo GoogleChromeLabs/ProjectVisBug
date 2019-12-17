@@ -165,19 +165,21 @@ const determineColorContrast = el => {
     isReadable(background, foreground, { level: "AAA", size: textSize.toLowerCase() })
   ]
 
-  return `
-    <span prop>Color contrast</span>
-    <span value contrast>
-      <span style="
-        background-color:${background};
-        color:${foreground};
-      ">${Math.floor(readability(background, foreground)  * 100) / 100}</span>
-    </span>
-    <span prop>› AA ${textSize}</span>
-    <span value style="${aa_contrast ? 'color:green;' : 'color:red'}">${aa_contrast ? '✓' : '×'}</span>
-    <span prop>› AAA ${textSize}</span>
-    <span value style="${aaa_contrast ? 'color:green;' : 'color:red'}">${aaa_contrast ? '✓' : '×'}</span>
-  `
+  return foreground === background
+    ? `🤷‍♂️ foreground matches background`
+    : `
+        <span prop>Color contrast</span>
+        <span value contrast>
+          <span style="
+            background-color:${background};
+            color:${foreground};
+          ">${Math.floor(readability(background, foreground)  * 100) / 100}</span>
+        </span>
+        <span prop>› AA ${textSize}</span>
+        <span value style="${aa_contrast ? 'color:green;' : 'color:red'}">${aa_contrast ? '✓' : '×'}</span>
+        <span prop>› AAA ${textSize}</span>
+        <span value style="${aaa_contrast ? 'color:green;' : 'color:red'}">${aaa_contrast ? '✓' : '×'}</span>
+      `
 }
 
 const mouse_quadrant = e => ({
