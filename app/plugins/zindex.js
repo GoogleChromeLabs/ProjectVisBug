@@ -9,7 +9,7 @@ export default function () {
         .filter(el => el.computedStyleMap().get('z-index').value !== 'auto')
         .filter(el => el.nodeName !== 'VIS-BUG')
         .forEach(el => {
-            const color = `#${Math.floor(Math.random() * 16777215).toString(16)}`
+            const color = `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6,0)}`
             const zindex = el.computedStyleMap().get('z-index').value
 
             const label = document.createElement('visbug-label')
