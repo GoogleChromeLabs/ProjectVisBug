@@ -16,7 +16,7 @@ import { VisBugStyles }           from '../styles.store'
 import { VisBugModel }            from './model'
 import * as Icons                 from './vis-bug.icons'
 import { provideSelectorEngine }  from '../../features/search'
-import { metaKey }                from '../../utilities/'
+import { metaKey,isPolyfilledCE } from '../../utilities/'
 import { PluginRegistry }         from '../../plugins/_registry'
 
 const modemap = {
@@ -37,7 +37,7 @@ export default class VisBug extends HTMLElement {
   connectedCallback() {
     this.$shadow.adoptedStyleSheets = [VisBugStyles]
 
-    if (!this.$shadow.innerHTML)
+    if (!this.$shadow.innerHTML || isPolyfilledCE(this.$shadow))
       this.setup()
 
     this.selectorEngine = Selectable(this)

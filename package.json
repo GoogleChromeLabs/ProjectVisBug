@@ -34,9 +34,9 @@
   "dependencies": {
     "@ctrl/tinycolor": "^2.4.0",
     "blingblingjs": "^2.1.0",
+    "construct-style-sheets-polyfill": "^2.3.3",
     "hotkeys-js": "^3.6.2",
-    "query-selector-shadow-dom": "^0.3.2",
-    "ragrid": "^1.0.5"
+    "query-selector-shadow-dom": "^0.3.2"
   },
   "devDependencies": {
     "ava": "^1.4.1",
@@ -52,7 +52,8 @@
     "rollup": "^1.10.0",
     "rollup-plugin-node-resolve": "^4.2.3",
     "rollup-plugin-postcss": "^2.0.3",
-    "start-server-and-test": "^1.7.13"
+    "start-server-and-test": "^1.7.13",
+    "ragrid": "^1.0.5"
   },
   "ava": {
     "require": [

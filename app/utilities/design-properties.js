@@ -1,3 +1,5 @@
+import {isFirefox} from './cross-browser.js'
+
 export const desiredPropMap = {
   color:               'rgb(0, 0, 0)',
   backgroundColor:     'rgba(0, 0, 0, 0)',
@@ -37,7 +39,7 @@ export const desiredPropMap = {
   gridAutoFlow:        'row',
 }
 
-if (navigator.userAgent.search('Firefox')) {
+if (isFirefox) {
   desiredPropMap.backgroundSize = 'auto auto'
   desiredPropMap.borderWidth    = ''
   desiredPropMap.borderRadius   = ''
