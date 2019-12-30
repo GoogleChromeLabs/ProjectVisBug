@@ -1,22 +1,29 @@
 import $          from 'blingblingjs'
 import hotkeys    from 'hotkeys-js'
-import styles     from './vis-bug.element.css'
 
 import {
-  Handles, Label, Overlay, Gridlines,
-  Hotkeys, Metatip, Ally, Distance, BoxModel,
+  Handles, Label, Overlay, Gridlines, Corners,
+  Hotkeys, Metatip, Ally, Distance, BoxModel, Grip
 } from '../'
 
 import {
   Selectable, Moveable, Padding, Margin, EditText, Font,
   Flex, Search, ColorPicker, BoxShadow, HueShift, MetaTip,
-  Guides, Screenshot, Position, Accessibility
+  Guides, Screenshot, Position, Accessibility, draggable
 } from '../../features/'
 
-import { VisBugModel }              from './model'
+import { VisBugStyles }           from '../styles.store'
+import { VisBugModel }            from './model'
 import * as Icons                 from './vis-bug.icons'
 import { provideSelectorEngine }  from '../../features/search'
 import { metaKey }                from '../../utilities/'
+import { PluginRegistry }         from '../../plugins/_registry'
+
+const modemap = {
+  'hex':  'toHexString',
+  'hsla': 'toHslString',
+  'rgba': 'toRgbString',
+}
 
 export default class VisBug extends HTMLElement {
   constructor() {
@@ -28,12 +35,17 @@ export default class VisBug extends HTMLElement {
   }
 
   connectedCallback() {
+    this.$shadow.adoptedStyleSheets = [VisBugStyles]
+
     if (!this.$shadow.innerHTML)
       this.setup()
 
-    this.selectorEngine = Selectable()
+    this.selectorEngine = Selectable(this)
     this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
+
     provideSelectorEngine(this.selectorEngine)
+
+    this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
   }
 
   disconnectedCallback() {
@@ -48,9 +60,16 @@ export default class VisBug extends HTMLElement {
 
   setup() {
     this.$shadow.innerHTML = this.render()
+    this._colormode = modemap['hsla']
 
     $('li[data-tool]', this.$shadow).on('click', e =>
       this.toolSelected(e.currentTarget) && e.stopPropagation())
+
+    draggable({
+      el:this,
+      surface: this.$shadow.querySelector('ol:not([colors])'),
+      cursor: 'grab',
+    })
 
     Object.entries(this.toolbar_model).forEach(([key, value]) =>
       hotkeys(key, e => {
@@ -66,8 +85,6 @@ export default class VisBug extends HTMLElement {
         this.$shadow.host.style.display === 'none'
           ? 'block'
           : 'none')
-
-    this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
   }
 
   cleanup() {
@@ -77,6 +94,8 @@ export default class VisBug extends HTMLElement {
       ...document.getElementsByTagName('visbug-label'),
       ...document.getElementsByTagName('visbug-gridlines'),
     ].forEach(el => el.remove())
+
+    this.teardown();
 
     document.querySelectorAll('[data-pseudo-select=true]')
       .forEach(el =>
@@ -101,7 +120,6 @@ export default class VisBug extends HTMLElement {
 
   render() {
     return `
-      ${this.styles()}
       <visbug-hotkeys></visbug-hotkeys>
       <ol>
         ${Object.entries(this.toolbar_model).reduce((list, [key, tool]) => `
@@ -113,27 +131,19 @@ export default class VisBug extends HTMLElement {
         `,'')}
       </ol>
       <ol colors>
-        <li style="display: none;" class="color" id="foreground" aria-label="Text" aria-description="Change the text color">
+        <li class="color" id="foreground" aria-label="Text" aria-description="Change the text color">
           <input type="color" value="">
           ${Icons.color_text}
         </li>
-        <li style="display: none;" class="color" id="background" aria-label="Background or Fill" aria-description="Change the background color or fill of svg">
+        <li class="color" id="background" aria-label="Background or Fill" aria-description="Change the background color or fill of svg">
           <input type="color" value="">
           ${Icons.color_background}
         </li>
-        <li style="display: none;" class="color" id="border" aria-label="Border or Stroke" aria-description="Change the border color or stroke of svg">
+        <li class="color" id="border" aria-label="Border or Stroke" aria-description="Change the border color or stroke of svg">
           <input type="color" value="">
           ${Icons.color_border}
         </li>
       </ol>
-    `
-  }
-
-  styles() {
-    return `
-      <style>
-        ${styles}
-      </style>
     `
   }
 
@@ -190,12 +200,10 @@ export default class VisBug extends HTMLElement {
   }
 
   hueshift() {
-    let feature = HueShift(this.colorPicker)
-    this.selectorEngine.onSelectedUpdate(feature.onNodesSelected)
-    this.deactivate_feature = () => {
-      this.selectorEngine.removeSelectedCallback(feature.onNodesSelected)
-      feature.disconnect()
-    }
+    this.deactivate_feature = HueShift({
+      Color:  this.colorPicker,
+      Visbug: this.selectorEngine,
+    })
   }
 
   inspector() {
@@ -203,11 +211,11 @@ export default class VisBug extends HTMLElement {
   }
 
   accessibility() {
-    this.deactivate_feature = Accessibility()
+    this.deactivate_feature = Accessibility(this.selectorEngine)
   }
 
   guides() {
-    this.deactivate_feature = Guides()
+    this.deactivate_feature = Guides(this.selectorEngine)
   }
 
   screenshot() {
@@ -223,6 +231,18 @@ export default class VisBug extends HTMLElement {
     }
   }
 
+  execCommand(command) {
+    const query = `/${command}`
+
+    if (PluginRegistry.has(query))
+      return PluginRegistry.get(query)({
+        selected: this.selectorEngine.selection(),
+        query
+      })
+
+    return Promise.resolve(new Error("Query not found"))
+  }
+
   get activeTool() {
     return this.active_tool.dataset.tool
   }
@@ -230,6 +250,14 @@ export default class VisBug extends HTMLElement {
   set tutsBaseURL(url) {
     this._tutsBaseURL = url
     this.setup()
+  }
+
+  set colorMode(mode) {
+    this._colormode = modemap[mode]
+  }
+
+  get colorMode() {
+    return this._colormode
   }
 }
 

@@ -8,11 +8,14 @@ import { commands as skeleton_commands, default as SkeletonPlugin } from './skel
 import { commands as tag_debugger_commands, default as TagDebuggerPlugin } from './tag-debugger'
 import { commands as revenge_commands, default as RevengePlugin } from './revenge'
 import { commands as tota11y_commands, default as Tota11yPlugin } from './tota11y'
+import { commands as shuffle_commands, default as ShufflePlugin } from './shuffle'
+import { commands as colorblind_commands, default as ColorblindPlugin } from './colorblind'
+import { commands as zindex_commands, default as ZIndexPlugin } from './zindex'
 
 const commandsToHash = (plugin_commands, plugin_fn) =>
   plugin_commands.reduce((commands, command) =>
-    Object.assign(commands, {[`/${command}`]:plugin_fn})
-  , {})
+    Object.assign(commands, { [`/${command}`]: plugin_fn })
+    , {})
 
 export const PluginRegistry = new Map(Object.entries({
   ...commandsToHash(blank_page_commands, BlankPagePlugin),
@@ -25,6 +28,9 @@ export const PluginRegistry = new Map(Object.entries({
   ...commandsToHash(tag_debugger_commands, TagDebuggerPlugin),
   ...commandsToHash(revenge_commands, RevengePlugin),
   ...commandsToHash(tota11y_commands, Tota11yPlugin),
+  ...commandsToHash(shuffle_commands, ShufflePlugin),
+  ...commandsToHash(colorblind_commands, ColorblindPlugin),
+  ...commandsToHash(zindex_commands, ZIndexPlugin),
 }))
 
 export const PluginHints = [
@@ -38,4 +44,7 @@ export const PluginHints = [
   tag_debugger_commands[0],
   revenge_commands[0],
   tota11y_commands[0],
+  shuffle_commands[0],
+  zindex_commands[0],
+  ...colorblind_commands,
 ].map(command => `/${command}`)

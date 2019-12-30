@@ -2,6 +2,7 @@ import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { querySelectorAllDeep } from 'query-selector-shadow-dom'
 // import { PluginRegistry, PluginHints } from '../plugins/_registry'
+import { notList } from '../utilities'
 
 let SelectorEngine
 
@@ -9,7 +10,7 @@ let SelectorEngine
 const search_base = document.createElement('div')
 search_base.classList.add('search')
 search_base.innerHTML = `
-  <input list="visbug-plugins" type="text" placeholder="ex: images, .btn, button, text, ..."/>
+  <input list="visbug-plugins" type="search" placeholder="ex: images, .btn, button, text, ..."/>
   <datalist id="visbug-plugins">
     <option value="h1, h2, h3, .get-multiple">example</option>
     <option value="nav > a:first-child">example</option>
@@ -44,12 +45,16 @@ export function Search(node) {
       queryPage(query))
   }
 
+  const focus = e =>
+    searchInput[0].focus()
+
+  searchInput.on('click', focus)
   searchInput.on('input', onQuery)
   searchInput.on('keydown', stopBubbling)
   // searchInput.on('blur', hideSearchBar)
 
   showSearchBar()
-  searchInput[0].focus()
+  focus()
 
   // hotkeys('escape,esc', (e, handler) => {
   //   hideSearchBar()
@@ -71,7 +76,10 @@ export function provideSelectorEngine(Engine) {
 export function queryPage(query, fn) {
   // todo: should stash a cleanup method to be called when query doesnt match
   if (PluginRegistry.has(query))
-    return PluginRegistry.get(query)(query)
+    return PluginRegistry.get(query)({
+      selected: SelectorEngine.selection(),
+      query
+    })
 
   if (query == 'links')     query = 'a'
   if (query == 'buttons')   query = 'button'
@@ -82,14 +90,14 @@ export function queryPage(query, fn) {
   if (query == '.' || query == '#' || query.trim().endsWith(',')) return
 
   try {
-    let matches = querySelectorAllDeep(query + ':not(vis-bug):not(script):not(hotkey-map):not(.visbug-metatip):not(visbug-label):not(visbug-handles)')
+    let matches = querySelectorAllDeep(query + notList)
     if (!matches.length) matches = querySelectorAllDeep(query)
-    if (!fn) SelectorEngine.unselect_all()
-    if (matches.length)
+    if (matches.length) {
       matches.forEach(el =>
         fn
           ? fn(el)
           : SelectorEngine.select(el))
+    }
   }
   catch (err) {}
 }

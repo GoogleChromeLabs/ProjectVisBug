@@ -1,8 +1,8 @@
-import $            from 'blingblingjs'
-import hotkeys      from 'hotkeys-js'
-import styles       from './base.element.css'
-import * as Icons   from '../vis-bug/vis-bug.icons'
-import { metaKey, altKey }  from '../../utilities/'
+import $                   from 'blingblingjs'
+import hotkeys             from 'hotkeys-js'
+import * as Icons          from '../vis-bug/vis-bug.icons'
+import { HotkeymapStyles } from '../styles.store'
+import { metaKey, altKey } from '../../utilities/'
 
 export class HotkeyMap extends HTMLElement {
 
@@ -14,7 +14,7 @@ export class HotkeyMap extends HTMLElement {
       tab:    ['tab','q','w','e','r','t','y','u','i','o','p','[',']','\\'],
       caps:   ['caps','a','s','d','f','g','h','j','k','l','\'','return'],
       shift:  ['shift','z','x','c','v','b','n','m',',','.','/','shift'],
-      space:  ['ctrl',altKey,'cmd','spacebar','cmd',altKey,'ctrl']
+      space:  [altKey, metaKey, 'spacebar', metaKey, altKey],
     }
 
     this.key_size_model = {
@@ -22,7 +22,7 @@ export class HotkeyMap extends HTMLElement {
       tab:    {0:2},
       caps:   {0:3,11:3},
       shift:  {0:6,11:6},
-      space:  {3:10},
+      space:  {2:10},
     }
 
     this.$shadow    = this.attachShadow({mode: 'closed'})
@@ -34,6 +34,7 @@ export class HotkeyMap extends HTMLElement {
   }
 
   connectedCallback() {
+    this.$shadow.adoptedStyleSheets = [HotkeymapStyles]
     this.$shift  = $('[keyboard] > section > [shift]', this.$shadow)
     this.$ctrl   = $('[keyboard] > section > [ctrl]', this.$shadow)
     this.$alt    = $(`[keyboard] > section > [${altKey}]`, this.$shadow)
@@ -67,8 +68,7 @@ export class HotkeyMap extends HTMLElement {
     e.stopImmediatePropagation()
 
     this.$shift.attr('pressed', hotkeys.shift)
-    this.$ctrl.attr('pressed', hotkeys.ctrl)
-    this.$alt.attr('pressed', hotkeys.alt)
+    this.$alt.attr('pressed', hotkeys[altKey === 'opt' ? 'alt' : altKey])
     this.$cmd.attr('pressed', hotkeys[metaKey])
     this.$up.attr('pressed', e.code === 'ArrowUp')
     this.$down.attr('pressed', e.code === 'ArrowDown')
@@ -92,7 +92,7 @@ export class HotkeyMap extends HTMLElement {
     if (code === 'ArrowDown')   side = 'the bottom side'
     if (code === 'ArrowLeft')   side = 'the left side'
     if (code === 'ArrowRight')  side = 'the right side'
-    if (hotkeys[metaKey])            side = 'all sides'
+    if (hotkeys[metaKey])       side = 'all sides'
 
     if (hotkeys[metaKey] && code === 'ArrowDown') {
       negative            = 'Subtract'
@@ -117,7 +117,6 @@ export class HotkeyMap extends HTMLElement {
 
   render() {
     return `
-      ${this.styles()}
       <article>
         <div tool-icon>
           <span>
@@ -160,14 +159,6 @@ export class HotkeyMap extends HTMLElement {
           </div>
         </div>
       </article>
-    `
-  }
-
-  styles() {
-    return `
-      <style>
-        ${styles}
-      </style>
     `
   }
 }

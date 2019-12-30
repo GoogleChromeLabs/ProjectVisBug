@@ -37,7 +37,7 @@ export class FontHotkeys extends HotkeyMap {
         negative  = 'decrease'
     }
     // font weight
-    else if (hotkeys.cmd && (code === 'ArrowUp' || code === 'ArrowDown')) {
+    else if (hotkeys[metaKey] && (code === 'ArrowUp' || code === 'ArrowDown')) {
       side                = 'font weight'
       amount              = ''
       negative_modifier   = ''

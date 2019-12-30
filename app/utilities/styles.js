@@ -13,16 +13,49 @@ export const getStyles = el => {
   const elStyleObject = el.style
   const computedStyle = window.getComputedStyle(el, null)
 
-  let desiredValues = []
+  const vettedStyles = Object.entries(el.style)
+    .filter(([prop]) => prop !== 'borderColor')
+    .filter(([prop]) => desiredPropMap[prop])
+    .filter(([prop]) => desiredPropMap[prop] != computedStyle[prop])
+    .map(([prop, value]) => ({
+      prop, 
+      value: computedStyle[prop].replace(/, rgba/g, '\rrgba'),
+    }))
 
-  for (prop in el.style)
-    if (prop in desiredPropMap && desiredPropMap[prop] != computedStyle[prop])
-      desiredValues.push({
-        prop,
-        value: computedStyle[prop].replace(/, rgba/g, '\rrgba')
-      })
+  // below code sucks, but border-color is only something
+  // we want if it has border width > 0
+  // i made it look really hard
+  const trueBorderColors = Object.entries(el.style)
+    .filter(([prop]) => prop === 'borderColor' || prop === 'borderWidth' || prop === 'borderStyle')
+    .map(([prop, value]) => ([
+      prop, 
+      computedStyle[prop].replace(/, rgba/g, '\rrgba'),
+    ]))
 
-  return desiredValues
+  const { borderColor, borderWidth, borderStyle } = Object.fromEntries(trueBorderColors)
+  const vettedBorders = []
+
+  // todo: push border style!
+  if (parseInt(borderWidth) > 0) {
+    vettedBorders.push({
+      prop: 'borderColor',
+      value: borderColor,
+    })
+
+    vettedBorders.push({
+      prop: 'borderStyle',
+      value: borderStyle,
+    })
+  }
+
+  return [
+    ...vettedStyles, 
+    ...vettedBorders,
+  ].sort(function({prop:propA}, {prop:propB}) {
+    if (propA < propB) return -1
+    if (propA > propB) return 1
+    return 0
+  })
 }
 
 export const getComputedBackgroundColor = el => {
@@ -81,3 +114,11 @@ export const loadStyles = async stylesheets => {
 
   document.head.appendChild(style)
 }
+
+// returns [full, color, x, y, blur, spread]
+export const getShadowValues = shadow =>
+  /([^\)]+\)) ([^\s]+) ([^\s]+) ([^\s]+) ([^\s]+)/.exec(shadow)
+
+// returns [full, color, x, y, blur]
+export const getTextShadowValues = shadow =>
+  /([^\)]+\)) ([^\s]+) ([^\s]+) ([^\s]+)/.exec(shadow)

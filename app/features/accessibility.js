@@ -15,9 +15,11 @@ const state = {
   tips: new Map(),
 }
 
-export function Accessibility() {
+export function Accessibility(visbug) {
+  state.restoring = true
+
   $('body').on('mousemove', mouseMove)
-  $('body').on('click', togglePinned)
+  visbug.onSelectedUpdate(togglePinned)
 
   hotkeys('esc', _ => removeAll())
 
@@ -25,7 +27,7 @@ export function Accessibility() {
 
   return () => {
     $('body').off('mousemove', mouseMove)
-    $('body').off('click', togglePinned)
+    visbug.removeSelectedCallback(togglePinned)
     hotkeys.unbind('esc')
     hideAll()
   }
@@ -34,7 +36,7 @@ export function Accessibility() {
 const mouseMove = e => {
   const target = deepElementFromPoint(e.clientX, e.clientY)
 
-  if (isOffBounds(target) || target.nodeName === 'VISBUG-ALLYTIP' || target.hasAttribute('data-allytip')) { // aka: mouse out
+  if (isOffBounds(target) || target.nodeName.toUpperCase() === 'SVG' || target.nodeName === 'VISBUG-ALLYTIP' || target.hasAttribute('data-allytip')) { // aka: mouse out
     if (state.active.tip) {
       wipe({
         tip: state.active.tip,
@@ -44,8 +46,6 @@ const mouseMove = e => {
     }
     return
   }
-
-  toggleTargetCursor(e.altKey, target)
 
   showTip(target, e)
 }
@@ -88,8 +88,8 @@ export function positionTip(tip, e) {
     : 'var(--shadow-down)')
 
   tip.style.setProperty('--arrow-top', !north
-    ? '-7px'
-    : 'calc(100% - 1px)')
+    ? '-8px'
+    : '100%')
 
   tip.style.setProperty('--arrow-left', west
     ? 'calc(100% - 15px - 15px)'
@@ -151,29 +151,34 @@ const render = (el, tip = document.createElement('visbug-ally')) => {
 const determineColorContrast = el => {
   // question: how to know if the current node is actually a black background?
   // question: is there an api for composited values?
-  const text      = getStyle(el, 'color')
+  const foreground = el instanceof SVGElement
+    ? (getStyle(el, 'fill') || getStyle(el, 'stroke'))
+    : getStyle(el, 'color')
+
   const textSize  = getWCAG2TextSize(el)
 
   let background  = getComputedBackgroundColor(el)
 
   const [ aa_contrast, aaa_contrast ] = [
-    isReadable(background, text, { level: "AA", size: textSize.toLowerCase() }),
-    isReadable(background, text, { level: "AAA", size: textSize.toLowerCase() })
+    isReadable(background, foreground, { level: "AA", size: textSize.toLowerCase() }),
+    isReadable(background, foreground, { level: "AAA", size: textSize.toLowerCase() })
   ]
 
-  return `
-    <span prop>Color contrast</span>
-    <span value contrast>
-      <span style="
-        background-color:${background};
-        color:${text};
-      ">${Math.floor(readability(background, text)  * 100) / 100}</span>
-    </span>
-    <span prop>› AA ${textSize}</span>
-    <span value style="${aa_contrast ? 'color:green;' : 'color:red'}">${aa_contrast ? '✓' : '×'}</span>
-    <span prop>› AAA ${textSize}</span>
-    <span value style="${aaa_contrast ? 'color:green;' : 'color:red'}">${aaa_contrast ? '✓' : '×'}</span>
-  `
+  return foreground === background
+    ? `🤷‍♂️ foreground matches background`
+    : `
+        <span prop>Color contrast</span>
+        <span value contrast>
+          <span style="
+            background-color:${background};
+            color:${foreground};
+          ">${Math.floor(readability(background, foreground)  * 100) / 100}</span>
+        </span>
+        <span prop>› AA ${textSize}</span>
+        <span value style="${aa_contrast ? 'color:green;' : 'color:red'}">${aa_contrast ? '✓' : '×'}</span>
+        <span prop>› AAA ${textSize}</span>
+        <span value style="${aaa_contrast ? 'color:green;' : 'color:red'}">${aaa_contrast ? '✓' : '×'}</span>
+      `
 }
 
 const mouse_quadrant = e => ({
@@ -201,27 +206,24 @@ const wipe = ({tip, e:{target}}) => {
   state.tips.delete(target)
 }
 
-const togglePinned = e => {
-  const target = deepElementFromPoint(e.clientX, e.clientY)
+const togglePinned = els => {
+  if (state.restoring) return state.restoring = false
 
-  if (e.altKey && !target.hasAttribute('data-allytip')) {
-    target.setAttribute('data-allytip', true)
-    state.tips.set(target, {
-      tip: state.active.tip,
-      e,
-    })
-    clearActive()
-  }
-  else if (target.hasAttribute('data-allytip')) {
-    target.removeAttribute('data-allytip')
-    wipe(state.tips.get(target))
-  }
+  els.forEach(el => {
+    if (!el.hasAttribute('data-allytip')) {
+      el.setAttribute('data-allytip', true)
+      state.tips.set(el, {
+        tip: state.active.tip,
+        e: {target:el},
+      })
+      clearActive()
+    }
+    else if (el.hasAttribute('data-allytip')) {
+      el.removeAttribute('data-allytip')
+      wipe(state.tips.get(el))
+    }
+  })
 }
-
-const toggleTargetCursor = (key, target) =>
-  key
-    ? target.setAttribute('data-pinhover', true)
-    : target.removeAttribute('data-pinhover')
 
 const observe = ({tip, target}) => {
   $(target).on('DOMNodeRemoved', handleBlur)

@@ -6,11 +6,19 @@ export const VisBugModel = {
     tool:        'guides',
     icon:        Icons.guides,
     label:       'Guides',
-    description: 'Verify alignment & check your grid',
+    description: 'Verify alignment & measure distances',
     instruction: `<div table>
                     <div>
+                      <b>Element Guides:</b>
+                      <span>hover</span>
+                    </div>
+                    <div>
                       <b>Measure:</b>
-                      <span>${altKey} + hover</span>
+                      <span>click+hover</span>
+                    </div>
+                    <div>
+                      <b>Sticky Measurements:</b>
+                      <span>shift+click</span>
                     </div>
                   </div>`,
   },
@@ -42,8 +50,12 @@ export const VisBugModel = {
     tool:        'move',
     icon:        Icons.move,
     label:       'Move',
-    description: 'Push elements in & out of their container, or shuffle them within it',
+    description: 'Move elements laterally or in, out, over, and under',
     instruction: `<div table>
+                    <div>
+                      <b>Lateral:</b>
+                      <span>click container ⇒ drag child</span>
+                    </div>
                     <div>
                       <b>Lateral:</b>
                       <span>◀ ▶</span>
@@ -53,8 +65,12 @@ export const VisBugModel = {
                       <span>▲</span>
                     </div>
                     <div>
-                      <b>Down and in:</b>
+                      <b>Down+in, out+under:</b>
                       <span>▼</span>
+                    </div>
+                    <div>
+                      <b>Trainer:</b>
+                      <span>shift + /</span>
                     </div>
                   </div>`,
   },
@@ -82,6 +98,10 @@ export const VisBugModel = {
                       <b>All Sides:</b>
                       <span>${metaKey} +  ▲ ▼</span>
                     </div>
+                    <div>
+                      <b>Trainer:</b>
+                      <span>shift + /</span>
+                    </div>
                   </div>`,
   },
   p: {
@@ -102,6 +122,10 @@ export const VisBugModel = {
                       <b>All Sides:</b>
                       <span>${metaKey} +  ▲ ▼</span>
                     </div>
+                    <div>
+                      <b>Trainer:</b>
+                      <span>shift + /</span>
+                    </div>
                   </div>`
   },
   // b: {
@@ -114,8 +138,16 @@ export const VisBugModel = {
     tool:        'align',
     icon:        Icons.align,
     label:       'Flexbox Align',
-    description: `Create or modify flexbox direction, distribution & alignment`,
+    description: `Create or modify flexbox direction, distribution, order & wrapping`,
     instruction: `<div table>
+                    <div>
+                      <b>Rows:</b>
+                      <span>${metaKey} + ▼</span>
+                    </div>
+                    <div>
+                      <b>Columns:</b>
+                      <span>${metaKey} + ▶</span>
+                    </div>
                     <div>
                       <b>Alignment:</b>
                       <span>◀ ▶ ▲ ▼</span>
@@ -125,8 +157,16 @@ export const VisBugModel = {
                       <span>Shift + ◀ ▶</span>
                     </div>
                     <div>
-                      <b>Direction:</b>
-                      <span>${metaKey} +  ◀ ▼</span>
+                      <b>Order:</b>
+                      <span>${metaKey} + shift + ◀ ▶</span>
+                    </div>
+                    <div>
+                      <b>Wrapping:</b>
+                      <span>${metaKey} + shift + ▲ ▼</span>
+                    </div>
+                    <div>
+                      <b>Trainer:</b>
+                      <span>shift + /</span>
                     </div>
                   </div>`,
   },
@@ -152,6 +192,10 @@ export const VisBugModel = {
                       <b>Opacity:</b>
                       <span>${metaKey} +  ◀ ▶</span>
                     </div>
+                    <div>
+                      <b>Trainer:</b>
+                      <span>shift + /</span>
+                    </div>
                   </div>`,
   },
   d: {
@@ -166,11 +210,11 @@ export const VisBugModel = {
                     </div>
                     <div>
                       <b>Blur:</b>
-                      <span>Shift + ▲ ▼</span>
+                      <span>${altKey} + ▲ ▼</span>
                     </div>
                     <div>
                       <b>Spread:</b>
-                      <span>Shift + ◀ ▶</span>
+                      <span>${altKey} + ◀ ▶</span>
                     </div>
                     <div>
                       <b>Opacity:</b>
@@ -225,6 +269,10 @@ export const VisBugModel = {
                     <div>
                       <b>Weight:</b>
                       <span>${metaKey} + ▲ ▼</span>
+                    </div>
+                    <div>
+                      <b>Trainer:</b>
+                      <span>shift + /</span>
                     </div>
                   </div>`,
   },

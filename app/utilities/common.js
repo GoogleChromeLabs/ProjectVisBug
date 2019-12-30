@@ -86,6 +86,8 @@ export const isOffBounds = node =>
     || node.closest('visbug-ally')
     || node.closest('visbug-label')
     || node.closest('visbug-handles')
+    || node.closest('visbug-corners')
+    || node.closest('visbug-grip')
     || node.closest('visbug-gridlines')
   )
 
@@ -95,3 +97,13 @@ export const isSelectorValid = (qs => (
     return true
   }
 ))(s => document.createDocumentFragment().querySelector(s))
+
+export const swapElements = (src, target) => {
+  var temp = document.createElement("div")
+
+  src.parentNode.insertBefore(temp, src)
+  target.parentNode.insertBefore(src, target)
+  temp.parentNode.insertBefore(target, temp)
+
+  temp.parentNode.removeChild(temp)
+}

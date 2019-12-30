@@ -4,7 +4,7 @@ import { metaKey, getStyle, showHideSelected } from '../utilities/'
 const key_events = 'up,down,left,right'
   .split(',')
   .reduce((events, event) =>
-    `${events},${event},shift+${event}`
+    `${events},${event},shift+${event},alt+${event},alt+shift+${event}`
   , '')
   .substring(1)
 
@@ -20,11 +20,11 @@ export function BoxShadow({selection}) {
       , keys = handler.key.split('+')
 
     if (keys.includes('left') || keys.includes('right'))
-      keys.includes('shift')
+      keys.includes('alt')
         ? changeBoxShadow(selectedNodes, keys, 'size')
         : changeBoxShadow(selectedNodes, keys, 'x')
     else
-      keys.includes('shift')
+      keys.includes('alt')
         ? changeBoxShadow(selectedNodes, keys, 'blur')
         : changeBoxShadow(selectedNodes, keys, 'y')
   })
@@ -79,9 +79,10 @@ export function changeBoxShadow(els, direction, prop) {
         : parseInt(payload.current[payload.propIndex])
 
       switch(prop) {
-        case 'blur':
+        case 'blur': 
+        case 'size':
           var amount = direction.includes('shift') ? 10 : 1
-          updated[payload.propIndex] = direction.includes('down')
+          updated[payload.propIndex] = direction.includes('down') || direction.includes('left')
             ? `${cur - amount}px`
             : `${cur + amount}px`
           break
@@ -98,9 +99,10 @@ export function changeBoxShadow(els, direction, prop) {
             : cur_opacity + amount + ')'
           break
         default:
+          var amount = direction.includes('shift') ? 10 : 1
           updated[payload.propIndex] = direction.includes('left') || direction.includes('up')
-            ? `${cur - 1}px`
-            : `${cur + 1}px`
+            ? `${cur - amount}px`
+            : `${cur + amount}px`
           break
       }
 

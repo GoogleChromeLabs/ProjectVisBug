@@ -13,9 +13,14 @@ const key_events = 'up,down,left,right'
 
 const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down,${metaKey}+left,${metaKey}+shift+left,${metaKey}+right,${metaKey}+shift+right`
 
-export function HueShift(Color) {
+export function HueShift({Color, Visbug}) {
   this.active_color   = Color.getActive()
   this.elements       = []
+
+  Visbug.onSelectedUpdate(elements => {
+    this.elements = elements
+    Color.setActive(this.active_color)
+  })
 
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
@@ -60,20 +65,10 @@ export function HueShift(Color) {
     Color.setActive(this.active_color)
   })
 
-  const onNodesSelected = els => {
-    this.elements = els
-    Color.setActive(this.active_color)
-  }
-
-  const disconnect = () => {
+  return () => {
     hotkeys.unbind(key_events)
     hotkeys.unbind(command_events)
     hotkeys.unbind('up,down,left,right')
-  }
-
-  return {
-    onNodesSelected,
-    disconnect,
   }
 }
 
@@ -119,8 +114,8 @@ export function changeHue(els, direction, prop, Color) {
       let color = new TinyColor(current).setAlpha(current.a)
       el.style[style] = color.toHslString()
 
-      if (style == 'color') Color.foreground.color(color.toHexString())
-      if (style == 'backgroundColor') Color.background.color(color.toHexString())
+      if (style == 'color') Color.foreground.color(color.toHslString())
+      if (style == 'backgroundColor') Color.background.color(color.toHslString())
     })
 }
 

@@ -1,8 +1,14 @@
 {
   "name": "VisBug",
-  "version": "0.2.12",
+  "version": "0.2.21",
   "description": "",
-  "main": "index.js",
+  "author": "Adam Argyle",
+  "license": "Apache-2.0",
+  "main": "app/components/vis-bug/vis-bug.element.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GoogleChromeLabs/ProjectVisBug.git"
+  },
   "scripts": {
     "start": "npm run concurrent",
     "concurrent": "concurrently --kill-others \"npm run dev:js\" \"npm run dev:css\" \"npm run dev:server\"",
@@ -11,35 +17,46 @@
     "postversion": "npm run extension",
     "dev:js": "rollup -c -w",
     "dev:css": "postcss app/index.css -o app/bundle.css -w",
-    "dev:server": "browser-sync start --server \"app\" --files \"app/index.html,app/bundle.css,app/bundle.js\" --no-open",
+    "dev:server": "browser-sync start --server \"app\" --files \"app/index.html,app/bundle.css,app/bundle.js\" --no-open --no-notify --no-ui --no-ghost-mode",
     "extension": "npm run extension:js && npm run extension:css && npm run extension:copy",
     "extension:build": "npm run extension:js && npm run extension:css && npm run extension:copy",
-    "extension:release": "npm run bump && npm run extension:build && npm run extension:zip",
+    "extension:release": "npm run test:ci && npm run bump && npm run extension:build && npm run extension:zip && firebase deploy",
     "extension:js": "rollup -c",
     "extension:css": "postcss app/extension.css -o extension/toolbar/bundle.css",
     "extension:copy": "cp app/bundle.js extension/toolbar/ && cp -R app/tuts/ extension/tuts/",
     "extension:zip": "rm -rf ./extension/build/* && mkdir ./visbug_v$npm_package_version && cp -R ./extension/* ./visbug_v$npm_package_version/ && zip -r ./extension/build/visbug_v$npm_package_version.zip ./visbug_v$npm_package_version && rm -rf ./visbug_v$npm_package_version",
-    "deploy": "gcloud app deploy --project=visbug-1337"
+    "deploy": "gcloud app deploy --project=visbug-1337",
+    "test": "ava",
+    "test:dev": "ava -v -w",
+    "test:server": "browser-sync start --server \"app\" --files \"app/index.html,app/bundle.css,app/bundle.js\" --no-open --no-notify --no-ui --no-ghost-mode",
+    "test:ci": "start-server-and-test http://localhost:3000"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "@ctrl/tinycolor": "^2.0.0",
-    "blingblingjs": "^2.0.2",
-    "hotkeys-js": "^3.3.5",
+    "@ctrl/tinycolor": "^2.4.0",
+    "blingblingjs": "^2.1.0",
+    "hotkeys-js": "^3.6.2",
     "query-selector-shadow-dom": "^0.3.2",
     "ragrid": "^1.0.5"
   },
   "devDependencies": {
-    "browser-sync": "^2.26.3",
+    "ava": "^1.4.1",
+    "browser-sync": "^2.26.7",
     "concurrently": "^4.1.0",
-    "postcss": "^7.0.7",
-    "postcss-cli": "^6.1.1",
+    "esm": "^3.2.22",
+    "postcss": "^7.0.14",
+    "postcss-cli": "^6.1.2",
     "postcss-import": "^12.0.1",
     "postcss-loader": "^3.0.0",
-    "postcss-preset-env": "^6.5.0",
-    "rollup": "^1.0.1",
-    "rollup-plugin-node-resolve": "^4.0.0",
-    "rollup-plugin-postcss": "^1.6.3"
+    "postcss-preset-env": "^6.6.0",
+    "puppeteer": "^1.14.0",
+    "rollup": "^1.10.0",
+    "rollup-plugin-node-resolve": "^4.2.3",
+    "rollup-plugin-postcss": "^2.0.3",
+    "start-server-and-test": "^1.7.13"
+  },
+  "ava": {
+    "require": [
+      "esm"
+    ]
   }
 }

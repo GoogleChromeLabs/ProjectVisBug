@@ -2,11 +2,7 @@ body {
   min-height: 100vh;
 }
 
-[data-measuring=true] {
-  cursor: crosshair;
-}
-
-[data-selected=true] {
+body:not([testing]) [data-selected=true] {
   transition: all 0.15s ease;
 }
 
@@ -22,10 +18,18 @@ body {
   caret-color: hotpink;
 }
 
-[data-pinhover=true] {
+[data-measuring=true] {
   cursor: crosshair;
 }
 
-[data-metatip=true][data-pinhover=true] {
-  cursor: not-allowed;
+[draggable=true] {
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  & :matches(a, img) {
+    -webkit-user-drag: none !important;
+  }
 }
