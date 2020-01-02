@@ -1,0 +1,27 @@
+name: CI/CD
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        
+      - name: Use Node.js 10.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+          
+      - name: Install & Build
+        run: |
+          npm install
+          npm run extension:release
+          
+      - name: Upload
+        uses: trmcnvn/chrome-addon@v2
+        with:
+          extension: VisBug
+          zip: extension/build/my-addon.zip
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
