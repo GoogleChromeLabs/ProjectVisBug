@@ -5,7 +5,7 @@ export const VisBugModel = {
   g: {
     tool:        'guides',
     icon:        Icons.guides,
-    label:       'Guides',
+    label:       '<span><u>G</u>uides</span>',
     description: 'Verify alignment & measure distances',
     instruction: `<div table>
                     <div>
@@ -25,7 +25,7 @@ export const VisBugModel = {
   i: {
     tool:        'inspector',
     icon:        Icons.inspector,
-    label:       'Inspect',
+    label:       '<span><u>I</u>nspect</span>',
     description: 'Peek into common & current styles of an element',
     instruction: `<div table>
                     <div>
@@ -49,7 +49,7 @@ export const VisBugModel = {
   v: {
     tool:        'move',
     icon:        Icons.move,
-    label:       'Move',
+    label:       '<span>Mo<u>v</u>e</span>',
     description: 'Move elements laterally or in, out, over, and under',
     instruction: `<div table>
                     <div>
@@ -83,7 +83,7 @@ export const VisBugModel = {
   m: {
     tool:        'margin',
     icon:        Icons.margin,
-    label:       'Margin',
+    label:       '<span><u>M</u>argin</span>',
     description: 'Add or subtract outer space from any or all sides of the selected element(s)',
     instruction: `<div table>
                     <div>
@@ -107,7 +107,7 @@ export const VisBugModel = {
   p: {
     tool:        'padding',
     icon:        Icons.padding,
-    label:       'Padding',
+    label:       '<span><u>P</u>adding</span>',
     description: `Add or subtract inner space from any or all sides of the selected element(s)`,
     instruction: `<div table>
                     <div>
@@ -137,7 +137,7 @@ export const VisBugModel = {
   a: {
     tool:        'align',
     icon:        Icons.align,
-    label:       'Flexbox Align',
+    label:       '<span>Flexbox <u>A</u>lign</span>',
     description: `Create or modify flexbox direction, distribution, order & wrapping`,
     instruction: `<div table>
                     <div>
@@ -173,7 +173,7 @@ export const VisBugModel = {
   h: {
     tool:        'hueshift',
     icon:        Icons.hueshift,
-    label:       'Hue Shift',
+    label:       '<span><u>H</u>ue Shift</span>',
     description: `Change foreground/background hue, brightness, saturation & opacity`,
     instruction: `<div table>
                     <div>
@@ -201,7 +201,7 @@ export const VisBugModel = {
   d: {
     tool:        'boxshadow',
     icon:        Icons.boxshadow,
-    label:       'Shadow',
+    label:       '<span>Sha<u>d</u>ow</span>',
     description: `Create & adjust position, blur & opacity of a box shadow`,
     instruction: `<div table>
                     <div>
@@ -247,7 +247,7 @@ export const VisBugModel = {
   f: {
     tool:        'font',
     icon:        Icons.font,
-    label:       'Font Styles',
+    label:       '<span><u>F</u>ont Styles</span>',
     description: 'Change size, alignment, leading, letter-spacing, & weight',
     instruction: `<div table>
                     <div>
@@ -279,7 +279,7 @@ export const VisBugModel = {
   e: {
     tool:        'text',
     icon:        Icons.text,
-    label:       'Edit Text',
+    label:       '<span><u>E</u>dit Text</span>',
     description: 'Change any text on the page with a <b>double click</b>',
     instruction: '',
   },
@@ -292,7 +292,7 @@ export const VisBugModel = {
   s: {
     tool:        'search',
     icon:        Icons.search,
-    label:       'Search',
+    label:       '<span><u>S</u>earch</span>',
     description: 'Select elements programatically by searching for them or use built in plugins with special commands',
     instruction: '',
   },

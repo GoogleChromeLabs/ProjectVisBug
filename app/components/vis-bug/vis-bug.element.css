@@ -121,6 +121,10 @@
         grid-auto-flow: column;
         justify-content: space-between;
         align-items: center;
+
+        & u {
+          text-decoration-color: var(--theme-color);
+        }
       }
 
       & > p {
