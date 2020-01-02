@@ -1,5 +1,5 @@
 name: CI/CD
-on: 
+on:
   push:
     branches:
       - master
@@ -9,28 +9,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-        
+
       - name: Use Node.js 10.x
         uses: actions/setup-node@v1
         with:
           node-version: 10.x
-          
+
       - name: Setup GIT
         run: |
           git switch -c master
           git config --global user.email "argyle@google.com"
           git config --global user.name "Adam Argyle"
-          
+
       - name: Install & Build
         run: |
           npm install
           npm run extension:release
-          
+
       - name: Upload
         uses: trmcnvn/chrome-addon@v2
         with:
           extension: VisBug
-          zip: extension/build/my-addon.zip
+          zip: extension/build/visbug.zip
           client-id: ${{ secrets.CHROME_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
