@@ -1,5 +1,8 @@
 name: CI/CD
-on: [push]
+on: 
+  push:
+    branches:
+      - master
 
 jobs:
   build:
@@ -11,6 +14,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 10.x
+          
+      - name: Setup GIT
+        run: |
+          git switch -c master
+          git config --global user.email "argyle@google.com"
+          git config --global user.name "Adam Argyle"
           
       - name: Install & Build
         run: |
