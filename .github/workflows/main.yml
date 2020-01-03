@@ -1,8 +1,5 @@
 name: CI/CD
-on:
-  push:
-    branches:
-      - master
+on: push: branches: - master
 
 jobs:
   build:
@@ -26,7 +23,7 @@ jobs:
           npm install
           npm run extension:release
 
-      - name: Upload
+      - name: Deploy
         uses: trmcnvn/chrome-addon@v2
         with:
           extension: cdockenadnadldjbbgcallicgledbeoc
@@ -34,3 +31,8 @@ jobs:
           client-id: ${{ secrets.CHROME_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+
+      - name: Commit
+        run: |
+          git push
+          git push origin --tags
