@@ -20,6 +20,7 @@ jobs:
           git switch -c master
           git config --global user.email "argyle@google.com"
           git config --global user.name "Adam Argyle"
+          git push --set-upstream origin master
 
       - name: Install & Build
         run: |
