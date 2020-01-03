@@ -21,12 +21,12 @@ jobs:
           git config --global user.email "argyle@google.com"
           git config --global user.name "Adam Argyle"
 
-      - name: Node Install & Build
+      - name: Test & Build
         run: |
           npm install
           npm run extension:release
 
-      - name: Deploy
+      - name: Release
         uses: trmcnvn/chrome-addon@v2
         with:
           extension: cdockenadnadldjbbgcallicgledbeoc
