@@ -8,8 +8,11 @@
   max-width: min-content;
 
   opacity: 0;
-  transform: translateX(-200%);
   animation: present-yourself .3s ease forwards;
+
+  @media (prefers-reduced-motion: no-preference) {
+    transform: translateX(-200%);
+  }
 }
 
 :host > ol {
