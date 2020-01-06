@@ -35,6 +35,14 @@ jobs:
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
 
+      - name: Firebase Deploy
+        uses: pizzafox/firebase-action@1.0.7
+        env:
+          PROJECT_ID: "visbug"
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        with:
+          args: deploy
+
       - name: Git Push
         uses: ad-m/github-push-action@master
         with:
