@@ -11,21 +11,27 @@
 > Open source web design debug tools
 
 - Point, click & tinker
-- Edit or style **any page**, in **any state**, like it's an artboard
+- Hold shift and **multi-select**
+- Edit **any page** in **any state**
 - **Hover inspect** styles, accessibility and alignment
 - **Nitpick** layouts & content, **in the real end environment**, at any device size
-- **Leverage** adobe/sketch **skills**
-- **Edit** any text, **replace** any image (hi there copywriters, ux writers, pms)
-- Design **within the chaos**: use production or prototypes and the **odd states** they produce, **as artboards** and design opportunities
-- Design **while simulating** latency, i18n, media queries, platform constraints, CPUs, screensize, etc
+- **Leverage** design tool nudging skills
+- **Edit** any text
+- **Replace** image(s)
+- Traverse DOM like groups & layers in Sketch
+- Design **within the chaos** of production or prototypes and the **odd states** they produce
+- Bugs become **design opportunities**
+- Design **while simulating:** latency, translation, media queries, platform constraints, orientation, screensize, etc
 - **Make more decisions** on the front end of your site/app (a11y, responsive, edge cases, etc)
-- **No waiting** for developers to expose their legos, **just go direct** and edit the end state (regardless of framework) and **execute/test an idea**
+
+
+**No waiting** for developers to expose their legos, **just go direct** and edit the end state (regardless of framework) and **execute/test an idea**
 
 <br>
 <br>
 <br>
 
-<h3 style="font-weight:300; max-width: 40ch;"><b>Give power</b> to designers & content creators, in a place where they currently feel they have little to none, <b>by bringing design tool interactions<b> to the browser</h3>
+<h3 style="font-weight:300; max-width: 40ch;"><b>Give power</b> to designers & content creators power within the web project they have today, <b>by bringing design tool interactions</b> to the browser.</h3>
 
 <br>
 <br>
@@ -36,12 +42,11 @@ Check out the [list of features me and other's are wishing for](https://github.c
 Let's do this **design community, I'm looking at you!** Make a GitHub account and start dreamin' in the [issues area!](https://github.com/GoogleChromeLabs/ProjectVisBug/issues) **Help create the tool you need to do your job better.**
 
 
-> 🤔 **It's not:**
->
-> -   **A competitor** to design authoring tools like Figma, Sketch, XD, etc; **it's a complement**
-> -   Something you would use **to start from scratch**
-> -   A **design system recognizer**, enforcer, enabler, or anything
-> -   An **interaction** prototyping tool
+## 🤔 **It's not:**
+-   **A competitor** to design authoring tools like Figma, Sketch, XD, etc; **it's a complement!**
+-   Something you would use **to start from scratch**
+-   A **design system recognizer**, enforcer, enabler, etc.. but it is a **design system leverager!**
+-   An **interaction** prototyping tool, you need to produce the states for VisBug to design against
 
 <br>
 <br>

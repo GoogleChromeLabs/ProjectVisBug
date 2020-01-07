@@ -19,6 +19,7 @@ export class AlignHotkeys extends HotkeyMap {
     this._side         = 'top left'
     this._direction    = 'row'
     this._distribution = distOptions[this._dtool]
+    this._wrap         = 'no wrap'
 
     this.tool     = 'align'
   }
@@ -27,9 +28,17 @@ export class AlignHotkeys extends HotkeyMap {
     let amount            = this._distribution
       , negative_modifier = this._direction
       , side              = this._side
-      , negative
+      , negative          = this._wrap
 
-    if (hotkeys.cmd && (code === 'ArrowRight' || code === 'ArrowDown')) {
+    if (hotkeys[metaKey] && hotkeys.shift) {
+      if (code === 'ArrowUp')
+        negative = 'no wrap'
+      else if (code === 'ArrowDown')
+        negative = 'wrap'
+      else if (code === 'ArrowLeft')
+        negative_modifier = `${negative_modifier}-reverse`
+    }
+    else if (hotkeys[metaKey] && (code === 'ArrowRight' || code === 'ArrowDown')) {
       negative_modifier = code === 'ArrowDown'
         ? 'column'
         : 'row'
@@ -57,7 +66,7 @@ export class AlignHotkeys extends HotkeyMap {
     }
   }
 
-  displayCommand({side, amount, negative_modifier}) {
+  displayCommand({side, amount, negative, negative_modifier}) {
     if (amount == 1) amount = this._distribution
     if (negative_modifier == ' to ') negative_modifier = this._direction
 
@@ -66,8 +75,10 @@ export class AlignHotkeys extends HotkeyMap {
       <span light> as </span>
       <span>${negative_modifier}:</span>
       <span side>${side}</span>
-      <span light> distributed </span>
-      <span amount>${amount}</span>
+      <span light>, distributed </span>
+      <span amount>${amount},</span>
+      <span light> with </span>
+      <span>${negative}</span>
     `
   }
 

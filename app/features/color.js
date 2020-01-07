@@ -17,7 +17,7 @@ export function ColorPicker(pallete, selectorEngine) {
 
   const shadows = {
     active:   '0 0 0 2px hotpink, rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em',
-    inactive: '0 0 0 2px white, rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em',
+    inactive: '0 0 0 2px var(--theme-bg), rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em',
   }
 
   const state = {
@@ -89,7 +89,7 @@ export function ColorPicker(pallete, selectorEngine) {
 
       if (isMeaningfulForeground && !isMeaningfulBackground)
         setActive('foreground')
-      else if (isMeaningfulBackground && !isMeaningfulForeground)
+      else if (isMeaningfulBackground && !isMeaningfulForeground || isMeaningfulBackground && isMeaningfulForeground)
         setActive('background')
 
       const new_fg = isMeaningfulForeground   ? fg : ''
@@ -176,13 +176,9 @@ export function ColorPicker(pallete, selectorEngine) {
 export const healthyContrastColor = color => {
   let contrast = color.clone()
 
-  contrast = contrast.getLuminance() < .5
-    ? contrast.lighten(30)
-    : contrast.brighten(30)
-
   contrast = contrast.isDark()
-    ? contrast.tint(50)
-    : contrast.shade(50)
+    ? contrast.lighten(75)
+    : contrast.darken(50)
 
   return contrast.toHslString()
 }

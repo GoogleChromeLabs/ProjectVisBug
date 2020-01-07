@@ -28,7 +28,7 @@ export function Position() {
       el.teardown())
 
     state.elements = els.map(el =>
-      draggable(el))
+      draggable({el}))
   }
 
   const disconnect = () => {
@@ -43,9 +43,10 @@ export function Position() {
   }
 }
 
-export function draggable(el) {
+export function draggable({el, surface = el, cursor = 'move'}) {
    const state = {
     target: el,
+    surface,
     mouse: {
       down: false,
       x: 0,
@@ -59,27 +60,25 @@ export function draggable(el) {
 
   const setup = () => {
     el.style.transition   = 'none'
-    el.style.cursor       = 'move'
+    surface.style.cursor  = cursor
 
-    el.addEventListener('mousedown', onMouseDown, true)
-    el.addEventListener('mouseup', onMouseUp, true)
+    surface.addEventListener('mousedown', onMouseDown, true)
+    surface.addEventListener('mouseup', onMouseUp, true)
     document.addEventListener('mousemove', onMouseMove, true)
   }
 
   const teardown = () => {
     el.style.transition   = null
-    el.style.cursor       = null
+    surface.style.cursor  = null
 
-    el.removeEventListener('mousedown', onMouseDown, true)
-    el.removeEventListener('mouseup', onMouseUp, true)
+    surface.removeEventListener('mousedown', onMouseDown, true)
+    surface.removeEventListener('mouseup', onMouseUp, true)
     document.removeEventListener('mousemove', onMouseMove, true)
   }
 
   const onMouseDown = e => {
-    if(e.target !== state.target) return
+    if(e.target !== state.surface) return
     e.preventDefault()
-
-    const el = e.target
 
     if(getComputedStyle(el).position == 'static')
       el.style.position = 'relative'
@@ -106,7 +105,7 @@ export function draggable(el) {
   }
 
   const onMouseUp = e => {
-    if(e.target !== state.target) return
+    if(e.target !== state.surface) return
 
     e.preventDefault()
     e.stopPropagation()

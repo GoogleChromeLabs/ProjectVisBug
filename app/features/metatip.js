@@ -2,7 +2,10 @@ import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { TinyColor } from '@ctrl/tinycolor'
 import { queryPage } from './search'
-import { getStyles, camelToDash, isOffBounds, deepElementFromPoint } from '../utilities/'
+import { getStyles, camelToDash, isOffBounds,
+         deepElementFromPoint, getShadowValues,
+         getTextShadowValues
+} from '../utilities/'
 
 const state = {
   active: {
@@ -14,11 +17,12 @@ const state = {
 
 const services = {}
 
-export function MetaTip({select}) {
-  services.selectors = {select}
+export function MetaTip(visbug) {
+  services.selectors = visbug.select
+  state.restoring = true
 
   $('body').on('mousemove', mouseMove)
-  $('body').on('click', togglePinned)
+  visbug.onSelectedUpdate(togglePinned)
 
   hotkeys('esc', _ => removeAll())
 
@@ -26,7 +30,7 @@ export function MetaTip({select}) {
 
   return () => {
     $('body').off('mousemove', mouseMove)
-    $('body').off('click', togglePinned)
+    visbug.removeSelectedCallback(togglePinned)
     hotkeys.unbind('esc')
     hideAll()
   }
@@ -45,8 +49,6 @@ const mouseMove = e => {
     }
     return
   }
-
-  toggleTargetCursor(e.altKey, target)
 
   showTip(target, e)
 }
@@ -84,13 +86,9 @@ export function positionTip(tip, e) {
     ? 'var(--arrow-up)'
     : 'var(--arrow-down)')
 
-  tip.style.setProperty('--shadow-direction', north
-    ? 'var(--shadow-up)'
-    : 'var(--shadow-down)')
-
   tip.style.setProperty('--arrow-top', !north
-    ? '-7px'
-    : 'calc(100% - 1px)')
+    ? '-8px'
+    : '100%')
 
   tip.style.setProperty('--arrow-left', west
     ? 'calc(100% - 15px - 15px)'
@@ -128,6 +126,8 @@ export function removeAll() {
 
 const render = (el, tip = document.createElement('visbug-metatip')) => {
   const { width, height } = el.getBoundingClientRect()
+  const colormode = $('vis-bug')[0].colorMode
+
   const styles = getStyles(el)
     .map(style => Object.assign(style, {
       prop: camelToDash(style.prop)
@@ -138,8 +138,18 @@ const render = (el, tip = document.createElement('visbug-metatip')) => {
         : true
     )
     .map(style => {
-      if (style.prop.includes('color') || style.prop.includes('Color') || style.prop.includes('fill') || style.prop.includes('stroke'))
-        style.value = `<span color style="background-color:${style.value};"></span>${new TinyColor(style.value).toHslString()}`
+      if (style.prop.includes('color') || style.prop.includes('background-color') || style.prop.includes('border-color') || style.prop.includes('Color') || style.prop.includes('fill') || style.prop.includes('stroke'))
+        style.value = `<span color style="background-color:${style.value};"></span>${new TinyColor(style.value)[colormode]()}`
+
+      if (style.prop.includes('box-shadow')) {
+        const [, color, x, y, blur, spread] = getShadowValues(style.value)
+        style.value = `${new TinyColor(color)[colormode]()} ${x} ${y} ${blur} ${spread}`
+      }
+
+      if (style.prop.includes('text-shadow')) {
+        const [, color, x, y, blur] = getTextShadowValues(style.value)
+        style.value = `${new TinyColor(color)[colormode]()} ${x} ${y} ${blur}`
+      }
 
       if (style.prop.includes('font-family') && style.value.length > 25)
         style.value = style.value.slice(0,25) + '...'
@@ -193,7 +203,7 @@ const tip_position = (node, e, north, west) => ({
 })
 
 const handleBlur = ({target}) => {
-  if (!target.hasAttribute('data-metatip') && state.tips.has(target))
+  if (target.hasAttribute && !target.hasAttribute('data-metatip') && state.tips.has(target))
     wipe(state.tips.get(target))
 }
 
@@ -203,21 +213,23 @@ const wipe = ({tip, e:{target}}) => {
   state.tips.delete(target)
 }
 
-const togglePinned = e => {
-  const target = deepElementFromPoint(e.clientX, e.clientY)
+const togglePinned = els => {
+  if (state.restoring) return state.restoring = false
 
-  if (e.altKey && !target.hasAttribute('data-metatip')) {
-    target.setAttribute('data-metatip', true)
-    state.tips.set(target, {
-      tip: state.active.tip,
-      e,
-    })
-    clearActive()
-  }
-  else if (target.hasAttribute('data-metatip')) {
-    target.removeAttribute('data-metatip')
-    wipe(state.tips.get(target))
-  }
+  els.forEach(el => {
+    if (!el.hasAttribute('data-metatip')) {
+      el.setAttribute('data-metatip', true)
+      state.tips.set(el, {
+        tip: state.active.tip,
+        e: {target:el},
+      })
+      clearActive()
+    }
+    else if (el.hasAttribute('data-metatip')) {
+      el.removeAttribute('data-metatip')
+      wipe(state.tips.get(el))
+    }
+  })
 }
 
 const linkQueryClicked = ({detail:{ text, activator }}) => {
@@ -237,20 +249,15 @@ const linkQueryHoverOut = e => {
     el.removeAttribute('data-pseudo-select'))
 }
 
-const toggleTargetCursor = (key, target) =>
-  key
-    ? target.setAttribute('data-pinhover', true)
-    : target.removeAttribute('data-pinhover')
-
 const observe = ({tip, target}) => {
-  $(tip).on('query', linkQueryClicked)
-  $(tip).on('unquery', linkQueryHoverOut)
+  // $(tip).on('query', linkQueryClicked)
+  // $(tip).on('unquery', linkQueryHoverOut)
   $(target).on('DOMNodeRemoved', handleBlur)
 }
 
 const unobserve = ({tip, target}) => {
-  $(tip).off('query', linkQueryClicked)
-  $(tip).off('unquery', linkQueryHoverOut)
+  // $(tip).off('query', linkQueryClicked)
+  // $(tip).off('unquery', linkQueryHoverOut)
   $(target).off('DOMNodeRemoved', handleBlur)
 }
 
