@@ -22,7 +22,7 @@ const toggleIn = ({id:tab_id}) => {
   else {
     chrome.tabs.insertCSS(tab_id,     { file: 'toolbar/bundle.css' })
     chrome.tabs.executeScript(tab_id, { file: 'web-components.polyfill.js' })
-    chrome.tabs.executeScript(tab_id, { file: 'toolbar/bundle.js' })
+    chrome.tabs.executeScript(tab_id, { file: 'toolbar/bundle.min.js' })
     chrome.tabs.executeScript(tab_id, { file: 'toolbar/inject.js' })
 
     state.loaded[tab_id]    = true
