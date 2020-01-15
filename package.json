@@ -29,6 +29,7 @@
     "extension:css": "postcss app/extension.css -o extension/toolbar/bundle.css",
     "extension:copy": "cp app/bundle.min.js extension/toolbar/ && cp -R app/tuts/ extension/tuts",
     "extension:zip": "rm -rf ./extension/build/* && mkdir ./visbug_v$npm_package_version && cp -R ./extension/* ./visbug_v$npm_package_version/ && zip -r ./extension/build/visbug.zip ./visbug_v$npm_package_version/ && rm -rf ./visbug_v$npm_package_version",
+    "extension:firefox": "npm run dev:extension && cd extension && web-ext run",
     "deploy": "gcloud app deploy --project=visbug-1337",
     "test": "ava",
     "test:dev": "ava -v -w",
@@ -58,7 +59,8 @@
     "rollup-plugin-postcss": "^2.0.3",
     "ragrid": "^1.0.5",
     "rollup-plugin-terser": "^4.0.4",
-    "start-server-and-test": "^1.7.13"
+    "start-server-and-test": "^1.7.13",
+    "web-ext": "^4.0.0"
   },
   "ava": {
     "require": [
