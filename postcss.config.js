@@ -8,6 +8,7 @@ module.exports = {
       stage: 0,
       browsers: [
         'last 3 chrome version',
+        'last 3 firefox version',
       ],
     }),
   ]
