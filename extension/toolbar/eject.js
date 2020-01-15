@@ -1,1 +1,2 @@
-document.querySelector('vis-bug').remove()
+document.querySelectorAll('vis-bug')
+  .forEach(node => node.remove())
