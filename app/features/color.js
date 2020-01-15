@@ -2,6 +2,11 @@ import $ from 'blingblingjs'
 import { TinyColor } from '@ctrl/tinycolor'
 import { getStyle } from '../utilities/'
 
+const state = {
+  active_color: 'background',
+  elements: [],
+}
+
 export function ColorPicker(pallete, selectorEngine) {
   const foregroundPicker  = $('#foreground', pallete)
   const backgroundPicker  = $('#background', pallete)

@@ -6,6 +6,13 @@
   left: 0;
   z-index: var(--layer-1);
   max-width: min-content;
+
+  opacity: 0;
+  animation: present-yourself .3s ease forwards;
+
+  @media (prefers-reduced-motion: no-preference) {
+    transform: translateX(-200%);
+  }
 }
 
 :host > ol {
@@ -121,6 +128,10 @@
         grid-auto-flow: column;
         justify-content: space-between;
         align-items: center;
+
+        & u {
+          text-decoration-color: var(--theme-color);
+        }
       }
 
       & > p {
@@ -278,4 +289,11 @@
 :host input[type='color'][value='']::-webkit-color-swatch {
   background-color: transparent !important;
   background-image: linear-gradient(155deg, #ffffff 0%,#ffffff 46%,#ff0000 46%,#ff0000 54%,#ffffff 55%,#ffffff 100%);
+}
+
+@keyframes present-yourself {
+  to {
+    opacity: 1;
+    transform: translate3d(0,0,0);
+  }
 }
