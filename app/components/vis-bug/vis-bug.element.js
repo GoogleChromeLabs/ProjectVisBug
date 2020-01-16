@@ -30,15 +30,14 @@ export default class VisBug extends HTMLElement {
     super()
 
     this.toolbar_model  = VisBugModel
-    this._tutsBaseURL   = 'tuts' // can be set by content script
     this.$shadow        = this.attachShadow({mode: 'closed'})
   }
 
   connectedCallback() {
     this.$shadow.adoptedStyleSheets = [VisBugStyles]
+    this._tutsBaseURL = this.getAttribute('tutsBaseURL') || 'tuts'
 
-    if (!this.$shadow.innerHTML || isPolyfilledCE(this.$shadow))
-      this.setup()
+    this.setup()
 
     this.selectorEngine = Selectable(this)
     this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
@@ -245,11 +244,6 @@ export default class VisBug extends HTMLElement {
 
   get activeTool() {
     return this.active_tool.dataset.tool
-  }
-
-  set tutsBaseURL(url) {
-    this._tutsBaseURL = url
-    this.setup()
   }
 
   set colorMode(mode) {
