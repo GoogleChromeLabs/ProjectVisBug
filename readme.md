@@ -4,6 +4,7 @@
   <a href="https://www.npmjs.org/package/visbug"><img src="https://img.shields.io/npm/v/visbug.svg?style=flat" alt="npm latest version number"></a>
   <a href="https://travis-ci.org/GoogleChromeLabs/ProjectVisBug"><img src="https://travis-ci.org/GoogleChromeLabs/ProjectVisBug.svg?branch=master" alt="travis build status"></a>
   <a href="https://www.npmjs.com/package/visbug"><img src="https://img.shields.io/npm/dt/visbug.svg" alt="npm downloads" ></a>
+  <a href="https://gitpod.io/#https://github.com/GoogleChromeLabs/ProjectVisBug"><img src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod" alt="Gitpod Ready-to-Code" ></a>
 </p>
 
 # 「VisBug」
@@ -37,7 +38,7 @@
 <br>
 <br>
 
-Check out the [list of features me and other's are wishing for](https://github.com/GoogleChromeLabs/ProjectVisBug/issues?q=is%3Aopen+is%3Aissue+label%3A%22%E2%9A%A1%EF%B8%8F+feature%22). There's a lot of fun stuff planned or in demand. Cast your vote on a feature, leave some feedback or add clarity. 
+Check out the [list of features me and other's are wishing for](https://github.com/GoogleChromeLabs/ProjectVisBug/issues?q=is%3Aopen+is%3Aissue+label%3A%22%E2%9A%A1%EF%B8%8F+feature%22). There's a lot of fun stuff planned or in demand. Cast your vote on a feature, leave some feedback or add clarity.
 
 Let's do this **design community, I'm looking at you!** Make a GitHub account and start dreamin' in the [issues area!](https://github.com/GoogleChromeLabs/ProjectVisBug/issues) **Help create the tool you need to do your job better.**
 
@@ -55,15 +56,15 @@ Let's do this **design community, I'm looking at you!** Make a GitHub account an
 ## Installation
 
 ### Add to your browser
-[Chrome Extension](https://chrome.google.com/webstore/detail/cdockenadnadldjbbgcallicgledbeoc)  
+[Chrome Extension](https://chrome.google.com/webstore/detail/cdockenadnadldjbbgcallicgledbeoc)
 [Firefox Add-on](#) (coming soon!)
 
 ### Getting Started
-[Check the Wiki](https://github.com/GoogleChromeLabs/ProjectVisBug/wiki)  
-[Master List of Keyboard Commands](https://github.com/GoogleChromeLabs/ProjectVisBug/wiki/Keyboard-Master-List)  
-[Open Feature Requests](https://github.com/GoogleChromeLabs/ProjectVisBug/issues?q=is%3Aopen+is%3Aissue+label%3A%22%E2%9A%A1%EF%B8%8F+feature%22)  
-[Chat on Gitter](https://gitter.im/VisBug)  
-[Chat on Spectrum](https://spectrum.chat/visbug)  
+[Check the Wiki](https://github.com/GoogleChromeLabs/ProjectVisBug/wiki)
+[Master List of Keyboard Commands](https://github.com/GoogleChromeLabs/ProjectVisBug/wiki/Keyboard-Master-List)
+[Open Feature Requests](https://github.com/GoogleChromeLabs/ProjectVisBug/issues?q=is%3Aopen+is%3Aissue+label%3A%22%E2%9A%A1%EF%B8%8F+feature%22)
+[Chat on Gitter](https://gitter.im/VisBug)
+[Chat on Spectrum](https://spectrum.chat/visbug)
 
 ### Web Component (coming soon 💀🤘)
 ```sh
@@ -83,6 +84,12 @@ Questions or need help building a feature, come [chat on Gitter](https://gitter.
 
 Found a problem? Want a new feature? First of all see if your issue or idea has [already been reported](../../issues).
 If it hasn't, just open a [new clear and descriptive issue](../../issues/new).
+
+### Online one-click setup for contributing
+
+You can use gitpod(a free online VS Code like IDE) for contributing online, with a single click it will launch a ready to code workspace with the repo already cloned, all the dependencies pre-installed and the webserver running so that you can start straight away without wasting time on the setup.
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer/)
 
 ### Submitting pull requests
 
