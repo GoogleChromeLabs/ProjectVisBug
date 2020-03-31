@@ -50,8 +50,6 @@ export class Label extends HTMLElement {
   }
 
   set position({boundingRect, node_label_id, isFixed}) {
-
-    console.log("wat", boundingRect, isFixed);
     this.$shadow.innerHTML = this.render(node_label_id)
     this.update = {boundingRect, isFixed}
   }
