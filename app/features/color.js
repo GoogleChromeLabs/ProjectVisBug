@@ -100,9 +100,9 @@ export function ColorPicker(pallete, selectorEngine) {
       const bg_icon = isMeaningfulBackground  ? healthyContrastColor(BG) : ''
       const bo_icon = isMeaningfulBorder      ? healthyContrastColor(BO) : ''
 
-      fgInput.attr('value', new_fg)
-      bgInput.attr('value', new_bg)
-      boInput.attr('value', new_bo)
+      fgInput.attr('value', `#`+FG.toHex())
+      bgInput.attr('value', `#`+BG.toHex())
+      boInput.attr('value', `#`+BO.toHex())
 
       foregroundPicker.attr('style', `
         --contextual_color: ${new_fg};
