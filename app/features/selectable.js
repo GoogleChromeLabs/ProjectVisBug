@@ -16,7 +16,7 @@ import {
   metaKey, htmlStringToDom, createClassname, camelToDash,
   isOffBounds, getStyles, deepElementFromPoint, getShadowValues,
   isSelectorValid, findNearestChildElement, findNearestParentElement,
-  getTextShadowValues
+  getTextShadowValues, isFixed,
 } from '../utilities/'
 
 export function Selectable(visbug) {
@@ -584,7 +584,7 @@ export function Selectable(visbug) {
   }
 
   const setLabel = (el, label) =>
-    label.update = el.getBoundingClientRect()
+    label.update = {boundingRect: el.getBoundingClientRect(), isFixed: isFixed(el)}
 
   const createLabel = ({el, id, template}) => {
     if (!labels[id]) {
@@ -594,6 +594,7 @@ export function Selectable(visbug) {
       label.position = {
         boundingRect:   el.getBoundingClientRect(),
         node_label_id:  id,
+        isFixed: isFixed(el),
       }
 
       document.body.appendChild(label)
