@@ -223,15 +223,15 @@ const togglePinned = els => {
     }
   })
 
-  els.forEach(el => {
-    if (!el.hasAttribute('data-metatip')) {
+  els
+    .filter(el => !el.hasAttribute('data-metatip'))
+    .forEach(el => {
       el.setAttribute('data-metatip', true)
       state.tips.set(el, {
         tip: state.active.tip,
         e: {target:el},
       })
       clearActive()
-    }
   })
 }
 
