@@ -209,6 +209,13 @@ const wipe = ({tip, e:{target}}) => {
 const togglePinned = els => {
   if (state.restoring) return state.restoring = false
 
+  state.tips.forEach(ally => {
+    if (!els.includes(ally.e.target)) {
+      ally.e.target.removeAttribute('data-allytip')
+      wipe(state.tips.get(ally.e.target))
+    }
+  })
+
   els.forEach(el => {
     if (!el.hasAttribute('data-allytip')) {
       el.setAttribute('data-allytip', true)
@@ -217,10 +224,6 @@ const togglePinned = els => {
         e: {target:el},
       })
       clearActive()
-    }
-    else if (el.hasAttribute('data-allytip')) {
-      el.removeAttribute('data-allytip')
-      wipe(state.tips.get(el))
     }
   })
 }
