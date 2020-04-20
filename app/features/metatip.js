@@ -216,6 +216,13 @@ const wipe = ({tip, e:{target}}) => {
 const togglePinned = els => {
   if (state.restoring) return state.restoring = false
 
+  state.tips.forEach(meta => {
+    if (!els.includes(meta.e.target)) {
+      meta.e.target.removeAttribute('data-metatip')
+      wipe(state.tips.get(meta.e.target))
+    }
+  })
+
   els.forEach(el => {
     if (!el.hasAttribute('data-metatip')) {
       el.setAttribute('data-metatip', true)
@@ -224,10 +231,6 @@ const togglePinned = els => {
         e: {target:el},
       })
       clearActive()
-    }
-    else if (el.hasAttribute('data-metatip')) {
-      el.removeAttribute('data-metatip')
-      wipe(state.tips.get(el))
     }
   })
 }
