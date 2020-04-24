@@ -104,8 +104,10 @@ const restorePinnedTips = () => {
 }
 
 export function hideAll() {
-  state.tips.forEach(({tip}, target) =>
-    tip.style.display = 'none')
+  state.tips.forEach(({tip}, target) => {
+    if (tip)
+      tip.style.display = 'none'
+  })
 
   if (state.active.tip) {
     state.active.tip.remove()
@@ -115,9 +117,12 @@ export function hideAll() {
 
 export function removeAll() {
   state.tips.forEach(({tip}, target) => {
-    tip.remove()
+    tip && tip.remove()
     unobserve({tip, target})
   })
+
+  $('visbug-metatip').forEach(tip =>
+    tip.remove())
 
   $('[data-metatip]').attr('data-metatip', null)
 
@@ -216,19 +221,22 @@ const wipe = ({tip, e:{target}}) => {
 const togglePinned = els => {
   if (state.restoring) return state.restoring = false
 
-  els.forEach(el => {
-    if (!el.hasAttribute('data-metatip')) {
+  state.tips.forEach(meta => {
+    if (!els.includes(meta.e.target)) {
+      meta.e.target.removeAttribute('data-metatip')
+      wipe(state.tips.get(meta.e.target))
+    }
+  })
+
+  els
+    .filter(el => !el.hasAttribute('data-metatip'))
+    .forEach(el => {
       el.setAttribute('data-metatip', true)
       state.tips.set(el, {
         tip: state.active.tip,
         e: {target:el},
       })
       clearActive()
-    }
-    else if (el.hasAttribute('data-metatip')) {
-      el.removeAttribute('data-metatip')
-      wipe(state.tips.get(el))
-    }
   })
 }
 
