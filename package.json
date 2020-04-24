@@ -36,28 +36,28 @@
     "test:ci": "start-server-and-test http://localhost:3000"
   },
   "dependencies": {
-    "@ctrl/tinycolor": "^2.4.0",
-    "blingblingjs": "^2.1.0",
-    "hotkeys-js": "^3.6.2",
-    "query-selector-shadow-dom": "^0.3.2",
+    "@ctrl/tinycolor": "^3.0.2",
+    "blingblingjs": "^2.1.1",
+    "hotkeys-js": "^3.7.6",
+    "query-selector-shadow-dom": "^0.4.6",
     "ragrid": "^1.0.5"
   },
   "devDependencies": {
     "ava": "^1.4.1",
     "browser-sync": "^2.26.7",
-    "concurrently": "^4.1.0",
+    "concurrently": "^5.1.0",
     "esm": "^3.2.22",
-    "postcss": "^7.0.14",
-    "postcss-cli": "^6.1.2",
+    "postcss": "^7.0.27",
+    "postcss-cli": "^7.1.0",
     "postcss-import": "^12.0.1",
     "postcss-loader": "^3.0.0",
-    "postcss-preset-env": "^6.6.0",
+    "postcss-preset-env": "^6.7.0",
     "puppeteer": "^1.14.0",
-    "rollup": "^1.10.0",
-    "rollup-plugin-node-resolve": "^4.2.3",
-    "rollup-plugin-postcss": "^2.0.3",
-    "rollup-plugin-terser": "^4.0.4",
-    "start-server-and-test": "^1.7.13"
+    "rollup": "^2.7.2",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-postcss": "^3.1.0",
+    "rollup-plugin-terser": "^5.3.0",
+    "start-server-and-test": "^1.11.0"
   },
   "ava": {
     "require": [
