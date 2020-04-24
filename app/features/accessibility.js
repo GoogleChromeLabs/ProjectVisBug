@@ -105,8 +105,10 @@ const restorePinnedTips = () => {
 }
 
 export function hideAll() {
-  state.tips.forEach(({tip}, target) =>
-    tip.style.display = 'none')
+  state.tips.forEach(({tip}, target) => {
+    if (tip)
+      tip.style.display = 'none'
+  })
 
   if (state.active.tip) {
     state.active.tip.remove()
@@ -116,9 +118,12 @@ export function hideAll() {
 
 export function removeAll() {
   state.tips.forEach(({tip}, target) => {
-    tip.remove()
+    tip && tip.remove()
     unobserve({tip, target})
   })
+
+  $('visbug-allytip').forEach(tip =>
+    tip.remove())
 
   $('[data-allytip]').attr('data-allytip', null)
 
