@@ -40,7 +40,7 @@
     "blingblingjs": "^2.1.1",
     "hotkeys-js": "^3.7.6",
     "query-selector-shadow-dom": "^0.4.6",
-    "ragrid": "^1.0.5"
+    "ragrid": "^1.0.6"
   },
   "devDependencies": {
     "ava": "^1.4.1",
