@@ -47,7 +47,7 @@ export function createGuide(vert = true) {
     z-index: 2147483643;
   `
 
-  vert 
+  vert
     ? styles += `
         width: 1px;
         height: 100vh;
@@ -97,7 +97,7 @@ const showGridlines = node => {
     state.gridlines = document.createElement('visbug-gridlines')
     state.gridlines.position = node.getBoundingClientRect()
 
-    document.body.appendChild(state.gridlines)
+    document.body.insertAdjacentElement('afterend', state.gridlines)
   }
 }
 

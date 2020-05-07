@@ -1,5 +1,20 @@
+html {
+  width: 500vw;
+  height: 500vh;
+  display: grid;
+  place-content: center;
+  transform: scale(0.4);
+  overflow: scroll;
+  background: hsl(0 0% 95%);
+  grid-template-columns: 100vw;
+  /* scroll-snap-type: x proximity; */
+  transform-origin: center left;
+}
+
 body {
   min-height: 100vh;
+  box-shadow: 0 .5rem 1rem hsl(0 0% 0% / 30%);
+  /* scroll-snap-align: center; */
 }
 
 body:not([testing]) [data-selected=true] {
