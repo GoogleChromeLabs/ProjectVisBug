@@ -24,7 +24,7 @@ export class Overlay extends HTMLElement {
     svg.style.display = 'block'
 
     this.style.setProperty('--top', `${top + window.scrollY}px`)
-    this.style.setProperty('--left', `${left - 1}px`)
+    this.style.setProperty('--left', `${left + window.scrollX - 1}px`)
 
     svg.setAttribute('width', width + 'px')
     svg.setAttribute('height', height + 'px')

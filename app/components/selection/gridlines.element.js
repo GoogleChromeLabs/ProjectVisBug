@@ -22,6 +22,8 @@ export class Gridlines extends HTMLElement {
     const { winHeight, winWidth } = windowBounds()
     const [svg] = this.$shadow.children
     const [rect,line1,line2,line3,line4] = svg.children
+    top = top + window.scrollY
+    left = left + window.scrollX
 
     this.$shadow.host.style.display = 'block'
 
@@ -33,11 +35,11 @@ export class Gridlines extends HTMLElement {
     line1.setAttribute('x2', left)
     line2.setAttribute('x1', left + width)
     line2.setAttribute('x2', left + width)
-    line3.setAttribute('y1', top + window.scrollY)
-    line3.setAttribute('y2', top + window.scrollY)
+    line3.setAttribute('y1', top)
+    line3.setAttribute('y2', top)
     line3.setAttribute('x2', winWidth)
-    line4.setAttribute('y1', top + window.scrollY + height)
-    line4.setAttribute('y2', top + window.scrollY + height)
+    line4.setAttribute('y1', top + height)
+    line4.setAttribute('y2', top + height)
     line4.setAttribute('x2', winWidth)
   }
 
@@ -45,6 +47,7 @@ export class Gridlines extends HTMLElement {
     const { winWidth, winHeight } = windowBounds()
     const { offsetHeight } = document.body
     const calced_y = y + window.scrollY
+    const calced_x = x + window.scrollX
 
     return `
       <svg
@@ -58,8 +61,8 @@ export class Gridlines extends HTMLElement {
           x="${x}" y="${y}"
           style="display:none;"
         ></rect>
-        <line x1="${x}" y1="0" x2="${x}" y2="${offsetHeight}"></line>
-        <line x1="${x + width}" y1="0" x2="${x + width}" y2="${offsetHeight}"></line>
+        <line x1="${calced_x}" y1="0" x2="${calced_x}" y2="${offsetHeight}"></line>
+        <line x1="${calced_x + width}" y1="0" x2="${calced_x + width}" y2="${offsetHeight}"></line>
         <line x1="0" y1="${calced_y}" x2="${winWidth}" y2="${calced_y}"></line>
         <line x1="0" y1="${calced_y + height}" x2="${winWidth}" y2="${calced_y + height}"></line>
       </svg>

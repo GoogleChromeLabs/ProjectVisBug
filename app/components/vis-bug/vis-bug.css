@@ -1,12 +1,10 @@
 html {
-  width: 500vw;
-  height: 500vh;
   display: grid;
   place-content: center;
-  transform: scale(0.4);
+  /* transform: scale(0.4); */
   overflow: scroll;
   background: hsl(0 0% 95%);
-  grid-template-columns: 100vw;
+  grid: auto / 100vw;
   /* scroll-snap-type: x proximity; */
   transform-origin: center left;
 }

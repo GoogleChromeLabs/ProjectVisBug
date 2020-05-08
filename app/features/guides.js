@@ -97,7 +97,7 @@ const showGridlines = node => {
     state.gridlines = document.createElement('visbug-gridlines')
     state.gridlines.position = node.getBoundingClientRect()
 
-    document.body.insertAdjacentElement('afterend', state.gridlines)
+    document.body.append(state.gridlines)
   }
 }
 
