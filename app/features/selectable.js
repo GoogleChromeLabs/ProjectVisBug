@@ -630,7 +630,7 @@ export function Selectable(visbug) {
 
       handle.position = { el, node_label_id: id }
 
-      document.body.appendChild(handle)
+      document.body.insertAdjacentElement('afterend',handle)
 
       handles[handles.length] = handle
       return handle
@@ -643,7 +643,7 @@ export function Selectable(visbug) {
         hover_state.element.remove()
 
       hover_state.element = document.createElement('visbug-hover')
-      document.body.appendChild(hover_state.element)
+      document.body.insertAdjacentElement('afterend',hover_state.element)
       hover_state.element.position = {el}
 
       return hover_state.element
