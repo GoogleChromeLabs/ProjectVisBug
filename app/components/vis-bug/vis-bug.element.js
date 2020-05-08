@@ -59,8 +59,10 @@ export default class VisBug extends HTMLElement {
   }
 
   setup() {
-    document.firstElementChild.style.height = document.body.clientHeight * 1.25 + 'px'
-    document.firstElementChild.style.width = document.body.clientWidth * 1.75 + 'px'
+    const html = document.firstElementChild
+    html.style.height = document.body.clientHeight * 1.25 + 'px'
+    html.style.width = document.body.clientWidth * 1.75 + 'px'
+    html.style.setProperty('--pageUrl', `"${window.location.href}"`)
 
     this.$shadow.innerHTML = this.render()
     this._colormode = modemap['hsla']

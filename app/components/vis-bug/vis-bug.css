@@ -1,18 +1,26 @@
 html {
   display: grid;
+  grid: auto / 100vw;
   place-content: center;
-  /* transform: scale(0.4); */
   overflow: scroll;
   background: hsl(0 0% 95%);
-  grid: auto / 100vw;
   /* scroll-snap-type: x proximity; */
-  transform-origin: center left;
 }
 
 body {
   min-height: 100vh;
   box-shadow: 0 .5rem 1rem hsl(0 0% 0% / 30%);
   /* scroll-snap-align: center; */
+  /* transform: scale(0.8); */
+  transition: transform .15s ease-in-out;
+
+  &:before {
+    content: var(--pageUrl, 'Artboard');
+    margin-top: -2em;
+    display: flex;
+    font-size: .9rem;
+    font-weight: normal;
+  }
 }
 
 body:not([testing]) [data-selected=true] {
