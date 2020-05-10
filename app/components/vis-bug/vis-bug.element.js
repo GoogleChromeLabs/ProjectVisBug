@@ -64,6 +64,8 @@ export default class VisBug extends HTMLElement {
     html.style.width = document.body.clientWidth * 1.75 + 'px'
     html.style.setProperty('--pageUrl', `"${window.location.href}"`)
 
+    this.pageScale = 1
+
     this.$shadow.innerHTML = this.render()
     this._colormode = modemap['hsla']
 
@@ -90,6 +92,31 @@ export default class VisBug extends HTMLElement {
         this.$shadow.host.style.display === 'none'
           ? 'block'
           : 'none')
+
+    window.addEventListener("keydown", e => {
+      if (e.ctrlKey && e.key === '=')
+        this.zoomIn()
+      else if (e.ctrlKey && e.key === '-')
+        this.zoomOut()
+      else if (e.ctrlKey && e.key === '0') {
+        this.pageScale = 1
+        document.body.style.transform = `scale(1)`
+      }
+    })
+
+    hotkeys(`${metaKey}+equals`, e => {
+      e.stopPropagation()
+      e.preventDefault()
+      this.zoomIn()
+      return false
+    })
+
+    hotkeys(`${metaKey}+minus`, e => {
+      e.stopPropagation()
+      e.preventDefault()
+      this.zoomOut()
+      return false
+    })
   }
 
   cleanup() {
@@ -234,6 +261,18 @@ export default class VisBug extends HTMLElement {
       this.selectorEngine.removeSelectedCallback(feature.onNodesSelected)
       feature.disconnect()
     }
+  }
+
+  zoomIn() {
+    if (this.pageScale > 10) return
+    this.pageScale += .1
+    document.body.style.transform = `scale(${this.pageScale})`
+  }
+
+  zoomOut() {
+    if (this.pageScale < 0) return
+    this.pageScale -= .1
+    document.body.style.transform = `scale(${this.pageScale})`
   }
 
   execCommand(command) {
