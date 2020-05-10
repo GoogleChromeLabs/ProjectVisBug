@@ -37,15 +37,15 @@ export class Gridlines extends HTMLElement {
     line2.setAttribute('x2', left + width)
     line3.setAttribute('y1', top)
     line3.setAttribute('y2', top)
-    line3.setAttribute('x2', winWidth)
+    line3.setAttribute('x2', left + winWidth)
     line4.setAttribute('y1', top + height)
     line4.setAttribute('y2', top + height)
-    line4.setAttribute('x2', winWidth)
+    line4.setAttribute('x2', left + winWidth)
   }
 
   render({ x, y, width, height, top, left }) {
     const { winWidth, winHeight } = windowBounds()
-    const { offsetHeight } = document.body
+    const { offsetHeight, offsetWidth } = document.body
 
     return `
       <svg
