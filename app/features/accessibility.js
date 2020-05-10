@@ -53,7 +53,7 @@ const mouseMove = e => {
 export function showTip(target, e) {
   if (!state.active.tip) { // create
     const tip = render(target)
-    document.body.appendChild(tip)
+    document.body.insertAdjacentElement('afterend', tip)
 
     positionTip(tip, e)
     observe({tip, target})
