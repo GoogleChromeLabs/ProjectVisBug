@@ -94,15 +94,54 @@ export default class VisBug extends HTMLElement {
           : 'none')
 
     window.addEventListener("keydown", e => {
-      if (e.ctrlKey && e.key === '=')
+      const {ctrlKey, metaKey, key} = e
+
+      if (!this.meta_is_down && metaKey) {
+        this.meta_is_down = true
+        e.preventDefault()
+         // document.body.style.transformOrigin = 
+         // `${window.scrollX}px ${window.scrollY}px`
+      }
+
+      if (metaKey && key === '=') {
         this.zoomIn()
-      else if (e.ctrlKey && e.key === '-')
+      }
+      else if (metaKey && key === '-') {
         this.zoomOut()
-      else if (e.ctrlKey && e.key === '0') {
+      }
+      else if (metaKey && key === '0') {
         this.pageScale = 1
         document.body.style.transform = `scale(1)`
       }
+      else if (metaKey && key === '9') {
+        // this.pageScale = 1
+        // document.body.style.transform = `scale(1)`
+        console.log('fit to viewport')
+      }
+    }, { passive: false })
+
+    window.addEventListener("keyup", ({metaKey}) => {
+      if (this.meta_is_down && !metaKey) {
+        this.meta_is_down = false
+        document.body.style.transition = null
+      }
     })
+
+    window.addEventListener("wheel", e => {
+      if (this.meta_is_down) {
+        e.preventDefault()
+        document.body.style.transition = 'none'
+
+        e.deltaY > 0
+          ? this.zoomOut(.01)
+          : this.zoomIn(.01)
+      }
+    }, { passive: false })
+
+    window.addEventListener('mousemove', e => {
+      this.mouse_x = e.clientX
+      this.mouse_y = e.clientY
+    }, {passive: true})
 
     hotkeys(`${metaKey}+equals`, e => {
       e.stopPropagation()
@@ -263,15 +302,15 @@ export default class VisBug extends HTMLElement {
     }
   }
 
-  zoomIn() {
+  zoomIn(amount = .1) {
     if (this.pageScale > 10) return
-    this.pageScale += .1
+    this.pageScale += amount
     document.body.style.transform = `scale(${this.pageScale})`
   }
 
-  zoomOut() {
+  zoomOut(amount = .1) {
     if (this.pageScale < 0) return
-    this.pageScale -= .1
+    this.pageScale -= amount
     document.body.style.transform = `scale(${this.pageScale})`
   }
 
