@@ -15,13 +15,56 @@ const state = {
 }
 
 export const zoomIn = (amount = .1) => {
+  const stash = state.visbug.selection()
+  state.visbug.unselect_all()
+
   state.page.scale += amount
   document.body.style.transform = `scale(${state.page.scale})`
+
+  document.body.addEventListener('transitionend', e => {
+    stash.forEach(el => 
+      state.visbug.select(el))
+  }, {once: true})
 }
 
 export const zoomOut = (amount = .1) => {
+  const stash = state.visbug.selection()
+  state.visbug.unselect_all()
+
   state.page.scale -= amount
   document.body.style.transform = `scale(${state.page.scale})`
+
+  document.body.addEventListener('transitionend', e => {
+    stash.forEach(el => 
+      state.visbug.select(el))
+  }, {once: true})
+}
+
+export const zoomToFit = () => {
+  const stash = state.visbug.selection()
+  state.visbug.unselect_all()
+
+  const fixedScale = ((window.innerHeight * .9) / document.body.clientHeight).toFixed(2)
+  state.page.scale = parseFloat(fixedScale)
+  document.body.style.transform = `scale(${state.page.scale})`
+
+  document.body.addEventListener('transitionend', e => {
+    stash.forEach(el => 
+      state.visbug.select(el))
+  }, {once: true})
+}
+
+export const zoomNatural = () => {
+  const stash = state.visbug.selection()
+  state.visbug.unselect_all()
+
+  state.page.scale = 1
+  document.body.style.transform = `scale(1)`
+
+  document.body.addEventListener('transitionend', e => {
+    stash.forEach(el => 
+      state.visbug.select(el))
+  }, {once: true})
 }
 
 const handleKeydown = e => {
@@ -40,14 +83,11 @@ const handleKeydown = e => {
     e.preventDefault()
   }
   else if (metaKey && key === '0') {
-    state.page.scale = 1
-    document.body.style.transform = `scale(1)`
+    zoomNatural()
     e.preventDefault()
   }
   else if (metaKey && key === '9') {
-    const fixedScale = ((window.innerHeight * .9) / document.body.clientHeight).toFixed(2)
-    state.page.scale = parseFloat(fixedScale)
-    document.body.style.transform = `scale(${state.page.scale})`
+   zoomToFit()
     e.preventDefault()
   }
 }
@@ -89,7 +129,9 @@ const handleMetaOut = e => {
   return false
 }
 
-const start = () => {
+const start = SelectorEngine => {
+  state.visbug = SelectorEngine
+
   window.addEventListener("keydown", handleKeydown, { passive: false })
   window.addEventListener("keyup", handleKeyup)
   window.addEventListener("wheel", handleWheel, { passive: false })

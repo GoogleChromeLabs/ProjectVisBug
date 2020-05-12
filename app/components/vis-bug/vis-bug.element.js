@@ -44,6 +44,7 @@ export default class VisBug extends HTMLElement {
     this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
 
     provideSelectorEngine(this.selectorEngine)
+    Zoom.start(this.selectorEngine)
 
     this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
   }
@@ -93,8 +94,6 @@ export default class VisBug extends HTMLElement {
         this.$shadow.host.style.display === 'none'
           ? 'block'
           : 'none')
-
-    Zoom.start()
   }
 
   cleanup() {
