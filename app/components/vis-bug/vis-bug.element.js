@@ -96,9 +96,11 @@ export default class VisBug extends HTMLElement {
     window.addEventListener("keydown", e => {
       const {ctrlKey, metaKey, key} = e
 
+      if (metaKey)
+        e.preventDefault()
+
       if (!this.meta_is_down && metaKey) {
         this.meta_is_down = true
-        e.preventDefault()
          // document.body.style.transformOrigin = 
          // `${window.scrollX}px ${window.scrollY}px`
       }
