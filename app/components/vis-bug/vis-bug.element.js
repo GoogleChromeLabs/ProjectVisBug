@@ -9,7 +9,7 @@ import {
 import {
   Selectable, Moveable, Padding, Margin, EditText, Font,
   Flex, Search, ColorPicker, BoxShadow, HueShift, MetaTip,
-  Guides, Screenshot, Position, Accessibility, draggable
+  Guides, Screenshot, Position, Accessibility, draggable, Zoom
 } from '../../features/'
 
 import { VisBugStyles }           from '../styles.store'
@@ -55,7 +55,8 @@ export default class VisBug extends HTMLElement {
     hotkeys.unbind(
       Object.keys(this.toolbar_model).reduce((events, key) =>
         events += ',' + key, ''))
-    hotkeys.unbind(`${metaKey}+/`)
+    hotkeys.unbind(`${metaKey}+/,${metaKey}+.`)
+    Zoom.stop()
   }
 
   setup() {
@@ -93,72 +94,7 @@ export default class VisBug extends HTMLElement {
           ? 'block'
           : 'none')
 
-    window.addEventListener("keydown", e => {
-      const {ctrlKey, metaKey, key} = e
-
-      if (!this.meta_is_down && metaKey) {
-        this.meta_is_down = true
-         // document.body.style.transformOrigin = 
-         // `${window.scrollX}px ${window.scrollY}px`
-      }
-
-      if (metaKey && key === '=') {
-        this.zoomIn()
-        e.preventDefault()
-      }
-      else if (metaKey && key === '-') {
-        this.zoomOut()
-        e.preventDefault()
-      }
-      else if (metaKey && key === '0') {
-        this.pageScale = 1
-        document.body.style.transform = `scale(1)`
-        e.preventDefault()
-      }
-      else if (metaKey && key === '9') {
-        const fixedScale = ((window.innerHeight * .9) / document.body.clientHeight).toFixed(2)
-        this.pageScale = parseFloat(fixedScale)
-        document.body.style.transform = `scale(${this.pageScale})`
-        e.preventDefault()
-      }
-    }, { passive: false })
-
-    window.addEventListener("keyup", ({metaKey}) => {
-      if (this.meta_is_down && !metaKey) {
-        this.meta_is_down = false
-        document.body.style.transition = null
-      }
-    })
-
-    window.addEventListener("wheel", e => {
-      if (this.meta_is_down) {
-        e.preventDefault()
-        document.body.style.transition = 'none'
-
-        e.deltaY > 0
-          ? this.zoomOut(.01)
-          : this.zoomIn(.01)
-      }
-    }, { passive: false })
-
-    window.addEventListener('mousemove', e => {
-      this.mouse_x = e.clientX
-      this.mouse_y = e.clientY
-    }, {passive: true})
-
-    hotkeys(`${metaKey}+equals`, e => {
-      e.stopPropagation()
-      e.preventDefault()
-      this.zoomIn()
-      return false
-    })
-
-    hotkeys(`${metaKey}+minus`, e => {
-      e.stopPropagation()
-      e.preventDefault()
-      this.zoomOut()
-      return false
-    })
+    Zoom.start()
   }
 
   cleanup() {
@@ -168,8 +104,6 @@ export default class VisBug extends HTMLElement {
       ...document.getElementsByTagName('visbug-label'),
       ...document.getElementsByTagName('visbug-gridlines'),
     ].forEach(el => el.remove())
-
-    this.teardown();
 
     document.querySelectorAll('[data-pseudo-select=true]')
       .forEach(el =>
@@ -303,16 +237,6 @@ export default class VisBug extends HTMLElement {
       this.selectorEngine.removeSelectedCallback(feature.onNodesSelected)
       feature.disconnect()
     }
-  }
-
-  zoomIn(amount = .1) {
-    this.pageScale += amount
-    document.body.style.transform = `scale(${this.pageScale})`
-  }
-
-  zoomOut(amount = .1) {
-    this.pageScale -= amount
-    document.body.style.transform = `scale(${this.pageScale})`
   }
 
   execCommand(command) {
