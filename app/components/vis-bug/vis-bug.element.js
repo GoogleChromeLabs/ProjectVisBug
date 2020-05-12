@@ -96,9 +96,6 @@ export default class VisBug extends HTMLElement {
     window.addEventListener("keydown", e => {
       const {ctrlKey, metaKey, key} = e
 
-      if (metaKey)
-        e.preventDefault()
-
       if (!this.meta_is_down && metaKey) {
         this.meta_is_down = true
          // document.body.style.transformOrigin = 
@@ -107,18 +104,22 @@ export default class VisBug extends HTMLElement {
 
       if (metaKey && key === '=') {
         this.zoomIn()
+        e.preventDefault()
       }
       else if (metaKey && key === '-') {
         this.zoomOut()
+        e.preventDefault()
       }
       else if (metaKey && key === '0') {
         this.pageScale = 1
         document.body.style.transform = `scale(1)`
+        e.preventDefault()
       }
       else if (metaKey && key === '9') {
-        // this.pageScale = 1
-        // document.body.style.transform = `scale(1)`
-        console.log('fit to viewport')
+        const fixedScale = ((window.innerHeight * .9) / document.body.clientHeight).toFixed(2)
+        this.pageScale = parseFloat(fixedScale)
+        document.body.style.transform = `scale(${this.pageScale})`
+        e.preventDefault()
       }
     }, { passive: false })
 
@@ -305,13 +306,11 @@ export default class VisBug extends HTMLElement {
   }
 
   zoomIn(amount = .1) {
-    if (this.pageScale > 10) return
     this.pageScale += amount
     document.body.style.transform = `scale(${this.pageScale})`
   }
 
   zoomOut(amount = .1) {
-    if (this.pageScale < 0) return
     this.pageScale -= amount
     document.body.style.transform = `scale(${this.pageScale})`
   }
