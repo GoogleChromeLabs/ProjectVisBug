@@ -11,7 +11,7 @@ body {
   min-height: 100vh;
   box-shadow: 0 .5rem 1rem hsl(0 0% 0% / 30%);
   /* scroll-snap-align: center; */
-  transition: transform .15s ease-in-out;
+  transition: transform .15s cubic-bezier(0.39, 0.58, 0.57, 1);
 
   &:before {
     content: var(--pageUrl, 'Artboard');

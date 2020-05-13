@@ -32,6 +32,9 @@ export const zoomOut = (amount = .1) => {
   state.visbug.unselect_all()
 
   state.page.scale -= amount
+  if (state.page.scale < .01)
+    state.page.scale = .01
+
   document.body.style.transform = `scale(${state.page.scale})`
 
   document.body.addEventListener('transitionend', e => {
@@ -93,20 +96,17 @@ const handleKeydown = e => {
 }
 
 const handleKeyup = ({metaKey}) => {
-  if (state.meta.down && !metaKey) {
+  if (state.meta.down && !metaKey) 
     state.meta.down = false
-    document.body.style.transition = null
-  }
 }
 
 const handleWheel = e => {
   if (state.meta.down) {
     e.preventDefault()
-    document.body.style.transition = 'none'
 
     e.deltaY > 0
-      ? zoomOut(.01)
-      : zoomIn(.01)
+      ? zoomOut(e.deltaY / 100)
+      : zoomIn(e.deltaY / 100 * -1)
   }
 }
 
