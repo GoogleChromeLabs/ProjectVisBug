@@ -17,6 +17,7 @@ const state = {
 export const zoomIn = (amount = .1) => {
   const stash = state.visbug.selection()
   state.visbug.unselect_all()
+  hideGridlines()
 
   state.page.scale += amount
   document.body.style.transform = `scale(${state.page.scale})`
@@ -30,6 +31,7 @@ export const zoomIn = (amount = .1) => {
 export const zoomOut = (amount = .1) => {
   const stash = state.visbug.selection()
   state.visbug.unselect_all()
+  hideGridlines()
 
   state.page.scale -= amount
   if (state.page.scale < .01)
@@ -46,6 +48,7 @@ export const zoomOut = (amount = .1) => {
 export const zoomToFit = () => {
   const stash = state.visbug.selection()
   state.visbug.unselect_all()
+  hideGridlines()
 
   const fixedScale = ((window.innerHeight * .9) / document.body.clientHeight).toFixed(2)
   state.page.scale = parseFloat(fixedScale)
