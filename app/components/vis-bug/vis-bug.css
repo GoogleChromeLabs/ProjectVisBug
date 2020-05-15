@@ -2,15 +2,12 @@ html {
   display: grid;
   grid: auto / 100vw;
   place-content: center;
-  overflow: scroll;
-  background: hsl(0 0% 95%);
-  /* scroll-snap-type: x proximity; */
+  overflow: scroll !important;
 }
 
 body {
   min-height: 100vh;
-  box-shadow: 0 .5rem 1rem hsl(0 0% 0% / 30%);
-  /* scroll-snap-align: center; */
+  box-shadow: 0 .5rem 1rem hsl(0 0% 0% / 30%) !important;
   transition: transform .15s cubic-bezier(0.39, 0.58, 0.57, 1);
 
   &:before {
