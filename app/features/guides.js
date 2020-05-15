@@ -101,7 +101,7 @@ const showGridlines = node => {
   }
 }
 
-const hideGridlines = () => {
+export const hideGridlines = () => {
   if (!state.gridlines) return
   state.gridlines.style.display = 'none'
 }
