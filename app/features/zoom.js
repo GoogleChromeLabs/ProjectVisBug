@@ -1,5 +1,6 @@
 import hotkeys from 'hotkeys-js'
 import { metaKey } from '../utilities/'
+import { hideGridlines } from './guides'
 
 const state = {
   page: {
@@ -57,12 +58,38 @@ export const zoomToFit = () => {
   document.body.addEventListener('transitionend', e => {
     stash.forEach(el => 
       state.visbug.select(el))
+
+    document.body.scrollIntoView({
+      block: 'center',
+      inline: 'center',
+      behavior: 'smooth',
+    })
+  }, {once: true})
+}
+
+export const zoomToHomebase = () => {
+  const stash = state.visbug.selection()
+  state.visbug.unselect_all()
+  hideGridlines()
+
+  state.page.scale = .9
+  document.body.style.transform = `scale(${state.page.scale})`
+
+  document.body.addEventListener('transitionend', e => {
+    stash.forEach(el => 
+      state.visbug.select(el))
+
+    document.body.scrollIntoView({
+      inline: 'center',
+      behavior: 'smooth',
+    })
   }, {once: true})
 }
 
 export const zoomNatural = () => {
   const stash = state.visbug.selection()
   state.visbug.unselect_all()
+  hideGridlines()
 
   state.page.scale = 1
   document.body.style.transform = `scale(1)`
@@ -94,6 +121,10 @@ const handleKeydown = e => {
   }
   else if (metaKey && key === '9') {
    zoomToFit()
+    e.preventDefault()
+  }
+  else if (metaKey && key === '8') {
+   zoomToHomebase()
     e.preventDefault()
   }
 }
