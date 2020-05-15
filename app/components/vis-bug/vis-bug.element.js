@@ -62,10 +62,16 @@ export default class VisBug extends HTMLElement {
 
   setup() {
     const html = document.firstElementChild
+
+    const htmlBg = getStyle(html, 'backgroundColor')
     const bodyBg = getStyle(document.body, 'backgroundColor')
 
-    if (bodyBg === 'rgba(0, 0, 0, 0)')
+    const defaultBg = 'rgba(0, 0, 0, 0)'
+
+    if (bodyBg === defaultBg && htmlBg !== defaultBg)
       document.body.style.backgroundColor = getStyle(html, 'backgroundColor')
+    else if (bodyBg === defaultBg && htmlBg === defaultBg)
+      document.body.style.backgroundColor = 'white'
 
     html.style.height = document.body.clientHeight * 1.25 + 'px'
     html.style.width = document.body.clientWidth * 1.75 + 'px'
