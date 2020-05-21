@@ -16,7 +16,7 @@ import { VisBugStyles }           from '../styles.store'
 import { VisBugModel }            from './model'
 import * as Icons                 from './vis-bug.icons'
 import { provideSelectorEngine }  from '../../features/search'
-import { metaKey }                from '../../utilities/'
+import { metaKey, getStyle }      from '../../utilities/'
 import { PluginRegistry }         from '../../plugins/_registry'
 
 const modemap = {
@@ -62,9 +62,21 @@ export default class VisBug extends HTMLElement {
 
   setup() {
     const html = document.firstElementChild
+
+    const htmlBg = getStyle(html, 'backgroundColor')
+    const bodyBg = getStyle(document.body, 'backgroundColor')
+
+    const defaultBg = 'rgba(0, 0, 0, 0)'
+
+    if (bodyBg === defaultBg && htmlBg !== defaultBg)
+      document.body.style.backgroundColor = getStyle(html, 'backgroundColor')
+    else if (bodyBg === defaultBg && htmlBg === defaultBg)
+      document.body.style.backgroundColor = 'white'
+
     html.style.height = document.body.clientHeight * 1.25 + 'px'
     html.style.width = document.body.clientWidth * 1.75 + 'px'
     html.style.setProperty('--pageUrl', `"${window.location.href}"`)
+    html.style.backgroundColor = 'hsl(0 0% 95%)';
 
     this.pageScale = 1
 
