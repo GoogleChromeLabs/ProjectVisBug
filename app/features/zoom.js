@@ -15,21 +15,28 @@ const state = {
   }
 }
 
-export const zoomIn = (amount = .1) => {
+export const zoomIn = async (amount = .1) => {
   const stash = state.visbug.selection()
   state.visbug.unselect_all()
   hideGridlines()
 
   state.page.scale += amount
-  document.body.style.transform = `scale(${state.page.scale})`
 
-  document.body.addEventListener('transitionend', e => {
-    stash.forEach(el => 
-      state.visbug.select(el))
-  }, {once: true})
+  const zoom = document.body.animate([{ 
+    transform: `scale(${state.page.scale})`, 
+    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)', 
+  }], {
+    duration: 150,
+    fill: 'forwards',
+  })
+
+  await zoom.finished
+
+  stash.forEach(el => 
+    state.visbug.select(el))
 }
 
-export const zoomOut = (amount = .1) => {
+export const zoomOut = async (amount = .1) => {
   const stash = state.visbug.selection()
   state.visbug.unselect_all()
   hideGridlines()
@@ -38,66 +45,96 @@ export const zoomOut = (amount = .1) => {
   if (state.page.scale < .01)
     state.page.scale = .01
 
-  document.body.style.transform = `scale(${state.page.scale})`
+  const zoom = document.body.animate([{ 
+    transform: `scale(${state.page.scale})`, 
+    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)', 
+  }], {
+    duration: 150,
+    fill: 'forwards',
+  })
 
-  document.body.addEventListener('transitionend', e => {
-    stash.forEach(el => 
-      state.visbug.select(el))
-  }, {once: true})
+  await zoom.finished
+
+  stash.forEach(el => 
+    state.visbug.select(el))
 }
 
-export const zoomToFit = () => {
+export const zoomToFit = async () => {
   const stash = state.visbug.selection()
   state.visbug.unselect_all()
   hideGridlines()
 
   const fixedScale = ((window.innerHeight * .9) / document.body.clientHeight).toFixed(2)
   state.page.scale = parseFloat(fixedScale)
-  document.body.style.transform = `scale(${state.page.scale})`
+  
+  const zoom = document.body.animate([{ 
+    transform: `scale(${state.page.scale})`, 
+    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)', 
+  }], {
+    duration: 150,
+    fill: 'forwards',
+  })
 
-  document.body.addEventListener('transitionend', e => {
-    stash.forEach(el => 
-      state.visbug.select(el))
+  await zoom.finished
 
-    document.body.scrollIntoView({
-      block: 'center',
-      inline: 'center',
-      behavior: 'smooth',
-    })
-  }, {once: true})
+  stash.forEach(el => 
+    state.visbug.select(el))
+
+  document.body.scrollIntoView({
+    block: 'center',
+    inline: 'center',
+    behavior: 'smooth',
+  })
 }
 
-export const zoomToHomebase = () => {
+export const zoomToHomebase = async () => {
   const stash = state.visbug.selection()
   state.visbug.unselect_all()
   hideGridlines()
 
   state.page.scale = .9
-  document.body.style.transform = `scale(${state.page.scale})`
 
-  document.body.addEventListener('transitionend', e => {
-    stash.forEach(el => 
-      state.visbug.select(el))
+  const zoom = document.body.animate([{ 
+    transform: 'scale(1)', 
+    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)', 
+  }], {
+    duration: 150,
+    fill: 'forwards',
+  })
 
-    document.body.scrollIntoView({
-      inline: 'center',
-      behavior: 'smooth',
-    })
-  }, {once: true})
+  await zoom.finished
+
+  stash.forEach(el => 
+    state.visbug.select(el))
+
+  document.body.scrollIntoView({
+    inline: 'center',
+    behavior: 'smooth',
+  })
 }
 
-export const zoomNatural = () => {
+export const zoomNatural = async () => {
   const stash = state.visbug.selection()
   state.visbug.unselect_all()
   hideGridlines()
 
   state.page.scale = 1
-  document.body.style.transform = `scale(1)`
 
-  document.body.addEventListener('transitionend', e => {
-    stash.forEach(el => 
-      state.visbug.select(el))
-  }, {once: true})
+  await document.body.animate([{ 
+    transform: 'scale(1)', 
+    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)', 
+  }], {
+    duration: 150,
+    fill: 'forwards',
+  }).finished
+
+  stash.forEach(el => 
+    state.visbug.select(el))
+
+  document.body.scrollIntoView({
+    inline: 'start',
+    block: 'start',
+  })
 }
 
 const handleKeydown = e => {
