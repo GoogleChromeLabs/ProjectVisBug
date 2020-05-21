@@ -22,15 +22,13 @@ export const zoomIn = async (amount = .1) => {
 
   state.page.scale += amount
 
-  const zoom = document.body.animate([{ 
+  await document.body.animate([{ 
     transform: `scale(${state.page.scale})`, 
     easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)', 
   }], {
     duration: 150,
     fill: 'forwards',
-  })
-
-  await zoom.finished
+  }).finished
 
   stash.forEach(el => 
     state.visbug.select(el))
@@ -45,15 +43,13 @@ export const zoomOut = async (amount = .1) => {
   if (state.page.scale < .01)
     state.page.scale = .01
 
-  const zoom = document.body.animate([{ 
+  await document.body.animate([{ 
     transform: `scale(${state.page.scale})`, 
     easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)', 
   }], {
     duration: 150,
     fill: 'forwards',
-  })
-
-  await zoom.finished
+  }).finished
 
   stash.forEach(el => 
     state.visbug.select(el))
@@ -67,15 +63,13 @@ export const zoomToFit = async () => {
   const fixedScale = ((window.innerHeight * .9) / document.body.clientHeight).toFixed(2)
   state.page.scale = parseFloat(fixedScale)
   
-  const zoom = document.body.animate([{ 
+  await document.body.animate([{ 
     transform: `scale(${state.page.scale})`, 
     easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)', 
   }], {
     duration: 150,
     fill: 'forwards',
-  })
-
-  await zoom.finished
+  }).finished
 
   stash.forEach(el => 
     state.visbug.select(el))
@@ -94,15 +88,13 @@ export const zoomToHomebase = async () => {
 
   state.page.scale = .9
 
-  const zoom = document.body.animate([{ 
+  await document.body.animate([{ 
     transform: 'scale(1)', 
     easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)', 
   }], {
     duration: 150,
     fill: 'forwards',
-  })
-
-  await zoom.finished
+  }).finished
 
   stash.forEach(el => 
     state.visbug.select(el))
