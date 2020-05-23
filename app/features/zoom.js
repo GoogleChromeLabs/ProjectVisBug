@@ -15,46 +15,26 @@ const state = {
   }
 }
 
-export const zoomIn = async (amount = .1) => {
-  const stash = state.visbug.selection()
-  state.visbug.unselect_all()
-  hideGridlines()
-
+export const zoomIn = (amount = .1) => {
   state.page.scale += amount
 
-  await scale().finished
-
-  stash.forEach(el =>
-    state.visbug.select(el))
+  scale()
 }
 
-export const zoomOut = async (amount = .1) => {
-  const stash = state.visbug.selection()
-  state.visbug.unselect_all()
-  hideGridlines()
-
+export const zoomOut = (amount = .1) => {
   state.page.scale -= amount
+
   if (state.page.scale < .01)
     state.page.scale = .01
 
-  await scale().finished
-
-  stash.forEach(el =>
-    state.visbug.select(el))
+  scale()
 }
 
 export const zoomToFit = async () => {
-  const stash = state.visbug.selection()
-  state.visbug.unselect_all()
-  hideGridlines()
-
   const fixedScale = ((window.innerHeight * .9) / document.body.clientHeight).toFixed(2)
   state.page.scale = parseFloat(fixedScale)
 
-  await scale().finished
-
-  stash.forEach(el =>
-    state.visbug.select(el))
+  await scale()
 
   document.body.scrollIntoView({
     block: 'center',
@@ -64,16 +44,9 @@ export const zoomToFit = async () => {
 }
 
 export const zoomToHomebase = async () => {
-  const stash = state.visbug.selection()
-  state.visbug.unselect_all()
-  hideGridlines()
-
   state.page.scale = 1
 
-  await scale().finished
-
-  stash.forEach(el =>
-    state.visbug.select(el))
+  await scale()
 
   document.body.scrollIntoView({
     inline: 'center',
@@ -81,33 +54,23 @@ export const zoomToHomebase = async () => {
   })
 }
 
-export const zoomNatural = async () => {
+const scale = async () => {
   const stash = state.visbug.selection()
   state.visbug.unselect_all()
   hideGridlines()
 
-  state.page.scale = 1
-
-  await scale().finished
-
-  stash.forEach(el =>
-    state.visbug.select(el))
-
-  document.body.scrollIntoView({
-    inline: 'start',
-    block: 'start',
-  })
-}
-
-const scale = () =>
-  document.body.animate([{
+  await document.body.animate([{
     transform: `scale(${state.page.scale})`,
-    // transformOrigin: `${state.mouse.x}px ${state.mouse.y}px`,
+    transformOrigin: `${state.mouse.x}px ${state.mouse.y}px`,
     easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)',
   }], {
     duration: 150,
     fill: 'forwards',
-  })
+  }).finished
+
+  stash.forEach(el =>
+    state.visbug.select(el))
+}
 
 const handleKeydown = e => {
   const {ctrlKey, metaKey, key} = e
@@ -125,15 +88,11 @@ const handleKeydown = e => {
     e.preventDefault()
   }
   else if (metaKey && key === '0') {
-    zoomNatural()
+    zoomToHomebase()
     e.preventDefault()
   }
   else if (metaKey && key === '9') {
    zoomToFit()
-    e.preventDefault()
-  }
-  else if (metaKey && key === '8') {
-   zoomToHomebase()
     e.preventDefault()
   }
 }
@@ -147,6 +106,10 @@ const handleWheel = e => {
   if (state.meta.down) {
     e.preventDefault()
 
+    state.mouse.x = e.clientX
+    state.mouse.y = e.clientY
+    // console.log(state.mouse)
+
     e.deltaY > 0
       ? zoomOut(e.deltaY / 500)
       : zoomIn(e.deltaY / 500 * -1)
@@ -156,6 +119,7 @@ const handleWheel = e => {
 const handleMousemove = e => {
   state.mouse.x = e.clientX
   state.mouse.y = e.clientY
+  // console.log(state.mouse)
 }
 
 const handleMetaIn = e => {
