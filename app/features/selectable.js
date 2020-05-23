@@ -597,7 +597,7 @@ export function Selectable(visbug) {
         isFixed: isFixed(el),
       }
 
-      document.body.appendChild(label)
+      document.body.insertAdjacentElement('afterend', label)
 
       $(label).on('query', ({detail}) => {
         if (!detail.text) return
@@ -630,7 +630,7 @@ export function Selectable(visbug) {
 
       handle.position = { el, node_label_id: id }
 
-      document.body.insertAdjacentElement('afterend',handle)
+      document.body.insertAdjacentElement('afterend', handle)
 
       handles[handles.length] = handle
       return handle
@@ -656,7 +656,7 @@ export function Selectable(visbug) {
         hover_state.label.remove()
 
       hover_state.label = document.createElement('visbug-label')
-      document.body.appendChild(hover_state.label)
+      document.body.insertAdjacentElement('afterend', hover_state.label)
 
       hover_state.label.text = text
       hover_state.label.position = {
@@ -677,7 +677,7 @@ export function Selectable(visbug) {
         hover_state.element.remove()
 
       hover_state.element = document.createElement('visbug-corners')
-      document.body.appendChild(hover_state.element)
+      document.body.insertAdjacentElement('afterend', hover_state.element)
       hover_state.element.position = {el}
 
       return hover_state.element
