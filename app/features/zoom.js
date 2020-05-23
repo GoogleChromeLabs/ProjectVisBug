@@ -22,13 +22,7 @@ export const zoomIn = async (amount = .1) => {
 
   state.page.scale += amount
 
-  await document.body.animate([{
-    transform: `scale(${state.page.scale})`,
-    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)',
-  }], {
-    duration: 150,
-    fill: 'forwards',
-  }).finished
+  await scale().finished
 
   stash.forEach(el =>
     state.visbug.select(el))
@@ -43,13 +37,7 @@ export const zoomOut = async (amount = .1) => {
   if (state.page.scale < .01)
     state.page.scale = .01
 
-  await document.body.animate([{
-    transform: `scale(${state.page.scale})`,
-    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)',
-  }], {
-    duration: 150,
-    fill: 'forwards',
-  }).finished
+  await scale().finished
 
   stash.forEach(el =>
     state.visbug.select(el))
@@ -63,13 +51,7 @@ export const zoomToFit = async () => {
   const fixedScale = ((window.innerHeight * .9) / document.body.clientHeight).toFixed(2)
   state.page.scale = parseFloat(fixedScale)
 
-  await document.body.animate([{
-    transform: `scale(${state.page.scale})`,
-    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)',
-  }], {
-    duration: 150,
-    fill: 'forwards',
-  }).finished
+  await scale().finished
 
   stash.forEach(el =>
     state.visbug.select(el))
@@ -86,15 +68,9 @@ export const zoomToHomebase = async () => {
   state.visbug.unselect_all()
   hideGridlines()
 
-  state.page.scale = .9
+  state.page.scale = 1
 
-  await document.body.animate([{
-    transform: 'scale(1)',
-    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)',
-  }], {
-    duration: 150,
-    fill: 'forwards',
-  }).finished
+  await scale().finished
 
   stash.forEach(el =>
     state.visbug.select(el))
@@ -112,13 +88,7 @@ export const zoomNatural = async () => {
 
   state.page.scale = 1
 
-  await document.body.animate([{
-    transform: 'scale(1)',
-    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)',
-  }], {
-    duration: 150,
-    fill: 'forwards',
-  }).finished
+  await scale().finished
 
   stash.forEach(el =>
     state.visbug.select(el))
@@ -128,6 +98,16 @@ export const zoomNatural = async () => {
     block: 'start',
   })
 }
+
+const scale = () =>
+  document.body.animate([{
+    transform: `scale(${state.page.scale})`,
+    // transformOrigin: `${state.mouse.x}px ${state.mouse.y}px`,
+    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)',
+  }], {
+    duration: 150,
+    fill: 'forwards',
+  })
 
 const handleKeydown = e => {
   const {ctrlKey, metaKey, key} = e
