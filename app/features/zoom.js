@@ -17,12 +17,16 @@ const state = {
 
 export const zoomIn = (amount = .1) => {
   state.page.scale += amount
+  state.page.originX = state.mouse.x
+  state.page.originY = state.mouse.y
 
   scale()
 }
 
 export const zoomOut = (amount = .1) => {
   state.page.scale -= amount
+  state.page.originX = state.mouse.x
+  state.page.originY = state.mouse.y
 
   if (state.page.scale < .01)
     state.page.scale = .01
@@ -61,7 +65,7 @@ const scale = async () => {
 
   await document.body.animate([{
     transform: `scale(${state.page.scale})`,
-    transformOrigin: `${state.mouse.x}px ${state.mouse.y}px`,
+    transformOrigin: `${state.page.originX}px ${state.page.originY}px`,
     easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)',
   }], {
     duration: 150,
@@ -106,9 +110,8 @@ const handleWheel = e => {
   if (state.meta.down) {
     e.preventDefault()
 
-    state.mouse.x = e.clientX
-    state.mouse.y = e.clientY
-    // console.log(state.mouse)
+    state.page.originX = e.clientX
+    state.page.originY = e.clientY
 
     e.deltaY > 0
       ? zoomOut(e.deltaY / 500)
@@ -119,7 +122,6 @@ const handleWheel = e => {
 const handleMousemove = e => {
   state.mouse.x = e.clientX
   state.mouse.y = e.clientY
-  // console.log(state.mouse)
 }
 
 const handleMetaIn = e => {
