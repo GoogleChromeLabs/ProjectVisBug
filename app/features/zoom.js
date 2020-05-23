@@ -22,15 +22,15 @@ export const zoomIn = async (amount = .1) => {
 
   state.page.scale += amount
 
-  await document.body.animate([{ 
-    transform: `scale(${state.page.scale})`, 
-    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)', 
+  await document.body.animate([{
+    transform: `scale(${state.page.scale})`,
+    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)',
   }], {
     duration: 150,
     fill: 'forwards',
   }).finished
 
-  stash.forEach(el => 
+  stash.forEach(el =>
     state.visbug.select(el))
 }
 
@@ -43,15 +43,15 @@ export const zoomOut = async (amount = .1) => {
   if (state.page.scale < .01)
     state.page.scale = .01
 
-  await document.body.animate([{ 
-    transform: `scale(${state.page.scale})`, 
-    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)', 
+  await document.body.animate([{
+    transform: `scale(${state.page.scale})`,
+    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)',
   }], {
     duration: 150,
     fill: 'forwards',
   }).finished
 
-  stash.forEach(el => 
+  stash.forEach(el =>
     state.visbug.select(el))
 }
 
@@ -62,16 +62,16 @@ export const zoomToFit = async () => {
 
   const fixedScale = ((window.innerHeight * .9) / document.body.clientHeight).toFixed(2)
   state.page.scale = parseFloat(fixedScale)
-  
-  await document.body.animate([{ 
-    transform: `scale(${state.page.scale})`, 
-    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)', 
+
+  await document.body.animate([{
+    transform: `scale(${state.page.scale})`,
+    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)',
   }], {
     duration: 150,
     fill: 'forwards',
   }).finished
 
-  stash.forEach(el => 
+  stash.forEach(el =>
     state.visbug.select(el))
 
   document.body.scrollIntoView({
@@ -88,15 +88,15 @@ export const zoomToHomebase = async () => {
 
   state.page.scale = .9
 
-  await document.body.animate([{ 
-    transform: 'scale(1)', 
-    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)', 
+  await document.body.animate([{
+    transform: 'scale(1)',
+    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)',
   }], {
     duration: 150,
     fill: 'forwards',
   }).finished
 
-  stash.forEach(el => 
+  stash.forEach(el =>
     state.visbug.select(el))
 
   document.body.scrollIntoView({
@@ -112,15 +112,15 @@ export const zoomNatural = async () => {
 
   state.page.scale = 1
 
-  await document.body.animate([{ 
-    transform: 'scale(1)', 
-    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)', 
+  await document.body.animate([{
+    transform: 'scale(1)',
+    easing: 'cubic-bezier(0.39, 0.58, 0.57, 1)',
   }], {
     duration: 150,
     fill: 'forwards',
   }).finished
 
-  stash.forEach(el => 
+  stash.forEach(el =>
     state.visbug.select(el))
 
   document.body.scrollIntoView({
@@ -159,7 +159,7 @@ const handleKeydown = e => {
 }
 
 const handleKeyup = ({metaKey}) => {
-  if (state.meta.down && !metaKey) 
+  if (state.meta.down && !metaKey)
     state.meta.down = false
 }
 
@@ -168,8 +168,8 @@ const handleWheel = e => {
     e.preventDefault()
 
     e.deltaY > 0
-      ? zoomOut(e.deltaY / 100)
-      : zoomIn(e.deltaY / 100 * -1)
+      ? zoomOut(e.deltaY / 500)
+      : zoomIn(e.deltaY / 500 * -1)
   }
 }
 
@@ -209,7 +209,7 @@ const stop = () => {
   window.removeEventListener("keyup", handleKeyup)
   window.removeEventListener("wheel", handleWheel)
   window.removeEventListener('mousemove', handleMousemove)
-  
+
   hotkeys.unbind(`${metaKey}+equals`)
   hotkeys.unbind(`${metaKey}+minus`)
 }
