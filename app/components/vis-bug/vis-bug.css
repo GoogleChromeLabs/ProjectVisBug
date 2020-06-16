@@ -12,10 +12,15 @@ body {
 
   &:before {
     content: var(--pageUrl, 'Artboard');
-    margin-top: -2em;
+    margin-top: -28px;
     display: flex;
-    font-size: .9rem;
+    font-size: 18px;
     font-weight: normal;
+    position: absolute;
+    font-family: system-ui, sans-serif;
+    font-weight: normal;
+    text-transform: initial;
+    color: hsl(0 0% 20%);
   }
 }
 
