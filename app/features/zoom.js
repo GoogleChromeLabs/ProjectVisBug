@@ -110,12 +110,21 @@ const handleWheel = e => {
   if (state.meta.down) {
     e.preventDefault()
 
+    const scaleUp = e.deltaY < 0
+
+    document.body.style.cursor = scaleUp
+      ? 'zoom-in'
+      : 'zoom-out'
+
     state.page.originX = e.clientX
     state.page.originY = e.clientY
 
-    e.deltaY > 0
-      ? zoomOut(e.deltaY / 500)
-      : zoomIn(e.deltaY / 500 * -1)
+    scaleUp
+      ? zoomIn(e.deltaY / 500 * -1)
+      : zoomOut(e.deltaY / 500)
+  }
+  else {
+    document.body.style.cursor = ''
   }
 }
 

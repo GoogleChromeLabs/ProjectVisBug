@@ -139,6 +139,10 @@ export function Selectable(visbug) {
 
         did_hide = false
       }
+
+      if (!e.metaKey) {
+        document.body.style.cursor = ''
+      }
     }
   }
 
