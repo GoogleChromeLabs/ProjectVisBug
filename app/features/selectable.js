@@ -397,7 +397,12 @@ export function Selectable(visbug) {
     overlayHoverUI({
       el: $target,
       // no_hover: tool === 'guides',
-      no_label: tool !== 'guides',
+      no_label:
+           tool === 'guides'
+        || tool === 'accessibility'
+        || tool === 'margin'
+        || tool === 'padding'
+        || tool === 'inspector',
     })
 
     if (tool === 'guides' && selected.length >= 1 && !selected.includes($target)) {
@@ -430,7 +435,7 @@ export function Selectable(visbug) {
     overlayMetaUI({
       el,
       id,
-      no_label: tool !== 'inspector' && tool !== 'accessibility',
+      no_label: tool === 'inspector' || tool === 'guides' || tool === 'accessibility',
     })
 
     selected.unshift(el)
