@@ -76,7 +76,7 @@ const scale = async () => {
 }
 
 const handleKeydown = e => {
-  if (!state.meta.down && e[`${metaKey}Key`])
+  if (!state.meta.down && (e[`${metaKey}Key`] || e.metaKey))
     state.meta.down = true
 
   if (state.meta.down) {
@@ -100,7 +100,7 @@ const handleKeydown = e => {
 }
 
 const handleKeyup = e => {
-  if (state.meta.down && !e[`${metaKey}Key`])
+  if (state.meta.down && !(e[`${metaKey}Key`] || e.metaKey))
     state.meta.down = false
 }
 
