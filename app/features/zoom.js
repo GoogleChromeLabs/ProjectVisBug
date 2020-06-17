@@ -1,4 +1,3 @@
-import hotkeys from 'hotkeys-js'
 import { metaKey } from '../utilities/'
 import { hideGridlines } from './guides'
 
@@ -77,32 +76,31 @@ const scale = async () => {
 }
 
 const handleKeydown = e => {
-  const {ctrlKey, metaKey, key} = e
-
-  if (!state.meta.down && metaKey) {
+  if (!state.meta.down && e[`${metaKey}Key`])
     state.meta.down = true
-  }
 
-  if (metaKey && key === '=') {
-    zoomIn()
-    e.preventDefault()
-  }
-  else if (metaKey && key === '-') {
-    zoomOut()
-    e.preventDefault()
-  }
-  else if (metaKey && key === '0') {
-    zoomToHomebase()
-    e.preventDefault()
-  }
-  else if (metaKey && key === '9') {
-   zoomToFit()
+  if (state.meta.down) {
+    switch(e.key) {
+      case '=':
+        zoomIn()
+        break
+      case '-':
+        zoomOut()
+        break
+      case '0':
+        zoomToHomebase()
+        break
+      case '9':
+        zoomToFit()
+        break
+    }
+
     e.preventDefault()
   }
 }
 
-const handleKeyup = ({metaKey}) => {
-  if (state.meta.down && !metaKey)
+const handleKeyup = e => {
+  if (state.meta.down && !e[`${metaKey}Key`])
     state.meta.down = false
 }
 
@@ -133,20 +131,6 @@ const handleMousemove = e => {
   state.mouse.y = e.clientY
 }
 
-const handleMetaIn = e => {
-  e.stopPropagation()
-  e.preventDefault()
-  zoomIn()
-  return false
-}
-
-const handleMetaOut = e => {
-  e.stopPropagation()
-  e.preventDefault()
-  zoomOut()
-  return false
-}
-
 const start = SelectorEngine => {
   state.visbug = SelectorEngine
 
@@ -154,9 +138,6 @@ const start = SelectorEngine => {
   window.addEventListener("keyup", handleKeyup)
   window.addEventListener("wheel", handleWheel, { passive: false })
   window.addEventListener('mousemove', handleMousemove, {passive: true})
-
-  hotkeys(`${metaKey}+equals`, handleMetaIn)
-  hotkeys(`${metaKey}+minus`, handleMetaOut)
 }
 
 const stop = () => {
@@ -164,9 +145,6 @@ const stop = () => {
   window.removeEventListener("keyup", handleKeyup)
   window.removeEventListener("wheel", handleWheel)
   window.removeEventListener('mousemove', handleMousemove)
-
-  hotkeys.unbind(`${metaKey}+equals`)
-  hotkeys.unbind(`${metaKey}+minus`)
 }
 
 export const Zoom = {
