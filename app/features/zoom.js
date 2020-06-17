@@ -14,6 +14,9 @@ const state = {
   }
 }
 
+const isMetaKey = e => 
+  e[`${metaKey}Key`] || e.metaKey
+
 export const zoomIn = (amount = .1) => {
   state.page.scale += amount
   state.page.originX = state.mouse.x
@@ -76,7 +79,7 @@ const scale = async () => {
 }
 
 const handleKeydown = e => {
-  if (!state.meta.down && (e[`${metaKey}Key`] || e.metaKey))
+  if (!state.meta.down && isMetaKey(e))
     state.meta.down = true
 
   if (state.meta.down) {
@@ -100,7 +103,7 @@ const handleKeydown = e => {
 }
 
 const handleKeyup = e => {
-  if (state.meta.down && !(e[`${metaKey}Key`] || e.metaKey))
+  if (state.meta.down && !isMetaKey(e))
     state.meta.down = false
 }
 
@@ -134,7 +137,7 @@ const handleMousemove = e => {
 const start = SelectorEngine => {
   state.visbug = SelectorEngine
 
-  window.addEventListener("keydown", handleKeydown, { passive: false })
+  window.addEventListener("keydown", handleKeydown)
   window.addEventListener("keyup", handleKeyup)
   window.addEventListener("wheel", handleWheel, { passive: false })
   window.addEventListener('mousemove', handleMousemove, {passive: true})
