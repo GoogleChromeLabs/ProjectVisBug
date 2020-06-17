@@ -8,13 +8,14 @@ html {
 
 body {
   min-height: 100vh;
-  box-shadow: 0 .5rem 1rem hsl(0 0% 0% / 30%) !important;
+  box-shadow: 0 2px 5px hsl(0 0% 0% / 25%) !important;
 
   &:before {
     content: var(--pageUrl, 'Artboard');
-    margin-top: -2em;
+    position: absolute;
+    margin-top: -24px;
     display: flex;
-    font-size: .9rem;
+    font-size: 14px;
     font-weight: normal;
   }
 }
