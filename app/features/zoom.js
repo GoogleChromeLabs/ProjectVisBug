@@ -1,4 +1,4 @@
-import { metaKey } from '../utilities/'
+import { metaKey, getStyle } from '../utilities/'
 import { hideGridlines } from './guides'
 
 const state = {
@@ -12,6 +12,23 @@ const state = {
     x: 0,
     y: 0,
   }
+}
+
+const setupDocument = () => {
+  const html = document.firstElementChild
+  const htmlBg = getStyle(html, 'backgroundColor')
+  const bodyBg = getStyle(document.body, 'backgroundColor')
+  const defaultBg = 'rgba(0, 0, 0, 0)'
+
+  if (bodyBg === defaultBg && htmlBg !== defaultBg)
+    document.body.style.backgroundColor = getStyle(html, 'backgroundColor')
+  else if (bodyBg === defaultBg && htmlBg === defaultBg)
+    document.body.style.backgroundColor = 'white'
+
+  html.style.height = document.body.clientHeight * 1.75 + 'px'
+  html.style.width = document.body.clientWidth * 1.75 + 'px'
+  html.style.setProperty('--pageUrl', `"${window.location.href}"`)
+  html.style.backgroundColor = 'hsl(0 0% 95%)'
 }
 
 const isMetaKey = e => 
@@ -136,6 +153,8 @@ const handleMousemove = e => {
 
 const start = SelectorEngine => {
   state.visbug = SelectorEngine
+
+  setupDocument()
 
   window.addEventListener("keydown", handleKeydown)
   window.addEventListener("keyup", handleKeyup)
