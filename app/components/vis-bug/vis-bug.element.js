@@ -88,12 +88,9 @@ export default class VisBug extends HTMLElement {
   }
 
   cleanup() {
-    const bye = [
-      ...document.getElementsByTagName('visbug-hover'),
-      ...document.getElementsByTagName('visbug-handles'),
-      ...document.getElementsByTagName('visbug-label'),
-      ...document.getElementsByTagName('visbug-gridlines'),
-    ].forEach(el => el.remove())
+    Array.from(document.body.children)
+      .filter(node => node.nodeName.includes('VISBUG'))
+      .forEach(el => el.remove())
 
     this.teardown();
 
