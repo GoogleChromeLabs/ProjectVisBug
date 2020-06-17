@@ -20,7 +20,7 @@ export class Distance extends HTMLElement {
 
   set styleProps({y,x,d,q,v = false, color}) {
     this.style.setProperty('--top', `${y + window.scrollY}px`)
-    this.style.setProperty('--right', q === 'left' ? `${x+window.scrollX}px` : 'auto')
+    this.style.setProperty('--right', q === 'left' ? `${x-window.scrollX}px` : 'auto')
     this.style.setProperty('--left', q !== 'left' ? `${x+window.scrollX}px` : 'auto')
     this.style.setProperty('--direction', v ? 'column' : 'row')
     this.style.setProperty('--quadrant', q)
