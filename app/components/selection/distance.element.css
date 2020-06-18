@@ -24,6 +24,7 @@
   z-index: var(--layer-3);
   display: flex;
   align-items: center;
+  justify-content: var(--justify, 'flex-start');
   flex-direction: var(--direction);
 }
 

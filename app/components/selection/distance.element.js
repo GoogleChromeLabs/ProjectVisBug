@@ -25,6 +25,9 @@ export class Distance extends HTMLElement {
     this.style.setProperty('--direction', v ? 'column' : 'row')
     this.style.setProperty('--quadrant', q)
 
+    if (q === 'left')
+      this.style.setProperty('--justify', 'flex-end')
+
     v
       ? this.style.setProperty('--distance-h', `${d}px`)
       : this.style.setProperty('--distance-w', `${d}px`)
