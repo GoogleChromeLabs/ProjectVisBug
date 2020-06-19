@@ -55,6 +55,10 @@ export class Handles extends HTMLElement {
       : this.$shadow.appendChild(bd.element)
   }
 
+  set gap(el) {
+    this.$shadow.appendChild(el)
+  }
+
   render({ x, y, width, height, top, left }, node_label_id, isFixed) {
     this.$shadow.host.setAttribute('data-label-id', node_label_id)
 

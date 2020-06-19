@@ -42,6 +42,15 @@ export class BoxModel extends HTMLElement {
         rotation: 'rotate(45)',
       }
     }
+    else if (mode === 'gap') {
+      this.drawable = {
+        height:   sides.height,
+        width:    sides.width,
+        top:      bounds.top + window.scrollY,
+        left:     sides.left,
+        rotation: sides.rotation,
+      }
+    }
 
     if (color === 'pink') {
       this.drawable.bg = 'hsla(330, 100%, 71%, 15%)'

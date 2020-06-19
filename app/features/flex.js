@@ -12,6 +12,8 @@ const key_events = 'up,down,left,right'
 const command_events = `${metaKey}+up,${metaKey}+down,${metaKey}+left,${metaKey}+right,${metaKey}+shift+up,${metaKey}+shift+down,${metaKey}+shift+left,${metaKey}+shift+right`
 
 export function Flex(visbug) {
+  visbug.onSelectedUpdate(highlight)
+
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
 
@@ -37,8 +39,6 @@ export function Flex(visbug) {
         debugger
       }
     })
-
-    
   })
 
   hotkeys(command_events, (e, handler) => {
@@ -56,8 +56,6 @@ export function Flex(visbug) {
         ? changeWrap(selectedNodes, handler.key)
         : changeDirection(selectedNodes, 'column')
   })
-
-  visbug.onSelectedUpdate(highlightChildren)
 
   return () => {
     hotkeys.unbind(key_events)
@@ -81,20 +79,90 @@ const accountForOtherJustifyContent = (cur, want) => {
   return cur
 }
 
-const highlightChildren = els => {
-    els.forEach((el, i) => {
-      [...el.children].forEach((child, n) => {
-        if (el.children.length > 0 && n > 0)
-           createMeasurements({
-             $anchor: el.children[n - 1],
-             $target: child,
-           })
-        const child_hover = document.createElement('visbug-hover')
-        child_hover.position = {el: child}
-        document.body.appendChild(child_hover)
-      })
-    })
+const highlight = els => {
+  els.forEach(el => {
+    highlightChildren(el)
+    showGaps(el)
+    // showBadge(el)
+  })
+}
+
+const highlightChildren = el => {
+  [...el.children].forEach(child => {
+    const child_hover = document.createElement('visbug-hover')
+    child_hover.position = {el: child}
+    document.body.appendChild(child_hover)
+  })
+}
+
+const showGaps = el => {
+  const direction = getStyle(el, 'flexDirection')
+  const container = {
+    bounds: el.getBoundingClientRect(),
+    el,
   }
+
+  const computed = Array.from(el.children)
+    .map((child, i) => ({
+      child,
+      index: i,
+      bounds: child.getBoundingClientRect(),
+    }))
+
+  const gaps = computed
+    .filter(payload =>
+      el.lastElementChild !== payload.child)
+    .map(child =>
+      createGap({
+        container,
+        anchor: child, 
+        sibling: computed[child.index+1], 
+        direction,
+      }))
+
+  const label_id = el.getAttribute('data-label-id')
+  const handle = document
+    .querySelector(`visbug-handles[data-label-id="${label_id}"]`)
+
+  // todo: track these? or let handles clean them up?
+  gaps.forEach(gap =>
+    handle.gap = gap)
+}
+
+const createGap = ({container, anchor, sibling, direction}) => {
+  const gap = document.createElement('visbug-boxmodel')
+
+  if (direction.includes('row')) {
+    gap.position = {
+      mode: 'gap',
+      color: 'pink',
+      bounds: container.bounds,
+      sides: {
+        top: container.bounds.top,
+        left: anchor.bounds.right,
+        height: container.bounds.height,
+        width: sibling.bounds.left - anchor.bounds.right,
+        rotation: 'rotate(90)',
+      },
+    }
+  }
+  else {
+    gap.position = {
+      mode: 'gap',
+      color: 'pink',
+      bounds: container.bounds,
+      sides: {
+        top: anchor.bounds.bottom,
+        left: container.bounds.left,
+        height: sibling.bounds.top - anchor.bounds.bottom,
+        width: container.bounds.width,
+        rotation: 'rotate(0)',
+      },
+    }
+  }
+
+  return gap
+}
 
 // todo: support reversing direction
 export function changeDirection(els, value) {
