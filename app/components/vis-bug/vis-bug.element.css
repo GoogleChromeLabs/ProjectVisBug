@@ -173,7 +173,7 @@
   &[data-tool="search"] > svg:hover + aside {
     opacity: 1;
     transform: translateX(0);
-    transition-delay: 0.75s;
+    transition-delay: 1s;
   }
 
   & input::-webkit-calendar-picker-indicator {
