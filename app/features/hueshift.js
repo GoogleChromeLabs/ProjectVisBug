@@ -13,16 +13,26 @@ const key_events = 'up,down,left,right'
 
 const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down,${metaKey}+left,${metaKey}+shift+left,${metaKey}+right,${metaKey}+shift+right`
 
-export function HueShift(Color) {
-  this.active_color   = Color.getActive()
-  this.elements       = []
+const state = {
+  active_color: undefined,
+  elements: [],
+}
+
+export function HueShift({Color, Visbug}) {
+  state.active_color = Color.getActive()
+  state.elements     = []
+
+  Visbug.onSelectedUpdate(elements => {
+    state.elements = elements
+    Color.setActive(state.active_color)
+  })
 
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
 
     e.preventDefault()
 
-    let selectedNodes = this.elements
+    let selectedNodes = state.elements
       , keys = handler.key.split('+')
 
     keys.includes('left') || keys.includes('right')
@@ -34,46 +44,36 @@ export function HueShift(Color) {
     e.preventDefault()
     let keys = handler.key.split('+')
     keys.includes('left') || keys.includes('right')
-      ? changeHue(this.elements, keys, 'a', Color)
-      : changeHue(this.elements, keys, 'h', Color)
+      ? changeHue(state.elements, keys, 'a', Color)
+      : changeHue(state.elements, keys, 'h', Color)
   })
 
   hotkeys(']', (e, handler) => {
     e.preventDefault()
 
-    if (this.active_color == 'foreground')
-      this.active_color = 'background'
-    else if (this.active_color == 'background')
-      this.active_color = 'border'
+    if (state.active_color == 'foreground')
+      state.active_color = 'background'
+    else if (state.active_color == 'background')
+      state.active_color = 'border'
 
-    Color.setActive(this.active_color)
+    Color.setActive(state.active_color)
   })
 
   hotkeys('[', (e, handler) => {
     e.preventDefault()
 
-    if (this.active_color == 'background')
-      this.active_color = 'foreground'
-    else if (this.active_color == 'border')
-      this.active_color = 'background'
+    if (state.active_color == 'background')
+      state.active_color = 'foreground'
+    else if (state.active_color == 'border')
+      state.active_color = 'background'
 
-    Color.setActive(this.active_color)
+    Color.setActive(state.active_color)
   })
 
-  const onNodesSelected = els => {
-    this.elements = els
-    Color.setActive(this.active_color)
-  }
-
-  const disconnect = () => {
+  return () => {
     hotkeys.unbind(key_events)
     hotkeys.unbind(command_events)
     hotkeys.unbind('up,down,left,right')
-  }
-
-  return {
-    onNodesSelected,
-    disconnect,
   }
 }
 
@@ -119,8 +119,8 @@ export function changeHue(els, direction, prop, Color) {
       let color = new TinyColor(current).setAlpha(current.a)
       el.style[style] = color.toHslString()
 
-      if (style == 'color') Color.foreground.color(color.toHexString())
-      if (style == 'backgroundColor') Color.background.color(color.toHexString())
+      if (style == 'color') Color.foreground.color(color.toHslString())
+      if (style == 'backgroundColor') Color.background.color(color.toHslString())
     })
 }
 

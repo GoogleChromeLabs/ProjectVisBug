@@ -5,24 +5,32 @@ export const VisBugModel = {
   g: {
     tool:        'guides',
     icon:        Icons.guides,
-    label:       'Guides',
-    description: 'Verify alignment & check your grid',
+    label:       '<span><u>G</u>uides</span>',
+    description: 'Verify alignment & measure distances',
     instruction: `<div table>
                     <div>
+                      <b>Element Guides:</b>
+                      <span>hover</span>
+                    </div>
+                    <div>
                       <b>Measure:</b>
-                      <span>${altKey} + hover</span>
+                      <span>click+hover</span>
+                    </div>
+                    <div>
+                      <b>Sticky Measurements:</b>
+                      <span>shift+click</span>
                     </div>
                   </div>`,
   },
   i: {
     tool:        'inspector',
     icon:        Icons.inspector,
-    label:       'Inspect',
+    label:       '<span><u>I</u>nspect</span>',
     description: 'Peek into common & current styles of an element',
     instruction: `<div table>
                     <div>
                       <b>Pin it:</b>
-                      <span>${altKey} + click</span>
+                      <span>click</span>
                     </div>
                   </div>`,
   },
@@ -34,16 +42,20 @@ export const VisBugModel = {
     instruction: `<div table>
                     <div>
                       <b>Pin it:</b>
-                      <span>${altKey} + click</span>
+                      <span>click</span>
                     </div>
                   </div>`,
   },
   v: {
     tool:        'move',
     icon:        Icons.move,
-    label:       'Move',
-    description: 'Push elements in & out of their container, or shuffle them within it',
+    label:       '<span>Mo<u>v</u>e</span>',
+    description: 'Move elements laterally or in, out, over, and under',
     instruction: `<div table>
+                    <div>
+                      <b>Lateral:</b>
+                      <span>click container ⇒ drag child</span>
+                    </div>
                     <div>
                       <b>Lateral:</b>
                       <span>◀ ▶</span>
@@ -53,8 +65,12 @@ export const VisBugModel = {
                       <span>▲</span>
                     </div>
                     <div>
-                      <b>Down and in:</b>
+                      <b>Down+in, out+under:</b>
                       <span>▼</span>
+                    </div>
+                    <div>
+                      <b>Trainer:</b>
+                      <span>shift + /</span>
                     </div>
                   </div>`,
   },
@@ -67,7 +83,7 @@ export const VisBugModel = {
   m: {
     tool:        'margin',
     icon:        Icons.margin,
-    label:       'Margin',
+    label:       '<span><u>M</u>argin</span>',
     description: 'Add or subtract outer space from any or all sides of the selected element(s)',
     instruction: `<div table>
                     <div>
@@ -82,12 +98,16 @@ export const VisBugModel = {
                       <b>All Sides:</b>
                       <span>${metaKey} +  ▲ ▼</span>
                     </div>
+                    <div>
+                      <b>Trainer:</b>
+                      <span>shift + /</span>
+                    </div>
                   </div>`,
   },
   p: {
     tool:        'padding',
     icon:        Icons.padding,
-    label:       'Padding',
+    label:       '<span><u>P</u>adding</span>',
     description: `Add or subtract inner space from any or all sides of the selected element(s)`,
     instruction: `<div table>
                     <div>
@@ -102,6 +122,10 @@ export const VisBugModel = {
                       <b>All Sides:</b>
                       <span>${metaKey} +  ▲ ▼</span>
                     </div>
+                    <div>
+                      <b>Trainer:</b>
+                      <span>shift + /</span>
+                    </div>
                   </div>`
   },
   // b: {
@@ -113,9 +137,17 @@ export const VisBugModel = {
   a: {
     tool:        'align',
     icon:        Icons.align,
-    label:       'Flexbox Align',
-    description: `Create or modify flexbox direction, distribution & alignment`,
+    label:       '<span>Flexbox <u>A</u>lign</span>',
+    description: `Create or modify flexbox direction, distribution, order & wrapping`,
     instruction: `<div table>
+                    <div>
+                      <b>Rows:</b>
+                      <span>${metaKey} + ▼</span>
+                    </div>
+                    <div>
+                      <b>Columns:</b>
+                      <span>${metaKey} + ▶</span>
+                    </div>
                     <div>
                       <b>Alignment:</b>
                       <span>◀ ▶ ▲ ▼</span>
@@ -125,15 +157,23 @@ export const VisBugModel = {
                       <span>Shift + ◀ ▶</span>
                     </div>
                     <div>
-                      <b>Direction:</b>
-                      <span>${metaKey} +  ◀ ▼</span>
+                      <b>Order:</b>
+                      <span>${metaKey} + shift + ◀ ▶</span>
+                    </div>
+                    <div>
+                      <b>Wrapping:</b>
+                      <span>${metaKey} + shift + ▲ ▼</span>
+                    </div>
+                    <div>
+                      <b>Trainer:</b>
+                      <span>shift + /</span>
                     </div>
                   </div>`,
   },
   h: {
     tool:        'hueshift',
     icon:        Icons.hueshift,
-    label:       'Hue Shift',
+    label:       '<span><u>H</u>ue Shift</span>',
     description: `Change foreground/background hue, brightness, saturation & opacity`,
     instruction: `<div table>
                     <div>
@@ -152,12 +192,16 @@ export const VisBugModel = {
                       <b>Opacity:</b>
                       <span>${metaKey} +  ◀ ▶</span>
                     </div>
+                    <div>
+                      <b>Trainer:</b>
+                      <span>shift + /</span>
+                    </div>
                   </div>`,
   },
   d: {
     tool:        'boxshadow',
     icon:        Icons.boxshadow,
-    label:       'Shadow',
+    label:       '<span>Sha<u>d</u>ow</span>',
     description: `Create & adjust position, blur & opacity of a box shadow`,
     instruction: `<div table>
                     <div>
@@ -166,11 +210,11 @@ export const VisBugModel = {
                     </div>
                     <div>
                       <b>Blur:</b>
-                      <span>Shift + ▲ ▼</span>
+                      <span>${altKey} + ▲ ▼</span>
                     </div>
                     <div>
                       <b>Spread:</b>
-                      <span>Shift + ◀ ▶</span>
+                      <span>${altKey} + ◀ ▶</span>
                     </div>
                     <div>
                       <b>Opacity:</b>
@@ -203,7 +247,7 @@ export const VisBugModel = {
   f: {
     tool:        'font',
     icon:        Icons.font,
-    label:       'Font Styles',
+    label:       '<span><u>F</u>ont Styles</span>',
     description: 'Change size, alignment, leading, letter-spacing, & weight',
     instruction: `<div table>
                     <div>
@@ -226,12 +270,16 @@ export const VisBugModel = {
                       <b>Weight:</b>
                       <span>${metaKey} + ▲ ▼</span>
                     </div>
+                    <div>
+                      <b>Trainer:</b>
+                      <span>shift + /</span>
+                    </div>
                   </div>`,
   },
   e: {
     tool:        'text',
     icon:        Icons.text,
-    label:       'Edit Text',
+    label:       '<span><u>E</u>dit Text</span>',
     description: 'Change any text on the page with a <b>double click</b>',
     instruction: '',
   },
@@ -244,7 +292,7 @@ export const VisBugModel = {
   s: {
     tool:        'search',
     icon:        Icons.search,
-    label:       'Search',
+    label:       '<span><u>S</u>earch</span>',
     description: 'Select elements programatically by searching for them or use built in plugins with special commands',
     instruction: '',
   },

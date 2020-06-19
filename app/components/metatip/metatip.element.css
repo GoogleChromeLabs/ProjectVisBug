@@ -2,10 +2,7 @@
 
 :host {
   position: absolute;
-  z-index: 2147483647;
-  direction: ltr;
-  font-size: 16px;
-  font-family: system-ui;
+  z-index: var(--layer-top);
 
   --arrow-width: 15px;
   --arrow-height: 8px;
@@ -20,9 +17,14 @@
 }
 
 :host figure {
+  all: initial;
+  direction: ltr;
+  font-size: 16px;
+  font-family: system-ui;
   max-width: 50vw;
-  background: white;
-  color: var(--theme-icon_color);
+  background: var(--theme-bd);
+  backdrop-filter: blur(5px);
+  color: var(--theme-text_color);
   line-height: initial;
   padding: 0.5em;
   margin: 0;
@@ -31,11 +33,18 @@
   flex-wrap: nowrap;
   border-radius: 0.25em;
   line-height: initial;
-  filter: drop-shadow(0 var(--shadow-direction) 0.5em hsla(0,0%,0%,35%));
 
+  box-shadow:
+    0 3.6px 3.7px rgba(0, 0, 0, 0.101),
+    0 12.1px 12.3px rgba(0, 0, 0, 0.149),
+    0 -2px 4px rgba(0, 0, 0, 0.101),
+    0 -12.1px 24px rgba(0, 0, 0, 0.149),
+    0 54px 55px rgba(0, 0, 0, 0.25);
+
+  border: 1px solid var(--theme-bg);
   &:after {
     content: "";
-    background: white;
+    background: var(--theme-bg);
     width: var(--arrow-width);
     height: var(--arrow-height);
     clip-path: var(--arrow);
@@ -87,7 +96,7 @@
 
 :host small {
   font-size: 0.7em;
-  color: hsl(0,0%,60%);
+  color: var(--theme-icon_color);
 
   & > span {
     color: hsl(0,0%,20%);
@@ -110,14 +119,17 @@
   margin: 0.5em 0 0;
   padding: 0;
   list-style-type: none;
-  color: hsl(0,0%,40%);
+  color: var(--theme-icon_color);
   font-size: 0.8em;
   font-family: 'Dank Mono', 'Operator Mono', 'Inconsolata', 'Fira Mono', 'SF Mono', 'Monaco', 'Droid Sans Mono', 'Source Code Pro', monospace;
 }
 
-:host [value] {
-  color: var(--theme-icon_color);
-  display: inline-flex;
+:host [value],
+:host [local-change] {
+  color: var(--theme-text_color);
+  display: inline-grid;
+  grid-auto-flow: column;
+  gap: .5em;
   align-items: center;
   justify-content: flex-end;
   text-align: right;
@@ -141,20 +153,24 @@
   position: relative;
   top: 1px;
   display: inline-block;
-  width: 0.6em;
-  height: 0.6em;
+  width: 1em;
+  min-width: 1em;
+  height: 1em;
   border-radius: 50%;
-  margin-right: 0.25em;
 }
 
 :host [local-modifications] {
   margin-top: 1rem;
   color: var(--theme-color);
   font-weight: bold;
+
+  & + div {
+    margin-bottom: 1em;
+  }
 }
 
 :host [contrast] > span {
   padding: 0 0.5em 0.1em;
   border-radius: 1em;
-  box-shadow: 0 0 0 1px hsl(0,0%,90%);
+  box-shadow: 0 0 0 1px var(--theme-icon_active-bg);
 }

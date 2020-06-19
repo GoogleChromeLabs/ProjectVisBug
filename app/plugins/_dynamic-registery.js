@@ -4,6 +4,7 @@ const entries = [
   'pesticide.js',
   'construct.js',
   'construct.debug.js',
+  'zindex.js',
 ]
 
 const PluginRegistry = new Map()

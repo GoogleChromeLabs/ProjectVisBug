@@ -1,15 +1,20 @@
 import $ from 'blingblingjs'
+import { HandleStyles } from '../styles.store'
+import { isFixed } from '../../utilities/';
 
 export class Handles extends HTMLElement {
 
   constructor() {
     super()
     this.$shadow = this.attachShadow({mode: 'closed'})
+    this.styles = [HandleStyles]
   }
 
   connectedCallback() {
+    this.$shadow.adoptedStyleSheets = this.styles
     window.addEventListener('resize', this.on_resize.bind(this))
   }
+
   disconnectedCallback() {
     window.removeEventListener('resize', this.on_resize)
   }
@@ -24,12 +29,13 @@ export class Handles extends HTMLElement {
       this.position = {
         node_label_id,
         el: source_el,
+        isFixed: isFixed(source_el),
       }
     })
   }
 
   set position({el, node_label_id}) {
-    this.$shadow.innerHTML = this.render(el.getBoundingClientRect(), node_label_id)
+    this.$shadow.innerHTML = this.render(el.getBoundingClientRect(), node_label_id, isFixed(el))
 
     if (this._backdrop) {
       this.backdrop = {
@@ -49,11 +55,14 @@ export class Handles extends HTMLElement {
       : this.$shadow.appendChild(bd.element)
   }
 
-  render({ x, y, width, height, top, left }, node_label_id) {
+  render({ x, y, width, height, top, left }, node_label_id, isFixed) {
     this.$shadow.host.setAttribute('data-label-id', node_label_id)
-    
+
+    this.style.setProperty('--top', `${top + (isFixed ? 0 : window.scrollY)}px`)
+    this.style.setProperty('--left', `${left}px`)
+    this.style.setProperty('--position', isFixed ? 'fixed' : 'absolute')
+
     return `
-      ${this.styles({top,left})}
       <svg
         class="visbug-handles"
         width="${width}" height="${height}"
@@ -70,21 +79,6 @@ export class Handles extends HTMLElement {
         <circle fill="hotpink" cx="${width/2}" cy="${height}" r="2"></circle>
         <circle fill="hotpink" cx="${width}" cy="${height/2}" r="2"></circle>
       </svg>
-    `
-  }
-
-  styles({top,left}) {
-    return `
-      <style>
-        :host > svg {
-          position: absolute;
-          top: ${top + window.scrollY}px;
-          left: ${left}px;
-          overflow: visible;
-          pointer-events: none;
-          z-index: 2147483644;
-        }
-      </style>
     `
   }
 }

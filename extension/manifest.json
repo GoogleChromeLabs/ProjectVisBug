@@ -1,21 +1,24 @@
 {
   "name": "VisBug",
-  "version": "0.2.12",
+  "version": "{{NPM_VERSION}}",
   "description": "Open source browser design tools",
   "manifest_version": 2,
   "icons": { "128": "icons/visbug.png" },
   "permissions": [
     "activeTab",
-    "contextMenus"
+    "contextMenus",
+    "storage"
   ],
   "background": {
     "persistent": true,
     "scripts": [
-      "visbug.js"
+      "visbug.js",
+      "contextmenu/launcher.js",
+      "contextmenu/colormode.js"
     ]
   },
   "browser_action": {
-    "default_title": "VisBug",
+    "default_title": "Click or press Alt+Shift+D to launch VisBug",
     "default_icon": {
       "128": "icons/visbug.png"
     }

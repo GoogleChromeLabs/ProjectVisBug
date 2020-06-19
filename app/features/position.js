@@ -28,7 +28,7 @@ export function Position() {
       el.teardown())
 
     state.elements = els.map(el =>
-      draggable(el))
+      draggable({el}))
   }
 
   const disconnect = () => {
@@ -43,8 +43,10 @@ export function Position() {
   }
 }
 
-export function draggable(el) {
-  this.state = {
+export function draggable({el, surface = el, cursor = 'move'}) {
+   const state = {
+    target: el,
+    surface,
     mouse: {
       down: false,
       x: 0,
@@ -58,28 +60,28 @@ export function draggable(el) {
 
   const setup = () => {
     el.style.transition   = 'none'
-    el.style.cursor       = 'move'
+    surface.style.cursor  = cursor
 
-    el.addEventListener('mousedown', onMouseDown, true)
-    el.addEventListener('mouseup', onMouseUp, true)
+    surface.addEventListener('mousedown', onMouseDown, true)
+    surface.addEventListener('mouseup', onMouseUp, true)
     document.addEventListener('mousemove', onMouseMove, true)
   }
 
   const teardown = () => {
     el.style.transition   = null
-    el.style.cursor       = null
+    surface.style.cursor  = null
 
-    el.removeEventListener('mousedown', onMouseDown, true)
-    el.removeEventListener('mouseup', onMouseUp, true)
+    surface.removeEventListener('mousedown', onMouseDown, true)
+    surface.removeEventListener('mouseup', onMouseUp, true)
     document.removeEventListener('mousemove', onMouseMove, true)
   }
 
   const onMouseDown = e => {
+    if(e.target !== state.surface) return
     e.preventDefault()
 
-    const el = e.target
-
-    el.style.position = 'relative'
+    if(getComputedStyle(el).position == 'static')
+      el.style.position = 'relative'
     el.style.willChange = 'top,left'
 
     if (el instanceof SVGElement) {
@@ -89,24 +91,26 @@ export function draggable(el) {
         ? extractSVGTranslate(translate)
         : [0,0]
 
-      this.state.element.x  = x
-      this.state.element.y  = y
+      state.element.x  = x
+      state.element.y  = y
     }
     else {
-      this.state.element.x  = parseInt(getStyle(el, 'left'))
-      this.state.element.y  = parseInt(getStyle(el, 'top'))
+      state.element.x  = parseInt(getStyle(el, 'left'))
+      state.element.y  = parseInt(getStyle(el, 'top'))
     }
 
-    this.state.mouse.x      = e.clientX
-    this.state.mouse.y      = e.clientY
-    this.state.mouse.down   = true
+    state.mouse.x      = e.clientX
+    state.mouse.y      = e.clientY
+    state.mouse.down   = true
   }
 
   const onMouseUp = e => {
+    if(e.target !== state.surface) return
+
     e.preventDefault()
     e.stopPropagation()
 
-    this.state.mouse.down = false
+    state.mouse.down = false
     el.style.willChange = null
 
     if (el instanceof SVGElement) {
@@ -116,30 +120,31 @@ export function draggable(el) {
         ? extractSVGTranslate(translate)
         : [0,0]
 
-      this.state.element.x    = x
-      this.state.element.y    = y
+      state.element.x    = x
+      state.element.y    = y
     }
     else {
-      this.state.element.x    = parseInt(el.style.left) || 0
-      this.state.element.y    = parseInt(el.style.top) || 0
+      state.element.x    = parseInt(el.style.left) || 0
+      state.element.y    = parseInt(el.style.top) || 0
     }
   }
 
   const onMouseMove = e => {
+    if (!state.mouse.down) return
+
     e.preventDefault()
     e.stopPropagation()
 
-    if (!this.state.mouse.down) return
 
     if (el instanceof SVGElement) {
       el.setAttribute('transform', `translate(
-        ${this.state.element.x + e.clientX - this.state.mouse.x},
-        ${this.state.element.y + e.clientY - this.state.mouse.y}
+        ${state.element.x + e.clientX - state.mouse.x},
+        ${state.element.y + e.clientY - state.mouse.y}
       )`)
     }
     else {
-      el.style.left = this.state.element.x + e.clientX - this.state.mouse.x + 'px'
-      el.style.top  = this.state.element.y + e.clientY - this.state.mouse.y + 'px'
+      el.style.left = state.element.x + e.clientX - state.mouse.x + 'px'
+      el.style.top  = state.element.y + e.clientY - state.mouse.y + 'px'
     }
   }
 

@@ -1,0 +1,10 @@
+@import "../_variables.css";
+
+:host > svg {
+  position: var(--position, 'absolute');
+  top: var(--top);
+  left: var(--left);
+  overflow: visible;
+  pointer-events: none;
+  z-index: var(--layer-3);
+}

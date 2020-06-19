@@ -1,6 +1,7 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
+import { TinyColor } from '@ctrl/tinycolor'
 import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
 import { queryPage } from './search'
@@ -12,12 +13,13 @@ import { showTip as showMetaTip, removeAll as removeAllMetaTips } from './metati
 import { showTip as showAccessibilityTip, removeAll as removeAllAccessibilityTips } from './accessibility'
 
 import {
-  metaKey, htmlStringToDom, createClassname,
-  isOffBounds, getStyles, deepElementFromPoint,
-  isSelectorValid, findNearestChildElement, findNearestParentElement
+  metaKey, htmlStringToDom, createClassname, camelToDash,
+  isOffBounds, getStyles, deepElementFromPoint, getShadowValues,
+  isSelectorValid, findNearestChildElement, findNearestParentElement,
+  getTextShadowValues, isFixed,
 } from '../utilities/'
 
-export function Selectable() {
+export function Selectable(visbug) {
   const page              = document.body
   let selected            = []
   let selectedCallbacks   = []
@@ -36,7 +38,6 @@ export function Selectable() {
 
     page.on('selectstart', on_selection)
     page.on('mousemove', on_hover)
-
     document.addEventListener('copy', on_copy)
     document.addEventListener('cut', on_cut)
     document.addEventListener('paste', on_paste)
@@ -77,7 +78,11 @@ export function Selectable() {
 
     e.preventDefault()
     if (!e.altKey) e.stopPropagation()
-    if (!e.shiftKey) unselect_all()
+
+    if (!e.shiftKey) {
+      unselect_all({silent:true})
+      clearMeasurements()
+    }
 
     if(e.shiftKey && $target.hasAttribute('data-selected'))
       unselect($target.getAttribute('data-label-id'))
@@ -112,7 +117,7 @@ export function Selectable() {
     e.preventDefault()
     e.stopPropagation()
     if (isOffBounds(e.target)) return
-    $('vis-bug')[0].toolSelected('text')
+    visbug.toolSelected('text')
   }
 
   const watchCommandKey = e => {
@@ -120,7 +125,7 @@ export function Selectable() {
 
     document.onkeydown = function(e) {
       if (hotkeys.ctrl && selected.length) {
-        $('visbug-handles, visbug-label, visbug-hover').forEach(el =>
+        $('visbug-handles, visbug-label, visbug-hover, visbug-grip').forEach(el =>
           el.style.display = 'none')
 
         did_hide = true
@@ -129,7 +134,7 @@ export function Selectable() {
 
     document.onkeyup = function(e) {
       if (did_hide) {
-        $('visbug-handles, visbug-label, visbug-hover').forEach(el =>
+        $('visbug-handles, visbug-label, visbug-hover, visbug-grip').forEach(el =>
           el.style.display = null)
 
         did_hide = false
@@ -138,7 +143,7 @@ export function Selectable() {
   }
 
   const on_esc = _ =>
-    selected.length && unselect_all()
+    unselect_all()
 
   const on_duplicate = e => {
     const root_node = selected[0]
@@ -157,7 +162,7 @@ export function Selectable() {
     selected.forEach(el =>
       el.attr('style', null))
 
-  const on_copy = e => {
+  const on_copy = async e => {
     // if user has selected text, dont try to copy an element
     if (window.getSelection().toString().length)
       return
@@ -166,8 +171,14 @@ export function Selectable() {
       e.preventDefault()
       let $node = selected[0].cloneNode(true)
       $node.removeAttribute('data-selected')
+
       this.copy_backup = $node.outerHTML
       e.clipboardData.setData('text/html', this.copy_backup)
+
+      const {state} = await navigator.permissions.query({name:'clipboard-write'})
+
+      if (state === 'granted')
+        await navigator.clipboard.writeText(this.copy_backup)
     }
   }
 
@@ -181,32 +192,80 @@ export function Selectable() {
     }
   }
 
-  const on_paste = e => {
+  const on_paste = async (e, index = 0) => {
     const clipData = e.clipboardData.getData('text/html')
-    const potentialHTML = clipData || this.copy_backup
-    if (selected[0] && potentialHTML) {
+    const globalClipboard = await navigator.clipboard.readText()
+    const potentialHTML = clipData || globalClipboard || this.copy_backup
+
+    if (selected.length && potentialHTML) {
       e.preventDefault()
-      selected[0].appendChild(
-        htmlStringToDom(potentialHTML))
+
+      selected.forEach(el =>
+        el.appendChild(
+          htmlStringToDom(potentialHTML)))
     }
   }
 
-  const on_copy_styles = e => {
+  const on_copy_styles = async e => {
     e.preventDefault()
+
     this.copied_styles = selected.map(el =>
       getStyles(el))
+
+    try {
+      const colormode = $('vis-bug')[0].colorMode
+
+      const styles = this.copied_styles[0]
+        .map(({prop,value}) => {
+          if (prop.includes('color') || prop.includes('background-color') || prop.includes('border-color') || prop.includes('Color') || prop.includes('fill') || prop.includes('stroke'))
+            value = new TinyColor(value)[colormode]()
+
+          if (prop.includes('boxShadow')) {
+            const [, color, x, y, blur, spread] = getShadowValues(value)
+            value = `${new TinyColor(color)[colormode]()} ${x} ${y} ${blur} ${spread}`
+          }
+
+          if (prop.includes('textShadow')) {
+            const [, color, x, y, blur] = getTextShadowValues(value)
+            value = `${new TinyColor(color)[colormode]()} ${x} ${y} ${blur}`
+          }
+          return {prop,value}
+        })
+        .reduce((message, item) =>
+          [...message, `${camelToDash(item.prop)}: ${item.value};`]
+        , []).join('\n')
+
+      const {state} = await navigator.permissions.query({name:'clipboard-write'})
+
+      if (styles && state === 'granted') {
+        await navigator.clipboard.writeText(styles)
+        console.info('copied!')
+      }
+    } catch(e) {
+      console.warn(e)
+    }
   }
 
-  const on_paste_styles = (index = 0) =>
-    selected.forEach(el => {
-      this.copied_styles[index]
-        .map(({prop, value}) =>
-          el.style[prop] = value)
+  const on_paste_styles = async (e, index = 0) => {
+    if (this.copied_styles) {
+      selected.forEach(el => {
+        this.copied_styles[index]
+          .map(({prop, value}) =>
+            el.style[prop] = value)
 
-      index >= this.copied_styles.length - 1
-        ? index = 0
-        : index++
-    })
+        index >= this.copied_styles.length - 1
+          ? index = 0
+          : index++
+      })
+    }
+    else {
+      const potentialStyles = await navigator.clipboard.readText()
+
+      if (selected.length && potentialStyles)
+        selected.forEach(el =>
+          el.style = potentialStyles)
+    }
+  }
 
   const on_expand_selection = (e, {key}) => {
     e.preventDefault()
@@ -292,7 +351,7 @@ export function Selectable() {
     }, new Set())
 
     if (targets.size) {
-      unselect_all()
+      unselect_all({silent:true})
       targets.forEach(node => {
         select(node)
         show_tip(node)
@@ -301,7 +360,7 @@ export function Selectable() {
   }
 
   const show_tip = el => {
-    const active_tool = $('vis-bug')[0].activeTool
+    const active_tool = visbug.activeTool
     let tipFactory
 
     if (active_tool === 'accessibility') {
@@ -328,41 +387,57 @@ export function Selectable() {
 
   const on_hover = e => {
     const $target = deepElementFromPoint(e.clientX, e.clientY)
-    const tool = $('vis-bug')[0].activeTool
+    const tool = visbug.activeTool
 
-    if (isOffBounds($target) || $target.hasAttribute('data-selected'))
+    if (isOffBounds($target) || $target.hasAttribute('data-selected') || $target.hasAttribute('draggable')) {
+      clearMeasurements()
       return clearHover()
+    }
 
-    overlayHoverUI($target)
+    overlayHoverUI({
+      el: $target,
+      // no_hover: tool === 'guides',
+      no_label:
+           tool === 'guides'
+        || tool === 'accessibility'
+        || tool === 'margin'
+        || tool === 'padding'
+        || tool === 'inspector',
+    })
 
-    if (e.altKey && tool === 'guides' && selected.length === 1 && selected[0] != $target) {
+    if (tool === 'guides' && selected.length >= 1 && !selected.includes($target)) {
       $target.setAttribute('data-measuring', true)
       const [$anchor] = selected
       createMeasurements({$anchor, $target})
     }
     else if (tool === 'margin' && !hover_state.element.$shadow.querySelector('visbug-boxmodel')) {
-      hover_state.label.style.opacity = 0
       hover_state.element.$shadow.appendChild(
         createMarginVisual(hover_state.target, true))
     }
     else if (tool === 'padding' && !hover_state.element.$shadow.querySelector('visbug-boxmodel')) {
-      hover_state.label.style.opacity = 0
       hover_state.element.$shadow.appendChild(
         createPaddingVisual(hover_state.target, true))
     }
-    else if ($target.hasAttribute('data-measuring')) {
-      $target.removeAttribute('data-measuring')
+    else if ($target.hasAttribute('data-measuring') || selected.includes($target)) {
       clearMeasurements()
     }
   }
 
   const select = el => {
+    const id = handles.length
+    const tool = visbug.activeTool
+
     el.setAttribute('data-selected', true)
-    el.setAttribute('data-label-id', labels.length)
+    el.setAttribute('data-label-id', id)
 
     clearHover()
 
-    overlayMetaUI(el)
+    overlayMetaUI({
+      el,
+      id,
+      no_label: tool === 'inspector' || tool === 'guides' || tool === 'accessibility',
+    })
+
     selected.unshift(el)
     tellWatchers()
   }
@@ -370,7 +445,7 @@ export function Selectable() {
   const selection = () =>
     selected
 
-  const unselect_all = () => {
+  const unselect_all = ({silent = false} = {}) => {
     selected
       .forEach(el =>
         $(el).attr({
@@ -380,12 +455,22 @@ export function Selectable() {
           'data-pseudo-select': null,
         }))
 
-    Array.from([...handles, ...labels]).forEach(el =>
+    $('[data-pseudo-select]').forEach(hover =>
+      hover.removeAttribute('data-pseudo-select'))
+
+    Array.from([
+      ...$('visbug-handles'),
+      ...$('visbug-label'),
+      ...$('visbug-hover'),
+      ...$('visbug-distance'),
+    ]).forEach(el =>
       el.remove())
 
     labels    = []
     handles   = []
     selected  = []
+
+    !silent && tellWatchers()
   }
 
   const delete_all = () => {
@@ -437,22 +522,27 @@ export function Selectable() {
   const combineNodeNameAndClass = node =>
     `${node.nodeName.toLowerCase()}${createClassname(node)}`
 
-  const overlayHoverUI = el => {
+  const overlayHoverUI = ({el, no_hover = false, no_label = true}) => {
     if (hover_state.target === el) return
+    hover_state.target = el
 
-    hover_state.target  = el
-    hover_state.element = createHover(el)
-    hover_state.label = createHoverLabel(el, `
-      <a node>${el.nodeName.toLowerCase()}</a>
-      <a>${el.id && '#' + el.id}</a>
-      ${createClassname(el).split('.')
-        .filter(name => name != '')
-        .reduce((links, name) => `
-          ${links}
-          <a>.${name}</a>
-        `, '')
-      }
-    `)
+    hover_state.element = no_hover
+      ? null
+      : createHover(el)
+
+    hover_state.label   = no_label
+      ? null
+      : createHoverLabel(el, `
+          <a node>${el.nodeName.toLowerCase()}</a>
+          <a>${el.id && '#' + el.id}</a>
+          ${createClassname(el).split('.')
+            .filter(name => name != '')
+            .reduce((links, name) => `
+              ${links}
+              <a>.${name}</a>
+            `, '')
+          }
+        `)
   }
 
   const clearHover = () => {
@@ -466,19 +556,25 @@ export function Selectable() {
     hover_state.label   = null
   }
 
-  const overlayMetaUI = el => {
-    let handle = createHandle(el)
-    let label  = createLabel(el, `
-      <a node>${el.nodeName.toLowerCase()}</a>
-      <a>${el.id && '#' + el.id}</a>
-      ${createClassname(el).split('.')
-        .filter(name => name != '')
-        .reduce((links, name) => `
-          ${links}
-          <a>.${name}</a>
-        `, '')
-      }
-    `)
+  const overlayMetaUI = ({el, id, no_label = true}) => {
+    let handle = createHandle({el, id})
+    let label  = no_label
+      ? null
+      : createLabel({
+          el,
+          id,
+          template: `
+            <a node>${el.nodeName.toLowerCase()}</a>
+            <a>${el.id && '#' + el.id}</a>
+            ${createClassname(el).split('.')
+              .filter(name => name != '')
+              .reduce((links, name) => `
+                ${links}
+                <a>.${name}</a>
+              `, '')
+            }
+          `
+        })
 
     let observer        = createObserver(el, {handle,label})
     let parentObserver  = createObserver(el, {handle,label})
@@ -493,30 +589,28 @@ export function Selectable() {
   }
 
   const setLabel = (el, label) =>
-    label.update = el.getBoundingClientRect()
+    label.update = {boundingRect: el.getBoundingClientRect(), isFixed: isFixed(el)}
 
-  const createLabel = (el, text) => {
-    const id = parseInt(el.getAttribute('data-label-id'))
-
+  const createLabel = ({el, id, template}) => {
     if (!labels[id]) {
       const label = document.createElement('visbug-label')
 
-      label.text = text
+      label.text = template
       label.position = {
         boundingRect:   el.getBoundingClientRect(),
         node_label_id:  id,
+        isFixed: isFixed(el),
       }
 
       document.body.appendChild(label)
 
       $(label).on('query', ({detail}) => {
         if (!detail.text) return
-        this.query_text = detail.text
 
         queryPage('[data-pseudo-select]', el =>
           el.removeAttribute('data-pseudo-select'))
 
-        queryPage(this.query_text + ':not([data-selected])', el =>
+        queryPage(detail.text + ':not([data-selected])', el =>
           detail.activator === 'mouseenter'
             ? el.setAttribute('data-pseudo-select', true)
             : select(el))
@@ -535,9 +629,7 @@ export function Selectable() {
     }
   }
 
-  const createHandle = el => {
-    const id = parseInt(el.getAttribute('data-label-id'))
-
+  const createHandle = ({el, id}) => {
     if (!handles[id]) {
       const handle = document.createElement('visbug-handles')
 
@@ -556,9 +648,8 @@ export function Selectable() {
         hover_state.element.remove()
 
       hover_state.element = document.createElement('visbug-hover')
-      hover_state.element.position = {el}
-
       document.body.appendChild(hover_state.element)
+      hover_state.element.position = {el}
 
       return hover_state.element
     }
@@ -570,6 +661,7 @@ export function Selectable() {
         hover_state.label.remove()
 
       hover_state.label = document.createElement('visbug-label')
+      document.body.appendChild(hover_state.label)
 
       hover_state.label.text = text
       hover_state.label.position = {
@@ -577,11 +669,23 @@ export function Selectable() {
         node_label_id:  'hover',
       }
 
-      hover_state.label.style = `--label-bg: hsl(267, 100%, 58%)`
+      hover_state.label.style.setProperty(`--label-bg`, `hsl(267, 100%, 58%)`)
 
-      document.body.appendChild(hover_state.label)
 
       return hover_state.label
+    }
+  }
+
+  const createCorners = el => {
+    if (!el.hasAttribute('data-pseudo-select') && !el.hasAttribute('data-label-id')) {
+      if (hover_state.element)
+        hover_state.element.remove()
+
+      hover_state.element = document.createElement('visbug-corners')
+      document.body.appendChild(hover_state.element)
+      hover_state.element.position = {el}
+
+      return hover_state.element
     }
   }
 
@@ -594,8 +698,8 @@ export function Selectable() {
 
   const createObserver = (node, {label,handle}) =>
     new MutationObserver(list => {
-      setLabel(node, label)
-      setHandle(node, handle)
+      label && setLabel(node, label)
+      handle && setHandle(node, handle)
     })
 
   const onSelectedUpdate = (cb, immediateCallback = true) => {

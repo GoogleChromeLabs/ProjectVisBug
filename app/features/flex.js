@@ -9,7 +9,7 @@ const key_events = 'up,down,left,right'
   , '')
   .substring(1)
 
-const command_events = `${metaKey}+up,${metaKey}+down,${metaKey}+left,${metaKey}+right`
+const command_events = `${metaKey}+up,${metaKey}+down,${metaKey}+left,${metaKey}+right,${metaKey}+shift+up,${metaKey}+shift+down,${metaKey}+shift+left,${metaKey}+shift+right`
 
 export function Flex(visbug) {
   hotkeys(key_events, (e, handler) => {
@@ -47,7 +47,14 @@ export function Flex(visbug) {
     let selectedNodes = visbug.selection()
       , keys = handler.key.split('+')
 
-    changeDirection(selectedNodes, keys.includes('left') ? 'row' : 'column')
+    if (keys.includes('left') || keys.includes('right'))
+      keys.includes('shift')
+        ? changeOrder(selectedNodes, handler.key)
+        : changeDirection(selectedNodes, 'row')
+    else
+      keys.includes('shift')
+        ? changeWrap(selectedNodes, handler.key)
+        : changeDirection(selectedNodes, 'column')
   })
 
   visbug.onSelectedUpdate(highlightChildren)
@@ -184,4 +191,52 @@ export function changeVDistribution(els, direction) {
       }))
     .forEach(({el, style, value}) =>
       el.style[style] = v_distributionOptions[value < 0 ? 0 : value >= 2 ? 2: value])
+}
+
+const orderMap     = {row: 0, 'row-reverse': 1, column: 2, 'column-reverse': 3,}
+const orderOptions = ['row', 'row-reverse', 'column', 'column-reverse']
+
+export function changeOrder(els, direction) {
+  els
+    .map(ensureFlex)
+    .map(el => ({
+      el,
+      style: 'flexDirection',
+      current: getStyle(el, 'flexDirection'),
+      direction: direction.split('+').includes('left'),
+    }))
+    .map(payload =>
+      Object.assign(payload, {
+        value: payload.direction
+          ? orderMap[payload.current] === 1 || orderMap[payload.current] === 3
+            ? orderMap[payload.current] : orderMap[payload.current] + 1
+          : orderMap[payload.current] === 0 || orderMap[payload.current] === 2
+            ? orderMap[payload.current] : orderMap[payload.current] - 1
+      }))
+      .forEach(({el, style, value}) =>
+        el.style[style] = orderOptions[value])
+}
+
+const wrapMap     = {nowrap: 0, 'wrap': 1,}
+const wrapOptions = ['nowrap', 'wrap']
+
+export function changeWrap(els, direction) {
+  els
+    .map(ensureFlex)
+    .map(el => ({
+      el,
+      style: 'flexWrap',
+      current: getStyle(el, 'flexWrap'),
+      direction: direction.split('+').includes('up'),
+    }))
+    .map(payload =>
+      Object.assign(payload, {
+        value: payload.direction
+          ? wrapMap[payload.current] === 0
+            ? wrapMap[payload.current] : wrapMap[payload.current] - 1
+          : wrapMap[payload.current] === 1
+            ? wrapMap[payload.current] : wrapMap[payload.current] + 1
+      }))
+      .forEach(({el, style, value}) =>
+        el.style[style] = wrapOptions[value])
 }

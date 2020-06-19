@@ -428,8 +428,14 @@
             <p>Select all 4 images and drag in some new ones</p>
             <p>OR just drag a new image onto any one of these</p>
           </div>
-          <img class="drag_in_a_new_image!" src="assets/hero-1.svg" alt="Female toon walking">
-          <img class="drag_in_a_new_image!" src="assets/hero-2.svg" alt="Male toon walking">
+          <picture class="drag_in_a_new_image! works_on_picture_elements_too">
+            <source srcset='assets/hero-1.svg' />
+            <img src='assets/hero-1.svg' alt="Female toon walking" />
+          </picture>
+          <picture class="drag_in_a_new_image!">
+            <source srcset='assets/hero-2.svg' media="(min-width:1000px)" />
+            <img src='assets/hero-3.svg' alt="Toon walking" />
+          </picture>
           <img class="drag_in_a_new_image!" src="assets/hero-3.svg" alt="Female toon walking">
           <img class="drag_in_a_new_image!" src="assets/hero-4.svg" alt="Female upside down walking">
         </div>
@@ -738,6 +744,6 @@
 
     </main>
 
-    <script src="bundle.js" defer></script>
+    <script src="bundle.js" type="module" defer></script>
   </body>
 </html>

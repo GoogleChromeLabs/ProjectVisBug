@@ -1,17 +1,31 @@
 import $ from 'blingblingjs'
 import { isOffBounds, deepElementFromPoint } from '../utilities/'
+import { clearMeasurements, takeMeasurementOwnership } from './measurements'
 
-let gridlines
+const state = {
+  gridlines:    null,
+  measurements: null,
+  stuck:        {
+    count:        0,
+    measurements: [],
+  },
+}
 
-export function Guides() {
+export function Guides(visbug) {
   $('body').on('mousemove', on_hover)
   $('body').on('mouseout', on_hoverout)
+
   window.addEventListener('scroll', hideGridlines)
+  visbug.onSelectedUpdate(stickGuide)
 
   return () => {
     $('body').off('mousemove', on_hover)
     $('body').off('mouseout', on_hoverout)
+
     window.removeEventListener('scroll', hideGridlines)
+    visbug.removeSelectedCallback(stickGuide)
+
+    clearMeasurements()
     hideGridlines()
   }
 }
@@ -49,23 +63,45 @@ export function createGuide(vert = true) {
   return guide
 }
 
-const on_hoverout = ({target}) =>
+const stickGuide = els => {
+   if (!els.length) return
+
+  if (state.stuck.count >= els.length) {
+    state.stuck.measurements.forEach(el => el.remove())
+    state.stuck.measurements = []
+    state.stuck.count = 0
+  }
+
+  state.stuck.count++
+
+  if (els.length > 1) {
+    state.stuck.measurements = [
+      ...state.stuck.measurements,
+      ...takeMeasurementOwnership(),
+    ]
+  }
+
+  state.gridlines && state.gridlines.remove()
+  state.gridlines = null
+}
+
+const on_hoverout = () =>
   hideGridlines()
 
 const showGridlines = node => {
-  if (gridlines) {
-    gridlines.style.display = null
-    gridlines.update = node.getBoundingClientRect()
+  if (state.gridlines) {
+    state.gridlines.style.display = null
+    state.gridlines.update = node.getBoundingClientRect()
   }
   else {
-    gridlines = document.createElement('visbug-gridlines')
-    gridlines.position = node.getBoundingClientRect()
+    state.gridlines = document.createElement('visbug-gridlines')
+    state.gridlines.position = node.getBoundingClientRect()
 
-    document.body.appendChild(gridlines)
+    document.body.appendChild(state.gridlines)
   }
 }
 
-const hideGridlines = node => {
-  if (!gridlines) return
-  gridlines.style.display = 'none'
+const hideGridlines = () => {
+  if (!state.gridlines) return
+  state.gridlines.style.display = 'none'
 }

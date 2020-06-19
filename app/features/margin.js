@@ -70,10 +70,6 @@ function paintBackgrounds(els) {
     const label_id = el.getAttribute('data-label-id')
 
     document
-      .querySelector(`visbug-label[data-label-id="${label_id}"]`)
-      .style.opacity = 0
-
-    document
       .querySelector(`visbug-handles[data-label-id="${label_id}"]`)
       .backdrop = {
         element:  createMarginVisual(el),
@@ -85,11 +81,9 @@ function paintBackgrounds(els) {
 function removeBackgrounds(els) {
   els.forEach(el => {
     const label_id = el.getAttribute('data-label-id')
-    const label = document.querySelector(`visbug-label[data-label-id="${label_id}"]`)
     const boxmodel = document.querySelector(`visbug-handles[data-label-id="${label_id}"]`)
       .$shadow.querySelector('visbug-boxmodel')
 
-    label.style.opacity = 1
     if (boxmodel) boxmodel.remove()
   })
 }
