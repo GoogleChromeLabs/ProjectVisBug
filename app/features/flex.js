@@ -97,7 +97,11 @@ const highlightChildren = el => {
 }
 
 const showGaps = el => {
-  const direction = getStyle(el, 'flexDirection')
+  const display = getStyle(el, 'display')
+  const direction = display === 'flex'
+    ? getStyle(el, 'flexDirection')
+    : getStyle(el, 'gridAutoFlow')
+  
   const container = {
     bounds: el.getBoundingClientRect(),
     el,
@@ -110,6 +114,9 @@ const showGaps = el => {
       bounds: child.getBoundingClientRect(),
     }))
 
+  // todo: remove filter here
+  // teach createGap to build a gap before or after it
+  // depending on it's child index
   const gaps = computed
     .filter(payload =>
       el.lastElementChild !== payload.child)
@@ -120,6 +127,26 @@ const showGaps = el => {
         sibling: computed[child.index+1], 
         direction,
       }))
+    .filter(gap => gap != null)
+  
+  const edges = createEdges({container, children: computed, direction})
+
+  // const edges = computed
+  //   .filter(payload =>
+  //     el.lastElementChild === payload.child || el.firstElementChild === payload.child)
+  //   .map(payload => {
+  //     container.bounds.right = container.bounds.left
+  //     return createGap({
+  //       container,
+  //       anchor: container, 
+  //       sibling: computed[el.lastElementChild === payload.child
+  //         ? computed.length - 1
+  //         : 0
+  //       ], 
+  //       direction,
+  //     })
+  //   })
+  //   .filter(gap => gap != null)
 
   const label_id = el.getAttribute('data-label-id')
   const handle = document
@@ -137,10 +164,12 @@ const createGap = ({container, anchor, sibling, direction}) => {
   const gap = document.createElement('visbug-boxmodel')
 
   // todo: not make a gap if 
-  // - negative widths
   // - nodes outside of the container bounds 
   // isn't measuring to a child
   if (direction.includes('row')) {
+    let width = sibling.bounds.left - anchor.bounds.right
+    if (width <= 0) return null
+
     gap.position = {
       mode: 'gap',
       color: 'pink',
@@ -149,13 +178,16 @@ const createGap = ({container, anchor, sibling, direction}) => {
         top: container.bounds.top,
         left: anchor.bounds.right,
         height: container.bounds.height,
-        width: sibling.bounds.left - anchor.bounds.right,
+        width,
         rotation: 'rotate(90)',
         direction,
       },
     }
   }
   else {
+    let height = sibling.bounds.top - anchor.bounds.bottom
+    if (height <= 0) return null
+
     gap.position = {
       mode: 'gap',
       color: 'pink',
@@ -163,7 +195,53 @@ const createGap = ({container, anchor, sibling, direction}) => {
       sides: {
         top: anchor.bounds.bottom,
         left: container.bounds.left,
-        height: sibling.bounds.top - anchor.bounds.bottom,
+        height,
+        width: container.bounds.width,
+        rotation: 'rotate(0)',
+        direction,
+      },
+    }
+  }
+
+  return gap
+}
+
+const createEdges = ({container, children, direction}) => {
+  const gap = document.createElement('visbug-boxmodel')
+  // todo: grab first and last
+  // when row draw 2
+  // when columns draw 2
+
+  if (direction.includes('row')) {
+    let width = sibling.bounds.left - container.bounds.left
+    if (width <= 0) return null
+
+    gap.position = {
+      mode: 'gap',
+      color: 'pink',
+      bounds: container.bounds,
+      sides: {
+        top: container.bounds.top,
+        left: anchor.bounds.right,
+        height: container.bounds.height,
+        width,
+        rotation: 'rotate(90)',
+        direction,
+      },
+    }
+  }
+  else {
+    let height = sibling.bounds.top - anchor.bounds.bottom
+    if (height <= 0) return null
+
+    gap.position = {
+      mode: 'gap',
+      color: 'pink',
+      bounds: container.bounds,
+      sides: {
+        top: anchor.bounds.bottom,
+        left: container.bounds.left,
+        height,
         width: container.bounds.width,
         rotation: 'rotate(0)',
         direction,
