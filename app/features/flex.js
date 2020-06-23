@@ -84,6 +84,7 @@ const highlight = els => {
     // showBadge(el) // indicate if a flex box
     highlightChildren(el)
     showGaps(el)
+    // showAlignment(el)
   })
 }
 
@@ -138,6 +139,7 @@ const createGap = ({container, anchor, sibling, direction}) => {
   // todo: not make a gap if 
   // - negative widths
   // - nodes outside of the container bounds 
+  // isn't measuring to a child
   if (direction.includes('row')) {
     gap.position = {
       mode: 'gap',
