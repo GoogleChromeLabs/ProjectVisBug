@@ -182,6 +182,16 @@ export class BoxModel extends HTMLElement {
          })
        }
     }
+    else if (mode === 'gap') {
+      this.createMeasurement({
+        x: sides.left,
+        y: sides.top + (bounds.height / 2) - offset,
+        d: sides.width.toFixed(1),
+        q: 'top',
+        v: false,
+        color,
+      })
+    }
   }
 
   createMeasurement(line_model, node_label_id=0) {

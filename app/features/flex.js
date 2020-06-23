@@ -81,9 +81,9 @@ const accountForOtherJustifyContent = (cur, want) => {
 
 const highlight = els => {
   els.forEach(el => {
+    // showBadge(el) // indicate if a flex box
     highlightChildren(el)
     showGaps(el)
-    // showBadge(el)
   })
 }
 
@@ -125,8 +125,11 @@ const showGaps = el => {
     .querySelector(`visbug-handles[data-label-id="${label_id}"]`)
 
   // todo: track these? or let handles clean them up?
-  gaps.forEach(gap =>
-    handle.gap = gap)
+  // measurents are child of gap
+  // gap is child of handle and relatively positioned
+  gaps.forEach(gap => {
+    handle.gap = gap
+  })
 }
 
 const createGap = ({container, anchor, sibling, direction}) => {
