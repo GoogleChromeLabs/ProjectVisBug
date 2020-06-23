@@ -135,6 +135,9 @@ const showGaps = el => {
 const createGap = ({container, anchor, sibling, direction}) => {
   const gap = document.createElement('visbug-boxmodel')
 
+  // todo: not make a gap if 
+  // - negative widths
+  // - nodes outside of the container bounds 
   if (direction.includes('row')) {
     gap.position = {
       mode: 'gap',
@@ -146,6 +149,7 @@ const createGap = ({container, anchor, sibling, direction}) => {
         height: container.bounds.height,
         width: sibling.bounds.left - anchor.bounds.right,
         rotation: 'rotate(90)',
+        direction,
       },
     }
   }
@@ -160,6 +164,7 @@ const createGap = ({container, anchor, sibling, direction}) => {
         height: sibling.bounds.top - anchor.bounds.bottom,
         width: container.bounds.width,
         rotation: 'rotate(0)',
+        direction,
       },
     }
   }

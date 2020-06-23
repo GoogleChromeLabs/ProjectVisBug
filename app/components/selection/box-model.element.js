@@ -43,12 +43,23 @@ export class BoxModel extends HTMLElement {
       }
     }
     else if (mode === 'gap') {
-      this.drawable = {
-        height:   sides.height,
-        width:    sides.width,
-        top:      bounds.top + window.scrollY,
-        left:     sides.left,
-        rotation: sides.rotation,
+      if (sides.direction.includes('row')) {
+        this.drawable = {
+          height:   sides.height,
+          width:    sides.width,
+          top:      bounds.top + window.scrollY,
+          left:     sides.left,
+          rotation: sides.rotation,
+        }
+      }
+      else {
+        this.drawable = {
+          height:   sides.height,
+          width:    sides.width,
+          top:      sides.top + window.scrollY,
+          left:     sides.left,
+          rotation: sides.rotation,
+        }
       }
     }
 
@@ -183,14 +194,26 @@ export class BoxModel extends HTMLElement {
        }
     }
     else if (mode === 'gap') {
-      this.createMeasurement({
-        x: sides.left,
-        y: sides.top + (bounds.height / 2) - offset,
-        d: sides.width.toFixed(1),
-        q: 'top',
-        v: false,
-        color,
-      })
+      if (sides.direction.includes('row')) {
+        this.createMeasurement({
+          x: sides.left,
+          y: sides.top + (bounds.height / 2) - offset,
+          d: sides.width.toFixed(1).replace(/[.]0$/, ""),
+          q: 'top',
+          v: false,
+          color,
+        })
+      }
+      else {
+        this.createMeasurement({
+          x: sides.left + (bounds.width / 2) - offset,
+          y: sides.top,
+          d: sides.height.toFixed(1).replace(/[.]0$/, ""),
+          q: 'top',
+          v: true,
+          color,
+        })
+      }
     }
   }
 
