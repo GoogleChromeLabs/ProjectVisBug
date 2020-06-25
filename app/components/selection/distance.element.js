@@ -36,14 +36,12 @@ export class Distance extends HTMLElement {
       ? this.style.setProperty('--line-h', `var(--line-w)`)
       : this.style.setProperty('--line-w', `var(--line-w)`)
 
-    if (color) {
-      this.style.setProperty('--line-color', color === 'pink'
-        ? 'hotpink'
-        : 'hsl(267, 100%, 58%)')
-      this.style.setProperty('--line-base', color === 'pink'
-        ? 'hotpink'
-        : 'hsl(267, 100%, 58%)')
-    }
+    this.style.setProperty('--line-color', color === 'pink'
+      ? '330 100% 71%'
+      : '267 100% 58%')
+    this.style.setProperty('--line-base', color === 'pink'
+      ? '330 100% 71%'
+      : '267 100% 58%')
   }
 
   render({q,d}, node_label_id) {
