@@ -26,6 +26,13 @@ jobs:
           npm install
           npm run extension:release
 
+      - name: Git Push
+        uses: ad-m/github-push-action@master
+        with:
+          tags: true
+          branch: 'main'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Release
         uses: trmcnvn/chrome-addon@v2
         with:
@@ -42,10 +49,3 @@ jobs:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         with:
           args: deploy
-
-      - name: Git Push
-        uses: ad-m/github-push-action@master
-        with:
-          tags: true
-          branch: 'main'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
