@@ -52,7 +52,7 @@ export class Distance extends HTMLElement {
     return `
       <figure quadrant="${q}">
         <div></div>
-        <figcaption><b>${d}</b>px</figcaption>
+        <figcaption>${Math.round(d)}</figcaption>
         <div></div>
       </figure>
     `
