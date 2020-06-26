@@ -33,7 +33,13 @@ jobs:
           branch: 'main'
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Release
+      - name: Save Build As Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: VisBug
+          path: extension/build/visbug.zip
+
+      - name: Publish Chrome Extension
         uses: trmcnvn/chrome-addon@v2
         with:
           extension: cdockenadnadldjbbgcallicgledbeoc
