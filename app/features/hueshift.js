@@ -11,15 +11,20 @@ const key_events = 'up,down,left,right'
   , '')
   .substring(1)
 
+const state = {
+  active_color: null,
+  elements: null,
+}
+
 const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down,${metaKey}+left,${metaKey}+shift+left,${metaKey}+right,${metaKey}+shift+right`
 
 export function HueShift({Color, Visbug}) {
-  this.active_color   = Color.getActive()
-  this.elements       = []
+  state.active_color   = Color.getActive()
+  state.elements       = []
 
   Visbug.onSelectedUpdate(elements => {
-    this.elements = elements
-    Color.setActive(this.active_color)
+    state.elements = elements
+    Color.setActive(state.active_color)
   })
 
   hotkeys(key_events, (e, handler) => {
@@ -27,7 +32,7 @@ export function HueShift({Color, Visbug}) {
 
     e.preventDefault()
 
-    let selectedNodes = this.elements
+    let selectedNodes = state.elements
       , keys = handler.key.split('+')
 
     keys.includes('left') || keys.includes('right')
@@ -39,30 +44,30 @@ export function HueShift({Color, Visbug}) {
     e.preventDefault()
     let keys = handler.key.split('+')
     keys.includes('left') || keys.includes('right')
-      ? changeHue(this.elements, keys, 'a', Color)
-      : changeHue(this.elements, keys, 'h', Color)
+      ? changeHue(state.elements, keys, 'a', Color)
+      : changeHue(state.elements, keys, 'h', Color)
   })
 
   hotkeys(']', (e, handler) => {
     e.preventDefault()
 
-    if (this.active_color == 'foreground')
-      this.active_color = 'background'
-    else if (this.active_color == 'background')
-      this.active_color = 'border'
+    if (state.active_color == 'foreground')
+      state.active_color = 'background'
+    else if (state.active_color == 'background')
+      state.active_color = 'border'
 
-    Color.setActive(this.active_color)
+    Color.setActive(state.active_color)
   })
 
   hotkeys('[', (e, handler) => {
     e.preventDefault()
 
-    if (this.active_color == 'background')
-      this.active_color = 'foreground'
-    else if (this.active_color == 'border')
-      this.active_color = 'background'
+    if (state.active_color == 'background')
+      state.active_color = 'foreground'
+    else if (state.active_color == 'border')
+      state.active_color = 'background'
 
-    Color.setActive(this.active_color)
+    Color.setActive(state.active_color)
   })
 
   return () => {
