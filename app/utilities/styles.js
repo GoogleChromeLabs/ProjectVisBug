@@ -12,46 +12,37 @@ export const getStyle = (el, name) => {
 export const getStyles = el => {
   const elStyleObject = el.style
   const computedStyle = window.getComputedStyle(el, null)
+  const vettedStyles = []
+  const borders = []
 
-  const vettedStyles = Object.entries(el.style)
-    .filter(([prop]) => prop !== 'borderColor')
-    .filter(([prop]) => desiredPropMap[prop])
-    .filter(([prop]) => desiredPropMap[prop] != computedStyle[prop])
-    .map(([prop, value]) => ({
-      prop, 
-      value: computedStyle[prop].replace(/, rgba/g, '\rrgba'),
-    }))
+  for (const prop in el.style) {
+    const is_desired = desiredPropMap[prop]
 
-  // below code sucks, but border-color is only something
-  // we want if it has border width > 0
-  // i made it look really hard
-  const trueBorderColors = Object.entries(el.style)
-    .filter(([prop]) => prop === 'borderColor' || prop === 'borderWidth' || prop === 'borderStyle')
-    .map(([prop, value]) => ([
-      prop, 
-      computedStyle[prop].replace(/, rgba/g, '\rrgba'),
-    ]))
+    if (is_desired && is_desired != computedStyle[prop])
+      vettedStyles.push({
+        prop: prop,
+        value: computedStyle[prop],
+      })
 
-  const { borderColor, borderWidth, borderStyle } = Object.fromEntries(trueBorderColors)
-  const vettedBorders = []
+    if (prop === 'borderColor' || prop === 'borderWidth' || prop === 'borderStyle')
+      borders[prop] = computedStyle[prop].replace(/, rgba/g, '\rrgba')
+  }
 
-  // todo: push border style!
+  const { borderColor, borderWidth, borderStyle } = borders
+
   if (parseInt(borderWidth) > 0) {
-    vettedBorders.push({
+    vettedStyles.push({
       prop: 'borderColor',
       value: borderColor,
     })
 
-    vettedBorders.push({
+    vettedStyles.push({
       prop: 'borderStyle',
       value: borderStyle,
     })
   }
 
-  return [
-    ...vettedStyles, 
-    ...vettedBorders,
-  ].sort(function({prop:propA}, {prop:propB}) {
+  return vettedStyles.sort(function({prop:propA}, {prop:propB}) {
     if (propA < propB) return -1
     if (propA > propB) return 1
     return 0

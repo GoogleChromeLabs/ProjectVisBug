@@ -40,11 +40,14 @@ export const desiredPropMap = {
 }
 
 if (isFirefox) {
-  desiredPropMap.backgroundSize = 'auto auto'
+  desiredPropMap.backgroundSize = 'auto'
   desiredPropMap.borderWidth    = ''
   desiredPropMap.borderRadius   = ''
   desiredPropMap.padding        = ''
   desiredPropMap.margin         = ''
+  desiredPropMap.gap            = ''
+  desiredPropMap.gridArea       = ''
+  desiredPropMap.borderColor    = ''
 }
 
 export const desiredAccessibilityMap = [
