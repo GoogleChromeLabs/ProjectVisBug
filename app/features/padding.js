@@ -90,16 +90,15 @@ function removeBackgrounds(els) {
 
 export function createPaddingVisual(el, hover = false) {
   const bounds            = el.getBoundingClientRect()
-  const styleOM           = el.computedStyleMap()
   const calculatedStyle   = getStyle(el, 'padding')
   const boxdisplay        = document.createElement('visbug-boxmodel')
 
   if (calculatedStyle !== '0px') {
     const sides = {
-      top:    styleOM.get('padding-top').value,
-      right:  styleOM.get('padding-right').value,
-      bottom: styleOM.get('padding-bottom').value,
-      left:   styleOM.get('padding-left').value,
+      top:    getStyle(el, 'marginTop'),
+      right:  getStyle(el, 'marginRight'),
+      bottom: getStyle(el, 'marginBottom'),
+      left:   getStyle(el, 'marginLeft'),
     }
 
     Object.entries(sides).forEach(([side, val]) => {
