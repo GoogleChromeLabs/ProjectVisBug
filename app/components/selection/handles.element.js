@@ -1,5 +1,6 @@
 import $ from 'blingblingjs'
 import { HandleStyles } from '../styles.store'
+import { isFixed } from '../../utilities/';
 
 export class Handles extends HTMLElement {
 
@@ -13,7 +14,7 @@ export class Handles extends HTMLElement {
     this.$shadow.adoptedStyleSheets = this.styles
     window.addEventListener('resize', this.on_resize.bind(this))
   }
-  
+
   disconnectedCallback() {
     window.removeEventListener('resize', this.on_resize)
   }
@@ -28,12 +29,13 @@ export class Handles extends HTMLElement {
       this.position = {
         node_label_id,
         el: source_el,
+        isFixed: isFixed(source_el),
       }
     })
   }
 
   set position({el, node_label_id}) {
-    this.$shadow.innerHTML = this.render(el.getBoundingClientRect(), node_label_id)
+    this.$shadow.innerHTML = this.render(el.getBoundingClientRect(), node_label_id, isFixed(el))
 
     if (this._backdrop) {
       this.backdrop = {
@@ -53,11 +55,12 @@ export class Handles extends HTMLElement {
       : this.$shadow.appendChild(bd.element)
   }
 
-  render({ x, y, width, height, top, left }, node_label_id) {
+  render({ x, y, width, height, top, left }, node_label_id, isFixed) {
     this.$shadow.host.setAttribute('data-label-id', node_label_id)
 
-    this.style.setProperty('--top', `${top + window.scrollY}px`)
+    this.style.setProperty('--top', `${top + (isFixed ? 0 : window.scrollY)}px`)
     this.style.setProperty('--left', `${left}px`)
+    this.style.setProperty('--position', isFixed ? 'fixed' : 'absolute')
 
     return `
       <svg

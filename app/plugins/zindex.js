@@ -1,3 +1,5 @@
+import { isFixed } from '../utilities/';
+
 export const commands = [
     'zindex',
     'z-index'
@@ -16,13 +18,15 @@ export default function () {
 
             label.text = `z-index: ${zindex}`
             label.position = {
-                boundingRect: el.getBoundingClientRect()
+                boundingRect: el.getBoundingClientRect(),
+                isFixed: isFixed(el),
             }
             label.style.setProperty(`--label-bg`, color)
 
             const overlay = document.createElement('visbug-hover')
             overlay.position = { el }
             overlay.style.setProperty(`--hover-stroke`, color)
+            overlay.style.setProperty(`--position`, isFixed(el) ? 'fixed' : 'absolute')
 
             document.body.appendChild(label)
             document.body.appendChild(overlay)

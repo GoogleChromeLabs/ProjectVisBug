@@ -25,6 +25,9 @@ export class Distance extends HTMLElement {
     this.style.setProperty('--direction', v ? 'column' : 'row')
     this.style.setProperty('--quadrant', q)
 
+    if (q === 'left')
+      this.style.setProperty('--justify', 'flex-end')
+
     v
       ? this.style.setProperty('--distance-h', `${d}px`)
       : this.style.setProperty('--distance-w', `${d}px`)
@@ -33,14 +36,12 @@ export class Distance extends HTMLElement {
       ? this.style.setProperty('--line-h', `var(--line-w)`)
       : this.style.setProperty('--line-w', `var(--line-w)`)
 
-    if (color) {
-      this.style.setProperty('--line-color', color === 'pink'
-        ? 'hotpink'
-        : 'hsl(267, 100%, 58%)')
-      this.style.setProperty('--line-base', color === 'pink'
-        ? 'hotpink'
-        : 'hsl(267, 100%, 58%)')
-    }
+    this.style.setProperty('--line-color', color === 'pink'
+      ? '330 100% 71%'
+      : '267 100% 58%')
+    this.style.setProperty('--line-base', color === 'pink'
+      ? '330 100% 71%'
+      : '267 100% 58%')
   }
 
   render({q,d}, node_label_id) {
@@ -49,7 +50,7 @@ export class Distance extends HTMLElement {
     return `
       <figure quadrant="${q}">
         <div></div>
-        <figcaption><b>${d}</b>px</figcaption>
+        <figcaption>${Math.round(d)}</figcaption>
         <div></div>
       </figure>
     `

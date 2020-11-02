@@ -2,7 +2,7 @@ name: CI/CD
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
 
       - name: Git Init
         run: |
-          git switch -c master
+          git switch -c main
           git config --global user.email "argyle@google.com"
           git config --global user.name "Adam Argyle"
 
@@ -26,7 +26,20 @@ jobs:
           npm install
           npm run extension:release
 
-      - name: Release
+      - name: Git Push
+        uses: ad-m/github-push-action@master
+        with:
+          tags: true
+          branch: 'main'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Save Build As Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: VisBug
+          path: extension/build/visbug.zip
+
+      - name: Publish Chrome Extension
         uses: trmcnvn/chrome-addon@v2
         with:
           extension: cdockenadnadldjbbgcallicgledbeoc
@@ -42,9 +55,3 @@ jobs:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         with:
           args: deploy
-
-      - name: Git Push
-        uses: ad-m/github-push-action@master
-        with:
-          tags: true
-          github_token: ${{ secrets.GITHUB_TOKEN }}

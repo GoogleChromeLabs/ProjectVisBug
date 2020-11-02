@@ -8,9 +8,10 @@ export class Hover extends Handles {
     this.styles = [HandleStyles, HoverStyles]
   }
 
-  render({ width, height, top, left }) {
-    this.style.setProperty('--top', `${top + window.scrollY}px`)
+  render({ width, height, top, left }, node_label_id, isFixed) {
+    this.style.setProperty('--top', `${top + (isFixed ? 0 : window.scrollY)}px`)
     this.style.setProperty('--left', `${left}px`)
+    this.style.setProperty('--position', isFixed ? 'fixed' : 'absolute')
 
     return `
       <svg

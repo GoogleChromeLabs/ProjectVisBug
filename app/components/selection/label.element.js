@@ -1,5 +1,6 @@
 import $ from 'blingblingjs'
 import { LabelStyles } from '../styles.store'
+import { isFixed } from '../../utilities/';
 
 export class Label extends HTMLElement {
 
@@ -29,6 +30,7 @@ export class Label extends HTMLElement {
       this.position = {
         node_label_id,
         boundingRect: source_el.getBoundingClientRect(),
+        isFixed: isFixed(source_el),
       }
     })
   }
@@ -47,15 +49,16 @@ export class Label extends HTMLElement {
     this._text = content
   }
 
-  set position({boundingRect, node_label_id}) {
+  set position({boundingRect, node_label_id, isFixed}) {
     this.$shadow.innerHTML = this.render(node_label_id)
-    this.update = boundingRect
+    this.update = {boundingRect, isFixed}
   }
 
-  set update({x,y,width}) {
-    this.style.setProperty('--top', `${y + window.scrollY}px`)
-    this.style.setProperty('--left', `${x - 1}px`)
-    this.style.setProperty('--max-width', `${width + (window.innerWidth - x - width - 20)}px`)
+  set update({boundingRect, isFixed}) {
+    this.style.setProperty('--top', `${boundingRect.y + (isFixed ? 0 : window.scrollY)}px`)
+    this.style.setProperty('--left', `${boundingRect.x - 1}px`)
+    this.style.setProperty('--max-width', `${boundingRect.width + (window.innerWidth - boundingRect.x - boundingRect.width - 20)}px`)
+    this.style.setProperty('--position', isFixed ? 'fixed' : 'absolute');
   }
 
   render(node_label_id) {

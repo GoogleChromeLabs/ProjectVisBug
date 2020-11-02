@@ -16,7 +16,7 @@ import {
   metaKey, htmlStringToDom, createClassname, camelToDash,
   isOffBounds, getStyles, deepElementFromPoint, getShadowValues,
   isSelectorValid, findNearestChildElement, findNearestParentElement,
-  getTextShadowValues
+  getTextShadowValues, isFixed,
 } from '../utilities/'
 
 export function Selectable(visbug) {
@@ -397,7 +397,12 @@ export function Selectable(visbug) {
     overlayHoverUI({
       el: $target,
       // no_hover: tool === 'guides',
-      no_label: tool !== 'guides',
+      no_label:
+           tool === 'guides'
+        || tool === 'accessibility'
+        || tool === 'margin'
+        || tool === 'padding'
+        || tool === 'inspector',
     })
 
     if (tool === 'guides' && selected.length >= 1 && !selected.includes($target)) {
@@ -430,7 +435,7 @@ export function Selectable(visbug) {
     overlayMetaUI({
       el,
       id,
-      no_label: tool !== 'inspector' && tool !== 'accessibility',
+      no_label: tool === 'inspector' || tool === 'guides' || tool === 'accessibility',
     })
 
     selected.unshift(el)
@@ -584,7 +589,7 @@ export function Selectable(visbug) {
   }
 
   const setLabel = (el, label) =>
-    label.update = el.getBoundingClientRect()
+    label.update = {boundingRect: el.getBoundingClientRect(), isFixed: isFixed(el)}
 
   const createLabel = ({el, id, template}) => {
     if (!labels[id]) {
@@ -594,6 +599,7 @@ export function Selectable(visbug) {
       label.position = {
         boundingRect:   el.getBoundingClientRect(),
         node_label_id:  id,
+        isFixed: isFixed(el),
       }
 
       document.body.appendChild(label)

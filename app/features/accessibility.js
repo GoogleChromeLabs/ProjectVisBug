@@ -105,8 +105,10 @@ const restorePinnedTips = () => {
 }
 
 export function hideAll() {
-  state.tips.forEach(({tip}, target) =>
-    tip.style.display = 'none')
+  state.tips.forEach(({tip}, target) => {
+    if (tip)
+      tip.style.display = 'none'
+  })
 
   if (state.active.tip) {
     state.active.tip.remove()
@@ -116,9 +118,12 @@ export function hideAll() {
 
 export function removeAll() {
   state.tips.forEach(({tip}, target) => {
-    tip.remove()
+    tip && tip.remove()
     unobserve({tip, target})
   })
+
+  $('visbug-allytip').forEach(tip =>
+    tip.remove())
 
   $('[data-allytip]').attr('data-allytip', null)
 
@@ -209,19 +214,22 @@ const wipe = ({tip, e:{target}}) => {
 const togglePinned = els => {
   if (state.restoring) return state.restoring = false
 
-  els.forEach(el => {
-    if (!el.hasAttribute('data-allytip')) {
+  state.tips.forEach(ally => {
+    if (!els.includes(ally.e.target)) {
+      ally.e.target.removeAttribute('data-allytip')
+      wipe(state.tips.get(ally.e.target))
+    }
+  })
+
+  els
+    .filter(el => !el.hasAttribute('data-allytip'))
+    .forEach(el => {
       el.setAttribute('data-allytip', true)
       state.tips.set(el, {
         tip: state.active.tip,
         e: {target:el},
       })
       clearActive()
-    }
-    else if (el.hasAttribute('data-allytip')) {
-      el.removeAttribute('data-allytip')
-      wipe(state.tips.get(el))
-    }
   })
 }
 

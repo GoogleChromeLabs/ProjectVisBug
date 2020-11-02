@@ -2,14 +2,14 @@
 
 :host {
   font-size: 16px;
-
+  --position: absolute;
   --top: 0;
   --left: 0;
   --max-width: 0;
 }
 
 :host > span {
-  position: absolute;
+  position: var(--position);
   top: var(--top);
   left: var(--left);
   max-width: var(--max-width);

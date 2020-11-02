@@ -11,12 +11,12 @@ const key_events = 'up,down,left,right'
   , '')
   .substring(1)
 
-const state = {
-  active_color: null,
-  elements: null,
-}
-
 const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down,${metaKey}+left,${metaKey}+shift+left,${metaKey}+right,${metaKey}+shift+right`
+
+const state = {
+  active_color: undefined,
+  elements: [],
+}
 
 export function HueShift({Color, Visbug}) {
   state.active_color   = Color.getActive()

@@ -41,7 +41,7 @@ test('Does not show a11y tooltip on <svg> node', async t => {
   const svgEl = await page.$('svg')
   const {x, y} = await svgEl.boundingBox()
   await page.mouse.click(x + 1, y + 1) // an empty space of the first svg element
-  const targetNodeName = await page.$eval('visbug-label', el => el.$shadow.querySelector('a[node]') .textContent)
+  const targetNodeName = await page.$eval('[data-selected="true"]', el => el.nodeName)
   t.is(targetNodeName, 'svg')
   t.pass()
 

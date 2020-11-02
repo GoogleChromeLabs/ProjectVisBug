@@ -30,7 +30,7 @@ export const VisBugModel = {
     instruction: `<div table>
                     <div>
                       <b>Pin it:</b>
-                      <span>${altKey} + click</span>
+                      <span>click</span>
                     </div>
                   </div>`,
   },
@@ -42,7 +42,7 @@ export const VisBugModel = {
     instruction: `<div table>
                     <div>
                       <b>Pin it:</b>
-                      <span>${altKey} + click</span>
+                      <span>click</span>
                     </div>
                   </div>`,
   },
