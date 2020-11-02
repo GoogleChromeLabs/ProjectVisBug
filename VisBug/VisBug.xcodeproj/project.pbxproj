@@ -96,7 +96,9 @@
 				8EBF95932550B10B007B8136 /* Frameworks */,
 				8EBF957E2550B10A007B8136 /* Products */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		8EBF957E2550B10A007B8136 /* Products */ = {
 			isa = PBXGroup;
@@ -422,7 +424,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.VisBug.Extension;
+				PRODUCT_BUNDLE_IDENTIFIER = argyleink.VisBug.Extension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -441,7 +443,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.VisBug.Extension;
+				PRODUCT_BUNDLE_IDENTIFIER = argyleink.VisBug.Extension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -464,7 +466,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MARKETING_VERSION = 0.3.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.VisBug;
+				PRODUCT_BUNDLE_IDENTIFIER = argyleink.VisBug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -486,7 +488,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MARKETING_VERSION = 0.3.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.VisBug;
+				PRODUCT_BUNDLE_IDENTIFIER = argyleink.VisBug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
