@@ -13,6 +13,10 @@
   @media (prefers-reduced-motion: no-preference) {
     transform: translateX(-200%);
   }
+
+  & [constructible-support="true"] aside {
+    transition: opacity 0.3s ease, transform 0.2s ease;
+  }
 }
 
 :host > ol {
@@ -98,7 +102,6 @@
     box-shadow: 0 0.1em 4.5em hsla(0,0%,0%,15%);
     border-radius: 1em;
 
-    transition: opacity 0.3s ease, transform 0.2s ease;
     opacity: 0;
     transform: translateX(-1em);
     will-change: transform, opacity;

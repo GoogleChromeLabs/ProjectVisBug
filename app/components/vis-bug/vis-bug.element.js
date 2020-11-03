@@ -16,8 +16,12 @@ import { VisBugStyles }           from '../styles.store'
 import { VisBugModel }            from './model'
 import * as Icons                 from './vis-bug.icons'
 import { provideSelectorEngine }  from '../../features/search'
-import { metaKey,isPolyfilledCE } from '../../utilities/'
 import { PluginRegistry }         from '../../plugins/_registry'
+import {
+  metaKey,
+  isPolyfilledCE,
+  constructibleStylesheetSupport
+} from '../../utilities/'
 
 const modemap = {
   'hex':  'toHexString',
@@ -117,7 +121,7 @@ export default class VisBug extends HTMLElement {
   render() {
     return `
       <visbug-hotkeys></visbug-hotkeys>
-      <ol>
+      <ol constructible-support="${constructibleStylesheetSupport ? 'false':'true'}">
         ${Object.entries(this.toolbar_model).reduce((list, [key, tool]) => `
           ${list}
           <li aria-label="${tool.label} Tool" aria-description="${tool.description}" aria-hotkey="${key}" data-tool="${tool.tool}" data-active="${key == 'g'}">
