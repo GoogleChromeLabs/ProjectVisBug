@@ -21,37 +21,37 @@
       "size" : "32x32"
     },
     {
-      "filename" : "VisBug-5.png",
+      "filename" : "VisBug1x-2.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "128x128"
     },
     {
-      "filename" : "VisBug-3.png",
+      "filename" : "VisBug2x-4.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "128x128"
     },
     {
-      "filename" : "VisBug-4.png",
+      "filename" : "VisBug1x-1.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "256x256"
     },
     {
-      "filename" : "VisBug2x.png",
+      "filename" : "VisBug2x-1.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "256x256"
     },
     {
-      "filename" : "VisBug-2.png",
+      "filename" : "VisBug1x.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
     },
     {
-      "filename" : "VisBug-1.png",
+      "filename" : "VisBug2x.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"

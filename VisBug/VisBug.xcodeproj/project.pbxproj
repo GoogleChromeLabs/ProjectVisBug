@@ -417,6 +417,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "VisBug Extension/VisBug_Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				INFOPLIST_FILE = "VisBug Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -437,6 +438,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "VisBug Extension/VisBug_Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				INFOPLIST_FILE = "VisBug Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -461,6 +463,7 @@
 				CODE_SIGN_ENTITLEMENTS = VisBug/VisBug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 2;
 				INFOPLIST_FILE = VisBug/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -483,6 +486,7 @@
 				CODE_SIGN_ENTITLEMENTS = VisBug/VisBug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 2;
 				INFOPLIST_FILE = VisBug/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
