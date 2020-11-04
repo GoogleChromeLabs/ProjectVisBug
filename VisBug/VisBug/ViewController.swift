@@ -10,7 +10,7 @@ import SafariServices.SFSafariApplication
 import SafariServices.SFSafariExtensionManager
 
 let appName = "VisBug"
-let extensionBundleIdentifier = "com.yourCompany.VisBug.Extension"
+let extensionBundleIdentifier = "argyleink.VisBug.Extension"
 
 class ViewController: NSViewController {
 
