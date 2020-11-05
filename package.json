@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "ava": "^1.4.1",
-    "browser-sync": "^2.26.7",
+    "browser-sync": "^2.26.13",
     "concurrently": "^5.1.0",
     "esm": "^3.2.22",
     "postcss": "^7.0.27",
@@ -54,10 +54,10 @@
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
     "puppeteer": "^1.14.0",
+    "ragrid": "^1.0.6",
     "rollup": "^2.7.2",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-postcss": "^3.1.0",
-    "ragrid": "^1.0.5",
     "rollup-plugin-terser": "^5.3.0",
     "start-server-and-test": "^1.11.0",
     "web-ext": "^4.0.0"
