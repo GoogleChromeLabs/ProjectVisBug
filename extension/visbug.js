@@ -3,7 +3,9 @@ const state = {
   injected: {},
 }
 
-const platform = browser || chrome
+var platform = typeof browser === 'undefined'
+  ? chrome
+  : browser
 
 const toggleIn = ({id:tab_id}) => {
   // toggle out: it's currently loaded and injected
