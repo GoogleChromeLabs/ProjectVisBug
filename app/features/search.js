@@ -1,8 +1,9 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { querySelectorAllDeep } from 'query-selector-shadow-dom'
-import { notList } from '../utilities'
 import { PluginRegistry, PluginHints } from '../plugins/_registry'
+import { notList } from '../utilities'
+import { isFirefox } from '../utilities/cross-browser.js'
 
 let SelectorEngine
 
@@ -12,15 +13,26 @@ search_base.classList.add('search')
 search_base.innerHTML = `
   <input list="visbug-plugins" type="search" placeholder="ex: images, .btn, button, text, ..."/>
   <datalist id="visbug-plugins">
+    ${isFirefox > 0
+      ?  `<option value="h1, h2, h3, .get-multiple">
+          <option value="nav > a:first-child">
+          <option value="#get-by-id">
+          <option value=".get-by.class-names">
+          <option value="images">
+          <option value="text">`
+
+      :  `<option value="h1, h2, h3, .get-multiple">example</option>
+          <option value="nav > a:first-child">example</option>
+          <option value="#get-by-id">example</option>
+          <option value=".get-by.class-names">example</option>
+          <option value="images">alias</option>
+          <option value="text">alias</option>`}
+
     ${PluginHints.reduce((options, command) =>
-      options += `<option value="${command}">plugin</option>`
+      options += isFirefox > 0
+        ? `<option value="${command}">`
+        : `<option value="${command}">plugin`
     , '')}
-    <option value="h1, h2, h3, .get-multiple">example</option>
-    <option value="nav > a:first-child">example</option>
-    <option value="#get-by-id">example</option>
-    <option value=".get-by.class-names">example</option>
-    <option value="images">alias</option>
-    <option value="text">alias</option>
   </datalist>
 `
 

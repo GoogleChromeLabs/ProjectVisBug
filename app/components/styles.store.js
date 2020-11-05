@@ -1,3 +1,5 @@
+import 'construct-style-sheets-polyfill'
+
 import { default as visbug_css }     from './vis-bug/vis-bug.element.css'
 import { default as handle_css }     from './selection/handles.element.css'
 import { default as hover_css }      from './selection/hover.element.css'

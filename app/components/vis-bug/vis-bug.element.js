@@ -16,8 +16,12 @@ import { VisBugStyles }           from '../styles.store'
 import { VisBugModel }            from './model'
 import * as Icons                 from './vis-bug.icons'
 import { provideSelectorEngine }  from '../../features/search'
-import { metaKey }                from '../../utilities/'
 import { PluginRegistry }         from '../../plugins/_registry'
+import {
+  metaKey,
+  isPolyfilledCE,
+  constructibleStylesheetSupport
+} from '../../utilities/'
 
 const modemap = {
   'hex':  'toHexString',
@@ -30,15 +34,14 @@ export default class VisBug extends HTMLElement {
     super()
 
     this.toolbar_model  = VisBugModel
-    this._tutsBaseURL   = 'tuts' // can be set by content script
     this.$shadow        = this.attachShadow({mode: 'closed'})
   }
 
   connectedCallback() {
     this.$shadow.adoptedStyleSheets = [VisBugStyles]
+    this._tutsBaseURL = this.getAttribute('tutsBaseURL') || 'tuts'
 
-    if (!this.$shadow.innerHTML)
-      this.setup()
+    this.setup()
 
     this.selectorEngine = Selectable(this)
     this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
@@ -118,7 +121,7 @@ export default class VisBug extends HTMLElement {
   render() {
     return `
       <visbug-hotkeys></visbug-hotkeys>
-      <ol>
+      <ol constructible-support="${constructibleStylesheetSupport ? 'false':'true'}">
         ${Object.entries(this.toolbar_model).reduce((list, [key, tool]) => `
           ${list}
           <li aria-label="${tool.label} Tool" aria-description="${tool.description}" aria-hotkey="${key}" data-tool="${tool.tool}" data-active="${key == 'g'}">
@@ -242,11 +245,6 @@ export default class VisBug extends HTMLElement {
 
   get activeTool() {
     return this.active_tool.dataset.tool
-  }
-
-  set tutsBaseURL(url) {
-    this._tutsBaseURL = url
-    this.setup()
   }
 
   set colorMode(mode) {

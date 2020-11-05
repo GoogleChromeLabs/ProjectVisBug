@@ -1,7 +1,11 @@
-var visbug = document.createElement('vis-bug')
-var src_path = chrome.extension.getURL(`tuts/guides.gif`)
+const script = document.createElement('script')
+script.src = chrome.runtime.getURL('toolbar/bundle.min.js')
+document.body.appendChild(script)
 
-visbug.tutsBaseURL = src_path.slice(0, src_path.lastIndexOf('/'))
+const visbug = document.createElement('vis-bug')
+
+const src_path = chrome.runtime.getURL(`tuts/guides.gif`)
+visbug.setAttribute('tutsBaseURL', src_path.slice(0, src_path.lastIndexOf('/')))
 
 document.body.prepend(visbug)
 
