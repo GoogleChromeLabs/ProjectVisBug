@@ -16,7 +16,7 @@ const toggleIn = ({id:tab_id}) => {
 
   // toggle in: it's loaded and needs injected
   else if (state.loaded[tab_id] && !state.injected[tab_id]) {
-    platform.tabs.executeScript(tab_id, { file: 'toolbar/inject.js' })
+    platform.tabs.executeScript(tab_id, { file: 'toolbar/restore.js' })
     state.injected[tab_id] = true
     getColorMode()
   }
