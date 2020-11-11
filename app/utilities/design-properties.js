@@ -12,7 +12,7 @@ export const desiredPropMap = {
   boxShadow:           'none',
   padding:             '0px',
   margin:              '0px',
-  fontFamily:          '',
+  fontFamily:          'auto',
   fontSize:            '16px',
   fontWeight:          '400',
   textAlign:           'start',

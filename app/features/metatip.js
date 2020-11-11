@@ -139,7 +139,7 @@ const render = (el, tip = document.createElement('visbug-metatip')) => {
     }))
     .filter(style =>
       style.prop.includes('font-family')
-        ? el.matches('h1,h2,h3,h4,h5,h6,p,a,date,caption,button,figcaption,nav,header,footer')
+        ? el.matches('h1,h2,h3,h4,h5,h6,p,a,dd,dt,li,ol,pre,abbr,cite,dfn,kbd,q,small,input,label,legend,textarea,blockquote,date,button,figcaption,nav,header,footer,em,b,code,mark,time,summary,details')
         : true
     )
     .map(style => {
@@ -157,7 +157,7 @@ const render = (el, tip = document.createElement('visbug-metatip')) => {
       }
 
       if (style.prop.includes('font-family') && style.value.length > 25)
-        style.value = style.value.slice(0,25) + '...'
+        style.value = `<span style="max-width: 25ch">${style.value}</span>`
 
       if (style.prop.includes('grid-template-areas'))
         style.value = style.value.replace(/" "/g, '"<br>"')
