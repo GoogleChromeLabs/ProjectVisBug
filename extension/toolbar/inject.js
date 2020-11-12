@@ -15,5 +15,5 @@ document.body.prepend(visbug)
 
 platform.runtime.onMessage.addListener(request => {
   if (request.action === 'COLOR_MODE')
-    visbug.colorMode = request.params.mode
+   visbug.setAttribute('color-mode', request.params.mode)
 })

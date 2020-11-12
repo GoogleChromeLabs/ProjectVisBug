@@ -23,12 +23,6 @@ import {
   constructibleStylesheetSupport
 } from '../../utilities/'
 
-const modemap = {
-  'hex':  'toHexString',
-  'hsla': 'toHslString',
-  'rgba': 'toRgbString',
-}
-
 export default class VisBug extends HTMLElement {
   constructor() {
     super()
@@ -63,7 +57,10 @@ export default class VisBug extends HTMLElement {
 
   setup() {
     this.$shadow.innerHTML = this.render()
-    this._colormode = modemap['hsla']
+
+    this.hasAttribute('color-mode')
+      ? this.getAttribute('color-mode')
+      : this.setAttribute('color-mode', 'hex')
 
     $('li[data-tool]', this.$shadow).on('click', e =>
       this.toolSelected(e.currentTarget) && e.stopPropagation())
@@ -245,14 +242,6 @@ export default class VisBug extends HTMLElement {
 
   get activeTool() {
     return this.active_tool.dataset.tool
-  }
-
-  set colorMode(mode) {
-    this._colormode = modemap[mode]
-  }
-
-  get colorMode() {
-    return this._colormode
   }
 }
 

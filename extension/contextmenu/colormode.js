@@ -1,10 +1,10 @@
 const storagekey = 'visbug-color-mode'
-const defaultcolormode = 'hsla'
+const defaultcolormode = 'hex'
 
 const color_options = [
-  'hsla',
+  'hsl',
   'hex',
-  'rgba',
+  'rgb',
   // 'hsv',
   // 'lch',
   // 'lab',

@@ -15,6 +15,12 @@ const state = {
   tips: new Map(),
 }
 
+const modemap = {
+  'hex': 'toHexString',
+  'hsl': 'toHslString',
+  'rgb': 'toRgbString',
+}
+
 const services = {}
 
 export function MetaTip(visbug) {
@@ -131,7 +137,7 @@ export function removeAll() {
 
 const render = (el, tip = document.createElement('visbug-metatip')) => {
   const { width, height } = el.getBoundingClientRect()
-  const colormode = $('vis-bug')[0].colorMode
+  const colormode = modemap[$('vis-bug').attr('color-mode')]
 
   const styles = getStyles(el)
     .map(style => Object.assign(style, {
