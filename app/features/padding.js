@@ -95,10 +95,10 @@ export function createPaddingVisual(el, hover = false) {
 
   if (calculatedStyle !== '0px') {
     const sides = {
-      top:    getStyle(el, 'marginTop'),
-      right:  getStyle(el, 'marginRight'),
-      bottom: getStyle(el, 'marginBottom'),
-      left:   getStyle(el, 'marginLeft'),
+      top:    getStyle(el, 'paddingTop'),
+      right:  getStyle(el, 'paddingRight'),
+      bottom: getStyle(el, 'paddingBottom'),
+      left:   getStyle(el, 'paddingLeft'),
     }
 
     Object.entries(sides).forEach(([side, val]) => {

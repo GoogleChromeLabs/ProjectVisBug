@@ -103,7 +103,7 @@ export function createMarginVisual(el, hover = false) {
 
     Object.entries(sides).forEach(([side, val]) => {
       if (typeof val !== 'number')
-        val = parseInt(getStyle(el, 'padding'+'-'+side).slice(0, -2))
+        val = parseInt(getStyle(el, 'margin'+'-'+side).slice(0, -2))
 
       sides[side] = Math.round(val.toFixed(1) * 100) / 100
     })
