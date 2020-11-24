@@ -4,14 +4,22 @@ export const commands = [
     'zindex',
     'z-index'
 ]
-
+function numberBetween(min, max) {
+    return Math.floor(min + (Math.random() * (max - min)))
+}
 export default function () {
     // Fun prior art https://gist.github.com/paulirish/211209
     Array.from(document.querySelectorAll('*'))
         .filter(el => el.computedStyleMap().get('z-index').value !== 'auto')
         .filter(el => el.nodeName !== 'VIS-BUG')
         .forEach(el => {
-            const color = `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6,0)}`
+            const rgb = [numberBetween(0, 255), numberBetween(0, 255), numberBetween(0, 255)];
+            if (rgb[0] > 130 && rgb[1] > 140) {
+                if (rgb[2] > 110) {
+                    rgb[numberBetween(0, 2)] = 100;
+                }
+            }
+            const color = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
             const zindex = el.computedStyleMap().get('z-index').value
 
             const label = document.createElement('visbug-label')
