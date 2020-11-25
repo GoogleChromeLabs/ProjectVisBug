@@ -14,9 +14,9 @@ export default function () {
         .filter(el => el.nodeName !== 'VIS-BUG')
         .forEach(el => {
             const rgb = [numberBetween(0, 255), numberBetween(0, 255), numberBetween(0, 255)];
-            if (rgb[0] > 130 && rgb[1] > 140) {
-                if (rgb[2] > 110) {
-                    rgb[numberBetween(0, 2)] = 100;
+            if (rgb[0] > 120 && rgb[1] > 130) {
+                if (rgb[2] > 80) {
+                    rgb[numberBetween(0, 2)] = 30;
                 }
             }
             const color = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
