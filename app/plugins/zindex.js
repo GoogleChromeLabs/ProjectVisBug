@@ -13,13 +13,8 @@ export default function () {
         .filter(el => el.computedStyleMap().get('z-index').value !== 'auto')
         .filter(el => el.nodeName !== 'VIS-BUG')
         .forEach(el => {
-            const rgb = [numberBetween(0, 255), numberBetween(0, 255), numberBetween(0, 255)];
-            if (rgb[0] > 120 && rgb[1] > 130) {
-                if (rgb[2] > 80) {
-                    rgb[numberBetween(0, 2)] = 30;
-                }
-            }
-            const color = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+            const colors = ["#eb4034", "#68eb34", "#34a5eb", "#4334eb", "#b134eb", "#eb34a2", "#eb3446", "#8f2e2b", , "#8f692b", "#8a8f2b", "#358f2b", "#2b8f82", "#2b678f", "#2b2b8f", "#8f2b8f", "#8f2b55", "#1eff00", "#ff9d00", "#ff0000", "#00ff6a", "#0026ff", "#bb00ff", "#ff00d9", "#ff0073", "#ff0073", "#137878"];
+            const color = colors[numberBetween(0, colors.length)];
             const zindex = el.computedStyleMap().get('z-index').value
 
             const label = document.createElement('visbug-label')
