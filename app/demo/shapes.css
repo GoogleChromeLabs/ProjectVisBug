@@ -2,12 +2,14 @@
   border: 1px solid var(--light-grey);
   width: 10rem;
   height: 10rem;
+  background: url(https://images.unsplash.com/photo-1608636982148-b22a5ba0e39d?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1OHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60);
 }
 
 .filled-square {
   background: var(--light-grey);
   width: 4rem;
   height: 4rem;
+  background: url(https://images.unsplash.com/photo-1608636982148-b22a5ba0e39d?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1OHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60);
 }
 
 .filled-circle {
@@ -20,18 +22,37 @@
   justify-content: center;
   color: white;
 
-  &.small { width: 2.5rem; height: 2.5rem; }
+  &.small {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
 }
 
-
-.red     { background-color: red; }
-.green   { background-color: green; }
-.yellow  { background-color: yellow; }
-.google-blue     { background-color: #4285F4; }
-.google-yellow   { background-color: #F4B400; }
-.google-red      { background-color: #DB4437; }
-.google-green    { background-color: #0F9D58; }
-.shadow-circle   { background-color: white; box-shadow: 0 10px 30px 2px hsla(0,0%,0%,20%); }
+.red {
+  background-color: red;
+}
+.green {
+  background-color: green;
+}
+.yellow {
+  background-color: yellow;
+}
+.google-blue {
+  background-color: #4285f4;
+}
+.google-yellow {
+  background-color: #f4b400;
+}
+.google-red {
+  background-color: #db4437;
+}
+.google-green {
+  background-color: #0f9d58;
+}
+.shadow-circle {
+  background-color: white;
+  box-shadow: 0 10px 30px 2px hsla(0, 0%, 0%, 20%);
+}
 
 [round-icon] {
   box-sizing: border-box;

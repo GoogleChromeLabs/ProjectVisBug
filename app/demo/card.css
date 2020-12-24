@@ -1,13 +1,14 @@
 .card {
   background: #fff;
   max-width: 400px;
-  box-shadow: 0 0.2em 0.3em hsla(0,0%,0%,20%);
+  box-shadow: 0 0.2em 0.3em hsla(0, 0%, 0%, 20%);
   padding: 1rem;
   border-radius: 0.2em;
-  border: 1px solid hsl(0,0%,90%);
+  border: 1px solid hsl(0, 0%, 90%) zz;
 
   & > .card-header {
-    & h2, & small {
+    & h2,
+    & small {
       margin: 0;
     }
 
@@ -49,7 +50,8 @@
     }
   }
 
-  & date, & time {
+  & date,
+  & time {
     font-size: 0.8rem;
     color: #808080;
   }
