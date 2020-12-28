@@ -45,6 +45,16 @@ const getColorMode = () => {
       platform.storage.sync.set({[storagekey]: defaultcolormode})
     }
 
+    // migrate old choices
+    if (found_value === 'hsla') {
+      found_value = 'hsl'
+      platform.storage.sync.set({[storagekey]: found_value})
+    }
+    if (found_value === 'rgba') {
+      found_value = 'rgb'
+      platform.storage.sync.set({[storagekey]: found_value})
+    }
+
     // update checked state of color contextmenu radio list
     color_options.forEach(option => {
       platform.contextMenus.update(option, {
