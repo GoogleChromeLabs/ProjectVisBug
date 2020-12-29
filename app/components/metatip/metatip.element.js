@@ -72,7 +72,7 @@ export class Metatip extends HTMLElement {
         </header>
         <code>${notLocalModifications.reduce((items, item) => `
           ${items}
-          <span prop>${item.prop}:</span>
+          <span><span prop>${item.prop}</span>:</span>
           <span value>${item.value}</span>
         `, '')}
         </code>
@@ -80,7 +80,7 @@ export class Metatip extends HTMLElement {
           <h6 local-modifications>Local Modifications / Inline Styles</h6>
           <code>${localModifications.reduce((items, item) => `
             ${items}
-            <span prop>${item.prop}:</span>
+            <span><span prop>${item.prop}</span>:</span>
             <span value>${item.value}</span>
           `, '')}
           </code>
