@@ -14,6 +14,8 @@
   --arrow-up: polygon(0 0, 100% 0, 50% 100%);
   --arrow-down: polygon(50% 0, 0 100%, 100% 100%);
   --arrow: var(--arrow-up);
+
+  --border-radius: .75em;
 }
 
 :host figure {
@@ -30,7 +32,7 @@
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  border-radius: 1em;
+  border-radius: var(--border-radius);
   line-height: initial;
 
   box-shadow:
@@ -88,12 +90,6 @@
   max-width: max-content;
 }
 
-:host h6 {
-  margin-top: 1em;
-  margin-bottom: 0;
-  font-weight: normal;
-}
-
 :host small {
   font-size: 0.7em;
   color: var(--theme-icon_color);
@@ -124,14 +120,29 @@
   display: grid;
   grid-template-columns: auto auto;
   gap: .25em .5em;
-  padding: 10px;
-  border-radius: inherit;
+  border-radius: var(--border-radius);
   list-style-type: none;
-  color: var(--theme-text_color);
+  color: var(--light-grey);
   background-color: var(--theme-bd-2);
   border-top: 1px solid var(--theme-bg);
   font-size: 1em;
   font-family: 'Dank Mono', 'Operator Mono', 'Inconsolata', 'Fira Mono', 'SF Mono', 'Monaco', 'Droid Sans Mono', 'Source Code Pro', monospace;
+}
+
+:host details > :is(summary,code),
+:host > figure > code {
+  padding: 10px;
+  border-radius: var(--border-radius);
+}
+
+:host summary {
+  outline-offset: -2px;
+  outline-color: var(--theme-color);
+  max-inline-size: max-content;
+
+  &::marker {
+    color: var(--theme-color);
+  }
 }
 
 :host [value],
@@ -153,7 +164,7 @@
 :host [longform] {
   background: var(--theme-icon_hover-bg);
   padding: 0.5em 0.75em;
-  border-radius: 0.25em;
+  border-radius: .25em;
   font-family: sans-serif;
   text-align: left;
   line-height: 1.5;
@@ -171,11 +182,12 @@
   min-width: 1em;
   height: 1em;
   border-radius: 50%;
+  box-shadow: inset 0 0 1px 0 hsl(0 0% 0% / 50%);
 }
 
 :host [local-modifications] {
   margin-top: 1em;
-  margin-left: 10px;
+  margin-inline: 10px;
   color: var(--theme-purple);
   font-weight: bold;
 
@@ -186,7 +198,7 @@
 
 :host [contrast] > span {
   padding: 0 0.5em 0.1em;
-  border-radius: 1em;
+  border-radius: var(--border-radius);
   box-shadow: 0 0 0 1px var(--theme-icon_active-bg);
 }
 

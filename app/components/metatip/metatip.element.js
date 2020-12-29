@@ -78,6 +78,7 @@ export class Metatip extends HTMLElement {
             <span>${Math.round(height)}</span><span brand>px</span>
           </small>
         </header>
+
         <code>${notLocalModifications.reduce((items, item) => `
           ${items}
           <span><span prop>${item.prop}</span>:</span>
@@ -85,13 +86,15 @@ export class Metatip extends HTMLElement {
         `, '')}
         </code>
         ${localModifications.length ? `
-          <h6 local-modifications>Local Modifications / Inline Styles</h6>
-          <code>${localModifications.reduce((items, item) => `
-            ${items}
-            <span><span prop>${item.prop}</span>:</span>
-            <span value>${item.value}</span>
-          `, '')}
-          </code>
+          <details>
+            <summary>Local Modifications / Inline Styles</summary>
+            <code>${localModifications.reduce((items, item) => `
+              ${items}
+              <span><span prop>${item.prop}</span>:</span>
+              <span value>${item.value}</span>
+            `, '')}
+            </code>
+          </details>
         ` : ''}
       </figure>
     `
