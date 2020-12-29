@@ -26,7 +26,6 @@
   backdrop-filter: blur(5px);
   color: var(--theme-text_color);
   line-height: initial;
-  padding: 0.5em;
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -107,19 +106,26 @@
   text-decoration: none;
 }
 
-:host [brand],
-:host [divider] {
+:host [brand] {
   color: var(--theme-color);
 }
 
-:host div {
+:host [divider] {
+  color: var(--theme-purple);
+}
+
+:host header {
+  padding: 5px 10px;
+}
+
+:host code {
   display: grid;
   grid-template-columns: auto auto;
-  grid-gap: 0.25em 0.5em;
-  margin: 0.5em 0 0;
-  padding: .5em 0 0;
+  gap: .25em .5em;
+  padding: 10px;
   list-style-type: none;
   color: var(--theme-text_color);
+  background-color: var(--theme-bd-2);
   border-top: 1px solid var(--theme-bg);
   font-size: 1em;
   font-family: 'Dank Mono', 'Operator Mono', 'Inconsolata', 'Fira Mono', 'SF Mono', 'Monaco', 'Droid Sans Mono', 'Source Code Pro', monospace;
@@ -150,6 +156,10 @@
   line-height: 1.5;
 }
 
+:host [prop] {
+  color: var(--theme-color);
+}
+
 :host [color] {
   position: relative;
   top: 1px;
@@ -161,8 +171,9 @@
 }
 
 :host [local-modifications] {
-  margin-top: 1rem;
-  color: var(--theme-color);
+  margin-top: 1em;
+  margin-left: 10px;
+  color: var(--theme-purple);
   font-weight: bold;
 
   & + div {

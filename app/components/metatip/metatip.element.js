@@ -52,37 +52,39 @@ export class Metatip extends HTMLElement {
   render({el, width, height, localModifications, notLocalModifications}) {
     return `
       <figure>
-        <h5>
-          <a node>${el.nodeName.toLowerCase()}</a>
-          <a>${el.id && '#' + el.id}</a>
-          ${createClassname(el).split('.')
-            .filter(name => name != '')
-            .reduce((links, name) => `
-              ${links}
-              <a>.${name}</a>
-            `, '')
-          }
-        </h5>
-        <small>
-          <span">${Math.round(width)}</span>px
-          <span divider>×</span>
-          <span>${Math.round(height)}</span>px
-        </small>
-        ${localModifications.length ? `
-          <h6 local-modifications>Local Modifications</h6>
-          <div>${localModifications.reduce((items, item) => `
-            ${items}
-            <span prop>${item.prop}:</span>
-            <span value>${item.value}</span>
-          `, '')}
-          </div>
-        ` : ''}
-        <div>${notLocalModifications.reduce((items, item) => `
+        <header>
+          <h5>
+            <a node>${el.nodeName.toLowerCase()}</a>
+            <a>${el.id && '#' + el.id}</a>
+            ${createClassname(el).split('.')
+              .filter(name => name != '')
+              .reduce((links, name) => `
+                ${links}
+                <a>.${name}</a>
+              `, '')
+            }
+          </h5>
+          <small>
+            <span">${Math.round(width)}</span><span brand>px</span>
+            <span divider>×</span>
+            <span>${Math.round(height)}</span><span brand>px</span>
+          </small>
+        </header>
+        <code>${notLocalModifications.reduce((items, item) => `
           ${items}
           <span prop>${item.prop}:</span>
           <span value>${item.value}</span>
         `, '')}
-        </div>
+        </code>
+        ${localModifications.length ? `
+          <h6 local-modifications>Local Modifications / Inline Styles</h6>
+          <code>${localModifications.reduce((items, item) => `
+            ${items}
+            <span prop>${item.prop}:</span>
+            <span value>${item.value}</span>
+          `, '')}
+          </code>
+        ` : ''}
       </figure>
     `
   }
