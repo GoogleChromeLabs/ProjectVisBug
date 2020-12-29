@@ -85,6 +85,7 @@
   margin: 0;
   overflow: hidden;
   white-space: nowrap;
+  max-width: max-content;
 }
 
 :host h6 {
@@ -116,6 +117,7 @@
 
 :host header {
   padding: 5px 10px;
+  user-select: none;
 }
 
 :host code {

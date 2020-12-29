@@ -1,5 +1,6 @@
 import $ from 'blingblingjs'
 import { createClassname } from '../../utilities/'
+import { draggable } from '../../features/'
 import { MetatipStyles } from '../styles.store'
 
 export class Metatip extends HTMLElement {
@@ -31,6 +32,12 @@ export class Metatip extends HTMLElement {
   observe() {
     $('h5 > a', this.$shadow).on('click mouseenter', this.dispatchQuery.bind(this))
     $('h5 > a', this.$shadow).on('mouseleave', this.dispatchUnQuery.bind(this))
+
+    draggable({
+      el: this,
+      surface: this.$shadow.querySelector('header'),
+      cursor: 'grab',
+    })
   }
 
   unobserve() {
@@ -43,6 +50,7 @@ export class Metatip extends HTMLElement {
       bubbles: true
     }))
     this.unobserve()
+    this.teardown()
   }
 
   set meta(data) {
