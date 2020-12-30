@@ -14,7 +14,8 @@
     "scripts": [
       "visbug.js",
       "contextmenu/launcher.js",
-      "contextmenu/colormode.js"
+      "contextmenu/colormode.js",
+      "contextmenu/viewmode.js"
     ]
   },
   "browser_action": {
