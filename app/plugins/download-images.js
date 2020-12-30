@@ -49,7 +49,8 @@ export default async function () {
       end -= 6;
     }
     const url = item.substr(start, end);
-    const name = `css-${i + 1}.jpg`;
+    const truncated = url.substr(0, url.indexOf("?"));
+    const name = truncated.slice(truncated.lastIndexOf("/") + 1, truncated.lastIndexOf("/") + 39) + ".jpg"
     try {
       const response = await fetch(url)
       const file = await dirHandle.getFileHandle(name, { create: true })
