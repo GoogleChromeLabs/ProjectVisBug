@@ -118,7 +118,7 @@
 
 :host code {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: max-content auto;
   gap: .25em .5em;
   border-radius: var(--border-radius);
   list-style-type: none;
