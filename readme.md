@@ -56,7 +56,9 @@ Let's do this **design community, I'm looking at you!** Make a GitHub account an
 
 ### Add to your browser
 [Chrome Extension](https://chrome.google.com/webstore/detail/cdockenadnadldjbbgcallicgledbeoc)  
-[Firefox Add-on](#) (coming soon!)
+[Firefox Add-on](https://addons.mozilla.org/en-US/firefox/addon/visbug/)  
+[Safari Extension](https://apps.apple.com/app/id1538509686)  
+[Edge Extension](https://microsoftedge.microsoft.com/addons/detail/visbug/kdmdoinnkaeognnpegpkepdnggeaodkn)  
 
 ### Getting Started
 [Check the Wiki](https://github.com/GoogleChromeLabs/ProjectVisBug/wiki)  

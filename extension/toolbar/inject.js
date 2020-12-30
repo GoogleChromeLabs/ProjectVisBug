@@ -1,11 +1,19 @@
-var visbug = document.createElement('vis-bug')
-var src_path = chrome.extension.getURL(`tuts/guides.gif`)
+var platform = typeof browser === 'undefined'
+  ? chrome
+  : browser
 
-visbug.tutsBaseURL = src_path.slice(0, src_path.lastIndexOf('/'))
+const script = document.createElement('script')
+script.src = platform.runtime.getURL('toolbar/bundle.min.js')
+document.body.appendChild(script)
+
+const visbug = document.createElement('vis-bug')
+
+const src_path = platform.runtime.getURL(`tuts/guides.gif`)
+visbug.setAttribute('tutsBaseURL', src_path.slice(0, src_path.lastIndexOf('/')))
 
 document.firstElementChild.append(visbug)
 
-chrome.runtime.onMessage.addListener(request => {
+platform.runtime.onMessage.addListener(request => {
   if (request.action === 'COLOR_MODE')
-    visbug.colorMode = request.params.mode
+   visbug.setAttribute('color-mode', request.params.mode)
 })

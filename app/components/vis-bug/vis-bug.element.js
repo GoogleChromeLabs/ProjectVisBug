@@ -16,29 +16,26 @@ import { VisBugStyles }           from '../styles.store'
 import { VisBugModel }            from './model'
 import * as Icons                 from './vis-bug.icons'
 import { provideSelectorEngine }  from '../../features/search'
-import { metaKey, getStyle }      from '../../utilities/'
 import { PluginRegistry }         from '../../plugins/_registry'
-
-const modemap = {
-  'hex':  'toHexString',
-  'hsla': 'toHslString',
-  'rgba': 'toRgbString',
-}
+import {
+  metaKey,
+  isPolyfilledCE,
+  constructibleStylesheetSupport
+} from '../../utilities/'
 
 export default class VisBug extends HTMLElement {
   constructor() {
     super()
 
     this.toolbar_model  = VisBugModel
-    this._tutsBaseURL   = 'tuts' // can be set by content script
     this.$shadow        = this.attachShadow({mode: 'closed'})
   }
 
   connectedCallback() {
     this.$shadow.adoptedStyleSheets = [VisBugStyles]
+    this._tutsBaseURL = this.getAttribute('tutsBaseURL') || 'tuts'
 
-    if (!this.$shadow.innerHTML)
-      this.setup()
+    this.setup()
 
     this.selectorEngine = Selectable(this)
     this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
@@ -62,8 +59,10 @@ export default class VisBug extends HTMLElement {
 
   setup() {
     this.$shadow.innerHTML = this.render()
-    this._colormode = modemap['hsla']
-    this.pageScale = 1
+
+    this.hasAttribute('color-mode')
+      ? this.getAttribute('color-mode')
+      : this.setAttribute('color-mode', 'hex')
 
     $('li[data-tool]', this.$shadow).on('click', e =>
       this.toolSelected(e.currentTarget) && e.stopPropagation())
@@ -119,7 +118,7 @@ export default class VisBug extends HTMLElement {
   render() {
     return `
       <visbug-hotkeys></visbug-hotkeys>
-      <ol>
+      <ol constructible-support="${constructibleStylesheetSupport ? 'false':'true'}">
         ${Object.entries(this.toolbar_model).reduce((list, [key, tool]) => `
           ${list}
           <li aria-label="${tool.label} Tool" aria-description="${tool.description}" aria-hotkey="${key}" data-tool="${tool.tool}" data-active="${key == 'g'}">
@@ -243,19 +242,6 @@ export default class VisBug extends HTMLElement {
 
   get activeTool() {
     return this.active_tool.dataset.tool
-  }
-
-  set tutsBaseURL(url) {
-    this._tutsBaseURL = url
-    this.setup()
-  }
-
-  set colorMode(mode) {
-    this._colormode = modemap[mode]
-  }
-
-  get colorMode() {
-    return this._colormode
   }
 }
 

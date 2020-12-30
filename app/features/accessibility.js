@@ -180,9 +180,9 @@ const determineColorContrast = el => {
           ">${Math.floor(readability(background, foreground)  * 100) / 100}</span>
         </span>
         <span prop>› AA ${textSize}</span>
-        <span value style="${aa_contrast ? 'color:green;' : 'color:red'}">${aa_contrast ? '✓' : '×'}</span>
+        <span value score pass="${aa_contrast ? 'true' : 'false'}">${aa_contrast ? '✓' : '✗'}</span>
         <span prop>› AAA ${textSize}</span>
-        <span value style="${aaa_contrast ? 'color:green;' : 'color:red'}">${aaa_contrast ? '✓' : '×'}</span>
+        <span value score pass="${aaa_contrast ? 'true' : 'false'}">${aaa_contrast ? '✓' : '✗'}</span>
       `
 }
 

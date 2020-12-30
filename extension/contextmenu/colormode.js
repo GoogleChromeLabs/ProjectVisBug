@@ -1,10 +1,10 @@
 const storagekey = 'visbug-color-mode'
-const defaultcolormode = 'hsla'
+const defaultcolormode = 'hex'
 
 const color_options = [
-  'hsla',
+  'hsl',
   'hex',
-  'rgba',
+  'rgb',
   // 'hsv',
   // 'lch',
   // 'lab',
@@ -18,9 +18,13 @@ const colormodestate = {
   mode: defaultcolormode
 }
 
+var platform = typeof browser === 'undefined'
+  ? chrome
+  : browser
+
 const sendColorMode = () => {
-  chrome.tabs.query({active: true, currentWindow: true}, ([tab]) => {
-    tab && chrome.tabs.sendMessage(tab.id, {
+  platform.tabs.query({active: true, currentWindow: true}, ([tab]) => {
+    tab && platform.tabs.sendMessage(tab.id, {
       action: 'COLOR_MODE',
       params: {mode:colormodestate.mode},
     })
@@ -28,7 +32,7 @@ const sendColorMode = () => {
 }
 
 const getColorMode = () => {
-  chrome.storage.sync.get([storagekey], value => {
+  platform.storage.sync.get([storagekey], value => {
     let found_value = value[storagekey]
 
     const is_default = found_value
@@ -38,12 +42,22 @@ const getColorMode = () => {
     // first run
     if (!found_value && !is_default) {
       found_value = defaultcolormode
-      chrome.storage.sync.set({[storagekey]: defaultcolormode})
+      platform.storage.sync.set({[storagekey]: defaultcolormode})
+    }
+
+    // migrate old choices
+    if (found_value === 'hsla') {
+      found_value = 'hsl'
+      platform.storage.sync.set({[storagekey]: found_value})
+    }
+    if (found_value === 'rgba') {
+      found_value = 'rgb'
+      platform.storage.sync.set({[storagekey]: found_value})
     }
 
     // update checked state of color contextmenu radio list
     color_options.forEach(option => {
-      chrome.contextMenus.update(option, {
+      platform.contextMenus.update(option, {
         checked: option === found_value
       })
     })
@@ -59,14 +73,14 @@ const getColorMode = () => {
 // load synced color choice on load
 getColorMode()
 
-chrome.contextMenus.create({
+platform.contextMenus.create({
   id:     'color-mode',
   title:  'Colors',
   contexts: ['all'],
 })
 
 color_options.forEach(option => {
-  chrome.contextMenus.create({
+  platform.contextMenus.create({
     id:       option,
     parentId: 'color-mode',
     title:    ' '+option,
@@ -76,10 +90,10 @@ color_options.forEach(option => {
   })
 })
 
-chrome.contextMenus.onClicked.addListener(({parentMenuItemId, menuItemId}, tab) => {
+platform.contextMenus.onClicked.addListener(({parentMenuItemId, menuItemId}, tab) => {
   if (parentMenuItemId !== 'color-mode') return
 
-  chrome.storage.sync.set({[storagekey]: menuItemId})
+  platform.storage.sync.set({[storagekey]: menuItemId})
   colormodestate.mode = menuItemId
 
   sendColorMode()
