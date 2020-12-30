@@ -1,8 +1,6 @@
 import VisBug from './components/vis-bug/vis-bug.element'
 import { metaKey } from './utilities'
 
-document.firstElementChild.append(document.createElement('vis-bug'))
-
 if ('ontouchstart' in document.documentElement)
   document.getElementById('mobile-info').style.display = ''
 

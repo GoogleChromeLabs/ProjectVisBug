@@ -19,6 +19,7 @@ const toggleIn = ({id:tab_id}) => {
     platform.tabs.executeScript(tab_id, { file: 'toolbar/restore.js' })
     state.injected[tab_id] = true
     getColorMode()
+    getViewMode()
   }
 
   // fresh start in tab
@@ -29,6 +30,7 @@ const toggleIn = ({id:tab_id}) => {
     state.loaded[tab_id]    = true
     state.injected[tab_id]  = true
     getColorMode()
+    getViewMode()
   }
 
   platform.tabs.onUpdated.addListener(function(tabId) {

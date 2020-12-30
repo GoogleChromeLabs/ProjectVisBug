@@ -15,5 +15,7 @@ document.firstElementChild.append(visbug)
 
 platform.runtime.onMessage.addListener(request => {
   if (request.action === 'COLOR_MODE')
-   visbug.setAttribute('color-mode', request.params.mode)
+    visbug.setAttribute('color-mode', request.params.mode)
+  if (request.action === 'VIEW_MODE')
+    visbug.setAttribute('viewmode', request.params.mode.toLowerCase())
 })

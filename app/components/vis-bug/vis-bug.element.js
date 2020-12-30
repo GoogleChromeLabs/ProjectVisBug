@@ -41,7 +41,9 @@ export default class VisBug extends HTMLElement {
     this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
 
     provideSelectorEngine(this.selectorEngine)
-    Zoom.start(this.selectorEngine)
+
+    if (this.getAttribute('viewmode') == 'artboard')
+      Zoom.start(this.selectorEngine)
 
     this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
   }
@@ -54,7 +56,17 @@ export default class VisBug extends HTMLElement {
       Object.keys(this.toolbar_model).reduce((events, key) =>
         events += ',' + key, ''))
     hotkeys.unbind(`${metaKey}+/,${metaKey}+.`)
-    Zoom.stop()
+
+    if (this.getAttribute('viewmode') == 'artboard')
+      Zoom.stop()
+  }
+
+  static get observedAttributes() { return ['viewmode'] }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    newValue === 'artboard'
+      ? Zoom.start(this.selectorEngine)
+      : Zoom.stop()
   }
 
   setup() {
@@ -63,6 +75,10 @@ export default class VisBug extends HTMLElement {
     this.hasAttribute('color-mode')
       ? this.getAttribute('color-mode')
       : this.setAttribute('color-mode', 'hex')
+
+    this.hasAttribute('viewmode')
+      ? this.getAttribute('viewmode')
+      : this.setAttribute('viewmode', 'document')
 
     $('li[data-tool]', this.$shadow).on('click', e =>
       this.toolSelected(e.currentTarget) && e.stopPropagation())

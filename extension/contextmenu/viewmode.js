@@ -1,9 +1,9 @@
-const storagekey = 'visbug-view-mode'
-const defaultviewmode = 'document'
+const viewmodestoragekey = 'visbug-view-mode'
+const defaultviewmode = 'Document'
 
 const view_options = [
-  'document',
-  'artboard',
+  'Document',
+  'Artboard',
 ]
 
 const viewmodestate = {
@@ -20,17 +20,17 @@ const sendViewMode = () => {
 }
 
 const getViewMode = () => {
-  chrome.storage.sync.get([storagekey], value => {
-    let found_value = value[storagekey]
+  chrome.storage.sync.get([viewmodestoragekey], value => {
+    let found_value = value[viewmodestoragekey]
 
     const is_default = found_value
-      ? value[storagekey] === defaultviewmode
+      ? value[viewmodestoragekey] === defaultviewmode
       : false
 
     // first run
     if (!found_value && !is_default) {
       found_value = defaultviewmode
-      chrome.storage.sync.set({[storagekey]: defaultviewmode})
+      chrome.storage.sync.set({[viewmodestoragekey]: defaultviewmode})
     }
 
     // update checked state of view contextmenu radio list
@@ -53,7 +53,7 @@ getViewMode()
 
 chrome.contextMenus.create({
   id:     'view-mode',
-  title:  'view',
+  title:  'View Mode',
   contexts: ['all'],
 })
 
@@ -71,7 +71,7 @@ view_options.forEach(option => {
 chrome.contextMenus.onClicked.addListener(({parentMenuItemId, menuItemId}, tab) => {
   if (parentMenuItemId !== 'view-mode') return
 
-  chrome.storage.sync.set({[storagekey]: menuItemId})
+  chrome.storage.sync.set({[viewmodestoragekey]: menuItemId})
   viewmodestate.mode = menuItemId
 
   sendViewMode()

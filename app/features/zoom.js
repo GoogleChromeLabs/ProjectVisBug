@@ -29,6 +29,11 @@ const setupDocument = () => {
   html.style.width = document.body.clientWidth * 1.75 + 'px'
   html.style.setProperty('--pageUrl', `"${window.location.href}"`)
   html.style.backgroundColor = 'hsl(0 0% 95%)'
+
+  document.body.scrollIntoView({
+    inline: 'center',
+    behavior: 'smooth',
+  })
 }
 
 const isMetaKey = e => 
@@ -167,6 +172,7 @@ const stop = () => {
   window.removeEventListener("keyup", handleKeyup)
   window.removeEventListener("wheel", handleWheel)
   window.removeEventListener('mousemove', handleMousemove)
+  document.firstElementChild.removeAttribute('style')
 }
 
 export const Zoom = {
