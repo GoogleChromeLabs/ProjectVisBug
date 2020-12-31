@@ -143,8 +143,8 @@ const handleWheel = e => {
     state.page.originY = e.clientY
 
     scaleUp
-      ? zoomIn(e.deltaY / 500 * -1)
-      : zoomOut(e.deltaY / 500)
+      ? zoomIn((e.deltaY * .01) * -1)
+      : zoomOut(e.deltaY * .01)
   }
   else {
     document.body.style.cursor = ''
