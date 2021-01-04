@@ -6,12 +6,18 @@ export const commands = [
 const fetchAndWrite = async ({url, filename}, dirHandle) => {
   try {
     const response = await fetch(url)
-    const file = await dirHandle.getFileHandle(filename, { create: true })
+    const file = await dirHandle.getFileHandle(
+      filename.length > 40
+        ? filename.substr(0, 40)
+        : filename, 
+      { create: true }
+    )
     const writable = await file.createWritable()
 
     return await response.body.pipeTo(writable)
   } catch (err) {
     console.error(err)
+    throw new Error(err)
   }
 }
 
@@ -51,22 +57,18 @@ export default async function () {
         end -= 6
       }
       url = style.backgroundImage.substr(start, end)
-      filename = style.backgroundImage.substr(start, end)
 
       const hasParams = url.indexOf("?")
-      if (hasParams > 0) {
+      if (hasParams > 0)
         url = url.substr(0, hasParams)
-//         filename = url.substr(0, hasParams)
-//         
-//         const type = url.slice(url.lastIndexOf(".") + 1, url.length)
-// 
-//         if (type <= 4)
-//           filename += type
-      }
+
+      filename = url.substr(url.lastIndexOf('/') + 1)
 
       urls.push({
         url,
-        filename: url.substr(url.lastIndexOf('/') + 1),
+        filename: filename
+          ? filename
+          : url,
       })
       return urls
     }, [])
