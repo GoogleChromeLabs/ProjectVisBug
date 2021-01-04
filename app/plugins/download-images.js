@@ -3,28 +3,32 @@ export const commands = [
   'download-all-images',
 ]
 
+const fetchAndWrite = async ({url, filename}, dirHandle) => {
+  try {
+    const response = await fetch(url)
+    const file = await dirHandle.getFileHandle(filename, { create: true })
+    const writable = await file.createWritable()
+
+    return await response.body.pipeTo(writable)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 export default async function () {
   if (window.showDirectoryPicker === undefined) {
-    console.log('no directory support :(')
-    return;
+    alert('missing the Directory Picker api 🙁')
+    return
   }
-  const dirHandle = await window.showDirectoryPicker()
-  const imgs = document.querySelectorAll("img")
 
-  imgs.forEach(async (img) => {
-    const url = img.src
-    const name = url.substr(url.lastIndexOf('/') + 1);
-    try {
-      const response = await fetch(url)
-      const file = await dirHandle.getFileHandle(name, { create: true })
-      const writable = await file.createWritable()
-      await response.body.pipeTo(writable)
-    } catch (err) {
-      console.error(err)
-    }
-  })
-  // CSS urls
-  let css_urls = [...document.styleSheets]
+  const imgs = [...document.querySelectorAll("img")]
+    .filter(img => img.src)
+    .map(img => ({
+      url: img.src,
+      filename: img.src.substr(img.src.lastIndexOf('/') + 1),
+    }))
+
+  const css_urls = [...document.styleSheets]
     .filter(sheet => {
       try { return sheet.cssRules }
       catch { }
@@ -35,29 +39,47 @@ export default async function () {
     .filter(rule => rule.style.backgroundImage !== 'initial')
     .filter(rule => rule.style.backgroundImage.includes("url"))
     .reduce((urls, { style }) => {
-      urls.push(style.backgroundImage);
-      return urls;
-    }, []);
+      let filename = ''
+      let url = ''
 
-  css_urls.forEach(async (item, i) => {
-    let cots = false;
-    let start = item.indexOf('(');
-    if (item.charAt(start + 1) == '"') cots = true;
-    let end = item.lastIndexOf(')');
-    if (cots) {
-      start += 2;
-      end -= 6;
-    }
-    const url = item.substr(start, end);
-    const truncated = url.substr(0, url.indexOf("?"));
-    const name = truncated.slice(truncated.lastIndexOf("/") + 1, truncated.lastIndexOf("/") + 39) + ".jpg"
-    try {
-      const response = await fetch(url)
-      const file = await dirHandle.getFileHandle(name, { create: true })
-      const writable = await file.createWritable()
-      await response.body.pipeTo(writable)
-    } catch (err) {
-      console.error(err)
-    }
-  })
+      let cots = false
+      let start = style.backgroundImage.indexOf('(')
+      if (style.backgroundImage.charAt(start + 1) == '"') cots = true
+      let end = style.backgroundImage.lastIndexOf(')')
+      if (cots) {
+        start += 2
+        end -= 6
+      }
+      url = style.backgroundImage.substr(start, end)
+      filename = style.backgroundImage.substr(start, end)
+
+      const hasParams = url.indexOf("?")
+      if (hasParams > 0) {
+        url = url.substr(0, hasParams)
+//         filename = url.substr(0, hasParams)
+//         
+//         const type = url.slice(url.lastIndexOf(".") + 1, url.length)
+// 
+//         if (type <= 4)
+//           filename += type
+      }
+
+      urls.push({
+        url,
+        filename: url.substr(url.lastIndexOf('/') + 1),
+      })
+      return urls
+    }, [])
+
+  if (!confirm(`Download around ${imgs.length + css_urls.length} images?`)) return
+  const dirHandle = await window.showDirectoryPicker()
+
+  const downloads = [...imgs, ...css_urls]
+    .map(image =>
+      fetchAndWrite(image, dirHandle))
+
+  const results = await Promise.allSettled(downloads)
+  const successes = results.filter(res => res.status == 'fulfilled')
+
+  confirm(`Successfully downloaded ${successes.length} images 👍`)
 }
