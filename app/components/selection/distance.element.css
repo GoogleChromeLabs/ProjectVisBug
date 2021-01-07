@@ -35,8 +35,8 @@
   align-items: center;
   justify-content: center;
   color: white;
-  text-shadow: 0 0.5px 0 hsla(0, 0%, 0%, 0.4);
-  box-shadow: 0 0.5px 0 hsla(0, 0%, 0%, 0.4);
+  text-shadow: var(--text-shadow);
+  box-shadow: var(--text-shadow);
   background: hsl(var(--line-color) / 75%);
   border: 1px solid hsl(var(--line-color));
   border-radius: 1em;

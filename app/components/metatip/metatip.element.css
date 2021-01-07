@@ -108,12 +108,13 @@
 }
 
 :host [divider] {
-  color: var(--theme-purple);
+  color: var(--theme-blue);
 }
 
 :host header {
   padding: 5px 10px;
   user-select: none;
+  text-shadow: var(--text-shadow);
 }
 
 :host code {

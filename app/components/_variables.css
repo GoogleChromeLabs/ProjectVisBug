@@ -20,6 +20,12 @@
   --layer-4: 2147483643;
   --layer-5: 2147483642;
 
+  --text-shadow: 0 1px hsl(0 0% 0% / 40%);
+
+  @media (-webkit-min-device-pixel-ratio: 2) {
+    --text-shadow: 0 .5px hsl(0 0% 0% / 50%);
+  }
+
   @media (prefers-color-scheme: dark) {
     --theme-bg: hsl(0 0% 10%);
     --theme-bd: hsl(0 0% 10% / var(--theme-bd-opacity));
