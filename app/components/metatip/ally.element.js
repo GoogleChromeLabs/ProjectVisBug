@@ -4,12 +4,12 @@ export class Ally extends Metatip {
   constructor() {
     super()
   }
-  
+
   render({el, ally_attributes, contrast_results}) {
     return `
       <figure>
         <h5>${el.nodeName.toLowerCase()}${el.id && '#' + el.id}</h5>
-        <div>
+        <div accessibility>
           ${ally_attributes.reduce((items, attr) => `
             ${items}
             <span prop>${attr.prop}:</span>

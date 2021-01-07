@@ -14,9 +14,11 @@ export class Hover extends Handles {
     this.style.setProperty('--position', isFixed ? 'fixed' : 'absolute')
 
     return `
-      <svg width="${width}" height="${height}">
-        <rect></rect>
-      </svg>
+      <svg
+        width="${width}" height="${height}"
+        viewBox="0 0 ${width} ${height}"
+      >
+        <rect fill="none" width="100%" height="100%"></rect>
     `
   }
 }

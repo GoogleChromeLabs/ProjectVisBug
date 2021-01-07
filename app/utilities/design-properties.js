@@ -1,3 +1,5 @@
+import {isFirefox} from './cross-browser.js'
+
 export const desiredPropMap = {
   color:               'rgb(0, 0, 0)',
   backgroundColor:     'rgba(0, 0, 0, 0)',
@@ -10,7 +12,7 @@ export const desiredPropMap = {
   boxShadow:           'none',
   padding:             '0px',
   margin:              '0px',
-  fontFamily:          '',
+  fontFamily:          'auto',
   fontSize:            '16px',
   fontWeight:          '400',
   textAlign:           'start',
@@ -35,6 +37,17 @@ export const desiredPropMap = {
   gridArea:            'auto / auto / auto / auto',
   gap:                 'normal normal',
   gridAutoFlow:        'row',
+}
+
+if (isFirefox) {
+  desiredPropMap.backgroundSize = 'auto'
+  desiredPropMap.borderWidth    = ''
+  desiredPropMap.borderRadius   = ''
+  desiredPropMap.padding        = ''
+  desiredPropMap.margin         = ''
+  desiredPropMap.gap            = ''
+  desiredPropMap.gridArea       = ''
+  desiredPropMap.borderColor    = ''
 }
 
 export const desiredAccessibilityMap = [

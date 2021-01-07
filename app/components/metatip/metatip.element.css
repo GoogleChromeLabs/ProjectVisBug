@@ -118,9 +118,10 @@
   grid-template-columns: auto auto;
   grid-gap: 0.25em 0.5em;
   margin: 0.5em 0 0;
-  padding: 0;
+  padding: .5em 0 0;
   list-style-type: none;
-  color: var(--theme-icon_color);
+  color: var(--theme-text_color);
+  border-top: 1px solid var(--theme-bg);
   font-size: 1em;
   font-family: 'Dank Mono', 'Operator Mono', 'Inconsolata', 'Fira Mono', 'SF Mono', 'Monaco', 'Droid Sans Mono', 'Source Code Pro', monospace;
 }
@@ -179,4 +180,21 @@
   padding: 0 0.5em 0.1em;
   border-radius: 1em;
   box-shadow: 0 0 0 1px var(--theme-icon_active-bg);
+}
+
+:host [accessibility] {
+  align-items: center;
+}
+
+:host [score] {
+  font-size: 1.5em;
+  line-height: .75;
+
+  &[pass="true"] { color: green; }
+  &[pass="false"] { color: red; }
+
+  @media (prefers-color-scheme: dark) {
+    &[pass="true"] { color: hsl(120deg 50% 75%); }
+    &[pass="false"] { color: hsl(0deg 50% 65%); }
+  }
 }

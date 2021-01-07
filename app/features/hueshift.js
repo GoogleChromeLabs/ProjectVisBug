@@ -19,8 +19,8 @@ const state = {
 }
 
 export function HueShift({Color, Visbug}) {
-  state.active_color = Color.getActive()
-  state.elements     = []
+  state.active_color   = Color.getActive()
+  state.elements       = []
 
   Visbug.onSelectedUpdate(elements => {
     state.elements = elements

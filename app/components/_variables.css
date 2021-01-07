@@ -1,7 +1,9 @@
 :host {
   --theme-bg: hsl(0 0% 100%);
-  --theme-bd: hsl(0 0% 100% / .8);
-  --theme-bd-2: hsl(0 0% 100% / .9);
+  --theme-bd: hsl(0 0% 100% / var(--theme-bd-opacity));
+  --theme-bd-2: hsl(0 0% 100% / var(--theme-bd-2-opacity));
+  --theme-bd-opacity: 1;
+  --theme-bd-2-opacity: 1;
   --theme-color: hotpink;
   --theme-blue: hsl(188 90% 45%);
   --theme-purple: hsl(267 100% 58%);
@@ -20,12 +22,17 @@
 
   @media (prefers-color-scheme: dark) {
     --theme-bg: hsl(0 0% 10%);
-    --theme-bd: hsl(0 0% 10% / .8);
-    --theme-bd-2: hsl(0 0% 10% / .9);
+    --theme-bd: hsl(0 0% 10% / var(--theme-bd-opacity));
+    --theme-bd-2: hsl(0 0% 10% / var(--theme-bd-2-opacity));
 
     --theme-text_color: hsl(0 0% 90%);
     --theme-icon_color: hsl(0 0% 80%);
     --theme-icon_hover-bg: hsl(0 0% 15%);
     --theme-icon_active-bg: hsl(0 0% 20%);
+  }
+
+  @supports (backdrop-filter: blur(5px)) {
+    --theme-bd-opacity: .8;
+    --theme-bd-2-opacity: .9;
   }
 }

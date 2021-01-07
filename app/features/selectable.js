@@ -171,27 +171,27 @@ export function Selectable(visbug) {
     if (window.getSelection().toString().length)
       return
 
-    if (selected[0] && this.node_clipboard !== selected[0]) {
+    if (selected[0] && window.node_clipboard !== selected[0]) {
       e.preventDefault()
       let $node = selected[0].cloneNode(true)
       $node.removeAttribute('data-selected')
 
-      this.copy_backup = $node.outerHTML
-      e.clipboardData.setData('text/html', this.copy_backup)
+      window.copy_backup = $node.outerHTML
+      e.clipboardData.setData('text/html', window.copy_backup)
 
       const {state} = await navigator.permissions.query({name:'clipboard-write'})
 
       if (state === 'granted')
-        await navigator.clipboard.writeText(this.copy_backup)
+        await navigator.clipboard.writeText(window.copy_backup)
     }
   }
 
   const on_cut = e => {
-    if (selected[0] && this.node_clipboard !== selected[0]) {
+    if (selected[0] && window.node_clipboard !== selected[0]) {
       let $node = selected[0].cloneNode(true)
       $node.removeAttribute('data-selected')
-      this.copy_backup = $node.outerHTML
-      e.clipboardData.setData('text/html', this.copy_backup)
+      window.copy_backup = $node.outerHTML
+      e.clipboardData.setData('text/html', window.copy_backup)
       selected[0].remove()
     }
   }
@@ -199,7 +199,7 @@ export function Selectable(visbug) {
   const on_paste = async (e, index = 0) => {
     const clipData = e.clipboardData.getData('text/html')
     const globalClipboard = await navigator.clipboard.readText()
-    const potentialHTML = clipData || globalClipboard || this.copy_backup
+    const potentialHTML = clipData || globalClipboard || window.copy_backup
 
     if (selected.length && potentialHTML) {
       e.preventDefault()
@@ -213,13 +213,13 @@ export function Selectable(visbug) {
   const on_copy_styles = async e => {
     e.preventDefault()
 
-    this.copied_styles = selected.map(el =>
+    window.copied_styles = selected.map(el =>
       getStyles(el))
 
     try {
       const colormode = $('vis-bug')[0].colorMode
 
-      const styles = this.copied_styles[0]
+      const styles = window.copied_styles[0]
         .map(({prop,value}) => {
           if (prop.includes('color') || prop.includes('background-color') || prop.includes('border-color') || prop.includes('Color') || prop.includes('fill') || prop.includes('stroke'))
             value = new TinyColor(value)[colormode]()
@@ -251,13 +251,13 @@ export function Selectable(visbug) {
   }
 
   const on_paste_styles = async (e, index = 0) => {
-    if (this.copied_styles) {
+    if (window.copied_styles) {
       selected.forEach(el => {
-        this.copied_styles[index]
+        window.copied_styles[index]
           .map(({prop, value}) =>
             el.style[prop] = value)
 
-        index >= this.copied_styles.length - 1
+        index >= window.copied_styles.length - 1
           ? index = 0
           : index++
       })
