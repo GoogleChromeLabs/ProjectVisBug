@@ -4,7 +4,7 @@ import { TinyColor } from '@ctrl/tinycolor'
 import { queryPage } from './search'
 import { getStyles, camelToDash, isOffBounds,
          deepElementFromPoint, getShadowValues,
-         getTextShadowValues
+         getTextShadowValues, firstUsableFontFromFamily
 } from '../utilities/'
 
 const state = {
@@ -162,8 +162,8 @@ const render = (el, tip = document.createElement('visbug-metatip')) => {
         style.value = `${new TinyColor(color)[colormode]()} ${x} ${y} ${blur}`
       }
 
-      if (style.prop.includes('font-family') && style.value.length > 25)
-        style.value = `<span style="max-width: 25ch">${style.value}</span>`
+      if (style.prop.includes('font-family'))
+        style.value = `<span string value>${firstUsableFontFromFamily(style.value)}</span>`
 
       if (style.prop.includes('grid-template-areas'))
         style.value = style.value.replace(/" "/g, '"<br>"')

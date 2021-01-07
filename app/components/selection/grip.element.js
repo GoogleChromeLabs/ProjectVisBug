@@ -1,5 +1,6 @@
 import { Handles } from './handles.element'
 import { HandleStyles, GripStyles } from '../styles.store'
+import { isFixed } from '../../utilities/';
 
 export class Grip extends Handles {
 
@@ -15,6 +16,7 @@ export class Grip extends Handles {
   }
 
   render({ width, height, top, left }) {
+    this.style.setProperty('--position', isFixed(this.$shadow.host) ? 'fixed' : 'absolute')
     this.style.setProperty('--top', `${top + window.scrollY}px`)
     this.style.setProperty('--left', `${left}px`)
 
