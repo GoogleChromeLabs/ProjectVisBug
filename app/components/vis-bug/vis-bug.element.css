@@ -31,10 +31,12 @@
   list-style-type: none;
   border-radius: 2em;
   backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 
   &:first-of-type {
     box-shadow: 0 0.25em 0.5em hsla(0,0%,0%,10%);
     backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     background-color: var(--theme-bd-2);
 
     &:active {

@@ -41,4 +41,9 @@
     --theme-bd-opacity: .8;
     --theme-bd-2-opacity: .9;
   }
+
+  @supports (-webkit-backdrop-filter: blur(5px)) {
+    --theme-bd-opacity: .8;
+    --theme-bd-2-opacity: .9;
+  }
 }

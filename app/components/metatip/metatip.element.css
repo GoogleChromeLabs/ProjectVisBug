@@ -26,6 +26,7 @@
   max-width: 50vw;
   background: var(--theme-bd);
   backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   color: var(--theme-text_color);
   line-height: initial;
   margin: 0;
