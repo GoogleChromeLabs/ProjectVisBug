@@ -3,6 +3,7 @@ var platform = typeof browser === 'undefined'
   : browser
 
 const script = document.createElement('script')
+script.type = 'module'
 script.src = platform.runtime.getURL('toolbar/bundle.min.js')
 document.body.appendChild(script)
 
