@@ -129,9 +129,13 @@
   border-top: 1px solid var(--theme-bg);
   font-size: 1em;
   font-family: 'Dank Mono', 'Operator Mono', 'Inconsolata', 'Fira Mono', 'SF Mono', 'Monaco', 'Droid Sans Mono', 'Source Code Pro', monospace;
+
+  &[accessibility] > [prop]:first-of-type {
+    color: var(--theme-text_color);
+  }
 }
 
-:host details > :is(summary,code),
+:host details > :matches(summary,code),
 :host > figure > code {
   padding: 10px;
   border-radius: var(--border-radius);
