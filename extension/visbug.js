@@ -79,7 +79,6 @@ const toggleIn = ({id:tab_id}) => {
   // fresh start in tab
   else {
     platform.tabs.insertCSS(tab_id,     { file: 'toolbar/bundle.css' })
-    platform.tabs.executeScript(tab_id, { file: 'toolbar/inject.js' })
     platform.tabs.executeScript(tab_id, { file: 'toolbar/content.js' })
 
     state.loaded[tab_id]    = true

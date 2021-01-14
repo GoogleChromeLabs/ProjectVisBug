@@ -1,4 +1,5 @@
 import Channel from '../utils/channel.js'
+const channel_name    = 'design-artboard'
 
 var platform = typeof browser === 'undefined'
   ? chrome
@@ -14,14 +15,7 @@ const visbug = document.createElement('vis-bug')
 const src_path = platform.runtime.getURL(`tuts/guides.gif`)
 visbug.setAttribute('tutsBaseURL', src_path.slice(0, src_path.lastIndexOf('/')))
 
-// document.body.prepend(visbug)
-
-// var pallete           = document.createElement('tool-pallete')
-// var src_path          = chrome.extension.getURL(`tuts/guides.gif`)
-const channel_name    = 'design-artboard'
-const appendPallete   = () => document.body.prepend(visbug)
-
-// pallete.tutsBaseURL   = src_path.slice(0, src_path.lastIndexOf('/'))
+document.body.prepend(visbug)
 
 const Pipe = new Channel({
   name: channel_name,
@@ -37,8 +31,7 @@ const layersFromDOM = ({nodeName, className, id, children}) => ({
 })
 
 // append and watch toolbar selections
-appendPallete()
-pallete.selectorEngine.onSelectedUpdate(nodes =>
+visbug.selectorEngine.onSelectedUpdate(nodes =>
   Pipe.post({
     action: 'selected',
     payload: nodes.map(layersFromDOM),
@@ -57,11 +50,12 @@ Pipe.message.onMessage.addListener((request, sender, sendResponse) => {
   // only respond to toolSelection atm
   if (action != 'toolSelected') return
 
-  const [pallete] = document.getElementsByTagName('tool-pallete')
-  pallete && pallete[action](params)
+  const [visbug] = document.getElementsByTagName('vis-bug')
+  visbug && visbug[action](params)
   // todo: send for tool to select element as well
 })
 
 platform.runtime.onMessage.addListener(request => {
   if (request.action === 'COLOR_MODE')
-   visbug.setAttribute('color-mode', request.params.mode)
+    visbug.setAttribute('color-mode', request.params.mode)
+})

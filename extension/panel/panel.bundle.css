@@ -7,9 +7,7 @@
 
 body {
   margin: 0;
-  background-color: hsl(0,0%,100%);
   background-color: var(--bg);
-  color: hsl(0,0%,10%);
   color: var(--text);
   background-image: -webkit-repeating-radial-gradient(
     center center, 
@@ -35,9 +33,7 @@ img {
 }
 
 #layers {
-  background-color: hsl(0,0%,100%);
   background-color: var(--bg);
-  color: hsl(0,0%,10%);
   color: var(--text);
   padding: 0.5rem;
 }
@@ -68,7 +64,6 @@ details .layer {
 }
 
 details .layer:hover {
-    background: hsl(0,0%,95%);
     background: var(--bg-hover);
     cursor: pointer;
   }
@@ -82,7 +77,6 @@ details [icon] {
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
-  background-color: hsl(0,0%,90%);
   background-color: var(--dot);
   display: inline-block;
   margin-right: 0.5rem;
