@@ -710,8 +710,19 @@ export function Selectable(visbug) {
   const removeSelectedCallback = cb =>
     selectedCallbacks = selectedCallbacks.filter(callback => callback != cb)
 
-  const tellWatchers = () =>
+  const layersFromDOM = ({nodeName, className, id, children}) => ({
+    nodeName, className, id,
+    children: Object.assign({}, [...children].map(layersFromDOM)),
+  })
+
+  const tellWatchers = () => {
     selectedCallbacks.forEach(cb => cb(selected))
+
+    visbug.$shadow.host.dispatchEvent(new CustomEvent('selected', {
+      bubbles: true,
+      detail: Object.assign({}, selected.map(layersFromDOM)),
+    }))
+  }
 
   const disconnect = () => {
     unselect_all()

@@ -25,17 +25,12 @@ const Pipe = new Channel({
   }
 })
 
-const layersFromDOM = ({nodeName, className, id, children}) => ({
-  nodeName, className, id,
-  children: [...children].map(layersFromDOM),
-})
-
-// append and watch toolbar selections
-visbug.selectorEngine.onSelectedUpdate(nodes =>
+visbug.addEventListener('selected', e => {
   Pipe.post({
     action: 'selected',
-    payload: nodes.map(layersFromDOM),
-  }))
+    payload: e.detail,
+  })
+})
 
 // watch pipe messages (they'll be auto filtered for this pipe)
 Pipe.port.onMessage.addListener(message => {
