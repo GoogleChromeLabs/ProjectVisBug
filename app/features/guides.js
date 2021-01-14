@@ -1,22 +1,37 @@
 import $ from 'blingblingjs'
-import { isOffBounds } from '../utilities/'
+import { isOffBounds, deepElementFromPoint } from '../utilities/'
+import { clearMeasurements, takeMeasurementOwnership } from './measurements'
 
-let gridlines
+const state = {
+  gridlines:    null,
+  measurements: null,
+  stuck:        {
+    count:        0,
+    measurements: [],
+  },
+}
 
-export function Guides() {
-  $('body').on('mouseover', on_hover)
+export function Guides(visbug) {
+  $('body').on('mousemove', on_hover)
   $('body').on('mouseout', on_hoverout)
+
   window.addEventListener('scroll', hideGridlines)
+  visbug.onSelectedUpdate(stickGuide)
 
   return () => {
-    $('body').off('mouseover', on_hover)
+    $('body').off('mousemove', on_hover)
     $('body').off('mouseout', on_hoverout)
+
     window.removeEventListener('scroll', hideGridlines)
+    visbug.removeSelectedCallback(stickGuide)
+
+    clearMeasurements()
     hideGridlines()
   }
 }
 
-const on_hover = ({target}) => {
+const on_hover = e => {
+  const target = deepElementFromPoint(e.clientX, e.clientY)
   if (isOffBounds(target)) return
   showGridlines(target)
 }
@@ -29,7 +44,7 @@ export function createGuide(vert = true) {
     left: 0;
     background: hsla(330, 100%, 71%, 70%);
     pointer-events: none;
-    z-index: 9997;
+    z-index: 2147483643;
   `
 
   vert 
@@ -39,55 +54,54 @@ export function createGuide(vert = true) {
         transform: rotate(180deg);
       `
     : styles += `
-      height: 1px;
-      width: 100vw;
-    `
+        height: 1px;
+        width: 100vw;
+      `
 
   guide.style = styles
 
   return guide
 }
 
-// export function Guides() {
-//   let v = createGuide()
-//     , h = createGuide(false)
+const stickGuide = els => {
+   if (!els.length) return
 
-//   document.body.appendChild(v)
-//   document.body.appendChild(h)
-//   document.body.style.cursor = 'crosshair'
+  if (state.stuck.count >= els.length) {
+    state.stuck.measurements.forEach(el => el.remove())
+    state.stuck.measurements = []
+    state.stuck.count = 0
+  }
 
-//   const mouseMove = e => {
-//     v.style.left  = e.clientX + 'px'
-//     h.style.top   = e.clientY + 'px'
-//   }
+  state.stuck.count++
 
-//   $('body').on('mousemove', mouseMove)
+  if (els.length > 1) {
+    state.stuck.measurements = [
+      ...state.stuck.measurements,
+      ...takeMeasurementOwnership(),
+    ]
+  }
 
-//   return () => {
-//     $('body').off('mousemove', mouseMove)
-//     document.body.removeChild(v)
-//     document.body.removeChild(h)
-//     document.body.style.cursor = null
-//   }
-// }
+  state.gridlines && state.gridlines.remove()
+  state.gridlines = null
+}
 
-const on_hoverout = ({target}) =>
+const on_hoverout = () =>
   hideGridlines()
 
 const showGridlines = node => {
-  if (gridlines) {
-    gridlines.style.display = null
-    gridlines.update = node.getBoundingClientRect()
+  if (state.gridlines) {
+    state.gridlines.style.display = null
+    state.gridlines.update = node.getBoundingClientRect()
   }
   else {
-    gridlines = document.createElement('pb-gridlines')
-    gridlines.position = node.getBoundingClientRect()
+    state.gridlines = document.createElement('visbug-gridlines')
+    state.gridlines.position = node.getBoundingClientRect()
 
-    document.body.appendChild(gridlines)
+    document.body.appendChild(state.gridlines)
   }
 }
 
-const hideGridlines = node => {
-  if (!gridlines) return
-  gridlines.style.display = 'none'
+const hideGridlines = () => {
+  if (!state.gridlines) return
+  state.gridlines.style.display = 'none'
 }

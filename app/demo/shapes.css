@@ -21,10 +21,17 @@
   color: white;
 
   &.small { width: 2.5rem; height: 2.5rem; }
-  &.red { background-color: red;  }
-  &.green { background-color: green;  }
-  &.yellow { background-color: yellow;  }
 }
+
+
+.red     { background-color: red; }
+.green   { background-color: green; }
+.yellow  { background-color: yellow; }
+.google-blue     { background-color: #4285F4; }
+.google-yellow   { background-color: #F4B400; }
+.google-red      { background-color: #DB4437; }
+.google-green    { background-color: #0F9D58; }
+.shadow-circle   { background-color: white; box-shadow: 0 10px 30px 2px hsla(0,0%,0%,20%); }
 
 [round-icon] {
   box-sizing: border-box;
@@ -34,4 +41,20 @@
   border: 5px solid var(--light-grey);
   border-radius: 50%;
   fill: var(--grey);
+}
+
+[bgfg] {
+  width: 100%;
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-template-columns: 15vw 15vw;
+  grid-template-rows: 15vw 15vw;
+  justify-content: space-around;
+  margin-top: 0.5rem;
+
+  & > .filled-circle {
+    font-size: 5vw;
+    width: 100%;
+    height: 100%;
+  }
 }

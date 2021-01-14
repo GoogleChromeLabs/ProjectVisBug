@@ -7,9 +7,8 @@ module.exports = {
     postcssPresetEnv({
       stage: 0,
       browsers: [
-        '>0.25%',
-        'not ie 11',
-        'not op_mini all',
+        'last 3 chrome version',
+        'last 3 firefox version',
       ],
     }),
   ]

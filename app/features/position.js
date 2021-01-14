@@ -1,36 +1,38 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { getStyle, getSide, showHideSelected } from '../utilities/'
+import { metaKey, getStyle, getSide, showHideSelected } from '../utilities/'
 
 const key_events = 'up,down,left,right'
   .split(',')
-  .reduce((events, event) => 
+  .reduce((events, event) =>
     `${events},${event},alt+${event},shift+${event},shift+alt+${event}`
   , '')
   .substring(1)
 
-const command_events = 'cmd+up,cmd+shift+up,cmd+down,cmd+shift+down'
+const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down`
 
 export function Position() {
-  this._els = []
+  const state = {
+    elements: []
+  }
 
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
-      
+
     e.preventDefault()
-    positionElement($('[data-selected=true]'), handler.key)
+    positionElement(state.elements, handler.key)
   })
 
   const onNodesSelected = els => {
-    this._els.forEach(el =>
+    state.elements.forEach(el =>
       el.teardown())
 
-    this._els = els.map(el =>
-      draggable(el))
+    state.elements = els.map(el =>
+      draggable({el}))
   }
 
   const disconnect = () => {
-    this._els.forEach(el => el.teardown())
+    state.elements.forEach(el => el.teardown())
     hotkeys.unbind(key_events)
     hotkeys.unbind('up,down,left,right')
   }
@@ -41,8 +43,10 @@ export function Position() {
   }
 }
 
-export function draggable(el) {
-  this.state = {
+export function draggable({el, surface = el, cursor = 'move'}) {
+   const state = {
+    target: el,
+    surface,
     mouse: {
       down: false,
       x: 0,
@@ -56,28 +60,28 @@ export function draggable(el) {
 
   const setup = () => {
     el.style.transition   = 'none'
-    el.style.cursor       = 'move'
+    surface.style.cursor  = cursor
 
-    el.addEventListener('mousedown', onMouseDown, true)
-    el.addEventListener('mouseup', onMouseUp, true)
+    surface.addEventListener('mousedown', onMouseDown, true)
+    surface.addEventListener('mouseup', onMouseUp, true)
     document.addEventListener('mousemove', onMouseMove, true)
   }
 
   const teardown = () => {
     el.style.transition   = null
-    el.style.cursor       = null
+    surface.style.cursor  = null
 
-    el.removeEventListener('mousedown', onMouseDown, true)
-    el.removeEventListener('mouseup', onMouseUp, true)
+    surface.removeEventListener('mousedown', onMouseDown, true)
+    surface.removeEventListener('mouseup', onMouseUp, true)
     document.removeEventListener('mousemove', onMouseMove, true)
   }
 
   const onMouseDown = e => {
+    if(e.target !== state.surface) return
     e.preventDefault()
 
-    const el = e.target
-
-    el.style.position = 'relative'
+    if(getComputedStyle(el).position == 'static')
+      el.style.position = 'relative'
     el.style.willChange = 'top,left'
 
     if (el instanceof SVGElement) {
@@ -87,23 +91,26 @@ export function draggable(el) {
         ? extractSVGTranslate(translate)
         : [0,0]
 
-      this.state.element.x  = x
-      this.state.element.y  = y
+      state.element.x  = x
+      state.element.y  = y
     }
     else {
-      this.state.element.x  = parseInt(getStyle(el, 'left'))
-      this.state.element.y  = parseInt(getStyle(el, 'top'))
+      state.element.x  = parseInt(getStyle(el, 'left'))
+      state.element.y  = parseInt(getStyle(el, 'top'))
     }
 
-    this.state.mouse.x      = e.clientX
-    this.state.mouse.y      = e.clientY
-    this.state.mouse.down   = true
+    state.mouse.x      = e.clientX
+    state.mouse.y      = e.clientY
+    state.mouse.down   = true
   }
 
   const onMouseUp = e => {
-    e.preventDefault()
+    if(e.target !== state.surface) return
 
-    this.state.mouse.down = false
+    e.preventDefault()
+    e.stopPropagation()
+
+    state.mouse.down = false
     el.style.willChange = null
 
     if (el instanceof SVGElement) {
@@ -113,38 +120,38 @@ export function draggable(el) {
         ? extractSVGTranslate(translate)
         : [0,0]
 
-      this.state.element.x    = x
-      this.state.element.y    = y
+      state.element.x    = x
+      state.element.y    = y
     }
     else {
-      this.state.element.x    = parseInt(el.style.left) || 0
-      this.state.element.y    = parseInt(el.style.top) || 0
+      state.element.x    = parseInt(el.style.left) || 0
+      state.element.y    = parseInt(el.style.top) || 0
     }
   }
 
   const onMouseMove = e => {
+    if (!state.mouse.down) return
+
     e.preventDefault()
     e.stopPropagation()
 
-    if (!this.state.mouse.down) return
 
     if (el instanceof SVGElement) {
       el.setAttribute('transform', `translate(
-        ${this.state.element.x + e.clientX - this.state.mouse.x},
-        ${this.state.element.y + e.clientY - this.state.mouse.y}
+        ${state.element.x + e.clientX - state.mouse.x},
+        ${state.element.y + e.clientY - state.mouse.y}
       )`)
     }
     else {
-      el.style.left = this.state.element.x + e.clientX - this.state.mouse.x + 'px'
-      el.style.top  = this.state.element.y + e.clientY - this.state.mouse.y + 'px'
+      el.style.left = state.element.x + e.clientX - state.mouse.x + 'px'
+      el.style.top  = state.element.y + e.clientY - state.mouse.y + 'px'
     }
   }
 
   setup()
+  el.teardown = teardown
 
-  return {
-    teardown
-  }
+  return el
 }
 
 export function positionElement(els, direction) {
@@ -152,7 +159,7 @@ export function positionElement(els, direction) {
     .map(el => ensurePositionable(el))
     .map(el => showHideSelected(el))
     .map(el => ({
-        el, 
+        el,
         ...extractCurrentValueAndSide(el, direction),
         amount:   direction.split('+').includes('shift') ? 10 : 1,
         negative: determineNegativity(el, direction),
@@ -160,7 +167,7 @@ export function positionElement(els, direction) {
     .map(payload =>
       Object.assign(payload, {
         position: payload.negative
-          ? payload.current + payload.amount 
+          ? payload.current + payload.amount
           : payload.current - payload.amount
       }))
     .forEach(({el, style, position}) =>
@@ -185,7 +192,8 @@ const extractCurrentValueAndSide = (el, direction) => {
       : x
   }
   else {
-    style   = getSide(direction).toLowerCase()
+    const side = getSide(direction).toLowerCase()
+    style = (side === 'top' || side === 'bottom') ? 'top' : 'left'
     current = getStyle(el, style)
 
     current === 'auto'
@@ -198,7 +206,7 @@ const extractCurrentValueAndSide = (el, direction) => {
 
 const extractSVGTranslate = translate =>
   translate.substring(
-    translate.indexOf('(') + 1, 
+    translate.indexOf('(') + 1,
     translate.indexOf(')')
   ).split(',')
   .map(val => parseFloat(val))
@@ -217,12 +225,10 @@ const setTranslateOnSVG = (el, direction, position) => {
 }
 
 const determineNegativity = (el, direction) =>
-  el instanceof SVGElement
-    ? direction.includes('right') || direction.includes('down')
-    : direction.split('+').includes('alt')
+  direction.includes('right') || direction.includes('down')
 
 const ensurePositionable = el => {
-  if (el instanceof HTMLElement) 
+  if (el instanceof HTMLElement)
     el.style.position = 'relative'
   return el
 }

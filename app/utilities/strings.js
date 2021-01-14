@@ -19,10 +19,23 @@ export const nodeKey = node => {
 }
 
 export const createClassname = (el, ellipse = false) => {
-  if (!el.className || el.nodeName === 'svg' || el.ownerSVGElement) return ''
-  let rawClassname = '.' + el.className.replace(/ /g, '.')
+  if (!el.className) return ''
+  
+  const combined = Array.from(el.classList).reduce((classnames, classname) =>
+    classnames += '.' + classname
+  , '')
 
-  return ellipse && rawClassname.length > 30
-    ? rawClassname.substring(0,30) + '...'
-    : rawClassname
+  return ellipse && combined.length > 30
+    ? combined.substring(0,30) + '...'
+    : combined
 }
+
+export const metaKey = window.navigator.platform.includes('Mac')
+  ? 'cmd'
+  : 'ctrl'
+
+export const altKey = window.navigator.platform.includes('Mac')
+  ? 'opt'
+  : 'alt'
+
+export const notList = ':not(vis-bug):not(script):not(hotkey-map):not(.visbug-metatip):not(visbug-label):not(visbug-handles):not(visbug-corners):not(visbug-grip):not(visbug-gridlines)'

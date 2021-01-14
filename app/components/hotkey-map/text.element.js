@@ -1,5 +1,5 @@
 import { HotkeyMap } from './base.element'
-import { text as icon } from '../tool-pallete/toolpallete.icons' 
+import { text as icon } from '../vis-bug/vis-bug.icons'
 
 export class TextHotkeys extends HotkeyMap {
   constructor() {
@@ -10,15 +10,12 @@ export class TextHotkeys extends HotkeyMap {
     this.tool       = 'text'
   }
 
-  connectedCallback() {}
-
   show() {
     this.$shadow.host.style.display = 'flex'
   }
 
   render() {
     return `
-      ${this.styles()}
       <article>
         <div tool-icon>
           <span>

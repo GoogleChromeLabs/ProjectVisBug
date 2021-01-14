@@ -1,11 +1,27 @@
 import Channel from '../utils/channel.js'
 
-var pallete           = document.createElement('tool-pallete')
-var src_path          = chrome.extension.getURL(`tuts/guides.gif`)
-const channel_name    = 'design-artboard'
-const appendPallete   = () => document.body.prepend(pallete)
+var platform = typeof browser === 'undefined'
+  ? chrome
+  : browser
 
-pallete.tutsBaseURL   = src_path.slice(0, src_path.lastIndexOf('/'))
+const script = document.createElement('script')
+script.type = 'module'
+script.src = platform.runtime.getURL('toolbar/bundle.min.js')
+document.body.appendChild(script)
+
+const visbug = document.createElement('vis-bug')
+
+const src_path = platform.runtime.getURL(`tuts/guides.gif`)
+visbug.setAttribute('tutsBaseURL', src_path.slice(0, src_path.lastIndexOf('/')))
+
+// document.body.prepend(visbug)
+
+// var pallete           = document.createElement('tool-pallete')
+// var src_path          = chrome.extension.getURL(`tuts/guides.gif`)
+const channel_name    = 'design-artboard'
+const appendPallete   = () => document.body.prepend(visbug)
+
+// pallete.tutsBaseURL   = src_path.slice(0, src_path.lastIndexOf('/'))
 
 const Pipe = new Channel({
   name: channel_name,
@@ -16,7 +32,7 @@ const Pipe = new Channel({
 })
 
 const layersFromDOM = ({nodeName, className, id, children}) => ({
-  nodeName, className, id, 
+  nodeName, className, id,
   children: [...children].map(layersFromDOM),
 })
 
@@ -45,3 +61,7 @@ Pipe.message.onMessage.addListener((request, sender, sendResponse) => {
   pallete && pallete[action](params)
   // todo: send for tool to select element as well
 })
+
+platform.runtime.onMessage.addListener(request => {
+  if (request.action === 'COLOR_MODE')
+   visbug.setAttribute('color-mode', request.params.mode)

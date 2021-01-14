@@ -1,23 +1,22 @@
-import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { getStyle, showHideSelected } from '../utilities/'
+import { metaKey, getStyle, showHideSelected } from '../utilities/'
 
 const key_events = 'up,down,left,right'
   .split(',')
-  .reduce((events, event) => 
+  .reduce((events, event) =>
     `${events},${event},shift+${event}`
   , '')
   .substring(1)
 
-const command_events = 'cmd+up,cmd+down'
+const command_events = `${metaKey}+up,${metaKey}+down`
 
-export function Font(selector) {
+export function Font({selection}) {
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
-      
+
     e.preventDefault()
 
-    let selectedNodes = $(selector)
+    let selectedNodes = selection()
       , keys = handler.key.split('+')
 
     if (keys.includes('left') || keys.includes('right'))
@@ -33,22 +32,22 @@ export function Font(selector) {
   hotkeys(command_events, (e, handler) => {
     e.preventDefault()
     let keys = handler.key.split('+')
-    changeFontWeight($(selector), keys.includes('up') ? 'up' : 'down')
+    changeFontWeight(selection(), keys.includes('up') ? 'up' : 'down')
   })
 
   hotkeys('cmd+b', e => {
-    $(selector).forEach(el =>
-      el.style.fontWeight = 
-        el.style.fontWeight == 'bold' 
-          ? null 
+    selection().forEach(el =>
+      el.style.fontWeight =
+        el.style.fontWeight == 'bold'
+          ? null
           : 'bold')
   })
 
   hotkeys('cmd+i', e => {
-    $(selector).forEach(el =>
-      el.style.fontStyle = 
-        el.style.fontStyle == 'italic' 
-          ? null 
+    selection().forEach(el =>
+      el.style.fontStyle =
+        el.style.fontStyle == 'italic'
+          ? null
           : 'italic')
   })
 
@@ -63,8 +62,8 @@ export function Font(selector) {
 export function changeLeading(els, direction) {
   els
     .map(el => showHideSelected(el))
-    .map(el => ({ 
-      el, 
+    .map(el => ({
+      el,
       style:    'lineHeight',
       current:  parseInt(getStyle(el, 'lineHeight')),
       amount:   1,
@@ -79,7 +78,7 @@ export function changeLeading(els, direction) {
     .map(payload =>
       Object.assign(payload, {
         value: payload.negative
-          ? payload.current - payload.amount 
+          ? payload.current - payload.amount
           : payload.current + payload.amount
       }))
     .forEach(({el, style, value}) =>
@@ -89,8 +88,8 @@ export function changeLeading(els, direction) {
 export function changeKerning(els, direction) {
   els
     .map(el => showHideSelected(el))
-    .map(el => ({ 
-      el, 
+    .map(el => ({
+      el,
       style:    'letterSpacing',
       current:  parseFloat(getStyle(el, 'letterSpacing')),
       amount:   .1,
@@ -105,7 +104,7 @@ export function changeKerning(els, direction) {
     .map(payload =>
       Object.assign(payload, {
         value: payload.negative
-          ? (payload.current - payload.amount).toFixed(2) 
+          ? (payload.current - payload.amount).toFixed(2)
           : (payload.current + payload.amount).toFixed(2)
       }))
     .forEach(({el, style, value}) =>
@@ -115,8 +114,8 @@ export function changeKerning(els, direction) {
 export function changeFontSize(els, direction) {
   els
     .map(el => showHideSelected(el))
-    .map(el => ({ 
-      el, 
+    .map(el => ({
+      el,
       style:    'fontSize',
       current:  parseInt(getStyle(el, 'fontSize')),
       amount:   direction.split('+').includes('shift') ? 10 : 1,
@@ -125,7 +124,7 @@ export function changeFontSize(els, direction) {
     .map(payload =>
       Object.assign(payload, {
         font_size: payload.negative
-          ? payload.current - payload.amount 
+          ? payload.current - payload.amount
           : payload.current + payload.amount
       }))
     .forEach(({el, style, font_size}) =>
@@ -144,8 +143,8 @@ const weightOptions = [100,200,300,400,500,600,700,800,900]
 export function changeFontWeight(els, direction) {
   els
     .map(el => showHideSelected(el))
-    .map(el => ({ 
-      el, 
+    .map(el => ({
+      el,
       style:    'fontWeight',
       current:  getStyle(el, 'fontWeight'),
       direction: direction.split('+').includes('down'),
@@ -153,11 +152,11 @@ export function changeFontWeight(els, direction) {
     .map(payload =>
       Object.assign(payload, {
         value: payload.direction
-          ? weightMap[payload.current] - 1 
+          ? weightMap[payload.current] - 1
           : weightMap[payload.current] + 1
       }))
     .forEach(({el, style, value}) =>
-      el.style[style] = weightOptions[value < 0 ? 0 : value >= weightOptions.length 
+      el.style[style] = weightOptions[value < 0 ? 0 : value >= weightOptions.length
         ? weightOptions.length
         : value
       ])
@@ -174,8 +173,8 @@ const alignOptions = ['left','center','right']
 export function changeAlignment(els, direction) {
   els
     .map(el => showHideSelected(el))
-    .map(el => ({ 
-      el, 
+    .map(el => ({
+      el,
       style:    'textAlign',
       current:  getStyle(el, 'textAlign'),
       direction: direction.split('+').includes('left'),
@@ -183,7 +182,7 @@ export function changeAlignment(els, direction) {
     .map(payload =>
       Object.assign(payload, {
         value: payload.direction
-          ? alignMap[payload.current] - 1 
+          ? alignMap[payload.current] - 1
           : alignMap[payload.current] + 1
       }))
     .forEach(({el, style, value}) =>

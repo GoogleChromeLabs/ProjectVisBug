@@ -1,16 +1,15 @@
 import { HotkeyMap } from './base.element'
-import { position as icon } from '../tool-pallete/toolpallete.icons' 
+import { position as icon } from '../vis-bug/vis-bug.icons'
+import { altKey } from '../../utilities';
 
 export class PositionHotkeys extends HotkeyMap {
   constructor() {
     super()
 
     this._hotkey    = 'l'
-    this._usedkeys  = ['shift','alt']
+    this._usedkeys  = ['shift',altKey]
     this.tool       = 'position'
   }
-
-  connectedCallback() {}
 
   show() {
     this.$shadow.host.style.display = 'flex'
@@ -18,7 +17,6 @@ export class PositionHotkeys extends HotkeyMap {
 
   render() {
     return `
-      ${this.styles()}
       <article>
         <div tool-icon>
           <span>

@@ -1,5 +1,5 @@
 import { HotkeyMap } from './base.element'
-import { guides as icon } from '../tool-pallete/toolpallete.icons' 
+import { guides as icon } from '../vis-bug/vis-bug.icons'
 
 export class GuidesHotkeys extends HotkeyMap {
   constructor() {
@@ -10,15 +10,12 @@ export class GuidesHotkeys extends HotkeyMap {
     this.tool       = 'guides'
   }
 
-  connectedCallback() {}
-
   show() {
     this.$shadow.host.style.display = 'flex'
   }
 
   render() {
     return `
-      ${this.styles()}
       <article>
         <div tool-icon>
           <span>

@@ -1,0 +1,536 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8EBF95822550B10A007B8136 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBF95812550B10A007B8136 /* AppDelegate.swift */; };
+		8EBF95852550B10A007B8136 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EBF95832550B10A007B8136 /* Main.storyboard */; };
+		8EBF95872550B10A007B8136 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBF95862550B10A007B8136 /* ViewController.swift */; };
+		8EBF95892550B10B007B8136 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EBF95882550B10B007B8136 /* Assets.xcassets */; };
+		8EBF95902550B10B007B8136 /* VisBug Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8EBF958F2550B10B007B8136 /* VisBug Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8EBF95952550B10B007B8136 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EBF95942550B10B007B8136 /* Cocoa.framework */; };
+		8EBF95982550B10B007B8136 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBF95972550B10B007B8136 /* SafariWebExtensionHandler.swift */; };
+		8EBF95AC2550B10C007B8136 /* visbug.js in Resources */ = {isa = PBXBuildFile; fileRef = 8EBF95A52550B10C007B8136 /* visbug.js */; };
+		8EBF95AD2550B10C007B8136 /* toolbar in Resources */ = {isa = PBXBuildFile; fileRef = 8EBF95A62550B10C007B8136 /* toolbar */; };
+		8EBF95AE2550B10C007B8136 /* contextmenu in Resources */ = {isa = PBXBuildFile; fileRef = 8EBF95A72550B10C007B8136 /* contextmenu */; };
+		8EBF95AF2550B10C007B8136 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = 8EBF95A82550B10C007B8136 /* icons */; };
+		8EBF95B02550B10C007B8136 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 8EBF95A92550B10C007B8136 /* manifest.json */; };
+		8EBF95B12550B10C007B8136 /* build in Resources */ = {isa = PBXBuildFile; fileRef = 8EBF95AA2550B10C007B8136 /* build */; };
+		8EBF95B22550B10C007B8136 /* tuts in Resources */ = {isa = PBXBuildFile; fileRef = 8EBF95AB2550B10C007B8136 /* tuts */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8EBF95912550B10B007B8136 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8EBF95752550B10A007B8136 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8EBF958E2550B10B007B8136;
+			remoteInfo = "VisBug Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8EBF95A02550B10B007B8136 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8EBF95902550B10B007B8136 /* VisBug Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		8EBF957D2550B10A007B8136 /* VisBug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VisBug.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8EBF95802550B10A007B8136 /* VisBug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VisBug.entitlements; sourceTree = "<group>"; };
+		8EBF95812550B10A007B8136 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		8EBF95842550B10A007B8136 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8EBF95862550B10A007B8136 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8EBF95882550B10B007B8136 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8EBF958A2550B10B007B8136 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8EBF958F2550B10B007B8136 /* VisBug Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "VisBug Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8EBF95942550B10B007B8136 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		8EBF95972550B10B007B8136 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		8EBF95992550B10B007B8136 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8EBF959A2550B10B007B8136 /* VisBug_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VisBug_Extension.entitlements; sourceTree = "<group>"; };
+		8EBF95A52550B10C007B8136 /* visbug.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = visbug.js; path = ../../extension/visbug.js; sourceTree = "<group>"; };
+		8EBF95A62550B10C007B8136 /* toolbar */ = {isa = PBXFileReference; lastKnownFileType = folder; name = toolbar; path = ../../extension/toolbar; sourceTree = "<group>"; };
+		8EBF95A72550B10C007B8136 /* contextmenu */ = {isa = PBXFileReference; lastKnownFileType = folder; name = contextmenu; path = ../../extension/contextmenu; sourceTree = "<group>"; };
+		8EBF95A82550B10C007B8136 /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../../extension/icons; sourceTree = "<group>"; };
+		8EBF95A92550B10C007B8136 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../extension/manifest.json; sourceTree = "<group>"; };
+		8EBF95AA2550B10C007B8136 /* build */ = {isa = PBXFileReference; lastKnownFileType = folder; name = build; path = ../../extension/build; sourceTree = "<group>"; };
+		8EBF95AB2550B10C007B8136 /* tuts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tuts; path = ../../extension/tuts; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8EBF957A2550B10A007B8136 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EBF958C2550B10B007B8136 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EBF95952550B10B007B8136 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8EBF95742550B10A007B8136 = {
+			isa = PBXGroup;
+			children = (
+				8EBF957F2550B10A007B8136 /* VisBug */,
+				8EBF95962550B10B007B8136 /* VisBug Extension */,
+				8EBF95932550B10B007B8136 /* Frameworks */,
+				8EBF957E2550B10A007B8136 /* Products */,
+			);
+			indentWidth = 2;
+			sourceTree = "<group>";
+			tabWidth = 2;
+		};
+		8EBF957E2550B10A007B8136 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8EBF957D2550B10A007B8136 /* VisBug.app */,
+				8EBF958F2550B10B007B8136 /* VisBug Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8EBF957F2550B10A007B8136 /* VisBug */ = {
+			isa = PBXGroup;
+			children = (
+				8EBF95802550B10A007B8136 /* VisBug.entitlements */,
+				8EBF95812550B10A007B8136 /* AppDelegate.swift */,
+				8EBF95832550B10A007B8136 /* Main.storyboard */,
+				8EBF95862550B10A007B8136 /* ViewController.swift */,
+				8EBF95882550B10B007B8136 /* Assets.xcassets */,
+				8EBF958A2550B10B007B8136 /* Info.plist */,
+			);
+			path = VisBug;
+			sourceTree = "<group>";
+		};
+		8EBF95932550B10B007B8136 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8EBF95942550B10B007B8136 /* Cocoa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8EBF95962550B10B007B8136 /* VisBug Extension */ = {
+			isa = PBXGroup;
+			children = (
+				8EBF95A42550B10C007B8136 /* Resources */,
+				8EBF95972550B10B007B8136 /* SafariWebExtensionHandler.swift */,
+				8EBF95992550B10B007B8136 /* Info.plist */,
+				8EBF959A2550B10B007B8136 /* VisBug_Extension.entitlements */,
+			);
+			path = "VisBug Extension";
+			sourceTree = "<group>";
+		};
+		8EBF95A42550B10C007B8136 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8EBF95A52550B10C007B8136 /* visbug.js */,
+				8EBF95A62550B10C007B8136 /* toolbar */,
+				8EBF95A72550B10C007B8136 /* contextmenu */,
+				8EBF95A82550B10C007B8136 /* icons */,
+				8EBF95A92550B10C007B8136 /* manifest.json */,
+				8EBF95AA2550B10C007B8136 /* build */,
+				8EBF95AB2550B10C007B8136 /* tuts */,
+			);
+			name = Resources;
+			path = "VisBug Extension";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8EBF957C2550B10A007B8136 /* VisBug */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8EBF95A12550B10B007B8136 /* Build configuration list for PBXNativeTarget "VisBug" */;
+			buildPhases = (
+				8EBF95792550B10A007B8136 /* Sources */,
+				8EBF957A2550B10A007B8136 /* Frameworks */,
+				8EBF957B2550B10A007B8136 /* Resources */,
+				8EBF95A02550B10B007B8136 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8EBF95922550B10B007B8136 /* PBXTargetDependency */,
+			);
+			name = VisBug;
+			productName = VisBug;
+			productReference = 8EBF957D2550B10A007B8136 /* VisBug.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8EBF958E2550B10B007B8136 /* VisBug Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8EBF959D2550B10B007B8136 /* Build configuration list for PBXNativeTarget "VisBug Extension" */;
+			buildPhases = (
+				8EBF958B2550B10B007B8136 /* Sources */,
+				8EBF958C2550B10B007B8136 /* Frameworks */,
+				8EBF958D2550B10B007B8136 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "VisBug Extension";
+			productName = "VisBug Extension";
+			productReference = 8EBF958F2550B10B007B8136 /* VisBug Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8EBF95752550B10A007B8136 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1220;
+				LastUpgradeCheck = 1220;
+				TargetAttributes = {
+					8EBF957C2550B10A007B8136 = {
+						CreatedOnToolsVersion = 12.2;
+					};
+					8EBF958E2550B10B007B8136 = {
+						CreatedOnToolsVersion = 12.2;
+					};
+				};
+			};
+			buildConfigurationList = 8EBF95782550B10A007B8136 /* Build configuration list for PBXProject "VisBug" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8EBF95742550B10A007B8136;
+			productRefGroup = 8EBF957E2550B10A007B8136 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8EBF957C2550B10A007B8136 /* VisBug */,
+				8EBF958E2550B10B007B8136 /* VisBug Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8EBF957B2550B10A007B8136 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EBF95892550B10B007B8136 /* Assets.xcassets in Resources */,
+				8EBF95852550B10A007B8136 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EBF958D2550B10B007B8136 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EBF95AE2550B10C007B8136 /* contextmenu in Resources */,
+				8EBF95AF2550B10C007B8136 /* icons in Resources */,
+				8EBF95B22550B10C007B8136 /* tuts in Resources */,
+				8EBF95B02550B10C007B8136 /* manifest.json in Resources */,
+				8EBF95B12550B10C007B8136 /* build in Resources */,
+				8EBF95AD2550B10C007B8136 /* toolbar in Resources */,
+				8EBF95AC2550B10C007B8136 /* visbug.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8EBF95792550B10A007B8136 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EBF95872550B10A007B8136 /* ViewController.swift in Sources */,
+				8EBF95822550B10A007B8136 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EBF958B2550B10B007B8136 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EBF95982550B10B007B8136 /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8EBF95922550B10B007B8136 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8EBF958E2550B10B007B8136 /* VisBug Extension */;
+			targetProxy = 8EBF95912550B10B007B8136 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8EBF95832550B10A007B8136 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8EBF95842550B10A007B8136 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8EBF959B2550B10B007B8136 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		8EBF959C2550B10B007B8136 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		8EBF959E2550B10B007B8136 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "VisBug Extension/VisBug_Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
+				INFOPLIST_FILE = "VisBug Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 0.3.8;
+				PRODUCT_BUNDLE_IDENTIFIER = argyleink.VisBug.Extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		8EBF959F2550B10B007B8136 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "VisBug Extension/VisBug_Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
+				INFOPLIST_FILE = "VisBug Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 0.3.8;
+				PRODUCT_BUNDLE_IDENTIFIER = argyleink.VisBug.Extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		8EBF95A22550B10B007B8136 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = VisBug/VisBug.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 4;
+				INFOPLIST_FILE = VisBug/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 0.3.8;
+				PRODUCT_BUNDLE_IDENTIFIER = argyleink.VisBug;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		8EBF95A32550B10B007B8136 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = VisBug/VisBug.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 4;
+				INFOPLIST_FILE = VisBug/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 0.3.8;
+				PRODUCT_BUNDLE_IDENTIFIER = argyleink.VisBug;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8EBF95782550B10A007B8136 /* Build configuration list for PBXProject "VisBug" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8EBF959B2550B10B007B8136 /* Debug */,
+				8EBF959C2550B10B007B8136 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8EBF959D2550B10B007B8136 /* Build configuration list for PBXNativeTarget "VisBug Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8EBF959E2550B10B007B8136 /* Debug */,
+				8EBF959F2550B10B007B8136 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8EBF95A12550B10B007B8136 /* Build configuration list for PBXNativeTarget "VisBug" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8EBF95A22550B10B007B8136 /* Debug */,
+				8EBF95A32550B10B007B8136 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8EBF95752550B10A007B8136 /* Project object */;
+}

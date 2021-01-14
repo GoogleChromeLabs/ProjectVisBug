@@ -1,23 +1,22 @@
-import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { getStyle } from '../utilities/'
+import { metaKey, getStyle } from '../utilities/'
 
 const key_events = 'up,down,left,right'
   .split(',')
-  .reduce((events, event) => 
+  .reduce((events, event) =>
     `${events},${event},shift+${event}`
   , '')
   .substring(1)
 
-const command_events = 'cmd+up,cmd+down,cmd+left,cmd+right'
+const command_events = `${metaKey}+up,${metaKey}+down,${metaKey}+left,${metaKey}+right,${metaKey}+shift+up,${metaKey}+shift+down,${metaKey}+shift+left,${metaKey}+shift+right`
 
-export function Flex(selector) {
+export function Flex({selection}) {
   hotkeys(key_events, (e, handler) => {
     if (e.cancelBubble) return
-      
+
     e.preventDefault()
 
-    let selectedNodes = $(selector)
+    let selectedNodes = selection()
       , keys = handler.key.split('+')
 
     if (keys.includes('left') || keys.includes('right'))
@@ -33,10 +32,17 @@ export function Flex(selector) {
   hotkeys(command_events, (e, handler) => {
     e.preventDefault()
 
-    let selectedNodes = $(selector)
+    let selectedNodes = selection()
       , keys = handler.key.split('+')
-    
-    changeDirection(selectedNodes, keys.includes('left') ? 'row' : 'column')
+
+    if (keys.includes('left') || keys.includes('right'))
+      keys.includes('shift')
+        ? changeOrder(selectedNodes, handler.key)
+        : changeDirection(selectedNodes, 'row')
+    else
+      keys.includes('shift')
+        ? changeWrap(selectedNodes, handler.key)
+        : changeDirection(selectedNodes, 'column')
   })
 
   return () => {
@@ -75,8 +81,8 @@ const h_alignOptions  = ['flex-start','center','flex-end']
 export function changeHAlignment(els, direction) {
   els
     .map(ensureFlex)
-    .map(el => ({ 
-      el, 
+    .map(el => ({
+      el,
       style:    'justifyContent',
       current:  accountForOtherJustifyContent(getStyle(el, 'justifyContent'), 'align'),
       direction: direction.split('+').includes('left'),
@@ -84,7 +90,7 @@ export function changeHAlignment(els, direction) {
     .map(payload =>
       Object.assign(payload, {
         value: payload.direction
-          ? h_alignMap[payload.current] - 1 
+          ? h_alignMap[payload.current] - 1
           : h_alignMap[payload.current] + 1
       }))
     .forEach(({el, style, value}) =>
@@ -97,8 +103,8 @@ const v_alignOptions  = ['flex-start','center','flex-end']
 export function changeVAlignment(els, direction) {
   els
     .map(ensureFlex)
-    .map(el => ({ 
-      el, 
+    .map(el => ({
+      el,
       style:    'alignItems',
       current:  getStyle(el, 'alignItems'),
       direction: direction.split('+').includes('up'),
@@ -106,7 +112,7 @@ export function changeVAlignment(els, direction) {
     .map(payload =>
       Object.assign(payload, {
         value: payload.direction
-          ? h_alignMap[payload.current] - 1 
+          ? h_alignMap[payload.current] - 1
           : h_alignMap[payload.current] + 1
       }))
     .forEach(({el, style, value}) =>
@@ -119,8 +125,8 @@ const h_distributionOptions  = ['space-around','','space-between']
 export function changeHDistribution(els, direction) {
   els
     .map(ensureFlex)
-    .map(el => ({ 
-      el, 
+    .map(el => ({
+      el,
       style:    'justifyContent',
       current:  accountForOtherJustifyContent(getStyle(el, 'justifyContent'), 'distribute'),
       direction: direction.split('+').includes('left'),
@@ -128,7 +134,7 @@ export function changeHDistribution(els, direction) {
     .map(payload =>
       Object.assign(payload, {
         value: payload.direction
-          ? h_distributionMap[payload.current] - 1 
+          ? h_distributionMap[payload.current] - 1
           : h_distributionMap[payload.current] + 1
       }))
     .forEach(({el, style, value}) =>
@@ -141,8 +147,8 @@ const v_distributionOptions  = ['space-around','','space-between']
 export function changeVDistribution(els, direction) {
   els
     .map(ensureFlex)
-    .map(el => ({ 
-      el, 
+    .map(el => ({
+      el,
       style:    'alignContent',
       current:  getStyle(el, 'alignContent'),
       direction: direction.split('+').includes('up'),
@@ -150,9 +156,57 @@ export function changeVDistribution(els, direction) {
     .map(payload =>
       Object.assign(payload, {
         value: payload.direction
-          ? v_distributionMap[payload.current] - 1 
+          ? v_distributionMap[payload.current] - 1
           : v_distributionMap[payload.current] + 1
       }))
     .forEach(({el, style, value}) =>
       el.style[style] = v_distributionOptions[value < 0 ? 0 : value >= 2 ? 2: value])
+}
+
+const orderMap     = {row: 0, 'row-reverse': 1, column: 2, 'column-reverse': 3,}
+const orderOptions = ['row', 'row-reverse', 'column', 'column-reverse']
+
+export function changeOrder(els, direction) {
+  els
+    .map(ensureFlex)
+    .map(el => ({
+      el,
+      style: 'flexDirection',
+      current: getStyle(el, 'flexDirection'),
+      direction: direction.split('+').includes('left'),
+    }))
+    .map(payload =>
+      Object.assign(payload, {
+        value: payload.direction
+          ? orderMap[payload.current] === 1 || orderMap[payload.current] === 3
+            ? orderMap[payload.current] : orderMap[payload.current] + 1
+          : orderMap[payload.current] === 0 || orderMap[payload.current] === 2
+            ? orderMap[payload.current] : orderMap[payload.current] - 1
+      }))
+      .forEach(({el, style, value}) =>
+        el.style[style] = orderOptions[value])
+}
+
+const wrapMap     = {nowrap: 0, 'wrap': 1,}
+const wrapOptions = ['nowrap', 'wrap']
+
+export function changeWrap(els, direction) {
+  els
+    .map(ensureFlex)
+    .map(el => ({
+      el,
+      style: 'flexWrap',
+      current: getStyle(el, 'flexWrap'),
+      direction: direction.split('+').includes('up'),
+    }))
+    .map(payload =>
+      Object.assign(payload, {
+        value: payload.direction
+          ? wrapMap[payload.current] === 0
+            ? wrapMap[payload.current] : wrapMap[payload.current] - 1
+          : wrapMap[payload.current] === 1
+            ? wrapMap[payload.current] : wrapMap[payload.current] + 1
+      }))
+      .forEach(({el, style, value}) =>
+        el.style[style] = wrapOptions[value])
 }

@@ -2,9 +2,9 @@ main {
   --card-size: 70vw;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(var(--card-size), 1fr));
-  grid-auto-rows: minmax(var(--card-size), 1fr);
+  grid-auto-rows: minmax(var(--card-size), max-content);
   grid-auto-flow: dense;
-  grid-gap: 1rem 2rem;
+  gap: 1rem 2rem;
   padding: 1rem 2rem;
 
   @media (min-width:480px) {
@@ -12,7 +12,7 @@ main {
   }
 
   @media (min-width:768px) {
-    --card-size: 25vw;
+    --card-size: 20vw;
 
     & > article {
       &[span2x2] {
@@ -40,17 +40,17 @@ main {
   }
 
   @media (min-width:1024px) {
-    --card-size: 15vw;
+    --card-size: 16vw;
   }
 
   @media (min-width:1600px) {
-    --card-size: 10vw;
+    --card-size: 15vw;
   }
 }
 
 [image-grid] {
   display: grid;
-  grid-gap: 0.5rem;
+  gap: .5rem;
   height: 100%;
   align-items: space-between;
   justify-content: space-between;
@@ -63,7 +63,9 @@ main {
 
   & img {
     height: 100%;
-    object-fit: cover;
+    width: 100%;
+    object-fit: contain;
+    object-position: center center;
   }
 }
 
@@ -71,10 +73,29 @@ main {
   margin-top: 1rem;
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
-  grid-gap: 0.5rem;
+  gap: .5rem;
 
   & :matches(h1,h2,h3,h4,h5,h6) {
     margin: 0;
+  }
+}
+
+[color-grid] {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: .5rem;
+
+  & > div {
+    border-radius: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    &:not(:first-of-type) {
+      color: white;
+    }
   }
 }
 
@@ -94,6 +115,12 @@ main {
   width: 100%;
   grid-template-columns: repeat(5, 5rem);
   justify-content: space-around;
+
+  & > .filled-circle:nth-child(1) { background: hsl(200, 50%, 50%); }
+  & > .filled-circle:nth-child(2) { background: hsl(225, 50%, 50%); }
+  & > .filled-circle:nth-child(3) { background: hsl(250, 50%, 50%); }
+  & > .filled-circle:nth-child(4) { background: hsl(275, 50%, 50%); }
+  & > .filled-circle:nth-child(5) { background: hsl(300, 50%, 50%); }
 }
 
 nav {
@@ -103,16 +130,12 @@ nav {
 
   &[margin] {
     grid-auto-flow: row;
-
-    & > a {
-      padding: 0.5rem 1rem;
-    }
   }
 
   & > a {
     text-align: center;
     margin: 5px;
-    background: var(--lightest-grey);
-    border-radius: 0.25rem;
+    border: 1px solid var(--darkest-grey);
+    border-radius: .25rem;
   }
 }

@@ -1,12 +1,40 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
+import { querySelectorAllDeep } from 'query-selector-shadow-dom'
+import { PluginRegistry, PluginHints } from '../plugins/_registry'
+import { notList } from '../utilities'
+import { isFirefox } from '../utilities/cross-browser.js'
 
 let SelectorEngine
 
 // create input
 const search_base = document.createElement('div')
 search_base.classList.add('search')
-search_base.innerHTML = `<input type="text" placeholder="ex: images, .btn, button, text, ..."/>`
+search_base.innerHTML = `
+  <input list="visbug-plugins" type="search" placeholder="ex: images, .btn, button, text, ..."/>
+  <datalist id="visbug-plugins">
+    ${isFirefox > 0
+      ?  `<option value="h1, h2, h3, .get-multiple">
+          <option value="nav > a:first-child">
+          <option value="#get-by-id">
+          <option value=".get-by.class-names">
+          <option value="images">
+          <option value="text">`
+
+      :  `<option value="h1, h2, h3, .get-multiple">example</option>
+          <option value="nav > a:first-child">example</option>
+          <option value="#get-by-id">example</option>
+          <option value=".get-by.class-names">example</option>
+          <option value="images">alias</option>
+          <option value="text">alias</option>`}
+
+    ${PluginHints.reduce((options, command) =>
+      options += isFirefox > 0
+        ? `<option value="${command}">`
+        : `<option value="${command}">plugin`
+    , '')}
+  </datalist>
+`
 
 const search        = $(search_base)
 const searchInput   = $('input', search_base)
@@ -22,15 +50,22 @@ export function Search(node) {
     e.preventDefault()
     e.stopPropagation()
 
-    queryPage(e.target.value)
+    const query = e.target.value
+
+    window.requestIdleCallback(_ =>
+      queryPage(query))
   }
 
+  const focus = e =>
+    searchInput[0].focus()
+
+  searchInput.on('click', focus)
   searchInput.on('input', onQuery)
   searchInput.on('keydown', stopBubbling)
   // searchInput.on('blur', hideSearchBar)
 
   showSearchBar()
-  searchInput[0].focus()
+  focus()
 
   // hotkeys('escape,esc', (e, handler) => {
   //   hideSearchBar()
@@ -50,24 +85,30 @@ export function provideSelectorEngine(Engine) {
 }
 
 export function queryPage(query, fn) {
-  if (query == 'links') query = 'a'
-  if (query == 'buttons') query = 'button'
-  if (query == 'images') query = 'img'
-  if (query == 'text') query = 'p,caption,a,h1,h2,h3,h4,h5,h6,small,date,time,li,dt,dd'
+  // todo: should stash a cleanup method to be called when query doesnt match
+  if (PluginRegistry.has(query))
+    return PluginRegistry.get(query)({
+      selected: SelectorEngine.selection(),
+      query
+    })
+
+  if (query == 'links')     query = 'a'
+  if (query == 'buttons')   query = 'button'
+  if (query == 'images')    query = 'img'
+  if (query == 'text')      query = 'p,caption,a,h1,h2,h3,h4,h5,h6,small,date,time,li,dt,dd'
 
   if (!query) return SelectorEngine.unselect_all()
-  if (query == '.' || query == '#') return
+  if (query == '.' || query == '#' || query.trim().endsWith(',')) return
 
   try {
-    let matches = $(query + ':not(tool-pallete):not(script):not(hotkey-map):not(.pb-metatip):not(pb-label):not(pb-handles)')
-    if (!matches.length) matches = $(query)
-    if (!fn)
-      SelectorEngine.unselect_all()
-    if (matches.length)
+    let matches = querySelectorAllDeep(query + notList)
+    if (!matches.length) matches = querySelectorAllDeep(query)
+    if (matches.length) {
       matches.forEach(el =>
         fn
           ? fn(el)
           : SelectorEngine.select(el))
+    }
   }
   catch (err) {}
 }

@@ -1,0 +1,35 @@
+body {
+  min-height: 100vh;
+}
+
+body:not([testing]) [data-selected=true] {
+  transition: all 0.15s ease;
+}
+
+[data-pseudo-select=true] {
+  outline: 1px dashed hsl(267, 100%, 58%);
+}
+
+[data-selected-hide=true][data-selected=true]:after {
+  display: none;
+}
+
+[data-selected=true][contenteditable=true] {
+  caret-color: hotpink;
+}
+
+[data-measuring=true] {
+  cursor: crosshair;
+}
+
+[draggable=true] {
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  & :matches(a, img) {
+    -webkit-user-drag: none !important;
+  }
+}

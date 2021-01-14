@@ -11,9 +11,9 @@ chrome.runtime.onConnect.addListener(port => {
 
   port.onMessage.addListener(message => {
     console.log('visbug port.onMessage', message, port)
-    
-    const tabId = port.sender.tab 
-      ? port.sender.tab.id 
+
+    const tabId = port.sender.tab
+      ? port.sender.tab.id
       : message.tabId
 
     if (!tabId) return console.log('missing tabId', message, port)
@@ -58,32 +58,36 @@ const state = {
   injected: {},
 }
 
-const toggleIn = ({id:tab_id}) => {
+var platform = typeof browser === 'undefined'
+  ? chrome
+  : browser
 
+const toggleIn = ({id:tab_id}) => {
   // toggle out: it's currently loaded and injected
   if (state.loaded[tab_id] && state.injected[tab_id]) {
-    chrome.tabs.executeScript(tab_id, { file: 'toolbar/eject.js' })
+    platform.tabs.executeScript(tab_id, { file: 'toolbar/eject.js' })
     state.injected[tab_id] = false
   }
 
   // toggle in: it's loaded and needs injected
   else if (state.loaded[tab_id] && !state.injected[tab_id]) {
-    chrome.tabs.executeScript(tab_id, { file: 'toolbar/content.js' })
+    platform.tabs.executeScript(tab_id, { file: 'toolbar/restore.js' })
     state.injected[tab_id] = true
+    getColorMode()
   }
 
   // fresh start in tab
   else {
-    chrome.tabs.insertCSS(tab_id,     { file: 'toolbar/bundle.css' })
-    chrome.tabs.executeScript(tab_id, { file: 'web-components.polyfill.js' })
-    chrome.tabs.executeScript(tab_id, { file: 'toolbar/bundle.js' })
-    chrome.tabs.executeScript(tab_id, { file: 'toolbar/content.js' })
+    platform.tabs.insertCSS(tab_id,     { file: 'toolbar/bundle.css' })
+    platform.tabs.executeScript(tab_id, { file: 'toolbar/inject.js' })
+    platform.tabs.executeScript(tab_id, { file: 'toolbar/content.js' })
 
     state.loaded[tab_id]    = true
     state.injected[tab_id]  = true
+    getColorMode()
   }
 
-  chrome.tabs.onUpdated.addListener(function(tabId) {
+  platform.tabs.onUpdated.addListener(function(tabId) {
     if (tabId === tab_id)
       state.loaded[tabId] = false
   })
@@ -105,4 +109,3 @@ chrome.contextMenus.onClicked.addListener((menuInfo, tab) => {
     })
   })
 })
-

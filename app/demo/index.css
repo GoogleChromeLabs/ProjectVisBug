@@ -43,7 +43,6 @@ html[light] {
 
   & .artboard label {
     color: var(--light-grey);
-    text-shadow: 0 0.5px 0 var(--dark-grey);
   }
 
   & kbd {
@@ -145,7 +144,7 @@ img {
       display: grid;
       grid-auto-flow: column;
       align-items: center;
-      justify-content: right;
+      justify-content: space-between;
       grid-gap: 0.5rem;
     }
   }
@@ -192,11 +191,12 @@ img {
 
 kbd {
   font-weight: bold;
+  font-size: 1rem;
   background: var(--lighter-grey);
   border-radius: 0.5rem;
   padding: 0.1em 0.6em 0.2em;
   position: relative;
-  bottom: 0.2em;
+  bottom: 0.05em;
 }
 
 .key {

@@ -1,0 +1,57 @@
+name: CI/CD
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Use Node.js 10.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+
+      - name: Git Init
+        run: |
+          git switch -c main
+          git config --global user.email "argyle@google.com"
+          git config --global user.name "Adam Argyle"
+
+      - name: Test & Build
+        run: |
+          npm install
+          npm run extension:release
+
+      - name: Git Push
+        uses: ad-m/github-push-action@master
+        with:
+          tags: true
+          branch: 'main'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Save Build As Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: VisBug
+          path: extension/build/visbug.zip
+
+      - name: Publish Chrome Extension
+        uses: trmcnvn/chrome-addon@v2
+        with:
+          extension: cdockenadnadldjbbgcallicgledbeoc
+          zip: extension/build/visbug.zip
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+
+      - name: Firebase Deploy
+        uses: pizzafox/firebase-action@1.0.7
+        env:
+          PROJECT_ID: "visbug"
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        with:
+          args: deploy

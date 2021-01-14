@@ -1,13 +1,16 @@
 import $ from 'blingblingjs'
+import { LabelStyles } from '../styles.store'
+import { isFixed } from '../../utilities/';
 
 export class Label extends HTMLElement {
-  
+
   constructor() {
     super()
-    this.$shadow = this.attachShadow({mode: 'open'})
+    this.$shadow = this.attachShadow({mode: 'closed'})
   }
 
   connectedCallback() {
+    this.$shadow.adoptedStyleSheets = [LabelStyles]
     $('a', this.$shadow).on('click mouseenter', this.dispatchQuery.bind(this))
     window.addEventListener('resize', this.on_resize.bind(this))
   }
@@ -27,6 +30,7 @@ export class Label extends HTMLElement {
       this.position = {
         node_label_id,
         boundingRect: source_el.getBoundingClientRect(),
+        isFixed: isFixed(source_el),
       }
     })
   }
@@ -45,69 +49,23 @@ export class Label extends HTMLElement {
     this._text = content
   }
 
-  set position({boundingRect, node_label_id}) {
-    this.$shadow.innerHTML  = this.render(boundingRect, node_label_id)
+  set position({boundingRect, node_label_id, isFixed}) {
+    this.$shadow.innerHTML = this.render(node_label_id)
+    this.update = {boundingRect, isFixed}
   }
 
-  set update({x,y}) {
-    const label = this.$shadow.children[1]
-    label.style.top  = y + window.scrollY + 'px'
-    label.style.left = x - 1 + 'px'
+  set update({boundingRect, isFixed}) {
+    this.style.setProperty('--top', `${boundingRect.y + (isFixed ? 0 : window.scrollY)}px`)
+    this.style.setProperty('--left', `${boundingRect.x - 1}px`)
+    this.style.setProperty('--max-width', `${boundingRect.width + (window.innerWidth - boundingRect.x - boundingRect.width - 20)}px`)
+    this.style.setProperty('--position', isFixed ? 'fixed' : 'absolute');
   }
 
-  render({ x, y, width, height, top, left }, node_label_id) {
+  render(node_label_id) {
     this.$shadow.host.setAttribute('data-label-id', node_label_id)
 
-    return `
-      ${this.styles({top,left,width})}
-      <span>
-        ${this._text}
-      </span>
-    `
-  }
-
-  styles({top,left,width}) {
-    return `
-      <style>
-        :host {
-          font-size: 16px;
-        }
-
-        :host > span {
-          position: absolute;
-          top: ${top + window.scrollY}px;
-          left: ${left - 1}px;
-          max-width: ${width + (window.innerWidth - left - width - 20)}px;
-          z-index: 10000;
-          transform: translateY(-100%);
-          background: hsl(330, 100%, 71%);
-          text-shadow: 0 0.5px 0 hsl(330, 100%, 61%);
-          color: white;
-          display: inline-flex;
-          justify-content: center;
-          font-size: 0.8em;
-          font-weight: normal;
-          font-family: sans-serif;
-          white-space: nowrap;
-          padding: 0.25em 0.4em 0.15em;
-          line-height: 1.1;
-        }
-
-        :host a {
-          text-decoration: none;
-          color: inherit;
-          cursor: pointer;
-          text-overflow: ellipsis;
-          overflow: hidden;
-        }
-
-        :host a:hover {
-          text-decoration: underline;
-          color: white;
-        }
-      </style>
-    `
+    return `<span>${this._text}</span>`
   }
 }
 
-customElements.define('pb-label', Label)
+customElements.define('visbug-label', Label)

@@ -2,6 +2,11 @@ import $ from 'blingblingjs'
 import { TinyColor } from '@ctrl/tinycolor'
 import { getStyle } from '../utilities/'
 
+const state = {
+  active_color: 'background',
+  elements: [],
+}
+
 export function ColorPicker(pallete, selectorEngine) {
   const foregroundPicker  = $('#foreground', pallete)
   const backgroundPicker  = $('#background', pallete)
@@ -10,38 +15,53 @@ export function ColorPicker(pallete, selectorEngine) {
   const bgInput           = $('input', backgroundPicker[0])
   const boInput           = $('input', borderPicker[0])
 
-  this.active_color       = 'background'
+  const shadows = {
+    active:   '0 0 0 2px hotpink, rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em',
+    inactive: '0 0 0 2px var(--theme-bg), rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em',
+  }
 
-  // set colors
-  fgInput.on('input', e =>
-    $('[data-selected=true]').map(el =>
-      el.style['color'] = e.target.value))
+  const state = {
+    active_color: undefined,
+    elements:     [],
+  }
 
-  bgInput.on('input', e =>
-    $('[data-selected=true]').map(el =>
+  fgInput.on('input', ({target:{value}}) => {
+    state.elements.map(el =>
+      el.style['color'] = value)
+
+    foregroundPicker[0].style.setProperty(`--contextual_color`, value)
+  })
+
+  bgInput.on('input', ({target:{value}}) => {
+    state.elements.map(el =>
       el.style[el instanceof SVGElement
         ? 'fill'
         : 'backgroundColor'
-      ] = e.target.value))
+      ] = value)
 
-  boInput.on('input', e =>
-    $('[data-selected=true]').map(el =>
+    backgroundPicker[0].style.setProperty(`--contextual_color`, value)
+  })
+
+  boInput.on('input', ({target:{value}}) => {
+    state.elements.map(el =>
       el.style[el instanceof SVGElement
         ? 'stroke'
-        : 'border-color'
-      ] = e.target.value))
+        : 'borderColor'
+      ] = value)
 
-  // read colors
-  selectorEngine.onSelectedUpdate(elements => {
-    if (!elements.length) return
+    borderPicker[0].style.setProperty(`--contextual_color`, value)
+  })
+
+  const extractColors = elements => {
+    state.elements = elements
 
     let isMeaningfulForeground  = false
     let isMeaningfulBackground  = false
     let isMeaningfulBorder      = false
     let FG, BG, BO
 
-    if (elements.length == 1) {
-      const el = elements[0]
+    if (state.elements.length == 1) {
+      const el = state.elements[0]
 
       if (el instanceof SVGElement) {
         FG = new TinyColor('rgb(0, 0, 0)')
@@ -59,85 +79,106 @@ export function ColorPicker(pallete, selectorEngine) {
           : new TinyColor(getStyle(el, 'borderColor'))
       }
 
-      let fg = FG.toHexString()
-      let bg = BG.toHexString()
-      let bo = BO.toHexString()
+      let fg = FG.toHslString()
+      let bg = BG.toHslString()
+      let bo = BO.toHslString()
 
       isMeaningfulForeground = FG.originalInput !== 'rgb(0, 0, 0)' || (el.children.length === 0 && el.textContent !== '')
-      isMeaningfulBackground = BG.originalInput !== 'rgba(0, 0, 0, 0)' 
-      isMeaningfulBorder     = BO.originalInput !== 'rgb(0, 0, 0)' 
+      isMeaningfulBackground = BG.originalInput !== 'rgba(0, 0, 0, 0)'
+      isMeaningfulBorder     = BO.originalInput !== 'rgb(0, 0, 0)'
 
       if (isMeaningfulForeground && !isMeaningfulBackground)
         setActive('foreground')
-      else if (isMeaningfulBackground && !isMeaningfulForeground)
+      else if (isMeaningfulBackground && !isMeaningfulForeground || isMeaningfulBackground && isMeaningfulForeground)
         setActive('background')
 
-      const new_fg = isMeaningfulForeground ? fg : ''
-      const new_bg = isMeaningfulBackground ? bg : ''
-      const new_bo = isMeaningfulBorder ? bo : ''
+      const new_fg = isMeaningfulForeground   ? fg : ''
+      const new_bg = isMeaningfulBackground   ? bg : ''
+      const new_bo = isMeaningfulBorder       ? bo : ''
 
-      fgInput.attr('value', new_fg)
-      bgInput.attr('value', new_bg)
-      boInput.attr('value', new_bo)
-      
+      const fg_icon = isMeaningfulForeground  ? healthyContrastColor(FG) : ''
+      const bg_icon = isMeaningfulBackground  ? healthyContrastColor(BG) : ''
+      const bo_icon = isMeaningfulBorder      ? healthyContrastColor(BO) : ''
+
+      fgInput.attr('value', `#`+FG.toHex())
+      bgInput.attr('value', `#`+BG.toHex())
+      boInput.attr('value', `#`+BO.toHex())
+
       foregroundPicker.attr('style', `
         --contextual_color: ${new_fg};
-        display: ${isMeaningfulForeground ? 'inline-flex' : 'none'};
+        --icon_color: ${fg_icon};
       `)
 
       backgroundPicker.attr('style', `
         --contextual_color: ${new_bg};
-        display: ${isMeaningfulBackground ? 'inline-flex' : 'none'};
+        --icon_color: ${bg_icon};
       `)
 
       borderPicker.attr('style', `
         --contextual_color: ${new_bo};
-        display: ${isMeaningfulBorder ? 'inline-flex' : 'none'};
+        --icon_color: ${bo_icon};
       `)
     }
     else {
       // show all 3 if they've selected more than 1 node
+      // todo: this is giving up, and can be solved
       foregroundPicker.attr('style', `
-        --active_color: ${this.active_color == 'foreground' ? 'hotpink': ''};
-        display: 'inline-flex'};
+        box-shadow: ${state.active_color == 'foreground' ? shadows.active : shadows.inactive};
+        --contextual_color: transparent;
+        --icon_color: hsla(0,0%,0%,80%);
       `)
 
       backgroundPicker.attr('style', `
-        --active_color: ${this.active_color == 'background' ? 'hotpink': ''};
-        display: 'inline-flex'};
+        box-shadow: ${state.active_color == 'background' ? shadows.active : shadows.inactive};
+        --contextual_color: transparent;
+        --icon_color: hsla(0,0%,0%,80%);
       `)
 
       borderPicker.attr('style', `
-        --active_color: ${this.active_color == 'border' ? 'hotpink': ''};
-        display: 'inline-flex'};
+        box-shadow: ${state.active_color == 'border' ? shadows.active : shadows.inactive};
+        --contextual_color: transparent;
+        --icon_color: hsla(0,0%,0%,80%);
       `)
     }
-  })
+  }
 
   const getActive = () =>
-    this.active_color
+    state.active_color
 
   const setActive = key => {
     removeActive()
-    this.active_color = key
+    state.active_color = key
+
     if (key === 'foreground')
-      foregroundPicker[0].style.setProperty('--active_color', 'hotpink')
+      foregroundPicker[0].style.boxShadow = shadows.active
     if (key === 'background')
-      backgroundPicker[0].style.setProperty('--active_color', 'hotpink')
+      backgroundPicker[0].style.boxShadow = shadows.active
     if (key === 'border')
-      borderPicker[0].style.setProperty('--active_color', 'hotpink')
+      borderPicker[0].style.boxShadow = shadows.active
   }
 
   const removeActive = () =>
-    [foregroundPicker, backgroundPicker, borderPicker].forEach(picker =>
-      picker[0].style.removeProperty('--active_color'))
+    [foregroundPicker, backgroundPicker, borderPicker].forEach(([picker]) =>
+      picker.style.boxShadow = shadows.inactive)
+
+  selectorEngine.onSelectedUpdate(extractColors)
 
   return {
     getActive,
     setActive,
-    foreground: { color: color => 
+    foreground: { color: color =>
       foregroundPicker[0].style.setProperty('--contextual_color', color)},
-    background: { color: color => 
+    background: { color: color =>
       backgroundPicker[0].style.setProperty('--contextual_color', color)}
   }
+}
+
+export const healthyContrastColor = color => {
+  let contrast = color.clone()
+
+  contrast = contrast.isDark()
+    ? contrast.lighten(75)
+    : contrast.darken(50)
+
+  return contrast.toHslString()
 }

@@ -1,11 +1,12 @@
 import { HotkeyMap } from './base.element'
+import { metaKey, altKey } from '../../utilities';
 
 export class FontHotkeys extends HotkeyMap {
   constructor() {
     super()
 
     this._hotkey    = 'f'
-    this._usedkeys  = ['shift','cmd']
+    this._usedkeys  = ['shift',metaKey]
     this.tool       = 'font'
   }
 
@@ -36,7 +37,7 @@ export class FontHotkeys extends HotkeyMap {
         negative  = 'decrease'
     }
     // font weight
-    else if (hotkeys.cmd && (code === 'ArrowUp' || code === 'ArrowDown')) {
+    else if (hotkeys[metaKey] && (code === 'ArrowUp' || code === 'ArrowDown')) {
       side                = 'font weight'
       amount              = ''
       negative_modifier   = ''
@@ -70,7 +71,7 @@ export class FontHotkeys extends HotkeyMap {
   }
 
   displayCommand({negative, negative_modifier, side, amount}) {
-    if (negative === '[alt/opt] ')
+    if (negative === `±[${altKey}] `)
       negative = '[increase/decrease]'
     if (negative_modifier === ' to ')
       negative_modifier = ' by '
