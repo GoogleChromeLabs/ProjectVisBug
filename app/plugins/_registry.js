@@ -11,6 +11,7 @@ import { commands as tota11y_commands, default as Tota11yPlugin } from './tota11
 import { commands as shuffle_commands, default as ShufflePlugin } from './shuffle'
 import { commands as colorblind_commands, default as ColorblindPlugin } from './colorblind'
 import { commands as zindex_commands, default as ZIndexPlugin } from './zindex'
+import { commands as no_mouse_days_commands, default as NoMouseDays } from './no-mouse-days'
 
 const commandsToHash = (plugin_commands, plugin_fn) =>
   plugin_commands.reduce((commands, command) =>
@@ -31,6 +32,7 @@ export const PluginRegistry = new Map(Object.entries({
   ...commandsToHash(shuffle_commands, ShufflePlugin),
   ...commandsToHash(colorblind_commands, ColorblindPlugin),
   ...commandsToHash(zindex_commands, ZIndexPlugin),
+  ...commandsToHash(no_mouse_days_commands, NoMouseDays),
 }))
 
 export const PluginHints = [
@@ -46,5 +48,6 @@ export const PluginHints = [
   tota11y_commands[0],
   shuffle_commands[0],
   zindex_commands[0],
+  no_mouse_days_commands[0],
   ...colorblind_commands,
 ].map(command => `/${command}`)
