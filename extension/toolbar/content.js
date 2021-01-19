@@ -53,9 +53,10 @@ const Pipe = new Channel({
 });
 
 visbug.addEventListener('selected', e => {
+  // debugger
   Pipe.post({
     action: 'selected',
-    payload: e.detail,
+    payload: JSON.parse(e.detail),
   });
 });
 

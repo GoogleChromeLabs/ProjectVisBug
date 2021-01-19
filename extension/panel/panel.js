@@ -15,7 +15,7 @@ document.body.classList.add(
 
 Pipe.port.onMessage.addListener((message, sender) => {
   console.log(`${channel_name} recieved port message`, message, sender)
-  
+
   if (message.action == 'selected')
     render_layers(message.payload)
 })
@@ -24,9 +24,9 @@ Pipe.message.onMessage.addListener((request, sender, sendResponse) => {
   console.log(`${channel_name} onMessage`, request)
 })
 
-// todo: render node props then children 
+// todo: render node props then children
 const recurse_nodes = ({nodeName, className, id, children}) => `
-  <details>
+  <details open>
     <summary class="layer">
       <span icon></span>
       ${nodeName}${id ? '#' + id : ''} ${className}

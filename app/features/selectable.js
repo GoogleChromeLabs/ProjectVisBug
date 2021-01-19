@@ -712,7 +712,7 @@ export function Selectable(visbug) {
 
   const layersFromDOM = ({nodeName, className, id, children}) => ({
     nodeName, className, id,
-    children: Object.assign({}, [...children].map(layersFromDOM)),
+    children: [...children].map(layersFromDOM),
   })
 
   const tellWatchers = () => {
@@ -720,7 +720,7 @@ export function Selectable(visbug) {
 
     visbug.$shadow.host.dispatchEvent(new CustomEvent('selected', {
       bubbles: true,
-      detail: Object.assign({}, selected.map(layersFromDOM)),
+      detail: JSON.stringify(selected.map(layersFromDOM)),
     }))
   }
 
