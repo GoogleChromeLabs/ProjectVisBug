@@ -39,7 +39,7 @@ export const desiredPropMap = {
   gridAutoFlow:        'row',
 }
 
-if (isFirefox) {
+if (isFirefox >= 1) {
   desiredPropMap.backgroundSize = 'auto'
   desiredPropMap.borderWidth    = ''
   desiredPropMap.borderRadius   = ''
