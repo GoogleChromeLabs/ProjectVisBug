@@ -23,7 +23,7 @@
   direction: ltr;
   font-size: 16px;
   font-family: system-ui;
-  max-width: 50vw;
+  max-width: 90vw;
   background: var(--theme-bd);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
@@ -36,6 +36,7 @@
   border-radius: var(--border-radius);
   line-height: initial;
 
+  border: 1px solid var(--theme-bg);
   box-shadow:
     0 3.6px 3.7px rgba(0, 0, 0, 0.101),
     0 12.1px 12.3px rgba(0, 0, 0, 0.149),
@@ -43,7 +44,11 @@
     0 -12.1px 24px rgba(0, 0, 0, 0.149),
     0 54px 55px rgba(0, 0, 0, 0.25);
 
-  border: 1px solid var(--theme-bg);
+
+  @media (min-width: 540px) {
+    max-width: 50vw;
+  }
+
   &:after {
     content: "";
     background: var(--theme-bg);
