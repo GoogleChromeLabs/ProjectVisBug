@@ -264,7 +264,7 @@ const clearDragHistory = node => {
   ['lastSrc','lastSrcset','lastBackgroundImage'].forEach(prop =>
     node[prop] = null)
 
-  sources = getPictureSourcesToUpdate(node)
+  const sources = getPictureSourcesToUpdate(node)
 
   if (sources){
     sources.forEach(source => {
