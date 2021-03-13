@@ -4,6 +4,7 @@
   "description": "Open source browser design tools",
   "manifest_version": 2,
   "icons": { "128": "icons/visbug.png" },
+  "devtools_page": "panel/index.html",
   "permissions": [
     "activeTab",
     "contextMenus",
