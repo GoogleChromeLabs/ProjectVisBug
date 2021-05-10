@@ -213,6 +213,29 @@
   box-shadow: 0 0 0 1px var(--theme-icon_active-bg);
 }
 
+:host [color-swatch] {
+  width: 100%;
+  height: 6em;
+  display: grid;
+  align-content: end;
+  padding: 0.5em 1em;
+  margin: 0 -0.60em;
+}
+
+:host [color-swatch] > small,
+:host [color-swatch] > span {
+  color: white;
+  text-shadow:
+    black -1px -1px,
+    black -1px 0,
+    black -1px 1px,
+    black 0 -1px,
+    black 0 1px,
+    black 1px -1px,
+    black 1px 0,
+    black 1px 1px;
+}
+
 :host [accessibility] {
   align-items: center;
 }
