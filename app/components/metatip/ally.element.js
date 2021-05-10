@@ -1,44 +1,25 @@
 import $ from 'blingblingjs'
 import { Metatip } from './metatip.element.js'
-// import { Selectable } from '../../features/'
 
 export class Ally extends Metatip {
   constructor() {
     super()
-    // Selectable($('[color-swatch]', this.$shadow))
   }
 
-  copyToClipboard(text, callback) {
-    try {
-      var temp = document.createElement('textarea');
-      document.body.append(temp);
-      temp.value = text;
-      temp.select();
-      document.execCommand('copy');
-      temp.remove();
-      if (callback) callback(text);
-    } catch (err) {
-      alert(
-        'Could not automatically copy to clipboard. \n\n Copy this text instead: \n\n' +
-          text
-      );
-    }
-  }
-
-  clipboardMessage() {
-    alert('Supposed to copy to clipboard but getting error.');
+  copyToClipboard(text) {
+    navigator.clipboard.writeText(text)
   }
 
   copyColorSwatch(event) {
-    this.copyToClipboard(event.target.querySelector('span').innerText.trim(), this.clipboardMessage)
+    this.copyToClipboard(event.target.querySelector('span').innerText.trim())
   }
 
   observe() {
-    $('[color-swatch]', this.$shadow).on('click', this.copyColorSwatch.bind(this))
+    $('[color-swatch], [color-swatch] *', this.$shadow).on('click', this.copyColorSwatch.bind(this))
   }
 
   unobserve() {
-    $('[color-swatch]', this.$shadow).off('click', this.copyColorSwatch.bind(this))
+    $('[color-swatch], [color-swatch] *', this.$shadow).off('click', this.copyColorSwatch.bind(this))
   }
 
   render({el, ally_attributes, contrast_results}) {

@@ -220,6 +220,7 @@
   align-content: end;
   padding: 0.5em 1em;
   margin: 0 -0.60em;
+  cursor: copy;
 }
 
 :host [color-swatch] > small,
@@ -234,6 +235,7 @@
     black 1px -1px,
     black 1px 0,
     black 1px 1px;
+  cursor: copy;
 }
 
 :host [accessibility] {
