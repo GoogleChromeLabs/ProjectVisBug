@@ -5,6 +5,18 @@ export class Ally extends Metatip {
     super()
   }
 
+  copyColorSwatch() {
+    alert('copyColorSwatch')
+  }
+
+  observe() {
+    $('[color-swatch]', this.$shadow).on('click', this.copyColorSwatch.bind(this))
+  }
+
+  unobserve() {
+    $('[color-swatch]', this.$shadow).off('click', this.copyColorSwatch.bind(this))
+  }
+
   render({el, ally_attributes, contrast_results}) {
     return `
       <figure>
