@@ -214,17 +214,19 @@
 }
 
 :host [color-swatch] {
-  width: 100%;
+  width: 22ch;
   height: 6em;
   display: grid;
+  position: relative;
   align-content: end;
-  padding: 0.5em 1em;
+  padding: 0.5em;
   margin: 0 -0.60em;
   cursor: copy;
 }
 
 :host [color-swatch] > small,
-:host [color-swatch] > span {
+:host [color-swatch] > span,
+:host [color-swatch]:after {
   color: white;
   text-shadow:
     black -1px -1px,
@@ -236,6 +238,24 @@
     black 1px 0,
     black 1px 1px;
   cursor: copy;
+}
+
+:host [color-swatch]:after {
+  content: "📋 copy";
+  position: absolute;
+  top: 0.5em;
+  left: 0.5em;
+  transition: opacity 0.3s;
+  opacity: 0;
+}
+
+:host [color-swatch]:hover:after {
+  opacity: 1;
+}
+
+:host [color-swatch]:active:after,
+:host [color-swatch]:focus:after {
+  content: "📋 copied!";
 }
 
 :host [accessibility] {
