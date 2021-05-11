@@ -179,6 +179,7 @@
   font-family: sans-serif;
   text-align: left;
   line-height: 1.5;
+  max-inline-size: 30ch;
 }
 
 :host [prop] {
