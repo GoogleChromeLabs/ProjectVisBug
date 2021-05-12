@@ -174,11 +174,11 @@ const determineColorContrast = el => {
     : `
         <span color-swatch style="background-color:${foreground};">
           <small>Foreground</small>
-          <span>${foreground}</span>
+          <span>${new TinyColor(foreground)[colormode]()}</span>
         </span>
         <span color-swatch style="background-color:${background};">
           <small>Background</small>
-          <span>${background}</span>
+          <span>${new TinyColor(background)[colormode]()}</span>
         </span>
         <span prop>Color contrast</span>
         <span value contrast>

@@ -220,7 +220,7 @@
   position: relative;
   align-content: end;
   padding: 0.5em;
-  margin: 0 -0.60em;
+  margin: -10px -10px 5px;
   cursor: copy;
 }
 
