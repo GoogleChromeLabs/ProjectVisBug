@@ -15,6 +15,12 @@ const state = {
   tips: new Map(),
 }
 
+const modemap = {
+  'hex': 'toHexString',
+  'hsl': 'toHslString',
+  'rgb': 'toRgbString',
+}
+
 export function Accessibility(visbug) {
   state.restoring = true
 
@@ -169,6 +175,8 @@ const determineColorContrast = el => {
     isReadable(background, foreground, { level: "AAA", size: textSize.toLowerCase() })
   ]
 
+  const colormode = modemap[$('vis-bug').attr('color-mode')]
+  
   return foreground === background
     ? `🤷‍♂️ foreground matches background`
     : `
