@@ -1,4 +1,4 @@
-import {isFirefox} from './cross-browser.js'
+import {isFirefox, isSafari} from './cross-browser.js'
 
 export const desiredPropMap = {
   color:               'rgb(0, 0, 0)',
@@ -35,7 +35,7 @@ export const desiredPropMap = {
   gridAutoRows:        'auto',
   gridTemplateAreas:   'none',
   gridArea:            'auto / auto / auto / auto',
-  gap:                 'normal normal',
+  gap:                 'normal',
   gridAutoFlow:        'row',
 }
 
@@ -48,6 +48,10 @@ if (isFirefox) {
   desiredPropMap.gap            = ''
   desiredPropMap.gridArea       = ''
   desiredPropMap.borderColor    = ''
+}
+
+if (isSafari) {
+  desiredPropMap.gap = 'normal normal'
 }
 
 export const desiredAccessibilityMap = [
