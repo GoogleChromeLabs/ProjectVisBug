@@ -16,6 +16,9 @@
   --arrow: var(--arrow-up);
 
   --border-radius: .75em;
+
+  --copy-message-left-color: white;
+  --copy-message-right-color: white;
 }
 
 :host figure {
@@ -213,30 +216,33 @@
   box-shadow: 0 0 0 1px var(--theme-icon_active-bg);
 }
 
+:host [color-swatches] {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  padding: 0;
+  margin: 0;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+}
+
 :host [color-swatch] {
-  width: 22ch;
-  height: 6em;
+  width: 25ch;
+  height: 7em;
   display: grid;
   position: relative;
   align-content: end;
+  box-sizing: border-box;
   padding: 0.5em;
-  margin: -10px -10px 5px;
+  margin: 0 0 5px;
   cursor: copy;
 }
 
 :host [color-swatch] > small,
 :host [color-swatch] > span,
 :host [color-swatch]:after {
-  color: white;
-  text-shadow:
-    black -1px -1px,
-    black -1px 0,
-    black -1px 1px,
-    black 0 -1px,
-    black 0 1px,
-    black 1px -1px,
-    black 1px 0,
-    black 1px 1px;
   cursor: copy;
 }
 
@@ -247,6 +253,14 @@
   left: 0.5em;
   transition: opacity 0.3s;
   opacity: 0;
+}
+
+:host [color-swatch]:nth-child(1):after {
+  color: var(--copy-message-left-color);
+}
+
+:host [color-swatch]:nth-child(2):after {
+  color: var(--copy-message-right-color);
 }
 
 :host [color-swatch]:hover:after {

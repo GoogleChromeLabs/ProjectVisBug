@@ -1,5 +1,6 @@
 import { desiredAccessibilityMap, desiredPropMap, largeWCAG2TextMap } from './design-properties'
 import { getStyles } from './styles'
+import { TinyColor, mostReadable, random } from '@ctrl/tinycolor'
 
 export const getA11ys = el => {
   const elAttributes = el.getAttributeNames()
@@ -41,4 +42,18 @@ export const getWCAG2TextSize = el => {
   )
 
   return  isLarge ? 'Large' : 'Small'
+}
+
+export const getContrastingColor = color => {
+  const randomColor = random().toHexString()
+  const oppositeHue = new TinyColor(color).spin(180)
+  return mostReadable(
+    color,
+    ['hotpink', randomColor, oppositeHue],
+    {
+      includeFallbackColors: true,
+      level: 'AAA',
+      size: 'small'
+    }
+  )
 }

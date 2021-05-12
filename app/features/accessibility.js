@@ -1,8 +1,8 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { TinyColor, readability, isReadable } from '@ctrl/tinycolor'
+import { readability, isReadable } from '@ctrl/tinycolor'
 import {
-  getStyle, getStyles, isOffBounds,
+  getStyle, isOffBounds,
   getA11ys, getWCAG2TextSize, getComputedBackgroundColor,
   deepElementFromPoint
 } from '../utilities/'
@@ -13,12 +13,6 @@ const state = {
     target: null,
   },
   tips: new Map(),
-}
-
-const modemap = {
-  'hex': 'toHexString',
-  'hsl': 'toHslString',
-  'rgb': 'toRgbString',
 }
 
 export function Accessibility(visbug) {
@@ -175,19 +169,9 @@ const determineColorContrast = el => {
     isReadable(background, foreground, { level: "AAA", size: textSize.toLowerCase() })
   ]
 
-  const colormode = modemap[$('vis-bug').attr('color-mode')]
-  
   return foreground === background
     ? `🤷‍♂️ foreground matches background`
     : `
-        <span color-swatch style="background-color:${foreground};">
-          <small>Foreground</small>
-          <span>${new TinyColor(foreground)[colormode]()}</span>
-        </span>
-        <span color-swatch style="background-color:${background};">
-          <small>Background</small>
-          <span>${new TinyColor(background)[colormode]()}</span>
-        </span>
         <span prop>Color contrast</span>
         <span value contrast>
           <span style="
