@@ -3,7 +3,7 @@ import { setupPptrTab, teardownPptrTab, getActiveTool, changeMode } from '../../
 
 test.beforeEach(setupPptrTab)
 
-const contrastValueSelector = `document.querySelector('visbug-ally').$shadow.querySelector('span[contrast]').textContent.trim()`
+const contrastValueSelector = `document.querySelector('visbug-ally').$shadow.querySelector('span[contrast] > span').textContent.trim()`
 
 test('Can be activated', async t => {
   const {page} = t.context;
