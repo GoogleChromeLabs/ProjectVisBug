@@ -280,7 +280,31 @@
 }
 
 :host [accessibility] {
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+
+  & > :not([contrast-compliance]) {
+    display: grid;
+    align-items: center;
+    grid-template-columns: max-content 1fr;
+
+    & [value] {
+      display: grid;
+      justify-content: flex-start;
+      padding-left: 1em;
+      text-align: left;
+    }
+  }
+
+  & > [contrast-compliance] {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+
+    & [value] {
+      margin-right: 7px;
+    }
+  }
 }
 
 :host [score] {
