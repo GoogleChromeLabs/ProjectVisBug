@@ -301,7 +301,12 @@
     justify-content: space-between;
     padding-top: 10px;
 
+    & [prop], & [value] {
+      flex: 1;
+    }
+
     & [value] {
+      justify-content: flex-start;
       margin-right: 7px;
     }
   }
