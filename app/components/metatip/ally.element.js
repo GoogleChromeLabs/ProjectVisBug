@@ -15,8 +15,11 @@ export class Ally extends Metatip {
     super()
   }
 
-  copyToClipboard(text) {
-    navigator.clipboard.writeText(text)
+  async copyToClipboard(text) {
+    const {state} = await navigator.permissions.query({name:'clipboard-write'})
+    
+    if (state === 'granted')
+      navigator.clipboard.writeText(text)
   }
 
   copyColorSwatch(event) {
