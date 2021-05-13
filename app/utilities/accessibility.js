@@ -45,11 +45,9 @@ export const getWCAG2TextSize = el => {
 }
 
 export const getContrastingColor = color => {
-  const randomColor = random().toHexString()
-  const oppositeHue = new TinyColor(color).spin(180)
   return mostReadable(
     color,
-    ['hotpink', randomColor, oppositeHue],
+    ['#000', '#fff'],
     {
       includeFallbackColors: true,
       level: 'AAA',
