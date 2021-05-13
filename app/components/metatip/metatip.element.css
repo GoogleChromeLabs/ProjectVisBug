@@ -274,7 +274,6 @@
   opacity: 1;
 }
 
-:host [color-swatch]:active:after,
 :host [color-swatch]:focus:after {
   content: "📋 copied!";
 }

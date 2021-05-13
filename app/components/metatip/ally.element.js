@@ -54,7 +54,7 @@ export class Ally extends Metatip {
           <h5>${el.nodeName.toLowerCase()}${el.id && '#' + el.id}</h5>
         </header>
         <div color-swatches>
-          <span color-swatch style="background-color:${foreground};">
+          <span color-swatch style="background-color:${foreground};" tabindex="0">
             <small style="color:${contrastingForegroundColor};">
               Foreground
             </small>
@@ -62,7 +62,7 @@ export class Ally extends Metatip {
               ${new TinyColor(foreground)[colormode]()}
             </span>
           </span>
-          <span color-swatch style="background-color:${background};">
+          <span color-swatch style="background-color:${background};" tabindex="0">
             <small style="color:${contrastingBackgroundColor};">
               Background
             </small>
