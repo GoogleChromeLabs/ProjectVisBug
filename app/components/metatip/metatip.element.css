@@ -298,7 +298,6 @@
   & > [contrast-compliance] {
     display: flex;
     justify-content: space-between;
-    padding-top: 10px;
 
     & [prop], & [value] {
       flex: 1;
