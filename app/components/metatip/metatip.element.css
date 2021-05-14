@@ -296,7 +296,6 @@
   }
 
   & > [contrast-compliance] {
-    display: flex;
     justify-content: space-between;
     font-size: 0.7em;
 
