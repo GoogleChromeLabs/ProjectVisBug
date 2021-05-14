@@ -72,6 +72,7 @@ export class Ally extends Metatip {
           </span>
         </div>
         <code accessibility>
+          ${contrast_results}
           ${ally_attributes.length > 0 ? '<div>' : ''}
             ${ally_attributes.reduce((items, attr) => `
               ${items}
@@ -79,7 +80,6 @@ export class Ally extends Metatip {
               <span value>${attr.value}</span>
             `, '')}
           ${ally_attributes.length > 0 ? '</div>' : ''}
-          ${contrast_results}
         </code>
       </figure>
     `

@@ -222,7 +222,6 @@
   height: 7em;
   flex-direction: row;
   padding: 0;
-  margin: 0 0 5px;
 
   @media (max-width: 700px) {
     flex-direction: column;
@@ -286,6 +285,7 @@
     display: grid;
     align-items: center;
     grid-template-columns: max-content 1fr;
+    padding-top: 7px;
 
     & [value] {
       display: grid;
@@ -298,10 +298,7 @@
   & > [contrast-compliance] {
     display: flex;
     justify-content: space-between;
-
-    & [prop], & [value] {
-      flex: 1;
-    }
+    font-size: 0.7em;
 
     & [value] {
       justify-content: flex-start;
