@@ -297,7 +297,6 @@
 
   & > [contrast-compliance] {
     justify-content: space-between;
-    font-size: 0.7em;
 
     & [value] {
       justify-content: flex-start;
