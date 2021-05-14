@@ -16,6 +16,9 @@
   --arrow: var(--arrow-up);
 
   --border-radius: .75em;
+
+  --copy-message-left-color: white;
+  --copy-message-right-color: white;
 }
 
 :host figure {
@@ -214,8 +217,93 @@
   box-shadow: 0 0 0 1px var(--theme-icon_active-bg);
 }
 
+:host [color-swatches] {
+  display: flex;
+  width: 100%;
+  height: 7em;
+  flex-direction: row;
+  padding: 0;
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+    height: 14em;
+  }
+}
+
+:host [color-swatch] {
+  flex: 1;
+  width: 22ch;
+  height: 7em;
+  display: grid;
+  position: relative;
+  align-content: end;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 0;
+  cursor: copy;
+
+  @media (max-width: 700px) {
+    width: 100%;
+  }
+}
+
+:host [color-swatch] > small,
+:host [color-swatch] > span,
+:host [color-swatch]:after {
+  cursor: copy;
+}
+
+:host [color-swatch]:after {
+  content: "📋 copy";
+  position: absolute;
+  top: 0.5em;
+  left: 0.5em;
+  transition: opacity 0.3s;
+  opacity: 0;
+}
+
+:host [color-swatch]:nth-child(1):after {
+  color: var(--copy-message-left-color);
+}
+
+:host [color-swatch]:nth-child(2):after {
+  color: var(--copy-message-right-color);
+}
+
+:host [color-swatch]:hover:after {
+  opacity: 1;
+}
+
+:host [color-swatch]:focus:after {
+  content: "📋 copied!";
+}
+
 :host [accessibility] {
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+
+  & > :not([contrast-compliance]) {
+    display: grid;
+    align-items: center;
+    grid-template-columns: max-content 1fr;
+    padding-top: 7px;
+
+    & [value] {
+      display: grid;
+      justify-content: flex-start;
+      padding-left: 1em;
+      text-align: left;
+    }
+  }
+
+  & > [contrast-compliance] {
+    justify-content: space-between;
+
+    & [value] {
+      justify-content: flex-start;
+      margin-right: 7px;
+    }
+  }
 }
 
 :host [score] {

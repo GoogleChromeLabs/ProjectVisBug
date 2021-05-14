@@ -1,8 +1,8 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { TinyColor, readability, isReadable } from '@ctrl/tinycolor'
+import { readability, isReadable } from '@ctrl/tinycolor'
 import {
-  getStyle, getStyles, isOffBounds,
+  getStyle, isOffBounds,
   getA11ys, getWCAG2TextSize, getComputedBackgroundColor,
   deepElementFromPoint
 } from '../utilities/'
@@ -172,17 +172,21 @@ const determineColorContrast = el => {
   return foreground === background
     ? `🤷‍♂️ foreground matches background`
     : `
-        <span prop>Color contrast</span>
-        <span value contrast>
-          <span style="
-            background-color:${background};
-            color:${foreground};
-          ">${Math.floor(readability(background, foreground)  * 100) / 100}</span>
-        </span>
-        <span prop>› AA ${textSize}</span>
-        <span value score pass="${aa_contrast ? 'true' : 'false'}">${aa_contrast ? '✓' : '✗'}</span>
-        <span prop>› AAA ${textSize}</span>
-        <span value score pass="${aaa_contrast ? 'true' : 'false'}">${aaa_contrast ? '✓' : '✗'}</span>
+        <div contrast-compliance>
+          <span prop>Color contrast</span>
+          <span value contrast>
+            <span style="
+              background-color:${background};
+              color:${foreground};
+            ">${Math.floor(readability(background, foreground)  * 100) / 100}</span>
+          </span>
+          <span style="white-space:nowrap;">
+            <span prop> AA ${textSize}</span>
+            <span value score pass="${aa_contrast ? 'true' : 'false'}">${aa_contrast ? '✓' : '✗'}</span>
+            <span prop> AAA ${textSize}</span>
+            <span value score pass="${aaa_contrast ? 'true' : 'false'}">${aaa_contrast ? '✓' : '✗'}</span>
+          </span>
+        </div>
       `
 }
 
