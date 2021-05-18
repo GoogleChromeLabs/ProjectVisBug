@@ -314,7 +314,7 @@
 }
 
 :host [color-swatch]:focus:after {
-  content: "📋 copied!";
+  content: "📋 \00a0 copied";
 }
 
 :host [accessibility] {
