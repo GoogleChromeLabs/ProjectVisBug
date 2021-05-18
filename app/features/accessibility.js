@@ -1,8 +1,8 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { TinyColor, readability, isReadable } from '@ctrl/tinycolor'
+import { readability, isReadable } from '@ctrl/tinycolor'
 import {
-  getStyle, getStyles, isOffBounds,
+  getStyle, isOffBounds,
   getA11ys, getWCAG2TextSize, getComputedBackgroundColor,
   deepElementFromPoint
 } from '../utilities/'
@@ -160,29 +160,49 @@ const determineColorContrast = el => {
     ? (getStyle(el, 'fill') || getStyle(el, 'stroke'))
     : getStyle(el, 'color')
 
-  const textSize  = getWCAG2TextSize(el)
+  const textSize  = getWCAG2TextSize(el) === 'Small'
+    ? 'AA'
+    : 'AA+'
 
   let background  = getComputedBackgroundColor(el)
+  let pass_icon = `
+    <svg viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+    </svg>
+  `
+  let fail_icon = `
+    <svg viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+    </svg>
+  `
 
   const [ aa_contrast, aaa_contrast ] = [
-    isReadable(background, foreground, { level: "AA", size: textSize.toLowerCase() }),
-    isReadable(background, foreground, { level: "AAA", size: textSize.toLowerCase() })
+    isReadable(background, foreground, { level: "AA", size: getWCAG2TextSize(el).toLowerCase() }),
+    isReadable(background, foreground, { level: "AAA", size: getWCAG2TextSize(el).toLowerCase() })
   ]
 
   return foreground === background
-    ? `🤷‍♂️ foreground matches background`
+    ? `<div contrast-compliance>Foreground matches background</div>`
     : `
-        <span prop>Color contrast</span>
-        <span value contrast>
-          <span style="
-            background-color:${background};
-            color:${foreground};
-          ">${Math.floor(readability(background, foreground)  * 100) / 100}</span>
-        </span>
-        <span prop>› AA ${textSize}</span>
-        <span value score pass="${aa_contrast ? 'true' : 'false'}">${aa_contrast ? '✓' : '✗'}</span>
-        <span prop>› AAA ${textSize}</span>
-        <span value score pass="${aaa_contrast ? 'true' : 'false'}">${aaa_contrast ? '✓' : '✗'}</span>
+        <div contrast-compliance>
+          <span contrast>
+            <span title>Contrast ratio</span>
+            <span value>${Math.floor(readability(background, foreground)  * 100) / 100}</span>
+          </span>
+          <span compliance>
+            <span title>WCAG Compliance</span>
+            <div>
+              <span>
+                <span value score pass="${aa_contrast ? 'true' : 'false'}">${aa_contrast ? pass_icon : fail_icon}</span>
+                <span>${textSize}</span>
+              </span>
+              <span>
+                <span value score pass="${aaa_contrast ? 'true' : 'false'}">${aaa_contrast ? pass_icon : fail_icon}</span>
+                <span>A${textSize}</span>
+              </span>
+            </div>
+          </span>
+        </div>
       `
 }
 

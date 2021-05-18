@@ -16,6 +16,9 @@
   --arrow: var(--arrow-up);
 
   --border-radius: .75em;
+
+  --copy-message-left-color: white;
+  --copy-message-right-color: white;
 }
 
 :host figure {
@@ -179,7 +182,7 @@
   font-family: sans-serif;
   text-align: left;
   line-height: 1.5;
-  max-inline-size: 30ch;
+  max-inline-size: 40ch;
 }
 
 :host [prop] {
@@ -208,14 +211,137 @@
   }
 }
 
-:host [contrast] > span {
-  padding: 0 0.5em 0.1em;
-  border-radius: var(--border-radius);
-  box-shadow: 0 0 0 1px var(--theme-icon_active-bg);
+:host [contrast-compliance] {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 3ch;
+  padding: 10px 10px 5px;
+}
+
+:host [contrast] {
+  display: grid;
+  justify-items: start;
+
+  & > [value] {
+    font-size: 1.5em;
+  }
+}
+
+:host [compliance] {
+  display: grid;
+
+  & > div {
+    display: flex;
+    align-items: center;
+    gap: 2ch;
+  }
+
+  & > div > span {
+    display: flex;
+    align-items: center;
+    gap: .5ch;
+  }
+
+  & svg {
+    block-size: .75em;
+  }
+}
+
+:host :is([contrast],[compliance]) [title] {
+  font-size: .7em;
+  opacity: .8;
+}
+
+:host [color-swatches] {
+  display: flex;
+  width: 100%;
+  height: 7em;
+  flex-direction: row;
+  padding: 0;
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+    height: 14em;
+  }
+}
+
+:host [color-swatch] {
+  flex: 1;
+  width: 20ch;
+  height: 7em;
+  display: grid;
+  position: relative;
+  align-content: end;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 0;
+  cursor: copy;
+
+  @media (max-width: 700px) {
+    width: 100%;
+  }
+}
+
+:host [color-swatch] > small,
+:host [color-swatch] > span,
+:host [color-swatch]:after {
+  cursor: copy;
+}
+
+:host [color-swatch] > small {
+  opacity: .8;
+}
+
+:host [color-swatch]:after {
+  content: "📋 \00a0 copy";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  transition: opacity 0.3s;
+  opacity: 0;
+}
+
+:host [color-swatch]:nth-child(1):after {
+  color: var(--copy-message-left-color);
+}
+
+:host [color-swatch]:nth-child(2):after {
+  color: var(--copy-message-right-color);
+}
+
+:host [color-swatch]:hover:after {
+  opacity: 1;
+}
+
+:host [color-swatch]:focus:after {
+  content: "📋 \00a0 copied";
 }
 
 :host [accessibility] {
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+
+  & > :not([contrast-compliance]) {
+    display: grid;
+    align-items: center;
+    grid-template-columns: max-content 1fr;
+
+    & [value] {
+      display: grid;
+      justify-content: flex-start;
+      padding-left: 1em;
+      text-align: left;
+    }
+  }
+
+  & > [contrast-compliance] {
+    justify-content: space-between;
+
+    & [value] {
+      justify-content: flex-start;
+      margin-right: 7px;
+    }
+  }
 }
 
 :host [score] {

@@ -150,16 +150,16 @@ const render = (el, tip = document.createElement('visbug-metatip')) => {
     )
     .map(style => {
       if (style.prop.includes('color') || style.prop.includes('background-color') || style.prop.includes('border-color') || style.prop.includes('Color') || style.prop.includes('fill') || style.prop.includes('stroke'))
-        style.value = `<span color style="background-color:${style.value};"></span>${new TinyColor(style.value)[colormode]()}`
+        style.value = `<span color style="background-color:${style.value};"></span>${new TinyColor(style.value)[colormode]().replace(/,/g, '')}`
 
       if (style.prop.includes('box-shadow')) {
         const [, color, x, y, blur, spread] = getShadowValues(style.value)
-        style.value = `${new TinyColor(color)[colormode]()} ${x} ${y} ${blur} ${spread}`
+        style.value = `${new TinyColor(color)[colormode]().replace(/,/g, '')} ${x} ${y} ${blur} ${spread}`
       }
 
       if (style.prop.includes('text-shadow')) {
         const [, color, x, y, blur] = getTextShadowValues(style.value)
-        style.value = `${new TinyColor(color)[colormode]()} ${x} ${y} ${blur}`
+        style.value = `${new TinyColor(color)[colormode]().replace(/,/g, '')} ${x} ${y} ${blur}`
       }
 
       if (style.prop.includes('font-family'))
