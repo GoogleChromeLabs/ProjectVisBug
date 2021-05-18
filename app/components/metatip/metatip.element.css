@@ -295,8 +295,8 @@
 :host [color-swatch]:after {
   content: "📋 \00a0 copy";
   position: absolute;
-  top: 0.5em;
-  left: 0.5em;
+  top: 10px;
+  left: 10px;
   transition: opacity 0.3s;
   opacity: 0;
 }
