@@ -59,7 +59,7 @@ export class Ally extends Metatip {
               Foreground
             </small>
             <span style="color:${contrastingForegroundColor};">
-              ${new TinyColor(foreground)[colormode]()}
+              ${new TinyColor(foreground)[colormode]().replace(/,/g, '')}
             </span>
           </span>
           <span color-swatch style="background-color:${background};" tabindex="0">
@@ -67,7 +67,7 @@ export class Ally extends Metatip {
               Background
             </small>
             <span style="color:${contrastingBackgroundColor};">
-              ${new TinyColor(background)[colormode]()}
+              ${new TinyColor(background)[colormode]().replace(/,/g, '')}
             </span>
           </span>
         </div>
