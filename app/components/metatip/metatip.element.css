@@ -215,7 +215,7 @@
   display: grid;
   grid-template-columns: max-content 1fr;
   gap: 3ch;
-  padding: 10px;
+  padding: 10px 10px 5px;
 }
 
 :host [contrast] {
