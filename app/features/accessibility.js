@@ -177,8 +177,8 @@ const determineColorContrast = el => {
   `
 
   const [ aa_contrast, aaa_contrast ] = [
-    isReadable(background, foreground, { level: "AA", size: textSize.toLowerCase() }),
-    isReadable(background, foreground, { level: "AAA", size: textSize.toLowerCase() })
+    isReadable(background, foreground, { level: "AA", size: getWCAG2TextSize(el).toLowerCase() }),
+    isReadable(background, foreground, { level: "AAA", size: getWCAG2TextSize(el).toLowerCase() })
   ]
 
   return foreground === background
