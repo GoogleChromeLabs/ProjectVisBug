@@ -51,7 +51,7 @@ export class Ally extends Metatip {
     return `
       <figure>
         <header>
-          <h5>${el.nodeName.toLowerCase()}${el.id && '#' + el.id}</h5>
+          <h5>&#60;${el.nodeName.toLowerCase()}&#62;${el.id && '#' + el.id}</h5>
         </header>
         <div color-swatches>
           <span color-swatch style="background-color:${foreground};" tabindex="0">
