@@ -182,7 +182,7 @@ const determineColorContrast = el => {
   ]
 
   return foreground === background
-    ? `🤷‍♂️ foreground matches background`
+    ? `<div contrast-compliance>🤷‍♂️ foreground matches background</div>`
     : `
         <div contrast-compliance>
           <span contrast>
