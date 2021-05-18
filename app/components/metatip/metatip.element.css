@@ -182,7 +182,7 @@
   font-family: sans-serif;
   text-align: left;
   line-height: 1.5;
-  max-inline-size: 30ch;
+  max-inline-size: 40ch;
 }
 
 :host [prop] {
@@ -249,7 +249,7 @@
 
 :host :is([contrast],[compliance]) [title] {
   font-size: .7em;
-  color: var(--theme-icon_color);
+  opacity: .8;
 }
 
 :host [color-swatches] {
@@ -267,7 +267,7 @@
 
 :host [color-swatch] {
   flex: 1;
-  width: 22ch;
+  width: 20ch;
   height: 7em;
   display: grid;
   position: relative;
@@ -286,6 +286,10 @@
 :host [color-swatch] > span,
 :host [color-swatch]:after {
   cursor: copy;
+}
+
+:host [color-swatch] > small {
+  opacity: .8;
 }
 
 :host [color-swatch]:after {
