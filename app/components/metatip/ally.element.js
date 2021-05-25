@@ -3,6 +3,7 @@ import { Metatip } from './metatip.element.js'
 import { TinyColor } from '@ctrl/tinycolor'
 import { getStyle, getComputedBackgroundColor } from '../../utilities'
 import { getContrastingColor } from '../../utilities'
+import { functionalNotate } from '../../features/color.js'
 
 const modemap = {
   'hex': 'toHexString',
@@ -59,7 +60,7 @@ export class Ally extends Metatip {
               Foreground
             </small>
             <span style="color:${contrastingForegroundColor};">
-              ${new TinyColor(foreground)[colormode]().replace(/,/g, '')}
+              ${functionalNotate(new TinyColor(foreground)[colormode]())}
             </span>
           </span>
           <span color-swatch style="background-color:${background};" tabindex="0">
@@ -67,7 +68,7 @@ export class Ally extends Metatip {
               Background
             </small>
             <span style="color:${contrastingBackgroundColor};">
-              ${new TinyColor(background)[colormode]().replace(/,/g, '')}
+              ${functionalNotate(new TinyColor(background)[colormode]())}
             </span>
           </span>
         </div>
