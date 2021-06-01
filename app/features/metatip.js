@@ -4,7 +4,7 @@ import { TinyColor } from '@ctrl/tinycolor'
 import { queryPage } from './search'
 import { getStyles, camelToDash, isOffBounds,
          deepElementFromPoint, getShadowValues,
-         getTextShadowValues
+         getTextShadowValues, firstUsableFontFromFamily
 } from '../utilities/'
 
 const state = {
@@ -62,7 +62,7 @@ const mouseMove = e => {
 export function showTip(target, e) {
   if (!state.active.tip) { // create
     const tip = render(target)
-    document.body.insertAdjacentElement('afterend', tip)
+    document.body.appendChild(tip)
 
     positionTip(tip, e)
     observe({tip, target})
@@ -150,20 +150,20 @@ const render = (el, tip = document.createElement('visbug-metatip')) => {
     )
     .map(style => {
       if (style.prop.includes('color') || style.prop.includes('background-color') || style.prop.includes('border-color') || style.prop.includes('Color') || style.prop.includes('fill') || style.prop.includes('stroke'))
-        style.value = `<span color style="background-color:${style.value};"></span><span color-value>${new TinyColor(style.value)[colormode]()}</span>`
+        style.value = `<span color style="background-color:${style.value};"></span>${new TinyColor(style.value)[colormode]().replace(/,/g, '')}`
 
       if (style.prop.includes('box-shadow')) {
         const [, color, x, y, blur, spread] = getShadowValues(style.value)
-        style.value = `${new TinyColor(color)[colormode]()} ${x} ${y} ${blur} ${spread}`
+        style.value = `${new TinyColor(color)[colormode]().replace(/,/g, '')} ${x} ${y} ${blur} ${spread}`
       }
 
       if (style.prop.includes('text-shadow')) {
         const [, color, x, y, blur] = getTextShadowValues(style.value)
-        style.value = `${new TinyColor(color)[colormode]()} ${x} ${y} ${blur}`
+        style.value = `${new TinyColor(color)[colormode]().replace(/,/g, '')} ${x} ${y} ${blur}`
       }
 
-      if (style.prop.includes('font-family') && style.value.length > 25)
-        style.value = `<span style="max-width: 25ch">${style.value}</span>`
+      if (style.prop.includes('font-family'))
+        style.value = `<span string value>${firstUsableFontFromFamily(style.value)}</span>`
 
       if (style.prop.includes('grid-template-areas'))
         style.value = style.value.replace(/" "/g, '"<br>"')

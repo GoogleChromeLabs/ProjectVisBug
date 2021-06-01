@@ -32,6 +32,10 @@ export const VisBugModel = {
                       <b>Pin it:</b>
                       <span>click</span>
                     </div>
+                    <div>
+                      <b>Position it:</b>
+                      <span>click & drag by the header area</span>
+                    </div>
                   </div>`,
   },
   x: {

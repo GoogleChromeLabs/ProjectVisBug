@@ -116,3 +116,34 @@ export const getShadowValues = shadow =>
 // returns [full, color, x, y, blur]
 export const getTextShadowValues = shadow =>
   /([^\)]+\)) ([^\s]+) ([^\s]+) ([^\s]+)/.exec(shadow)
+
+const fontCacheMap = new Map()
+export const firstUsableFontFromFamily = family => {
+  if (fontCacheMap.has(family))
+    return fontCacheMap.get(family)
+
+  // todo: check cache for family string and return already computed value
+  const fonts = family.split(',')
+  const canvas = window.document.createElement('canvas')
+  const context = canvas.getContext('2d')
+
+  const match = fonts
+    .map(font => font.trim())
+    .map(name => {
+      const matches = String(name).match(/^["']?(.+?)["']?$/i);
+      return Array.isArray(matches) ? matches[1] : '';
+    })
+    .map(fontName => {
+      const baselineSize = context.measureText(12).width
+
+      context.font = `12px ${fontName}, sans-serif`
+
+      return baselineSize !== context.measureText('font-test').width 
+        ? fontName 
+        : false
+  }).filter(value => value !== false)[0]
+
+  fontCacheMap.set(family, match)
+
+  return match
+}

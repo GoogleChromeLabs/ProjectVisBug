@@ -182,3 +182,15 @@ export const healthyContrastColor = color => {
 
   return contrast.toHslString()
 }
+
+export const functionalNotate = color => {
+  const chunks = color.split(',')
+
+  if (chunks.length === 4) {
+    let opacity = chunks.pop()
+    return chunks.join(' ') + ` / ${opacity}`
+  }
+  else {
+    return chunks.join(' ')
+  }
+}
