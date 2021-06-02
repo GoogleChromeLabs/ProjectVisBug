@@ -17,8 +17,8 @@ const state = {
 const setupDocument = () => {
   const html = document.firstElementChild
 
-  html.style.height = document.body.clientHeight * 1.75 + 'px'
-  html.style.width = document.body.clientWidth * 1.75 + 'px'
+  html.style.height = (window.innerHeight + document.body.clientHeight * 1.75) + 'px'
+  html.style.width = document.body.clientWidth * 2.5 + 'px'
 
   document.body.scrollIntoView({
     inline: 'center',
