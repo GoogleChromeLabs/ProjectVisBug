@@ -213,7 +213,7 @@
 
 :host [contrast-compliance] {
   display: grid;
-  grid-template-columns: max-content 1fr;
+  grid-template-columns: max-content max-content;
   gap: 3ch;
   padding: 10px 10px 5px;
 }
