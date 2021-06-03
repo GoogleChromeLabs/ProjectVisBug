@@ -46,7 +46,6 @@ export default class VisBug extends HTMLElement {
   }
 
   connectedCallback() {
-    this.$shadow.adoptedStyleSheets = [VisBugStyles]
     this._tutsBaseURL = this.getAttribute('tutsBaseURL') || 'tuts'
 
     this.setup()
