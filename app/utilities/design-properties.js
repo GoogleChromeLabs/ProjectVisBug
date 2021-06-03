@@ -6,8 +6,6 @@ export const desiredPropMap = {
   backgroundImage:     'none',
   backgroundSize:      'auto',
   backgroundPosition:  '0% 0%',
-  borderColor:         'rgb(0, 0, 0)',
-  borderWidth:         '0px',
   borderRadius:        '0px',
   boxShadow:           'none',
   padding:             '0px',

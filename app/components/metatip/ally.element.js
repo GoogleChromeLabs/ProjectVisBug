@@ -1,6 +1,7 @@
 import $ from 'blingblingjs'
 import { Metatip } from './metatip.element.js'
 import { TinyColor } from '@ctrl/tinycolor'
+import { draggable } from '../../features/'
 import { getStyle, getComputedBackgroundColor } from '../../utilities'
 import { getContrastingColor } from '../../utilities'
 import { functionalNotate } from '../../features/color.js'
@@ -24,15 +25,21 @@ export class Ally extends Metatip {
   }
 
   copyColorSwatch(event) {
-    this.copyToClipboard(event.target.querySelector('span').innerText.trim())
+    this.copyToClipboard(event.currentTarget.querySelector('span').innerText.trim())
   }
 
   observe() {
-    $('[color-swatch], [color-swatch] *', this.$shadow).on('click', this.copyColorSwatch.bind(this))
+    $('[color-swatch]', this.$shadow).on('click', this.copyColorSwatch.bind(this))
+
+    draggable({
+      el: this,
+      surface: this.$shadow.querySelector('header'),
+      cursor: 'grab',
+    })
   }
 
   unobserve() {
-    $('[color-swatch], [color-swatch] *', this.$shadow).off('click', this.copyColorSwatch.bind(this))
+    $('[color-swatch]', this.$shadow).off('click', this.copyColorSwatch.bind(this))
   }
 
   render({el, ally_attributes, contrast_results}) {

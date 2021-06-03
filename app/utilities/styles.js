@@ -40,6 +40,11 @@ export const getStyles = el => {
       prop: 'borderStyle',
       value: borderStyle,
     })
+
+    vettedStyles.push({
+      prop: 'borderWidth',
+      value: borderWidth,
+    })
   }
 
   return vettedStyles.sort(function({prop:propA}, {prop:propB}) {
