@@ -25,11 +25,11 @@ export class Ally extends Metatip {
   }
 
   copyColorSwatch(event) {
-    this.copyToClipboard(event.target.querySelector('span').innerText.trim())
+    this.copyToClipboard(event.currentTarget.querySelector('span').innerText.trim())
   }
 
   observe() {
-    $('[color-swatch], [color-swatch] *', this.$shadow).on('click', this.copyColorSwatch.bind(this))
+    $('[color-swatch]', this.$shadow).on('click', this.copyColorSwatch.bind(this))
 
     draggable({
       el: this,
@@ -39,7 +39,7 @@ export class Ally extends Metatip {
   }
 
   unobserve() {
-    $('[color-swatch], [color-swatch] *', this.$shadow).off('click', this.copyColorSwatch.bind(this))
+    $('[color-swatch]', this.$shadow).off('click', this.copyColorSwatch.bind(this))
   }
 
   render({el, ally_attributes, contrast_results}) {
