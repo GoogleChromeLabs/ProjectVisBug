@@ -270,8 +270,7 @@
 }
 
 :host [color-swatch] {
-  flex: 1;
-  width: 20ch;
+  min-width: 20ch;
   height: 7em;
   display: grid;
   position: relative;

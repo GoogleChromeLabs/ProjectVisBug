@@ -188,6 +188,8 @@ export const functionalNotate = color => {
 
   if (chunks.length === 4) {
     let opacity = chunks.pop()
+    chunks[0] = chunks[0].replace('hsla','hsl')
+    chunks[0] = chunks[0].replace('rgba','rgb')
     return chunks.join(' ') + ` / ${opacity}`
   }
   else {
