@@ -12,7 +12,12 @@ import {
   Guides, Screenshot, Position, Accessibility, draggable
 } from '../../features/'
 
-import { VisBugStyles }           from '../styles.store'
+import {
+  VisBugStyles,
+  VisBugLightStyles,
+  VisBugDarkStyles
+} from '../styles.store'
+
 import { VisBugModel }            from './model'
 import * as Icons                 from './vis-bug.icons'
 import { provideSelectorEngine }  from '../../features/search'
@@ -20,7 +25,8 @@ import { PluginRegistry }         from '../../plugins/_registry'
 import {
   metaKey,
   isPolyfilledCE,
-  constructibleStylesheetSupport
+  constructibleStylesheetSupport,
+  schemeRule
 } from '../../utilities/'
 
 export default class VisBug extends HTMLElement {
@@ -29,6 +35,14 @@ export default class VisBug extends HTMLElement {
 
     this.toolbar_model  = VisBugModel
     this.$shadow        = this.attachShadow({mode: 'closed'})
+    this.applyScheme    = schemeRule(
+      this.$shadow,
+      VisBugStyles, VisBugLightStyles, VisBugDarkStyles
+    )
+  }
+
+  static get observedAttributes() {
+    return ['color-scheme']
   }
 
   connectedCallback() {
@@ -55,12 +69,21 @@ export default class VisBug extends HTMLElement {
     hotkeys.unbind(`${metaKey}+/`)
   }
 
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'color-scheme')
+      this.applyScheme(newValue)
+  }
+
   setup() {
     this.$shadow.innerHTML = this.render()
 
     this.hasAttribute('color-mode')
       ? this.getAttribute('color-mode')
       : this.setAttribute('color-mode', 'hex')
+
+    this.hasAttribute('color-scheme')
+      ? this.getAttribute('color-scheme')
+      : this.setAttribute('color-scheme', 'auto')
 
     $('li[data-tool]', this.$shadow).on('click', e =>
       this.toolSelected(e.currentTarget) && e.stopPropagation())
