@@ -13,6 +13,16 @@ import { default as metatip_css }    from './metatip/metatip.element.css'
 import { default as hotkeymap_css }  from './hotkey-map/base.element.css'
 import { default as grip_css }       from './selection/grip.element.css'
 
+import { default as light_css }            from './_variables_light.css'
+import { default as visbug_light_css }     from './vis-bug/vis-bug.element_light.css'
+import { default as metatip_light_css }    from './metatip/metatip.element_light.css'
+import { default as hotkeymap_light_css }  from './hotkey-map/base.element_light.css'
+
+import { default as dark_css }             from './_variables_dark.css'
+import { default as visbug_dark_css }      from './vis-bug/vis-bug.element_dark.css'
+import { default as metatip_dark_css }     from './metatip/metatip.element_dark.css'
+import { default as hotkeymap_dark_css }   from "./hotkey-map/base.element_dark.css"
+
 const constructStylesheet = (styles, stylesheet = new CSSStyleSheet()) => {
   stylesheet.replaceSync(styles)
   return stylesheet
@@ -30,3 +40,13 @@ export const OverlayStyles   = constructStylesheet(overlay_css)
 export const BoxModelStyles  = constructStylesheet(boxmodel_css)
 export const HotkeymapStyles = constructStylesheet(hotkeymap_css)
 export const GripStyles      = constructStylesheet(grip_css)
+
+export const LightTheme           = constructStylesheet(light_css)
+export const VisBugLightStyles    = constructStylesheet(visbug_light_css)
+export const MetatipLightStyles   = constructStylesheet(metatip_light_css)
+export const HotkeymapLightStyles = constructStylesheet(hotkeymap_light_css)
+
+export const DarkTheme            = constructStylesheet(dark_css)
+export const VisBugDarkStyles     = constructStylesheet(visbug_dark_css)
+export const MetatipDarkStyles    = constructStylesheet(metatip_dark_css)
+export const HotkeymapDarkStyles  = constructStylesheet(hotkeymap_dark_css)

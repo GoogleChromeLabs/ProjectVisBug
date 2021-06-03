@@ -1,0 +1,5 @@
+:host {
+  --light-grey: hsl(0 0% 90%);
+  --grey: hsl(0 0% 60%);
+  --dark-grey: hsl(0 0% 40%);
+}
