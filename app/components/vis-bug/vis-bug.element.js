@@ -74,15 +74,13 @@ export default class VisBug extends HTMLElement {
       Zoom.stop()
   }
 
-  static get observedAttributes() { return ['viewmode'] }
+  static get observedAttributes() { return ['viewmode','color-scheme'] }
 
   attributeChangedCallback(name, oldValue, newValue) {
     newValue === 'artboard'
       ? Zoom.start(this.selectorEngine)
       : Zoom.stop()
-  }
 
-  attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'color-scheme')
       this.applyScheme(newValue)
   }
