@@ -1,8 +1,8 @@
 import $                   from 'blingblingjs'
 import hotkeys             from 'hotkeys-js'
 import * as Icons          from '../vis-bug/vis-bug.icons'
-import { HotkeymapStyles } from '../styles.store'
-import { metaKey, altKey } from '../../utilities/'
+import { HotkeymapStyles, HotkeymapLightStyles, HotkeymapDarkStyles } from '../styles.store'
+import { metaKey, altKey, schemeRule } from '../../utilities/'
 
 export class HotkeyMap extends HTMLElement {
 
@@ -31,10 +31,15 @@ export class HotkeyMap extends HTMLElement {
     this._usedkeys  = []
 
     this.tool       = 'hotkeymap'
+
+    this.applyScheme = schemeRule(
+      this.$shadow,
+      HotkeymapStyles, HotkeymapLightStyles, HotkeymapDarkStyles
+    )
   }
 
   connectedCallback() {
-    this.$shadow.adoptedStyleSheets = [HotkeymapStyles]
+    this.applyScheme(document.querySelector("vis-bug").getAttribute("color-scheme"))
     this.$shift  = $('[keyboard] > section > [shift]', this.$shadow)
     this.$ctrl   = $('[keyboard] > section > [ctrl]', this.$shadow)
     this.$alt    = $(`[keyboard] > section > [${altKey}]`, this.$shadow)

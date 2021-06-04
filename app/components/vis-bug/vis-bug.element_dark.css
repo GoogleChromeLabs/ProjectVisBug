@@ -1,0 +1,5 @@
+:host > ol {
+  &:first-of-type {
+    box-shadow: 0 0.25em 0.5em hsla(0,0%,0%,50%);
+  }
+}

@@ -20,6 +20,7 @@ const toggleIn = ({id:tab_id}) => {
     state.injected[tab_id] = true
     getColorMode()
     getViewMode()
+    getColorScheme()
   }
 
   // fresh start in tab
@@ -31,6 +32,7 @@ const toggleIn = ({id:tab_id}) => {
     state.injected[tab_id]  = true
     getColorMode()
     getViewMode()
+    getColorScheme()
   }
 
   platform.tabs.onUpdated.addListener(function(tabId) {

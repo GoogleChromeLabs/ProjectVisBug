@@ -15,7 +15,8 @@
       "visbug.js",
       "contextmenu/launcher.js",
       "contextmenu/viewmode.js",
-      "contextmenu/colormode.js"
+      "contextmenu/colormode.js",
+      "contextmenu/colorscheme.js"
     ]
   },
   "browser_action": {
