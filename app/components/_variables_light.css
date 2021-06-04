@@ -1,0 +1,10 @@
+:host {
+  --theme-bg: hsl(0 0% 100%);
+  --theme-bd: hsl(0 0% 100% / var(--theme-bd-opacity));
+  --theme-bd-2: hsl(0 0% 100% / var(--theme-bd-2-opacity));
+  --theme-color: hotpink;
+  --theme-text_color: hsl(0 0% 10%);
+  --theme-icon_color: hsl(0 0% 20%);
+  --theme-icon_hover-bg: hsl(0 0% 95%);
+  --theme-icon_active-bg: hsl(0 0% 90%);
+}

@@ -1,17 +1,21 @@
 import $ from 'blingblingjs'
-import { createClassname } from '../../utilities/'
+import { createClassname, schemeRule } from '../../utilities/'
 import { draggable } from '../../features/'
-import { MetatipStyles } from '../styles.store'
+import { MetatipStyles, MetatipLightStyles, MetatipDarkStyles } from '../styles.store'
 
 export class Metatip extends HTMLElement {
 
   constructor() {
     super()
     this.$shadow = this.attachShadow({mode: 'closed'})
+    this.applyScheme = schemeRule(
+      this.$shadow,
+      MetatipStyles, MetatipLightStyles, MetatipDarkStyles
+    )
   }
 
   connectedCallback() {
-    this.$shadow.adoptedStyleSheets = [MetatipStyles]
+    this.applyScheme(document.querySelector("vis-bug").getAttribute("color-scheme"))
     $(this.$shadow.host).on('mouseenter', this.observe.bind(this))
   }
 
