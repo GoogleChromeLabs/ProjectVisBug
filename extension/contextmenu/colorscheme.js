@@ -62,7 +62,7 @@ scheme_option.forEach(option => {
   platform.contextMenus.create({
     id:       option,
     parentId: 'color-scheme',
-    title:    option,
+    title:    ' '+option,
     checked:  false,
     type:     'radio',
     contexts: ['all'],
