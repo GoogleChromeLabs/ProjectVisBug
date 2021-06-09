@@ -83,7 +83,7 @@ test('Should be hideable', async t => {
   await page.keyboard.down(metaKey)
   await page.keyboard.down('.')
   await page.keyboard.up(metaKey)
-  await page.keyboard.up(',')
+  await page.keyboard.up('.')
 
   const visibility = await page.evaluate(`document.querySelector('vis-bug').$shadow.host.style.display`)
 
