@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import { setupPptrTab, teardownPptrTab, getActiveTool }
+import { setupPptrTab, teardownPptrTab, getActiveTool, pptrMetaKey }
 from '../../../tests/helpers'
 
 test.beforeEach(setupPptrTab)
@@ -78,15 +78,16 @@ test('Should allow deselecting', async t => {
 
 test('Should be hideable', async t => {
   const { page } = t.context
+  const metaKey = await pptrMetaKey(page)
 
-  await page.keyboard.down('Control')
-  await page.keyboard.down(',')
-  await page.keyboard.up('Control')
+  await page.keyboard.down(metaKey)
+  await page.keyboard.down('.')
+  await page.keyboard.up(metaKey)
   await page.keyboard.up(',')
 
   const visibility = await page.evaluate(`document.querySelector('vis-bug').$shadow.host.style.display`)
 
-  t.pass(visibility, 'none')
+  t.is(visibility, 'none')
   t.pass()
 })
 
