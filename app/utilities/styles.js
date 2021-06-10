@@ -66,7 +66,7 @@ export const getComputedBackgroundColor = el => {
 
       if (node.nodeName === 'HTML') {
         found = true
-        background = 'white'
+        background = 'Canvas'
       }
 
       if (bg !== 'rgba(0, 0, 0, 0)') {
