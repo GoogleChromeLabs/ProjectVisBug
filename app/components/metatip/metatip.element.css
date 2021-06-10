@@ -49,7 +49,7 @@
 
 
   @media (min-width: 540px) {
-    max-width: 50vw;
+    max-width: max(40ch, 50vw);
   }
 
   &:after {
