@@ -29,7 +29,7 @@ body:not([testing]) [data-selected=true] {
     cursor: grabbing;
   }
 
-  & :matches(a, img) {
+  & :is(a, img) {
     -webkit-user-drag: none !important;
   }
 }
