@@ -1,5 +1,6 @@
-import { metaKey, getStyle } from '../utilities/'
+import { metaKey } from '../utilities/'
 import { hideGridlines } from './guides'
+import { ArtboardStyles } from '../components/styles.store'
 
 const state = {
   page: {
@@ -19,6 +20,8 @@ const setupDocument = () => {
 
   html.style.height = (window.innerHeight + document.body.clientHeight * 1.75) + 'px'
   html.style.width = document.body.clientWidth * 2.5 + 'px'
+  document.originalAdoptedStyles = document.adoptedStyleSheets
+  document.adoptedStyleSheets = [...document.adoptedStyleSheets, ArtboardStyles]
 
   document.body.scrollIntoView({
     inline: 'center',
@@ -162,7 +165,9 @@ const stop = () => {
   window.removeEventListener("keyup", handleKeyup)
   window.removeEventListener("wheel", handleWheel)
   window.removeEventListener('mousemove', handleMousemove)
+  document.body.getAnimations().forEach(anim => anim.cancel())
   document.firstElementChild.removeAttribute('style')
+  document.adoptedStyleSheets = document.originalAdoptedStyles
 }
 
 export const Zoom = {
