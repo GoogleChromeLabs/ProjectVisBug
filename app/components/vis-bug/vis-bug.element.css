@@ -85,7 +85,7 @@
   }
 
   @media (max-height: 768px) {
-    &:matches(:nth-of-type(7),:nth-of-type(8), :nth-of-type(9), :nth-of-type(10), :nth-of-type(11), :nth-of-type(12), :nth-of-type(13)) > aside {
+    &:is(:nth-of-type(7),:nth-of-type(8), :nth-of-type(9), :nth-of-type(10), :nth-of-type(11), :nth-of-type(12), :nth-of-type(13)) > aside {
       top: auto;
     }
   }
@@ -122,7 +122,7 @@
       display: grid;
       gap: 1em;
 
-      & > :matches(h2,p) {
+      & > :is(h2,p) {
         margin: 0;
       }
 

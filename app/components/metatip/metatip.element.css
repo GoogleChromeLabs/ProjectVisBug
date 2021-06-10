@@ -143,7 +143,7 @@
   }
 }
 
-:host details > :matches(summary,code),
+:host details > :is(summary,code),
 :host > figure > code {
   padding: 10px;
   border-radius: var(--border-radius);
