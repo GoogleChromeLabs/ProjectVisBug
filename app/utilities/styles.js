@@ -54,6 +54,19 @@ export const getStyles = el => {
   })
 }
 
+let canvas_color
+export const getComputedCanvasBackgroundColor = () => {
+  if (canvas_color) return canvas_color
+
+  const foo = document.createElement('span')
+  foo.style.backgroundColor = 'Canvas'
+  document.body.appendChild(foo)
+  canvas_color = getComputedStyle(foo).backgroundColor
+  document.body.removeChild(foo)
+
+  return canvas_color
+}
+
 export const getComputedBackgroundColor = el => {
   let background = getStyle(el, 'background-color')
 
@@ -66,7 +79,7 @@ export const getComputedBackgroundColor = el => {
 
       if (node.nodeName === 'HTML') {
         found = true
-        background = 'Canvas'
+        background = getComputedCanvasBackgroundColor()
       }
 
       if (bg !== 'rgba(0, 0, 0, 0)') {
