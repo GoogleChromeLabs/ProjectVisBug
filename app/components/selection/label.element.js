@@ -7,16 +7,18 @@ export class Label extends HTMLElement {
   constructor() {
     super()
     this.$shadow = this.attachShadow({mode: 'closed'})
+    this.on_resize = this.on_resize.bind(this)
+    this.dispatchQuery = this.dispatchQuery.bind(this)
   }
 
   connectedCallback() {
     this.$shadow.adoptedStyleSheets = [LabelStyles]
-    $('a', this.$shadow).on('click mouseenter', this.dispatchQuery.bind(this))
-    window.addEventListener('resize', this.on_resize.bind(this))
+    $('a', this.$shadow).on('click mouseenter', this.dispatchQuery)
+    window.addEventListener('resize', this.on_resize)
   }
 
   disconnectedCallback() {
-    $('a', this.$shadow).off('click', this.dispatchQuery)
+    $('a', this.$shadow).off('click mouseenter', this.dispatchQuery)
     window.removeEventListener('resize', this.on_resize)
   }
 
