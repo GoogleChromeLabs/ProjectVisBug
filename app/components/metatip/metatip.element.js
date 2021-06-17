@@ -12,11 +12,15 @@ export class Metatip extends HTMLElement {
       this.$shadow,
       MetatipStyles, MetatipLightStyles, MetatipDarkStyles
     )
+
+    this.observe = this.observe.bind(this)
+    this.dispatchQuery = this.dispatchQuery.bind(this)
+    this.dispatchUnQuery = this.dispatchUnQuery.bind(this)
   }
 
   connectedCallback() {
     this.applyScheme(document.querySelector("vis-bug").getAttribute("color-scheme"))
-    $(this.$shadow.host).on('mouseenter', this.observe.bind(this))
+    $(this.$shadow.host).on('mouseenter', this.observe)
   }
 
   disconnectedCallback() {
@@ -34,8 +38,8 @@ export class Metatip extends HTMLElement {
   }
 
   observe() {
-    $('h5 > a', this.$shadow).on('click mouseenter', this.dispatchQuery.bind(this))
-    $('h5 > a', this.$shadow).on('mouseleave', this.dispatchUnQuery.bind(this))
+    $('h5 > a', this.$shadow).on('click mouseenter', this.dispatchQuery)
+    $('h5 > a', this.$shadow).on('mouseleave', this.dispatchUnQuery)
 
     draggable({
       el: this,
@@ -45,8 +49,8 @@ export class Metatip extends HTMLElement {
   }
 
   unobserve() {
-    $('h5 > a', this.$shadow).off('click mouseenter', this.dispatchQuery.bind(this))
-    $('h5 > a', this.$shadow).off('mouseleave', this.dispatchUnQuery.bind(this))
+    $('h5 > a', this.$shadow).off('click mouseenter', this.dispatchQuery)
+    $('h5 > a', this.$shadow).off('mouseleave', this.dispatchUnQuery)
   }
 
   dispatchUnQuery(e) {
