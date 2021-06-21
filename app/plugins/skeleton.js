@@ -3,6 +3,8 @@ export const commands = [
   'outline',
 ]
 
+export const description = 'turn everything into wireframe boxes'
+
 export default async function() {
   const styles = `
     *:not(path):not(g) {

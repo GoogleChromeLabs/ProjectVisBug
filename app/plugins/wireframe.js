@@ -3,6 +3,8 @@ export const commands = [
   'blueprint',
 ]
 
+export const description = 'turn the page into a blueprint wireframe'
+
 export default async function() {
   const styles = `
     *:not(path):not(g) {

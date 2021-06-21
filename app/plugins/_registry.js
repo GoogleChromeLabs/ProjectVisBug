@@ -1,18 +1,18 @@
-import { commands as blank_page_commands, default as BlankPagePlugin } from './blank-page'
-import { commands as barrel_roll_commands, default as BarrelRollPlugin } from './barrel-roll'
-import { commands as pesticide_commands, default as PesticidePlugin } from './pesticide'
-import { commands as construct_commands, default as ConstructPlugin } from './construct'
-import { commands as construct_debug_commands, default as ConstructDebugPlugin } from './construct.debug'
-import { commands as wireframe_commands, default as WireframePlugin } from './wireframe'
-import { commands as skeleton_commands, default as SkeletonPlugin } from './skeleton'
-import { commands as tag_debugger_commands, default as TagDebuggerPlugin } from './tag-debugger'
-import { commands as revenge_commands, default as RevengePlugin } from './revenge'
-import { commands as tota11y_commands, default as Tota11yPlugin } from './tota11y'
-import { commands as shuffle_commands, default as ShufflePlugin } from './shuffle'
+import { commands as blank_page_commands, description as blank_page_description, default as BlankPagePlugin } from './blank-page'
+import { commands as barrel_roll_commands, description as barrel_roll_description, default as BarrelRollPlugin } from './barrel-roll'
+import { commands as pesticide_commands, description as pesticide_description, default as PesticidePlugin } from './pesticide'
+import { commands as construct_commands, description as construct_description, default as ConstructPlugin } from './construct'
+import { commands as construct_debug_commands, description as construct_debug_description, default as ConstructDebugPlugin } from './construct.debug'
+import { commands as wireframe_commands, description as wireframe_description, default as WireframePlugin } from './wireframe'
+import { commands as skeleton_commands, description as skeleton_description, default as SkeletonPlugin } from './skeleton'
+import { commands as tag_debugger_commands, description as tag_debugger_description, default as TagDebuggerPlugin } from './tag-debugger'
+import { commands as revenge_commands, description as revenge_description, default as RevengePlugin } from './revenge'
+import { commands as tota11y_commands, description as tota11y_description, default as Tota11yPlugin } from './tota11y'
+import { commands as shuffle_commands, description as shuffle_description, default as ShufflePlugin } from './shuffle'
 import { commands as colorblind_commands, default as ColorblindPlugin } from './colorblind'
-import { commands as zindex_commands, default as ZIndexPlugin } from './zindex'
-import { commands as no_mouse_days_commands, default as NoMouseDays } from './no-mouse-days'
-import { commands as remove_css_commands, default as RemoveCSSPlugin } from './remove-css'
+import { commands as zindex_commands, description as zindex_description, default as ZIndexPlugin } from './zindex'
+import { commands as no_mouse_days_commands, description as no_mouse_days_description, default as NoMouseDays } from './no-mouse-days'
+import { commands as remove_css_commands, description as remove_css_description, default as RemoveCSSPlugin } from './remove-css'
 
 const commandsToHash = (plugin_commands, plugin_fn) =>
   plugin_commands.reduce((commands, command) =>
@@ -38,19 +38,26 @@ export const PluginRegistry = new Map(Object.entries({
 }))
 
 export const PluginHints = [
-  blank_page_commands[0],
-  barrel_roll_commands[0],
-  pesticide_commands[0],
-  construct_commands[0],
-  construct_debug_commands[0],
-  wireframe_commands[0],
-  skeleton_commands[0],
-  tag_debugger_commands[0],
-  revenge_commands[0],
-  tota11y_commands[0],
-  shuffle_commands[0],
-  zindex_commands[0],
-  no_mouse_days_commands[0],
-  remove_css_commands[0],
-  ...colorblind_commands,
-].map(command => `/${command}`)
+  {command: blank_page_commands[0], description: blank_page_description},
+  {command: barrel_roll_commands[0], description: barrel_roll_description},
+  {command: pesticide_commands[0], description: pesticide_description},
+  {command: construct_commands[0], description: construct_description},
+  {command: construct_debug_commands[0], description: construct_debug_description},
+  {command: wireframe_commands[0], description: wireframe_description},
+  {command: skeleton_commands[0], description: skeleton_description},
+  {command: tag_debugger_commands[0], description: tag_debugger_description},
+  {command: revenge_commands[0], description: revenge_description},
+  {command: tota11y_commands[0], description: tota11y_description},
+  {command: shuffle_commands[0], description: shuffle_description},
+  {command: zindex_commands[0], description: zindex_description},
+  {command: no_mouse_days_commands[0], description: no_mouse_days_description},
+  {command: remove_css_commands[0], description: remove_css_description},
+  ...colorblind_commands.map(cbc => {
+    return {
+      command: cbc, description: `simulate ${cbc}`
+    }
+  }),
+].map(hint => {
+  hint.command = `/${hint.command}`
+  return hint
+})

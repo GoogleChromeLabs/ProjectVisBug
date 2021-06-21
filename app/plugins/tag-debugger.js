@@ -4,7 +4,10 @@ export const commands = [
   'osmani',
 ]
 
+export const description = 'outline every DOM element with a random color, to visualize layout'
+
 export default async function() {
+  let i, A;
   for (i = 0; A = document.querySelectorAll('*')[i++];)
     A.style.outline = `solid hsl(${(A+A).length*9},99%,50%) 1px`
 }

@@ -3,6 +3,8 @@ export const commands = [
   'do a barrel roll',
 ]
 
+export const description = 'spin the page once'
+
 export default async function() {
   document.body.style.transformOrigin = 'center 50vh'
   

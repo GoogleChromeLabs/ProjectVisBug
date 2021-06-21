@@ -2,6 +2,8 @@ export const commands = [
   'shuffle',
 ]
 
+export const description = 'shuffle the direct children of the currently-selected element'
+
 export default async (selectedElement) => {
   const getSiblings =  (elem) => {
     // Setup siblings array and get the first sibling
@@ -33,16 +35,16 @@ export default async (selectedElement) => {
     }
     return array;
   };
-  const appendSuffledSiblings = (element, suffledElementsArray) => {
+  const appendShuffledSiblings = (element, shuffledElementsArray) => {
     element.innerHTML = '';
-    for (let i = 0; i < suffledElementsArray.length; i++) {
-      element.appendChild(suffledElementsArray[i])
+    for (let i = 0; i < shuffledElementsArray.length; i++) {
+      element.appendChild(shuffledElementsArray[i])
     }
   };
   const { selected } = selectedElement;
   selected.map(selectedElem => {
     const siblings = getSiblings(selectedElem);
     const shuffledSiblings = shuffle(siblings);
-    appendSuffledSiblings(selectedElem, shuffledSiblings);
+    appendShuffledSiblings(selectedElem, shuffledSiblings);
   })
 }
