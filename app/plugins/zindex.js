@@ -4,6 +4,9 @@ export const commands = [
     'zindex',
     'z-index'
 ]
+
+export const description = 'show the z-index values of all elements that have z-index explicitly set (not auto)'
+
 function numberBetween(min, max) {
     return Math.floor(min + (Math.random() * (max - min)))
 }

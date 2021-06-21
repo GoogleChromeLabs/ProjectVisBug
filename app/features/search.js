@@ -28,10 +28,10 @@ search_base.innerHTML = `
           <option value="images">alias</option>
           <option value="text">alias</option>`}
 
-    ${PluginHints.reduce((options, command) =>
+    ${PluginHints.reduce((options, hint) =>
       options += isFirefox > 0
-        ? `<option value="${command}">`
-        : `<option value="${command}">plugin`
+        ? `<option value="${hint.command}">`
+        : `<option value="${hint.command}">${hint.description}`
     , '')}
   </datalist>
 `
