@@ -14,7 +14,7 @@ import { showTip as showAccessibilityTip, removeAll as removeAllAccessibilityTip
 
 import {
   metaKey, htmlStringToDom, createClassname, camelToDash,
-  isOffBounds, getStyles, deepElementFromPoint, getShadowValues,
+  isOffBounds, getStyle, getStyles, deepElementFromPoint, getShadowValues,
   isSelectorValid, findNearestChildElement, findNearestParentElement,
   getTextShadowValues, isFixed,
 } from '../utilities/'
@@ -532,17 +532,7 @@ export function Selectable(visbug) {
 
     hover_state.label   = no_label
       ? null
-      : createHoverLabel(el, `
-          <a node>${el.nodeName.toLowerCase()}</a>
-          <a>${el.id && '#' + el.id}</a>
-          ${createClassname(el).split('.')
-            .filter(name => name != '')
-            .reduce((links, name) => `
-              ${links}
-              <a>.${name}</a>
-            `, '')
-          }
-        `)
+      : createHoverLabel(el, handleLabelText(el, visbug.activeTool))
   }
 
   const clearHover = () => {
@@ -563,17 +553,7 @@ export function Selectable(visbug) {
       : createLabel({
           el,
           id,
-          template: `
-            <a node>${el.nodeName.toLowerCase()}</a>
-            <a>${el.id && '#' + el.id}</a>
-            ${createClassname(el).split('.')
-              .filter(name => name != '')
-              .reduce((links, name) => `
-                ${links}
-                <a>.${name}</a>
-              `, '')
-            }
-          `
+          template: handleLabelText(el, visbug.activeTool)
         })
 
     let observer        = createObserver(el, {handle,label})
@@ -588,8 +568,10 @@ export function Selectable(visbug) {
     })
   }
 
-  const setLabel = (el, label) =>
+  const setLabel = (el, label) => {
+    label.text = handleLabelText(el, visbug.activeTool)
     label.update = {boundingRect: el.getBoundingClientRect(), isFixed: isFixed(el)}
+  }
 
   const createLabel = ({el, id, template}) => {
     if (!labels[id]) {
@@ -743,5 +725,25 @@ export function Selectable(visbug) {
     onSelectedUpdate,
     removeSelectedCallback,
     disconnect,
+  }
+}
+
+const handleLabelText = (el, activeTool) => {
+  switch(activeTool) {
+    case 'align':
+      return getStyle(el, 'display')
+
+    default:
+      return `
+        <a node>${el.nodeName.toLowerCase()}</a>
+        <a>${el.id && '#' + el.id}</a>
+        ${createClassname(el).split('.')
+          .filter(name => name != '')
+          .reduce((links, name) => `
+            ${links}
+            <a>.${name}</a>
+          `, '')
+        }
+      `
   }
 }
