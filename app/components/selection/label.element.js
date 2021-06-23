@@ -48,7 +48,9 @@ export class Label extends HTMLElement {
   }
 
   set text(content) {
-    this._text = content
+    this.$shadow.childElementCount
+      ? this.$shadow.firstElementChild.textContent = content
+      : this._text = content
   }
 
   set position({boundingRect, node_label_id, isFixed}) {

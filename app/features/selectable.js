@@ -568,8 +568,10 @@ export function Selectable(visbug) {
     })
   }
 
-  const setLabel = (el, label) =>
+  const setLabel = (el, label) => {
+    label.text = handleLabelText(el, visbug.activeTool)
     label.update = {boundingRect: el.getBoundingClientRect(), isFixed: isFixed(el)}
+  }
 
   const createLabel = ({el, id, template}) => {
     if (!labels[id]) {
