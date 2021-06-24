@@ -1,3 +1,5 @@
+import { isFixed } from '../utilities/';
+
 export const commands = [
   'detect overflows',
   'overflow',
@@ -11,7 +13,9 @@ export default function() {
     const isFlag = el.classList.contains('visbug-detect-overflows')
     const alreadyHasFlag = el.lastChild && el.lastChild.className == 'visbug-detect-overflows'
     const isVisbug = false
-    if (isOverflowing && !isFlag && !alreadyHasFlag && !isVisbug) {
+    if (isFlag) {
+      el.remove()
+    } else if (isOverflowing && !isFlag && !alreadyHasFlag && !isVisbug) {
       createFlag(el)
     }
   })
@@ -22,12 +26,14 @@ function createFlag(offendingElement) {
   const position = offendingElement.getBoundingClientRect()
   const left = position.left
   const top = position.top
-  const zIndex = offendingElement.computedStyleMap().get('z-index').value
+  const zIndex = offendingElement.style.zIndex
   const outline = offendingElement.style.outline
 
   const offset = 16
-  const flagLeft = left <= 0 ? offset : left >= window.innerWidth ? window.innerWidth - offset : left
-  const flagTop = top <= 0 ? offset : top >= window.innerHeight ? window.innerHeight - offset : top
+  const scrollTop = document.documentElement.scrollTop
+  const scrollLeft = document.documentElement.scrollLeft
+  const flagLeft = left <= 0 ? scrollLeft + offset : scrollLeft + left >= window.innerWidth ? scrollLeft + window.innerWidth - offset : scrollLeft + left
+  const flagTop = top <= 0 ? scrollTop + offset : scrollTop + top >= window.innerHeight ? scrollTop + window.innerHeight - offset : scrollTop + top
   
   const flag = document.createElement("BUTTON")
   flag.innerText = "!"
@@ -47,5 +53,12 @@ function createFlag(offendingElement) {
     offendingElement.style.outline = outline
   }
 
+
+  const overlay = document.createElement('visbug-hover')
+  overlay.position = { el: offendingElement }
+  overlay.style.setProperty(`--hover-stroke`, 'red')
+  overlay.style.setProperty(`--position`, isFixed(offendingElement) ? 'fixed' : 'absolute')
+
+  document.body.appendChild(overlay)
   document.body.appendChild(flag)
 }
