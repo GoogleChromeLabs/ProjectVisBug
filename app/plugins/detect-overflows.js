@@ -5,60 +5,165 @@ export const commands = [
   'overflow',
 ]
 
-export const description = 'find elements that overflows (wider than page body)'
+export const description = 'find elements that overflow the page body'
 
-export default function() {
-  document.querySelectorAll('*').forEach(el => {
+const className = 'visbug-detect-overflows'
+
+export default function detectOverflows() {
+  document
+    .querySelectorAll('.' + className + ', visbug-hover')
+    .forEach((el) => el.remove())
+    document.querySelectorAll('*').forEach((el) => {
     const isOverflowing = el.offsetWidth > document.documentElement.offsetWidth
-    const isFlag = el.classList.contains('visbug-detect-overflows')
-    const alreadyHasFlag = el.lastChild && el.lastChild.className == 'visbug-detect-overflows'
-    const isVisbug = false
-    if (isFlag) {
-      el.remove()
-    } else if (isOverflowing && !isFlag && !alreadyHasFlag && !isVisbug) {
+    const isFlag = el.classList.contains(className)
+    const alreadyHasFlag = el.lastChild && el.lastChild.className == className
+    if (isOverflowing && !isFlag && !alreadyHasFlag) {
       createFlag(el)
     }
   })
+  window.addEventListener('scroll', positionFlags)
+  positionFlags()
 }
 
-// TODO: show line pointing to the offending element
+function positionFlags() {
+  document.querySelectorAll('.' + className).forEach((el) => {
+    const { position, left, top, icon } = stayInsideViewport(el)
+    el.style.position = position
+    el.style.left = left
+    el.style.top = top
+    el.innerText = icon
+  })
+}
+
 function createFlag(offendingElement) {
   const position = offendingElement.getBoundingClientRect()
   const left = position.left
   const top = position.top
   const zIndex = offendingElement.style.zIndex
   const outline = offendingElement.style.outline
-
-  const offset = 16
-  const scrollTop = document.documentElement.scrollTop
-  const scrollLeft = document.documentElement.scrollLeft
-  const flagLeft = left <= 0 ? scrollLeft + offset : scrollLeft + left >= window.innerWidth ? scrollLeft + window.innerWidth - offset : scrollLeft + left
-  const flagTop = top <= 0 ? scrollTop + offset : scrollTop + top >= window.innerHeight ? scrollTop + window.innerHeight - offset : scrollTop + top
   
-  const flag = document.createElement("BUTTON")
-  flag.innerText = "!"
-  flag.style.cssText = `all: initial; position: absolute; top: calc(${flagTop}px - 0.5rem); left: calc(${flagLeft}px - 1rem); background: red; border-radius: 1rem; border: 0.15rem solid white; height: 1.5rem; width: 1.5rem; font-size: 1rem; text-align: center; transition: width 0.3s; z-index: ${isNaN(zIndex) ? 9001 : zIndex + 1};`
+  const flagText = getFlagText(left, top)
+  
+  const flag = document.createElement('BUTTON')
+  flag.innerText = flagText
+  flag.style.cssText = `
+    all: initial;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: red;
+    border-radius: 1rem;
+    border: 0.15rem solid white;
+    min-height: 1.5rem;
+    min-width: 1.5rem;
+    font-size: 1rem;
+    text-align: center;
+    z-index: ${isNaN(zIndex) ? 9001 : zIndex + 1};
+    width: min-content;
+    height: min-content;
+    padding: 2px;
+  `
   flag.title = 'Overflowing the page body!'
-  flag.className = "visbug-detect-overflows"
+  flag.className = className
   flag.onmouseover = () => {
-    offendingElement.style.outline = '3px solid red'
+    offendingElement.style.outline = '10px solid red'
+    flag.originalText = flag.innerText
+    flag.innerText = flag.title
   }
   flag.onfocus = () => {
-    offendingElement.style.outline = '3px solid red'
+    offendingElement.style.outline = '10px solid red'
+    flag.originalText = flag.innerText
+    flag.innerText = flag.title
   }
   flag.onmouseleave = () => {
     offendingElement.style.outline = outline
+    flag.innerText = flag.originalText
   }
   flag.onblur = () => {
     offendingElement.style.outline = outline
+    flag.innerText = flag.originalText
   }
-
-
+  
   const overlay = document.createElement('visbug-hover')
   overlay.position = { el: offendingElement }
   overlay.style.setProperty(`--hover-stroke`, 'red')
   overlay.style.setProperty(`--position`, isFixed(offendingElement) ? 'fixed' : 'absolute')
-
+  
   document.body.appendChild(overlay)
-  document.body.appendChild(flag)
+  offendingElement.appendChild(flag)
+}
+
+function getFlagText(left, top) {
+  const scrollTop = document.documentElement.scrollTop
+  const scrollLeft = document.documentElement.scrollLeft
+  if (left <= 0) return '←'
+  if (scrollLeft + left >= window.innerWidth) return '→'
+  if (top <= 0) return '↑'
+  if (scrollTop + top >= window.innerHeight) return '↓'
+  return '!'
+}
+
+function stayInsideViewport(element) {
+  const boundingBox = element.getBoundingClientRect()
+  const parentBoundingBox = element.parentElement.getBoundingClientRect()
+  
+  const outsideTop = parentBoundingBox.top < 0
+  const outsideBottom = parentBoundingBox.top > window.innerHeight
+  const outsideLeft = parentBoundingBox.left < 0
+  const outsideRight = parentBoundingBox.left > window.innerWidth
+  
+  const isOutsideViewport =
+    outsideTop || outsideBottom || outsideLeft || outsideRight
+    
+  if (!isOutsideViewport) {
+    return {
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      icon: '!',
+    }
+  }
+
+  const output = {
+    position: 'fixed',
+    left: parentBoundingBox.left,
+    top: parentBoundingBox.top,
+    icon: '!',
+  }
+  
+  if (outsideTop && !outsideLeft && !outsideRight) {
+    output.left = Math.max(0, parentBoundingBox.left) + 'px'
+    output.top = 0
+    output.icon = '↑'
+  } else if (outsideTop && outsideLeft) {
+    output.left = 0
+    output.top = 0
+    output.icon = '←'
+  } else if (outsideTop && outsideRight) {
+    output.left = Math.max(0, parentBoundingBox.left) + 'px'
+    output.top = 0
+    output.icon = '→'
+  } else if (outsideLeft && !outsideTop && !outsideBottom) {
+    output.left = 0
+    output.top = Math.max(0, parentBoundingBox.top) + 'px'
+    output.icon = '←'
+  } else if (outsideRight && !outsideTop && !outsideBottom) {
+    output.left = window.innerWidth - boundingBox.width + 'px'
+    output.top = Math.max(0, parentBoundingBox.top) + 'px'
+    output.icon = '→'
+  } else if (outsideBottom && !outsideLeft && !outsideRight) {
+    output.left = Math.max(0, parentBoundingBox.left) + 'px'
+    output.top = window.innerHeight - boundingBox.height + 'px'
+    output.icon = '↓'
+  } else if (outsideBottom && outsideLeft) {
+    output.left = 0
+    output.top = window.innerHeight - boundingBox.height + 'px'
+    output.icon = '←'
+  } else if (outsideBottom && outsideRight) {
+    output.left = Math.max(0, parentBoundingBox.left) + 'px'
+    output.top = window.innerHeight - boundingBox.height + 'px'
+    output.icon = '→'
+  }
+
+  return output
 }
