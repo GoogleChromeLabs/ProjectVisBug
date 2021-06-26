@@ -35,12 +35,12 @@ function positionFlags() {
   })
 }
 
-function createFlag(offendingElement) {
-  const position = offendingElement.getBoundingClientRect()
+function createFlag(overflowingElement) {
+  const position = overflowingElement.getBoundingClientRect()
   const left = position.left
   const top = position.top
-  const zIndex = offendingElement.style.zIndex
-  const outline = offendingElement.style.outline
+  const zIndex = overflowingElement.style.zIndex
+  const outline = overflowingElement.style.outline
   
   const flagText = getFlagText(left, top)
   
@@ -66,31 +66,31 @@ function createFlag(offendingElement) {
   flag.title = 'Overflowing the page body!'
   flag.className = className
   flag.onmouseover = () => {
-    offendingElement.style.outline = '10px solid red'
+    overflowingElement.style.outline = '10px solid red'
     flag.originalText = flag.innerText
     flag.innerText = flag.title
   }
   flag.onfocus = () => {
-    offendingElement.style.outline = '10px solid red'
+    overflowingElement.style.outline = '10px solid red'
     flag.originalText = flag.innerText
     flag.innerText = flag.title
   }
   flag.onmouseleave = () => {
-    offendingElement.style.outline = outline
+    overflowingElement.style.outline = outline
     flag.innerText = flag.originalText
   }
   flag.onblur = () => {
-    offendingElement.style.outline = outline
+    overflowingElement.style.outline = outline
     flag.innerText = flag.originalText
   }
   
   const overlay = document.createElement('visbug-hover')
-  overlay.position = { el: offendingElement }
+  overlay.position = { el: overflowingElement }
   overlay.style.setProperty(`--hover-stroke`, 'red')
-  overlay.style.setProperty(`--position`, isFixed(offendingElement) ? 'fixed' : 'absolute')
+  overlay.style.setProperty(`--position`, isFixed(overflowingElement) ? 'fixed' : 'absolute')
   
   document.body.appendChild(overlay)
-  offendingElement.appendChild(flag)
+  overflowingElement.appendChild(flag)
 }
 
 function getFlagText(left, top) {
