@@ -13,7 +13,7 @@ export const description = 'find elements that overflow the page body'
 
 export default (elements) => {
     let selectedElements;
-    if (elements?.selected.length) {
+    if (elements && elements.selected.length) {
         selectedElements = elements.selected
     } else {
         selectedElements = [document.body]
