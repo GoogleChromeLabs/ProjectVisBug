@@ -36,14 +36,14 @@ const initWatchers = imgs => {
 }
 
 const clearWatchers = imgs => {
-  imgs.off('dragenter', onDragEnter)
+  imgs.off('dragover', onDragEnter)
   imgs.off('dragleave', onDragLeave)
   imgs.off('drop', onDrop)
-  $(document.body).off('dragenter', onDragEnter)
+  $(document.body).off('dragover', onDragEnter)
   $(document.body).off('dragleave', onDragLeave)
   $(document.body).off('drop', onDrop)
-  $(document.body).on('dragstart', onDragStart)
-  $(document.body).on('dragend', onDragEnd)
+  $(document.body).off('dragstart', onDragStart)
+  $(document.body).off('dragend', onDragEnd)
   imgs = []
 }
 
