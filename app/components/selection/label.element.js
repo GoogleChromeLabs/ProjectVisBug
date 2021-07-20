@@ -49,7 +49,7 @@ export class Label extends HTMLElement {
 
   set text(content) {
     this.$shadow.childElementCount
-      ? this.$shadow.firstElementChild.textContent = content
+      ? this.$shadow.firstElementChild.innerHTML = content
       : this._text = content
   }
 
