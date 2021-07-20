@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import { setupPptrTab, teardownPptrTab, changeMode, getActiveTool, dragAndDropElement }
+import { setupPptrTab, teardownPptrTab, changeMode }
 from '../../tests/helpers'
 
 const test_selector   = '[intro] b'
