@@ -187,50 +187,19 @@ export class Label extends HTMLElement {
 
 customElements.define('visbug-label', Label)
 
-// TODO: extract common functions and and move OverflowLabel to another file:
 export class OverflowLabel extends HTMLElement {
 
   constructor() {
     super()
     this.$shadow = this.attachShadow({mode: 'closed'})
-    this.on_resize = this.on_resize.bind(this)
-    this.dispatchQuery = this.dispatchQuery.bind(this)
   }
 
   connectedCallback() {
     this.$shadow.adoptedStyleSheets = [LabelStyles]
-    $('a', this.$shadow).on('click mouseenter', this.dispatchQuery)
-    window.addEventListener('resize', this.on_resize)
   }
 
   disconnectedCallback() {
-    $('a', this.$shadow).off('click mouseenter', this.dispatchQuery)
     window.removeEventListener('resize', this.on_resize)
-  }
-
-  on_resize() {
-    window.requestAnimationFrame(() => {
-      const node_label_id = this.$shadow.host.getAttribute('data-label-id')
-      const [source_el]   = $(`[data-label-id="${node_label_id}"]`)
-
-      if (!source_el) return
-
-      this.position = {
-        node_label_id,
-        boundingRect: source_el.getBoundingClientRect(),
-        isFixed: isFixed(source_el),
-      }
-    })
-  }
-
-  dispatchQuery(e) {
-    this.$shadow.host.dispatchEvent(new CustomEvent('query', {
-      bubbles: true,
-      detail:   {
-        text:       e.target.textContent,
-        activator:  e.type,
-      }
-    }))
   }
 
   set text(content) {
