@@ -25,7 +25,6 @@ export class OverflowLabel extends HTMLElement {
 
   disconnectedCallback() {
     $('a', this.$shadow).off('click mouseenter', this.dispatchQuery)
-    window.removeEventListener('resize', this.on_resize)
   }
 
   dispatchQuery(e) {
