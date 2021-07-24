@@ -8,12 +8,13 @@ export const commands = [
 export const description = 'loops through screen widths in a popup'
 
 export default async function() {
-  var test = (function () {
-    var keepGoing = true;
-    var popup;
-    var maxWidth = screen.width;
-    var minWidth = 152;
-    var goWider = true;
+
+  const test = (function () {
+    let keepGoing = true;
+    let popup;
+    const maxWidth = screen.width;
+    const minWidth = 152;
+    let goWider = true;
 
     openPopup();
     go();
@@ -22,18 +23,23 @@ export default async function() {
       stop();
       console.log("Stopped timer.");
     };
+
     function openPopup() {
       popup = window.open(location.href, "_blank", "width=100, top=0, left=0");
     }
+
     function wider() {
       popup.resizeBy(5, 0);
     }
+
     function thinner() {
       popup.resizeBy(-5, 0);
     }
+
     function stop() {
       keepGoing = false;
     }
+
     function go() {
       keepGoing = true;
       console.log("Popup will start looping thru screen widths in 3 seconds.");
@@ -48,8 +54,9 @@ export default async function() {
         );
       }, 3000);
     }
+
     function scanWidths() {
-      var timer = setInterval(function () {
+      const timer = setInterval(function () {
         if (!keepGoing) {
           clearTimeout(timer);
           popup.focus();
@@ -67,7 +74,12 @@ export default async function() {
       }, 100);
     }
 
-    return { stop, go, popup };
+    return {
+      stop,
+      go,
+      popup
+    };
+
   })();
 
   if (typeof window !== "undefined") window.test = test;
