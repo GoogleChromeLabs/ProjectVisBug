@@ -81,7 +81,6 @@ export class Label extends HTMLElement {
   }
 
   detectOutsideViewport() {
-    const text = this.$shadow.firstElementChild.textContent.replace(/^[↑↓←→]/,'')
     const boundingBox = this.$shadow.firstElementChild.getBoundingClientRect()
     
     const currentStyle = window.getComputedStyle(this);
@@ -111,7 +110,6 @@ export class Label extends HTMLElement {
       this.style.setProperty('--position', originalPosition.position)
       this.style.setProperty('--left', `${originalPosition.left}px`)
       this.style.setProperty('--top', `${originalPosition.top}px`)
-      this.text = text
       return;
     }
 

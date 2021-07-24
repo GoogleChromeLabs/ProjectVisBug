@@ -1,3 +1,4 @@
+import $ from 'blingblingjs'
 import { LabelStyles } from '../styles.store'
 
 window.addEventListener('scroll', positionFlags)
@@ -14,14 +15,27 @@ export class OverflowLabel extends HTMLElement {
   constructor() {
     super()
     this.$shadow = this.attachShadow({mode: 'closed'})
+    this.dispatchQuery = this.dispatchQuery.bind(this)
   }
 
   connectedCallback() {
     this.$shadow.adoptedStyleSheets = [LabelStyles]
+    $('a', this.$shadow).on('click mouseenter', this.dispatchQuery)
   }
 
   disconnectedCallback() {
+    $('a', this.$shadow).off('click mouseenter', this.dispatchQuery)
     window.removeEventListener('resize', this.on_resize)
+  }
+
+  dispatchQuery(e) {
+    this.$shadow.host.dispatchEvent(new CustomEvent('query', {
+      bubbles: true,
+      detail:   {
+        text:       e.target.textContent,
+        activator:  e.type,
+      }
+    }))
   }
 
   set text(content) {
@@ -39,7 +53,7 @@ export class OverflowLabel extends HTMLElement {
     this.style.setProperty('--top', `${boundingRect.y + (isFixed ? 0 : window.scrollY)}px`)
     this.style.setProperty('--left', `${boundingRect.x - 1}px`)
     this.style.setProperty('--max-width', `${boundingRect.width + (window.innerWidth - boundingRect.x - boundingRect.width - 20)}px`)
-    this.style.setProperty('--position', isFixed ? 'fixed' : 'absolute');
+    this.style.setProperty('--position', 'fixed');
   }
 
   set count(count) {
