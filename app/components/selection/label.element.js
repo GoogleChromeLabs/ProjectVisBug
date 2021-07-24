@@ -1,7 +1,7 @@
 import $ from 'blingblingjs'
 import { LabelStyles } from '../styles.store'
 import { isFixed } from '../../utilities/';
-// import { createOverflowLabelIndicator } from './overflowLabel.element'
+import { createOverflowLabelIndicator } from './overflowLabel.element'
 
 export class Label extends HTMLElement {
 
@@ -71,7 +71,7 @@ export class Label extends HTMLElement {
     this.setAttribute('data-original-left', left)
     this.setAttribute('data-original-position', position)
 
-    // this.detectOutsideViewport()
+    this.detectOutsideViewport()
   }
 
   render(node_label_id) {

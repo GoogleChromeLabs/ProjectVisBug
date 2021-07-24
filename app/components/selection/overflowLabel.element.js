@@ -67,6 +67,7 @@ export function createOverflowLabelIndicator(text, left, top, color, adjustRight
   const existing = document.querySelectorAll(`visbug-overflow-label[id=${text}]`)
 
   if (existing.length) {
+    existing[0].style.display = ''
     existing[0].style.setProperty('--left', left)
     existing[0].style.setProperty('--top', top)
     existing[0].style.setProperty('--position', 'fixed');
@@ -91,6 +92,7 @@ export function createOverflowLabelIndicator(text, left, top, color, adjustRight
   }
   label.count = 1
   label.text = `${text} ${label.count}`
+  label.style.display = ''
   label.style.setProperty('--left', left)
   label.style.setProperty('--top', top)
   if (color) label.style.setProperty(`--label-bg`, color)
@@ -104,5 +106,10 @@ export function createOverflowLabelIndicator(text, left, top, color, adjustRight
 }
 
 export function removeOverflowLabelIndicators() {
-  document.querySelectorAll('visbug-overflow-label').forEach(e => e.remove())
+  document.querySelectorAll('visbug-overflow-label')
+    .forEach(e => {
+      e.count = 0
+      e.text = ''
+      e.style.display = 'none'
+    })
 }
