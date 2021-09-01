@@ -9,7 +9,7 @@ import {
 import {
   Selectable, Moveable, Padding, Margin, EditText, Font,
   Flex, Search, ColorPicker, BoxShadow, HueShift, MetaTip,
-  Guides, Screenshot, Position, Accessibility, draggable
+  Guides, Screenshot, Position, Accessibility, draggable, Zoom
 } from '../../features/'
 
 import {
@@ -55,6 +55,9 @@ export default class VisBug extends HTMLElement {
 
     provideSelectorEngine(this.selectorEngine)
 
+    if (this.getAttribute('viewmode') == 'artboard')
+      Zoom.start(this.selectorEngine)
+
     this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
   }
 
@@ -65,10 +68,19 @@ export default class VisBug extends HTMLElement {
     hotkeys.unbind(
       Object.keys(this.toolbar_model).reduce((events, key) =>
         events += ',' + key, ''))
-    hotkeys.unbind(`${metaKey}+/`)
+    hotkeys.unbind(`${metaKey}+/,${metaKey}+.`)
+
+    if (this.getAttribute('viewmode') == 'artboard')
+      Zoom.stop()
   }
 
+  static get observedAttributes() { return ['viewmode','color-scheme'] }
+
   attributeChangedCallback(name, oldValue, newValue) {
+    newValue === 'artboard'
+      ? Zoom.start(this.selectorEngine)
+      : Zoom.stop()
+
     if (name === 'color-scheme')
       this.applyScheme(newValue)
   }
@@ -79,6 +91,10 @@ export default class VisBug extends HTMLElement {
     this.hasAttribute('color-mode')
       ? this.getAttribute('color-mode')
       : this.setAttribute('color-mode', 'hex')
+
+    this.hasAttribute('viewmode')
+      ? this.getAttribute('viewmode')
+      : this.setAttribute('viewmode', 'document')
 
     this.hasAttribute('color-scheme')
       ? this.getAttribute('color-scheme')
@@ -113,8 +129,6 @@ export default class VisBug extends HTMLElement {
     Array.from(document.body.children)
       .filter(node => node.nodeName.includes('VISBUG'))
       .forEach(el => el.remove())
-
-    this.teardown();
 
     document.querySelectorAll('[data-pseudo-select=true]')
       .forEach(el =>

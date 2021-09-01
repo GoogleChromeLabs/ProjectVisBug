@@ -12,11 +12,13 @@ const visbug = document.createElement('vis-bug')
 const src_path = platform.runtime.getURL(`tuts/guides.gif`)
 visbug.setAttribute('tutsBaseURL', src_path.slice(0, src_path.lastIndexOf('/')))
 
-document.body.prepend(visbug)
+document.firstElementChild.prepend(visbug)
 
 platform.runtime.onMessage.addListener(request => {
   if (request.action === 'COLOR_MODE')
     visbug.setAttribute('color-mode', request.params.mode)
+  else if (request.action === 'VIEW_MODE')
+    visbug.setAttribute('viewmode', request.params.mode.toLowerCase())
   else if (request.action === 'COLOR_SCHEME')
     visbug.setAttribute("color-scheme", request.params.mode)
 })

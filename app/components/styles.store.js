@@ -1,17 +1,18 @@
 import 'construct-style-sheets-polyfill'
 
-import { default as visbug_css }     from './vis-bug/vis-bug.element.css'
-import { default as handle_css }     from './selection/handles.element.css'
-import { default as hover_css }      from './selection/hover.element.css'
-import { default as corners_css }    from './selection/corners.element.css'
-import { default as distance_css }   from './selection/distance.element.css'
-import { default as gridline_css }   from './selection/gridlines.element.css'
-import { default as label_css }      from './selection/label.element.css'
-import { default as overlay_css }    from './selection/overlay.element.css'
-import { default as boxmodel_css }   from './selection/box-model.element.css'
-import { default as metatip_css }    from './metatip/metatip.element.css'
-import { default as hotkeymap_css }  from './hotkey-map/base.element.css'
-import { default as grip_css }       from './selection/grip.element.css'
+import { default as visbug_css }           from './vis-bug/vis-bug.element.css'
+import { default as visbug_artboard_css }  from './vis-bug/vis-bug.artboard.css'
+import { default as handle_css }           from './selection/handles.element.css'
+import { default as hover_css }            from './selection/hover.element.css'
+import { default as corners_css }          from './selection/corners.element.css'
+import { default as distance_css }         from './selection/distance.element.css'
+import { default as gridline_css }         from './selection/gridlines.element.css'
+import { default as label_css }            from './selection/label.element.css'
+import { default as overlay_css }          from './selection/overlay.element.css'
+import { default as boxmodel_css }         from './selection/box-model.element.css'
+import { default as metatip_css }          from './metatip/metatip.element.css'
+import { default as hotkeymap_css }        from './hotkey-map/base.element.css'
+import { default as grip_css }             from './selection/grip.element.css'
 
 import { default as light_css }            from './_variables_light.css'
 import { default as visbug_light_css }     from './vis-bug/vis-bug.element_light.css'
@@ -29,6 +30,7 @@ const constructStylesheet = (styles, stylesheet = new CSSStyleSheet()) => {
 }
 
 export const VisBugStyles    = constructStylesheet(visbug_css)
+export const ArtboardStyles  = constructStylesheet(visbug_artboard_css)
 export const HandleStyles    = constructStylesheet(handle_css)
 export const HoverStyles     = constructStylesheet(hover_css)
 export const CornerStyles    = constructStylesheet(corners_css)

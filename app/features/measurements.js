@@ -139,7 +139,7 @@ export function createMeasurements({$anchor, $target}) {
         node_label_id:  state.distances.length,
       }
 
-      document.body.appendChild($measurement)
+      document.body.insertAdjacentElement('afterend', $measurement)
       state.distances[state.distances.length] = $measurement
     })
 }

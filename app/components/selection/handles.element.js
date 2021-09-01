@@ -59,8 +59,8 @@ export class Handles extends HTMLElement {
   render({ x, y, width, height, top, left }, node_label_id, isFixed) {
     this.$shadow.host.setAttribute('data-label-id', node_label_id)
 
-    this.style.setProperty('--top', `${top + (isFixed ? 0 : window.scrollY)}px`)
-    this.style.setProperty('--left', `${left}px`)
+    this.style.setProperty('--top', `${top+window.scrollY}px`)
+    this.style.setProperty('--left', `${left+window.scrollX}px`)
     this.style.setProperty('--position', isFixed ? 'fixed' : 'absolute')
 
     return `

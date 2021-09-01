@@ -52,7 +52,6 @@ html[light] {
 
 body {
   margin: 0;
-  padding-left: 4rem;
   background: var(--dark-grey);
   color: var(--lighter-grey);
   font-family: system-ui;

@@ -29,7 +29,7 @@ export class BoxModel extends HTMLElement {
         height:   bounds.height,
         width:    bounds.width,
         top:      bounds.top + window.scrollY,
-        left:     bounds.left,
+        left:     bounds.left + window.scrollX,
         rotation: 'rotate(-45)',
       }
     }
@@ -38,7 +38,7 @@ export class BoxModel extends HTMLElement {
         height:   total_height,
         width:    total_width,
         top:      bounds.top + window.scrollY - sides.top,
-        left:     bounds.left - sides.left,
+        left:     bounds.left + window.scrollX - sides.left,
         rotation: 'rotate(45)',
       }
     }

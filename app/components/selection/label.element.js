@@ -60,7 +60,7 @@ export class Label extends HTMLElement {
 
   set update({boundingRect, isFixed}) {
     this.style.setProperty('--top', `${boundingRect.y + (isFixed ? 0 : window.scrollY)}px`)
-    this.style.setProperty('--left', `${boundingRect.x - 1}px`)
+    this.style.setProperty('--left', `${boundingRect.x + window.scrollX - 1}px`)
     this.style.setProperty('--max-width', `${boundingRect.width + (window.innerWidth - boundingRect.x - boundingRect.width - 20)}px`)
     this.style.setProperty('--position', isFixed ? 'fixed' : 'absolute');
   }
