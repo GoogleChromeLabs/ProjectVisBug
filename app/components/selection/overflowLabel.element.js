@@ -3,6 +3,11 @@ import { LabelStyles } from '../styles.store'
 
 window.addEventListener('scroll', positionFlags)
 
+// hide overflow label indicators if you click anywhere:
+document.body.addEventListener('click', () => {
+  removeOverflowLabelIndicators()
+}, true)
+
 function positionFlags() {
   removeOverflowLabelIndicators()
   document.querySelectorAll('visbug-label').forEach((el) => {
