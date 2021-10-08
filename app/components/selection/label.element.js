@@ -62,7 +62,7 @@ export class Label extends HTMLElement {
 
   set update({boundingRect, isFixed}) {
     const top = boundingRect.y + (isFixed ? 0 : window.scrollY)
-    const left = boundingRect.x - 1
+    const left = boundingRect.x
     const position = isFixed ? 'fixed' : 'absolute'
     this.style.setProperty('--top', `${top}px`)
     this.style.setProperty('--left', `${left}px`)
@@ -101,7 +101,7 @@ export class Label extends HTMLElement {
 
     const outsideTop = originalPosition.top - boundingBox.height - scrollY < 0
     const outsideBottom = originalPosition.top - scrollY > window.innerHeight
-    const outsideLeft = originalPosition.left - boundingBox.width - scrollX < 0
+    const outsideLeft = originalPosition.left - scrollX < 0
     const outsideRight = originalPosition.left - scrollX > window.innerWidth
 
     const isOutsideViewport =
