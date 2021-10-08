@@ -75,7 +75,7 @@ export class Label extends HTMLElement {
   }
 
   render(node_label_id) {
-    this.$shadow.host.setAttribute('data-label-id', node_label_id)
+    this.$shadow.host.setAttribute('data-label-id', node_label_id || ('label_' + Number(new Date())))
 
     return `<span>${this._text}</span>`
   }
@@ -122,55 +122,56 @@ export class Label extends HTMLElement {
 
     let color = 'black'
     const adjustRightSideToCount = true
+    const node_label_id = this.getAttribute('data-label-id')
 
     if (outsideTop && !outsideLeft && !outsideRight) {
       style.left = Math.max(boundingBox.width, currentPosition.left)
       style.top = boundingBox.height
       style.overflowText = '↑'
       color = 'black'
-      createOverflowLabelIndicator(style.overflowText, 'calc(50vw - 0.5rem)', '1rem', color)
+      createOverflowLabelIndicator(node_label_id, style.overflowText, 'calc(50vw - 0.5rem)', '1rem', color)
     } else if (outsideTop && outsideLeft) {
       style.left = boundingBox.width
       style.top = boundingBox.height
       style.overflowText = '↖'
       color = 'red'
-      createOverflowLabelIndicator(style.overflowText, '0', '1rem', color)
+      createOverflowLabelIndicator(node_label_id, style.overflowText, '0', '1rem', color)
     } else if (outsideTop && outsideRight) {
       style.left = Math.max(boundingBox.width, currentPosition.left)
       style.top = boundingBox.height
       style.overflowText = '↗'
       color = 'purple'
-      createOverflowLabelIndicator(style.overflowText, `calc(100vw - 1.5rem)`, '1rem', color, adjustRightSideToCount)
+      createOverflowLabelIndicator(node_label_id, style.overflowText, `calc(100vw - 1.5rem)`, '1rem', color, adjustRightSideToCount)
     } else if (outsideLeft && !outsideTop && !outsideBottom) {
       style.left = boundingBox.width
       style.top = Math.max(boundingBox.height, currentPosition.top)
       style.overflowText = '←'
       color = 'orange'
-      createOverflowLabelIndicator(style.overflowText, 0, 'calc(50vh - 0.5rem)', color)
+      createOverflowLabelIndicator(node_label_id, style.overflowText, 0, 'calc(50vh - 0.5rem)', color)
     } else if (outsideRight && !outsideTop && !outsideBottom) {
       style.left = window.innerWidth - boundingBox.width
       style.top = Math.max(boundingBox.height, currentPosition.top)
       style.overflowText = '→'
       color = 'navy'
-      createOverflowLabelIndicator(style.overflowText, `calc(100vw - 1.5rem)`, 'calc(50vh - 0.5rem)', color, adjustRightSideToCount)
+      createOverflowLabelIndicator(node_label_id, style.overflowText, `calc(100vw - 1.5rem)`, 'calc(50vh - 0.5rem)', color, adjustRightSideToCount)
     } else if (outsideBottom && !outsideLeft && !outsideRight) {
       style.left = Math.max(boundingBox.width, currentPosition.left)
       style.top = window.innerHeight - boundingBox.height
       style.overflowText = '↓'
       color = 'green';
-      createOverflowLabelIndicator(style.overflowText, 'calc(50vw - 0.5rem)', '100vh', color)
+      createOverflowLabelIndicator(node_label_id, style.overflowText, 'calc(50vw - 0.5rem)', '100vh', color)
     } else if (outsideBottom && outsideLeft) {
       style.left = boundingBox.width
       style.top = window.innerHeight - boundingBox.height
       style.overflowText = '↙'
       color = 'goldenrod'
-      createOverflowLabelIndicator(style.overflowText, 0, '100vh', color)
+      createOverflowLabelIndicator(node_label_id, style.overflowText, 0, '100vh', color)
     } else if (outsideBottom && outsideRight) {
       style.left = Math.max(boundingBox.width, currentPosition.left)
       style.top = window.innerHeight - boundingBox.height
       style.overflowText = '↘'
       color = 'blue'
-      createOverflowLabelIndicator(style.overflowText, `calc(100vw - 1.5rem)`, '100vh', color, adjustRightSideToCount)
+      createOverflowLabelIndicator(node_label_id, style.overflowText, `calc(100vw - 1.5rem)`, '100vh', color, adjustRightSideToCount)
     }
   }
 }

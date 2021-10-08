@@ -81,7 +81,7 @@ export class OverflowLabel extends HTMLElement {
 
 customElements.define('visbug-overflow-label', OverflowLabel)
 
-export function createOverflowLabelIndicator(text, left, top, color, adjustRightSideToCount) {
+export function createOverflowLabelIndicator(node_label_id, text, left, top, color, adjustRightSideToCount) {
   const existing = document.querySelectorAll(`visbug-overflow-label[id=${text}]`)
 
   if (existing.length) {
@@ -90,7 +90,8 @@ export function createOverflowLabelIndicator(text, left, top, color, adjustRight
     existing[0].style.setProperty('--top', top)
     existing[0].style.setProperty('--position', 'fixed');
     if (color) existing[0].style.setProperty(`--label-bg`, color)
-    existing[0].count++
+    existing[0].seen[node_label_id] = true;
+    existing[0].count = Object.keys(existing[0].seen).length
     existing[0].text = `${text} ${existing[0].count}`
 
     if (adjustRightSideToCount) {
@@ -108,6 +109,8 @@ export function createOverflowLabelIndicator(text, left, top, color, adjustRight
     boundingRect: document.body.getBoundingClientRect(),
     isFixed: true,
   }
+  label.seen = {} // reset
+  label.seen[node_label_id] = true
   label.count = 1
   label.text = `${text} ${label.count}`
   label.style.display = ''
@@ -126,6 +129,7 @@ export function createOverflowLabelIndicator(text, left, top, color, adjustRight
 export function removeOverflowLabelIndicators() {
   document.querySelectorAll('visbug-overflow-label')
     .forEach(e => {
+      e.seen = {}
       e.count = 0
       e.text = ''
       e.style.display = 'none'
