@@ -1,21 +1,21 @@
 import $ from 'blingblingjs'
-import { OverflowLabelStyles } from '../styles.store'
+import { OffscreenLabelStyles } from '../styles.store'
 
 window.addEventListener('scroll', positionFlags)
 
-// hide overflow label indicators if you click anywhere:
+// hide offscreen label indicators if you click anywhere:
 document.body.addEventListener('click', () => {
-  removeOverflowLabelIndicators()
+  removeOffscreenLabelIndicators()
 }, true)
 
 function positionFlags() {
-  removeOverflowLabelIndicators()
+  removeOffscreenLabelIndicators()
   document.querySelectorAll('visbug-label').forEach((el) => {
     el.detectOutsideViewport()
   })
 }
 
-export class OverflowLabel extends HTMLElement {
+export class OffscreenLabel extends HTMLElement {
 
   constructor() {
     super()
@@ -24,7 +24,7 @@ export class OverflowLabel extends HTMLElement {
   }
 
   connectedCallback() {
-    this.$shadow.adoptedStyleSheets = [OverflowLabelStyles]
+    this.$shadow.adoptedStyleSheets = [OffscreenLabelStyles]
     $('a', this.$shadow).on('click mouseenter', this.dispatchQuery)
   }
 
@@ -75,14 +75,14 @@ export class OverflowLabel extends HTMLElement {
   render(node_label_id) {
     this.$shadow.host.setAttribute('data-label-id', node_label_id)
 
-    return `<span overflow-label>${this._text}</span>`
+    return `<span offscreen-label>${this._text}</span>`
   }
 }
 
-customElements.define('visbug-overflow-label', OverflowLabel)
+customElements.define('visbug-offscreen-label', OffscreenLabel)
 
-export function createOverflowLabelIndicator(node_label_id, text, hoverText, left, top, color, adjustRightSideToCount) {
-  const existing = document.querySelectorAll(`visbug-overflow-label[id=${text}]`)
+export function createOffscreenLabelIndicator(node_label_id, text, hoverText, left, top, color, adjustRightSideToCount) {
+  const existing = document.querySelectorAll(`visbug-offscreen-label[id=${text}]`)
 
   if (existing.length) {
     const instance = existing[0];
@@ -105,7 +105,7 @@ export function createOverflowLabelIndicator(node_label_id, text, hoverText, lef
     return
   }
 
-  const label = document.createElement('visbug-overflow-label')
+  const label = document.createElement('visbug-offscreen-label')
 
   label.id = text
   label.position = {
@@ -131,8 +131,8 @@ export function createOverflowLabelIndicator(node_label_id, text, hoverText, lef
   document.body.appendChild(label)
 }
 
-export function removeOverflowLabelIndicators() {
-  document.querySelectorAll('visbug-overflow-label')
+export function removeOffscreenLabelIndicators() {
+  document.querySelectorAll('visbug-offscreen-label')
     .forEach(e => {
       e.seen = {}
       e.count = 0

@@ -7,7 +7,7 @@ import { default as corners_css }    from './selection/corners.element.css'
 import { default as distance_css }   from './selection/distance.element.css'
 import { default as gridline_css }   from './selection/gridlines.element.css'
 import { default as label_css }      from './selection/label.element.css'
-import { default as overflowLabel_css }      from './selection/overflowLabel.element.css'
+import { default as offscreenLabel_css }      from './selection/offscreenLabel.element.css'
 import { default as overlay_css }    from './selection/overlay.element.css'
 import { default as boxmodel_css }   from './selection/box-model.element.css'
 import { default as metatip_css }    from './metatip/metatip.element.css'
@@ -37,7 +37,7 @@ export const MetatipStyles        = constructStylesheet(metatip_css)
 export const DistanceStyles       = constructStylesheet(distance_css)
 export const GridlineStyles       = constructStylesheet(gridline_css)
 export const LabelStyles          = constructStylesheet(label_css)
-export const OverflowLabelStyles  = constructStylesheet(overflowLabel_css)
+export const OffscreenLabelStyles  = constructStylesheet(offscreenLabel_css)
 export const OverlayStyles        = constructStylesheet(overlay_css)
 export const BoxModelStyles       = constructStylesheet(boxmodel_css)
 export const HotkeymapStyles      = constructStylesheet(hotkeymap_css)

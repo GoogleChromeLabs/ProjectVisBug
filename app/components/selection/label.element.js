@@ -2,7 +2,7 @@ import $ from 'blingblingjs'
 import { handleLabelText } from '../../features/selectable'
 import { LabelStyles } from '../styles.store'
 import { isFixed } from '../../utilities/';
-import { createOverflowLabelIndicator } from './overflowLabel.element'
+import { createOffscreenLabelIndicator } from './offscreenLabel.element'
 
 export class Label extends HTMLElement {
 
@@ -124,50 +124,50 @@ export class Label extends HTMLElement {
       color: 'var(--theme-purple)',
       left: currentPosition.left,
       top: currentPosition.top,
-      overflowText: '',
+      offscreenText: '',
       hoverText: hoverText,
     }
 
     if (outsideTop && !outsideLeft && !outsideRight) {
       style.left = Math.max(boundingBox.width, currentPosition.left)
       style.top = boundingBox.height
-      style.overflowText = '↑'
-      createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, 'calc(50vw - 0.5rem)', '1rem', style.color)
+      style.offscreenText = '↑'
+      createOffscreenLabelIndicator(node_label_id, style.offscreenText, style.hoverText, 'calc(50vw - 0.5rem)', '1rem', style.color)
     } else if (outsideTop && outsideLeft) {
       style.left = boundingBox.width
       style.top = boundingBox.height
-      style.overflowText = '↖'
-      createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, '0', '1rem', style.color)
+      style.offscreenText = '↖'
+      createOffscreenLabelIndicator(node_label_id, style.offscreenText, style.hoverText, '0', '1rem', style.color)
     } else if (outsideTop && outsideRight) {
       style.left = Math.max(boundingBox.width, currentPosition.left)
       style.top = boundingBox.height
-      style.overflowText = '↗'
-      createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, `calc(100vw - 1.5rem)`, '1rem', color, adjustRightSideToCount)
+      style.offscreenText = '↗'
+      createOffscreenLabelIndicator(node_label_id, style.offscreenText, style.hoverText, `calc(100vw - 1.5rem)`, '1rem', color, adjustRightSideToCount)
     } else if (outsideLeft && !outsideTop && !outsideBottom) {
       style.left = boundingBox.width
       style.top = Math.max(boundingBox.height, currentPosition.top)
-      style.overflowText = '←'
-      createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, 0, 'calc(50vh - 0.5rem)', style.color)
+      style.offscreenText = '←'
+      createOffscreenLabelIndicator(node_label_id, style.offscreenText, style.hoverText, 0, 'calc(50vh - 0.5rem)', style.color)
     } else if (outsideRight && !outsideTop && !outsideBottom) {
       style.left = window.innerWidth - boundingBox.width
       style.top = Math.max(boundingBox.height, currentPosition.top)
-      style.overflowText = '→'
-      createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, `calc(100vw - 1.5rem)`, 'calc(50vh - 0.5rem)', color, adjustRightSideToCount)
+      style.offscreenText = '→'
+      createOffscreenLabelIndicator(node_label_id, style.offscreenText, style.hoverText, `calc(100vw - 1.5rem)`, 'calc(50vh - 0.5rem)', color, adjustRightSideToCount)
     } else if (outsideBottom && !outsideLeft && !outsideRight) {
       style.left = Math.max(boundingBox.width, currentPosition.left)
       style.top = window.innerHeight - boundingBox.height
-      style.overflowText = '↓'
-      createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, 'calc(50vw - 0.5rem)', '100vh', style.color)
+      style.offscreenText = '↓'
+      createOffscreenLabelIndicator(node_label_id, style.offscreenText, style.hoverText, 'calc(50vw - 0.5rem)', '100vh', style.color)
     } else if (outsideBottom && outsideLeft) {
       style.left = boundingBox.width
       style.top = window.innerHeight - boundingBox.height
-      style.overflowText = '↙'
-      createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, 0, '100vh', style.color)
+      style.offscreenText = '↙'
+      createOffscreenLabelIndicator(node_label_id, style.offscreenText, style.hoverText, 0, '100vh', style.color)
     } else if (outsideBottom && outsideRight) {
       style.left = Math.max(boundingBox.width, currentPosition.left)
       style.top = window.innerHeight - boundingBox.height
-      style.overflowText = '↘'
-      createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, `calc(100vw - 1.5rem)`, '100vh', color, adjustRightSideToCount)
+      style.offscreenText = '↘'
+      createOffscreenLabelIndicator(node_label_id, style.offscreenText, style.hoverText, `calc(100vw - 1.5rem)`, '100vh', color, adjustRightSideToCount)
     }
   }
 }

@@ -7,14 +7,14 @@
   --hover-text: "";
 }
 
-:host > [overflow-label] {
+:host > [offscreen-label] {
   cursor: none;
 }
 
-:host > [overflow-label]:after {
+:host > [offscreen-label]:after {
   content: var(--count);
 }
 
-:host > [overflow-label]:hover:after {
+:host > [offscreen-label]:hover:after {
   content: var(--hover-text);
 }
