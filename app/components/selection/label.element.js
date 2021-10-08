@@ -82,6 +82,11 @@ export class Label extends HTMLElement {
   }
 
   detectOutsideViewport(el) {
+    const elementSelector = el ? handleLabelText(el) : ''
+    const labelText = this.$shadow.firstElementChild.innerText.replace(/\s+/g, ' ')
+    const hoverText = elementSelector || labelText
+    if (hoverText === 'body') return;
+
     const boundingBox = this.$shadow.firstElementChild.getBoundingClientRect()
     
     const currentStyle = window.getComputedStyle(this);
@@ -117,9 +122,6 @@ export class Label extends HTMLElement {
     let color = 'black'
     const adjustRightSideToCount = true
     const node_label_id = this.getAttribute('data-label-id')
-    const elementSelector = el ? handleLabelText(el) : ''
-    const labelText = this.$shadow.firstElementChild.innerText.replace(/\s+/g, ' ')
-    const hoverText = elementSelector || labelText
 
     const style = {
       position: 'fixed',
