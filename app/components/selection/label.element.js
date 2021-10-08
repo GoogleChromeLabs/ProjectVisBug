@@ -1,5 +1,4 @@
 import $ from 'blingblingjs'
-import { handleLabelText } from '../../features/selectable'
 import { LabelStyles } from '../styles.store'
 import { isFixed } from '../../utilities/';
 import { createOffscreenLabelIndicator } from './offscreenLabel.element'
