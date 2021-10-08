@@ -81,12 +81,10 @@ export class Label extends HTMLElement {
     return `<span>${this._text}</span>`
   }
 
-  detectOutsideViewport(el) {
-    const elementSelector = el ? handleLabelText(el) : ''
-    const labelText = this.$shadow.firstElementChild.innerText.replace(/\s+/g, ' ')
-    const hoverText = elementSelector || labelText
+  detectOutsideViewport() {
+    const hoverText = this.$shadow.firstElementChild.innerText.replace(/\s+/g, ' ')
     if (hoverText === 'body') return;
-
+    
     const boundingBox = this.$shadow.firstElementChild.getBoundingClientRect()
     
     const currentStyle = window.getComputedStyle(this);
@@ -119,12 +117,11 @@ export class Label extends HTMLElement {
       return;
     }
 
-    let color = 'black'
     const adjustRightSideToCount = true
     const node_label_id = this.getAttribute('data-label-id')
-
     const style = {
       position: 'fixed',
+      color: 'var(--theme-purple)',
       left: currentPosition.left,
       top: currentPosition.top,
       overflowText: '',
@@ -135,49 +132,41 @@ export class Label extends HTMLElement {
       style.left = Math.max(boundingBox.width, currentPosition.left)
       style.top = boundingBox.height
       style.overflowText = '↑'
-      color = 'black'
-      createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, 'calc(50vw - 0.5rem)', '1rem', color)
+      createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, 'calc(50vw - 0.5rem)', '1rem', style.color)
     } else if (outsideTop && outsideLeft) {
       style.left = boundingBox.width
       style.top = boundingBox.height
       style.overflowText = '↖'
-      color = 'red'
-      createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, '0', '1rem', color)
+      createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, '0', '1rem', style.color)
     } else if (outsideTop && outsideRight) {
       style.left = Math.max(boundingBox.width, currentPosition.left)
       style.top = boundingBox.height
       style.overflowText = '↗'
-      color = 'purple'
       createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, `calc(100vw - 1.5rem)`, '1rem', color, adjustRightSideToCount)
     } else if (outsideLeft && !outsideTop && !outsideBottom) {
       style.left = boundingBox.width
       style.top = Math.max(boundingBox.height, currentPosition.top)
       style.overflowText = '←'
-      color = 'orange'
-      createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, 0, 'calc(50vh - 0.5rem)', color)
+      createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, 0, 'calc(50vh - 0.5rem)', style.color)
     } else if (outsideRight && !outsideTop && !outsideBottom) {
       style.left = window.innerWidth - boundingBox.width
       style.top = Math.max(boundingBox.height, currentPosition.top)
       style.overflowText = '→'
-      color = 'navy'
       createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, `calc(100vw - 1.5rem)`, 'calc(50vh - 0.5rem)', color, adjustRightSideToCount)
     } else if (outsideBottom && !outsideLeft && !outsideRight) {
       style.left = Math.max(boundingBox.width, currentPosition.left)
       style.top = window.innerHeight - boundingBox.height
       style.overflowText = '↓'
-      color = 'green';
-      createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, 'calc(50vw - 0.5rem)', '100vh', color)
+      createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, 'calc(50vw - 0.5rem)', '100vh', style.color)
     } else if (outsideBottom && outsideLeft) {
       style.left = boundingBox.width
       style.top = window.innerHeight - boundingBox.height
       style.overflowText = '↙'
-      color = 'goldenrod'
-      createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, 0, '100vh', color)
+      createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, 0, '100vh', style.color)
     } else if (outsideBottom && outsideRight) {
       style.left = Math.max(boundingBox.width, currentPosition.left)
       style.top = window.innerHeight - boundingBox.height
       style.overflowText = '↘'
-      color = 'blue'
       createOverflowLabelIndicator(node_label_id, style.overflowText, style.hoverText, `calc(100vw - 1.5rem)`, '100vh', color, adjustRightSideToCount)
     }
   }
