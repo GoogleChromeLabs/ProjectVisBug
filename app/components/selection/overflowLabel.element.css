@@ -4,7 +4,7 @@
 
 :host {
   --count: "\00a0 0";
-  --hover-text: "\00a0 first overflow: ";
+  --hover-text: "";
 }
 
 :host > [overflow-label] {

@@ -11,7 +11,7 @@ document.body.addEventListener('click', () => {
 function positionFlags() {
   removeOverflowLabelIndicators()
   document.querySelectorAll('visbug-label').forEach((el) => {
-    el.detectOutsideViewport(el)
+    el.detectOutsideViewport()
   })
 }
 
@@ -85,20 +85,21 @@ export function createOverflowLabelIndicator(node_label_id, text, hoverText, lef
   const existing = document.querySelectorAll(`visbug-overflow-label[id=${text}]`)
 
   if (existing.length) {
-    existing[0].style.display = ''
-    existing[0].style.setProperty('--left', left)
-    existing[0].style.setProperty('--top', top)
-    existing[0].style.setProperty('--position', 'fixed');
-    if (color) existing[0].style.setProperty(`--label-bg`, color)
-    existing[0].seen[node_label_id] = true;
-    existing[0].count = Object.keys(existing[0].seen).length
-    existing[0].text = text
-    existing[0].style.setProperty('--count', `"\\00a0 ${existing[0].count}"`);
-    existing[0].style.setProperty('--hover-text', `"\\00a0 first overflow: ${hoverText}"`);
-
+    const instance = existing[0];
+    instance.style.display = ''
+    instance.style.setProperty('--left', left)
+    instance.style.setProperty('--top', top)
+    instance.style.setProperty('--position', 'fixed');
+    if (color) instance.style.setProperty(`--label-bg`, color)
+    instance.seen[node_label_id] = true;
+    instance.count = Object.keys(instance.seen).length
+    instance.text = text
+    instance.style.setProperty('--count', `"\\00a0 ${instance.count}"`);
+    instance.style.setProperty('--hover-text', `"\\00a0 ${hoverText ? 'offscreen label: ' + hoverText : instance.count}"`);
+    console.log(hoverText ? 'offscreen label:' + hoverText : 'count: '+instance.count)
     if (adjustRightSideToCount) {
-      left = left.includes('calc(') ? left.replace(')', ` - ${existing[0].count.toString().length}ch)`) : `${existing[0].count.toString().length}ch`
-      existing[0].style.setProperty('--left', left)
+      left = left.includes('calc(') ? left.replace(')', ` - ${instance.count.toString().length}ch)`) : `${instance.count.toString().length}ch`
+      instance.style.setProperty('--left', left)
     }
 
     return
@@ -119,7 +120,7 @@ export function createOverflowLabelIndicator(node_label_id, text, hoverText, lef
   label.style.setProperty('--left', left)
   label.style.setProperty('--top', top)
   label.style.setProperty('--count', `"\\00a0 ${label.count}"`)
-  label.style.setProperty('--hover-text', `"\\00a0 first overflow: ${hoverText}"`)
+  label.style.setProperty('--hover-text', `"\\00a0 ${hoverText ? 'offscreen label: ' + hoverText : label.count}"`)
   if (color) label.style.setProperty(`--label-bg`, color)
 
   if (adjustRightSideToCount) {
