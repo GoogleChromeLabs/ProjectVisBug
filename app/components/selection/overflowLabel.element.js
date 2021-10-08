@@ -1,5 +1,5 @@
 import $ from 'blingblingjs'
-import { LabelStyles } from '../styles.store'
+import { OverflowLabelStyles } from '../styles.store'
 
 window.addEventListener('scroll', positionFlags)
 
@@ -11,7 +11,7 @@ document.body.addEventListener('click', () => {
 function positionFlags() {
   removeOverflowLabelIndicators()
   document.querySelectorAll('visbug-label').forEach((el) => {
-    el.detectOutsideViewport()
+    el.detectOutsideViewport(el)
   })
 }
 
@@ -24,7 +24,7 @@ export class OverflowLabel extends HTMLElement {
   }
 
   connectedCallback() {
-    this.$shadow.adoptedStyleSheets = [LabelStyles]
+    this.$shadow.adoptedStyleSheets = [OverflowLabelStyles]
     $('a', this.$shadow).on('click mouseenter', this.dispatchQuery)
   }
 
@@ -75,13 +75,13 @@ export class OverflowLabel extends HTMLElement {
   render(node_label_id) {
     this.$shadow.host.setAttribute('data-label-id', node_label_id)
 
-    return `<span>${this._text}</span>`
+    return `<span overflow-label>${this._text}</span>`
   }
 }
 
 customElements.define('visbug-overflow-label', OverflowLabel)
 
-export function createOverflowLabelIndicator(node_label_id, text, left, top, color, adjustRightSideToCount) {
+export function createOverflowLabelIndicator(node_label_id, text, hoverText, left, top, color, adjustRightSideToCount) {
   const existing = document.querySelectorAll(`visbug-overflow-label[id=${text}]`)
 
   if (existing.length) {
@@ -92,7 +92,9 @@ export function createOverflowLabelIndicator(node_label_id, text, left, top, col
     if (color) existing[0].style.setProperty(`--label-bg`, color)
     existing[0].seen[node_label_id] = true;
     existing[0].count = Object.keys(existing[0].seen).length
-    existing[0].text = `${text} ${existing[0].count}`
+    existing[0].text = text
+    existing[0].style.setProperty('--count', `"\\00a0 ${existing[0].count}"`);
+    existing[0].style.setProperty('--hover-text', `"\\00a0 first overflow: ${hoverText}"`);
 
     if (adjustRightSideToCount) {
       left = left.includes('calc(') ? left.replace(')', ` - ${existing[0].count.toString().length}ch)`) : `${existing[0].count.toString().length}ch`
@@ -112,10 +114,12 @@ export function createOverflowLabelIndicator(node_label_id, text, left, top, col
   label.seen = {} // reset
   label.seen[node_label_id] = true
   label.count = 1
-  label.text = `${text} ${label.count}`
+  label.text = text
   label.style.display = ''
   label.style.setProperty('--left', left)
   label.style.setProperty('--top', top)
+  label.style.setProperty('--count', `"\\00a0 ${label.count}"`)
+  label.style.setProperty('--hover-text', `"\\00a0 first overflow: ${hoverText}"`)
   if (color) label.style.setProperty(`--label-bg`, color)
 
   if (adjustRightSideToCount) {

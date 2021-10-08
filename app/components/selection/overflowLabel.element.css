@@ -1,0 +1,20 @@
+@import "../_variables.css";
+
+@import "./label.element.css";
+
+:host {
+  --count: "\00a0 0";
+  --hover-text: "\00a0 first overflow: ";
+}
+
+:host > [overflow-label] {
+  cursor: none;
+}
+
+:host > [overflow-label]:after {
+  content: var(--count);
+}
+
+:host > [overflow-label]:hover:after {
+  content: var(--hover-text);
+}

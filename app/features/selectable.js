@@ -728,7 +728,7 @@ export function Selectable(visbug) {
   }
 }
 
-const handleLabelText = (el, activeTool) => {
+export const handleLabelText = (el, activeTool) => {
   switch(activeTool) {
     case 'align':
       return getStyle(el, 'display')
