@@ -1,0 +1,20 @@
+@import "../_variables.css";
+
+@import "./label.element.css";
+
+:host {
+  --count: "\00a0 0";
+  --hover-text: "";
+}
+
+:host > [offscreen-label] {
+  cursor: none;
+}
+
+:host > [offscreen-label]:after {
+  content: var(--count);
+}
+
+:host > [offscreen-label]:hover:after {
+  content: var(--hover-text);
+}
