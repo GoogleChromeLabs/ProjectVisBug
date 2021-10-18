@@ -73,7 +73,7 @@ export class OffscreenLabel extends HTMLElement {
   }
 
   render(node_label_id) {
-    this.$shadow.host.setAttribute('data-label-id', node_label_id)
+    this.$shadow.host.setAttribute('data-label-id', node_label_id || ('label_' + Number(new Date())))
 
     return `<span offscreen-label>${this._text}</span>`
   }
@@ -90,13 +90,12 @@ export function createOffscreenLabelIndicator(node_label_id, text, hoverText, le
     instance.style.setProperty('--left', left)
     instance.style.setProperty('--top', top)
     instance.style.setProperty('--position', 'fixed');
-    if (color) instance.style.setProperty(`--label-bg`, color)
+    if (color) instance.style.setProperty('--label-bg', color)
     instance.seen[node_label_id] = true;
     instance.count = Object.keys(instance.seen).length
     instance.text = text
     instance.style.setProperty('--count', `"\\00a0 ${instance.count}"`);
     instance.style.setProperty('--hover-text', `"\\00a0 ${hoverText ? 'offscreen label: ' + hoverText : instance.count}"`);
-    console.log(hoverText ? 'offscreen label:' + hoverText : 'count: '+instance.count)
     if (adjustRightSideToCount) {
       left = left.includes('calc(') ? left.replace(')', ` - ${instance.count.toString().length}ch)`) : `${instance.count.toString().length}ch`
       instance.style.setProperty('--left', left)
@@ -121,7 +120,7 @@ export function createOffscreenLabelIndicator(node_label_id, text, hoverText, le
   label.style.setProperty('--top', top)
   label.style.setProperty('--count', `"\\00a0 ${label.count}"`)
   label.style.setProperty('--hover-text', `"\\00a0 ${hoverText ? 'offscreen label: ' + hoverText : label.count}"`)
-  if (color) label.style.setProperty(`--label-bg`, color)
+  if (color) label.style.setProperty('--label-bg', color)
 
   if (adjustRightSideToCount) {
     left = left.includes('calc(') ? left.replace(')', ` - 1ch)`) : `1ch`
