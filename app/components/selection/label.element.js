@@ -141,7 +141,7 @@ export class Label extends HTMLElement {
       style.left = Math.max(boundingBox.width, currentPosition.left)
       style.top = boundingBox.height
       style.offscreenText = '↗'
-      createOffscreenLabelIndicator(node_label_id, style.offscreenText, style.hoverText, `calc(100vw - 1.5rem)`, '1rem', color, adjustRightSideToCount)
+      createOffscreenLabelIndicator(node_label_id, style.offscreenText, style.hoverText, `calc(100vw - 1.5rem)`, '1rem', style.color, adjustRightSideToCount)
     } else if (outsideLeft && !outsideTop && !outsideBottom) {
       style.left = boundingBox.width
       style.top = Math.max(boundingBox.height, currentPosition.top)
@@ -151,7 +151,7 @@ export class Label extends HTMLElement {
       style.left = window.innerWidth - boundingBox.width
       style.top = Math.max(boundingBox.height, currentPosition.top)
       style.offscreenText = '→'
-      createOffscreenLabelIndicator(node_label_id, style.offscreenText, style.hoverText, `calc(100vw - 1.5rem)`, 'calc(50vh - 0.5rem)', color, adjustRightSideToCount)
+      createOffscreenLabelIndicator(node_label_id, style.offscreenText, style.hoverText, `calc(100vw - 1.5rem)`, 'calc(50vh - 0.5rem)', style.color, adjustRightSideToCount)
     } else if (outsideBottom && !outsideLeft && !outsideRight) {
       style.left = Math.max(boundingBox.width, currentPosition.left)
       style.top = window.innerHeight - boundingBox.height
@@ -166,7 +166,7 @@ export class Label extends HTMLElement {
       style.left = Math.max(boundingBox.width, currentPosition.left)
       style.top = window.innerHeight - boundingBox.height
       style.offscreenText = '↘'
-      createOffscreenLabelIndicator(node_label_id, style.offscreenText, style.hoverText, `calc(100vw - 1.5rem)`, '100vh', color, adjustRightSideToCount)
+      createOffscreenLabelIndicator(node_label_id, style.offscreenText, style.hoverText, `calc(100vw - 1.5rem)`, '100vh', style.color, adjustRightSideToCount)
     }
   }
 }
