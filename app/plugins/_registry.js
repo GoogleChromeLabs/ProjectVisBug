@@ -3,6 +3,7 @@ import { commands as barrel_roll_commands, description as barrel_roll_descriptio
 import { commands as pesticide_commands, description as pesticide_description, default as PesticidePlugin } from './pesticide'
 import { commands as construct_commands, description as construct_description, default as ConstructPlugin } from './construct'
 import { commands as construct_debug_commands, description as construct_debug_description, default as ConstructDebugPlugin } from './construct.debug'
+import { commands as ct_head_scan_commands, description as ct_head_scan_description, default as CtHeadScanPlugin } from './ct-head-scan'
 import { commands as wireframe_commands, description as wireframe_description, default as WireframePlugin } from './wireframe'
 import { commands as skeleton_commands, description as skeleton_description, default as SkeletonPlugin } from './skeleton'
 import { commands as tag_debugger_commands, description as tag_debugger_description, default as TagDebuggerPlugin } from './tag-debugger'
@@ -27,6 +28,7 @@ export const PluginRegistry = new Map(Object.entries({
   ...commandsToHash(pesticide_commands, PesticidePlugin),
   ...commandsToHash(construct_commands, ConstructPlugin),
   ...commandsToHash(construct_debug_commands, ConstructDebugPlugin),
+  ...commandsToHash(ct_head_scan_commands, CtHeadScanPlugin),
   ...commandsToHash(wireframe_commands, WireframePlugin),
   ...commandsToHash(skeleton_commands, SkeletonPlugin),
   ...commandsToHash(tag_debugger_commands, TagDebuggerPlugin),
@@ -47,6 +49,7 @@ export const PluginHints = [
   {command: pesticide_commands[0], description: pesticide_description},
   {command: construct_commands[0], description: construct_description},
   {command: construct_debug_commands[0], description: construct_debug_description},
+  {command: ct_head_scan_commands[0], description: ct_head_scan_description},
   {command: wireframe_commands[0], description: wireframe_description},
   {command: skeleton_commands[0], description: skeleton_description},
   {command: tag_debugger_commands[0], description: tag_debugger_description},
