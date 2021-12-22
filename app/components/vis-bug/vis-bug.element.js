@@ -85,15 +85,15 @@ export default class VisBug extends HTMLElement {
       : this.setAttribute('color-scheme', 'auto')
 
     const main_ol = this.$shadow.querySelector('ol:not([colors])')
-    const toolButtons = $('li[data-tool], svg', main_ol)
+    const buttonPieces = $('li[data-tool], li[data-tool] *', main_ol)
 
     const clickEvent = (e) => {
       const target = e.currentTarget || e.target
-      const tool = target?.parentNode || target
-      this.toolSelected(tool) && e.stopPropagation();
+      const toolButton = target.closest('[data-tool]')
+      if (toolButton) this.toolSelected(toolButton) && e.stopPropagation();
     }
 
-    Array.from(toolButtons)
+    Array.from(buttonPieces)
     .forEach(toolButton => {
       draggable({
         el:this,
