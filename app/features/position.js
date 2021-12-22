@@ -43,7 +43,7 @@ export function Position() {
   }
 }
 
-export function draggable({el, surface = el, cursor = 'move'}) {
+export function draggable({el, surface = el, cursor = 'move', clickEvent}) {
    const state = {
     target: el,
     surface,
@@ -55,7 +55,8 @@ export function draggable({el, surface = el, cursor = 'move'}) {
     element: {
       x: 0,
       y: 0,
-    }
+    },
+    travelDistance: 0
   }
 
   const setup = () => {
@@ -99,9 +100,10 @@ export function draggable({el, surface = el, cursor = 'move'}) {
       state.element.y  = parseInt(getStyle(el, 'top'))
     }
 
-    state.mouse.x      = e.clientX
-    state.mouse.y      = e.clientY
-    state.mouse.down   = true
+    state.mouse.x        = e.clientX
+    state.mouse.y        = e.clientY
+    state.mouse.down     = true
+    state.travelDistance = 0
   }
 
   const onMouseUp = e => {
@@ -127,6 +129,10 @@ export function draggable({el, surface = el, cursor = 'move'}) {
       state.element.x    = parseInt(el.style.left) || 0
       state.element.y    = parseInt(el.style.top) || 0
     }
+
+    const treatAsClick = !state.travelDistance || state.travelDistance < 5
+    if (clickEvent && treatAsClick) clickEvent(e);
+    state.travelDistance = 0 // reset after
   }
 
   const onMouseMove = e => {
@@ -146,6 +152,8 @@ export function draggable({el, surface = el, cursor = 'move'}) {
       el.style.left = state.element.x + e.clientX - state.mouse.x + 'px'
       el.style.top  = state.element.y + e.clientY - state.mouse.y + 'px'
     }
+
+    state.travelDistance += 1
   }
 
   setup()

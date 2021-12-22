@@ -30,7 +30,7 @@ test('Can Be Deactivated', async t => {
   const { page } = t.context
 
   t.is(await getActiveTool(page), tool)
-  await page.evaluate(`document.querySelector('vis-bug').$shadow.querySelector('li[data-tool="padding"]').click()`)
+  await changeMode({ tool: 'padding', page })
   t.is(await getActiveTool(page), 'padding')
 
   t.pass()

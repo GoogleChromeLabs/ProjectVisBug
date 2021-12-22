@@ -29,7 +29,7 @@ test('Can Be Deactivated', async t => {
   const { page } = t.context
 
   t.is(await getActiveTool(page), tool)
-  await page.evaluate(`document.querySelector('vis-bug').$shadow.querySelector('li[data-tool="margin"]').click()`)
+  await changeMode({ tool: 'margin', page })
   t.is(await getActiveTool(page), 'margin')
 
   t.pass()
