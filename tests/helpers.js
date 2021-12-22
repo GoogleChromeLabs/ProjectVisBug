@@ -13,7 +13,11 @@ export const teardownPptrTab = async ({context:{ page, browser }}) => {
 }
 
 export const changeMode = async ({page, tool}) =>
-  await page.evaluateHandle(`document.querySelector('vis-bug').$shadow.querySelector('li[data-tool=${tool}]').click()`)
+  await page.evaluateHandle(`
+    var mouseUpEvent = document.createEvent("MouseEvents");
+    mouseUpEvent.initEvent("mouseup", true, true);
+    document.querySelector('vis-bug').$shadow.querySelector('li[data-tool=${tool}]').dispatchEvent(mouseUpEvent);
+  `)
 
 export const getActiveTool = async page =>
   await page.$eval('vis-bug', el =>
