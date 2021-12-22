@@ -131,7 +131,7 @@ export function draggable({el, surface = el, cursor = 'move', clickEvent}) {
     }
 
     const treatAsClick = !state.travelDistance || state.travelDistance < 5
-    if (treatAsClick) clickEvent?.(e);
+    if (clickEvent && treatAsClick) clickEvent(e);
     state.travelDistance = 0 // reset after
   }
 
