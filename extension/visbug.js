@@ -7,6 +7,15 @@ var platform = typeof browser === 'undefined'
   ? chrome
   : browser
 
+var commands = platform.commands.getAll(cmds => {
+  var [cmd] = cmds
+  if (!cmd) return
+
+  platform.browserAction.setTitle({
+    title: `Click or press ${cmd.shortcut} to launch VisBug`,
+  })
+})
+
 const toggleIn = ({id:tab_id}) => {
   // toggle out: it's currently loaded and injected
   if (state.loaded[tab_id] && state.injected[tab_id]) {
