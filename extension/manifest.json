@@ -1,6 +1,6 @@
 {
-  "name": "DevBug",
-  "version": "0.0.0",
+  "name": "VisBug",
+  "version": "{{NPM_VERSION}}",
   "description": "Open source browser design tools",
   "manifest_version": 3,
   "icons": { "128": "icons/visbug-dev.png" },
