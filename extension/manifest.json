@@ -3,7 +3,7 @@
   "version": "{{NPM_VERSION}}",
   "description": "Open source browser design tools",
   "manifest_version": 3,
-  "icons": { "128": "icons/visbug-dev.png" },
+  "icons": { "128": "icons/visbug.png" },
   "permissions": [
     "activeTab",
     "contextMenus",
