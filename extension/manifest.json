@@ -1,33 +1,32 @@
 {
-  "name": "VisBug",
-  "version": "{{NPM_VERSION}}",
+  "name": "DevBug",
+  "version": "0.0.0",
   "description": "Open source browser design tools",
-  "manifest_version": 2,
-  "icons": { "128": "icons/visbug.png" },
+  "manifest_version": 3,
+  "icons": { "128": "icons/visbug-dev.png" },
   "permissions": [
     "activeTab",
     "contextMenus",
+    "scripting",
     "storage"
   ],
   "background": {
-    "persistent": true,
-    "scripts": [
-      "visbug.js",
-      "contextmenu/launcher.js",
-      "contextmenu/colormode.js",
-      "contextmenu/colorscheme.js"
-    ]
+    "service_worker": "visbug.js",
+    "type": "module"
   },
-  "browser_action": {
-    "default_title": "Click or press Alt+Shift+D to launch VisBug",
+  "action": {
+    "default_title": "Click or press Alt+Shift+D to launch DevBug",
     "default_icon": {
-      "128": "icons/visbug.png"
+      "128": "icons/visbug-dev.png"
     }
   },
-  "web_accessible_resources": [
-    "tuts/*",
-    "toolbar/*"
-  ],
+  "web_accessible_resources": [{
+    "resources": [
+      "tuts/*.gif",
+      "toolbar/*"
+    ],
+    "matches": ["<all_urls>"]
+  }],
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
