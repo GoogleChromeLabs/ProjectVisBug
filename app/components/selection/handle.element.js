@@ -49,19 +49,17 @@ export class Handle extends HTMLElement {
 		const initialTransform = new DOMMatrix(initialStyle.transform)
 
 		const originalElTransition = sourceEl.style.transition
-		sourceEl.style.transition = 'none'
-
 		const originalDocumentCursor = document.body.style.cursor
 		const originalDocumentUserSelect = document.body.style.userSelect
-		const newCursor = getComputedStyle(this).getPropertyValue('--cursor')
+		sourceEl.style.transition = 'none'
+		document.body.style.cursor = getComputedStyle(this).getPropertyValue('--cursor')
+		document.body.style.userSelect = 'none'
 
 		document.addEventListener('pointermove', on_element_resize_move)
 
 		function on_element_resize_move(e) {
 			e.preventDefault()
 			e.stopPropagation()
-
-			document.body.style.cursor = newCursor
 
 			const newX = clamp(0, e.clientX, document.documentElement.clientWidth)
 			const newY = clamp(0, e.clientY, document.documentElement.clientHeight)
