@@ -55,7 +55,9 @@ export class Handle extends HTMLElement {
 		const originalDocumentUserSelect = document.body.style.userSelect
 		const newCursor = getComputedStyle(this).getPropertyValue('--cursor')
 
-		const on_element_resize_move = (e) => {
+		document.addEventListener('pointermove', on_element_resize_move)
+
+		function on_element_resize_move(e) {
 			e.preventDefault()
 			e.stopPropagation()
 
@@ -153,17 +155,15 @@ export class Handle extends HTMLElement {
 			}
 		}
 
-		document.addEventListener('pointermove', on_element_resize_move)
+		document.addEventListener('pointerup', on_element_resize_end, { once: true })
+		document.addEventListener('mouseleave', on_element_resize_end, { once: true })
 
-		const on_element_resize_end = () => {
+		function on_element_resize_end() {
 			document.removeEventListener('pointermove', on_element_resize_move)
 			document.body.style.cursor = originalDocumentCursor
 			document.body.style.userSelect = originalDocumentUserSelect
 			sourceEl.style.transition = originalElTransition
 		}
-
-		document.addEventListener('pointerup', on_element_resize_end, { once: true })
-		document.addEventListener('mouseleave', on_element_resize_end, { once: true })
 	}
 
 	disconnectedCallback() {

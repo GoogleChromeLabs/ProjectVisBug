@@ -1,5 +1,5 @@
 export { Handles }    from './selection/handles.element'
-export { Handle }    from './selection/handle.element'
+export { Handle }     from './selection/handle.element'
 export { Hover }      from './selection/hover.element'
 export { Label }      from './selection/label.element'
 export { Gridlines }  from './selection/gridlines.element'
