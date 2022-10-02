@@ -8,12 +8,14 @@ export class Handle extends HTMLElement {
     this.$shadow = this.attachShadow({mode: 'closed'})
     this.styles = [HandleStyles]
 	}
-	
+
   connectedCallback() {
     this.$shadow.adoptedStyleSheets = this.styles
 		this.$shadow.innerHTML = this.render();
 		
 		this.button = this.$shadow.querySelector('button')
+		this.button.addEventListener('pointerdown', this.on_element_resize_start.bind(this))
+
 		this.placement = this.getAttribute('placement')
 	}
 
@@ -27,6 +29,147 @@ export class Handle extends HTMLElement {
 		}
   }
 
+	on_element_resize_start(e) {
+		e.preventDefault()
+		e.stopPropagation()
+
+		if (e.button !== 0) return
+
+		const placement = this.placement
+		const handlesEl = e.path.find(el => el.tagName === 'VISBUG-HANDLES')
+		const nodeLabelId = handlesEl.getAttribute('data-label-id')
+		const [sourceEl] = $(`[data-label-id="${nodeLabelId}"]`)
+
+		if (!sourceEl) return
+
+		const { x: initialX, y: initialY } = e
+		const initialStyle = getComputedStyle(sourceEl)
+		const initialWidth = parseFloat(initialStyle.width)
+		const initialHeight = parseFloat(initialStyle.height)
+		const initialTransform = new DOMMatrix(initialStyle.transform)
+
+		const originalElTransition = sourceEl.style.transition
+		sourceEl.style.transition = 'none'
+
+		const originalDocumentCursor = document.body.style.cursor
+		const originalDocumentUserSelect = document.body.style.userSelect
+		const newCursor = getComputedStyle(this).getPropertyValue('--cursor')
+
+		const on_element_resize_move = (e) => {
+			e.preventDefault()
+			e.stopPropagation()
+
+			document.body.style.cursor = newCursor
+
+			const newX = clamp(0, e.clientX, document.documentElement.clientWidth)
+			const newY = clamp(0, e.clientY, document.documentElement.clientHeight)
+		
+			const diffX = newX - initialX
+			const diffY = newY - initialY
+
+			switch (placement) {
+				case 'top-start': {
+					const newWidth = initialWidth - diffX
+					const newHeight = initialHeight - diffY
+					const newTranslate = initialTransform.translate(diffX, diffY).transformPoint()
+
+					requestAnimationFrame(() => {
+						sourceEl.style.width = `${newWidth}px`
+						sourceEl.style.height = `${newHeight}px`
+						sourceEl.style.transform = `translate(${newTranslate.x}px, ${newTranslate.y}px)`
+					})
+					break
+				}
+				case 'top-center': {
+					const newHeight = initialHeight - diffY
+					const newTranslate = initialTransform.translate(0, diffY).transformPoint()
+
+					requestAnimationFrame(() => {
+						sourceEl.style.height = `${newHeight}px`
+						sourceEl.style.transform = `translate(${newTranslate.x}px, ${newTranslate.y}px)`
+					})
+					break
+				}
+				case 'top-end': {
+					const newWidth = initialWidth + diffX
+					const newHeight = initialHeight - diffY
+					const newTranslate = initialTransform.translate(0, diffY).transformPoint()
+
+					requestAnimationFrame(() => {
+						sourceEl.style.width = `${newWidth}px`
+						sourceEl.style.height = `${newHeight}px`
+						sourceEl.style.transform = `translate(${newTranslate.x}px, ${newTranslate.y}px)`
+					})
+					break
+				}
+				case 'middle-start': {
+					const newWidth = initialWidth - diffX
+					const newTranslate = initialTransform.translate(diffX).transformPoint()
+
+					requestAnimationFrame(() => {
+						sourceEl.style.width = `${newWidth}px`
+						sourceEl.style.transform = `translate(${newTranslate.x}px, ${newTranslate.y}px)`
+					})
+					break
+				}
+				case 'middle-end': {
+					const newWidth = initialWidth + diffX
+
+					requestAnimationFrame(() => {
+						sourceEl.style.width = `${newWidth}px`
+					})
+					break
+				}
+				case 'bottom-start': {
+					const newWidth = initialWidth - diffX
+					const newHeight = initialHeight + diffY
+					const newTranslate = initialTransform.translate(diffX, 0).transformPoint()
+
+					requestAnimationFrame(() => {
+						sourceEl.style.width = `${newWidth}px`
+						sourceEl.style.height = `${newHeight}px`
+						sourceEl.style.transform = `translate(${newTranslate.x}px, ${newTranslate.y}px)`
+					})
+					break
+				}
+				case 'bottom-center': {
+					const newHeight = initialHeight + diffY
+
+					requestAnimationFrame(() => {
+						sourceEl.style.height = `${newHeight}px`
+					})
+					break
+				}
+				case 'bottom-end': {
+					const newWidth = initialWidth + diffX
+					const newHeight = initialHeight + diffY
+
+					requestAnimationFrame(() => {
+						sourceEl.style.width = `${newWidth}px`
+						sourceEl.style.height = `${newHeight}px`
+					})
+					break
+				}
+			}
+		}
+
+		document.addEventListener('pointermove', on_element_resize_move)
+
+		const on_element_resize_end = () => {
+			document.removeEventListener('pointermove', on_element_resize_move)
+			document.body.style.cursor = originalDocumentCursor
+			document.body.style.userSelect = originalDocumentUserSelect
+			sourceEl.style.transition = originalElTransition
+		}
+
+		document.addEventListener('pointerup', on_element_resize_end, { once: true })
+		document.addEventListener('mouseleave', on_element_resize_end, { once: true })
+	}
+
+	disconnectedCallback() {
+		this.button.removeEventListener('pointerdown', this.on_element_resize_start.bind(this))
+	}
+
 	render() {
 		return `
 			<button type="button" aria-label="Resize"></button>
@@ -35,3 +178,9 @@ export class Handle extends HTMLElement {
 }
 
 customElements.define('visbug-handle', Handle)
+
+// utility functions
+
+function clamp(min, val, max) {
+	return Math.max(min, Math.min(val, max))
+}
