@@ -2,7 +2,7 @@ import $          from 'blingblingjs'
 import hotkeys    from 'hotkeys-js'
 
 import {
-  Handles, Label, Overlay, Gridlines, Corners,
+  Handles, Handle, Label, Overlay, Gridlines, Corners,
   Hotkeys, Metatip, Ally, Distance, BoxModel, Grip
 } from '../'
 
