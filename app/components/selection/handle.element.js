@@ -1,5 +1,6 @@
 import $ from 'blingblingjs'
 import { HandleStyles } from '../styles.store'
+import { clamp } from '../../utilities/numbers'
 
 export class Handle extends HTMLElement {
 
@@ -176,9 +177,3 @@ export class Handle extends HTMLElement {
 }
 
 customElements.define('visbug-handle', Handle)
-
-// utility functions
-
-function clamp(min, val, max) {
-  return Math.max(min, Math.min(val, max))
-}
