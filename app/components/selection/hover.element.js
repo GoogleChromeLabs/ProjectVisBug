@@ -1,11 +1,11 @@
 import { Handles } from './handles.element'
-import { HandleStyles, HoverStyles } from '../styles.store'
+import { HandlesStyles, HoverStyles } from '../styles.store'
 
 export class Hover extends Handles {
 
   constructor() {
     super()
-    this.styles = [HandleStyles, HoverStyles]
+    this.styles = [HandlesStyles, HoverStyles]
   }
 
   render({ width, height, top, left }, node_label_id, isFixed) {
