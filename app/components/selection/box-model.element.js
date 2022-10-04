@@ -28,8 +28,8 @@ export class BoxModel extends HTMLElement {
       this.drawable = {
         height:   bounds.height,
         width:    bounds.width,
-        top:      bounds.top + window.scrollY,
-        left:     bounds.left,
+        top:      0,
+        left:     0,
         rotation: 'rotate(-45)',
       }
     }
@@ -37,8 +37,8 @@ export class BoxModel extends HTMLElement {
       this.drawable = {
         height:   total_height,
         width:    total_width,
-        top:      bounds.top + window.scrollY - sides.top,
-        left:     bounds.left - sides.left,
+        top:      0 - sides.top,
+        left:     0 - sides.left,
         rotation: 'rotate(45)',
       }
     }
