@@ -24,7 +24,7 @@
     "extension:local:version": "sed -i '' \"s/{{NPM_VERSION}}/0.0.0/\" ./extension/manifest.json && sed -i '' \"s/VisBug/DevBug/\" ./extension/manifest.json && sed -i '' \"s/visbug.png/visbug-dev.png/\" ./extension/manifest.json",
     "extension:ci:version": "sed -i \"s/{{NPM_VERSION}}/$npm_package_version/\" ./extension/manifest.json",
     "extension:build": "npm run extension:js && npm run extension:css && npm run extension:copy",
-    "extension:release": "npm run bump && npm run extension:build && npm run extension:zip",
+    "extension:release": "npm run test:ci && npm run bump && npm run extension:build && npm run extension:zip",
     "extension:js": "npm run bundle:prod",
     "extension:css": "postcss app/extension.css -o extension/toolbar/bundle.css",
     "extension:copy": "cp app/bundle.min.js extension/toolbar/ && cp -R app/tuts/ extension/tuts",
