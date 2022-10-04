@@ -1,12 +1,12 @@
 import { Handles } from './handles.element'
-import { HandleStyles, GripStyles } from '../styles.store'
+import { HandlesStyles, GripStyles } from '../styles.store'
 import { isFixed } from '../../utilities/';
 
 export class Grip extends Handles {
 
   constructor() {
     super()
-    this.styles = [HandleStyles, GripStyles]
+    this.styles = [HandlesStyles, GripStyles]
   }
 
   toggleHovering({hovering}) {
