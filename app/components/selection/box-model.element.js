@@ -92,8 +92,8 @@ export class BoxModel extends HTMLElement {
     if (mode === 'margin') {
       if (sides.top) {
         this.createMeasurement({
-          x: bounds.left + (bounds.width / 2) - offset,
-          y: bounds.top - sides.top - (sides.top < pill_height ? pill_height - sides.top : 0),
+          x: (bounds.width / 2) - offset,
+          y: (window.scrollY * -1) - sides.top,
           d: sides.top,
           q: 'top',
           v: true,
@@ -102,8 +102,8 @@ export class BoxModel extends HTMLElement {
       }
       if (sides.bottom) {
         this.createMeasurement({
-          x: bounds.left + (bounds.width / 2) - offset,
-          y: bounds.bottom,
+          x: (bounds.width / 2) - offset,
+          y: (window.scrollY * -1) + bounds.height,
           d: sides.bottom,
           q: 'bottom',
           v: true,
@@ -112,8 +112,8 @@ export class BoxModel extends HTMLElement {
       }
       if (sides.right) {
         this.createMeasurement({
-          x: bounds.right,
-          y: bounds.top + (bounds.height / 2) - offset,
+          x: bounds.width,
+          y: (window.scrollY * -1) + (bounds.height / 2) - offset,
           d: sides.right,
           q: 'right',
           v: false,
@@ -122,8 +122,8 @@ export class BoxModel extends HTMLElement {
       }
       if (sides.left) {
         this.createMeasurement({
-          x: win_width - bounds.left,
-          y: bounds.top + (bounds.height / 2) - offset,
+          x: bounds.width,
+          y: (window.scrollY * -1) + (bounds.height / 2) - offset,
           d: sides.left,
           q: 'left',
           v: false,
@@ -134,8 +134,8 @@ export class BoxModel extends HTMLElement {
     else if (mode === 'padding') {
       if (sides.top) {
         this.createMeasurement({
-          x: bounds.left + (bounds.width / 2) - offset,
-          y: bounds.top - (sides.top < pill_height ? pill_height - sides.top : 0),
+          x: (bounds.width / 2) - offset,
+          y: (window.scrollY * -1),
           d: sides.top,
           q: 'top',
           v: true,
@@ -144,8 +144,8 @@ export class BoxModel extends HTMLElement {
       }
        if (sides.bottom) {
          this.createMeasurement({
-           x: bounds.left + (bounds.width / 2) - offset,
-           y: bounds.bottom - sides.bottom,
+           x: (bounds.width / 2) - offset,
+           y: (window.scrollY * -1) + (bounds.height - sides.bottom),
            d: sides.bottom,
            q: 'bottom',
            v: true,
@@ -154,8 +154,8 @@ export class BoxModel extends HTMLElement {
        }
        if (sides.right) {
          this.createMeasurement({
-           x: bounds.right - sides.right,
-           y: bounds.top + (bounds.height / 2) - offset,
+           x: bounds.width - sides.right,
+           y: (window.scrollY * -1) + (bounds.height / 2) - offset,
            d: sides.right,
            q: 'right',
            v: false,
@@ -164,8 +164,8 @@ export class BoxModel extends HTMLElement {
        }
        if (sides.left) {
          this.createMeasurement({
-           x: win_width - bounds.left - sides.left,
-           y: bounds.top + (bounds.height / 2) - offset,
+           x: bounds.width - sides.left,
+           y: (window.scrollY * -1) + (bounds.height / 2) - offset,
            d: sides.left,
            q: 'left',
            v: false,
