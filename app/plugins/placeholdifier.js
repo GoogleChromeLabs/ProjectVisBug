@@ -15,7 +15,7 @@ export default async function() {
         .filter(el => !ignored.includes(el.tagName?.toLowerCase()))
     
     elements.forEach(el => {
-        if (Array.from(el.classList).includes("placeholdify")) return;
+        if (Array.from(el.classList).includes('placeholdify')) return;
         el.classList.add('placeholdify');
     })
 }
