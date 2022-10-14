@@ -10,6 +10,7 @@ export default async function() {
     const stylesheet = document.createElement('link')
     stylesheet.setAttribute('rel', 'stylesheet')
     stylesheet.setAttribute('href', 'https://unpkg.com/placeholdifier/placeholdifier.css')
+    document.head.appendChild(stylesheet)
 
     const ignored = ['script', 'link']
     const body = document.querySelector('body')
