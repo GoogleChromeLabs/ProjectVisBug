@@ -7,7 +7,9 @@ export const commands = [
 export const description = 'turn the page into a live wireframe'
 
 export default async function() {
-    await loadStyles(['https://unpkg.com/placeholdifier/placeholdifier.css'])
+    const stylesheet = document.createElement('link')
+    stylesheet.setAttribute('rel', 'stylesheet')
+    stylesheet.setAttribute('href', 'https://unpkg.com/placeholdifier/placeholdifier.css')
 
     const ignored = ['script', 'link']
     const body = document.querySelector('body')
