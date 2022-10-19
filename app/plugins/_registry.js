@@ -16,6 +16,7 @@ import { commands as no_mouse_days_commands, description as no_mouse_days_descri
 import { commands as remove_css_commands, description as remove_css_description, default as RemoveCSSPlugin } from './remove-css'
 import { commands as detect_overflows_commands, description as detect_overflows_description, default as DetectOverflows } from './detect-overflows'
 import { commands as loop_thru_widths_commands, description as loop_thru_widths_description, default as LoopThruWidths } from './loop-through-widths'
+import { commands as placeholdifier_commands, description as placeholdifier_description, default as PlaceholdifierPlugin } from './placeholdifier'
 
 const commandsToHash = (plugin_commands, plugin_fn) =>
   plugin_commands.reduce((commands, command) =>
@@ -41,6 +42,7 @@ export const PluginRegistry = new Map(Object.entries({
   ...commandsToHash(remove_css_commands, RemoveCSSPlugin),
   ...commandsToHash(detect_overflows_commands, DetectOverflows),
   ...commandsToHash(loop_thru_widths_commands, LoopThruWidths),
+  ...commandsToHash(placeholdifier_commands, PlaceholdifierPlugin),
 }))
 
 export const PluginHints = [
@@ -61,6 +63,7 @@ export const PluginHints = [
   {command: remove_css_commands[0], description: remove_css_description},
   {command: detect_overflows_commands[0], description: detect_overflows_description},
   {command: loop_thru_widths_commands[0], description: loop_thru_widths_description},
+  {command: placeholdifier_commands[0], description: placeholdifier_description},
   ...colorblind_commands.map(cbc => {
     return {
       command: cbc, description: `simulate ${cbc}`
