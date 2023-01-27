@@ -1,10 +1,19 @@
 @import "../_variables.css";
 
-:host > svg {
+:host {
   position: var(--position, 'absolute');
   top: var(--top);
   left: var(--left);
   overflow: visible;
   pointer-events: none;
   z-index: var(--layer-3);
+  width: var(--width);
+  height: var(--height);
+  display: grid;
+  grid-template-rows: 1fr;
+  isolation: isolate;
+}
+
+:host > svg {
+  position: absolute;
 }
