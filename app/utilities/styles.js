@@ -30,7 +30,7 @@ export const getStyles = el => {
 
   const { borderColor, borderWidth, borderStyle } = borders
 
-  if (parseInt(borderWidth) > 0) {
+  if (parseFloat(borderWidth) > 0) {
     vettedStyles.push({
       prop: 'borderColor',
       value: borderColor,
