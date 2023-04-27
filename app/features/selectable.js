@@ -107,6 +107,7 @@ export function Selectable(visbug) {
           'data-label-id':      null,
           'data-pseudo-select':         null,
           'data-measuring':     null,
+          'data-outward':       null,
       }))
 
     selected = selected.filter(node => node.getAttribute('data-label-id') !== id)
@@ -454,6 +455,7 @@ export function Selectable(visbug) {
           'data-selected-hide': null,
           'data-label-id':      null,
           'data-pseudo-select': null,
+          'data-outward':       null,
         }))
 
     $('[data-pseudo-select]').forEach(hover =>
