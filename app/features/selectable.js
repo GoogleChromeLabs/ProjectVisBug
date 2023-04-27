@@ -54,6 +54,7 @@ export function Selectable(visbug) {
     hotkeys(`${metaKey}+g,${metaKey}+shift+g`, on_group)
     hotkeys('tab,shift+tab,enter,shift+enter', on_keyboard_traversal)
     hotkeys(`${metaKey}+shift+enter`, on_select_children)
+    hotkeys(`shift+'`, on_select_parent)
   }
 
   const unlisten = () => {
@@ -712,6 +713,31 @@ export function Selectable(visbug) {
 
       unselect_all()
       targets.forEach(node => select(node))
+    }
+  }
+
+  const on_select_parent = (e, {key}) => {
+    const targets = selected.reduce((parents, node) => {
+      const parent_element = node.parentElement;
+
+      if (parent_element.hasAttribute('data-outward'))
+        return parents
+
+      parent_element.setAttribute('data-outward', true)
+      parents.push(parent_element)
+
+      return parents
+    }, [])
+
+    if (targets.length) {
+      e.preventDefault()
+      e.stopPropagation()
+
+      targets.forEach(node => {
+        if (node && node !== document.body) {
+          select(node)
+        }
+      })
     }
   }
 
