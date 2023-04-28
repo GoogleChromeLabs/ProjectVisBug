@@ -60,7 +60,7 @@
     "rollup-plugin-postcss": "^3.1.0",
     "rollup-plugin-terser": "^5.3.0",
     "start-server-and-test": "^1.11.0",
-    "web-ext": "^4.0.0"
+    "web-ext": "^7.6.2"
   },
   "ava": {
     "require": [
