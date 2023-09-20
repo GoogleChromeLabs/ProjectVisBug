@@ -66,6 +66,7 @@ Let's do this **design community, I'm looking at you!** Make a GitHub account an
 [Open Feature Requests](https://github.com/GoogleChromeLabs/ProjectVisBug/issues?q=is%3Aopen+is%3Aissue+label%3A%22%E2%9A%A1%EF%B8%8F+feature%22)  
 [Chat on Gitter](https://gitter.im/VisBug)  
 [Chat on Spectrum](https://spectrum.chat/visbug)  
+[Load VisBug from a CDN](https://codepen.io/argyleink/pen/rNrQrpO)  
 
 ### Web Component (coming soon 💀🤘)
 ```sh
