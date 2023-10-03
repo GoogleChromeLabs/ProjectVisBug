@@ -48,7 +48,7 @@
     "browser-sync": "^2.26.13",
     "concurrently": "^5.1.0",
     "esm": "^3.2.22",
-    "postcss": "^7.0.27",
+    "postcss": "^8.4.31",
     "postcss-cli": "^7.1.0",
     "postcss-import": "^12.0.1",
     "postcss-loader": "^3.0.0",
