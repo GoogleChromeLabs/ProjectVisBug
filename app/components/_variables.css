@@ -8,6 +8,11 @@
   --theme-blue: hsl(188 90% 45%);
   --theme-purple: hsl(267 100% 58%);
 
+  --neon-pink: color(display-p3 1 0 1);
+  --neon-purple: color(display-p3 .75 0 1);
+  --neon-lime:  color(display-p3 0.25 1 0);
+  --neon-cyan:  color(display-p3 0 1 1);
+
   --theme-text_color: hsl(0 0% 10%);
   --theme-icon_color: hsl(0 0% 20%);
   --theme-icon_hover-bg: hsl(0 0% 95%);

@@ -1,7 +1,12 @@
 @import "../_variables.css";
 
 :host {
-  --color: var(--theme-color);
+  background: transparent;
+  border: none;
+  overflow: visible;
+  padding: 0;
+  margin: 0;
+  inset: auto;
 }
 
 :host > svg {
@@ -15,7 +20,7 @@
 
 :host rect, 
 :host line {
-  stroke: var(--color);
+  stroke: var(--neon-pink);
 }
 
 :host line {

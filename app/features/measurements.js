@@ -37,15 +37,15 @@ export function createMeasurements({$anchor, $target}) {
   // left
   if (anchorBounds.left > targetBounds.right) {
     measurements.push({
-      x: window.innerWidth - anchorBounds.left,
+      x: targetBounds.right,
       y: anchorBounds.top + (anchorBounds.height / 2) - 3,
       d: anchorBounds.left - targetBounds.right,
       q: 'left',
     })
   }
-  if (anchorBounds.left > targetBounds.left && anchorBounds.left < targetBounds.right) {
+  else if (anchorBounds.left > targetBounds.left && anchorBounds.left < targetBounds.right) {
     measurements.push({
-      x: window.innerWidth - anchorBounds.left,
+      x: targetBounds.left,
       y: anchorBounds.top + (anchorBounds.height / 2) - 3,
       d: anchorBounds.left - targetBounds.left,
       q: 'left',
@@ -95,7 +95,7 @@ export function createMeasurements({$anchor, $target}) {
   // inside left/right
   if (anchorBounds.right > targetBounds.right && anchorBounds.left < targetBounds.left) {
     measurements.push({
-      x: window.innerWidth - anchorBounds.right,
+      x: targetBounds.right,
       y: anchorBounds.top + (anchorBounds.height / 2) - 3,
       d: anchorBounds.right - targetBounds.right,
       q: 'left',

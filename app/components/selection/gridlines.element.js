@@ -10,9 +10,13 @@ export class Gridlines extends HTMLElement {
 
   connectedCallback() {
     this.$shadow.adoptedStyleSheets = [GridlineStyles]
+    this.setAttribute('popover', 'manual')
+    this.showPopover()
   }
   
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    this.hidePopover()
+  }
 
   set position(boundingRect) {
     this.$shadow.innerHTML  = this.render(boundingRect)

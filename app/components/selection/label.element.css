@@ -19,7 +19,7 @@
   max-width: var(--max-width);
   z-index: var(--layer-4);
   transform: translateY(-100%);
-  background: var(--label-bg, hotpink);
+  background: var(--label-bg, var(--neon-pink));
   border-radius: 0.2em 0.2em 0 0;
   text-shadow: var(--text-shadow);
   color: white;

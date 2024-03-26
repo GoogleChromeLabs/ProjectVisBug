@@ -23,8 +23,8 @@ export class Distance extends HTMLElement {
 
   set styleProps({y,x,d,q,v = false, color}) {
     this.style.setProperty('--top', `${y + window.scrollY}px`)
-    this.style.setProperty('--right', q === 'left' ? `${x}px` : 'auto')
-    this.style.setProperty('--left', q !== 'left' ? `${x}px` : '')
+    this.style.setProperty('--right', 'auto')
+    this.style.setProperty('--left', `${x}px`)
     this.style.setProperty('--direction', v ? 'column' : 'row')
     this.style.setProperty('--quadrant', q)
 
@@ -40,11 +40,11 @@ export class Distance extends HTMLElement {
       : this.style.setProperty('--line-w', `var(--line-w)`)
 
     this.style.setProperty('--line-color', color === 'pink'
-      ? '330 100% 71%'
-      : '267 100% 58%')
+      ? '1 0 1'
+      : '.75 0 1')
     this.style.setProperty('--line-base', color === 'pink'
-      ? '330 100% 71%'
-      : '267 100% 58%')
+      ? '1 0 1'
+      : '.75 0 1')
   }
 
   render({q,d}, node_label_id) {
