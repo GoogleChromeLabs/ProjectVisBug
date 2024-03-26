@@ -129,6 +129,8 @@ export default class VisBug extends HTMLElement {
   }
 
   cleanup() {
+    this.hidePopover()
+
     Array.from(document.body.children)
       .filter(node => node.nodeName.includes('VISBUG'))
       .forEach(el => el.remove())

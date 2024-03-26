@@ -2,7 +2,12 @@
 
 :host {
   position: absolute;
+  inset: 0 auto auto 0;
   z-index: var(--layer-top);
+
+  background: transparent;
+  border: none;
+  overflow: visible;
 
   --arrow-width: 15px;
   --arrow-height: 8px;
