@@ -2,6 +2,7 @@
 
 :host {
   font-size: 16px;
+  position: initial;
   background: transparent;
   border: none;
   overflow: visible;
