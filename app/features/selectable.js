@@ -423,6 +423,12 @@ export function Selectable(visbug) {
     else if ($target.hasAttribute('data-measuring') || selected.includes($target)) {
       clearMeasurements()
     }
+
+    // force promote into top layer
+    handles.forEach(handle => {
+      handle.hidePopover()
+      handle.showPopover()
+    })
   }
 
   const select = el => {
