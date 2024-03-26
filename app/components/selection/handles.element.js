@@ -13,15 +13,18 @@ export class Handles extends HTMLElement {
 
   connectedCallback() {
     this.$shadow.adoptedStyleSheets = this.styles
+    this.setAttribute('popover', 'manual')
+    this.showPopover()
     window.addEventListener('resize', this.on_window_resize)
   }
 
   disconnectedCallback() {
+    this.hidePopover()
     window.removeEventListener('resize', this.on_window_resize)
   }
 
   on_window_resize() {
-    if (!this?.$shadow) return
+    if (!this.$shadow) return
     window.requestAnimationFrame(() => {
       const node_label_id = this.$shadow.host.getAttribute('data-label-id')
       const [source_el] = $(`[data-label-id="${node_label_id}"]`)
