@@ -2,6 +2,11 @@
 
 :host {
   font-size: 16px;
+  background: transparent;
+  border: none;
+  overflow: visible;
+  padding: 0;
+  margin: 0;
   --position: absolute;
   --top: 0;
   --left: 0;
@@ -10,8 +15,7 @@
 
 :host > span {
   position: var(--position);
-  top: var(--top);
-  left: var(--left);
+  inset: var(--top) auto auto var(--left);
   max-width: var(--max-width);
   z-index: var(--layer-4);
   transform: translateY(-100%);
