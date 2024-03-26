@@ -140,6 +140,7 @@ export function createMeasurements({$anchor, $target}) {
       }
 
       document.body.appendChild($measurement)
+      $measurement.isPopover()
       state.distances[state.distances.length] = $measurement
     })
 }

@@ -9,12 +9,11 @@ export class Distance extends HTMLElement {
 
   connectedCallback() {
     this.$shadow.adoptedStyleSheets = [DistanceStyles]
-    this.setAttribute('popover', 'manual')
-    this.showPopover()
   }
   
   disconnectedCallback() {
-    this.hidePopover()
+    if (this.hasAttribute('popover'))
+      this.hidePopover()
   }
 
   set position({line_model, node_label_id}) {
@@ -58,6 +57,11 @@ export class Distance extends HTMLElement {
         <div></div>
       </figure>
     `
+  }
+
+  isPopover() {
+    this.setAttribute('popover', 'manual')
+    this.showPopover()
   }
 }
 
