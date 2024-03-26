@@ -1,12 +1,16 @@
 @import "../_variables.css";
 
 :host {
+  position: absolute;
   background: transparent;
+  pointer-events: none;
   border: none;
   overflow: visible;
   padding: 0;
   margin: 0;
-  inset: auto;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 :host > svg {
