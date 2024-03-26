@@ -41,6 +41,7 @@ jobs:
 
       - name: Publish Chrome Extension
         uses: trmcnvn/chrome-addon@v2
+        continue-on-error: true
         with:
           extension: cdockenadnadldjbbgcallicgledbeoc
           zip: extension/build/visbug.zip

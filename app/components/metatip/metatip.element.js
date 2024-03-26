@@ -81,7 +81,7 @@ export class Metatip extends HTMLElement {
             }
           </h5>
           <small>
-            <span">${Math.round(width)}</span><span brand>px</span>
+            <span>${Math.round(width)}</span><span brand>px</span>
             <span divider>×</span>
             <span>${Math.round(height)}</span><span brand>px</span>
           </small>
