@@ -28,7 +28,7 @@
     "matches": ["<all_urls>"]
   }],
   "commands": {
-    "_execute_browser_action": {
+    "_execute_action": {
       "suggested_key": {
         "windows": "Alt+Shift+D",
         "mac": "Alt+Shift+D",
