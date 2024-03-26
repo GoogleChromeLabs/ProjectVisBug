@@ -84,6 +84,9 @@ export default class VisBug extends HTMLElement {
       ? this.getAttribute('color-scheme')
       : this.setAttribute('color-scheme', 'auto')
 
+    this.setAttribute('popover', 'manual')
+    this.showPopover()
+
     const main_ol = this.$shadow.querySelector('ol:not([colors])')
     const buttonPieces = $('li[data-tool], li[data-tool] *', main_ol)
 
