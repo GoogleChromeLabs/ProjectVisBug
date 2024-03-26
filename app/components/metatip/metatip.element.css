@@ -109,7 +109,7 @@
   color: var(--theme-icon_color);
 
   & > span {
-    color: hsl(0,0%,20%);
+    color: var(--theme-text_color);
   }
 }
 
