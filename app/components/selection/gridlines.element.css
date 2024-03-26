@@ -1,7 +1,7 @@
 @import "../_variables.css";
 
 :host {
-  position: absolute;
+  position: fixed;
   background: transparent;
   pointer-events: none;
   border: none;
@@ -14,7 +14,7 @@
 }
 
 :host > svg {
-  position:absolute;
+  position:fixed;
   top:0;
   left:0;
   overflow:visible;
