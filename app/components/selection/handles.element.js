@@ -21,6 +21,7 @@ export class Handles extends HTMLElement {
   }
 
   on_window_resize() {
+    if (!this?.$shadow) return
     window.requestAnimationFrame(() => {
       const node_label_id = this.$shadow.host.getAttribute('data-label-id')
       const [source_el] = $(`[data-label-id="${node_label_id}"]`)
