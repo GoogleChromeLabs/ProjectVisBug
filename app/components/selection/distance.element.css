@@ -9,6 +9,7 @@
   --line-w: 1px;
   --line-h: 1px;
   font-size: 16px;
+  position: initial;
   background: transparent;
   border: none;
   overflow: visible;
