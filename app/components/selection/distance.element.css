@@ -9,6 +9,11 @@
   --line-w: 1px;
   --line-h: 1px;
   font-size: 16px;
+  background: transparent;
+  border: none;
+  overflow: visible;
+  padding: 0;
+  margin: 0;
 }
 
 :host > figure {
@@ -16,9 +21,7 @@
   position: absolute;
   height: var(--distance-h);
   width: var(--distance-w);
-  top: var(--top);
-  left: var(--left);
-  right: var(--right);
+  inset: var(--top) var(--right) auto var(--left);
   overflow: visible;
   pointer-events: none;
   z-index: var(--layer-3);
