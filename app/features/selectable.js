@@ -425,10 +425,12 @@ export function Selectable(visbug) {
     }
 
     // force promote into top layer
-    handles.forEach(handle => {
-      handle.hidePopover()
-      handle.showPopover()
-    })
+    if (tool === 'guides') {
+      handles.forEach(handle => {
+        handle.hidePopover()
+        handle.showPopover()
+      })
+    }
   }
 
   const select = el => {
@@ -444,6 +446,11 @@ export function Selectable(visbug) {
       el,
       id,
       no_label: tool === 'inspector' || tool === 'guides' || tool === 'accessibility',
+    })
+
+    $('visbug-metatip').forEach(tip => {
+      tip.hidePopover()
+      tip.showPopover()
     })
 
     selected.unshift(el)

@@ -65,6 +65,9 @@ export function showTip(target, e) {
     const tip = render(target)
     document.body.appendChild(tip)
 
+    tip.hidePopover()
+    tip.showPopover()
+
     positionTip(tip, e)
     observe({tip, target})
 
