@@ -97,7 +97,7 @@ export class Metatip extends HTMLElement {
         `, '')}
         </code>
         ${localModifications.length ? `
-          <details>
+          <details open>
             <summary>Local Modifications / Inline Styles</summary>
             <code>${localModifications.reduce((items, item) => `
               ${items}

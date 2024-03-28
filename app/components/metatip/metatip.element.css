@@ -170,14 +170,19 @@
   grid-auto-flow: column;
   gap: .5em;
   align-items: center;
-  justify-content: flex-end;
   text-align: right;
   max-inline-size: 25ch;
+  white-space: nowrap;
   overflow-x: auto;
   scrollbar-width: none;
 
   &:has([gradient]) {
     place-content: initial;
+  }
+
+  &:has([color]) {
+    grid-template-columns: max-content max-content;
+    place-self: end;
   }
 }
 
