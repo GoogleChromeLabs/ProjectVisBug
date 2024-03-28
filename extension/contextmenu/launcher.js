@@ -2,7 +2,12 @@ var platform = typeof browser === 'undefined'
   ? chrome
   : browser
 
-platform.browserAction.onClicked.addListener(toggleIn)
+var toggleIt
+
+export const gimmeToggle = toggleIn => {
+  toggleIt = toggleIn
+  platform.action.onClicked.addListener(toggleIt)
+}
 
 platform.contextMenus.create({
   id:     'launcher',
@@ -12,5 +17,5 @@ platform.contextMenus.create({
 
 platform.contextMenus.onClicked.addListener(({menuItemId}, tab) => {
   if (menuItemId === 'launcher')
-    toggleIn(tab)
+    toggleIt(tab)
 })

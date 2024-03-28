@@ -2,9 +2,11 @@
 
 :host {
   position: var(--position, 'absolute');
-  top: var(--top);
-  left: var(--left);
+  inset: var(--top) auto auto var(--left);
+  background: transparent;
+  border: none;
   overflow: visible;
+  padding: 0;
   pointer-events: none;
   z-index: var(--layer-3);
   width: var(--width);

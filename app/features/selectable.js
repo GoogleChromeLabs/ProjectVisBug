@@ -423,6 +423,14 @@ export function Selectable(visbug) {
     else if ($target.hasAttribute('data-measuring') || selected.includes($target)) {
       clearMeasurements()
     }
+
+    // force promote into top layer
+    if (tool === 'guides') {
+      handles.forEach(handle => {
+        handle.hidePopover()
+        handle.showPopover()
+      })
+    }
   }
 
   const select = el => {
@@ -438,6 +446,11 @@ export function Selectable(visbug) {
       el,
       id,
       no_label: tool === 'inspector' || tool === 'guides' || tool === 'accessibility',
+    })
+
+    $('visbug-metatip').forEach(tip => {
+      tip.hidePopover()
+      tip.showPopover()
     })
 
     selected.unshift(el)

@@ -1,14 +1,20 @@
 @import "../_variables.css";
 
 :host {
-  --line-color: var(--theme-purple);
-  --line-base: var(--theme-color);
+  --line-color: 1 0 1;
+  --line-base: .75 0 1;
   --line-width: 1px;
   --distance-h: 5px;
   --distance-w: 5px;
   --line-w: 1px;
   --line-h: 1px;
   font-size: 16px;
+  position: initial;
+  background: transparent;
+  border: none;
+  overflow: visible;
+  padding: 0;
+  margin: 0;
 }
 
 :host > figure {
@@ -16,9 +22,7 @@
   position: absolute;
   height: var(--distance-h);
   width: var(--distance-w);
-  top: var(--top);
-  left: var(--left);
-  right: var(--right);
+  inset: var(--top) var(--right) auto var(--left);
   overflow: visible;
   pointer-events: none;
   z-index: var(--layer-3);
@@ -37,8 +41,8 @@
   color: white;
   text-shadow: var(--text-shadow);
   box-shadow: var(--text-shadow);
-  background: hsl(var(--line-color) / 75%);
-  border: 1px solid hsl(var(--line-color));
+  background: color(display-p3 var(--line-color) / 75%);
+  border: 1px solid color(display-p3 var(--line-color));
   border-radius: 1em;
   font-size: 0.7em;
   font-weight: bold;
@@ -48,19 +52,19 @@
 }
 
 :host > figure span {
-  background: hsl(var(--line-color));
+  background: color(display-p3 var(--line-color));
   height: var(--line-h);
   width: var(--line-w);
 }
 
 :host > figure div {
   flex: 2;
-  background: hsl(var(--line-color));
+  background: color(display-p3 var(--line-color));
   width: var(--line-w);
   height: var(--line-h);
 }
 
 :host figure:matches([quadrant="bottom"], [quadrant="right"]) > div:first-of-type,
 :host figure:matches([quadrant="top"], [quadrant="left"]) > div:last-of-type {
-  background: linear-gradient(to var(--quadrant), hotpink 0%, hsl(var(--line-color)) 100%);
+  background: linear-gradient(to var(--quadrant), var(--neon-pink) 0%, color(display-p3 var(--line-color)) 100%);
 }

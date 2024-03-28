@@ -4,8 +4,8 @@
   width: 100%;
   height: 100%;
   vector-effect: non-scaling-stroke;
-  stroke: var(--hover-stroke, var(--theme-purple, hsl(267 100% 58%)));
-  stroke-width: 1px;
+  stroke: var(--hover-stroke, var(--neon-purple, hsl(267 100% 58%)));
+  stroke-width: 2px;
   fill: none;
 }
 

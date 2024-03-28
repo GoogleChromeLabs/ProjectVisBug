@@ -65,6 +65,9 @@ export function showTip(target, e) {
     const tip = render(target)
     document.body.appendChild(tip)
 
+    tip.hidePopover()
+    tip.showPopover()
+
     positionTip(tip, e)
     observe({tip, target})
 
@@ -150,10 +153,20 @@ const render = (el, tip = document.createElement('visbug-metatip')) => {
         : true
     )
     .map(style => {
-      if (style.prop.includes('color') || style.prop.includes('background-color') || style.prop.includes('border-color') || style.prop.includes('Color') || style.prop.includes('fill') || style.prop.includes('stroke'))
+      if (style.prop.includes('color') || style.prop.includes('background-color') || style.prop.includes('border-color') || style.prop.includes('Color') || style.prop.includes('fill') || style.prop.includes('stroke')) {
+        const isRGB = ['rgb(', ',']
+          .some(needle => style.value.includes(needle))
+
         style.value = `
           <span color style="background-color:${style.value};"></span>
-          <span color-value>${functionalNotate(new TinyColor(style.value)[colormode]())}</span>
+          <span color-value>${isRGB ? functionalNotate(new TinyColor(style.value)[colormode]()) : style.value}</span>
+        `
+      }
+
+      if (style.prop.includes('background-image'))
+        style.value = `
+          <span color gradient style="--_bg:${style.value};"></span>
+          <span color-value>${style.value}</span>
         `
 
       if (style.prop.includes('box-shadow')) {
@@ -171,9 +184,6 @@ const render = (el, tip = document.createElement('visbug-metatip')) => {
 
       if (style.prop.includes('grid-template-areas'))
         style.value = style.value.replace(/" "/g, '"<br>"')
-
-      if (style.prop.includes('background-image'))
-        style.value = `<a target="_blank" href="${style.value.slice(style.value.indexOf('(') + 2, style.value.length - 2)}">${style.value.slice(0,25) + '...'}</a>`
 
       // check if style is inline style, show indicator
       if (el.getAttribute('style') && el.getAttribute('style').includes(style.prop))

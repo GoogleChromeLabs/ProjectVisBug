@@ -31,7 +31,7 @@ const sendColorMode = () => {
   })
 }
 
-const getColorMode = () => {
+export const getColorMode = () => {
   platform.storage.sync.get([storagekey], value => {
     let found_value = value[storagekey]
 

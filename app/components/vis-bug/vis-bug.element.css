@@ -2,10 +2,14 @@
 
 :host {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0 auto auto 0;
   z-index: var(--layer-1);
   max-width: min-content;
+
+  /* popover fixes */
+  background: transparent;
+  border: none;
+  overflow: visible;
 
   opacity: 0;
   animation: present-yourself .3s ease forwards;

@@ -14,7 +14,7 @@
 :host > button {
   pointer-events: auto;
   background-color: white;
-  border: 1px solid hotpink;
+  border: 1px solid var(--neon-pink);
   padding: 0;
   width: 0.5rem;
   height: 0.5rem;

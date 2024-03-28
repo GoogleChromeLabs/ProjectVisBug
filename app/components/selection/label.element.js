@@ -14,11 +14,14 @@ export class Label extends HTMLElement {
 
   connectedCallback() {
     this.$shadow.adoptedStyleSheets = [LabelStyles]
+    this.setAttribute('popover', 'manual')
+    this.showPopover()
     $('a', this.$shadow).on('click mouseenter', this.dispatchQuery)
     window.addEventListener('resize', this.on_resize)
   }
 
   disconnectedCallback() {
+    this.hidePopover()
     $('a', this.$shadow).off('click mouseenter', this.dispatchQuery)
     window.removeEventListener('resize', this.on_resize)
   }

@@ -8,6 +8,12 @@ export class Hover extends Handles {
     this.styles = [HandlesStyles, HoverStyles]
   }
 
+  connectedCallback() {
+    this.$shadow.adoptedStyleSheets = this.styles
+  }
+
+  disconnectedCallback() {}
+
   render({ width, height, top, left }, node_label_id, isFixed) {
     this.style.setProperty('--top', `${top + (isFixed ? 0 : window.scrollY)}px`)
     this.style.setProperty('--left', `${left}px`)
