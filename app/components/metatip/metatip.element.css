@@ -71,8 +71,7 @@
   & a {
     text-decoration: none;
     color: inherit;
-    text-overflow: ellipsis;
-    overflow: hidden;
+    overflow-x: auto;
     cursor: pointer;
 
     &:hover {
@@ -173,7 +172,13 @@
   align-items: center;
   justify-content: flex-end;
   text-align: right;
-  /* white-space: pre; */
+  max-inline-size: 25ch;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &:has([gradient]) {
+    place-content: initial;
+  }
 }
 
 :host [text] {
@@ -203,6 +208,12 @@
   height: 1em;
   border-radius: 50%;
   box-shadow: inset 0 0 1px 0 hsl(0 0% 0% / 50%);
+}
+
+:host [color][gradient] {
+  --checkerboard:  repeating-conic-gradient(#222 0% 25%, transparent 0% 50%) 50% / 8px 8px;
+  background: var(--_bg), var(--checkerboard);
+  border-radius: 0px;
 }
 
 :host [color-value] {

@@ -159,6 +159,12 @@ const render = (el, tip = document.createElement('visbug-metatip')) => {
           <span color-value>${functionalNotate(new TinyColor(style.value)[colormode]())}</span>
         `
 
+      if (style.prop.includes('background-image'))
+        style.value = `
+          <span color gradient style="--_bg:${style.value};"></span>
+          <span color-value>${style.value}</span>
+        `
+
       if (style.prop.includes('box-shadow')) {
         const [, color, x, y, blur, spread] = getShadowValues(style.value)
         style.value = `${functionalNotate(new TinyColor(color)[colormode]())} ${x} ${y} ${blur} ${spread}`
@@ -174,9 +180,6 @@ const render = (el, tip = document.createElement('visbug-metatip')) => {
 
       if (style.prop.includes('grid-template-areas'))
         style.value = style.value.replace(/" "/g, '"<br>"')
-
-      if (style.prop.includes('background-image'))
-        style.value = `<a target="_blank" href="${style.value.slice(style.value.indexOf('(') + 2, style.value.length - 2)}">${style.value.slice(0,25) + '...'}</a>`
 
       // check if style is inline style, show indicator
       if (el.getAttribute('style') && el.getAttribute('style').includes(style.prop))
