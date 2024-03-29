@@ -4,7 +4,8 @@ import { TinyColor } from '@ctrl/tinycolor'
 import { queryPage } from './search'
 import { getStyles, camelToDash, isOffBounds,
          deepElementFromPoint, getShadowValues,
-         getTextShadowValues, firstUsableFontFromFamily
+         getTextShadowValues, firstUsableFontFromFamily,
+         onRemove
 } from '../utilities/'
 import { functionalNotate } from './color.js'
 
@@ -280,13 +281,12 @@ const linkQueryHoverOut = e => {
 const observe = ({tip, target}) => {
   // $(tip).on('query', linkQueryClicked)
   // $(tip).on('unquery', linkQueryHoverOut)
-  $(target).on('DOMNodeRemoved', handleBlur)
+  onRemove(target, handleBlur)
 }
 
 const unobserve = ({tip, target}) => {
   // $(tip).off('query', linkQueryClicked)
   // $(tip).off('unquery', linkQueryHoverOut)
-  $(target).off('DOMNodeRemoved', handleBlur)
 }
 
 const clearActive = () => {

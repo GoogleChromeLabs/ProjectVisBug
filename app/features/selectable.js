@@ -16,7 +16,7 @@ import {
   metaKey, htmlStringToDom, createClassname, camelToDash,
   isOffBounds, getStyle, getStyles, deepElementFromPoint, getShadowValues,
   isSelectorValid, findNearestChildElement, findNearestParentElement,
-  getTextShadowValues, isFixed,
+  getTextShadowValues, isFixed, onRemove
 } from '../utilities/'
 
 export function Selectable(visbug) {
@@ -578,10 +578,12 @@ export function Selectable(visbug) {
     observer.observe(el, { attributes: true })
     parentObserver.observe(el.parentNode, { childList:true, subtree:true })
 
-    $(label).on('DOMNodeRemoved', _ => {
-      observer.disconnect()
-      parentObserver.disconnect()
-    })
+    if (label !== null) {
+      onRemove(label, () => {
+        observer.disconnect()
+        parentObserver.disconnect()
+      })
+    }
   }
 
   const setLabel = (el, label) => {

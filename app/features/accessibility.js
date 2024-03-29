@@ -4,7 +4,7 @@ import { readability, isReadable } from '@ctrl/tinycolor'
 import {
   getStyle, isOffBounds,
   getA11ys, getWCAG2TextSize, getComputedBackgroundColor,
-  deepElementFromPoint
+  deepElementFromPoint, onRemove
 } from '../utilities/'
 
 const state = {
@@ -254,11 +254,10 @@ const togglePinned = els => {
 }
 
 const observe = ({tip, target}) => {
-  $(target).on('DOMNodeRemoved', handleBlur)
+  onRemove(target, handleBlur)
 }
 
 const unobserve = ({tip, target}) => {
-  $(target).off('DOMNodeRemoved', handleBlur)
 }
 
 const clearActive = () => {
