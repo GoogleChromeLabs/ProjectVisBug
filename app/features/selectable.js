@@ -400,11 +400,11 @@ export function Selectable(visbug) {
       el: $target,
       // no_hover: tool === 'guides',
       no_label:
-           tool === 'guides'
+           (tool === 'guides'
         || tool === 'accessibility'
         || tool === 'margin'
         || tool === 'padding'
-        || tool === 'inspector',
+        || tool === 'inspector'),
     })
 
     if (tool === 'guides' && selected.length >= 1 && !selected.includes($target)) {
@@ -445,7 +445,12 @@ export function Selectable(visbug) {
     overlayMetaUI({
       el,
       id,
-      no_label: tool === 'inspector' || tool === 'guides' || tool === 'accessibility',
+      no_label: 
+           tool === 'inspector' 
+        || tool === 'guides' 
+        || tool === 'margin' 
+        || tool === 'move' 
+        || tool === 'accessibility',
     })
 
     $('visbug-metatip').forEach(tip => {
@@ -589,6 +594,11 @@ export function Selectable(visbug) {
   const setLabel = (el, label) => {
     label.text = handleLabelText(el, visbug.activeTool)
     label.update = {boundingRect: el.getBoundingClientRect(), isFixed: isFixed(el)}
+
+    handles.forEach(handle => {
+      handle.hidePopover()
+      handle.showPopover()
+    })
   }
 
   const createLabel = ({el, id, template}) => {
@@ -624,6 +634,11 @@ export function Selectable(visbug) {
       })
 
       labels[labels.length] = label
+
+      handles.forEach(handle => {
+        handle.hidePopover()
+        handle.showPopover()
+      })
 
       return label
     }
