@@ -57,6 +57,14 @@ export class Ally extends Metatip {
     this.style.setProperty('--copy-message-left-color', contrastingForegroundColor)
     this.style.setProperty('--copy-message-right-color', contrastingBackgroundColor)
 
+    const preferredForeground = ['rgb(', ','].some(needle => foreground.includes(needle))
+      ? new TinyColor(foreground)[colormode]()
+      : foreground
+
+    const preferredBackground = ['rgb(', ','].some(needle => background.includes(needle))
+      ? new TinyColor(background)[colormode]()
+      : background
+
     return `
       <figure>
         <header>
@@ -68,7 +76,7 @@ export class Ally extends Metatip {
               Foreground
             </small>
             <span style="color:${contrastingForegroundColor};">
-              ${functionalNotate(new TinyColor(foreground)[colormode]())}
+              ${preferredForeground}
             </span>
           </span>
           <span color-swatch style="background-color:${background};" tabindex="0">
@@ -76,7 +84,7 @@ export class Ally extends Metatip {
               Background
             </small>
             <span style="color:${contrastingBackgroundColor};">
-              ${functionalNotate(new TinyColor(background)[colormode]())}
+              ${preferredBackground}
             </span>
           </span>
         </div>
