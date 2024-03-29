@@ -1,10 +1,11 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
+import Color from 'colorjs.io'
 import { readability, isReadable } from '@ctrl/tinycolor'
 import {
   getStyle, isOffBounds,
   getA11ys, getWCAG2TextSize, getComputedBackgroundColor,
-  deepElementFromPoint, onRemove
+  deepElementFromPoint, onRemove, contrast_color
 } from '../utilities/'
 
 const state = {
@@ -176,19 +177,18 @@ const determineColorContrast = el => {
     </svg>
   `
 
+  const fg = new Color(foreground)
+  const bg = new Color(background)
+
   const [ aa_contrast, aaa_contrast ] = [
-    isReadable(background, foreground, { level: "AA", size: getWCAG2TextSize(el).toLowerCase() }),
-    isReadable(background, foreground, { level: "AAA", size: getWCAG2TextSize(el).toLowerCase() })
+    isReadable(bg.to('srgb').toString({ format: 'hex' }), fg.to('srgb').toString({ format: 'hex' }), { level: "AA", size: getWCAG2TextSize(el).toLowerCase() }),
+    isReadable(bg.to('srgb').toString({ format: 'hex' }), fg.to('srgb').toString({ format: 'hex' }), { level: "AAA", size: getWCAG2TextSize(el).toLowerCase() })
   ]
 
   return foreground === background
     ? `<div contrast-compliance>Foreground matches background</div>`
     : `
         <div contrast-compliance>
-          <span contrast>
-            <span title>Contrast ratio</span>
-            <span value>${Math.floor(readability(background, foreground)  * 100) / 100}</span>
-          </span>
           <span compliance>
             <span title>WCAG Compliance</span>
             <div>
@@ -201,6 +201,18 @@ const determineColorContrast = el => {
                 <span>A${textSize}</span>
               </span>
             </div>
+          </span>
+          <span contrast>
+            <span title>WCAG2.1</span>
+            <span value>${bg.contrast(fg, "wcag21").toFixed(1)}</span>
+          </span>
+          <span contrast>
+            <span title>APCA</span>
+            <span value>${bg.contrast(fg, "APCA").toFixed(1)}</span>
+          </span>
+          <span contrast>
+            <span title>L*</span>
+            <span value>${bg.contrast(fg, "Lstar").toFixed(0)}</span>
           </span>
         </div>
       `

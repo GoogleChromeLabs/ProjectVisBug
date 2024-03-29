@@ -39,6 +39,7 @@
   "dependencies": {
     "@ctrl/tinycolor": "^3.0.2",
     "blingblingjs": "^2.1.1",
+    "colorjs.io": "^0.5.0",
     "construct-style-sheets-polyfill": "^2.4.2",
     "hotkeys-js": "^3.7.6",
     "query-selector-shadow-dom": "^0.4.6"

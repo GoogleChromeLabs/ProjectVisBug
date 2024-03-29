@@ -3,7 +3,7 @@ import { Metatip } from './metatip.element.js'
 import { TinyColor } from '@ctrl/tinycolor'
 import { draggable } from '../../features/'
 import { getStyle, getComputedBackgroundColor } from '../../utilities'
-import { getContrastingColor } from '../../utilities'
+import { contrast_color } from '../../utilities'
 import { functionalNotate } from '../../features/color.js'
 
 const modemap = {
@@ -51,8 +51,8 @@ export class Ally extends Metatip {
       : getStyle(el, 'color')
     const background = getComputedBackgroundColor(el)
 
-    const contrastingForegroundColor = getContrastingColor(foreground)
-    const contrastingBackgroundColor = getContrastingColor(background)
+    const contrastingForegroundColor = contrast_color(foreground)
+    const contrastingBackgroundColor = contrast_color(background)
 
     this.style.setProperty('--copy-message-left-color', contrastingForegroundColor)
     this.style.setProperty('--copy-message-right-color', contrastingBackgroundColor)

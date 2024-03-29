@@ -238,9 +238,13 @@
 
 :host [contrast-compliance] {
   display: grid;
-  grid-template-columns: max-content max-content;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
   gap: 3ch;
   padding: 10px 10px 5px;
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  background-color: var(--theme-bd-2);
+  border-top: 1px solid var(--theme-bg);
 }
 
 :host [contrast] {
