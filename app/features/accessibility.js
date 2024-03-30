@@ -165,7 +165,10 @@ const determineColorContrast = el => {
     ? (getStyle(el, 'fill') || getStyle(el, 'stroke'))
     : getStyle(el, 'color')
 
-  const textSize  = getWCAG2TextSize(el) === 'Small'
+  const ts = getWCAG2TextSize(el)
+  const tspx = window.getComputedStyle(el, null).getPropertyValue('font-size')
+
+  const textSize = ts === 'Small'
     ? 'AA'
     : 'AA+'
 
@@ -185,9 +188,19 @@ const determineColorContrast = el => {
   const bg = new Color(background)
 
   const [ aa_contrast, aaa_contrast ] = [
-    isReadable(bg.to('srgb').toString({ format: 'hex' }), fg.to('srgb').toString({ format: 'hex' }), { level: "AA", size: getWCAG2TextSize(el).toLowerCase() }),
-    isReadable(bg.to('srgb').toString({ format: 'hex' }), fg.to('srgb').toString({ format: 'hex' }), { level: "AAA", size: getWCAG2TextSize(el).toLowerCase() })
+    isReadable(bg.to('srgb').toString({ format: 'hex' }), fg.to('srgb').toString({ format: 'hex' }), { level: "AA", size: ts.toLowerCase() }),
+    isReadable(bg.to('srgb').toString({ format: 'hex' }), fg.to('srgb').toString({ format: 'hex' }), { level: "AAA", size: ts.toLowerCase() })
   ]
+
+  const apca_contrast = bg.contrast(fg, "APCA").toFixed(1)
+  let apca_compliance = false
+
+  if (parseInt(tspx) <= 24 && apca_contrast >= 75)
+    apca_compliance = true
+  else if (parseInt(tspx) >= 24 && apca_contrast >= 60)
+    apca_compliance = true
+  else if (parseInt(tspx) >= 36 && apca_contrast >= 45)
+    apca_compliance = true
 
   return foreground === background
     ? `<div contrast-compliance>Foreground matches background</div>`
@@ -211,8 +224,8 @@ const determineColorContrast = el => {
             <span value>${bg.contrast(fg, "wcag21").toFixed(1)}</span>
           </span>
           <span contrast>
-            <span title>APCA</span>
-            <span value>${bg.contrast(fg, "APCA").toFixed(1)}</span>
+            <span title>APCA <span pass="${apca_compliance ? 'true' : 'false'}">${apca_compliance ? pass_icon : fail_icon}</span></span>
+            <span value>${apca_contrast}</span>
           </span>
           <span contrast>
             <span title>L*</span>

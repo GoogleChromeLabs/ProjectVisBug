@@ -303,6 +303,16 @@
   opacity: .8;
 }
 
+:host [contrast] > [title] svg {
+  height: 1lh;
+}
+
+:host [title] {
+  display: flex;
+  gap: .5ch;
+  align-items: center;
+}
+
 :host [color-swatches] {
   display: flex;
   width: 100%;
@@ -401,12 +411,15 @@
 :host [score] {
   font-size: 1.5em;
   line-height: .75;
+}
 
-  &[pass="true"] { color: green; }
-  &[pass="false"] { color: red; }
+:host {
+
+  & [pass="true"] { color: green; }
+  & [pass="false"] { color: red; }
 
   @media (prefers-color-scheme: dark) {
-    &[pass="true"] { color: hsl(120deg 50% 75%); }
-    &[pass="false"] { color: hsl(0deg 50% 65%); }
+    & [pass="true"] { color: hsl(120deg 50% 75%); }
+    & [pass="false"] { color: hsl(0deg 50% 65%); }
   }
 }
