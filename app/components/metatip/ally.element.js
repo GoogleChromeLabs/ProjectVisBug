@@ -70,25 +70,27 @@ export class Ally extends Metatip {
         <header>
           <h5>&#60;${el.nodeName.toLowerCase()}&#62;${el.id && '#' + el.id}</h5>
         </header>
-        <div color-swatches>
-          <span color-swatch style="background-color:${foreground};" tabindex="0">
-            <small style="color:${contrastingForegroundColor};">
-              Foreground
-            </small>
-            <span style="color:${contrastingForegroundColor};">
-              ${preferredForeground}
+        <section>
+          <div color-swatches>
+            <span color-swatch style="background-color:${foreground};" tabindex="0">
+              <small style="color:${contrastingForegroundColor};">
+                Foreground
+              </small>
+              <span style="color:${contrastingForegroundColor};">
+                ${preferredForeground}
+              </span>
             </span>
-          </span>
-          <span color-swatch style="background-color:${background};" tabindex="0">
-            <small style="color:${contrastingBackgroundColor};">
-              Background
-            </small>
-            <span style="color:${contrastingBackgroundColor};">
-              ${preferredBackground}
+            <span color-swatch style="background-color:${background};" tabindex="0">
+              <small style="color:${contrastingBackgroundColor};">
+                Background
+              </small>
+              <span style="color:${contrastingBackgroundColor};">
+                ${preferredBackground}
+              </span>
             </span>
-          </span>
-        </div>
-        ${contrast_results}
+          </div>
+          ${contrast_results}
+        </section>
         ${ally_attributes.length > 0
           ? `<code accessibility>
                 <div>

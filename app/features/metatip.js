@@ -104,6 +104,10 @@ export function positionTip(tip, e) {
   tip.style.setProperty('--arrow-left', west
     ? 'calc(100% - 15px - 15px)'
     : '15px')
+
+  tip.style.setProperty('--is-topright', !north && west
+    ? 'end'
+    : '')
 }
 
 const restorePinnedTips = () => {

@@ -3,6 +3,7 @@
 :host {
   position: absolute;
   inset: 0 auto auto 0;
+  padding: 0;
   z-index: var(--layer-top);
 
   background: transparent;
@@ -15,6 +16,12 @@
   --shadow-up: 5px;
   --shadow-down: -5px;
   --shadow-direction: var(--shadow-up);
+  --shadow:
+    0 3.6px 3.7px rgba(0, 0, 0, 0.101),
+    0 12.1px 12.3px rgba(0, 0, 0, 0.149),
+    0 -2px 4px rgba(0, 0, 0, 0.101),
+    0 -12.1px 24px rgba(0, 0, 0, 0.149),
+    0 54px 55px rgba(0, 0, 0, 0.25);
 
   --arrow-up: polygon(0 0, 100% 0, 50% 100%);
   --arrow-down: polygon(50% 0, 0 100%, 100% 100%);
@@ -32,9 +39,6 @@
   font-size: 16px;
   font-family: system-ui;
   max-width: 90vw;
-  background: var(--theme-bd);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
   color: var(--theme-text_color);
   line-height: initial;
   margin: 0;
@@ -43,15 +47,6 @@
   flex-wrap: nowrap;
   border-radius: var(--border-radius);
   line-height: initial;
-
-  border: 1px solid var(--theme-bg);
-  box-shadow:
-    0 3.6px 3.7px rgba(0, 0, 0, 0.101),
-    0 12.1px 12.3px rgba(0, 0, 0, 0.149),
-    0 -2px 4px rgba(0, 0, 0, 0.101),
-    0 -12.1px 24px rgba(0, 0, 0, 0.149),
-    0 54px 55px rgba(0, 0, 0, 0.25);
-
 
   @media (min-width: 540px) {
     max-width: max(40ch, 50vw);
@@ -128,6 +123,16 @@
   padding: 5px 10px;
   user-select: none;
   text-shadow: var(--text-shadow);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--theme-bg);
+  margin-bottom: 2px;
+  max-inline-size: max-content;
+
+  background: var(--theme-bd);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+
+  place-self: var(--is-topright);
 }
 
 :host code {
@@ -138,8 +143,11 @@
   list-style-type: none;
   color: var(--light-grey);
   background-color: var(--theme-bd-2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   border-top: 1px solid var(--theme-bg);
   font-size: 1em;
+  box-shadow: var(--shadow);
   font-family: 'Dank Mono', 'Operator Mono', 'Inconsolata', 'Fira Mono', 'SF Mono', 'Monaco', 'Droid Sans Mono', 'Source Code Pro', monospace;
 
   &[accessibility] > [prop]:first-of-type {
@@ -153,10 +161,19 @@
   border-radius: var(--border-radius);
 }
 
+:host section {
+  border-radius: var(--border-radius);
+  overflow: clip;
+  box-shadow: var(--shadow);
+}
+
 :host summary {
   outline-offset: -2px;
   outline-color: var(--theme-color);
   max-inline-size: max-content;
+  background: var(--theme-bd);
+  backdrop-filter: blur(5px);
+  margin-block: 1ch 2px;
 
   &::marker {
     color: var(--theme-color);
@@ -171,10 +188,13 @@
   gap: .5em;
   align-items: center;
   text-align: right;
-  max-inline-size: 25ch;
   white-space: nowrap;
   overflow-x: auto;
   scrollbar-width: none;
+
+  &:not(:hast([longform])) {
+    max-inline-size: 25ch;
+  }
 
   &:has([gradient]) {
     place-content: initial;
@@ -244,6 +264,8 @@
   padding: 10px 10px 5px;
   border-radius: 0 0 var(--border-radius) var(--border-radius);
   background-color: var(--theme-bd-2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   border-top: 1px solid var(--theme-bg);
 }
 
@@ -287,6 +309,8 @@
   height: 7em;
   flex-direction: row;
   padding: 0;
+  /* border-radius: var(--border-radius) var(--border-radius) 0 0;
+  overflow: clip; */
 
   @media (max-width: 700px) {
     flex-direction: column;
@@ -348,6 +372,8 @@
 :host [accessibility] {
   display: flex;
   flex-direction: column;
+  margin-top: 2px;
+  max-inline-size: max-content;
 
   & > :not([contrast-compliance]) {
     display: grid;
