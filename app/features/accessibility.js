@@ -96,7 +96,7 @@ export function positionTip(tip, e) {
     ? 'calc(100% - 15px - 15px)'
     : '15px')
 
-  tip.style.setProperty('--is-topright', !north && west
+  tip.style.setProperty('--is-flipped', west
     ? 'end'
     : '')
 }

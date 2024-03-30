@@ -132,7 +132,7 @@
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 
-  place-self: var(--is-topright);
+  place-self: var(--is-flipped);
 }
 
 :host code {
@@ -382,6 +382,7 @@
 :host [accessibility] {
   display: flex;
   flex-direction: column;
+  place-self: var(--is-flipped);
   margin-top: 2px;
   max-inline-size: max-content;
 
