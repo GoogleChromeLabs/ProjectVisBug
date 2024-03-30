@@ -313,8 +313,14 @@
   opacity: .8;
 }
 
-:host [contrast] > [title] svg {
-  height: 1lh;
+:host [contrast] > [title] {
+  > [pass] {
+    display: inline-flex;
+  }
+
+  & svg {
+    height: 1lh;
+  }
 }
 
 :host [title] {
