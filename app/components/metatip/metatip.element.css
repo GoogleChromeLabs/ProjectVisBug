@@ -196,13 +196,13 @@
     max-inline-size: 25ch;
   }
 
-  &:has([gradient]) {
-    place-content: initial;
-  }
-
   &:has([color]) {
     grid-template-columns: max-content max-content;
     place-self: end;
+  }
+
+  &:has([gradient]) {
+    place-self: initial;
   }
 }
 
