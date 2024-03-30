@@ -453,7 +453,7 @@ export function Selectable(visbug) {
         || tool === 'accessibility',
     })
 
-    $('visbug-metatip').forEach(tip => {
+    $('visbug-metatip, visbug-ally').forEach(tip => {
       tip.hidePopover()
       tip.showPopover()
     })
