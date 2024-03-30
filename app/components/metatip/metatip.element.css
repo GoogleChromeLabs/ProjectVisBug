@@ -155,6 +155,14 @@
   }
 }
 
+:host details {
+  place-self: var(--is-flipped);
+
+  &[open] > code {
+    margin-top: 2px;
+  }
+}
+
 :host details > :is(summary,code),
 :host > figure > code {
   padding: 10px;
@@ -173,7 +181,7 @@
   max-inline-size: max-content;
   background: var(--theme-bd);
   backdrop-filter: blur(5px);
-  margin-block: 1ch 2px;
+  margin-top: 1ch;
 
   &::marker {
     color: var(--theme-color);
