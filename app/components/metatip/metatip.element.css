@@ -67,6 +67,7 @@
     text-decoration: none;
     color: inherit;
     overflow-x: auto;
+    overscroll-behavior: contain;
     cursor: pointer;
 
     &:hover {
@@ -198,6 +199,7 @@
   text-align: right;
   white-space: nowrap;
   overflow-x: auto;
+  overscroll-behavior: contain;
   scrollbar-width: none;
 
   &:not(:hast([longform])) {
