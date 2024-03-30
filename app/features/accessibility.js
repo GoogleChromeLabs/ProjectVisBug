@@ -193,13 +193,14 @@ const determineColorContrast = el => {
   ]
 
   const apca_contrast = bg.contrast(fg, "APCA").toFixed(1)
+  const abs_apca = Math.abs(apca_contrast)
   let apca_compliance = false
 
-  if (parseInt(tspx) <= 24 && apca_contrast >= 75)
+  if (parseInt(tspx) <= 24 && abs_apca >= 75)
     apca_compliance = true
-  else if (parseInt(tspx) >= 24 && apca_contrast >= 60)
+  else if (parseInt(tspx) >= 24 && abs_apca >= 60)
     apca_compliance = true
-  else if (parseInt(tspx) >= 36 && apca_contrast >= 45)
+  else if (parseInt(tspx) >= 36 && abs_apca >= 45)
     apca_compliance = true
 
   return foreground === background
