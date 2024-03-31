@@ -92,18 +92,14 @@ export function redoLastEvent() {
 }
 
 function createReverseEvent(event) {
-  switch (event.editType) {
-    // Not handling insert and remove types
-    case EditType.STYLE || EditType.TEXT:
-    default:
-      return {
-        createdAt: event.createdAt,
-        selector: event.selector,
-        editType: event.editType,
-        newVal: event.oldVal,
-        oldVal: event.newVal,
-      };
-  }
+  // Can handle different edit types here
+  return {
+    createdAt: event.createdAt,
+    selector: event.selector,
+    editType: event.editType,
+    newVal: event.oldVal,
+    oldVal: event.newVal,
+  };
 }
 
 function applyStyleEvent(event, element) {

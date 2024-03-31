@@ -50,7 +50,7 @@ export class Hotkeys extends HTMLElement {
 
     hotkeys('esc', e => this.hideTool())
     hotkeys(`${metaKey}+z`, (e) => undoLastEvent());
-    hotkeys(`${metaKey}+z`, (e) => redoLastEvent());
+    hotkeys(`${metaKey}+shift+z`, (e) => redoLastEvent());
   }
 
   disconnectedCallback() { }
