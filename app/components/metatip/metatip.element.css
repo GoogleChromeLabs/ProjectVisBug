@@ -271,7 +271,7 @@
   grid-auto-flow: column;
   grid-auto-columns: max-content;
   gap: 3ch;
-  padding: 10px 10px 5px;
+  padding: 10px 10px 7.5px;
   border-radius: 0 0 var(--border-radius) var(--border-radius);
   background-color: var(--theme-bd-2);
   backdrop-filter: blur(5px);
@@ -290,6 +290,7 @@
 
 :host [compliance] {
   display: grid;
+  align-content: space-between;
 
   & > div {
     display: flex;
