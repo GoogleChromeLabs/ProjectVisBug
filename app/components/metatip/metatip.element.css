@@ -1,3 +1,4 @@
+@import "open-props/borders.shadow.min.css";
 @import "../_variables.css";
 
 :host {
@@ -127,13 +128,19 @@
   border-radius: var(--border-radius);
   border: 1px solid var(--theme-bg);
   margin-bottom: 2px;
-  max-inline-size: max-content;
+  inline-size: max-content;
+  max-inline-size: max(35ch, 45vw);
 
   background: var(--theme-bd);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 
   place-self: var(--is-flipped);
+}
+
+:host [visbug-ally] > header {
+  padding: .1ex 10px .25ex;
+  border-radius: var(--radius-round);
 }
 
 :host code {

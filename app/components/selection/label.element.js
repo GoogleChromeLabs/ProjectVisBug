@@ -68,7 +68,7 @@ export class Label extends HTMLElement {
     const position = isFixed ? 'fixed' : 'absolute'
     this.style.setProperty('--top', `${top}px`)
     this.style.setProperty('--left', `${left}px`)
-    this.style.setProperty('--max-width', `${boundingRect.width + (window.innerWidth - boundingRect.x - boundingRect.width - 20)}px`)
+    this.style.setProperty('--max-width', `${boundingRect.width + (window.innerWidth - boundingRect.x - boundingRect.width - 40)}px`)
     this.style.setProperty('--position', position)
     this.setAttribute('data-original-top', top)
     this.setAttribute('data-original-left', left)

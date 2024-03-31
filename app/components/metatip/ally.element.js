@@ -66,7 +66,7 @@ export class Ally extends Metatip {
       : background
 
     return `
-      <figure>
+      <figure visbug-ally>
         <header>
           <h5>&#60;${el.nodeName.toLowerCase()}&#62;${el.id && '#' + el.id}</h5>
         </header>
