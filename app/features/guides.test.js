@@ -1,7 +1,7 @@
 import test from 'ava'
 
-import { setupPptrTab, teardownPptrTab } 
-from '../../tests/helpers'
+import { setupPptrTab, teardownPptrTab }
+  from '../../tests/helpers'
 
 test.beforeEach(setupPptrTab)
 

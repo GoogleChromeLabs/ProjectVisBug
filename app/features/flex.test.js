@@ -1,10 +1,10 @@
 import test from 'ava'
 
 import { setupPptrTab, teardownPptrTab, changeMode, getActiveTool, pptrMetaKey }
-from '../../tests/helpers'
+  from '../../tests/helpers'
 
-const tool            = 'align'
-const test_selector   = '[intro] b'
+const tool = 'align'
+const test_selector = '[intro] b'
 
 
 test.beforeEach(async t => {
