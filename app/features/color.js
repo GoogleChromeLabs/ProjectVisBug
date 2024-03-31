@@ -1,6 +1,7 @@
 import $ from 'blingblingjs'
 import { TinyColor } from '@ctrl/tinycolor'
 import { getStyle } from '../utilities/'
+import { handleEditEvent } from "./events";
 
 const state = {
   active_color: 'background',
@@ -8,46 +9,69 @@ const state = {
 }
 
 export function ColorPicker(pallete, selectorEngine) {
-  const foregroundPicker  = $('#foreground', pallete)
-  const backgroundPicker  = $('#background', pallete)
-  const borderPicker      = $('#border', pallete)
-  const fgInput           = $('input', foregroundPicker[0])
-  const bgInput           = $('input', backgroundPicker[0])
-  const boInput           = $('input', borderPicker[0])
+  const foregroundPicker = $('#foreground', pallete)
+  const backgroundPicker = $('#background', pallete)
+  const borderPicker = $('#border', pallete)
+  const fgInput = $('input', foregroundPicker[0])
+  const bgInput = $('input', backgroundPicker[0])
+  const boInput = $('input', borderPicker[0])
 
   const shadows = {
-    active:   '0 0 0 2px hotpink, rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em',
+    active: '0 0 0 2px hotpink, rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em',
     inactive: '0 0 0 2px var(--theme-bg), rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em',
   }
 
   const state = {
     active_color: undefined,
-    elements:     [],
+    elements: [],
   }
 
-  fgInput.on('input', ({target:{value}}) => {
-    state.elements.map(el =>
-      el.style['color'] = value)
+  fgInput.on('input', ({ target: { value } }) => {
+    state.elements.map(el => {
+      const oldStyle = el.style["color"];
+      el.style['color'] = value
+      handleEditEvent({
+        el,
+        editType: "STYLE",
+        newValue: { color: value },
+        oldValue: { color: oldStyle },
+      });
+    })
 
     foregroundPicker[0].style.setProperty(`--contextual_color`, value)
   })
 
-  bgInput.on('input', ({target:{value}}) => {
-    state.elements.map(el =>
-      el.style[el instanceof SVGElement
-        ? 'fill'
-        : 'backgroundColor'
-      ] = value)
+  bgInput.on('input', ({ target: { value } }) => {
+    state.elements.map(el => {
+      const oldStyle = el.style[el instanceof SVGElement ? "fill" : "backgroundColor"];
+      el.style[el instanceof SVGElement ? 'fill' : 'backgroundColor'] = value
+      handleEditEvent({
+        el,
+        editType: "STYLE",
+        newValue: { [el instanceof SVGElement ? "fill" : "backgroundColor"]: value },
+        oldValue: { [el instanceof SVGElement ? "fill" : "backgroundColor"]: oldStyle },
+      });
+    })
 
     backgroundPicker[0].style.setProperty(`--contextual_color`, value)
   })
 
-  boInput.on('input', ({target:{value}}) => {
-    state.elements.map(el =>
+  boInput.on('input', ({ target: { value } }) => {
+    state.elements.map(el => {
+      const oldStyle =
+        el.style[el instanceof SVGElement ? "fill" : "backgroundColor"];
       el.style[el instanceof SVGElement
         ? 'stroke'
         : 'borderColor'
-      ] = value)
+      ] = value
+
+      handleEditEvent({
+        el,
+        editType: "STYLE",
+        newValue: { [el instanceof SVGElement ? "fill" : "backgroundColor"]: value },
+        oldValue: { [el instanceof SVGElement ? "fill" : "backgroundColor"]: oldStyle },
+      });
+    });
 
     borderPicker[0].style.setProperty(`--contextual_color`, value)
   })
@@ -55,9 +79,9 @@ export function ColorPicker(pallete, selectorEngine) {
   const extractColors = elements => {
     state.elements = elements
 
-    let isMeaningfulForeground  = false
-    let isMeaningfulBackground  = false
-    let isMeaningfulBorder      = false
+    let isMeaningfulForeground = false
+    let isMeaningfulBackground = false
+    let isMeaningfulBorder = false
     let FG, BG, BO
 
     if (state.elements.length == 1) {
@@ -85,24 +109,24 @@ export function ColorPicker(pallete, selectorEngine) {
 
       isMeaningfulForeground = FG.originalInput !== 'rgb(0, 0, 0)' || (el.children.length === 0 && el.textContent !== '')
       isMeaningfulBackground = BG.originalInput !== 'rgba(0, 0, 0, 0)'
-      isMeaningfulBorder     = BO.originalInput !== 'rgb(0, 0, 0)'
+      isMeaningfulBorder = BO.originalInput !== 'rgb(0, 0, 0)'
 
       if (isMeaningfulForeground && !isMeaningfulBackground)
         setActive('foreground')
       else if (isMeaningfulBackground && !isMeaningfulForeground || isMeaningfulBackground && isMeaningfulForeground)
         setActive('background')
 
-      const new_fg = isMeaningfulForeground   ? fg : ''
-      const new_bg = isMeaningfulBackground   ? bg : ''
-      const new_bo = isMeaningfulBorder       ? bo : ''
+      const new_fg = isMeaningfulForeground ? fg : ''
+      const new_bg = isMeaningfulBackground ? bg : ''
+      const new_bo = isMeaningfulBorder ? bo : ''
 
-      const fg_icon = isMeaningfulForeground  ? healthyContrastColor(FG) : ''
-      const bg_icon = isMeaningfulBackground  ? healthyContrastColor(BG) : ''
-      const bo_icon = isMeaningfulBorder      ? healthyContrastColor(BO) : ''
+      const fg_icon = isMeaningfulForeground ? healthyContrastColor(FG) : ''
+      const bg_icon = isMeaningfulBackground ? healthyContrastColor(BG) : ''
+      const bo_icon = isMeaningfulBorder ? healthyContrastColor(BO) : ''
 
-      fgInput.attr('value', `#`+FG.toHex())
-      bgInput.attr('value', `#`+BG.toHex())
-      boInput.attr('value', `#`+BO.toHex())
+      fgInput.attr('value', `#` + FG.toHex())
+      bgInput.attr('value', `#` + BG.toHex())
+      boInput.attr('value', `#` + BO.toHex())
 
       foregroundPicker.attr('style', `
         --contextual_color: ${new_fg};
@@ -166,10 +190,14 @@ export function ColorPicker(pallete, selectorEngine) {
   return {
     getActive,
     setActive,
-    foreground: { color: color =>
-      foregroundPicker[0].style.setProperty('--contextual_color', color)},
-    background: { color: color =>
-      backgroundPicker[0].style.setProperty('--contextual_color', color)}
+    foreground: {
+      color: color =>
+        foregroundPicker[0].style.setProperty('--contextual_color', color)
+    },
+    background: {
+      color: color =>
+        backgroundPicker[0].style.setProperty('--contextual_color', color)
+    }
   }
 }
 
@@ -188,8 +216,8 @@ export const functionalNotate = color => {
 
   if (chunks.length === 4) {
     let opacity = chunks.pop()
-    chunks[0] = chunks[0].replace('hsla','hsl')
-    chunks[0] = chunks[0].replace('rgba','rgb')
+    chunks[0] = chunks[0].replace('hsla', 'hsl')
+    chunks[0] = chunks[0].replace('rgba', 'rgb')
     return chunks.join(' ') + ` / ${opacity}`
   }
   else {
