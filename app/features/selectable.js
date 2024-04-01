@@ -1,7 +1,7 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
-import { TinyColor } from '@ctrl/tinycolor'
+import { preferredNotation } from './color'
 import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
 import { queryPage } from './search'
@@ -215,21 +215,21 @@ export function Selectable(visbug) {
       getStyles(el))
 
     try {
-      const colormode = $('vis-bug')[0].colorMode
+      const colormode = $('vis-bug').attr('color-mode')
 
       const styles = window.copied_styles[0]
         .map(({prop,value}) => {
           if (prop.includes('color') || prop.includes('background-color') || prop.includes('border-color') || prop.includes('Color') || prop.includes('fill') || prop.includes('stroke'))
-            value = new TinyColor(value)[colormode]()
+            value = preferredNotation(value, colormode)
 
           if (prop.includes('boxShadow')) {
             const [, color, x, y, blur, spread] = getShadowValues(value)
-            value = `${new TinyColor(color)[colormode]()} ${x} ${y} ${blur} ${spread}`
+            value = `${preferredNotation(color, colormode)} ${x} ${y} ${blur} ${spread}`
           }
 
           if (prop.includes('textShadow')) {
             const [, color, x, y, blur] = getTextShadowValues(value)
-            value = `${new TinyColor(color)[colormode]()} ${x} ${y} ${blur}`
+            value = `${preferredNotation(color, colormode)} ${x} ${y} ${blur}`
           }
           return {prop,value}
         })

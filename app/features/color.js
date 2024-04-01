@@ -1,7 +1,7 @@
 import $ from 'blingblingjs'
 import { TinyColor } from '@ctrl/tinycolor'
 import Color from 'colorjs.io'
-import { getStyle } from '../utilities/'
+import { getStyle, contrast_color } from '../utilities/'
 
 const state = {
   active_color: 'background',
@@ -97,10 +97,10 @@ export function ColorPicker(pallete, selectorEngine) {
       const new_bg = isMeaningfulBackground   ? bg : ''
       const new_bo = isMeaningfulBorder       ? bo : ''
 
-      const fg_icon = isMeaningfulForeground  ? healthyContrastColor(FG) : ''
-      const bg_icon = isMeaningfulBackground  ? healthyContrastColor(BG) : ''
-      const bo_icon = isMeaningfulBorder      ? healthyContrastColor(BO) : ''
-
+      const fg_icon = isMeaningfulForeground  ? contrast_color(fg) : ''
+      const bg_icon = isMeaningfulBackground  ? contrast_color(bg) : ''
+      const bo_icon = isMeaningfulBorder      ? contrast_color(bo) : ''
+      
       fgInput.attr('value', `#`+FG.toHex())
       bgInput.attr('value', `#`+BG.toHex())
       boInput.attr('value', `#`+BO.toHex())
@@ -174,16 +174,6 @@ export function ColorPicker(pallete, selectorEngine) {
   }
 }
 
-export const healthyContrastColor = color => {
-  let contrast = color.clone()
-
-  contrast = contrast.isDark()
-    ? contrast.lighten(75)
-    : contrast.darken(50)
-
-  return contrast.toHslString()
-}
-
 export const preferredNotation = (color, preference) => {
   const isRGB = color.startsWith('rgb')
 
@@ -193,18 +183,4 @@ export const preferredNotation = (color, preference) => {
     return new Color(color).toString({format: preference, precision: 2}) 
   else 
     return color
-}
-
-export const functionalNotate = color => {
-  const chunks = color.split(',')
-
-  if (chunks.length === 4) {
-    let opacity = chunks.pop()
-    chunks[0] = chunks[0].replace('hsla','hsl')
-    chunks[0] = chunks[0].replace('rgba','rgb')
-    return chunks.join(' ') + ` / ${opacity}`
-  }
-  else {
-    return chunks.join(' ')
-  }
 }

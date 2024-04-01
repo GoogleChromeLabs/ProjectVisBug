@@ -1,7 +1,6 @@
 import $ from 'blingblingjs'
 import { Metatip } from './metatip.element.js'
 import { preferredNotation } from '../../features/color.js'
-import { TinyColor } from '@ctrl/tinycolor'
 import { draggable } from '../../features/'
 import { getStyle, getComputedBackgroundColor } from '../../utilities'
 import { contrast_color } from '../../utilities'
