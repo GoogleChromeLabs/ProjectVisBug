@@ -290,9 +290,11 @@
 :host [contrast] {
   display: grid;
   justify-items: start;
+  gap: .25ch;
 
   & > [value] {
     font-size: 1.5em;
+    line-height: 1;
   }
 }
 
@@ -440,12 +442,6 @@
 }
 
 :host {
-
   & [pass="true"] { color: green; }
   & [pass="false"] { color: red; }
-
-  @media (prefers-color-scheme: dark) {
-    & [pass="true"] { color: hsl(120deg 50% 75%); }
-    & [pass="false"] { color: hsl(0deg 50% 65%); }
-  }
 }
