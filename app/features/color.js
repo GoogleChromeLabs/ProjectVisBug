@@ -1,5 +1,6 @@
 import $ from 'blingblingjs'
 import { TinyColor } from '@ctrl/tinycolor'
+import Color from 'colorjs.io'
 import { getStyle } from '../utilities/'
 
 const state = {
@@ -181,6 +182,17 @@ export const healthyContrastColor = color => {
     : contrast.darken(50)
 
   return contrast.toHslString()
+}
+
+export const preferredNotation = (color, preference) => {
+  const isRGB = color.startsWith('rgb')
+
+  if (preference === 'hsl')
+    return new Color(color).to('hsl').toString({precision: 2})
+  else if (isRGB )
+    return new Color(color).toString({format: preference, precision: 2}) 
+  else 
+    return color
 }
 
 export const functionalNotate = color => {

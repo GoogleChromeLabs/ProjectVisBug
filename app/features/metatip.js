@@ -1,13 +1,12 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { TinyColor } from '@ctrl/tinycolor'
+import { preferredNotation } from './color.js'
 import { queryPage } from './search'
 import { getStyles, camelToDash, isOffBounds,
          deepElementFromPoint, getShadowValues,
          getTextShadowValues, firstUsableFontFromFamily,
          onRemove
 } from '../utilities/'
-import { functionalNotate } from './color.js'
 
 const state = {
   active: {
@@ -15,12 +14,6 @@ const state = {
     target: null,
   },
   tips: new Map(),
-}
-
-const modemap = {
-  'hex': 'toHexString',
-  'hsl': 'toHslString',
-  'rgb': 'toRgbString',
 }
 
 const services = {}
@@ -146,7 +139,7 @@ export function removeAll() {
 
 const render = (el, tip = document.createElement('visbug-metatip')) => {
   const { width, height } = el.getBoundingClientRect()
-  const colormode = modemap[$('vis-bug').attr('color-mode')]
+  const colormode = $('vis-bug').attr('color-mode')
 
   const styles = getStyles(el)
     .map(style => Object.assign(style, {
@@ -159,12 +152,9 @@ const render = (el, tip = document.createElement('visbug-metatip')) => {
     )
     .map(style => {
       if (style.prop.includes('color') || style.prop.includes('background-color') || style.prop.includes('border-color') || style.prop.includes('Color') || style.prop.includes('fill') || style.prop.includes('stroke')) {
-        const isRGB = ['rgb(', ',']
-          .some(needle => style.value.includes(needle))
-
         style.value = `
           <span color style="background-color:${style.value};"></span>
-          <span color-value>${isRGB ? functionalNotate(new TinyColor(style.value)[colormode]()) : style.value}</span>
+          <span color-value>${preferredNotation(style.value, colormode)}</span>
         `
       }
 
@@ -176,12 +166,12 @@ const render = (el, tip = document.createElement('visbug-metatip')) => {
 
       if (style.prop.includes('box-shadow')) {
         const [, color, x, y, blur, spread] = getShadowValues(style.value)
-        style.value = `${functionalNotate(new TinyColor(color)[colormode]())} ${x} ${y} ${blur} ${spread}`
+        style.value = `${preferredNotation(color, colormode)} ${x} ${y} ${blur} ${spread}`
       }
 
       if (style.prop.includes('text-shadow')) {
         const [, color, x, y, blur] = getTextShadowValues(style.value)
-        style.value = `${functionalNotate(new TinyColor(color)[colormode]())} ${x} ${y} ${blur}`
+        style.value = `${preferredNotation(color, colormode)} ${x} ${y} ${blur}`
       }
 
       if (style.prop.includes('font-family'))

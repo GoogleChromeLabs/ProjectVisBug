@@ -1,16 +1,10 @@
 import $ from 'blingblingjs'
 import { Metatip } from './metatip.element.js'
+import { preferredNotation } from '../../features/color.js'
 import { TinyColor } from '@ctrl/tinycolor'
 import { draggable } from '../../features/'
 import { getStyle, getComputedBackgroundColor } from '../../utilities'
 import { contrast_color } from '../../utilities'
-import { functionalNotate } from '../../features/color.js'
-
-const modemap = {
-  'hex': 'toHexString',
-  'hsl': 'toHslString',
-  'rgb': 'toRgbString',
-}
 
 export class Ally extends Metatip {
   constructor() {
@@ -44,7 +38,7 @@ export class Ally extends Metatip {
   }
 
   render({el, ally_attributes, contrast_results}) {
-    const colormode = modemap[$('vis-bug').attr('color-mode')]
+    const colormode = $('vis-bug').attr('color-mode')
 
     const foreground = el instanceof SVGElement
       ? (getStyle(el, 'fill') || getStyle(el, 'stroke'))
@@ -56,14 +50,6 @@ export class Ally extends Metatip {
 
     this.style.setProperty('--copy-message-left-color', contrastingForegroundColor)
     this.style.setProperty('--copy-message-right-color', contrastingBackgroundColor)
-
-    const preferredForeground = ['rgb(', ','].some(needle => foreground.includes(needle))
-      ? new TinyColor(foreground)[colormode]()
-      : foreground
-
-    const preferredBackground = ['rgb(', ','].some(needle => background.includes(needle))
-      ? new TinyColor(background)[colormode]()
-      : background
 
     return `
       <figure visbug-ally>
@@ -77,7 +63,7 @@ export class Ally extends Metatip {
                 Foreground
               </small>
               <span style="color:${contrastingForegroundColor};">
-                ${preferredForeground}
+                ${preferredNotation(foreground, colormode)}
               </span>
             </span>
             <span color-swatch style="background-color:${background};" tabindex="0">
@@ -85,7 +71,7 @@ export class Ally extends Metatip {
                 Background
               </small>
               <span style="color:${contrastingBackgroundColor};">
-                ${preferredBackground}
+                ${preferredNotation(background, colormode)}
               </span>
             </span>
           </div>
