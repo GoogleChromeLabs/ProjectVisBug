@@ -346,8 +346,6 @@
   height: 7em;
   flex-direction: row;
   padding: 0;
-  /* border-radius: var(--border-radius) var(--border-radius) 0 0;
-  overflow: clip; */
 
   @media (max-width: 700px) {
     flex-direction: column;
@@ -365,6 +363,7 @@
   padding: 10px;
   margin: 0;
   cursor: copy;
+  backdrop-filter: blur(5px);
 
   @media (max-width: 700px) {
     width: 100%;
