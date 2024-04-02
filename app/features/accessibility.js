@@ -250,9 +250,10 @@ const tip_position = (node, e, north, west) => ({
     : e.pageX - 21}px`,
 })
 
-const handleBlur = ({target}) => {
-  if (!target.hasAttribute('data-allytip') && state.tips.has(target))
-    wipe(state.tips.get(target))
+const handleBlur = e => {
+  if (!e) return
+  if (!e.target.hasAttribute('data-allytip') && state.tips.has(e.target))
+    wipe(state.tips.get(e.target))
 }
 
 const wipe = ({tip, e:{target}}) => {
