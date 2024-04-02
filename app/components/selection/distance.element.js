@@ -41,10 +41,10 @@ export class Distance extends HTMLElement {
 
     this.style.setProperty('--line-color', color === 'pink'
       ? '1 0 1'
-      : '.75 0 1')
+      : '.5 0 1')
     this.style.setProperty('--line-base', color === 'pink'
       ? '1 0 1'
-      : '.75 0 1')
+      : '.5 0 1')
   }
 
   render({q,d}, node_label_id) {
