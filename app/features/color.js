@@ -21,11 +21,6 @@ export function ColorPicker(pallete, selectorEngine) {
     inactive: '0 0 0 2px var(--theme-bg), rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em',
   }
 
-  const state = {
-    active_color: undefined,
-    elements:     [],
-  }
-
   fgInput.on('input', ({target:{value}}) => {
     state.elements.map(el =>
       el.style['color'] = value)
