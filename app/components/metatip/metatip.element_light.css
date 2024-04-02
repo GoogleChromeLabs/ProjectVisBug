@@ -1,4 +1,4 @@
 :host {
-  & [pass="true"] { color: blue; }
+  & [pass="true"] { color: green; }
   & [pass="false"] { color: red; }
 }
