@@ -4,7 +4,7 @@ import Color from 'colorjs.io'
 import { getStyle, contrast_color } from '../utilities/'
 
 const state = {
-  active_color: 'background',
+  active_color: 'undefined',
   elements: [],
 }
 
@@ -75,9 +75,9 @@ export function ColorPicker(pallete, selectorEngine) {
           : new TinyColor(getStyle(el, 'borderColor'))
       }
 
-      let fg = FG.toHslString()
-      let bg = BG.toHslString()
-      let bo = BO.toHslString()
+      let fg = `#`+FG.toHex()
+      let bg = `#`+BG.toHex()
+      let bo = `#`+BO.toHex()
 
       isMeaningfulForeground = FG.originalInput !== 'rgb(0, 0, 0)' || (el.children.length === 0 && el.textContent !== '')
       isMeaningfulBackground = BG.originalInput !== 'rgba(0, 0, 0, 0)'
@@ -96,9 +96,12 @@ export function ColorPicker(pallete, selectorEngine) {
       const bg_icon = isMeaningfulBackground  ? contrast_color(bg) : ''
       const bo_icon = isMeaningfulBorder      ? contrast_color(bo) : ''
       
-      fgInput.attr('value', `#`+FG.toHex())
-      bgInput.attr('value', `#`+BG.toHex())
-      boInput.attr('value', `#`+BO.toHex())
+      fgInput.attr('value', fg)
+      bgInput.attr('value', bg)
+      boInput.attr('value', bo)
+      fgInput.value = fg
+      bgInput.value = bg
+      boInput.value = bo
 
       foregroundPicker.attr('style', `
         --contextual_color: ${new_fg};
