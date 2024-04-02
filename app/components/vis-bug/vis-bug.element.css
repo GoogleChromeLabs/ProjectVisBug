@@ -80,11 +80,11 @@
     background-color: var(--theme-bg);
 
     & > .icon-cursor {
-      stroke: var(--theme-color);
+      stroke: var(--neon-pink);
     }
 
     & > svg:not(.icon-cursor) {
-      fill: var(--theme-color);
+      fill: var(--neon-pink);
     }
   }
 
@@ -187,7 +187,7 @@
 
   & input::-webkit-calendar-picker-indicator {
     background: inherit;
-    color: var(--theme-color);
+    color: var(--neon-pink);
   }
 }
 
@@ -250,7 +250,7 @@
   height: 100%;
   width: 250px;
   box-sizing: border-box;
-  caret-color: hotpink;
+  caret-color: var(--neon-pink);
   background-color: var(--theme-bg);
   color: var(--theme-text_color);
   cursor: initial;
