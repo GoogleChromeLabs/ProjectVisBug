@@ -443,4 +443,9 @@
 :host {
   & [pass="true"] { color: green; }
   & [pass="false"] { color: red; }
+
+  @media (prefers-color-scheme: dark) {
+    & [pass="true"] { color: hsl(120deg 50% 75%); }
+    & [pass="false"] { color: hsl(0deg 50% 65%); }
+  }
 }
