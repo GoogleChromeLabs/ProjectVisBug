@@ -241,7 +241,6 @@ export function Selectable(visbug) {
 
       if (styles && state === 'granted') {
         await navigator.clipboard.writeText(styles)
-        console.info('copied!')
       }
     } catch(e) {
       console.warn(e)
