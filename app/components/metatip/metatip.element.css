@@ -174,11 +174,12 @@
 
 :host details > :is(summary,code),
 :host > figure > code {
-  padding: 10px;
+  padding: 8px 14px 10px;
   border-radius: var(--border-radius);
 }
 
 :host section {
+  max-width: max-content;
   border-radius: var(--border-radius);
   overflow: clip;
   box-shadow: var(--shadow);
@@ -210,10 +211,6 @@
   overscroll-behavior: contain;
   scrollbar-width: none;
 
-  &:not(:hast([longform])) {
-    max-inline-size: 25ch;
-  }
-
   &:has([color]) {
     grid-template-columns: max-content max-content;
     place-self: end;
@@ -229,13 +226,10 @@
 }
 
 :host [longform] {
-  background: var(--theme-icon_hover-bg);
-  padding: 0.5em 0.75em;
-  border-radius: .25em;
-  font-family: sans-serif;
+  font-family: system-ui;
+  text-wrap: pretty;
   text-align: left;
   line-height: 1.5;
-  max-inline-size: 40ch;
 }
 
 :host [prop] {
@@ -410,11 +404,11 @@
   flex-direction: column;
   place-self: var(--is-flipped);
   margin-top: 2px;
-  max-inline-size: max-content;
+  inline-size: max-content;
+  max-inline-size: 40ch;
 
   & > :not([contrast-compliance]) {
     display: grid;
-    align-items: center;
     grid-template-columns: max-content 1fr;
 
     & [value] {
