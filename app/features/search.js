@@ -19,14 +19,16 @@ search_base.innerHTML = `
           <option value="#get-by-id">
           <option value=".get-by.class-names">
           <option value="images">
-          <option value="text">`
+          <option value="text">
+          <hr>`
 
       :  `<option value="h1, h2, h3, .get-multiple">example</option>
           <option value="nav > a:first-child">example</option>
           <option value="#get-by-id">example</option>
           <option value=".get-by.class-names">example</option>
           <option value="images">alias</option>
-          <option value="text">alias</option>`}
+          <option value="text">alias</option>
+          <hr>`}
 
     ${PluginHints.reduce((options, hint) =>
       options += isFirefox > 0
