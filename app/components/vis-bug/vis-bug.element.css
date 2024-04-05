@@ -67,7 +67,7 @@
   &:last-child { margin-bottom: 0.25em; }
 
   &[data-tool] {
-    &:hover {
+    :not([data-active=true])&:hover {
       cursor: pointer;
       background-color: var(--theme-icon_hover-bg);
     }
@@ -77,7 +77,8 @@
   }
 
   &[data-active=true] {
-    background-color: var(--theme-bg);
+    background-color: var(--theme-icon_active-bg);
+    box-shadow: var(--shadow-2);
 
     & > .icon-cursor {
       stroke: var(--neon-pink);
