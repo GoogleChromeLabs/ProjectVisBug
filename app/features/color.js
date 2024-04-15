@@ -124,19 +124,19 @@ export function ColorPicker(pallete, selectorEngine) {
       foregroundPicker.attr('style', `
         box-shadow: ${state.active_color == 'foreground' ? shadows.active : shadows.inactive};
         --contextual_color: transparent;
-        --icon_color: hsla(0,0%,0%,80%);
+        --icon_color: var(--theme-bg);
       `)
 
       backgroundPicker.attr('style', `
         box-shadow: ${state.active_color == 'background' ? shadows.active : shadows.inactive};
         --contextual_color: transparent;
-        --icon_color: hsla(0,0%,0%,80%);
+        --icon_color: var(--theme-bg);
       `)
 
       borderPicker.attr('style', `
         box-shadow: ${state.active_color == 'border' ? shadows.active : shadows.inactive};
         --contextual_color: transparent;
-        --icon_color: hsla(0,0%,0%,80%);
+        --icon_color: var(--theme-bg);
       `)
     }
   }
