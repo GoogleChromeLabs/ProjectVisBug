@@ -2,6 +2,12 @@
 
 :host {
   font-size: 16px;
+  position: initial;
+  background: transparent;
+  border: none;
+  overflow: visible;
+  padding: 0;
+  margin: 0;
   --position: absolute;
   --top: 0;
   --left: 0;
@@ -10,13 +16,11 @@
 
 :host > span {
   position: var(--position);
-  top: var(--top);
-  left: var(--left);
+  inset: var(--top) auto auto var(--left);
   max-width: var(--max-width);
   z-index: var(--layer-4);
   transform: translateY(-100%);
-  background: var(--label-bg, hotpink);
-  border-radius: 0.2em 0.2em 0 0;
+  background: var(--label-bg, var(--neon-pink));
   text-shadow: var(--text-shadow);
   color: white;
   display: inline-flex;
@@ -25,7 +29,7 @@
   font-weight: normal;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
   white-space: nowrap;
-  padding: 0.25em 0.4em 0.15em;
+  padding: 2px 6px;
   line-height: 1.1;
 }
 
@@ -35,6 +39,7 @@
   cursor: pointer;
   text-overflow: ellipsis;
   overflow: hidden;
+  padding-bottom: 1px;
 
   &:hover {
     text-decoration: underline;

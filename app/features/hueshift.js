@@ -18,13 +18,13 @@ const state = {
   elements: [],
 }
 
-export function HueShift({Color, Visbug}) {
-  state.active_color   = Color.getActive()
+export function HueShift({Color:ColorTool, Visbug}) {
+  state.active_color   = ColorTool.getActive()
   state.elements       = []
 
   Visbug.onSelectedUpdate(elements => {
     state.elements = elements
-    Color.setActive(state.active_color)
+    ColorTool.setActive(state.active_color)
   })
 
   hotkeys(key_events, (e, handler) => {
@@ -36,16 +36,16 @@ export function HueShift({Color, Visbug}) {
       , keys = handler.key.split('+')
 
     keys.includes('left') || keys.includes('right')
-      ? changeHue(selectedNodes, keys, 's', Color)
-      : changeHue(selectedNodes, keys, 'l', Color)
+      ? changeHue(selectedNodes, keys, 's', ColorTool)
+      : changeHue(selectedNodes, keys, 'l', ColorTool)
   })
 
   hotkeys(command_events, (e, handler) => {
     e.preventDefault()
     let keys = handler.key.split('+')
     keys.includes('left') || keys.includes('right')
-      ? changeHue(state.elements, keys, 'a', Color)
-      : changeHue(state.elements, keys, 'h', Color)
+      ? changeHue(state.elements, keys, 'a', ColorTool)
+      : changeHue(state.elements, keys, 'h', ColorTool)
   })
 
   hotkeys(']', (e, handler) => {
@@ -56,7 +56,7 @@ export function HueShift({Color, Visbug}) {
     else if (state.active_color == 'background')
       state.active_color = 'border'
 
-    Color.setActive(state.active_color)
+    ColorTool.setActive(state.active_color)
   })
 
   hotkeys('[', (e, handler) => {
@@ -67,7 +67,7 @@ export function HueShift({Color, Visbug}) {
     else if (state.active_color == 'border')
       state.active_color = 'background'
 
-    Color.setActive(state.active_color)
+    ColorTool.setActive(state.active_color)
   })
 
   return () => {
@@ -77,14 +77,14 @@ export function HueShift({Color, Visbug}) {
   }
 }
 
-export function changeHue(els, direction, prop, Color) {
+export function changeHue(els, direction, prop, ColorTool) {
   els
     .map(el => showHideSelected(el))
     .map(el => {
       const { foreground, background, border } = extractPalleteColors(el)
 
       // todo: teach hueshift to do handle color
-      switch(Color.getActive()) {
+      switch(ColorTool.getActive()) {
         case 'background':
           return { el, current: background.color.toHsl(), style: background.style }
         case 'foreground':
@@ -119,8 +119,8 @@ export function changeHue(els, direction, prop, Color) {
       let color = new TinyColor(current).setAlpha(current.a)
       el.style[style] = color.toHslString()
 
-      if (style == 'color') Color.foreground.color(color.toHslString())
-      if (style == 'backgroundColor') Color.background.color(color.toHslString())
+      if (style == 'color') ColorTool.foreground.color(color.toHslString())
+      if (style == 'backgroundColor') ColorTool.background.color(color.toHslString())
     })
 }
 

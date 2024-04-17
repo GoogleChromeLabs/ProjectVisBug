@@ -1,10 +1,11 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
+import Color from 'colorjs.io'
 import { readability, isReadable } from '@ctrl/tinycolor'
 import {
   getStyle, isOffBounds,
   getA11ys, getWCAG2TextSize, getComputedBackgroundColor,
-  deepElementFromPoint
+  deepElementFromPoint, onRemove, contrast_color
 } from '../utilities/'
 
 const state = {
@@ -94,6 +95,10 @@ export function positionTip(tip, e) {
   tip.style.setProperty('--arrow-left', west
     ? 'calc(100% - 15px - 15px)'
     : '15px')
+
+  tip.style.setProperty('--is-flipped', west
+    ? 'end'
+    : '')
 }
 
 const restorePinnedTips = () => {
@@ -160,7 +165,10 @@ const determineColorContrast = el => {
     ? (getStyle(el, 'fill') || getStyle(el, 'stroke'))
     : getStyle(el, 'color')
 
-  const textSize  = getWCAG2TextSize(el) === 'Small'
+  const ts = getWCAG2TextSize(el)
+  const tspx = window.getComputedStyle(el, null).getPropertyValue('font-size')
+
+  const textSize = ts === 'Small'
     ? 'AA'
     : 'AA+'
 
@@ -176,19 +184,29 @@ const determineColorContrast = el => {
     </svg>
   `
 
+  const fg = new Color(foreground)
+  const bg = new Color(background)
+
   const [ aa_contrast, aaa_contrast ] = [
-    isReadable(background, foreground, { level: "AA", size: getWCAG2TextSize(el).toLowerCase() }),
-    isReadable(background, foreground, { level: "AAA", size: getWCAG2TextSize(el).toLowerCase() })
+    isReadable(bg.to('srgb').toString({ format: 'hex' }), fg.to('srgb').toString({ format: 'hex' }), { level: "AA", size: ts.toLowerCase() }),
+    isReadable(bg.to('srgb').toString({ format: 'hex' }), fg.to('srgb').toString({ format: 'hex' }), { level: "AAA", size: ts.toLowerCase() })
   ]
+
+  const apca_contrast = bg.contrast(fg, "APCA").toFixed(1)
+  const abs_apca = Math.abs(apca_contrast)
+  let apca_compliance = false
+
+  if (parseInt(tspx) <= 24 && abs_apca >= 75)
+    apca_compliance = true
+  else if (parseInt(tspx) >= 24 && abs_apca >= 60)
+    apca_compliance = true
+  else if (parseInt(tspx) >= 36 && abs_apca >= 45)
+    apca_compliance = true
 
   return foreground === background
     ? `<div contrast-compliance>Foreground matches background</div>`
     : `
         <div contrast-compliance>
-          <span contrast>
-            <span title>Contrast ratio</span>
-            <span value>${Math.floor(readability(background, foreground)  * 100) / 100}</span>
-          </span>
           <span compliance>
             <span title>WCAG Compliance</span>
             <div>
@@ -201,6 +219,18 @@ const determineColorContrast = el => {
                 <span>A${textSize}</span>
               </span>
             </div>
+          </span>
+          <span contrast>
+            <span title>WCAG2.1</span>
+            <span value>${bg.contrast(fg, "wcag21").toFixed(1)}</span>
+          </span>
+          <span contrast>
+            <span title>APCA <span pass="${apca_compliance ? 'true' : 'false'}">${apca_compliance ? pass_icon : fail_icon}</span></span>
+            <span value>${apca_contrast}</span>
+          </span>
+          <span contrast>
+            <span title>L*</span>
+            <span value>${bg.contrast(fg, "Lstar").toFixed(0)}</span>
           </span>
         </div>
       `
@@ -220,9 +250,10 @@ const tip_position = (node, e, north, west) => ({
     : e.pageX - 21}px`,
 })
 
-const handleBlur = ({target}) => {
-  if (!target.hasAttribute('data-allytip') && state.tips.has(target))
-    wipe(state.tips.get(target))
+const handleBlur = e => {
+  if (!e) return
+  if (!e.target.hasAttribute('data-allytip') && state.tips.has(e.target))
+    wipe(state.tips.get(e.target))
 }
 
 const wipe = ({tip, e:{target}}) => {
@@ -254,11 +285,10 @@ const togglePinned = els => {
 }
 
 const observe = ({tip, target}) => {
-  $(target).on('DOMNodeRemoved', handleBlur)
+  onRemove(target, handleBlur)
 }
 
 const unobserve = ({tip, target}) => {
-  $(target).off('DOMNodeRemoved', handleBlur)
 }
 
 const clearActive = () => {

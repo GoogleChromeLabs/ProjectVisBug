@@ -2,7 +2,13 @@
 
 :host {
   position: absolute;
+  inset: 0 auto auto 0;
+  padding: 0;
   z-index: var(--layer-top);
+
+  background: transparent;
+  border: none;
+  overflow: visible;
 
   --arrow-width: 15px;
   --arrow-height: 8px;
@@ -10,6 +16,12 @@
   --shadow-up: 5px;
   --shadow-down: -5px;
   --shadow-direction: var(--shadow-up);
+  --shadow:
+    0 3.6px 3.7px rgba(0, 0, 0, 0.101),
+    0 12.1px 12.3px rgba(0, 0, 0, 0.149),
+    0 -2px 4px rgba(0, 0, 0, 0.101),
+    0 -12.1px 24px rgba(0, 0, 0, 0.149),
+    0 54px 55px rgba(0, 0, 0, 0.25);
 
   --arrow-up: polygon(0 0, 100% 0, 50% 100%);
   --arrow-down: polygon(50% 0, 0 100%, 100% 100%);
@@ -27,9 +39,6 @@
   font-size: 16px;
   font-family: system-ui;
   max-width: 90vw;
-  background: var(--theme-bd);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
   color: var(--theme-text_color);
   line-height: initial;
   margin: 0;
@@ -38,15 +47,6 @@
   flex-wrap: nowrap;
   border-radius: var(--border-radius);
   line-height: initial;
-
-  border: 1px solid var(--theme-bg);
-  box-shadow:
-    0 3.6px 3.7px rgba(0, 0, 0, 0.101),
-    0 12.1px 12.3px rgba(0, 0, 0, 0.149),
-    0 -2px 4px rgba(0, 0, 0, 0.101),
-    0 -12.1px 24px rgba(0, 0, 0, 0.149),
-    0 54px 55px rgba(0, 0, 0, 0.25);
-
 
   @media (min-width: 540px) {
     max-width: max(40ch, 50vw);
@@ -66,8 +66,8 @@
   & a {
     text-decoration: none;
     color: inherit;
-    text-overflow: ellipsis;
-    overflow: hidden;
+    overflow-x: auto;
+    overscroll-behavior: contain;
     cursor: pointer;
 
     &:hover {
@@ -104,7 +104,7 @@
   color: var(--theme-icon_color);
 
   & > span {
-    color: hsl(0,0%,20%);
+    color: var(--theme-text_color);
   }
 }
 
@@ -124,6 +124,23 @@
   padding: 5px 10px;
   user-select: none;
   text-shadow: var(--text-shadow);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--theme-bg);
+  margin-bottom: 2px;
+  inline-size: max-content;
+  max-inline-size: max(35ch, 45vw);
+
+  background: var(--theme-bd);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+
+  place-self: var(--is-flipped);
+  text-align: var(--is-flipped);
+}
+
+:host [visbug-ally] > header {
+  padding: .1ex 10px .25ex;
+  border-radius: var(--radius-round);
 }
 
 :host code {
@@ -134,8 +151,11 @@
   list-style-type: none;
   color: var(--light-grey);
   background-color: var(--theme-bd-2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   border-top: 1px solid var(--theme-bg);
   font-size: 1em;
+  box-shadow: var(--shadow);
   font-family: 'Dank Mono', 'Operator Mono', 'Inconsolata', 'Fira Mono', 'SF Mono', 'Monaco', 'Droid Sans Mono', 'Source Code Pro', monospace;
 
   &[accessibility] > [prop]:first-of-type {
@@ -143,16 +163,34 @@
   }
 }
 
+:host details {
+  place-self: var(--is-flipped);
+
+  &[open] > code {
+    margin-top: 2px;
+  }
+}
+
 :host details > :is(summary,code),
 :host > figure > code {
-  padding: 10px;
+  padding: 8px 14px 10px;
   border-radius: var(--border-radius);
+}
+
+:host section {
+  max-width: max-content;
+  border-radius: var(--border-radius);
+  overflow: clip;
+  box-shadow: var(--shadow);
 }
 
 :host summary {
   outline-offset: -2px;
   outline-color: var(--theme-color);
   max-inline-size: max-content;
+  background: var(--theme-bd);
+  backdrop-filter: blur(5px);
+  margin-top: 1ch;
 
   &::marker {
     color: var(--theme-color);
@@ -166,9 +204,20 @@
   grid-auto-flow: column;
   gap: .5em;
   align-items: center;
-  justify-content: flex-end;
   text-align: right;
-  /* white-space: pre; */
+  white-space: nowrap;
+  overflow-x: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+
+  &:has([color]) {
+    grid-template-columns: max-content max-content;
+    place-self: end;
+  }
+
+  &:has([gradient]) {
+    place-self: initial;
+  }
 }
 
 :host [text] {
@@ -176,13 +225,10 @@
 }
 
 :host [longform] {
-  background: var(--theme-icon_hover-bg);
-  padding: 0.5em 0.75em;
-  border-radius: .25em;
-  font-family: sans-serif;
+  font-family: system-ui;
+  text-wrap: pretty;
   text-align: left;
   line-height: 1.5;
-  max-inline-size: 40ch;
 }
 
 :host [prop] {
@@ -198,6 +244,12 @@
   height: 1em;
   border-radius: 50%;
   box-shadow: inset 0 0 1px 0 hsl(0 0% 0% / 50%);
+}
+
+:host [color][gradient] {
+  --checkerboard:  repeating-conic-gradient(#222 0% 25%, transparent 0% 50%) 50% / 8px 8px;
+  background: var(--_bg), var(--checkerboard);
+  border-radius: 0px;
 }
 
 :host [color-value] {
@@ -217,22 +269,31 @@
 
 :host [contrast-compliance] {
   display: grid;
-  grid-template-columns: max-content max-content;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
   gap: 3ch;
-  padding: 10px 10px 5px;
+  padding: 10px 10px 7.5px;
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  background-color: var(--theme-bd-2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-top: 1px solid var(--theme-bg);
 }
 
 :host [contrast] {
   display: grid;
   justify-items: start;
+  gap: .25ch;
 
   & > [value] {
     font-size: 1.5em;
+    line-height: 1;
   }
 }
 
 :host [compliance] {
   display: grid;
+  align-content: space-between;
 
   & > div {
     display: flex;
@@ -254,6 +315,22 @@
 :host :is([contrast],[compliance]) [title] {
   font-size: .7em;
   opacity: .8;
+}
+
+:host [contrast] > [title] {
+  > [pass] {
+    display: inline-flex;
+  }
+
+  & svg {
+    height: 1lh;
+  }
+}
+
+:host [title] {
+  display: flex;
+  gap: .5ch;
+  align-items: center;
 }
 
 :host [color-swatches] {
@@ -279,6 +356,7 @@
   padding: 10px;
   margin: 0;
   cursor: copy;
+  backdrop-filter: blur(5px);
 
   @media (max-width: 700px) {
     width: 100%;
@@ -323,10 +401,13 @@
 :host [accessibility] {
   display: flex;
   flex-direction: column;
+  place-self: var(--is-flipped);
+  margin-top: 2px;
+  inline-size: max-content;
+  max-inline-size: 40ch;
 
   & > :not([contrast-compliance]) {
     display: grid;
-    align-items: center;
     grid-template-columns: max-content 1fr;
 
     & [value] {
@@ -350,12 +431,14 @@
 :host [score] {
   font-size: 1.5em;
   line-height: .75;
+}
 
-  &[pass="true"] { color: green; }
-  &[pass="false"] { color: red; }
+:host {
+  & [pass="true"] { color: green; }
+  & [pass="false"] { color: red; }
 
   @media (prefers-color-scheme: dark) {
-    &[pass="true"] { color: hsl(120deg 50% 75%); }
-    &[pass="false"] { color: hsl(0deg 50% 65%); }
+    & [pass="true"] { color: hsl(120deg 50% 75%); }
+    & [pass="false"] { color: hsl(0deg 50% 65%); }
   }
 }

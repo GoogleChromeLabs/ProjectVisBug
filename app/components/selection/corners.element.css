@@ -4,7 +4,7 @@
   width: 5px;
   height: 5px;
   vector-effect: non-scaling-stroke;
-  stroke: var(--theme-purple);
+  stroke: var(--neon-purple);
   stroke-width: 1px;
   fill: none;
   stroke-linecap: round;

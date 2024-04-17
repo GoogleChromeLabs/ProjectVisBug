@@ -24,7 +24,7 @@ const sendColorScheme = () => {
   })
 }
 
-const getColorScheme = () => {
+export const getColorScheme = () => {
   platform.storage.sync.get([schemestoragekey], value => {
     let found_value = value[schemestoragekey];
 

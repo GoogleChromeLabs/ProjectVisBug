@@ -1,4 +1,4 @@
-:host [score] {
-  &[pass="true"] { color: hsl(120deg 50% 75%); }
-  &[pass="false"] { color: hsl(0deg 50% 65%); }
+:host {
+  & [pass="true"] { color: hsl(120deg 50% 75%); }
+  & [pass="false"] { color: hsl(0deg 50% 65%); }
 }

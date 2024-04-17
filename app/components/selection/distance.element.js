@@ -11,7 +11,10 @@ export class Distance extends HTMLElement {
     this.$shadow.adoptedStyleSheets = [DistanceStyles]
   }
   
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    if (this.hasAttribute('popover'))
+      this.hidePopover && this.hidePopover()()
+  }
 
   set position({line_model, node_label_id}) {
     this.styleProps = line_model
@@ -19,9 +22,9 @@ export class Distance extends HTMLElement {
   }
 
   set styleProps({y,x,d,q,v = false, color}) {
-    this.style.setProperty('--top', `${y + window.scrollY}px`)
-    this.style.setProperty('--right', q === 'left' ? `${x}px` : 'auto')
-    this.style.setProperty('--left', q !== 'left' ? `${x}px` : '')
+    this.style.setProperty('--top', `${Math.round(y + window.scrollY)}px`)
+    this.style.setProperty('--right', 'auto')
+    this.style.setProperty('--left', `${x}px`)
     this.style.setProperty('--direction', v ? 'column' : 'row')
     this.style.setProperty('--quadrant', q)
 
@@ -37,11 +40,11 @@ export class Distance extends HTMLElement {
       : this.style.setProperty('--line-w', `var(--line-w)`)
 
     this.style.setProperty('--line-color', color === 'pink'
-      ? '330 100% 71%'
-      : '267 100% 58%')
+      ? '1 0 1'
+      : '.5 0 1')
     this.style.setProperty('--line-base', color === 'pink'
-      ? '330 100% 71%'
-      : '267 100% 58%')
+      ? '1 0 1'
+      : '.5 0 1')
   }
 
   render({q,d}, node_label_id) {
@@ -54,6 +57,11 @@ export class Distance extends HTMLElement {
         <div></div>
       </figure>
     `
+  }
+
+  isPopover() {
+    this.setAttribute('popover', 'manual')
+    this.showPopover && this.showPopover()
   }
 }
 

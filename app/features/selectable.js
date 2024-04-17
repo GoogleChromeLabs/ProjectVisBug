@@ -1,7 +1,7 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 
-import { TinyColor } from '@ctrl/tinycolor'
+import { preferredNotation } from './color'
 import { canMoveLeft, canMoveRight, canMoveUp } from './move'
 import { watchImagesForUpload } from './imageswap'
 import { queryPage } from './search'
@@ -16,7 +16,7 @@ import {
   metaKey, htmlStringToDom, createClassname, camelToDash,
   isOffBounds, getStyle, getStyles, deepElementFromPoint, getShadowValues,
   isSelectorValid, findNearestChildElement, findNearestParentElement,
-  getTextShadowValues, isFixed,
+  getTextShadowValues, isFixed, onRemove
 } from '../utilities/'
 
 export function Selectable(visbug) {
@@ -215,21 +215,21 @@ export function Selectable(visbug) {
       getStyles(el))
 
     try {
-      const colormode = $('vis-bug')[0].colorMode
+      const colormode = $('vis-bug').attr('color-mode')
 
       const styles = window.copied_styles[0]
         .map(({prop,value}) => {
           if (prop.includes('color') || prop.includes('background-color') || prop.includes('border-color') || prop.includes('Color') || prop.includes('fill') || prop.includes('stroke'))
-            value = new TinyColor(value)[colormode]()
+            value = preferredNotation(value, colormode)
 
           if (prop.includes('boxShadow')) {
             const [, color, x, y, blur, spread] = getShadowValues(value)
-            value = `${new TinyColor(color)[colormode]()} ${x} ${y} ${blur} ${spread}`
+            value = `${preferredNotation(color, colormode)} ${x} ${y} ${blur} ${spread}`
           }
 
           if (prop.includes('textShadow')) {
             const [, color, x, y, blur] = getTextShadowValues(value)
-            value = `${new TinyColor(color)[colormode]()} ${x} ${y} ${blur}`
+            value = `${preferredNotation(color, colormode)} ${x} ${y} ${blur}`
           }
           return {prop,value}
         })
@@ -241,7 +241,6 @@ export function Selectable(visbug) {
 
       if (styles && state === 'granted') {
         await navigator.clipboard.writeText(styles)
-        console.info('copied!')
       }
     } catch(e) {
       console.warn(e)
@@ -400,11 +399,11 @@ export function Selectable(visbug) {
       el: $target,
       // no_hover: tool === 'guides',
       no_label:
-           tool === 'guides'
+           (tool === 'guides'
         || tool === 'accessibility'
         || tool === 'margin'
         || tool === 'padding'
-        || tool === 'inspector',
+        || tool === 'inspector'),
     })
 
     if (tool === 'guides' && selected.length >= 1 && !selected.includes($target)) {
@@ -423,6 +422,14 @@ export function Selectable(visbug) {
     else if ($target.hasAttribute('data-measuring') || selected.includes($target)) {
       clearMeasurements()
     }
+
+    // force promote into top layer
+    if (tool === 'guides') {
+      handles.forEach(handle => {
+        handle.hidePopover &&  handle.hidePopover()
+        handle.showPopover && handle.showPopover()
+      })
+    }
   }
 
   const select = el => {
@@ -437,7 +444,17 @@ export function Selectable(visbug) {
     overlayMetaUI({
       el,
       id,
-      no_label: tool === 'inspector' || tool === 'guides' || tool === 'accessibility',
+      no_label: 
+           tool === 'inspector' 
+        || tool === 'guides' 
+        || tool === 'margin' 
+        || tool === 'move' 
+        || tool === 'accessibility',
+    })
+
+    $('visbug-metatip, visbug-ally').forEach(tip => {
+      tip.hidePopover && tip.hidePopover()
+      tip.showPopover && tip.showPopover()
     })
 
     selected.unshift(el)
@@ -565,15 +582,22 @@ export function Selectable(visbug) {
     observer.observe(el, { attributes: true })
     parentObserver.observe(el.parentNode, { childList:true, subtree:true })
 
-    $(label).on('DOMNodeRemoved', _ => {
-      observer.disconnect()
-      parentObserver.disconnect()
-    })
+    if (label !== null) {
+      onRemove(label, () => {
+        observer.disconnect()
+        parentObserver.disconnect()
+      })
+    }
   }
 
   const setLabel = (el, label) => {
     label.text = handleLabelText(el, visbug.activeTool)
     label.update = {boundingRect: el.getBoundingClientRect(), isFixed: isFixed(el)}
+
+    handles.forEach(handle => {
+      handle.hidePopover && handle.hidePopover()
+      handle.showPopover && handle.showPopover()
+    })
   }
 
   const createLabel = ({el, id, template}) => {
@@ -609,6 +633,11 @@ export function Selectable(visbug) {
       })
 
       labels[labels.length] = label
+
+      handles.forEach(handle => {
+        handle.hidePopover && handle.hidePopover()
+        handle.showPopover && handle.showPopover()
+      })
 
       return label
     }

@@ -1,16 +1,9 @@
 import $ from 'blingblingjs'
 import { Metatip } from './metatip.element.js'
-import { TinyColor } from '@ctrl/tinycolor'
+import { preferredNotation } from '../../features/color.js'
 import { draggable } from '../../features/'
 import { getStyle, getComputedBackgroundColor } from '../../utilities'
-import { getContrastingColor } from '../../utilities'
-import { functionalNotate } from '../../features/color.js'
-
-const modemap = {
-  'hex': 'toHexString',
-  'hsl': 'toHslString',
-  'rgb': 'toRgbString',
-}
+import { contrast_color } from '../../utilities'
 
 export class Ally extends Metatip {
   constructor() {
@@ -44,43 +37,45 @@ export class Ally extends Metatip {
   }
 
   render({el, ally_attributes, contrast_results}) {
-    const colormode = modemap[$('vis-bug').attr('color-mode')]
+    const colormode = $('vis-bug').attr('color-mode')
 
     const foreground = el instanceof SVGElement
       ? (getStyle(el, 'fill') || getStyle(el, 'stroke'))
       : getStyle(el, 'color')
     const background = getComputedBackgroundColor(el)
 
-    const contrastingForegroundColor = getContrastingColor(foreground)
-    const contrastingBackgroundColor = getContrastingColor(background)
+    const contrastingForegroundColor = contrast_color(foreground)
+    const contrastingBackgroundColor = contrast_color(background)
 
     this.style.setProperty('--copy-message-left-color', contrastingForegroundColor)
     this.style.setProperty('--copy-message-right-color', contrastingBackgroundColor)
 
     return `
-      <figure>
+      <figure visbug-ally>
         <header>
           <h5>&#60;${el.nodeName.toLowerCase()}&#62;${el.id && '#' + el.id}</h5>
         </header>
-        <div color-swatches>
-          <span color-swatch style="background-color:${foreground};" tabindex="0">
-            <small style="color:${contrastingForegroundColor};">
-              Foreground
-            </small>
-            <span style="color:${contrastingForegroundColor};">
-              ${functionalNotate(new TinyColor(foreground)[colormode]())}
+        <section>
+          <div color-swatches>
+            <span color-swatch style="background-color:${foreground};" tabindex="0">
+              <small style="color:${contrastingForegroundColor};">
+                Foreground
+              </small>
+              <span style="color:${contrastingForegroundColor};">
+                ${preferredNotation(foreground, colormode)}
+              </span>
             </span>
-          </span>
-          <span color-swatch style="background-color:${background};" tabindex="0">
-            <small style="color:${contrastingBackgroundColor};">
-              Background
-            </small>
-            <span style="color:${contrastingBackgroundColor};">
-              ${functionalNotate(new TinyColor(background)[colormode]())}
+            <span color-swatch style="background-color:${background};" tabindex="0">
+              <small style="color:${contrastingBackgroundColor};">
+                Background
+              </small>
+              <span style="color:${contrastingBackgroundColor};">
+                ${preferredNotation(background, colormode)}
+              </span>
             </span>
-          </span>
-        </div>
-        ${contrast_results}
+          </div>
+          ${contrast_results}
+        </section>
         ${ally_attributes.length > 0
           ? `<code accessibility>
                 <div>

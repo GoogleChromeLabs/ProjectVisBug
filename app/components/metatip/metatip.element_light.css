@@ -1,4 +1,4 @@
-:host [score] {
-  &[pass="true"] { color: green; }
-  &[pass="false"] { color: red; }
+:host {
+  & [pass="true"] { color: green; }
+  & [pass="false"] { color: red; }
 }

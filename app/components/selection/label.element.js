@@ -14,11 +14,14 @@ export class Label extends HTMLElement {
 
   connectedCallback() {
     this.$shadow.adoptedStyleSheets = [LabelStyles]
+    this.setAttribute('popover', 'manual')
+    this.showPopover && this.showPopover()
     $('a', this.$shadow).on('click mouseenter', this.dispatchQuery)
     window.addEventListener('resize', this.on_resize)
   }
 
   disconnectedCallback() {
+    this.hidePopover && this.hidePopover()()
     $('a', this.$shadow).off('click mouseenter', this.dispatchQuery)
     window.removeEventListener('resize', this.on_resize)
   }
@@ -65,7 +68,7 @@ export class Label extends HTMLElement {
     const position = isFixed ? 'fixed' : 'absolute'
     this.style.setProperty('--top', `${top}px`)
     this.style.setProperty('--left', `${left}px`)
-    this.style.setProperty('--max-width', `${boundingRect.width + (window.innerWidth - boundingRect.x - boundingRect.width - 20)}px`)
+    this.style.setProperty('--max-width', `${boundingRect.width + (window.innerWidth - boundingRect.x - boundingRect.width - 40)}px`)
     this.style.setProperty('--position', position)
     this.setAttribute('data-original-top', top)
     this.setAttribute('data-original-left', left)

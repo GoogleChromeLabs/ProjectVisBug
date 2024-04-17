@@ -19,12 +19,15 @@ export class Metatip extends HTMLElement {
   }
 
   connectedCallback() {
+    this.setAttribute('popover', 'manual')
+    this.showPopover && this.showPopover()
     this.applyScheme(document.querySelector("vis-bug").getAttribute("color-scheme"))
     $(this.$shadow.host).on('mouseenter', this.observe)
   }
 
   disconnectedCallback() {
     this.unobserve()
+    this.hidePopover && this.hidePopover()()
   }
 
   dispatchQuery(e) {
@@ -94,7 +97,7 @@ export class Metatip extends HTMLElement {
         `, '')}
         </code>
         ${localModifications.length ? `
-          <details>
+          <details open>
             <summary>Local Modifications / Inline Styles</summary>
             <code>${localModifications.reduce((items, item) => `
               ${items}

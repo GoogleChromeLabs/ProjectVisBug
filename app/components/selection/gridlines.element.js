@@ -10,9 +10,13 @@ export class Gridlines extends HTMLElement {
 
   connectedCallback() {
     this.$shadow.adoptedStyleSheets = [GridlineStyles]
+    this.setAttribute('popover', 'manual')
+    this.showPopover && this.showPopover()
   }
   
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    this.hidePopover && this.hidePopover()()
+  }
 
   set position(boundingRect) {
     this.$shadow.innerHTML  = this.render(boundingRect)
@@ -33,18 +37,16 @@ export class Gridlines extends HTMLElement {
     line1.setAttribute('x2', left)
     line2.setAttribute('x1', left + width)
     line2.setAttribute('x2', left + width)
-    line3.setAttribute('y1', top + window.scrollY)
-    line3.setAttribute('y2', top + window.scrollY)
+    line3.setAttribute('y1', top)
+    line3.setAttribute('y2', top)
     line3.setAttribute('x2', winWidth)
-    line4.setAttribute('y1', top + window.scrollY + height)
-    line4.setAttribute('y2', top + window.scrollY + height)
+    line4.setAttribute('y1', top + height)
+    line4.setAttribute('y2', top + height)
     line4.setAttribute('x2', winWidth)
   }
 
   render({ x, y, width, height, top, left }) {
     const { winWidth, winHeight } = windowBounds()
-    const { offsetHeight } = document.body
-    const calced_y = y + window.scrollY
 
     return `
       <svg
@@ -58,10 +60,10 @@ export class Gridlines extends HTMLElement {
           x="${x}" y="${y}"
           style="display:none;"
         ></rect>
-        <line x1="${x}" y1="0" x2="${x}" y2="${offsetHeight}"></line>
-        <line x1="${x + width}" y1="0" x2="${x + width}" y2="${offsetHeight}"></line>
-        <line x1="0" y1="${calced_y}" x2="${winWidth}" y2="${calced_y}"></line>
-        <line x1="0" y1="${calced_y + height}" x2="${winWidth}" y2="${calced_y + height}"></line>
+        <line x1="${x}" y1="0" x2="${x}" y2="${winHeight}"></line>
+        <line x1="${x + width}" y1="0" x2="${x + width}" y2="${winHeight}"></line>
+        <line x1="0" y1="${500}" x2="${winWidth}" y2="${500}"></line>
+        <line x1="0" y1="${y + height}" x2="${winWidth}" y2="${y + height}"></line>
       </svg>
     `
   }

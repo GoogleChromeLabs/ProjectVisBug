@@ -32,7 +32,7 @@ export const desiredPropMap = {
   gridTemplateRows:    'none',
   gridAutoRows:        'auto',
   gridTemplateAreas:   'none',
-  gridArea:            'auto / auto / auto / auto',
+  gridArea:            'auto',
   gap:                 'normal',
   gridAutoFlow:        'row',
 }
