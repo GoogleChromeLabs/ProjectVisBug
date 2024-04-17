@@ -93,8 +93,7 @@ test('Should be hideable', async t => {
 
 test('Should accept valid execCommand', async t => {
   const { page } = t.context
-  const execCommand = await page.evaluate(`document.querySelector('vis-bug').execCommand('pesticide')`)
-
+  const execCommand = await page.evaluate(`document.querySelector('vis-bug').execCommand('shuffle')`)
 
   t.is(execCommand, undefined)
   t.pass()
