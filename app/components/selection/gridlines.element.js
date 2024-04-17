@@ -11,11 +11,11 @@ export class Gridlines extends HTMLElement {
   connectedCallback() {
     this.$shadow.adoptedStyleSheets = [GridlineStyles]
     this.setAttribute('popover', 'manual')
-    this.showPopover()
+    this.showPopover && this.showPopover()
   }
   
   disconnectedCallback() {
-    this.hidePopover()
+    this.hidePopover && this.hidePopover()()
   }
 
   set position(boundingRect) {

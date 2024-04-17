@@ -426,8 +426,8 @@ export function Selectable(visbug) {
     // force promote into top layer
     if (tool === 'guides') {
       handles.forEach(handle => {
-        handle.hidePopover()
-        handle.showPopover()
+        handle.hidePopover &&  handle.hidePopover()
+        handle.showPopover && handle.showPopover()
       })
     }
   }
@@ -453,8 +453,8 @@ export function Selectable(visbug) {
     })
 
     $('visbug-metatip, visbug-ally').forEach(tip => {
-      tip.hidePopover()
-      tip.showPopover()
+      tip.hidePopover && tip.hidePopover()
+      tip.showPopover && tip.showPopover()
     })
 
     selected.unshift(el)
@@ -595,8 +595,8 @@ export function Selectable(visbug) {
     label.update = {boundingRect: el.getBoundingClientRect(), isFixed: isFixed(el)}
 
     handles.forEach(handle => {
-      handle.hidePopover()
-      handle.showPopover()
+      handle.hidePopover && handle.hidePopover()
+      handle.showPopover && handle.showPopover()
     })
   }
 
@@ -635,8 +635,8 @@ export function Selectable(visbug) {
       labels[labels.length] = label
 
       handles.forEach(handle => {
-        handle.hidePopover()
-        handle.showPopover()
+        handle.hidePopover && handle.hidePopover()
+        handle.showPopover && handle.showPopover()
       })
 
       return label

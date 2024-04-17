@@ -14,12 +14,12 @@ export class Handles extends HTMLElement {
   connectedCallback() {
     this.$shadow.adoptedStyleSheets = this.styles
     this.setAttribute('popover', 'manual')
-    this.showPopover()
+    this.showPopover && this.showPopover()
     window.addEventListener('resize', this.on_window_resize)
   }
 
   disconnectedCallback() {
-    if (this.hidePopover) this.hidePopover()
+    if (this.hidePopover && this.hidePopover()) this.hidePopover && this.hidePopover()()
     window.removeEventListener('resize', this.on_window_resize)
   }
 

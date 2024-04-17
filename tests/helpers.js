@@ -1,11 +1,15 @@
 import puppeteer from 'puppeteer'
 
 export const setupPptrTab = async t => {
-  t.context.browser  = await puppeteer.launch({args: ['--no-sandbox']})
+  t.context.browser  = await puppeteer.launch({
+    // headless: false,
+    args: ['--no-sandbox']
+  })
   t.context.page     = await t.context.browser.newPage()
 
   await t.context.page.goto('http://localhost:3000')
   await t.context.page.evaluateHandle(`document.body.setAttribute('testing', true)`)
+  await t.context.page.waitForSelector('vis-bug')
 }
 
 export const teardownPptrTab = async ({context:{ page, browser }}) => {

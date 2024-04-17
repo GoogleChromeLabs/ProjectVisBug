@@ -85,7 +85,7 @@ export default class VisBug extends HTMLElement {
       : this.setAttribute('color-scheme', 'auto')
 
     this.setAttribute('popover', 'manual')
-    this.showPopover()
+    this.showPopover && this.showPopover()
 
     const main_ol = this.$shadow.querySelector('ol:not([colors])')
     const buttonPieces = $('li[data-tool], li[data-tool] *', main_ol)
@@ -129,7 +129,7 @@ export default class VisBug extends HTMLElement {
   }
 
   cleanup() {
-    this.hidePopover()
+    this.hidePopover && this.hidePopover()()
 
     Array.from(document.body.children)
       .filter(node => node.nodeName.includes('VISBUG'))

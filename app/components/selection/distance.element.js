@@ -13,7 +13,7 @@ export class Distance extends HTMLElement {
   
   disconnectedCallback() {
     if (this.hasAttribute('popover'))
-      this.hidePopover()
+      this.hidePopover && this.hidePopover()()
   }
 
   set position({line_model, node_label_id}) {
@@ -61,7 +61,7 @@ export class Distance extends HTMLElement {
 
   isPopover() {
     this.setAttribute('popover', 'manual')
-    this.showPopover()
+    this.showPopover && this.showPopover()
   }
 }
 

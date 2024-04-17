@@ -20,14 +20,14 @@ export class Metatip extends HTMLElement {
 
   connectedCallback() {
     this.setAttribute('popover', 'manual')
-    this.showPopover()
+    this.showPopover && this.showPopover()
     this.applyScheme(document.querySelector("vis-bug").getAttribute("color-scheme"))
     $(this.$shadow.host).on('mouseenter', this.observe)
   }
 
   disconnectedCallback() {
     this.unobserve()
-    this.hidePopover()
+    this.hidePopover && this.hidePopover()()
   }
 
   dispatchQuery(e) {
