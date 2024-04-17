@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "ava": "1.4.1",
-    "browser-sync": "^2.26.13",
+    "browser-sync": "^3.0.2",
     "concurrently": "^5.1.0",
     "esm": "^3.2.22",
     "open-props": "^1.6.21",
