@@ -30,6 +30,7 @@
     "extension:copy": "cp app/bundle.min.js extension/toolbar/ && cp -R app/tuts/ extension/tuts",
     "extension:zip": "rm -rf ./extension/build/* && mkdir ./visbug_v$npm_package_version && cp -R ./extension/* ./visbug_v$npm_package_version/ && zip -r ./extension/build/visbug.zip ./visbug_v$npm_package_version/ && rm -rf ./visbug_v$npm_package_version",
     "extension:firefox": "npm run dev:extension && cd extension && web-ext run",
+    "extension:firefox-build": "npm run extension:build && cd extension && web-ext build",
     "deploy": "gcloud app deploy --project=visbug-1337",
     "test": "ava",
     "test:dev": "ava -v -w",
@@ -62,7 +63,7 @@
     "rollup-plugin-postcss": "^3.1.0",
     "rollup-plugin-terser": "^7.0.2",
     "start-server-and-test": "^1.11.0",
-    "web-ext": "^4.0.0"
+    "web-ext": "^7.11.0"
   },
   "ava": {
     "require": [
