@@ -1,12 +1,12 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
-import { TinyColor } from '@ctrl/tinycolor'
+import { preferredNotation } from './color.js'
 import { queryPage } from './search'
 import { getStyles, camelToDash, isOffBounds,
          deepElementFromPoint, getShadowValues,
-         getTextShadowValues, firstUsableFontFromFamily
+         getTextShadowValues, firstUsableFontFromFamily,
+         onRemove
 } from '../utilities/'
-import { functionalNotate } from './color.js'
 
 const state = {
   active: {
@@ -14,12 +14,6 @@ const state = {
     target: null,
   },
   tips: new Map(),
-}
-
-const modemap = {
-  'hex': 'toHexString',
-  'hsl': 'toHslString',
-  'rgb': 'toRgbString',
 }
 
 const services = {}
@@ -65,6 +59,9 @@ export function showTip(target, e) {
     const tip = render(target)
     document.body.appendChild(tip)
 
+    tip.hidePopover()
+    tip.showPopover()
+
     positionTip(tip, e)
     observe({tip, target})
 
@@ -100,6 +97,10 @@ export function positionTip(tip, e) {
   tip.style.setProperty('--arrow-left', west
     ? 'calc(100% - 15px - 15px)'
     : '15px')
+
+  tip.style.setProperty('--is-flipped', west
+    ? 'end'
+    : '')
 }
 
 const restorePinnedTips = () => {
@@ -138,7 +139,7 @@ export function removeAll() {
 
 const render = (el, tip = document.createElement('visbug-metatip')) => {
   const { width, height } = el.getBoundingClientRect()
-  const colormode = modemap[$('vis-bug').attr('color-mode')]
+  const colormode = $('vis-bug').attr('color-mode')
 
   const styles = getStyles(el)
     .map(style => Object.assign(style, {
@@ -150,20 +151,27 @@ const render = (el, tip = document.createElement('visbug-metatip')) => {
         : true
     )
     .map(style => {
-      if (style.prop.includes('color') || style.prop.includes('background-color') || style.prop.includes('border-color') || style.prop.includes('Color') || style.prop.includes('fill') || style.prop.includes('stroke'))
+      if (style.prop.includes('color') || style.prop.includes('background-color') || style.prop.includes('border-color') || style.prop.includes('Color') || style.prop.includes('fill') || style.prop.includes('stroke')) {
         style.value = `
           <span color style="background-color:${style.value};"></span>
-          <span color-value>${functionalNotate(new TinyColor(style.value)[colormode]())}</span>
+          <span color-value>${preferredNotation(style.value, colormode)}</span>
+        `
+      }
+
+      if (style.prop.includes('background-image'))
+        style.value = `
+          <span color gradient style="--_bg:${style.value};"></span>
+          <span color-value>${style.value}</span>
         `
 
       if (style.prop.includes('box-shadow')) {
         const [, color, x, y, blur, spread] = getShadowValues(style.value)
-        style.value = `${functionalNotate(new TinyColor(color)[colormode]())} ${x} ${y} ${blur} ${spread}`
+        style.value = `${preferredNotation(color, colormode)} ${x} ${y} ${blur} ${spread}`
       }
 
       if (style.prop.includes('text-shadow')) {
         const [, color, x, y, blur] = getTextShadowValues(style.value)
-        style.value = `${functionalNotate(new TinyColor(color)[colormode]())} ${x} ${y} ${blur}`
+        style.value = `${preferredNotation(color, colormode)} ${x} ${y} ${blur}`
       }
 
       if (style.prop.includes('font-family'))
@@ -171,9 +179,6 @@ const render = (el, tip = document.createElement('visbug-metatip')) => {
 
       if (style.prop.includes('grid-template-areas'))
         style.value = style.value.replace(/" "/g, '"<br>"')
-
-      if (style.prop.includes('background-image'))
-        style.value = `<a target="_blank" href="${style.value.slice(style.value.indexOf('(') + 2, style.value.length - 2)}">${style.value.slice(0,25) + '...'}</a>`
 
       // check if style is inline style, show indicator
       if (el.getAttribute('style') && el.getAttribute('style').includes(style.prop))
@@ -270,13 +275,12 @@ const linkQueryHoverOut = e => {
 const observe = ({tip, target}) => {
   // $(tip).on('query', linkQueryClicked)
   // $(tip).on('unquery', linkQueryHoverOut)
-  $(target).on('DOMNodeRemoved', handleBlur)
+  onRemove(target, handleBlur)
 }
 
 const unobserve = ({tip, target}) => {
   // $(tip).off('query', linkQueryClicked)
   // $(tip).off('unquery', linkQueryHoverOut)
-  $(target).off('DOMNodeRemoved', handleBlur)
 }
 
 const clearActive = () => {

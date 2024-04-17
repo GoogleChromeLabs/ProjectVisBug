@@ -2,10 +2,14 @@
 
 :host {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0 auto auto 0;
   z-index: var(--layer-1);
   max-width: min-content;
+
+  /* popover fixes */
+  background: transparent;
+  border: none;
+  overflow: visible;
 
   opacity: 0;
   animation: present-yourself .3s ease forwards;
@@ -63,7 +67,7 @@
   &:last-child { margin-bottom: 0.25em; }
 
   &[data-tool] {
-    &:hover {
+    :not([data-active=true])&:hover {
       cursor: pointer;
       background-color: var(--theme-icon_hover-bg);
     }
@@ -73,14 +77,15 @@
   }
 
   &[data-active=true] {
-    background-color: var(--theme-bg);
+    background-color: var(--theme-icon_active-bg);
+    box-shadow: var(--shadow-2);
 
     & > .icon-cursor {
-      stroke: var(--theme-color);
+      stroke: var(--neon-pink);
     }
 
     & > svg:not(.icon-cursor) {
-      fill: var(--theme-color);
+      fill: var(--neon-pink);
     }
   }
 
@@ -183,7 +188,7 @@
 
   & input::-webkit-calendar-picker-indicator {
     background: inherit;
-    color: var(--theme-color);
+    color: var(--neon-pink);
   }
 }
 
@@ -246,7 +251,7 @@
   height: 100%;
   width: 250px;
   box-sizing: border-box;
-  caret-color: hotpink;
+  caret-color: var(--neon-pink);
   background-color: var(--theme-bg);
   color: var(--theme-text_color);
   cursor: initial;

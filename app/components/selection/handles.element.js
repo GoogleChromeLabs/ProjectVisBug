@@ -13,14 +13,18 @@ export class Handles extends HTMLElement {
 
   connectedCallback() {
     this.$shadow.adoptedStyleSheets = this.styles
+    this.setAttribute('popover', 'manual')
+    this.showPopover && this.showPopover()
     window.addEventListener('resize', this.on_window_resize)
   }
 
   disconnectedCallback() {
+    if (this.hidePopover && this.hidePopover()) this.hidePopover && this.hidePopover()()
     window.removeEventListener('resize', this.on_window_resize)
   }
 
   on_window_resize() {
+    if (!this.$shadow) return
     window.requestAnimationFrame(() => {
       const node_label_id = this.$shadow.host.getAttribute('data-label-id')
       const [source_el] = $(`[data-label-id="${node_label_id}"]`)
@@ -72,7 +76,7 @@ export class Handles extends HTMLElement {
         viewBox="0 0 ${width} ${height}"
         version="1.1" xmlns="http://www.w3.org/2000/svg"
       >
-        <rect stroke="hotpink" fill="none" width="100%" height="100%"></rect>
+        <rect stroke="var(--neon-pink)" fill="none" width="100%" height="100%"></rect>
       </svg>
       <visbug-handle placement="top-start"></visbug-handle>
       <visbug-handle placement="top-center"></visbug-handle>

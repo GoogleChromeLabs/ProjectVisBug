@@ -44,12 +44,12 @@ export class BoxModel extends HTMLElement {
     }
 
     if (color === 'pink') {
-      this.drawable.bg = 'hsla(330, 100%, 71%, 15%)'
-      this.drawable.stripe = 'hsla(330, 100%, 71%, 80%)'
+      this.drawable.bg = 'color(display-p3 1 0 1 / 15%)'
+      this.drawable.stripe = 'color(display-p3 1 0 1 / 80%)'
     }
     else {
-      this.drawable.bg = 'hsla(267, 100%, 58%, 15%)'
-      this.drawable.stripe = 'hsla(267, 100%, 58%, 80%)'
+      this.drawable.bg = 'color(display-p3 .75 0 1 / 15%)'
+      this.drawable.stripe = 'color(display-p3 .75 0 1 / 80%)'
     }
 
     this.styles({sides})
@@ -122,7 +122,7 @@ export class BoxModel extends HTMLElement {
       }
       if (sides.left) {
         this.createMeasurement({
-          x: bounds.width,
+          x: sides.left * -1,
           y: (window.scrollY * -1) + (bounds.height / 2) - offset,
           d: sides.left,
           q: 'left',
@@ -164,7 +164,7 @@ export class BoxModel extends HTMLElement {
        }
        if (sides.left) {
          this.createMeasurement({
-           x: bounds.width - sides.left,
+           x: 0,
            y: (window.scrollY * -1) + (bounds.height / 2) - offset,
            d: sides.left,
            q: 'left',
