@@ -27,7 +27,7 @@ export class Metatip extends HTMLElement {
 
   disconnectedCallback() {
     this.unobserve()
-    this.hidePopover && this.hidePopover()()
+    this.hidePopover && this.hidePopover()
   }
 
   dispatchQuery(e) {

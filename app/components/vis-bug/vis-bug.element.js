@@ -129,13 +129,13 @@ export default class VisBug extends HTMLElement {
   }
 
   cleanup() {
-    this.hidePopover && this.hidePopover()()
+    this.hidePopover && this.hidePopover()
 
     Array.from(document.body.children)
       .filter(node => node.nodeName.includes('VISBUG'))
       .forEach(el => el.remove())
 
-    this.teardown();
+    this.teardown()
 
     document.querySelectorAll('[data-pseudo-select=true]')
       .forEach(el =>

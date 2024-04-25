@@ -19,7 +19,7 @@ export class Handles extends HTMLElement {
   }
 
   disconnectedCallback() {
-    if (this.hidePopover && this.hidePopover()) this.hidePopover && this.hidePopover()()
+    if (this.hidePopover && this.hidePopover()) this.hidePopover && this.hidePopover()
     window.removeEventListener('resize', this.on_window_resize)
   }
 

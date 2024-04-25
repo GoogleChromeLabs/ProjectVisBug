@@ -21,7 +21,7 @@ export class Label extends HTMLElement {
   }
 
   disconnectedCallback() {
-    this.hidePopover && this.hidePopover()()
+    this.hidePopover && this.hidePopover()
     $('a', this.$shadow).off('click mouseenter', this.dispatchQuery)
     window.removeEventListener('resize', this.on_resize)
   }
@@ -86,15 +86,15 @@ export class Label extends HTMLElement {
   detectOutsideViewport() {
     const hoverText = this.$shadow.firstElementChild.innerText.replace(/\s+/g, ' ')
     if (hoverText === 'body') return;
-    
+
     const boundingBox = this.$shadow.firstElementChild.getBoundingClientRect()
-    
+
     const currentStyle = window.getComputedStyle(this);
     const currentPosition = {
       top: currentStyle.getPropertyValue('--top').replace('px', ''),
       left: currentStyle.getPropertyValue('--left').replace('px', ''),
     }
-    
+
     const originalPosition = {
       top: this.getAttribute('data-original-top'),
       left: this.getAttribute('data-original-left'),

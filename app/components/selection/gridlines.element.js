@@ -13,9 +13,9 @@ export class Gridlines extends HTMLElement {
     this.setAttribute('popover', 'manual')
     this.showPopover && this.showPopover()
   }
-  
+
   disconnectedCallback() {
-    this.hidePopover && this.hidePopover()()
+    this.hidePopover && this.hidePopover()
   }
 
   set position(boundingRect) {
