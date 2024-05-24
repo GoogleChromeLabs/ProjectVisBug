@@ -19,3 +19,7 @@
 :host > svg {
   position: absolute;
 }
+
+:host::backdrop {
+  background: none !important;
+}

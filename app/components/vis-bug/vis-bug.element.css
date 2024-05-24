@@ -308,3 +308,7 @@
     transform: translate3d(0,0,0);
   }
 }
+
+:host::backdrop {
+  background: none !important;
+}
