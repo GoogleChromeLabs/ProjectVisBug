@@ -1,9 +1,9 @@
 {
-  "name": "DevBug",
-  "version": "0.0.0",
+  "name": "VisBug",
+  "version": "{{NPM_VERSION}}",
   "description": "Open source browser design tools",
   "manifest_version": 3,
-  "icons": { "128": "icons/visbug-dev.png" },
+  "icons": { "128": "icons/visbug.png" },
   "permissions": [
     "activeTab",
     "contextMenus",
@@ -15,9 +15,9 @@
     "type": "module"
   },
   "action": {
-    "default_title": "Click or press Alt+Shift+D to launch DevBug",
+    "default_title": "Click or press Alt+Shift+D to launch VisBug",
     "default_icon": {
-      "128": "icons/visbug-dev.png"
+      "128": "icons/visbug.png"
     }
   },
   "web_accessible_resources": [{
