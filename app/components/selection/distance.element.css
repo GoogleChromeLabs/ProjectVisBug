@@ -17,7 +17,7 @@
   margin: 0;
 }
 
-:host>figure {
+:host > figure {
   margin: 0;
   position: absolute;
   height: var(--distance-h);
@@ -32,7 +32,7 @@
   flex-direction: var(--direction);
 }
 
-:host>figure figcaption {
+:host > figure figcaption {
   min-height: 3ex;
   width: max-content;
   display: inline-flex;
@@ -51,21 +51,21 @@
   padding: 0 1ex;
 }
 
-:host>figure span {
+:host > figure span {
   background: color(display-p3 var(--line-color));
   height: var(--line-h);
   width: var(--line-w);
 }
 
-:host>figure div {
+:host > figure div {
   flex: 2;
   background: color(display-p3 var(--line-color));
   width: var(--line-w);
   height: var(--line-h);
 }
 
-:host figure:matches([quadrant="bottom"], [quadrant="right"])>div:first-of-type,
-:host figure:matches([quadrant="top"], [quadrant="left"])>div:last-of-type {
+:host figure:matches([quadrant="bottom"], [quadrant="right"]) > div:first-of-type,
+:host figure:matches([quadrant="top"], [quadrant="left"]) > div:last-of-type {
   background: linear-gradient(to var(--quadrant), var(--neon-pink) 0%, color(display-p3 var(--line-color)) 100%);
 }
 
