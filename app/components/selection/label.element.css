@@ -14,7 +14,7 @@
   --max-width: 0;
 }
 
-:host > span {
+:host>span {
   position: var(--position);
   inset: var(--top) auto auto var(--left);
   max-width: var(--max-width);
@@ -53,4 +53,8 @@
   &[node]:after {
     content: "\003e";
   }
+}
+
+:host::backdrop {
+  background: none !important;
 }

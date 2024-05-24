@@ -16,6 +16,10 @@
   isolation: isolate;
 }
 
-:host > svg {
+:host>svg {
   position: absolute;
+}
+
+:host::backdrop {
+  background: none !important;
 }

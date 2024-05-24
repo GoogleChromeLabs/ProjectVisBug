@@ -33,7 +33,3 @@ body:not([testing]) [data-selected=true] {
     -webkit-user-drag: none !important;
   }
 }
-
-::backdrop {
-  background-color: rgba(0, 0, 0, 0) !important;
-}

@@ -13,16 +13,16 @@
   height: 100%;
 }
 
-:host > svg {
-  position:fixed;
-  top:0;
-  left:0;
-  overflow:visible;
-  pointer-events:none;
-  z-index:var(--layer-5);
+:host>svg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: visible;
+  pointer-events: none;
+  z-index: var(--layer-5);
 }
 
-:host rect, 
+:host rect,
 :host line {
   stroke: var(--neon-pink);
 }
@@ -30,4 +30,8 @@
 :host line {
   stroke-dasharray: 2;
   stroke-dasharray-offset: 3;
+}
+
+:host::backdrop {
+  background: none !important;
 }
