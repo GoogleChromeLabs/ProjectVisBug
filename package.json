@@ -62,8 +62,8 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-postcss": "^3.1.0",
     "rollup-plugin-terser": "^7.0.2",
-    "start-server-and-test": "^1.11.0",
-    "web-ext": "^7.11.0"
+    "start-server-and-test": "^1.15.4",
+    "web-ext": "^8.0.0"
   },
   "ava": {
     "require": [
