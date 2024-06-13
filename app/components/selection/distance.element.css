@@ -68,3 +68,7 @@
 :host figure:matches([quadrant="top"], [quadrant="left"]) > div:last-of-type {
   background: linear-gradient(to var(--quadrant), var(--neon-pink) 0%, color(display-p3 var(--line-color)) 100%);
 }
+
+:host::backdrop {
+  background: none !important;
+}

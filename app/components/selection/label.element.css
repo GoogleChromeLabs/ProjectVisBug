@@ -54,3 +54,7 @@
     content: "\003e";
   }
 }
+
+:host::backdrop {
+  background: none !important;
+}

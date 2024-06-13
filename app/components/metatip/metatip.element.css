@@ -442,3 +442,7 @@
     & [pass="false"] { color: hsl(0deg 50% 65%); }
   }
 }
+
+:host::backdrop {
+  background: none !important;
+}
