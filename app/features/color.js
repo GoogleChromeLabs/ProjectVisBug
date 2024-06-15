@@ -2,6 +2,7 @@ import $ from 'blingblingjs'
 import { TinyColor } from '@ctrl/tinycolor'
 import Color from 'colorjs.io'
 import { getStyle, contrast_color } from '../utilities/'
+import { handleEditEvent } from "./events";
 
 const state = {
   active_color: 'undefined',
@@ -21,29 +22,51 @@ export function ColorPicker(pallete, selectorEngine) {
     inactive: '0 0 0 2px var(--theme-bg), rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em',
   }
 
-  fgInput.on('input', ({target:{value}}) => {
-    state.elements.map(el =>
-      el.style['color'] = value)
+  fgInput.on('input', ({ target: { value } }) => {
+    state.elements.map(el => {
+      const oldStyle = el.style["color"];
+      el.style['color'] = value
+      handleEditEvent({
+        el,
+        editType: "STYLE",
+        newValue: { color: value },
+        oldValue: { color: oldStyle },
+      });
+    })
 
     foregroundPicker[0].style.setProperty(`--contextual_color`, value)
   })
 
-  bgInput.on('input', ({target:{value}}) => {
-    state.elements.map(el =>
-      el.style[el instanceof SVGElement
-        ? 'fill'
-        : 'backgroundColor'
-      ] = value)
-
+  bgInput.on('input', ({ target: { value } }) => {
+    state.elements.map(el => {
+      const oldStyle = el.style[el instanceof SVGElement ? "fill" : "backgroundColor"];
+      el.style[el instanceof SVGElement ? 'fill' : 'backgroundColor'] = value
+      handleEditEvent({
+        el,
+        editType: "STYLE",
+        newValue: { [el instanceof SVGElement ? "fill" : "backgroundColor"]: value },
+        oldValue: { [el instanceof SVGElement ? "fill" : "backgroundColor"]: oldStyle },
+      });
+    })
     backgroundPicker[0].style.setProperty(`--contextual_color`, value)
   })
 
-  boInput.on('input', ({target:{value}}) => {
-    state.elements.map(el =>
+  boInput.on('input', ({ target: { value } }) => {
+    state.elements.map(el => {
+      const oldStyle =
+        el.style[el instanceof SVGElement ? "fill" : "backgroundColor"];
       el.style[el instanceof SVGElement
         ? 'stroke'
         : 'borderColor'
-      ] = value)
+      ] = value
+
+      handleEditEvent({
+        el,
+        editType: "STYLE",
+        newValue: { [el instanceof SVGElement ? "fill" : "backgroundColor"]: value },
+        oldValue: { [el instanceof SVGElement ? "fill" : "backgroundColor"]: oldStyle },
+      });
+    });
 
     borderPicker[0].style.setProperty(`--contextual_color`, value)
   })
@@ -165,10 +188,14 @@ export function ColorPicker(pallete, selectorEngine) {
   return {
     getActive,
     setActive,
-    foreground: { color: color =>
-      foregroundPicker[0].style.setProperty('--contextual_color', color)},
-    background: { color: color =>
-      backgroundPicker[0].style.setProperty('--contextual_color', color)}
+    foreground: {
+      color: color =>
+        foregroundPicker[0].style.setProperty('--contextual_color', color)
+    },
+    background: {
+      color: color =>
+        backgroundPicker[0].style.setProperty('--contextual_color', color)
+    }
   }
 }
 

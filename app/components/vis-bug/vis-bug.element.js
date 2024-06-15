@@ -74,59 +74,77 @@ export default class VisBug extends HTMLElement {
   }
 
   setup() {
-    this.$shadow.innerHTML = this.render()
-
+    this.$shadow.innerHTML = this.render();
+  
     this.hasAttribute('color-mode')
       ? this.getAttribute('color-mode')
-      : this.setAttribute('color-mode', 'hex')
-
+      : this.setAttribute('color-mode', 'hex');
+  
     this.hasAttribute('color-scheme')
       ? this.getAttribute('color-scheme')
-      : this.setAttribute('color-scheme', 'auto')
-
-    this.setAttribute('popover', 'manual')
-    this.showPopover && this.showPopover()
-
-    const main_ol = this.$shadow.querySelector('ol:not([colors])')
-    const buttonPieces = $('li[data-tool], li[data-tool] *', main_ol)
-
+      : this.setAttribute('color-scheme', 'auto');
+  
+    this.setAttribute('popover', 'manual');
+    this.showPopover && this.showPopover();
+  
+    const main_ol = this.$shadow.querySelector('ol:not([colors])');
+    const buttonPieces = $('li[data-tool], li[data-tool] *', main_ol);
+  
     const clickEvent = (e) => {
-      const target = e.currentTarget || e.target
-      const toolButton = target.closest('[data-tool]')
+      const target = e.currentTarget || e.target;
+      const toolButton = target.closest('[data-tool]');
       if (toolButton) this.toolSelected(toolButton) && e.stopPropagation();
-    }
-
+    };
+  
     Array.from(buttonPieces)
-    .forEach(toolButton => {
-      draggable({
-        el:this,
-        surface: toolButton,
-        cursor: 'pointer',
-        clickEvent: clickEvent
-      })
-    })
-
+      .forEach(toolButton => {
+        draggable({
+          el: this,
+          surface: toolButton,
+          cursor: 'pointer',
+          clickEvent: clickEvent
+        });
+      });
+  
     draggable({
-      el:this,
+      el: this,
       surface: main_ol,
       cursor: 'grab',
-    })
-
+    });
+  
+    this.inputFocused = false;
+  
+    const linkInput = this.$shadow.querySelector('#link-input');
+    if (linkInput) {
+      linkInput.addEventListener('focus', () => {
+        this.inputFocused = true;
+      });
+      linkInput.addEventListener('blur', () => {
+        this.inputFocused = false;
+      });
+    }
+  
     Object.entries(this.toolbar_model).forEach(([key, value]) =>
       hotkeys(key, e => {
-        e.preventDefault()
-        this.toolSelected(
-          $(`[data-tool="${value.tool}"]`, this.$shadow)[0]
-        )
+        if (!this.inputFocused) {
+          e.preventDefault();
+          this.toolSelected(
+            $(`[data-tool="${value.tool}"]`, this.$shadow)[0]
+          );
+        }
       })
-    )
-
-    hotkeys(`${metaKey}+/,${metaKey}+.`, e =>
-      this.$shadow.host.style.display =
-        this.$shadow.host.style.display === 'none'
-          ? 'block'
-          : 'none')
+    );
+  
+    hotkeys(`${metaKey}+/,${metaKey}+.`, e => {
+      if (!this.inputFocused) {
+        this.$shadow.host.style.display =
+          this.$shadow.host.style.display === 'none'
+            ? 'block'
+            : 'none';
+      }
+    });
   }
+  
 
   cleanup() {
     this.hidePopover && this.hidePopover()
@@ -155,7 +173,12 @@ export default class VisBug extends HTMLElement {
 
     el.attr('data-active', true)
     this.active_tool = el
-    this[el.dataset.tool]()
+
+    if (el.dataset.tool === 'download') {
+      this.downloadHtmlWithStylesAndScripts();
+    } else {
+      this[el.dataset.tool]()
+    }
   }
 
   render() {
@@ -169,6 +192,13 @@ export default class VisBug extends HTMLElement {
             ${this.demoTip({key, ...tool})}
           </li>
         `,'')}
+      </li>
+      <li data-tool="link" aria-label="Change Link" aria-description="Change the link of an element">
+        ${Icons.link}
+        <div class="link">
+          <input type="text" id="link-input" placeholder="Novo URL">
+        </div>
+      </li>
       </ol>
       <ol colors>
         <li class="color" id="foreground" aria-label="Text" aria-description="Change the text color">
@@ -184,6 +214,40 @@ export default class VisBug extends HTMLElement {
           ${Icons.color_border}
         </li>
       </ol>
+      <style>
+        .link {
+          position: absolute;
+          left: 0;
+          top: 0;
+          height: 100%;
+          z-index: -1;
+          box-shadow: 0 0.25em 0.5em hsla(0,0%,0%,10%);
+          border-radius: 2em;
+          overflow: hidden;
+        }
+
+        .link > input {
+          direction: ltr;
+          border: none;
+          font-size: 1em;
+          padding: 0.4em 0.4em 0.4em 3em;
+          outline: none;
+          height: 100%;
+          width: 250px;
+          box-sizing: border-box;
+          caret-color: var(--neon-pink);
+          background-color: var(--theme-bg);
+          color: var(--theme-text_color);
+          cursor: initial;
+          -webkit-appearance: none;
+
+          &::placeholder {
+            font-weight: lighter;
+            font-size: 0.8em;
+            color: var(--theme-icon_color);
+          }
+        }
+      </style>
     `
   }
 
@@ -248,7 +312,35 @@ export default class VisBug extends HTMLElement {
 
   inspector() {
     this.deactivate_feature = MetaTip(this.selectorEngine)
+    // Event listener para detectar quando um <a> é selecionado
+    this.selectorEngine.onSelectedUpdate(nodes => {
+      if (nodes.length && nodes[0].nodeName.toLowerCase() === 'a') {
+        this.showLinkModal(nodes[0]);
+      }
+    });
   }
+
+  showLinkModal(element) {
+    const modal = this.$shadow.querySelector('#link-modal');
+    const closeModal = this.$shadow.querySelector('#close-link-modal');
+    const saveButton = this.$shadow.querySelector('#save-link');
+    const newLinkInput = this.$shadow.querySelector('#new-link-url');
+
+    modal.style.display = 'block';
+
+    closeModal.onclick = () => {
+        modal.style.display = 'none';
+    }
+
+    saveButton.onclick = () => {
+        const newURL = newLinkInput.value;
+        if (newURL) {
+            element.href = newURL;
+            this.captureState(); // Capturar o estado após a alteração
+            modal.style.display = 'none';
+        }
+    }
+}
 
   accessibility() {
     this.deactivate_feature = Accessibility(this.selectorEngine)
@@ -282,10 +374,118 @@ export default class VisBug extends HTMLElement {
 
     return Promise.resolve(new Error("Query not found"))
   }
+  downloadHtml() {
+    const htmlContent = document.documentElement.outerHTML;
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'page.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  downloadHtmlWithStylesAndScripts() {
+    const cloneDocument = document.cloneNode(true);
+  
+    // Embed all stylesheets
+    const styleSheets = [...document.styleSheets];
+    styleSheets.forEach((styleSheet) => {
+      try {
+        if (styleSheet.cssRules) {
+          const newStyle = document.createElement('style');
+          for (const cssRule of styleSheet.cssRules) {
+            newStyle.appendChild(document.createTextNode(cssRule.cssText));
+          }
+          cloneDocument.head.appendChild(newStyle);
+        } else if (styleSheet.href) {
+          const newLink = document.createElement('link');
+          newLink.rel = 'stylesheet';
+          newLink.href = styleSheet.href;
+          cloneDocument.head.appendChild(newLink);
+        }
+      } catch (e) {
+        console.warn('Access to stylesheet %s is restricted by CORS policy', styleSheet.href);
+      }
+    });
+  
+    // Embed all scripts
+    const scripts = [...document.scripts];
+    scripts.forEach((script) => {
+      if (script.src) {
+        const newScript = document.createElement('script');
+        newScript.src = script.src;
+        cloneDocument.body.appendChild(newScript);
+      } else {
+        const newScript = document.createElement('script');
+        newScript.textContent = script.textContent;
+        cloneDocument.body.appendChild(newScript);
+      }
+    });
+  
+    const htmlContent = cloneDocument.documentElement.outerHTML;
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'index.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
 
   get activeTool() {
     return this.active_tool.dataset.tool
   }
+
+  link() {
+    this.selectorEngine.onSelectedUpdate(nodes => {
+      if (nodes.length) {
+        const node = nodes[0];
+        const linkInput = this.$shadow.querySelector('#link-input');
+        const linkContainer = this.$shadow.querySelector('.link');
+  
+        // Check if the selected element is already a link
+        if (node.tagName === 'A') {
+          linkInput.value = node.href;
+        } else {
+          linkInput.value = '';
+        }
+  
+        linkContainer.style.display = 'block';
+        linkInput.focus();
+  
+        const updateLink = () => {
+          const url = linkInput.value.trim();
+          if (url) {
+            if (node.tagName === 'A') {
+              node.href = url;
+            } else {
+              const a = document.createElement('a');
+              a.href = url;
+              node.parentNode.insertBefore(a, node);
+              a.appendChild(node);
+            }
+          }
+          linkContainer.style.display = 'none';
+        };
+  
+        linkInput.addEventListener('blur', updateLink, { once: true });
+        linkInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            updateLink();
+          }
+        }, { once: true });
+      }
+    });
+  
+    this.deactivate_feature = () =>
+      this.selectorEngine.removeSelectedCallback();
+  }
+  
 }
 
 customElements.define('vis-bug', VisBug)

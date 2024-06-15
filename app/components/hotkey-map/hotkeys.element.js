@@ -1,5 +1,6 @@
 import $        from 'blingblingjs'
 import hotkeys  from 'hotkeys-js'
+import { metaKey } from '../../utilities/'
 
 import { GuidesHotkeys }        from './guides.element'
 import { InspectorHotkeys }     from './inspector.element'
@@ -14,6 +15,7 @@ import { PositionHotkeys }      from './position.element'
 import { FontHotkeys }          from './font.element'
 import { TextHotkeys }          from './text.element'
 import { SearchHotkeys }        from './search.element'
+import { undoLastEvent, redoLastEvent } from '../../features/history'
 
 export class Hotkeys extends HTMLElement {
 
@@ -47,6 +49,8 @@ export class Hotkeys extends HTMLElement {
         : this.showTool())
 
     hotkeys('esc', e => this.hideTool())
+    hotkeys(`${metaKey}+z`, (e) => undoLastEvent());
+    hotkeys(`${metaKey}+shift+z`, (e) => redoLastEvent());
   }
 
   disconnectedCallback() {}

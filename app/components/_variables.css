@@ -3,6 +3,18 @@
 @import "open-props/gray.shadow.min.css";
 @import "open-props/gray-hsl.shadow.min.css";
 
+:root {
+  --layer-1: 10;
+  --theme-bd-2: #ffffff;
+  --theme-bg: #f0f0f0;
+  --theme-text_color: #333333;
+  --theme-icon_color: #666666;
+  --theme-icon_hover-bg: #e0e0e0;
+  --theme-icon_active-bg: #cccccc;
+  --neon-pink: #ff007f;
+  --shadow-2: 0 0.25em 0.5em hsla(0,0%,0%,10%);
+}
+
 :host {
   --theme-bg: white;
   --theme-bd: hsl(0 0% 100% / var(--theme-bd-opacity));

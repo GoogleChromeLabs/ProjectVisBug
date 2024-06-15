@@ -48,7 +48,7 @@ export function Selectable(visbug) {
     hotkeys(`${metaKey}+alt+v`, e => on_paste_styles())
     hotkeys('esc', on_esc)
     hotkeys(`${metaKey}+d`, on_duplicate)
-    hotkeys('backspace,del,delete', on_delete)
+    hotkeys('del,delete', on_delete)
     hotkeys('alt+del,alt+backspace', on_clearstyles)
     hotkeys(`${metaKey}+e,${metaKey}+shift+e`, on_expand_selection)
     hotkeys(`${metaKey}+g,${metaKey}+shift+g`, on_group)
