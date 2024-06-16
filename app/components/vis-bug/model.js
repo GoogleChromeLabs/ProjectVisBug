@@ -21,7 +21,7 @@ export const VisBugModel = {
   //                     <span>shift+click</span>
   //                   </div>
   //                   <div>
-  //                     <b>Clear:</b>
+  //                     <b>Limpar:</b>
   //                     <span>esc</span>
   //                   </div>
   //                 </div>`,
@@ -29,23 +29,23 @@ export const VisBugModel = {
   i: {
     tool:        'inspector',
     icon:        Icons.inspector,
-    label:       '<span><u>I</u>nspect</span>',
-    description: 'Inspect the common styles of an element',
+    label:       '<span><u>I</u>nspecionar</span>',
+    description: 'Inspeccione os estilos comuns de um elemento',
     instruction: `<div table>
                     <div>
-                      <b>Pin it:</b>
-                      <span>click</span>
+                      <b>Fixar:</b>
+                      <span>clique</span>
                     </div>
                     <div>
-                      <b>Pin many:</b>
-                      <span>shift+click</span>
+                      <b>Fixar vários:</b>
+                      <span>shift+clique</span>
                     </div>
                     <div>
-                      <b>Position it:</b>
-                      <span>click & drag by the header area</span>
+                      <b>Posicionar:</b>
+                      <span>clique e arraste pela área do cabeçalho</span>
                     </div>
                     <div>
-                      <b>Clear:</b>
+                      <b>Limpar:</b>
                       <span>esc</span>
                     </div>
                   </div>`,
@@ -53,19 +53,19 @@ export const VisBugModel = {
   // x: {
   //   tool:        'accessibility',
   //   icon:        Icons.accessibility,
-  //   label:       'Accessibility',
+  //   label:       'Acessibilidade',
   //   description: 'Inspect attributes & contrast compliance',
   //   instruction: `<div table>
   //                   <div>
-  //                     <b>Pin it:</b>
-  //                     <span>click</span>
+  //                     <b>Fixar:</b>
+  //                     <span>clique</span>
   //                   </div>
   //                   <div>
-  //                     <b>Pin many:</b>
-  //                     <span>shift+click</span>
+  //                     <b>Fixar vários:</b>
+  //                     <span>shift+clique</span>
   //                   </div>
   //                   <div>
-  //                     <b>Clear:</b>
+  //                     <b>Limpar:</b>
   //                     <span>esc</span>
   //                   </div>
   //                 </div>`,
@@ -73,19 +73,19 @@ export const VisBugModel = {
   l: {
     tool:        'position',
     icon:        Icons.position,
-    label:       'Position',
-    description: 'Grab and position elements anywhere',
+    label:       'Posição',
+    description: 'Agarre e posicione elementos em qualquer lugar',
     instruction: `<div table>
                     <div>
-                      <b>Nudge:</b>
+                      <b>Deslocar:</b>
                       <span>◀ ▶ ▲ ▼</span>
                     </div>
                     <div>
-                      <b>Place:</b>
-                      <span>Click & drag</span>
+                      <b>Colocar:</b>
+                      <span>Clique e arraste</span>
                     </div>
                     <div>
-                      <b>Restore:</b>
+                      <b>Restaurar:</b>
                       <span>${altKey} + delete</span>
                     </div>
                   </div>`,
@@ -93,23 +93,23 @@ export const VisBugModel = {
   m: {
     tool:        'margin',
     icon:        Icons.margin,
-    label:       '<span><u>M</u>argin</span>',
-    description: 'Adjust spacing outside',
+    label:       '<span><u>M</u>argem</span>',
+    description: 'Ajustar espaçamento externo',
     instruction: `<div table>
                     <div>
-                      <b>+ Margin:</b>
+                      <b>+ Margem:</b>
                       <span>◀ ▶ ▲ ▼</span>
                     </div>
                     <div>
-                      <b>- Margin:</b>
+                      <b>- Margem:</b>
                       <span>${altKey} + ◀ ▶ ▲ ▼</span>
                     </div>
                     <div>
-                      <b>All Sides:</b>
+                      <b>Todos os Lados:</b>
                       <span>${metaKey} +  ▲ ▼</span>
                     </div>
                     <div>
-                      <b>Trainer:</b>
+                      <b>Formador:</b>
                       <span>shift + /</span>
                     </div>
                   </div>`,
@@ -117,23 +117,23 @@ export const VisBugModel = {
   p: {
     tool:        'padding',
     icon:        Icons.padding,
-    label:       '<span><u>P</u>adding</span>',
-    description: `Adjust spacing within`,
+    label:       '<span><u>P</u>reenchimento</span>',
+    description: 'Ajustar espaçamento interno',
     instruction: `<div table>
                     <div>
-                      <b>+ Padding:</b>
+                      <b>+ Preenchimento:</b>
                       <span>◀ ▶ ▲ ▼</span>
                     </div>
                     <div>
-                      <b>- Padding:</b>
+                      <b>- Preenchimento:</b>
                       <span>${altKey} + ◀ ▶ ▲ ▼</span>
                     </div>
                     <div>
-                      <b>All Sides:</b>
+                      <b>Todos os Lados:</b>
                       <span>${metaKey} +  ▲ ▼</span>
                     </div>
                     <div>
-                      <b>Trainer:</b>
+                      <b>Formador:</b>
                       <span>shift + /</span>
                     </div>
                   </div>`
@@ -141,41 +141,41 @@ export const VisBugModel = {
   // b: {
   //   tool:        'border',
   //   icon:        Icons.border,
-  //   label:       'Border',
+  //   label:       'Borda',
   //   description: ''
   // },
   a: {
     tool:        'align',
     icon:        Icons.align,
-    label:       '<span>Flexbox <u>A</u>lign</span>',
-    description: `Adjust flexbox layout features`,
+    label:       '<span>Alinhar <u>A</u>rranjo Flexível</span>',
+    description: 'Ajustar características de layout flexível',
     instruction: `<div table>
                     <div>
-                      <b>Rows:</b>
+                      <b>Linhas:</b>
                       <span>${metaKey} + ▼</span>
                     </div>
                     <div>
-                      <b>Columns:</b>
+                      <b>Colunas:</b>
                       <span>${metaKey} + ▶</span>
                     </div>
                     <div>
-                      <b>Alignment:</b>
+                      <b>Alinhamento:</b>
                       <span>◀ ▶ ▲ ▼</span>
                     </div>
                     <div>
-                      <b>Distribution:</b>
+                      <b>Distribuição:</b>
                       <span>Shift + ◀ ▶</span>
                     </div>
                     <div>
-                      <b>Order:</b>
+                      <b>Ordem:</b>
                       <span>${metaKey} + shift + ◀ ▶</span>
                     </div>
                     <div>
-                      <b>Wrapping:</b>
+                      <b>Embrulho:</b>
                       <span>${metaKey} + shift + ▲ ▼</span>
                     </div>
                     <div>
-                      <b>Trainer:</b>
+                      <b>Formador:</b>
                       <span>shift + /</span>
                     </div>
                   </div>`,
@@ -183,27 +183,27 @@ export const VisBugModel = {
   v: {
     tool:        'move',
     icon:        Icons.move,
-    label:       '<span>Mo<u>v</u>e</span>',
-    description: 'Change the position of elements',
+    label:       '<span><u>M</u>ovimento</span>',
+    description: 'Mude a posição dos elementos',
     instruction: `<div table>
                     <div>
                       <b>Lateral:</b>
-                      <span>click container ⇒ drag child</span>
+                      <span>clique no contêiner ⇒ arraste o filho</span>
                     </div>
                     <div>
                       <b>Lateral:</b>
                       <span>◀ ▶</span>
                     </div>
                     <div>
-                      <b>Out and above:</b>
+                      <b>Fora e acima:</b>
                       <span>▲</span>
                     </div>
                     <div>
-                      <b>Down+in, out+under:</b>
+                      <b>Abaixo e dentro, fora e sob:</b>
                       <span>▼</span>
                     </div>
                     <div>
-                      <b>Trainer:</b>
+                      <b>Formador:</b>
                       <span>shift + /</span>
                     </div>
                   </div>`,
@@ -211,27 +211,27 @@ export const VisBugModel = {
   h: {
     tool:        'hueshift',
     icon:        Icons.hueshift,
-    label:       '<span><u>H</u>ue Shift</span>',
+    label:       '<span><u>M</u>udança de Matiz</span>',
     description: ``,
     instruction: `<div table>
                     <div>
-                      <b>Saturation:</b>
+                      <b>Saturação:</b>
                       <span>◀ ▶</span>
                     </div>
                     <div>
-                      <b>Brightness:</b>
+                      <b>Brilho:</b>
                       <span>▲ ▼</span>
                     </div>
                     <div>
-                      <b>Hue:</b>
+                      <b>Matiz:</b>
                       <span>${metaKey} +  ▲ ▼</span>
                     </div>
                     <div>
-                      <b>Opacity:</b>
+                      <b>Opacidade:</b>
                       <span>${metaKey} +  ◀ ▶</span>
                     </div>
                     <div>
-                      <b>Trainer:</b>
+                      <b>Formador:</b>
                       <span>shift + /</span>
                     </div>
                   </div>`,
@@ -239,23 +239,23 @@ export const VisBugModel = {
   d: {
     tool:        'boxshadow',
     icon:        Icons.boxshadow,
-    label:       '<span>Box Sha<u>d</u>ows</span>',
+    label:       '<span>Sombras de <u>C</u>aixa</span>',
     description: ``,
     instruction: `<div table>
                     <div>
-                      <b>X/Y Position:</b>
+                      <b>Posição X/Y:</b>
                       <span>◀ ▶ ▲ ▼</span>
                     </div>
                     <div>
-                      <b>Blur:</b>
+                      <b>Borrar:</b>
                       <span>${altKey} + ▲ ▼</span>
                     </div>
                     <div>
-                      <b>Spread:</b>
+                    <b>Espalhar:</b>
                       <span>${altKey} + ◀ ▶</span>
                     </div>
                     <div>
-                      <b>Opacity:</b>
+                      <b>Opacidade:</b>
                       <span>${metaKey} + ◀ ▶</span>
                     </div>
                   </div>`,
@@ -263,21 +263,21 @@ export const VisBugModel = {
   // t: {
   //   tool:        'transform',
   //   icon:        Icons.transform,
-  //   label:       '3D Transform',
+  //   label:       'Transformação 3D',
   //   description: ''
   // },
   f: {
     tool:        'font',
     icon:        Icons.font,
-    label:       '<span><u>F</u>ont Styles</span>',
+    label:       '<span><u>F</u>ontes</span>',
     description: '',
     instruction: `<div table>
                     <div>
-                      <b>Size:</b>
+                      <b>Tamanho:</b>
                       <span>▲ ▼</span>
                     </div>
                     <div>
-                      <b>Alignment:</b>
+                      <b>Alinhamento:</b>
                       <span>◀ ▶</span>
                     </div>
                     <div>
@@ -285,15 +285,15 @@ export const VisBugModel = {
                       <span>Shift + ▲ ▼</span>
                     </div>
                     <div>
-                      <b>Letter-spacing:</b>
+                      <b>Espaçamento de letras:</b>
                       <span>Shift + ◀ ▶</span>
                     </div>
                     <div>
-                      <b>Weight:</b>
+                      <b>Peso:</b>
                       <span>${metaKey} + ▲ ▼</span>
                     </div>
                     <div>
-                      <b>Trainer:</b>
+                      <b>Formador:</b>
                       <span>shift + /</span>
                     </div>
                   </div>`,
@@ -301,28 +301,29 @@ export const VisBugModel = {
   e: {
     tool:        'text',
     icon:        Icons.text,
-    label:       '<span><u>E</u>dit Text</span>',
-    description: 'Just <b>Double click</b> any text on the page',
+    label:       '<span><u>E</u>ditar Texto</span>',
+    description: 'Basta dar <b>duplo clique</b> em qualquer texto na página',
     instruction: '',
   },
   // c: {
   //   tool:        'screenshot',
   //   icon:        Icons.camera,
-  //   label:       'Screenshot',
-  //   description: 'Screenshot selected elements or the entire page'
+  //   label:       'Captura de Tela',
+  //   description: 'Captura elementos selecionados ou a página inteira'
   // },
-  s: {
-    tool:        'search',
-    icon:        Icons.search,
-    label:       '<span><u>S</u>earch</span>',
-    description: 'Select elements programatically by searching for them or use built in plugins with special commands',
-    instruction: '',
-  },
+  // s: {
+  //   tool:        'search',
+  //   icon:        Icons.search,
+  //   label:       '<span><u>P</u>esquisar</span>',
+  //   description: 'Selecione elementos programaticamente procurando por eles ou use plugins integrados com comandos especiais',
+  //   instruction: '',
+  // },
   w: {
     tool:        'download',
     icon:        Icons.download,
-    label:       '<span>Download Html</span>',
-    description: `Realiza o download Em HTML da página`,
+    label:       '<span>Baixar HTML</span>',
+    description: `Baixa o HTML da página`,
     instruction: ``,
   }
 }
+

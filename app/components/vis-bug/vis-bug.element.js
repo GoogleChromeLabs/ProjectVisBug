@@ -96,20 +96,27 @@ export default class VisBug extends HTMLElement {
       if (toolButton) this.toolSelected(toolButton) && e.stopPropagation();
     };
   
-    Array.from(buttonPieces)
-      .forEach(toolButton => {
-        draggable({
-          el: this,
-          surface: toolButton,
-          cursor: 'pointer',
-          clickEvent: clickEvent
-        });
+    Array.from(buttonPieces).forEach(toolButton => {
+      draggable({
+        el: this,
+        surface: toolButton,
+        cursor: 'pointer',
+        clickEvent: clickEvent,
+        // Add a condition to prevent dragging if text is being selected
+        dragCondition: (event) => {
+          return !this.selectorEngine.isActive();
+        }
       });
+    });
   
     draggable({
       el: this,
       surface: main_ol,
       cursor: 'grab',
+      // Prevent dragging main_ol if text is being selected
+      dragCondition: (event) => {
+        return !this.inputFocused && !this.selectorEngine.isActive();
+      }
     });
   
     this.inputFocused = false;
@@ -215,8 +222,6 @@ export default class VisBug extends HTMLElement {
           <span>Atualizado</span>
           </div> -->
       </li>
-      </ol>
-      <ol colors>
         <li class="color" id="foreground" aria-label="Text" aria-description="Change the text color">
           <input type="color">
           ${Icons.color_text}
@@ -230,9 +235,8 @@ export default class VisBug extends HTMLElement {
           ${Icons.color_border}
         </li>
       </ol>
-
-
-  <style>
+    
+      <style>
       .link {
         position: relative;
         display: inline-block;
@@ -250,6 +254,7 @@ export default class VisBug extends HTMLElement {
         caret-color: var(--neon-pink);
         background-color: var(--theme-bg);
         color: var(--theme-text_color);
+        user-select: text;
         cursor: none;
         -webkit-appearance: none;
 
