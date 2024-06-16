@@ -2,30 +2,30 @@ import * as Icons from './vis-bug.icons'
 import { metaKey, altKey } from '../../utilities/'
 
 export const VisBugModel = {
-  g: {
-    tool:        'guides',
-    icon:        Icons.guides,
-    label:       '<span><u>G</u>uia</span>',
-    description: 'Verifique o alinhamento e meça as distâncias',
-    instruction: `<div table>
-                    <div>
-                      <b>Guias de elementos:</b>
-                      <span>hover</span>
-                    </div>
-                    <div>
-                      <b>Medida:</b>
-                      <span>click+hover</span>
-                    </div>
-                    <div>
-                      <b>Medir muitos:</b>
-                      <span>shift+click</span>
-                    </div>
-                    <div>
-                      <b>Clear:</b>
-                      <span>esc</span>
-                    </div>
-                  </div>`,
-  },
+  // g: {
+  //   tool:        'guides',
+  //   icon:        Icons.guides,
+  //   label:       '<span><u>G</u>uia</span>',
+  //   description: 'Verifique o alinhamento e meça as distâncias',
+  //   instruction: `<div table>
+  //                   <div>
+  //                     <b>Guias de elementos:</b>
+  //                     <span>hover</span>
+  //                   </div>
+  //                   <div>
+  //                     <b>Medida:</b>
+  //                     <span>click+hover</span>
+  //                   </div>
+  //                   <div>
+  //                     <b>Medir muitos:</b>
+  //                     <span>shift+click</span>
+  //                   </div>
+  //                   <div>
+  //                     <b>Clear:</b>
+  //                     <span>esc</span>
+  //                   </div>
+  //                 </div>`,
+  // },
   i: {
     tool:        'inspector',
     icon:        Icons.inspector,
@@ -50,26 +50,26 @@ export const VisBugModel = {
                     </div>
                   </div>`,
   },
-  x: {
-    tool:        'accessibility',
-    icon:        Icons.accessibility,
-    label:       'Accessibility',
-    description: 'Inspect attributes & contrast compliance',
-    instruction: `<div table>
-                    <div>
-                      <b>Pin it:</b>
-                      <span>click</span>
-                    </div>
-                    <div>
-                      <b>Pin many:</b>
-                      <span>shift+click</span>
-                    </div>
-                    <div>
-                      <b>Clear:</b>
-                      <span>esc</span>
-                    </div>
-                  </div>`,
-  },
+  // x: {
+  //   tool:        'accessibility',
+  //   icon:        Icons.accessibility,
+  //   label:       'Accessibility',
+  //   description: 'Inspect attributes & contrast compliance',
+  //   instruction: `<div table>
+  //                   <div>
+  //                     <b>Pin it:</b>
+  //                     <span>click</span>
+  //                   </div>
+  //                   <div>
+  //                     <b>Pin many:</b>
+  //                     <span>shift+click</span>
+  //                   </div>
+  //                   <div>
+  //                     <b>Clear:</b>
+  //                     <span>esc</span>
+  //                   </div>
+  //                 </div>`,
+  // },
   l: {
     tool:        'position',
     icon:        Icons.position,
@@ -323,31 +323,6 @@ export const VisBugModel = {
     icon:        Icons.download,
     label:       '<span>Download Html</span>',
     description: `Realiza o download Em HTML da página`,
-    instruction: `<div table>
-                    <div>
-                      <b>Size:</b>
-                      <span>▲ ▼</span>
-                    </div>
-                    <div>
-                      <b>Alignment:</b>
-                      <span>◀ ▶</span>
-                    </div>
-                    <div>
-                      <b>Leading:</b>
-                      <span>Shift + ▲ ▼</span>
-                    </div>
-                    <div>
-                      <b>Letter-spacing:</b>
-                      <span>Shift + ◀ ▶</span>
-                    </div>
-                    <div>
-                      <b>Weight:</b>
-                      <span>${metaKey} + ▲ ▼</span>
-                    </div>
-                    <div>
-                      <b>Trainer:</b>
-                      <span>shift + /</span>
-                    </div>
-                  </div>`,
+    instruction: ``,
   }
 }

@@ -122,6 +122,11 @@ export default class VisBug extends HTMLElement {
       linkInput.addEventListener('blur', () => {
         this.inputFocused = false;
       });
+      linkInput.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const text = (e.clipboardData || window.clipboardData).getData('text');
+        document.execCommand('insertText', false, text);
+      });
     }
   
     Object.entries(this.toolbar_model).forEach(([key, value]) =>
@@ -161,6 +166,7 @@ export default class VisBug extends HTMLElement {
   }
 
   toolSelected(el) {
+    console.log(el)
     if (typeof el === 'string')
       el = $(`[data-tool="${el}"]`, this.$shadow)[0]
 
@@ -179,6 +185,14 @@ export default class VisBug extends HTMLElement {
     } else {
       this[el.dataset.tool]()
     }
+
+    if (el.dataset.tool === 'link') {
+      const linkContainer = this.$shadow.querySelector('.link');
+      linkContainer.style.display = 'block';
+
+    } else {
+      this[el.dataset.tool]()
+    }
   }
 
   render() {
@@ -193,11 +207,13 @@ export default class VisBug extends HTMLElement {
           </li>
         `,'')}
       </li>
-      <li data-tool="link" aria-label="Change Link" aria-description="Change the link of an element">
+      <!-- <li data-tool="link" aria-label="Change Link" aria-description="Change the link of an element">
         ${Icons.link}
-        <div class="link">
-          <input type="text" id="link-input" placeholder="Novo URL">
-        </div>
+        <div class="link" style="display: inline-block">
+          <input type="text" id="link-input" style="cursor-none" placeholder="Novo URL">
+          <button id="save-link" style="display: inline-block;">Salvar</button>
+          <span>Atualizado</span>
+          </div> -->
       </li>
       </ol>
       <ol colors>
@@ -214,41 +230,57 @@ export default class VisBug extends HTMLElement {
           ${Icons.color_border}
         </li>
       </ol>
-      <style>
-        .link {
-          position: absolute;
-          left: 0;
-          top: 0;
-          height: 100%;
-          z-index: -1;
-          box-shadow: 0 0.25em 0.5em hsla(0,0%,0%,10%);
-          border-radius: 2em;
-          overflow: hidden;
-        }
 
-        .link > input {
-          direction: ltr;
-          border: none;
-          font-size: 1em;
-          padding: 0.4em 0.4em 0.4em 3em;
-          outline: none;
-          height: 100%;
-          width: 250px;
-          box-sizing: border-box;
-          caret-color: var(--neon-pink);
-          background-color: var(--theme-bg);
-          color: var(--theme-text_color);
-          cursor: initial;
-          -webkit-appearance: none;
 
-          &::placeholder {
-            font-weight: lighter;
-            font-size: 0.8em;
-            color: var(--theme-icon_color);
-          }
+  <style>
+      .link {
+        position: relative;
+        display: inline-block;
+      }
+
+      .link > input {
+        direction: ltr;
+        border: none;
+        font-size: 1em;
+        padding: 0.4em 0.4em 0.4em 3em;
+        outline: none;
+        height: 100%;
+        width: 300px;
+        box-sizing: border-box;
+        caret-color: var(--neon-pink);
+        background-color: var(--theme-bg);
+        color: var(--theme-text_color);
+        cursor: none;
+        -webkit-appearance: none;
+
+        &::placeholder {
+          font-weight: lighter;
+          font-size: 0.8em;
+          color: var(--theme-icon_color);
         }
-      </style>
-    `
+      }
+
+      .link > button {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 0.4em 0.6em;
+        border: none;
+        background-color: var(--neon-pink);
+        color: white;
+        cursor: pointer;
+        font-size: 0.8em;
+        border-radius: 0.3em;
+        transition: background-color 0.3s ease;
+      }
+
+      .link > span {
+        color: green;
+        margin-left: 5px;
+      }
+    </style>
+    `;
   }
 
   demoTip({key, tool, label, description, instruction}) {
@@ -445,12 +477,15 @@ export default class VisBug extends HTMLElement {
     this.selectorEngine.onSelectedUpdate(nodes => {
       if (nodes.length) {
         const node = nodes[0];
+        let currentText = node.outerText
         const linkInput = this.$shadow.querySelector('#link-input');
         const linkContainer = this.$shadow.querySelector('.link');
+        const saveButton = this.$shadow.querySelector('#save-link');
   
         // Check if the selected element is already a link
         if (node.tagName === 'A') {
           linkInput.value = node.href;
+          // node.outerText = currentText
         } else {
           linkInput.value = '';
         }
@@ -462,29 +497,65 @@ export default class VisBug extends HTMLElement {
           const url = linkInput.value.trim();
           if (url) {
             if (node.tagName === 'A') {
+              // node.outerText = currentText
               node.href = url;
             } else {
               const a = document.createElement('a');
               a.href = url;
+              // a.outerText = currentText
               node.parentNode.insertBefore(a, node);
               a.appendChild(node);
             }
+            //this.showSaveButton(); // Mostra o botão "Salvar"
+            this.showSavedFeedback(); // Mostra o feedback visual de salvamento
           }
-          linkContainer.style.display = 'none';
+          // linkContainer.style.display = 'none';
         };
   
         linkInput.addEventListener('blur', updateLink, { once: true });
         linkInput.addEventListener('keypress', (e) => {
+          debugger
           if (e.key === 'Enter') {
             updateLink();
           }
         }, { once: true });
+  
+        saveButton.addEventListener('click', () => {
+          updateLink();
+        });
       }
     });
   
     this.deactivate_feature = () =>
       this.selectorEngine.removeSelectedCallback();
   }
+  
+  showSaveButton() {
+    const saveButton = this.$shadow.querySelector('#save-link');
+    saveButton.style.display = 'inline-block';
+  }
+  
+  showSavedFeedback() {
+    const linkContainer = this.$shadow.querySelector('.link');
+    const savedFeedback = document.createElement('span');
+    savedFeedback.textContent = 'Salvo!';
+    savedFeedback.style.color = 'green'; // Cor do feedback visual
+    savedFeedback.style.marginLeft = '5px'; // Espaçamento à esquerda do feedback
+  
+    linkContainer.appendChild(savedFeedback);
+  
+    // Remover o feedback visual após alguns segundos (opcional)
+    setTimeout(() => {
+      linkContainer.removeChild(savedFeedback);
+    }, 3000); // Remove após 3 segundos (ajuste conforme necessário)
+  }
+  
+
+  showSaveButton() {
+    const saveButton = this.$shadow.querySelector('#save-link');
+    saveButton.style.display = 'inline-block';
+  }
+  
   
 }
 

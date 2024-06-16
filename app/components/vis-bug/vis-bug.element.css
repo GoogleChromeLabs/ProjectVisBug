@@ -331,12 +331,12 @@
   padding: 0.4em 0.4em 0.4em 3em;
   outline: none;
   height: 100%;
-  width: 250px;
+  width: 300px;
   box-sizing: border-box;
   caret-color: var(--neon-pink);
   background-color: var(--theme-bg);
   color: var(--theme-text_color);
-  cursor: initial;
+  cursor: none;
   -webkit-appearance: none;
 
   &::placeholder {
