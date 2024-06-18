@@ -90,12 +90,14 @@ export default class VisBug extends HTMLElement {
     const main_ol = this.$shadow.querySelector('ol:not([colors])');
     const buttonPieces = $('li[data-tool], li[data-tool] *', main_ol);
   
+    this.inputFocused = false;
+    
     const clickEvent = (e) => {
       const target = e.currentTarget || e.target;
       const toolButton = target.closest('[data-tool]');
       if (toolButton) this.toolSelected(toolButton) && e.stopPropagation();
     };
-  
+
     Array.from(buttonPieces).forEach(toolButton => {
       draggable({
         el: this,
@@ -119,7 +121,6 @@ export default class VisBug extends HTMLElement {
       }
     });
   
-    this.inputFocused = false;
   
     const linkInput = this.$shadow.querySelector('#link-input');
     if (linkInput) {
@@ -173,7 +174,6 @@ export default class VisBug extends HTMLElement {
   }
 
   toolSelected(el) {
-    console.log(el)
     if (typeof el === 'string')
       el = $(`[data-tool="${el}"]`, this.$shadow)[0]
 
@@ -186,20 +186,19 @@ export default class VisBug extends HTMLElement {
 
     el.attr('data-active', true)
     this.active_tool = el
-
     if (el.dataset.tool === 'download') {
       this.downloadHtmlWithStylesAndScripts();
-    } else {
-      this[el.dataset.tool]()
-    }
-
-    if (el.dataset.tool === 'link') {
+    } else if (el.dataset.tool === 'link') {
       const linkContainer = this.$shadow.querySelector('.link');
       linkContainer.style.display = 'block';
 
+    } else if (el.dataset.tool === 'text') {
+      el.style.userSelect = 'all';
+      this[el.dataset.tool]()
     } else {
       this[el.dataset.tool]()
     }
+
   }
 
   render() {
