@@ -324,6 +324,13 @@ export const VisBugModel = {
     label:       '<span>Baixar HTML</span>',
     description: `Baixa o HTML da página`,
     instruction: ``,
+  },
+  y: {
+    tool:        'addPixel',
+    icon:        Icons.swap_image,
+    label:       '<span>Change Image</span>',
+    description: `Baixa o HTML da página`,
+    instruction: ``,
   }
 }
 

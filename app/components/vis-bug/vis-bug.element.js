@@ -181,7 +181,9 @@ export default class VisBug extends HTMLElement {
 
     if (this.active_tool) {
       this.active_tool.attr('data-active', null)
-      this.deactivate_feature()
+      if (typeof this.deactivate_feature === 'function') {
+        this.deactivate_feature();
+      }
     }
 
     el.attr('data-active', true)
@@ -191,16 +193,92 @@ export default class VisBug extends HTMLElement {
     } else if (el.dataset.tool === 'link') {
       const linkContainer = this.$shadow.querySelector('.link');
       linkContainer.style.display = 'block';
-
     } else if (el.dataset.tool === 'text') {
       el.style.userSelect = 'all';
       this[el.dataset.tool]()
+    } else if (el.dataset.tool === 'addPixel') {
+      const pixelModal = this.$shadow.querySelector('#pixel-modal');
+      pixelModal.style.display = 'block';
+  
+      const addButton = this.$shadow.querySelector('#add-pixel-button');
+      addButton.onclick = () => {
+        const pixelInput = this.$shadow.querySelector('#pixel-input');
+        const pixelCode = pixelInput.value.trim();
+        if (pixelCode) {
+          const existingPixelScript = document.querySelector(`script[src*="https://connect.facebook.net/en_US/fbevents.js"]`);
+          const existingNoScript = document.querySelector(`noscript img[src*="https://www.facebook.com/tr?id="]`);
+      
+          const pixelScript = `
+            <!-- Facebook Pixel Code -->
+            <script>
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '${pixelCode}');
+            fbq('track', 'PageView');
+            </script>
+            <noscript>
+            <img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=${pixelCode}&ev=PageView&noscript=1"/>
+            </noscript>
+            <!-- End Facebook Pixel Code -->
+          `;
+      
+          if (existingPixelScript) {
+            existingPixelScript.remove();
+          }
+          if (existingNoScript) {
+            existingNoScript.parentElement.remove();
+          }
+      
+          const head = document.head || document.getElementsByTagName('head')[0];
+          head.insertAdjacentHTML('beforeend', pixelScript);
+      
+          console.log('Código do pixel adicionado:', pixelCode);
+          pixelModal.style.display = 'none';
+        }
+      };
     } else {
       this[el.dataset.tool]()
     }
 
   }
+  
+changeImage() {
+  const images = document.querySelectorAll('img, picture img');
+  
+  if (images.length === 0) {
+    console.log('Nenhuma imagem encontrada.');
+    return;
+  }
 
+  images.forEach(img => {
+    console.log('Adicionando evento de clique à imagem:', img);
+    img.addEventListener('click', (e) => {
+      console.log('Imagem clicada:', img);
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+
+      input.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const imageData = event.target.result;
+          img.src = imageData;
+        };
+        reader.readAsDataURL(file);
+      });
+
+      input.click(); // Abre a janela de seleção de arquivo
+    });
+  });
+}
   render() {
     return `
       <visbug-hotkeys></visbug-hotkeys>
@@ -231,11 +309,27 @@ export default class VisBug extends HTMLElement {
         </li>
         <li class="color" id="border" aria-label="Border or Stroke" aria-description="Change the border color or stroke of svg">
           <input type="color">
-          ${Icons.color_border}
+          ${Icons.border_icon}
         </li>
       </ol>
+
+    <!-- Modal for adding Facebook Pixel -->
+      <div id="pixel-modal" style="display: none;">
+        <input type="text" id="pixel-input" placeholder="Insira o código do pixel do Facebook">
+        <button id="add-pixel-button">Adicionar</button>
+      </div>
     
       <style>
+      #pixel-modal {
+        position: fixed;
+        top: 50%;
+        left: 190px;
+        transform: translate(-50%, -50%);
+        background-color: #24272b;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+      }
       .link {
         position: relative;
         display: inline-block;
@@ -474,6 +568,10 @@ export default class VisBug extends HTMLElement {
   }
 
   get activeTool() {
+
+    if (this.active_tool === null || this.active_tool === undefined) {
+      return
+    } 
     return this.active_tool.dataset.tool
   }
 

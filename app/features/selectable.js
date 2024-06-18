@@ -8,7 +8,7 @@ import { queryPage } from './search'
 import { createMeasurements, clearMeasurements } from './measurements'
 import { createMarginVisual } from './margin'
 import { createPaddingVisual } from './padding'
-
+import { updateContentImage } from './imageswap';
 import { showTip as showMetaTip, removeAll as removeAllMetaTips } from './metatip'
 import { showTip as showAccessibilityTip, removeAll as removeAllAccessibilityTips } from './accessibility'
 
@@ -73,7 +73,6 @@ export function Selectable(visbug) {
 
   const on_click = e => {
     const $target = deepElementFromPoint(e.clientX, e.clientY)
-
     if (isOffBounds($target) && !selected.filter(el => el == $target).length)
       return
 
@@ -91,6 +90,7 @@ export function Selectable(visbug) {
       select($target)
   }
 
+  
   const unselect = id => {
     [...labels, ...handles]
       .filter(node =>
@@ -116,6 +116,48 @@ export function Selectable(visbug) {
   }
 
   const on_dblclick = e => {
+    const $target = deepElementFromPoint(e.clientX, e.clientY)
+    if ($target && $target.tagName === 'IMG') {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+  
+      input.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        
+        if (file) {
+          const reader = new FileReader();
+          console.log('File selected:', file); // Log para verificar o arquivo selecionado
+  
+          reader.onload = (loadEvent) => {
+            const imageData = loadEvent.target.result;
+            console.log('Base64 image data:', imageData); // Log para verificar o base64 gerado
+  
+            if (imageData) {
+              // Utiliza a função updateContentImage para atualizar a imagem
+              updateContentImage($target, imageData);
+              console.log('Image source updated:', $target.src); // Log para verificar se a imagem foi atualizada
+            } else {
+              console.error('Error: imageData is null or undefined.');
+            }
+          };
+  
+          reader.onerror = (error) => {
+            console.error('Error reading file:', error);
+          };
+  
+          reader.readAsDataURL(file); // Converte a imagem para base64
+        } else {
+          console.error('No file selected.');
+        }
+      });
+  
+      input.click();
+      return
+    } else {
+      console.error('No image element found at the clicked position.');
+    }
+
     e.preventDefault()
     e.stopPropagation()
     if (isOffBounds(e.target)) return
