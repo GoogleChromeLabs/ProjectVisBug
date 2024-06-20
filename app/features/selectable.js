@@ -73,6 +73,10 @@ export function Selectable(visbug) {
 
   const on_click = e => {
     const $target = deepElementFromPoint(e.clientX, e.clientY)
+    if ($target.id === 'exitMobileViewButton') {
+      exitMobileView();
+      return;
+    }
     if (isOffBounds($target) && !selected.filter(el => el == $target).length)
       return
 
@@ -824,6 +828,33 @@ export function Selectable(visbug) {
     onSelectedUpdate,
     removeSelectedCallback,
     disconnect,
+  }
+}
+
+function exitMobileView() {
+  // Obter a div da visualização móvel e o iframe
+  const mobileViewDiv = document.getElementById("mobileView");
+  const editorFrame = document.getElementById("editorFrame");
+
+  if (mobileViewDiv && editorFrame) {
+    // Reverter as alterações feitas ao conteúdo do documento
+    const t = (new DOMParser).parseFromString(this.iframeContent, "text/html");
+    document.documentElement.innerHTML = t.documentElement.innerHTML;
+
+    // Remover a div da visualização móvel e o iframe
+    mobileViewDiv.remove();
+    editorFrame.remove();
+
+    // Remover o botão de sair da visualização móvel
+    const exitButton = document.getElementById("exitMobileViewButton");
+    if (exitButton) {
+      exitButton.remove();
+    }
+
+    // Mostrar todos os elementos do corpo
+    Array.from(document.body.children).forEach((el) => {
+      el.style.display = "";
+    });
   }
 }
 

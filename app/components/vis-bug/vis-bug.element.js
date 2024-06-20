@@ -31,16 +31,209 @@ import {
 
 export default class VisBug extends HTMLElement {
   constructor() {
-    super()
-
-    this.toolbar_model  = VisBugModel
-    this.$shadow        = this.attachShadow({mode: 'closed'})
-    this.applyScheme    = schemeRule(
+    super();
+    this.iframeContent = null; // Armazena o conteúdo do iframe
+    this.originalContent = document.documentElement.innerHTML;
+    this.toolbar_model = VisBugModel;
+    this.$shadow = this.attachShadow({ mode: 'closed' });
+    this.applyScheme = schemeRule(
       this.$shadow,
       VisBugStyles, VisBugLightStyles, VisBugDarkStyles
-    )
+    );
   }
 
+  switchView() {
+    const e = document.getElementById("editorFrame");
+    if (e) {
+      // Sair da visualização móvel e aplicar alterações ao documento original
+      this.updateOriginalContentWithIframeContent(e);
+      e.parentNode.remove();
+      
+      // Remover o botão de sair da visualização móvel
+      const exitButton = document.getElementById("exitMobileViewButton");
+      if (exitButton) {
+        exitButton.remove();
+      }
+      
+      // Atualizar o conteúdo do documento original
+      const t = (new DOMParser).parseFromString(this.iframeContent, "text/html");
+      document.documentElement.innerHTML = t.documentElement.innerHTML;
+      
+      // Mostrar todos os elementos do corpo exceto aqueles com tag name 'vis-bug'
+      Array.from(document.body.children).forEach((el) => {
+        if ("vis-bug" !== el.tagName.toLowerCase()) {
+          el.style.display = "";
+        }
+      });
+    } else {
+      // Entrar na visualização móvel
+      const div = document.createElement("div");
+      div.id = "mobileView";
+      div.style.position = "fixed";
+      div.style.top = "50%";
+      div.style.left = "50%";
+      div.style.transform = "translate(-50%, -50%)";
+      div.style.width = "375px";
+      div.style.height = "615px";
+      div.style.overflow = "auto";
+
+      const e = document.createElement("iframe");
+      e.id = "editorFrame";
+      e.style.width = "100%";
+      e.style.height = "100%";
+      
+      const t = this.iframeContent || document.documentElement.outerHTML;
+      e.srcdoc = t;
+      div.appendChild(e);
+      document.body.appendChild(div);
+      
+      const exitButton = document.createElement("button");
+      exitButton.id = "exitMobileViewButton";
+      exitButton.textContent = "Sair da visualização móvel";
+      exitButton.style.position = "fixed";
+      exitButton.style.top = "31px";
+      exitButton.style.right = "24vw";
+      exitButton.addEventListener("click", () => this.switchView());
+      document.body.appendChild(exitButton);
+          
+      Array.from(document.body.children).forEach((el) => {
+        if (el.id !== "mobileView" && el.id !== "exitMobileViewButton") {
+          el.style.display = "none";
+        }
+      });
+
+      e.onload = () => {
+        const t = e.contentDocument || e.contentWindow.document;
+        const r = document.createElement("style");
+        r.textContent = `
+          ::-webkit-scrollbar {
+            width: 8px;
+          }
+          ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+          }
+          ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+          }
+          ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+          }
+        `;
+        t.head.appendChild(r);
+      };
+    }
+  }
+
+  updateOriginalContentWithIframeContent(iframe) {
+    const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+    const newContent = iframeDocument.documentElement.innerHTML;
+    this.iframeContent = newContent;
+
+    // Atualizar o documento original com as mudanças feitas no iframe
+    const originalDocument = (new DOMParser).parseFromString(newContent, "text/html");
+    document.documentElement.innerHTML = originalDocument.documentElement.innerHTML;
+  }
+
+  createMobileView() {
+    let self = this;
+    const e = document.createElement("div");
+    e.id = "mobileView";
+    e.style.width = "375px"; // Defina a largura para simular um dispositivo móvel
+    e.style.height = "100vh";
+    e.style.margin = "0 auto";
+    e.style.border = "1px solid black";
+    e.style.overflowY = "scroll";
+    e.style.position = "relative";
+    e.style.background = "white";
+    e.style.transformOrigin = "top left";
+    e.style.transform = "scale(1.0)";
+  
+    e.innerHTML = self.originalContent;
+  
+    document.body.appendChild(e);
+  
+    Array.from(document.body.children).forEach((el) => {
+      if ("vis-bug" !== el.tagName.toLowerCase() && el !== e) {
+        el.style.display = "none";
+      }
+    });
+  
+    const r = document.createElement("style");
+    r.textContent = `
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html, body {
+        width: 100%;
+        height: 100%;
+      }
+      img, video {
+        max-width: 100%;
+        height: auto;
+      }
+      iframe {
+        max-width: 100%;
+      }
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+      /* Adiciona uma meta tag viewport para simular dispositivo móvel */
+      @media (max-width: 375px) {
+        body {
+          overflow-x: hidden;
+        }
+      }
+    `;
+    e.appendChild(r);
+  }
+
+switchToNormalView() {
+  let self = this;
+  const e = document.getElementById("mobileView");
+  if (e) {
+      // If mobile view exists, switch to desktop view
+      e.remove();
+
+      // Restore the original body content
+      document.body.innerHTML = self.originalContent;
+
+      // Show all body children
+      Array.from(document.body.children).forEach((el) => {
+          el.style.display = "";
+      });
+  }
+}
+
+// This function will be used to track changes in the iframe and apply them to the mobile media query
+applyChangesToMobileMediaQuery() {
+  const e = document.getElementById("mobileView");
+
+  if (e) {
+    const iframeStyles = e.style.cssText;
+
+    const styleElement = document.createElement("style");
+    styleElement.textContent = `
+      @media (max-width: 375px) {
+        ${iframeStyles}
+      }
+    `;
+
+    document.head.appendChild(styleElement);
+  }
+}
   static get observedAttributes() {
     return ['color-scheme']
   }
@@ -59,7 +252,10 @@ export default class VisBug extends HTMLElement {
   }
 
   disconnectedCallback() {
-    this.deactivate_feature()
+    // Tratar is not a function
+    if (typeof this.deactivate_feature === 'function') {
+      this.deactivate_feature()
+    }
     this.cleanup()
     this.selectorEngine.disconnect()
     hotkeys.unbind(
@@ -75,6 +271,11 @@ export default class VisBug extends HTMLElement {
 
   setup() {
     this.$shadow.innerHTML = this.render();
+
+    const switchViewButton = this.$shadow.querySelector('[data-tool="switchViewtodesktop"]');
+    if (switchViewButton) {
+      switchViewButton.addEventListener('click', () => this.switchView());
+    }
   
     this.hasAttribute('color-mode')
       ? this.getAttribute('color-mode')
@@ -139,12 +340,12 @@ export default class VisBug extends HTMLElement {
   
     Object.entries(this.toolbar_model).forEach(([key, value]) =>
       hotkeys(key, e => {
-        if (!this.inputFocused) {
+        // if (!this.inputFocused) {
           e.preventDefault();
           this.toolSelected(
             $(`[data-tool="${value.tool}"]`, this.$shadow)[0]
           );
-        }
+        // }
       })
     );
   
@@ -174,6 +375,7 @@ export default class VisBug extends HTMLElement {
   }
 
   toolSelected(el) {
+    if (el === null || el === undefined) return
     if (typeof el === 'string')
       el = $(`[data-tool="${el}"]`, this.$shadow)[0]
 
@@ -243,10 +445,11 @@ export default class VisBug extends HTMLElement {
           pixelModal.style.display = 'none';
         }
       };
-    } else {
+    }
+    else {
       this[el.dataset.tool]()
     }
-
+    this.deactivate_feature = this.toolbar_model[el.dataset.key].deactivate
   }
   
 changeImage() {
@@ -291,6 +494,9 @@ changeImage() {
           </li>
         `,'')}
       </li>
+       <li data-tool="switchView" data-key="switchView">
+        ${Icons.mobile_device}
+      </li>
       <!-- <li data-tool="link" aria-label="Change Link" aria-description="Change the link of an element">
         ${Icons.link}
         <div class="link" style="display: inline-block">
@@ -312,7 +518,6 @@ changeImage() {
           ${Icons.border_icon}
         </li>
       </ol>
-
     <!-- Modal for adding Facebook Pixel -->
       <div id="pixel-modal" style="display: none;">
         <input type="text" id="pixel-input" placeholder="Insira o código do pixel do Facebook">
@@ -565,6 +770,7 @@ changeImage() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+    this.deactivate_feature();
   }
 
   get activeTool() {
@@ -616,7 +822,6 @@ changeImage() {
   
         linkInput.addEventListener('blur', updateLink, { once: true });
         linkInput.addEventListener('keypress', (e) => {
-          debugger
           if (e.key === 'Enter') {
             updateLink();
           }
