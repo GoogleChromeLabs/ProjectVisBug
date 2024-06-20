@@ -327,10 +327,17 @@ export const VisBugModel = {
   },
   y: {
     tool:        'addPixel',
-    icon:        Icons.swap_image,
-    label:       '<span>Change Image</span>',
-    description: `Baixa o HTML da página`,
+    icon:        Icons.facebook_pixel,
+    label:       '<span>Pixel Facebbok</span>',
+    description: `Adiciona pixel do facebook`,
     instruction: ``,
   }
+//   j: {
+//     tool:        'switchViewtodesktop',
+//     icon:        Icons.desktop,
+//     label:       '<span>Change Image</span>',
+//     description: `Baixa o HTML da página`,
+//     instruction: ``,
+//   }
 }
 
