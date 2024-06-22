@@ -121,15 +121,16 @@ export function Selectable(visbug) {
 
   const on_dblclick = e => {
     const $target = deepElementFromPoint(e.clientX, e.clientY)
+    // Verifica se o elemento clicado é um link para substituir o href
     if ($target && $target.tagName === 'A') {
       const newHref = prompt('Cole aqui o novo link:', $target.href);
       if (newHref !== null) {
       $target.href = newHref;
-      console.log('Link href updated:', $target.href); // Log to verify if the href was updated
+      console.log('Link href updated:', $target.href);
       }
     }
 
-
+    // Verifica se o elemento clicado é uma imagem para substituir a imagem
     if ($target && $target.tagName === 'IMG') {
       const input = document.createElement('input');
       input.type = 'file';
