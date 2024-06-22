@@ -89,14 +89,20 @@ export default class VisBug extends HTMLElement {
       
       const exitButton = document.createElement("button");
       exitButton.id = "exitMobileViewButton";
-      exitButton.textContent = "Sair da visualização móvel";
+      exitButton.textContent = "Desktop View";
       exitButton.style.position = "fixed";
       exitButton.style.top = "31px";
-      exitButton.style.right = "24vw";
+      exitButton.style.right = "22vw";
+      exitButton.style.padding = "10px 20px";
+      exitButton.style.backgroundColor = "#FF9C08";
+      exitButton.style.borderRadius = "5px";
+      exitButton.style.color = "white";
+      exitButton.style.borderStyle = "none";
       exitButton.addEventListener("click", () => this.switchView());
       document.body.appendChild(exitButton);
-          
+
       Array.from(document.body.children).forEach((el) => {
+        console.log(el.tagName.toLowerCase());
         if (el.id !== "mobileView" && el.id !== "exitMobileViewButton") {
           el.style.display = "none";
         }
@@ -104,6 +110,14 @@ export default class VisBug extends HTMLElement {
 
       e.onload = () => {
         const t = e.contentDocument || e.contentWindow.document;
+        //após o carregamento do iframe, remover o botão que ativa a visualização móvel        <li data-tool="switchView" data-key="switchView" class="mobile">
+
+        const switchViewButton = document.documentElement.outerHTML;
+
+        if (switchViewButton) {
+          switchViewButton.remove();
+        }
+
         const r = document.createElement("style");
         r.textContent = `
           ::-webkit-scrollbar {
@@ -200,7 +214,7 @@ export default class VisBug extends HTMLElement {
     e.appendChild(r);
   }
 
-switchToNormalView() {
+ switchToNormalView() {
   let self = this;
   const e = document.getElementById("mobileView");
   if (e) {
@@ -494,7 +508,7 @@ changeImage() {
           </li>
         `,'')}
       </li>
-       <li data-tool="switchView" data-key="switchView">
+       <li data-tool="switchView" data-key="switchView" id="sumir" class="mobile">
         ${Icons.mobile_device}
       </li>
       <!-- <li data-tool="link" aria-label="Change Link" aria-description="Change the link of an element">
@@ -582,6 +596,11 @@ changeImage() {
         color: green;
         margin-left: 5px;
       }
+    @media (max-width: 375px) {
+      #sumir {
+          display: none;
+        }
+        }
     </style>
     `;
   }

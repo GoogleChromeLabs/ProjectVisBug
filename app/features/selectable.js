@@ -830,6 +830,22 @@ export function Selectable(visbug) {
     disconnect,
   }
 }
+function applyChangesToMobileMediaQuery() {
+  const e = document.getElementById("mobileView");
+
+  if (e) {
+    const iframeStyles = e.style.cssText;
+
+    const styleElement = document.createElement("style");
+    styleElement.textContent = `
+      @media (max-width: 375px) {
+        ${iframeStyles}
+      }
+    `;
+
+    document.head.appendChild(styleElement);
+  }
+}
 
 function exitMobileView() {
   // Obter a div da visualização móvel e o iframe
@@ -838,9 +854,9 @@ function exitMobileView() {
 
   if (mobileViewDiv && editorFrame) {
     // Reverter as alterações feitas ao conteúdo do documento
+    applyChangesToMobileMediaQuery();
     const t = (new DOMParser).parseFromString(this.iframeContent, "text/html");
     document.documentElement.innerHTML = t.documentElement.innerHTML;
-
     // Remover a div da visualização móvel e o iframe
     mobileViewDiv.remove();
     editorFrame.remove();
