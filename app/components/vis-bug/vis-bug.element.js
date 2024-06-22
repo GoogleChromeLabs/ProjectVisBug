@@ -80,7 +80,7 @@ export default class VisBug extends HTMLElement {
       const e = document.createElement("iframe");
       e.id = "editorFrame";
       e.style.width = "100%";
-      e.style.height = "100%";
+      e.style.height = "99%";
       
       const t = this.iframeContent || document.documentElement.outerHTML;
       e.srcdoc = t;
@@ -162,6 +162,24 @@ export default class VisBug extends HTMLElement {
     e.style.background = "white";
     e.style.transformOrigin = "top left";
     e.style.transform = "scale(1.0)";
+    e.style.scrollbarWidth = "thin"; // Para navegadores que suportam (ex: Firefox)
+    e.style.scrollbarColor = "#888 #f1f1f1"; // Cor do thumb e track (Firefox)
+    e.style.msOverflowStyle = "-ms-autohiding-scrollbar"; // Para Microsoft Edge
+    // Para Webkit (Chrome, Safari, etc.)
+    e.style.webkitScrollbar = {
+      width: '4px'
+    };
+    e.style.webkitScrollbarTrack = {
+      background: '#f1f1f1'
+    };
+    e.style.webkitScrollbarThumb = {
+      background: '#888',
+      borderRadius: '2px'
+    };
+    e.style.webkitScrollbarThumbHover = {
+      background: '#555'
+    };
+        
   
     e.innerHTML = self.originalContent;
   
@@ -204,10 +222,17 @@ export default class VisBug extends HTMLElement {
       ::-webkit-scrollbar-thumb:hover {
         background: #555;
       }
+      [data-tool="download"] {
+        display: none;
+      }
       /* Adiciona uma meta tag viewport para simular dispositivo móvel */
       @media (max-width: 375px) {
         body {
           overflow-x: hidden;
+        }
+
+        #mobileView {
+        scrollbar-width: thin !important;
         }
       }
     `;
