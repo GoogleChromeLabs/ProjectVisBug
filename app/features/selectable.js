@@ -121,6 +121,15 @@ export function Selectable(visbug) {
 
   const on_dblclick = e => {
     const $target = deepElementFromPoint(e.clientX, e.clientY)
+    if ($target && $target.tagName === 'A') {
+      const newHref = prompt('Cole aqui o novo link:', $target.href);
+      if (newHref !== null) {
+      $target.href = newHref;
+      console.log('Link href updated:', $target.href); // Log to verify if the href was updated
+      }
+    }
+
+
     if ($target && $target.tagName === 'IMG') {
       const input = document.createElement('input');
       input.type = 'file';
