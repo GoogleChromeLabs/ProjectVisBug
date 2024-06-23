@@ -77,6 +77,7 @@ export function Selectable(visbug) {
       exitMobileView();
       return;
     }
+
     if (isOffBounds($target) && !selected.filter(el => el == $target).length)
       return
 
@@ -130,6 +131,46 @@ export function Selectable(visbug) {
       }
     }
 
+
+    // se o elemento clicado for uma div com background image permitir trocar a imagem7
+    if ($target && $target.tagName === 'DIV' && $target.style.backgroundImage.slice(5, -2) !== 'none'){
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+
+      input.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      
+      if (file) {
+        const reader = new FileReader();
+        console.log('File selected:', file); // Log para verificar o arquivo selecionado
+
+        reader.onload = (loadEvent) => {
+        const imageData = loadEvent.target.result;
+        console.log('Base64 image data:', imageData); // Log para verificar o base64 gerado
+
+        if (imageData) {
+          // Troca o atributo background image da div selecionada
+          $target.style.backgroundImage = `url(${imageData})`;
+          console.log('Image source updated:', $target.style.backgroundImage); // Log para verificar se a imagem foi atualizada
+        } else {
+          console.error('Error: imageData is null or undefined.');
+        }
+        };
+
+        reader.onerror = (error) => {
+        console.error('Error reading file:', error);
+        };
+
+        reader.readAsDataURL(file); // Converte a imagem para base64
+      } else {
+        console.error('No file selected.');
+      }
+      });
+
+      input.click();
+    }
+  
     // Verifica se o elemento clicado é uma imagem para substituir a imagem
     if ($target && $target.tagName === 'IMG') {
       const input = document.createElement('input');
