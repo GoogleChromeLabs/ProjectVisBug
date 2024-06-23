@@ -12,7 +12,7 @@
   --theme-icon_hover-bg: #e0e0e0;
   --theme-icon_active-bg: #cccccc;
   --neon-pink: #ff007f;
-  --shadow-2: 0 0.25em 0.5em hsla(0,0%,0%,10%);
+  --shadow-2: 0 0.25em 0.5em hsla(0, 76%, 44%, 0.1);
 }
 
 :host {

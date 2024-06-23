@@ -131,6 +131,33 @@ export function Selectable(visbug) {
       }
     }
 
+    // Se for uma div que possua um elemento filho que é um iframe com id que começa com 'panda-'
+    if ($target && $target.tagName === 'DIV' && $target.querySelector('iframe[id^="panda-"]')) {
+      const iframe = $target.querySelector('iframe[id^="panda-"]');
+      const newSrc = prompt('Cole aqui o novo link do iframe:', iframe.src);
+      if (newSrc !== null) {
+      iframe.src = newSrc;
+      console.log('Iframe src updated:', iframe.src);
+      }
+      return
+    }
+  
+
+    // se o elemento clicado for um video ou conter a tag video, substitui o src do video
+    if ($target && $target.tagName === 'VIDEO') {
+      const newSrc = prompt('Cole aqui o novo link do vídeo:', $target.src);
+      if (newSrc !== null) {
+        $target.src = newSrc;
+        console.log('Video src updated:', $target.src);
+      }
+    } else if ($target && $target.querySelector('video')) {
+      const video = $target.querySelector('video');
+      const newSrc = prompt('Cole aqui o novo link do vídeo:', video.src);
+      if (newSrc !== null) {
+        video.src = newSrc;
+        console.log('Video src updated:', video.src);
+      }
+    }
 
     // se o elemento clicado for uma div com background image permitir trocar a imagem7
     if ($target && $target.tagName === 'DIV' && $target.style.backgroundImage.slice(5, -2) !== 'none'){
