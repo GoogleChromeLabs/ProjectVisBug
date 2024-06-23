@@ -48,6 +48,7 @@ export function Selectable(visbug) {
     hotkeys(`${metaKey}+alt+v`, e => on_paste_styles())
     hotkeys('esc', on_esc)
     hotkeys(`${metaKey}+d`, on_duplicate)
+    hotkeys(`${metaKey}+l`, on_InsertLink)
     hotkeys('del,delete', on_delete)
     hotkeys('alt+del,alt+backspace', on_clearstyles)
     hotkeys(`${metaKey}+e,${metaKey}+shift+e`, on_expand_selection)
@@ -236,8 +237,6 @@ export function Selectable(visbug) {
   
       input.click();
       return
-    } else {
-      console.error('No image element found at the clicked position.');
     }
 
     e.preventDefault()
@@ -280,6 +279,41 @@ export function Selectable(visbug) {
     root_node.parentNode.insertBefore(deep_clone, root_node.nextSibling)
     e.preventDefault()
   }
+
+  const on_InsertLink = e => {
+    e.preventDefault();
+    e.stopPropagation();
+  
+    // Solicita a URL ao usuário
+    const url = prompt('Insira a URL:');
+    if (!url) return; // Sai se a URL for nula ou vazia
+  
+    // Verifica se há um elemento selecionado
+    const $target = selected.length ? selected[0] : null;
+  
+    if ($target) {
+      // Atualiza o href do elemento <a> se ele já for um link
+      if ($target.tagName === 'A') {
+        $target.href = url;
+        console.log('Link href updated:', $target.href);
+      } else {
+        // Cria um novo elemento <a> e envolve o elemento selecionado
+        const link = document.createElement('a');
+        link.href = url;
+        $target.parentNode.insertBefore(link, $target);
+        link.appendChild($target);
+        console.log('Element wrapped with new link:', link);
+      }
+    } else {
+      // Se não houver elemento selecionado, cria um novo link
+      const link = document.createElement('a');
+      link.href = url;
+      link.textContent = 'Novo link'; // Texto padrão para o novo link
+      document.body.appendChild(link);
+      console.log('New link created:', link);
+    }
+  }
+
 
   const on_delete = e =>
     selected.length && delete_all()
