@@ -15,9 +15,7 @@ const dev_plugins = [
 ]
 
 const prod_plugins = [
-  terser({
-    sourcemap: false,
-  }),
+  terser(),
 ]
 
 const plugins = is_prod

@@ -15,7 +15,7 @@ body:not([testing]) [data-selected=true] {
 }
 
 [data-selected=true][contenteditable=true] {
-  caret-color: hotpink;
+  caret-color: var(--neon-pink);
 }
 
 [data-measuring=true] {

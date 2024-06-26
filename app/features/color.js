@@ -1,9 +1,10 @@
 import $ from 'blingblingjs'
 import { TinyColor } from '@ctrl/tinycolor'
-import { getStyle } from '../utilities/'
+import Color from 'colorjs.io'
+import { getStyle, contrast_color } from '../utilities/'
 
 const state = {
-  active_color: 'background',
+  active_color: 'undefined',
   elements: [],
 }
 
@@ -16,13 +17,8 @@ export function ColorPicker(pallete, selectorEngine) {
   const boInput           = $('input', borderPicker[0])
 
   const shadows = {
-    active:   '0 0 0 2px hotpink, rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em',
+    active:   '0 0 0 2px var(--neon-pink), rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em',
     inactive: '0 0 0 2px var(--theme-bg), rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em',
-  }
-
-  const state = {
-    active_color: undefined,
-    elements:     [],
   }
 
   fgInput.on('input', ({target:{value}}) => {
@@ -79,9 +75,9 @@ export function ColorPicker(pallete, selectorEngine) {
           : new TinyColor(getStyle(el, 'borderColor'))
       }
 
-      let fg = FG.toHslString()
-      let bg = BG.toHslString()
-      let bo = BO.toHslString()
+      let fg = `#`+FG.toHex()
+      let bg = `#`+BG.toHex()
+      let bo = `#`+BO.toHex()
 
       isMeaningfulForeground = FG.originalInput !== 'rgb(0, 0, 0)' || (el.children.length === 0 && el.textContent !== '')
       isMeaningfulBackground = BG.originalInput !== 'rgba(0, 0, 0, 0)'
@@ -96,13 +92,16 @@ export function ColorPicker(pallete, selectorEngine) {
       const new_bg = isMeaningfulBackground   ? bg : ''
       const new_bo = isMeaningfulBorder       ? bo : ''
 
-      const fg_icon = isMeaningfulForeground  ? healthyContrastColor(FG) : ''
-      const bg_icon = isMeaningfulBackground  ? healthyContrastColor(BG) : ''
-      const bo_icon = isMeaningfulBorder      ? healthyContrastColor(BO) : ''
-
-      fgInput.attr('value', `#`+FG.toHex())
-      bgInput.attr('value', `#`+BG.toHex())
-      boInput.attr('value', `#`+BO.toHex())
+      const fg_icon = isMeaningfulForeground  ? contrast_color(fg) : ''
+      const bg_icon = isMeaningfulBackground  ? contrast_color(bg) : ''
+      const bo_icon = isMeaningfulBorder      ? contrast_color(bo) : ''
+      
+      fgInput.attr('value', fg)
+      bgInput.attr('value', bg)
+      boInput.attr('value', bo)
+      fgInput.value = fg
+      bgInput.value = bg
+      boInput.value = bo
 
       foregroundPicker.attr('style', `
         --contextual_color: ${new_fg};
@@ -125,19 +124,19 @@ export function ColorPicker(pallete, selectorEngine) {
       foregroundPicker.attr('style', `
         box-shadow: ${state.active_color == 'foreground' ? shadows.active : shadows.inactive};
         --contextual_color: transparent;
-        --icon_color: hsla(0,0%,0%,80%);
+        --icon_color: var(--theme-bg);
       `)
 
       backgroundPicker.attr('style', `
         box-shadow: ${state.active_color == 'background' ? shadows.active : shadows.inactive};
         --contextual_color: transparent;
-        --icon_color: hsla(0,0%,0%,80%);
+        --icon_color: var(--theme-bg);
       `)
 
       borderPicker.attr('style', `
         box-shadow: ${state.active_color == 'border' ? shadows.active : shadows.inactive};
         --contextual_color: transparent;
-        --icon_color: hsla(0,0%,0%,80%);
+        --icon_color: var(--theme-bg);
       `)
     }
   }
@@ -173,26 +172,13 @@ export function ColorPicker(pallete, selectorEngine) {
   }
 }
 
-export const healthyContrastColor = color => {
-  let contrast = color.clone()
+export const preferredNotation = (color, preference) => {
+  const isRGB = color.startsWith('rgb')
 
-  contrast = contrast.isDark()
-    ? contrast.lighten(75)
-    : contrast.darken(50)
-
-  return contrast.toHslString()
-}
-
-export const functionalNotate = color => {
-  const chunks = color.split(',')
-
-  if (chunks.length === 4) {
-    let opacity = chunks.pop()
-    chunks[0] = chunks[0].replace('hsla','hsl')
-    chunks[0] = chunks[0].replace('rgba','rgb')
-    return chunks.join(' ') + ` / ${opacity}`
-  }
-  else {
-    return chunks.join(' ')
-  }
+  if (preference === 'hsl')
+    return new Color(color).to('hsl').toString({precision: 2})
+  else if (isRGB )
+    return new Color(color).toString({format: preference, precision: 2}) 
+  else 
+    return color
 }

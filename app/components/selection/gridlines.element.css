@@ -1,11 +1,20 @@
 @import "../_variables.css";
 
 :host {
-  --color: var(--theme-color);
+  position: fixed;
+  background: transparent;
+  pointer-events: none;
+  border: none;
+  overflow: visible;
+  padding: 0;
+  margin: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 :host > svg {
-  position:absolute;
+  position:fixed;
   top:0;
   left:0;
   overflow:visible;
@@ -13,12 +22,16 @@
   z-index:var(--layer-5);
 }
 
-:host rect, 
+:host rect,
 :host line {
-  stroke: var(--color);
+  stroke: var(--neon-pink);
 }
 
 :host line {
   stroke-dasharray: 2;
   stroke-dasharray-offset: 3;
+}
+
+:host::backdrop {
+  background: none !important;
 }
