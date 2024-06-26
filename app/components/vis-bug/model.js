@@ -2,30 +2,30 @@ import * as Icons from './vis-bug.icons'
 import { metaKey, altKey } from '../../utilities/'
 
 export const VisBugModel = {
-  // g: {
-  //   tool:        'guides',
-  //   icon:        Icons.guides,
-  //   label:       '<span><u>G</u>uia</span>',
-  //   description: 'Verifique o alinhamento e meça as distâncias',
-  //   instruction: `<div table>
-  //                   <div>
-  //                     <b>Guias de elementos:</b>
-  //                     <span>hover</span>
-  //                   </div>
-  //                   <div>
-  //                     <b>Medida:</b>
-  //                     <span>click+hover</span>
-  //                   </div>
-  //                   <div>
-  //                     <b>Medir muitos:</b>
-  //                     <span>shift+click</span>
-  //                   </div>
-  //                   <div>
-  //                     <b>Limpar:</b>
-  //                     <span>esc</span>
-  //                   </div>
-  //                 </div>`,
-  // },
+  g: {
+    tool:        'Régua',
+    icon:        Icons.guides,
+    label:       '<span><u>G</u>uia</span>',
+    description: 'Verifique o alinhamento e meça as distâncias',
+    instruction: `<div table>
+                    <div>
+                      <b>Guias de elementos:</b>
+                      <span>hover</span>
+                    </div>
+                    <div>
+                      <b>Medida:</b>
+                      <span>click+hover</span>
+                    </div>
+                    <div>
+                      <b>Medir vários:</b>
+                      <span>shift+click</span>
+                    </div>
+                    <div>
+                      <b>Limpar:</b>
+                      <span>esc</span>
+                    </div>
+                  </div>`,
+  },
   i: {
     tool:        'inspector',
     icon:        Icons.inspector,
@@ -117,7 +117,7 @@ export const VisBugModel = {
   p: {
     tool:        'padding',
     icon:        Icons.padding,
-    label:       '<span><u>P</u>reenchimento</span>',
+    label:       '<span><u>P</u>adding</span>',
     description: 'Ajustar espaçamento interno',
     instruction: `<div table>
                     <div>
@@ -147,7 +147,7 @@ export const VisBugModel = {
   a: {
     tool:        'align',
     icon:        Icons.align,
-    label:       '<span>Alinhar <u>A</u>rranjo Flexível</span>',
+    label:       '<span><u>A</u>linhamento Flexbox</span>',
     description: 'Ajustar características de layout flexível',
     instruction: `<div table>
                     <div>
@@ -208,38 +208,38 @@ export const VisBugModel = {
                     </div>
                   </div>`,
   },
-  h: {
-    tool:        'hueshift',
-    icon:        Icons.hueshift,
-    label:       '<span><u>M</u>udança de Matiz</span>',
-    description: ``,
-    instruction: `<div table>
-                    <div>
-                      <b>Saturação:</b>
-                      <span>◀ ▶</span>
-                    </div>
-                    <div>
-                      <b>Brilho:</b>
-                      <span>▲ ▼</span>
-                    </div>
-                    <div>
-                      <b>Matiz:</b>
-                      <span>${metaKey} +  ▲ ▼</span>
-                    </div>
-                    <div>
-                      <b>Opacidade:</b>
-                      <span>${metaKey} +  ◀ ▶</span>
-                    </div>
-                    <div>
-                      <b>Formador:</b>
-                      <span>shift + /</span>
-                    </div>
-                  </div>`,
-  },
+  // h: {
+  //   tool:        'hueshift',
+  //   icon:        Icons.hueshift,
+  //   label:       '<span><u>M</u>udança de Matiz</span>',
+  //   description: ``,
+  //   instruction: `<div table>
+  //                   <div>
+  //                     <b>Saturação:</b>
+  //                     <span>◀ ▶</span>
+  //                   </div>
+  //                   <div>
+  //                     <b>Brilho:</b>
+  //                     <span>▲ ▼</span>
+  //                   </div>
+  //                   <div>
+  //                     <b>Matiz:</b>
+  //                     <span>${metaKey} +  ▲ ▼</span>
+  //                   </div>
+  //                   <div>
+  //                     <b>Opacidade:</b>
+  //                     <span>${metaKey} +  ◀ ▶</span>
+  //                   </div>
+  //                   <div>
+  //                     <b>Formador:</b>
+  //                     <span>shift + /</span>
+  //                   </div>
+  //                 </div>`,
+  // },
   d: {
     tool:        'boxshadow',
     icon:        Icons.boxshadow,
-    label:       '<span>Sombras de <u>C</u>aixa</span>',
+    label:       '<span>Sombreamento</span>',
     description: ``,
     instruction: `<div table>
                     <div>

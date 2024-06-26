@@ -290,6 +290,8 @@ applyChangesToMobileMediaQuery() {
     this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
   }
 
+
+
   disconnectedCallback() {
     // Tratar is not a function
     if (typeof this.deactivate_feature === 'function') {
@@ -344,10 +346,10 @@ applyChangesToMobileMediaQuery() {
         surface: toolButton,
         cursor: 'pointer',
         clickEvent: clickEvent,
-        // Add a condition to prevent dragging if text is being selected
-        dragCondition: (event) => {
-          return !this.selectorEngine.isActive();
-        }
+        // // Add a condition to prevent dragging if text is being selected
+        // dragCondition: (event) => {
+        //   return !this.selectorEngine.isActive();
+        // }
       });
     });
   
@@ -356,26 +358,26 @@ applyChangesToMobileMediaQuery() {
       surface: main_ol,
       cursor: 'grab',
       // Prevent dragging main_ol if text is being selected
-      dragCondition: (event) => {
-        return !this.inputFocused && !this.selectorEngine.isActive();
-      }
+      // dragCondition: (event) => {
+      //   return !this.inputFocused && !this.selectorEngine.isActive();
+      // }
     });
   
   
-    const linkInput = this.$shadow.querySelector('#link-input');
-    if (linkInput) {
-      linkInput.addEventListener('focus', () => {
-        this.inputFocused = true;
-      });
-      linkInput.addEventListener('blur', () => {
-        this.inputFocused = false;
-      });
-      linkInput.addEventListener('paste', (e) => {
-        e.preventDefault();
-        const text = (e.clipboardData || window.clipboardData).getData('text');
-        document.execCommand('insertText', false, text);
-      });
-    }
+    // const linkInput = this.$shadow.querySelector('#link-input');
+    // if (linkInput) {
+    //   linkInput.addEventListener('focus', () => {
+    //     this.inputFocused = true;
+    //   });
+    //   linkInput.addEventListener('blur', () => {
+    //     this.inputFocused = false;
+    //   });
+    //   linkInput.addEventListener('paste', (e) => {
+    //     e.preventDefault();
+    //     const text = (e.clipboardData || window.clipboardData).getData('text');
+    //     document.execCommand('insertText', false, text);
+    //   });
+    // }
   
     Object.entries(this.toolbar_model).forEach(([key, value]) =>
       hotkeys(key, e => {
@@ -488,7 +490,7 @@ applyChangesToMobileMediaQuery() {
     else {
       this[el.dataset.tool]()
     }
-    this.deactivate_feature = this.toolbar_model[el.dataset.key].deactivate
+    //this.deactivate_feature = this.toolbar_model[el.dataset.tooley].deactivate
   }
   
 changeImage() {
@@ -766,12 +768,12 @@ changeImage() {
     URL.revokeObjectURL(url);
   }
 
-  downloadHtmlWithStylesAndScripts() {
+  async downloadHtmlWithStylesAndScripts() {
     const cloneDocument = document.cloneNode(true);
-  
+
     // Embed all stylesheets
     const styleSheets = [...document.styleSheets];
-    styleSheets.forEach((styleSheet) => {
+    for (const styleSheet of styleSheets) {
       try {
         if (styleSheet.cssRules) {
           const newStyle = document.createElement('style');
@@ -788,11 +790,11 @@ changeImage() {
       } catch (e) {
         console.warn('Access to stylesheet %s is restricted by CORS policy', styleSheet.href);
       }
-    });
-  
+    }
+
     // Embed all scripts
     const scripts = [...document.scripts];
-    scripts.forEach((script) => {
+    for (const script of scripts) {
       if (script.src) {
         const newScript = document.createElement('script');
         newScript.src = script.src;
@@ -802,8 +804,57 @@ changeImage() {
         newScript.textContent = script.textContent;
         cloneDocument.body.appendChild(newScript);
       }
-    });
-  
+    }
+
+    // Replace image URLs with base64 data
+    const images = [...cloneDocument.querySelectorAll('img')];
+    for (const image of images) {
+      const url = image.src;
+      const extension = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+      const allowedExtensions = ['webp', 'jpg', 'jpeg', 'png'];
+      if (allowedExtensions.includes(extension)) {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        await new Promise((resolve, reject) => {
+          img.onload = function () {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            context.drawImage(img, 0, 0);
+            const base64Data = canvas.toDataURL(`image/${extension}`);
+            image.src = base64Data;
+            resolve();
+          };
+          img.onerror = async function () {
+            try {
+              const response = await fetch(url, { mode: 'no-cors' });
+              const blob = await response.blob();
+              const reader = new FileReader();
+              reader.onloadend = function () {
+                const base64Data = reader.result;
+                image.src = base64Data;
+              };
+              reader.readAsDataURL(blob);
+            } catch (error) {
+              console.error(`Failed to load image: ${url}`, error);
+            }
+          };
+          try {
+            img.src = url;
+          } catch (error) {
+            console.error(`Failed to load image: ${url}`, error);
+            img.src = '';
+          }
+        });
+      }
+    }
+    
+    const visBugElement = cloneDocument.querySelector('vis-bug');
+    if (visBugElement) {
+      visBugElement.remove();
+    }
+
     const htmlContent = cloneDocument.documentElement.outerHTML;
     const blob = new Blob([htmlContent], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
