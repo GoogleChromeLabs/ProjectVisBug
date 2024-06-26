@@ -47,7 +47,7 @@
   font-size: 0.7em;
   font-weight: bold;
   line-height: 1.1;
-  font-family: system-ui;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
   padding: 0 1ex;
 }
 
