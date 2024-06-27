@@ -768,9 +768,33 @@ changeImage() {
     URL.revokeObjectURL(url);
   }
 
-  async downloadHtmlWithStylesAndScripts() {
-    const cloneDocument = document.cloneNode(true);
+  async downloadHtmlWithStylesAndScripts2() {
 
+  // Adicionar spinner de carregamento
+  const loadingSpinner = document.createElement('div');
+  loadingSpinner.id = 'loadingSpinner';
+  loadingSpinner.style.position = 'fixed';
+  loadingSpinner.style.top = '50%';
+  loadingSpinner.style.left = '50%';
+  loadingSpinner.style.transform = 'translate(-50%, -50%)';
+  loadingSpinner.style.border = '16px solid #f3f3f3';
+  loadingSpinner.style.borderRadius = '50%';
+  loadingSpinner.style.borderTop = '16px solid #3498db';
+  loadingSpinner.style.width = '120px';
+  loadingSpinner.style.height = '120px';
+  loadingSpinner.style.animation = 'spin 2s linear infinite';
+  document.body.appendChild(loadingSpinner);
+
+      const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    `;
+    document.head.appendChild(style);
+
+    const cloneDocument = document.cloneNode(true);
     // Embed all stylesheets
     const styleSheets = [...document.styleSheets];
     for (const styleSheet of styleSheets) {
@@ -805,7 +829,6 @@ changeImage() {
         cloneDocument.body.appendChild(newScript);
       }
     }
-
     // Replace image URLs with base64 data
     const images = [...cloneDocument.querySelectorAll('img')];
     for (const image of images) {
@@ -817,7 +840,7 @@ changeImage() {
         const context = canvas.getContext('2d');
         const img = new Image();
         img.crossOrigin = 'Anonymous';
-        await new Promise((resolve, reject) => {
+        await new Promise(async (resolve, reject) => {
           img.onload = function () {
             canvas.width = img.width;
             canvas.height = img.height;
@@ -841,7 +864,7 @@ changeImage() {
             }
           };
           try {
-            img.src = url;
+            img.src =  await this.getBase64Image(url);
           } catch (error) {
             console.error(`Failed to load image: ${url}`, error);
             img.src = '';
@@ -862,11 +885,201 @@ changeImage() {
     a.href = url;
     a.download = 'index.html';
     document.body.appendChild(a);
+  
+
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     this.deactivate_feature();
   }
+
+  async downloadHtmlWithStylesAndScripts() {
+    // Adicionar spinner de carregamento
+    const loadingSpinner = document.createElement('div');
+    loadingSpinner.id = 'loadingSpinner';
+    loadingSpinner.style.position = 'fixed';
+    loadingSpinner.style.top = '50%';
+    loadingSpinner.style.left = '50%';
+    loadingSpinner.style.transform = 'translate(-50%, -50%)';
+    loadingSpinner.style.border = '16px solid #f3f3f3';
+    loadingSpinner.style.borderRadius = '50%';
+    loadingSpinner.style.borderTop = '16px solid #3498db';
+    loadingSpinner.style.width = '120px';
+    loadingSpinner.style.height = '120px';
+    loadingSpinner.style.animation = 'spin 2s linear infinite';
+    loadingSpinner.style.zIndex = '1000';
+    document.body.appendChild(loadingSpinner);
+  
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      #imageCount {
+        position: fixed;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 20px;
+        color: #3498db;
+        z-index: 1000;
+      }
+    `;
+    document.head.appendChild(style);
+  
+    const imageCount = document.createElement('div');
+    imageCount.id = 'imageCount';
+    document.body.appendChild(imageCount);
+  
+    const cloneDocument = document.cloneNode(true);
+    // Embed all stylesheets
+    const styleSheets = [...document.styleSheets];
+    for (const styleSheet of styleSheets) {
+      try {
+        if (styleSheet.cssRules) {
+          const newStyle = document.createElement('style');
+          for (const cssRule of styleSheet.cssRules) {
+            newStyle.appendChild(document.createTextNode(cssRule.cssText));
+          }
+          cloneDocument.head.appendChild(newStyle);
+        } else if (styleSheet.href) {
+          const newLink = document.createElement('link');
+          newLink.rel = 'stylesheet';
+          newLink.href = styleSheet.href;
+          cloneDocument.head.appendChild(newLink);
+        }
+      } catch (e) {
+        console.warn('Access to stylesheet %s is restricted by CORS policy', styleSheet.href);
+      }
+    }
+  
+    // Embed all scripts
+    const scripts = [...document.scripts];
+    for (const script of scripts) {
+      if (script.src) {
+        const newScript = document.createElement('script');
+        newScript.src = script.src;
+        cloneDocument.body.appendChild(newScript);
+      } else {
+        const newScript = document.createElement('script');
+        newScript.textContent = script.textContent;
+        cloneDocument.body.appendChild(newScript);
+      }
+    }
+  
+    // Replace image URLs with base64 data
+    const images = [...cloneDocument.querySelectorAll('img')];
+    const totalImages = images.length;
+    let downloadedImages = 0;
+    imageCount.textContent = `Estamos baixando sua página: 0 / ${totalImages}`;
+  
+    for (const image of images) {
+      const url = image.src;
+      const extension = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+      const allowedExtensions = ['webp', 'jpg', 'jpeg', 'png'];
+      if (allowedExtensions.includes(extension)) {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        // await new Promise(async (resolve, reject) => {
+        //   img.onload = function () {
+        //     canvas.width = img.width;
+        //     canvas.height = img.height;
+        //     context.drawImage(img, 0, 0);
+        //     const base64Data = canvas.toDataURL(`image/${extension}`);
+        //     image.src = base64Data;
+        //     downloadedImages++;
+        //     imageCount.textContent = `Imagens baixadas: ${downloadedImages} / ${totalImages}`;
+        //     resolve();
+        //   };
+        //   img.onerror = async function () {
+        //     debugger
+        //     try {
+        //       const response = await fetch(url, { mode: 'no-cors' });
+        //       const blob = await response.blob();
+        //       const reader = new FileReader();
+        //       reader.onloadend = function () {
+        //         const base64Data = reader.result;
+        //         image.src = base64Data;
+        //         downloadedImages++;
+        //         imageCount.textContent = `Imagens baixadas: ${downloadedImages} / ${totalImages}`;
+        //         resolve();
+        //       };
+        //       reader.readAsDataURL(blob);
+        //     } catch (error) {
+        //       console.error(`Failed to load image: ${url}`, error);
+        //       resolve();
+        //     }
+        //   };
+        //   try {
+        //     img.src = await this.getBase64Image(url);
+        //   } catch (error) {
+        //     console.error(`Failed to load image: ${url}`, error);
+        //     img.src = '';
+        //     resolve();
+        //   }
+        // });
+        await new Promise(async (resolve, reject) => {
+          img.onload = function () {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            context.drawImage(img, 0, 0);
+            const base64Data = canvas.toDataURL(`image/${extension}`);
+            image.src = base64Data;
+            resolve();
+          };
+          try {
+            img.src =  await this.getBase64Image(url);
+          } catch (error) {
+            console.error(`Failed to load image: ${url}`, error);
+            img.src = '';
+          }
+            downloadedImages++;
+            imageCount.textContent = `Imagens baixadas: ${downloadedImages} / ${totalImages}`;
+        });
+      }
+    }
+debugger
+    const visBugElement = cloneDocument.querySelector('vis-bug');
+    const spin = cloneDocument.getElementById('loadingSpinner');
+    if (visBugElement) {
+      visBugElement.remove();
+      spin.remove();
+    }
+    loadingSpinner.style.visibility = 'hidden';
+    imageCount.style.visibility = 'hidden';
+    const htmlContent = cloneDocument.documentElement.outerHTML;
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'index.html';
+    document.body.appendChild(a);  
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    this.deactivate_feature();
+  }
+  
+  async getBase64Image(imageUrl) {
+    try {
+      const response = await fetch('https://api-aicopi.zapime.com.br/download-image', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ imageUrl })
+      });
+      const data = await response.json();
+      return data.base64Image;
+    } catch (error) {
+      console.error('Error fetching base64 image:', error);
+      return null;
+    }
+  }
+
 
   get activeTool() {
 
