@@ -312,3 +312,70 @@
 :host::backdrop {
   background: none !important;
 }
+
+:host li[data-tool="link"] > .link {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  z-index: -1;
+  box-shadow: 0 0.25em 0.5em hsla(0,0%,0%,10%);
+  border-radius: 2em;
+  overflow: hidden;
+}
+
+:host li[data-tool="link"] > .link > input {
+  direction: ltr;
+  border: none;
+  font-size: 1em;
+  padding: 0.4em 0.4em 0.4em 3em;
+  outline: none;
+  height: 100%;
+  width: 300px;
+  box-sizing: border-box;
+  caret-color: var(--neon-pink);
+  background-color: var(--theme-bg);
+  color: var(--theme-text_color);
+  cursor: none;
+  -webkit-appearance: none;
+
+  &::placeholder {
+    font-weight: lighter;
+    font-size: 0.8em;
+    color: var(--theme-icon_color);
+  }
+}
+
+
+:host iframe::-webkit-scrollbar,
+:host div#mobileview::-webkit-scrollbar {
+  scrollbar-color: var(--theme-icon_color) var(--theme-bg);
+  scrollbar-width: thin; /* Para navegadores que suportam (ex: Firefox) */
+  scrollbar-color: #888 #f1f1f1; /* Cor do thumb e track (Firefox) */
+  -ms-overflow-style: -ms-autohiding-scrollbar; /* Para Microsoft Edge */
+  /* Para Webkit (Chrome, Safari, etc.) */
+  &::-webkit-scrollbar {
+    width: 1px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 2px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+
+
+@media (max-width: 375px) {
+  :host li[data-tool="download"] {
+    display: none;
+  } 
+
+  :host li[data-tool="addPixel"] {
+    display: none;
+  } 
+}

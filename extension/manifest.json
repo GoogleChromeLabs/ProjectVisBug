@@ -1,7 +1,7 @@
 {
-  "name": "VisBug",
-  "version": "{{NPM_VERSION}}",
-  "description": "Open source browser design tools",
+  "name": "I.A Copi",
+  "version": "0.4.8",
+  "description": "Clonador de Páginas",
   "manifest_version": 3,
   "icons": { "128": "icons/visbug.png" },
   "permissions": [
@@ -15,7 +15,7 @@
     "type": "module"
   },
   "action": {
-    "default_title": "Click or press Alt+Shift+D to launch VisBug",
+    "default_title": "Clique ou pressione Alt+Shift+D para abrir o Clona Facil",
     "default_icon": {
       "128": "icons/visbug.png"
     }

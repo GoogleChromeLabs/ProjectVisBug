@@ -8,7 +8,7 @@ import { queryPage } from './search'
 import { createMeasurements, clearMeasurements } from './measurements'
 import { createMarginVisual } from './margin'
 import { createPaddingVisual } from './padding'
-
+import { updateContentImage } from './imageswap';
 import { showTip as showMetaTip, removeAll as removeAllMetaTips } from './metatip'
 import { showTip as showAccessibilityTip, removeAll as removeAllAccessibilityTips } from './accessibility'
 
@@ -48,7 +48,8 @@ export function Selectable(visbug) {
     hotkeys(`${metaKey}+alt+v`, e => on_paste_styles())
     hotkeys('esc', on_esc)
     hotkeys(`${metaKey}+d`, on_duplicate)
-    hotkeys('backspace,del,delete', on_delete)
+    hotkeys(`${metaKey}+l`, on_InsertLink)
+    hotkeys('del,delete', on_delete)
     hotkeys('alt+del,alt+backspace', on_clearstyles)
     hotkeys(`${metaKey}+e,${metaKey}+shift+e`, on_expand_selection)
     hotkeys(`${metaKey}+g,${metaKey}+shift+g`, on_group)
@@ -73,6 +74,10 @@ export function Selectable(visbug) {
 
   const on_click = e => {
     const $target = deepElementFromPoint(e.clientX, e.clientY)
+    if ($target.id === 'exitMobileViewButton') {
+      exitMobileView();
+      return;
+    }
 
     if (isOffBounds($target) && !selected.filter(el => el == $target).length)
       return
@@ -91,6 +96,7 @@ export function Selectable(visbug) {
       select($target)
   }
 
+  
   const unselect = id => {
     [...labels, ...handles]
       .filter(node =>
@@ -116,6 +122,123 @@ export function Selectable(visbug) {
   }
 
   const on_dblclick = e => {
+    const $target = deepElementFromPoint(e.clientX, e.clientY)
+    // Verifica se o elemento clicado é um link para substituir o href
+    if ($target && $target.tagName === 'A') {
+      const newHref = prompt('Cole aqui o novo link:', $target.href);
+      if (newHref !== null) {
+      $target.href = newHref;
+      console.log('Link href updated:', $target.href);
+      }
+    }
+
+    // Se for uma div que possua um elemento filho que é um iframe com id que começa com 'panda-'
+    if ($target && $target.tagName === 'DIV' && $target.querySelector('iframe[id^="panda-"]')) {
+      const iframe = $target.querySelector('iframe[id^="panda-"]');
+      const newSrc = prompt('Cole aqui o novo link do iframe:', iframe.src);
+      if (newSrc !== null) {
+      iframe.src = newSrc;
+      console.log('Iframe src updated:', iframe.src);
+      }
+      return
+    }
+  
+
+    // se o elemento clicado for um video ou conter a tag video, substitui o src do video
+    if ($target && $target.tagName === 'VIDEO') {
+      const newSrc = prompt('Cole aqui o novo link do vídeo:', $target.src);
+      if (newSrc !== null) {
+        $target.src = newSrc;
+        console.log('Video src updated:', $target.src);
+      }
+    } else if ($target && $target.querySelector('video')) {
+      const video = $target.querySelector('video');
+      const newSrc = prompt('Cole aqui o novo link do vídeo:', video.src);
+      if (newSrc !== null) {
+        video.src = newSrc;
+        console.log('Video src updated:', video.src);
+      }
+    }
+
+    // se o elemento clicado for uma div com background image permitir trocar a imagem7
+    if ($target && $target.tagName === 'DIV' && $target.style.backgroundImage.slice(5, -2) !== 'none'){
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+
+      input.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      
+      if (file) {
+        const reader = new FileReader();
+        console.log('File selected:', file); // Log para verificar o arquivo selecionado
+
+        reader.onload = (loadEvent) => {
+        const imageData = loadEvent.target.result;
+        console.log('Base64 image data:', imageData); // Log para verificar o base64 gerado
+
+        if (imageData) {
+          // Troca o atributo background image da div selecionada
+          $target.style.backgroundImage = `url(${imageData})`;
+          console.log('Image source updated:', $target.style.backgroundImage); // Log para verificar se a imagem foi atualizada
+        } else {
+          console.error('Error: imageData is null or undefined.');
+        }
+        };
+
+        reader.onerror = (error) => {
+        console.error('Error reading file:', error);
+        };
+
+        reader.readAsDataURL(file); // Converte a imagem para base64
+      } else {
+        console.error('No file selected.');
+      }
+      });
+
+      input.click();
+    }
+  
+    // Verifica se o elemento clicado é uma imagem para substituir a imagem
+    if ($target && $target.tagName === 'IMG') {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+  
+      input.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        
+        if (file) {
+          const reader = new FileReader();
+          console.log('File selected:', file); // Log para verificar o arquivo selecionado
+  
+          reader.onload = (loadEvent) => {
+            const imageData = loadEvent.target.result;
+            console.log('Base64 image data:', imageData); // Log para verificar o base64 gerado
+  
+            if (imageData) {
+              // Utiliza a função updateContentImage para atualizar a imagem
+              updateContentImage($target, imageData);
+              console.log('Image source updated:', $target.src); // Log para verificar se a imagem foi atualizada
+            } else {
+              console.error('Error: imageData is null or undefined.');
+            }
+          };
+  
+          reader.onerror = (error) => {
+            console.error('Error reading file:', error);
+          };
+  
+          reader.readAsDataURL(file); // Converte a imagem para base64
+        } else {
+          console.error('No file selected.');
+        }
+      });
+  
+      input.click();
+      return
+    }
+
     e.preventDefault()
     e.stopPropagation()
     if (isOffBounds(e.target)) return
@@ -156,6 +279,41 @@ export function Selectable(visbug) {
     root_node.parentNode.insertBefore(deep_clone, root_node.nextSibling)
     e.preventDefault()
   }
+
+  const on_InsertLink = e => {
+    e.preventDefault();
+    e.stopPropagation();
+  
+    // Solicita a URL ao usuário
+    const url = prompt('Insira a URL:');
+    if (!url) return; // Sai se a URL for nula ou vazia
+  
+    // Verifica se há um elemento selecionado
+    const $target = selected.length ? selected[0] : null;
+  
+    if ($target) {
+      // Atualiza o href do elemento <a> se ele já for um link
+      if ($target.tagName === 'A') {
+        $target.href = url;
+        console.log('Link href updated:', $target.href);
+      } else {
+        // Cria um novo elemento <a> e envolve o elemento selecionado
+        const link = document.createElement('a');
+        link.href = url;
+        $target.parentNode.insertBefore(link, $target);
+        link.appendChild($target);
+        console.log('Element wrapped with new link:', link);
+      }
+    } else {
+      // Se não houver elemento selecionado, cria um novo link
+      const link = document.createElement('a');
+      link.href = url;
+      link.textContent = 'Novo link'; // Texto padrão para o novo link
+      document.body.appendChild(link);
+      console.log('New link created:', link);
+    }
+  }
+
 
   const on_delete = e =>
     selected.length && delete_all()
@@ -782,6 +940,49 @@ export function Selectable(visbug) {
     onSelectedUpdate,
     removeSelectedCallback,
     disconnect,
+  }
+}
+function applyChangesToMobileMediaQuery() {
+  const e = document.getElementById("mobileView");
+
+  if (e) {
+    const iframeStyles = e.style.cssText;
+
+    const styleElement = document.createElement("style");
+    styleElement.textContent = `
+      @media (max-width: 375px) {
+        ${iframeStyles}
+      }
+    `;
+
+    document.head.appendChild(styleElement);
+  }
+}
+
+function exitMobileView() {
+  // Obter a div da visualização móvel e o iframe
+  const mobileViewDiv = document.getElementById("mobileView");
+  const editorFrame = document.getElementById("editorFrame");
+
+  if (mobileViewDiv && editorFrame) {
+    // Reverter as alterações feitas ao conteúdo do documento
+    applyChangesToMobileMediaQuery();
+    const t = (new DOMParser).parseFromString(this.iframeContent, "text/html");
+    document.documentElement.innerHTML = t.documentElement.innerHTML;
+    // Remover a div da visualização móvel e o iframe
+    mobileViewDiv.remove();
+    editorFrame.remove();
+
+    // Remover o botão de sair da visualização móvel
+    const exitButton = document.getElementById("exitMobileViewButton");
+    if (exitButton) {
+      exitButton.remove();
+    }
+
+    // Mostrar todos os elementos do corpo
+    Array.from(document.body.children).forEach((el) => {
+      el.style.display = "";
+    });
   }
 }
 

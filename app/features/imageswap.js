@@ -47,6 +47,7 @@ const clearWatchers = imgs => {
   imgs = []
 }
 
+
 const previewFile = file => {
   return new Promise((resolve, reject) => {
     let reader = new FileReader()
@@ -145,7 +146,7 @@ const updateContentImages = (images, srcs) => {
   })
 }
 
-const updateContentImage = (img, src) => {
+export const updateContentImage = (img, src) => {
   img.src = src
   if (img.srcset !== '')
     img.srcset = src

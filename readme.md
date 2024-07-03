@@ -10,6 +10,10 @@
 
 > Open source web design debug tools
 
+- Executar  npm run extension no gitbash
+
+
+
 - Point, click & tinker
 - Hold shift and **multi-select**
 - Edit **any page** in **any state**
