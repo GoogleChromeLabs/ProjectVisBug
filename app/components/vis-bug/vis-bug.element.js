@@ -33,6 +33,10 @@ export default class VisBug extends HTMLElement {
   constructor() {
     super();
     this.iframeContent = null; // Armazena o conteúdo do iframe
+    this.globalPageContent = '',
+    this.pixelMeta = '',
+    this.pixeGoogle = '',
+    this.pixeCookie = '',
     this.originalContent = document.documentElement.innerHTML;
     this.toolbar_model = VisBugModel;
     this.$shadow = this.attachShadow({ mode: 'closed' });
@@ -431,7 +435,7 @@ applyChangesToMobileMediaQuery() {
 
     el.attr('data-active', true)
     this.active_tool = el
-    if (el.dataset.tool === 'download') {
+    if (el.dataset.tool === 'download1') {
       this.downloadHtmlWithStylesAndScripts();
     } else if (el.dataset.tool === 'link') {
       const linkContainer = this.$shadow.querySelector('.link');
@@ -448,43 +452,10 @@ applyChangesToMobileMediaQuery() {
         const pixelInput = this.$shadow.querySelector('#pixel-input');
         const pixelCode = pixelInput.value.trim();
         if (pixelCode) {
-          const existingPixelScript = document.querySelector(`script[src*="https://connect.facebook.net/en_US/fbevents.js"]`);
-          const existingNoScript = document.querySelector(`noscript img[src*="https://www.facebook.com/tr?id="]`);
-      
-          const pixelScript = `
-            <!-- Facebook Pixel Code -->
-            <script>
-            !function(f,b,e,v,n,t,s)
-            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window, document,'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '${pixelCode}');
-            fbq('track', 'PageView');
-            </script>
-            <noscript>
-            <img height="1" width="1" style="display:none"
-            src="https://www.facebook.com/tr?id=${pixelCode}&ev=PageView&noscript=1"/>
-            </noscript>
-            <!-- End Facebook Pixel Code -->
-          `;
-      
-          if (existingPixelScript) {
-            existingPixelScript.remove();
-          }
-          if (existingNoScript) {
-            existingNoScript.parentElement.remove();
-          }
-      
-          const head = document.head || document.getElementsByTagName('head')[0];
-          head.insertAdjacentHTML('beforeend', pixelScript);
-      
-          console.log('Código do pixel adicionado:', pixelCode);
+          this.pixelMeta = pixelCode
           pixelModal.style.display = 'none';
         }
+        pixelModal.style.display = 'none';
       };
     }
     else {
@@ -492,37 +463,114 @@ applyChangesToMobileMediaQuery() {
     }
     //this.deactivate_feature = this.toolbar_model[el.dataset.tooley].deactivate
   }
+
+  addPixelToHeader(pixelCode, clone) {
+
+    const pixelScript = `
+      <!-- Facebook Pixel Code -->
+      <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '${pixelCode}');
+      fbq('track', 'PageView');
+      </script>
+      <noscript>
+      <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=${pixelCode}&ev=PageView&noscript=1"/>
+      </noscript>
+      <!-- End Facebook Pixel Code -->
+    `;
+
+    const head = clone.head || clone.getElementsByTagName('head')[0];
+    head.insertAdjacentHTML('beforeend', pixelScript);
+
+    console.log('Código do pixel adicionado:', pixelCode);
+  }
   
-changeImage() {
-  const images = document.querySelectorAll('img, picture img');
-  
-  if (images.length === 0) {
-    console.log('Nenhuma imagem encontrada.');
-    return;
+  removeFacebookPixelsFromHeader(clone) {
+  // Função para remover tags script do pixel do Facebook e scripts que contenham !function(f,b,e,v,n,t,s) ou fbq
+  const scripts = clone.getElementsByTagName('script');
+  const scriptsArray = Array.from(scripts);
+  const scriptsToRemove = scriptsArray.filter(script => {
+    const scriptContent = script.innerHTML;
+    return scriptContent.includes('connect.facebook.net') ||
+           scriptContent.includes('fbq') ||
+           scriptContent.includes('!function(f,b,e,v,n,t,s)') ||
+           scriptContent.includes('www.googletagmanager.com');
+  });
+
+  scriptsToRemove.forEach(script => {
+    script.parentNode.removeChild(script);
+  });
+
+  // Função para remover tags noscript do pixel do Facebook
+  const noscripts = clone.getElementsByTagName('noscript');
+  const noscriptsArray = Array.from(noscripts);
+  const facebookPixelNoscripts = noscriptsArray.filter(noscript => {
+    return noscript.innerHTML.includes('www.facebook.com/tr');
+  });
+
+  facebookPixelNoscripts.forEach(noscript => {
+    noscript.parentNode.removeChild(noscript);
+  });
   }
 
-  images.forEach(img => {
-    console.log('Adicionando evento de clique à imagem:', img);
-    img.addEventListener('click', (e) => {
-      console.log('Imagem clicada:', img);
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
-
-      input.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          const imageData = event.target.result;
-          img.src = imageData;
-        };
-        reader.readAsDataURL(file);
-      });
-
-      input.click(); // Abre a janela de seleção de arquivo
+  removeCookies(clone) {
+    // Obtenha todos os iframes na página
+    const iframes = clone.getElementsByTagName('iframe');
+  
+    // Converta a coleção HTML para um array para usar métodos de array
+    const iframesArray = Array.from(iframes);
+  
+    // Filtre os iframes que têm o atributo frameborder="0"
+    const iframesToRemove = iframesArray.filter(iframe => {
+      return iframe.getAttribute('frameborder') === '0';
     });
-  });
-}
+  
+    // Remova cada um dos iframes encontrados
+    iframesToRemove.forEach(iframe => {
+      iframe.parentNode.removeChild(iframe);
+    });
+  
+    console.log(`${iframesToRemove.length} iframe(s) with frameborder="0" removed.`);
+  }
+  
+  changeImage() {
+    const images = document.querySelectorAll('img, picture img');
+    
+    if (images.length === 0) {
+      console.log('Nenhuma imagem encontrada.');
+      return;
+    }
+
+    images.forEach(img => {
+      console.log('Adicionando evento de clique à imagem:', img);
+      img.addEventListener('click', (e) => {
+        console.log('Imagem clicada:', img);
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+
+        input.addEventListener('change', (e) => {
+          const file = e.target.files[0];
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const imageData = event.target.result;
+            img.src = imageData;
+          };
+          reader.readAsDataURL(file);
+        });
+
+        input.click(); // Abre a janela de seleção de arquivo
+      });
+    });
+  }
   render() {
     return `
       <visbug-hotkeys></visbug-hotkeys>
@@ -650,6 +698,13 @@ changeImage() {
     `
   }
 
+  download() {
+    this.active_tool = $('[data-tool="inspector"]', this.$shadow)[0]
+    this.active_tool.attr('data-active', true)
+    this.downloadHtmlWithStylesAndScripts();
+    this.deactivate_feature = null
+  }
+
   move() {
     this.deactivate_feature = Moveable(this.selectorEngine)
   }
@@ -757,6 +812,10 @@ changeImage() {
   }
   downloadHtml() {
     const htmlContent = document.documentElement.outerHTML;
+    
+    if (!htmlContent.startsWith('<!DOCTYPE html>')) {
+      htmlContent = '<!DOCTYPE html>' + htmlContent;
+    }
     const blob = new Blob([htmlContent], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -847,6 +906,8 @@ changeImage() {
             context.drawImage(img, 0, 0);
             const base64Data = canvas.toDataURL(`image/${extension}`);
             image.src = base64Data;
+            downloadedImages++;
+            imageCount.textContent = `Imagens baixadas: ${downloadedImages} / ${totalImages}`;
             resolve();
           };
           img.onerror = async function () {
@@ -857,10 +918,14 @@ changeImage() {
               reader.onloadend = function () {
                 const base64Data = reader.result;
                 image.src = base64Data;
+                downloadedImages++;
+                imageCount.textContent = `Imagens baixadas: ${downloadedImages} / ${totalImages}`;
+                resolve();
               };
               reader.readAsDataURL(blob);
             } catch (error) {
               console.error(`Failed to load image: ${url}`, error);
+              resolve();
             }
           };
           try {
@@ -868,14 +933,17 @@ changeImage() {
           } catch (error) {
             console.error(`Failed to load image: ${url}`, error);
             img.src = '';
+            resolve();
           }
         });
       }
     }
     
     const visBugElement = cloneDocument.querySelector('vis-bug');
+    const spin = cloneDocument.getElementById('loadingSpinner');
     if (visBugElement) {
       visBugElement.remove();
+      spin.remove();
     }
 
     const htmlContent = cloneDocument.documentElement.outerHTML;
@@ -1032,16 +1100,22 @@ changeImage() {
           };
           try {
             img.src =  await this.getBase64Image(url);
+            console.error(`Failed to load image: ${url}`, error);
+            downloadedImages++;
+            imageCount.textContent = `Imagens baixadas: ${downloadedImages} / ${totalImages}`;
+            spin.remove();
+            reject();
           } catch (error) {
             console.error(`Failed to load image: ${url}`, error);
             img.src = '';
-          }
             downloadedImages++;
             imageCount.textContent = `Imagens baixadas: ${downloadedImages} / ${totalImages}`;
+            resolve();
+          }
         });
       }
     }
-debugger
+
     const visBugElement = cloneDocument.querySelector('vis-bug');
     const spin = cloneDocument.getElementById('loadingSpinner');
     if (visBugElement) {
@@ -1050,7 +1124,19 @@ debugger
     }
     loadingSpinner.style.visibility = 'hidden';
     imageCount.style.visibility = 'hidden';
+    spin.remove();
+
+    this.removeFacebookPixelsFromHeader(cloneDocument);
+    this.removeCookies(cloneDocument);
+    this.addPixelToHeader(this.pixelMeta, cloneDocument);
     const htmlContent = cloneDocument.documentElement.outerHTML;
+    
+    // if (!htmlContent.startsWith('<!DOCTYPE html>')) {
+    //   htmlContent.innerHTML = '<!DOCTYPE html>' + htmlContent;
+    // }
+    
+    this.globalPageContent = htmlContent;
+
     const blob = new Blob([htmlContent], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -1060,7 +1146,6 @@ debugger
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    this.deactivate_feature();
   }
   
   async getBase64Image(imageUrl) {
@@ -1071,12 +1156,22 @@ debugger
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ imageUrl })
-      });
-      const data = await response.json();
-      return data.base64Image;
+      }).then(res => {
+        if (res.status === 500 || res.status === 404 || res.status === 400) {
+          return ''
+        } else {
+          return res
+        }
+      })
+      if (response === '') {
+        return ''
+      } else {
+        const data = await response.json()
+        return data.base64Image
+      }
     } catch (error) {
       console.error('Error fetching base64 image:', error);
-      return null;
+      return '';
     }
   }
 
