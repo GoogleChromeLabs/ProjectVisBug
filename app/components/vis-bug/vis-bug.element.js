@@ -502,7 +502,10 @@ applyChangesToMobileMediaQuery() {
     return scriptContent.includes('connect.facebook.net') ||
            scriptContent.includes('fbq') ||
            scriptContent.includes('!function(f,b,e,v,n,t,s)') ||
-           scriptContent.includes('www.googletagmanager.com');
+           scriptContent.includes('www.googletagmanager.com') ||
+           scriptContent.includes('pixelId') || 
+           scriptContent.includes('PageView') || 
+           scriptContent.includes('facebook') 
   });
 
   scriptsToRemove.forEach(script => {
@@ -925,6 +928,7 @@ applyChangesToMobileMediaQuery() {
               reader.readAsDataURL(blob);
             } catch (error) {
               console.error(`Failed to load image: ${url}`, error);
+              
               resolve();
             }
           };
@@ -961,7 +965,8 @@ applyChangesToMobileMediaQuery() {
     this.deactivate_feature();
   }
 
-  async downloadHtmlWithStylesAndScripts() {
+  //Esse funciona bem, tem que rever as imagens
+  async downloadHtmlWithStylesAndScriptsImage() {
     // Adicionar spinner de carregamento
     const loadingSpinner = document.createElement('div');
     loadingSpinner.id = 'loadingSpinner';
@@ -1103,13 +1108,14 @@ applyChangesToMobileMediaQuery() {
             console.error(`Failed to load image: ${url}`, error);
             downloadedImages++;
             imageCount.textContent = `Imagens baixadas: ${downloadedImages} / ${totalImages}`;
-            spin.remove();
+            loadingSpinner.remove();
             reject();
           } catch (error) {
             console.error(`Failed to load image: ${url}`, error);
             img.src = '';
             downloadedImages++;
             imageCount.textContent = `Imagens baixadas: ${downloadedImages} / ${totalImages}`;
+            loadingSpinner.remove();
             resolve();
           }
         });
@@ -1123,6 +1129,7 @@ applyChangesToMobileMediaQuery() {
       spin.remove();
     }
     loadingSpinner.style.visibility = 'hidden';
+    loadingSpinner.remove();
     imageCount.style.visibility = 'hidden';
     spin.remove();
 
@@ -1134,10 +1141,81 @@ applyChangesToMobileMediaQuery() {
     // if (!htmlContent.startsWith('<!DOCTYPE html>')) {
     //   htmlContent.innerHTML = '<!DOCTYPE html>' + htmlContent;
     // }
+
+    // preciso inserir https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css no head
+    const head = cloneDocument.head || cloneDocument.getElementsByTagName('head')[0];
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+    head.appendChild(link);
     
     this.globalPageContent = htmlContent;
 
     const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'index.html';
+    document.body.appendChild(a);  
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  async downloadHtmlWithStylesAndScripts() {
+    const imageCount = document.createElement('div');
+    imageCount.id = 'imageCount';
+    document.body.appendChild(imageCount);
+  
+    const cloneDocument = document.cloneNode(true);
+    // Embed all stylesheets
+    const styleSheets = [...document.styleSheets];
+    for (const styleSheet of styleSheets) {
+      try {
+        if (styleSheet.cssRules) {
+          const newStyle = document.createElement('style');
+          for (const cssRule of styleSheet.cssRules) {
+            newStyle.appendChild(document.createTextNode(cssRule.cssText));
+          }
+          cloneDocument.head.appendChild(newStyle);
+        } else if (styleSheet.href) {
+          const newLink = document.createElement('link');
+          newLink.rel = 'stylesheet';
+          newLink.href = styleSheet.href;
+          cloneDocument.head.appendChild(newLink);
+        }
+      } catch (e) {
+        console.warn('Access to stylesheet %s is restricted by CORS policy', styleSheet.href);
+      }
+    }
+  
+    // Embed all scripts
+    const scripts = [...document.scripts];
+    for (const script of scripts) {
+      if (script.src) {
+        const newScript = document.createElement('script');
+        newScript.src = script.src;
+        cloneDocument.body.appendChild(newScript);
+      } else {
+        const newScript = document.createElement('script');
+        newScript.textContent = script.textContent;
+        cloneDocument.body.appendChild(newScript);
+      }
+    }
+  
+    const visBugElement = cloneDocument.querySelector('vis-bug');
+    if (visBugElement) {
+      visBugElement.remove();
+    }
+
+    this.removeFacebookPixelsFromHeader(cloneDocument);
+    //Rever pois em alguns casos não exibe o video
+    // this.removeCookies(cloneDocument);
+    this.addPixelToHeader(this.pixelMeta, cloneDocument);
+
+    const htmlContent = cloneDocument.documentElement.outerHTML;
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;

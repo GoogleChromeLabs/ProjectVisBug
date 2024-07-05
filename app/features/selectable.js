@@ -130,6 +130,7 @@ export function Selectable(visbug) {
       $target.href = newHref;
       console.log('Link href updated:', $target.href);
       }
+      return
     }
 
     // Se for uma div que possua um elemento filho que é um iframe com id que começa com 'panda-'
@@ -151,6 +152,7 @@ export function Selectable(visbug) {
         $target.src = newSrc;
         console.log('Video src updated:', $target.src);
       }
+      return
     } else if ($target && $target.querySelector('video')) {
       const video = $target.querySelector('video');
       const newSrc = prompt('Cole aqui o novo link do vídeo:', video.src);
@@ -158,6 +160,7 @@ export function Selectable(visbug) {
         video.src = newSrc;
         console.log('Video src updated:', video.src);
       }
+      return
     }
 
     // se o elemento clicado for uma div com background image permitir trocar a imagem7
@@ -197,6 +200,7 @@ export function Selectable(visbug) {
       });
 
       input.click();
+      return
     }
   
     // Verifica se o elemento clicado é uma imagem para substituir a imagem
