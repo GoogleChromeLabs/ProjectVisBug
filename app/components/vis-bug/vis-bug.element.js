@@ -1211,7 +1211,9 @@ applyChangesToMobileMediaQuery() {
     this.removeFacebookPixelsFromHeader(cloneDocument);
     //Rever pois em alguns casos não exibe o video
     // this.removeCookies(cloneDocument);
-    this.addPixelToHeader(this.pixelMeta, cloneDocument);
+    if(this.pixelMeta !== '') {
+      this.addPixelToHeader(this.pixelMeta, cloneDocument);
+    }
 
     const htmlContent = cloneDocument.documentElement.outerHTML;
     const blob = new Blob([htmlContent], { type: 'text/html' });
