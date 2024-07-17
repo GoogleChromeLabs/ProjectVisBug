@@ -20,15 +20,21 @@ export const nodeKey = node => {
 
 export const createClassname = (el, ellipse = false) => {
   if (!el.className) return ''
-  
+
   const combined = Array.from(el.classList).reduce((classnames, classname) =>
-    classnames += '.' + classname
+    classnames += '.' + escapeSpecialCharacters(classname)
   , '')
 
   return ellipse && combined.length > 30
     ? combined.substring(0,30) + '...'
     : combined
 }
+
+const escapeSpecialCharacters = (query) =>
+    Array.from(query)
+      .map((char) => /[0-9a-zA-Z_\s-]/.test(char) ?  char : `\\${char}`)
+      .join("")
+
 
 export const metaKey = window.navigator.platform.includes('Mac')
   ? 'cmd'
