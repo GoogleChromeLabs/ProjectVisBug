@@ -30,24 +30,8 @@
   }
 }
 
-:host([placement^="top"]) {
-  --align-self: start;
-  --translate-y: -50%;
-}
-
-:host([placement^="bottom"]) {
-  --align-self: end;
-  --translate-y: 50%;
-}
-
-:host([placement$="start"]) {
-  --justify-self: start;
-  --translate-x: -50%;
-}
-
-:host([placement$="end"]) {
-  --justify-self: end;
-  --translate-x: 50%;
+:host {
+  translate: -50% -50%;
 }
 
 :host([placement^="top"]),

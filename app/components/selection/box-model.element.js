@@ -20,26 +20,36 @@ export class BoxModel extends HTMLElement {
       this.createMeasurements(payload)
   }
 
-  render({mode, bounds, sides, color = 'pink'}) {
+  render({mode, bounds, sides, color = 'pink', element}) {
     const total_height  = bounds.height + sides.bottom + sides.top
     const total_width   = bounds.width + sides.right + sides.left
 
+    const q1 =  element.getBoxQuads({ box: 'border' })[0];
+    const left = Math.min(q1.p1.x, q1.p2.x, q1.p3.x, q1.p4.x);
+    const top = Math.min(q1.p1.y, q1.p2.y, q1.p3.y, q1.p4.y);
+
     if (mode === 'padding') {
+      const q2 = element.getBoxQuads({ box: 'content' })[0];
       this.drawable = {
         height:   bounds.height,
         width:    bounds.width,
         top:      0,
         left:     0,
         rotation: 'rotate(-45)',
+        d:        "M" + [q1.p1, q1.p2, q1.p3, q1.p4].map(x => (x.x - left) + ',' + (x.y - top)).join(' ') + 'Z '
+                + "M" + [q2.p1, q2.p2, q2.p3, q2.p4].map(x => (x.x - left) + ',' + (x.y - top)).join(' ') + 'Z'
       }
     }
     else if (mode === 'margin') {
+      const q2 = element.getBoxQuads({ box: 'margin' })[0];
       this.drawable = {
         height:   total_height,
         width:    total_width,
         top:      0 - sides.top,
         left:     0 - sides.left,
         rotation: 'rotate(45)',
+        d:        "M" + [q1.p1, q1.p2, q1.p3, q1.p4].map(x => (x.x - left) + ',' + (x.y - top)).join(' ') + 'Z '
+                + "M" + [q2.p1, q2.p2, q2.p3, q2.p4].map(x => (x.x - left) + ',' + (x.y - top)).join(' ') + 'Z'
       }
     }
 
@@ -56,13 +66,14 @@ export class BoxModel extends HTMLElement {
 
     return `
       <div mask>
-        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" style="overflow: visible;">
           <defs>
             <pattern id="pinstripe" patternUnits="userSpaceOnUse" width="10" height="10" patternTransform="${this.drawable.rotation}" class="pattern">
               <line x1="0" y="0" x2="0" y2="10" stroke="${this.drawable.stripe}" stroke-width="1"></line>
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#pinstripe)"></rect>
+          <path d="${this.drawable.d}" style="fill-rule: evenodd; fill: var(--bg)"></path>
+          <path d="${this.drawable.d}" style="fill-rule: evenodd;" fill="url(#pinstripe)"></path>
         </svg>
       </div>
     `

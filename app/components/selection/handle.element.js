@@ -13,7 +13,7 @@ export class Handle extends HTMLElement {
   connectedCallback() {
     this.$shadow.adoptedStyleSheets = this.styles
     this.$shadow.innerHTML = this.render()
-    
+
     this.button = this.$shadow.querySelector('button')
     this.button.addEventListener('pointerdown', this.on_element_resize_start.bind(this))
 
@@ -30,6 +30,9 @@ export class Handle extends HTMLElement {
     }
   }
 
+  /**
+   * @param {PointerEvent} e
+   */
   on_element_resize_start(e) {
     e.preventDefault()
     e.stopPropagation()
@@ -39,11 +42,14 @@ export class Handle extends HTMLElement {
     const placement = this.placement
     const handlesEl = e.composedPath().find(el => el.tagName === 'VISBUG-HANDLES')
     const nodeLabelId = handlesEl.getAttribute('data-label-id')
+    /** @type {Element[]} */
     const [sourceEl] = $(`[data-label-id="${nodeLabelId}"]`)
 
     if (!sourceEl) return
 
-    const { x: initialX, y: initialY } = e
+    const t = sourceEl.convertPointFromNode(e, document.body.parentElement);
+
+    const { x: initialX, y: initialY } = t
     const initialStyle = getComputedStyle(sourceEl)
     const initialWidth = parseFloat(initialStyle.width)
     const initialHeight = parseFloat(initialStyle.height)
@@ -62,9 +68,11 @@ export class Handle extends HTMLElement {
       e.preventDefault()
       e.stopPropagation()
 
-      const newX = clamp(0, e.clientX, document.documentElement.clientWidth)
-      const newY = clamp(0, e.clientY, document.documentElement.clientHeight)
-    
+      const t = sourceEl.convertPointFromNode({ x: e.clientX, y: e.clientY }, document.body.parentElement);
+
+      const newX = clamp(0, t.x, document.documentElement.clientWidth)
+      const newY = clamp(0, t.y, document.documentElement.clientHeight)
+
       const diffX = newX - initialX
       const diffY = newY - initialY
 
