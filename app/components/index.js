@@ -1,3 +1,6 @@
+import { addPolyfill } from "get-box-quads-polyfill";
+addPolyfill(window);
+
 export { Handles }    from './selection/handles.element'
 export { Handle }     from './selection/handle.element'
 export { Hover }      from './selection/hover.element'
