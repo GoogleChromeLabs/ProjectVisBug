@@ -42,7 +42,7 @@
     "blingblingjs": "^2.3.0",
     "colorjs.io": "^0.5.0",
     "construct-style-sheets-polyfill": "^2.4.2",
-    "get-box-quads-polyfill": "^4.15.0",
+    "get-box-quads-polyfill": "^4.16.0",
     "hotkeys-js": "^3.13.7",
     "query-selector-shadow-dom": "^1.0.1"
   },
