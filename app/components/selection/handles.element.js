@@ -70,10 +70,10 @@ export class Handles extends HTMLElement {
   render(quad, node_label_id, isFixed) {
     this.$shadow.host.setAttribute('data-label-id', node_label_id)
 
-    const left = Math.min(quad.p1.x,quad.p2.x,quad.p3.x,quad.p4.x);
-    const right = Math.max(quad.p1.x,quad.p2.x,quad.p3.x,quad.p4.x);
-    const top = Math.min(quad.p1.y,quad.p2.y,quad.p3.y,quad.p4.y);
-    const bottom = Math.max(quad.p1.y,quad.p2.y,quad.p3.y,quad.p4.y);
+    const left = Math.min(quad.p1.x, quad.p2.x, quad.p3.x, quad.p4.x);
+    const right = Math.max(quad.p1.x, quad.p2.x, quad.p3.x, quad.p4.x);
+    const top = Math.min(quad.p1.y, quad.p2.y, quad.p3.y, quad.p4.y);
+    const bottom = Math.max(quad.p1.y, quad.p2.y, quad.p3.y, quad.p4.y);
     const width = right - left;
     const height = bottom - top;
 
