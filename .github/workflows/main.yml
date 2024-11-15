@@ -28,6 +28,7 @@ jobs:
 
       - name: Git Push
         uses: ad-m/github-push-action@master
+        continue-on-error: true
         with:
           tags: true
           branch: 'main'
