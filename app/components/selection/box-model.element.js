@@ -26,10 +26,10 @@ export class BoxModel extends HTMLElement {
 
     if (mode === 'padding') {
       this.drawable = {
-        height:   bounds.height,
-        width:    bounds.width,
-        top:      0,
-        left:     0,
+        height:   bounds.height - (sides.borders.top + sides.borders.bottom),
+        width:    bounds.width - (sides.borders.right + sides.borders.left),
+        top:      0 + sides.borders.top,
+        left:     0 + sides.borders.left,
         rotation: 'rotate(-45)',
       }
     }
@@ -69,6 +69,7 @@ export class BoxModel extends HTMLElement {
   }
 
   styles({sides}) {
+    console.log(sides.borders)
     this.style.setProperty('--width', `${this.drawable.width}px`)
     this.style.setProperty('--height', `${this.drawable.height}px`)
     this.style.setProperty('--top', `${this.drawable.top}px`)
@@ -135,7 +136,7 @@ export class BoxModel extends HTMLElement {
       if (sides.top) {
         this.createMeasurement({
           x: (bounds.width / 2) - offset,
-          y: (window.scrollY * -1),
+          y: (window.scrollY * -1) + sides.borders.top,
           d: sides.top,
           q: 'top',
           v: true,
@@ -145,7 +146,7 @@ export class BoxModel extends HTMLElement {
        if (sides.bottom) {
          this.createMeasurement({
            x: (bounds.width / 2) - offset,
-           y: (window.scrollY * -1) + (bounds.height - sides.bottom),
+           y: (window.scrollY * -1) + (bounds.height - sides.bottom - sides.borders.bottom),
            d: sides.bottom,
            q: 'bottom',
            v: true,
@@ -154,7 +155,7 @@ export class BoxModel extends HTMLElement {
        }
        if (sides.right) {
          this.createMeasurement({
-           x: bounds.width - sides.right,
+           x: bounds.width - sides.right - sides.borders.right,
            y: (window.scrollY * -1) + (bounds.height / 2) - offset,
            d: sides.right,
            q: 'right',
@@ -164,7 +165,7 @@ export class BoxModel extends HTMLElement {
        }
        if (sides.left) {
          this.createMeasurement({
-           x: 0,
+           x: 0 + sides.borders.left,
            y: (window.scrollY * -1) + (bounds.height / 2) - offset,
            d: sides.left,
            q: 'left',

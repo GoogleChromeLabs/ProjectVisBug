@@ -165,3 +165,37 @@ export const firstUsableFontFromFamily = family => {
 
   return match
 }
+
+export const expandBorders = (borderString) => {
+  let expanded = {}
+  let split = borderString.split(' ').map(i=>parseInt(i))
+
+  switch (split.length) {
+    case 1:
+      expanded = {
+        top: split[0],
+        right: split[0],
+        bottom: split[0],
+        left: split[0],
+      }
+      break
+    case 2:
+      expanded = {
+        top: split[0],
+        right: split[1],
+        bottom: split[0],
+        left: split[1],
+      }
+      break
+    case 4:
+      expanded = {
+        top: split[0],
+        right: split[1],
+        bottom: split[2],
+        left: split[3],
+      }
+      break
+  }
+
+  return expanded
+}

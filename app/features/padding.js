@@ -1,5 +1,5 @@
 import hotkeys from 'hotkeys-js'
-import { metaKey, getStyle, getSide, showHideSelected } from '../utilities/'
+import { metaKey, getStyle, getSide, showHideSelected, expandBorders } from '../utilities/'
 
 const key_events = 'up,down,left,right'
   .split(',')
@@ -91,6 +91,7 @@ function removeBackgrounds(els) {
 export function createPaddingVisual(el, hover = false) {
   const bounds            = el.getBoundingClientRect()
   const calculatedStyle   = getStyle(el, 'padding')
+  const calculatedBorder   = expandBorders(getStyle(el, 'border-width'))
   const boxdisplay        = document.createElement('visbug-boxmodel')
 
   if (calculatedStyle !== '0px') {
@@ -112,7 +113,10 @@ export function createPaddingVisual(el, hover = false) {
       mode: 'padding',
       color: hover ? 'purple' : 'pink',
       bounds, 
-      sides,
+      sides: {
+        ...sides,
+        borders: calculatedBorder,
+      },
     }
   }
 
