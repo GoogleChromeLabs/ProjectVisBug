@@ -69,7 +69,6 @@ export class BoxModel extends HTMLElement {
   }
 
   styles({sides}) {
-    console.log(sides.borders)
     this.style.setProperty('--width', `${this.drawable.width}px`)
     this.style.setProperty('--height', `${this.drawable.height}px`)
     this.style.setProperty('--top', `${this.drawable.top}px`)
