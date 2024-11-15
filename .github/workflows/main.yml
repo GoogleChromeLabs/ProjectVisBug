@@ -34,7 +34,8 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Save Build As Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
+        continue-on-error: true
         with:
           name: VisBug
           path: extension/build/visbug.zip
