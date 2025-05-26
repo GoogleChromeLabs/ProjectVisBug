@@ -53,6 +53,24 @@ Let's do this **design community, I'm looking at you!** Make a GitHub account an
 <br>
 
 ## Installation
+ IR
+ راهنمای فارسی: نصب سریع VisBug
+اگر فارسی‌زبان هستی و می‌خوای خیلی سریع VisBug رو نصب و استفاده کنی، این راهنما برات آماده شده:
+
+مرورگر Google Chrome رو باز کن.
+
+به صفحه رسمی افزونه VisBug در Chrome Web Store برو.
+
+روی دکمهٔ "Add to Chrome" کلیک کن.
+
+حالا از طریق آیکون افزونه (بالا سمت راست مرورگر)، VisBug رو فعال کن.
+
+روی هر صفحهٔ وب کلیک کن و شروع به ویرایش و بررسی عناصر کن — بدون نیاز به کد نویسی!
+
+🎯 این ابزار مخصوص طراحان، توسعه‌دهندگان فرانت‌اند، و کسانیه که می‌خوان بدون دست‌بردن به کد، سریع UI رو بررسی و بهبود بدن.
+
+📌 پیشنهاد: اگر این ابزار برات مفید بود، پروژه رو ⭐️ ستاره بده و اگر مشکلی یا پیشنهادی داشتی، توی Issues بنویس.
+
 
 ### Add to your browser
 [Chrome Extension](https://chrome.google.com/webstore/detail/cdockenadnadldjbbgcallicgledbeoc)  
