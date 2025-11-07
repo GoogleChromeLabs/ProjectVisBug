@@ -1,178 +1,255 @@
 import $ from 'blingblingjs'
 import { HandleStyles } from '../styles.store'
 import { clamp } from '../../utilities/numbers'
+import { StyleChange, BatchChange } from "../../features/history";
 
 export class Handle extends HTMLElement {
-
   constructor() {
-    super()
-    this.$shadow = this.attachShadow({mode: 'closed'})
-    this.styles = [HandleStyles]
+    super();
+    this.$shadow = this.attachShadow({ mode: "closed" });
+    this.styles = [HandleStyles];
   }
 
   connectedCallback() {
-    this.$shadow.adoptedStyleSheets = this.styles
-    this.$shadow.innerHTML = this.render()
-    
-    this.button = this.$shadow.querySelector('button')
-    this.button.addEventListener('pointerdown', this.on_element_resize_start.bind(this))
+    this.$shadow.adoptedStyleSheets = this.styles;
+    this.$shadow.innerHTML = this.render();
 
-    this.placement = this.getAttribute('placement')
+    this.button = this.$shadow.querySelector("button");
+    this.button.addEventListener(
+      "pointerdown",
+      this.on_element_resize_start.bind(this)
+    );
+
+    this.placement = this.getAttribute("placement");
   }
 
   static get observedAttributes() {
-    return ['placement']
+    return ["placement"];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if (name === 'placement') {
-      this.placement = newValue
+    if (name === "placement") {
+      this.placement = newValue;
     }
   }
 
   on_element_resize_start(e) {
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault();
+    e.stopPropagation();
 
-    if (e.button !== 0) return
+    if (e.button !== 0) return;
 
-    const placement = this.placement
-    const handlesEl = e.composedPath().find(el => el.tagName === 'VISBUG-HANDLES')
-    const nodeLabelId = handlesEl.getAttribute('data-label-id')
-    const [sourceEl] = $(`[data-label-id="${nodeLabelId}"]`)
+    const placement = this.placement;
+    const handlesEl = e
+      .composedPath()
+      .find((el) => el.tagName === "VISBUG-HANDLES");
+    const nodeLabelId = handlesEl.getAttribute("data-label-id");
+    const [sourceEl] = $(`[data-label-id="${nodeLabelId}"]`);
 
-    if (!sourceEl) return
+    if (!sourceEl) return;
 
-    const { x: initialX, y: initialY } = e
-    const initialStyle = getComputedStyle(sourceEl)
-    const initialWidth = parseFloat(initialStyle.width)
-    const initialHeight = parseFloat(initialStyle.height)
-    const initialTransform = new DOMMatrix(initialStyle.transform)
+    const { x: initialX, y: initialY } = e;
+    const initialStyle = getComputedStyle(sourceEl);
+    const initialWidth = parseFloat(initialStyle.width);
+    const initialHeight = parseFloat(initialStyle.height);
+    const initialTransform = new DOMMatrix(initialStyle.transform);
 
-    const originalElTransition = sourceEl.style.transition
-    const originalDocumentCursor = document.body.style.cursor
-    const originalDocumentUserSelect = document.body.style.userSelect
-    sourceEl.style.transition = 'none'
-    document.body.style.cursor = getComputedStyle(this).getPropertyValue('--cursor')
-    document.body.style.userSelect = 'none'
+    // Store initial values for history tracking
+    const historyManager = handlesEl.historyManager;
+    const initialValues = {
+      width: sourceEl.style.width,
+      height: sourceEl.style.height,
+      transform: sourceEl.style.transform,
+    };
 
-    document.addEventListener('pointermove', on_element_resize_move)
+    const originalElTransition = sourceEl.style.transition;
+    const originalDocumentCursor = document.body.style.cursor;
+    const originalDocumentUserSelect = document.body.style.userSelect;
+    sourceEl.style.transition = "none";
+    document.body.style.cursor =
+      getComputedStyle(this).getPropertyValue("--cursor");
+    document.body.style.userSelect = "none";
+
+    document.addEventListener("pointermove", on_element_resize_move);
 
     function on_element_resize_move(e) {
-      e.preventDefault()
-      e.stopPropagation()
+      e.preventDefault();
+      e.stopPropagation();
 
-      const newX = clamp(0, e.clientX, document.documentElement.clientWidth)
-      const newY = clamp(0, e.clientY, document.documentElement.clientHeight)
-    
-      const diffX = newX - initialX
-      const diffY = newY - initialY
+      const newX = clamp(0, e.clientX, document.documentElement.clientWidth);
+      const newY = clamp(0, e.clientY, document.documentElement.clientHeight);
+
+      const diffX = newX - initialX;
+      const diffY = newY - initialY;
 
       switch (placement) {
-        case 'top-start': {
-          const newWidth = initialWidth - diffX
-          const newHeight = initialHeight - diffY
-          const newTranslate = initialTransform.translate(diffX, diffY).transformPoint()
+        case "top-start": {
+          const newWidth = initialWidth - diffX;
+          const newHeight = initialHeight - diffY;
+          const newTranslate = initialTransform
+            .translate(diffX, diffY)
+            .transformPoint();
 
           requestAnimationFrame(() => {
-            sourceEl.style.width = `${newWidth}px`
-            sourceEl.style.height = `${newHeight}px`
-            sourceEl.style.transform = `translate(${newTranslate.x}px, ${newTranslate.y}px)`
-          })
-          break
+            sourceEl.style.width = `${newWidth}px`;
+            sourceEl.style.height = `${newHeight}px`;
+            sourceEl.style.transform = `translate(${newTranslate.x}px, ${newTranslate.y}px)`;
+          });
+          break;
         }
-        case 'top-center': {
-          const newHeight = initialHeight - diffY
-          const newTranslate = initialTransform.translate(0, diffY).transformPoint()
+        case "top-center": {
+          const newHeight = initialHeight - diffY;
+          const newTranslate = initialTransform
+            .translate(0, diffY)
+            .transformPoint();
 
           requestAnimationFrame(() => {
-            sourceEl.style.height = `${newHeight}px`
-            sourceEl.style.transform = `translate(${newTranslate.x}px, ${newTranslate.y}px)`
-          })
-          break
+            sourceEl.style.height = `${newHeight}px`;
+            sourceEl.style.transform = `translate(${newTranslate.x}px, ${newTranslate.y}px)`;
+          });
+          break;
         }
-        case 'top-end': {
-          const newWidth = initialWidth + diffX
-          const newHeight = initialHeight - diffY
-          const newTranslate = initialTransform.translate(0, diffY).transformPoint()
+        case "top-end": {
+          const newWidth = initialWidth + diffX;
+          const newHeight = initialHeight - diffY;
+          const newTranslate = initialTransform
+            .translate(0, diffY)
+            .transformPoint();
 
           requestAnimationFrame(() => {
-            sourceEl.style.width = `${newWidth}px`
-            sourceEl.style.height = `${newHeight}px`
-            sourceEl.style.transform = `translate(${newTranslate.x}px, ${newTranslate.y}px)`
-          })
-          break
+            sourceEl.style.width = `${newWidth}px`;
+            sourceEl.style.height = `${newHeight}px`;
+            sourceEl.style.transform = `translate(${newTranslate.x}px, ${newTranslate.y}px)`;
+          });
+          break;
         }
-        case 'middle-start': {
-          const newWidth = initialWidth - diffX
-          const newTranslate = initialTransform.translate(diffX).transformPoint()
+        case "middle-start": {
+          const newWidth = initialWidth - diffX;
+          const newTranslate = initialTransform
+            .translate(diffX)
+            .transformPoint();
 
           requestAnimationFrame(() => {
-            sourceEl.style.width = `${newWidth}px`
-            sourceEl.style.transform = `translate(${newTranslate.x}px, ${newTranslate.y}px)`
-          })
-          break
+            sourceEl.style.width = `${newWidth}px`;
+            sourceEl.style.transform = `translate(${newTranslate.x}px, ${newTranslate.y}px)`;
+          });
+          break;
         }
-        case 'middle-end': {
-          const newWidth = initialWidth + diffX
+        case "middle-end": {
+          const newWidth = initialWidth + diffX;
 
           requestAnimationFrame(() => {
-            sourceEl.style.width = `${newWidth}px`
-          })
-          break
+            sourceEl.style.width = `${newWidth}px`;
+          });
+          break;
         }
-        case 'bottom-start': {
-          const newWidth = initialWidth - diffX
-          const newHeight = initialHeight + diffY
-          const newTranslate = initialTransform.translate(diffX, 0).transformPoint()
+        case "bottom-start": {
+          const newWidth = initialWidth - diffX;
+          const newHeight = initialHeight + diffY;
+          const newTranslate = initialTransform
+            .translate(diffX, 0)
+            .transformPoint();
 
           requestAnimationFrame(() => {
-            sourceEl.style.width = `${newWidth}px`
-            sourceEl.style.height = `${newHeight}px`
-            sourceEl.style.transform = `translate(${newTranslate.x}px, ${newTranslate.y}px)`
-          })
-          break
+            sourceEl.style.width = `${newWidth}px`;
+            sourceEl.style.height = `${newHeight}px`;
+            sourceEl.style.transform = `translate(${newTranslate.x}px, ${newTranslate.y}px)`;
+          });
+          break;
         }
-        case 'bottom-center': {
-          const newHeight = initialHeight + diffY
+        case "bottom-center": {
+          const newHeight = initialHeight + diffY;
 
           requestAnimationFrame(() => {
-            sourceEl.style.height = `${newHeight}px`
-          })
-          break
+            sourceEl.style.height = `${newHeight}px`;
+          });
+          break;
         }
-        case 'bottom-end': {
-          const newWidth = initialWidth + diffX
-          const newHeight = initialHeight + diffY
+        case "bottom-end": {
+          const newWidth = initialWidth + diffX;
+          const newHeight = initialHeight + diffY;
 
           requestAnimationFrame(() => {
-            sourceEl.style.width = `${newWidth}px`
-            sourceEl.style.height = `${newHeight}px`
-          })
-          break
+            sourceEl.style.width = `${newWidth}px`;
+            sourceEl.style.height = `${newHeight}px`;
+          });
+          break;
         }
       }
     }
 
-    document.addEventListener('pointerup', on_element_resize_end, { once: true })
-    document.addEventListener('mouseleave', on_element_resize_end, { once: true })
+    document.addEventListener("pointerup", on_element_resize_end, {
+      once: true,
+    });
+    document.addEventListener("mouseleave", on_element_resize_end, {
+      once: true,
+    });
 
     function on_element_resize_end() {
-      document.removeEventListener('pointermove', on_element_resize_move)
-      document.body.style.cursor = originalDocumentCursor
-      document.body.style.userSelect = originalDocumentUserSelect
-      sourceEl.style.transition = originalElTransition
+      document.removeEventListener("pointermove", on_element_resize_move);
+      document.body.style.cursor = originalDocumentCursor;
+      document.body.style.userSelect = originalDocumentUserSelect;
+      sourceEl.style.transition = originalElTransition;
+
+      // Record resize changes in history
+      if (historyManager) {
+        const changes = [];
+
+        // Check which properties changed
+        if (initialValues.width !== sourceEl.style.width) {
+          changes.push(
+            new StyleChange({
+              element: sourceEl,
+              property: "width",
+              oldValue: initialValues.width,
+              newValue: sourceEl.style.width,
+            })
+          );
+        }
+
+        if (initialValues.height !== sourceEl.style.height) {
+          changes.push(
+            new StyleChange({
+              element: sourceEl,
+              property: "height",
+              oldValue: initialValues.height,
+              newValue: sourceEl.style.height,
+            })
+          );
+        }
+
+        if (initialValues.transform !== sourceEl.style.transform) {
+          changes.push(
+            new StyleChange({
+              element: sourceEl,
+              property: "transform",
+              oldValue: initialValues.transform,
+              newValue: sourceEl.style.transform,
+            })
+          );
+        }
+
+        // Push changes as a batch if multiple properties changed
+        if (changes.length > 1) {
+          historyManager.push(new BatchChange(changes));
+        } else if (changes.length === 1) {
+          historyManager.push(changes[0]);
+        }
+      }
     }
   }
 
   disconnectedCallback() {
-    this.button.removeEventListener('pointerdown', this.on_element_resize_start.bind(this))
+    this.button.removeEventListener(
+      "pointerdown",
+      this.on_element_resize_start.bind(this)
+    );
   }
 
   render() {
     return `
       <button type="button" aria-label="Resize"></button>
-    `
+    `;
   }
 }
 

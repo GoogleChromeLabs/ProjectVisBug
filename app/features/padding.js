@@ -1,68 +1,102 @@
 import hotkeys from 'hotkeys-js'
 import { metaKey, getStyle, getSide, showHideSelected, expandBorders } from '../utilities/'
+import { StyleChange } from "./history";
 
-const key_events = 'up,down,left,right'
-  .split(',')
-  .reduce((events, event) =>
-    `${events},${event},alt+${event},shift+${event},shift+alt+${event}`
-  , '')
-  .substring(1)
+const key_events = "up,down,left,right"
+  .split(",")
+  .reduce(
+    (events, event) =>
+      `${events},${event},alt+${event},shift+${event},shift+alt+${event}`,
+    ""
+  )
+  .substring(1);
 
-const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down`
+const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down`;
 
 export function Padding(visbug) {
-  hotkeys(key_events, (e, handler) => {
-    if (e.cancelBubble) return
+  const historyManager = visbug.historyManager;
 
-    e.preventDefault()
-    padElement(visbug.selection(), handler.key)
-  })
+  hotkeys(key_events, (e, handler) => {
+    if (e.cancelBubble) return;
+
+    e.preventDefault();
+    padElement(visbug.selection(), handler.key, historyManager);
+  });
 
   hotkeys(command_events, (e, handler) => {
-    e.preventDefault()
-    padAllElementSides(visbug.selection(), handler.key)
-  })
+    e.preventDefault();
+    padAllElementSides(visbug.selection(), handler.key, historyManager);
+  });
 
-  visbug.onSelectedUpdate(paintBackgrounds)
+  visbug.onSelectedUpdate(paintBackgrounds);
 
   return () => {
-    hotkeys.unbind(key_events)
-    hotkeys.unbind(command_events)
-    hotkeys.unbind('up,down,left,right') // bug in lib?
-    visbug.removeSelectedCallback(paintBackgrounds)
-    removeBackgrounds(visbug.selection())
-  }
+    hotkeys.unbind(key_events);
+    hotkeys.unbind(command_events);
+    hotkeys.unbind("up,down,left,right"); // bug in lib?
+    visbug.removeSelectedCallback(paintBackgrounds);
+    removeBackgrounds(visbug.selection());
+  };
 }
 
-export function padElement(els, direction) {
+export function padElement(els, direction, historyManager) {
+  // Begin batch if multiple elements
+  if (els.length > 1 && historyManager) {
+    historyManager.beginBatch();
+  }
+
   els
-    .map(el => showHideSelected(el))
-    .map(el => ({
+    .map((el) => showHideSelected(el))
+    .map((el) => ({
       el,
-      style:    'padding' + getSide(direction),
-      current:  parseInt(getStyle(el, 'padding' + getSide(direction)), 10),
-      amount:   direction.split('+').includes('shift') ? 10 : 1,
-      negative: direction.split('+').includes('alt'),
+      style: "padding" + getSide(direction),
+      current: parseInt(getStyle(el, "padding" + getSide(direction)), 10),
+      amount: direction.split("+").includes("shift") ? 10 : 1,
+      negative: direction.split("+").includes("alt"),
     }))
-    .map(payload =>
+    .map((payload) =>
       Object.assign(payload, {
         padding: payload.negative
           ? payload.current - payload.amount
-          : payload.current + payload.amount
-      }))
-    .forEach(({el, style, padding}) =>
-      el.style[style] = `${padding < 0 ? 0 : padding}px`)
+          : payload.current + payload.amount,
+      })
+    )
+    .forEach(({ el, style, padding, current }) => {
+      const oldValue = `${current}px`;
+      const newValue = `${padding < 0 ? 0 : padding}px`;
+
+      // Record change in history
+      if (historyManager) {
+        historyManager.push(
+          new StyleChange({
+            element: el,
+            property: style,
+            oldValue: oldValue,
+            newValue: newValue,
+          })
+        );
+      }
+
+      // Apply change
+      el.style[style] = newValue;
+    });
+
+  // End batch if multiple elements
+  if (els.length > 1 && historyManager) {
+    historyManager.endBatch();
+  }
 }
 
-export function padAllElementSides(els, keycommand) {
-  const combo = keycommand.split('+')
-  let spoof = ''
+export function padAllElementSides(els, keycommand, historyManager) {
+  const combo = keycommand.split("+");
+  let spoof = "";
 
-  if (combo.includes('shift'))  spoof = 'shift+' + spoof
-  if (combo.includes('down'))   spoof = 'alt+' + spoof
+  if (combo.includes("shift")) spoof = "shift+" + spoof;
+  if (combo.includes("down")) spoof = "alt+" + spoof;
 
-  'up,down,left,right'.split(',')
-    .forEach(side => padElement(els, spoof + side))
+  "up,down,left,right"
+    .split(",")
+    .forEach((side) => padElement(els, spoof + side, historyManager));
 }
 
 function paintBackgrounds(els) {

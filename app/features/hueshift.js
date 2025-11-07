@@ -3,125 +3,156 @@ import hotkeys from 'hotkeys-js'
 import { TinyColor } from '@ctrl/tinycolor'
 
 import { metaKey, getStyle, showHideSelected } from '../utilities/'
+import { StyleChange } from "./history";
 
-const key_events = 'up,down,left,right'
-  .split(',')
-  .reduce((events, event) =>
-    `${events},${event},shift+${event}`
-  , '')
-  .substring(1)
+const key_events = "up,down,left,right"
+  .split(",")
+  .reduce((events, event) => `${events},${event},shift+${event}`, "")
+  .substring(1);
 
-const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down,${metaKey}+left,${metaKey}+shift+left,${metaKey}+right,${metaKey}+shift+right`
+const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down,${metaKey}+left,${metaKey}+shift+left,${metaKey}+right,${metaKey}+shift+right`;
 
 const state = {
   active_color: undefined,
   elements: [],
-}
+  historyManager: null,
+};
 
-export function HueShift({Color:ColorTool, Visbug}) {
-  state.active_color   = ColorTool.getActive()
-  state.elements       = []
+export function HueShift({ Color: ColorTool, Visbug, historyManager }) {
+  state.active_color = ColorTool.getActive();
+  state.elements = [];
+  state.historyManager = historyManager;
 
-  Visbug.onSelectedUpdate(elements => {
-    state.elements = elements
-    ColorTool.setActive(state.active_color)
-  })
+  Visbug.onSelectedUpdate((elements) => {
+    state.elements = elements;
+    ColorTool.setActive(state.active_color);
+  });
 
   hotkeys(key_events, (e, handler) => {
-    if (e.cancelBubble) return
+    if (e.cancelBubble) return;
 
-    e.preventDefault()
+    e.preventDefault();
 
-    let selectedNodes = state.elements
-      , keys = handler.key.split('+')
+    let selectedNodes = state.elements,
+      keys = handler.key.split("+");
 
-    keys.includes('left') || keys.includes('right')
-      ? changeHue(selectedNodes, keys, 's', ColorTool)
-      : changeHue(selectedNodes, keys, 'l', ColorTool)
-  })
+    keys.includes("left") || keys.includes("right")
+      ? changeHue(selectedNodes, keys, "s", ColorTool, state.historyManager)
+      : changeHue(selectedNodes, keys, "l", ColorTool, state.historyManager);
+  });
 
   hotkeys(command_events, (e, handler) => {
-    e.preventDefault()
-    let keys = handler.key.split('+')
-    keys.includes('left') || keys.includes('right')
-      ? changeHue(state.elements, keys, 'a', ColorTool)
-      : changeHue(state.elements, keys, 'h', ColorTool)
-  })
+    e.preventDefault();
+    let keys = handler.key.split("+");
+    keys.includes("left") || keys.includes("right")
+      ? changeHue(state.elements, keys, "a", ColorTool, state.historyManager)
+      : changeHue(state.elements, keys, "h", ColorTool, state.historyManager);
+  });
 
-  hotkeys(']', (e, handler) => {
-    e.preventDefault()
+  hotkeys("]", (e, handler) => {
+    e.preventDefault();
 
-    if (state.active_color == 'foreground')
-      state.active_color = 'background'
-    else if (state.active_color == 'background')
-      state.active_color = 'border'
+    if (state.active_color == "foreground") state.active_color = "background";
+    else if (state.active_color == "background") state.active_color = "border";
 
-    ColorTool.setActive(state.active_color)
-  })
+    ColorTool.setActive(state.active_color);
+  });
 
-  hotkeys('[', (e, handler) => {
-    e.preventDefault()
+  hotkeys("[", (e, handler) => {
+    e.preventDefault();
 
-    if (state.active_color == 'background')
-      state.active_color = 'foreground'
-    else if (state.active_color == 'border')
-      state.active_color = 'background'
+    if (state.active_color == "background") state.active_color = "foreground";
+    else if (state.active_color == "border") state.active_color = "background";
 
-    ColorTool.setActive(state.active_color)
-  })
+    ColorTool.setActive(state.active_color);
+  });
 
   return () => {
-    hotkeys.unbind(key_events)
-    hotkeys.unbind(command_events)
-    hotkeys.unbind('up,down,left,right')
-  }
+    hotkeys.unbind(key_events);
+    hotkeys.unbind(command_events);
+    hotkeys.unbind("up,down,left,right");
+  };
 }
 
-export function changeHue(els, direction, prop, ColorTool) {
+export function changeHue(els, direction, prop, ColorTool, historyManager) {
+  // Begin batch if multiple elements
+  if (els.length > 1 && historyManager) {
+    historyManager.beginBatch();
+  }
+
   els
-    .map(el => showHideSelected(el))
-    .map(el => {
-      const { foreground, background, border } = extractPalleteColors(el)
+    .map((el) => showHideSelected(el))
+    .map((el) => {
+      const { foreground, background, border } = extractPalleteColors(el);
 
       // todo: teach hueshift to do handle color
-      switch(ColorTool.getActive()) {
-        case 'background':
-          return { el, current: background.color.toHsl(), style: background.style }
-        case 'foreground':
-          return { el, current: foreground.color.toHsl(), style: foreground.style }
-        case 'border': {
-          if (el.style.border === '') el.style.border = '1px solid black'
-          return { el, current: border.color.toHsl(), style: border.style }
+      switch (ColorTool.getActive()) {
+        case "background":
+          return {
+            el,
+            current: background.color.toHsl(),
+            style: background.style,
+          };
+        case "foreground":
+          return {
+            el,
+            current: foreground.color.toHsl(),
+            style: foreground.style,
+          };
+        case "border": {
+          if (el.style.border === "") el.style.border = "1px solid black";
+          return { el, current: border.color.toHsl(), style: border.style };
         }
       }
     })
-    .map(payload =>
+    .map((payload) =>
       Object.assign(payload, {
-        amount:   direction.includes('shift') ? 10 : 1,
-        negative: direction.includes('down') || direction.includes('left'),
-      }))
-    .map(payload => {
-      if (prop === 's' || prop === 'l' || prop === 'a')
-        payload.amount = payload.amount * 0.01
+        amount: direction.includes("shift") ? 10 : 1,
+        negative: direction.includes("down") || direction.includes("left"),
+      })
+    )
+    .map((payload) => {
+      if (prop === "s" || prop === "l" || prop === "a")
+        payload.amount = payload.amount * 0.01;
 
       payload.current[prop] = payload.negative
         ? payload.current[prop] - payload.amount
-        : payload.current[prop] + payload.amount
+        : payload.current[prop] + payload.amount;
 
-      if (prop === 's' || prop === 'l' || prop === 'a') {
-        if (payload.current[prop] > 1) payload.current[prop] = 1
-        if (payload.current[prop] < 0) payload.current[prop] = 0
+      if (prop === "s" || prop === "l" || prop === "a") {
+        if (payload.current[prop] > 1) payload.current[prop] = 1;
+        if (payload.current[prop] < 0) payload.current[prop] = 0;
       }
 
-      return payload
+      return payload;
     })
-    .forEach(({el, style, current}) => {
-      let color = new TinyColor(current).setAlpha(current.a)
-      el.style[style] = color.toHslString()
+    .forEach(({ el, style, current }) => {
+      const oldValue = el.style[style];
+      let color = new TinyColor(current).setAlpha(current.a);
+      const newValue = color.toHslString();
 
-      if (style == 'color') ColorTool.foreground.color(color.toHslString())
-      if (style == 'backgroundColor') ColorTool.background.color(color.toHslString())
-    })
+      // Record change in history
+      if (historyManager) {
+        historyManager.push(
+          new StyleChange({
+            element: el,
+            property: style,
+            oldValue: oldValue,
+            newValue: newValue,
+          })
+        );
+      }
+
+      el.style[style] = newValue;
+
+      if (style == "color") ColorTool.foreground.color(newValue);
+      if (style == "backgroundColor") ColorTool.background.color(newValue);
+    });
+
+  // End batch if multiple elements
+  if (els.length > 1 && historyManager) {
+    historyManager.endBatch();
+  }
 }
 
 export function extractPalleteColors(el) {
