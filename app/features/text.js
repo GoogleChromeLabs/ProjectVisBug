@@ -31,10 +31,18 @@ const removeEditability = ({ target }) => {
   target.removeAttribute("spellcheck");
   target.removeEventListener("blur", removeEditability);
   target.removeEventListener("keydown", stopBubbling);
-  hotkeys.unbind("escape,esc");
 };
 
-const stopBubbling = (e) => e.key != "Escape" && e.stopPropagation();
+const stopBubbling = (e) => {
+  // Handle ESC key directly here since it needs to trigger cleanup
+  if (e.key === "Escape" || e.key === "Esc") {
+    cleanup(e);
+    // Don't stop propagation - let it reach selectable.js to unselect elements
+    return;
+  }
+  // Stop propagation for all other keys to prevent hotkey conflicts
+  e.stopPropagation();
+};
 
 const cleanup = (e, handler) => {
   $('[spellcheck="true"]').forEach((target) => removeEditability({ target }));
@@ -64,6 +72,4 @@ export function EditText(elements, historyManager) {
     $el.on("keydown", stopBubbling);
     $el.on("blur", removeEditability);
   });
-
-  hotkeys("escape,esc", cleanup);
 }
