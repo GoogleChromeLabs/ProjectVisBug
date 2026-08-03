@@ -17,6 +17,8 @@ export class Distance extends HTMLElement {
   }
 
   set position({line_model, node_label_id}) {
+    if (!line_model) return
+
     this.styleProps = line_model
     this.$shadow.innerHTML  = this.render(line_model, node_label_id)
   }
