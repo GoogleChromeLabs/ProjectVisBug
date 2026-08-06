@@ -44,4 +44,4 @@ export const altKey = window.navigator.platform.includes('Mac')
   ? 'opt'
   : 'alt'
 
-export const notList = ':not(vis-bug):not(script):not(hotkey-map):not(.visbug-metatip):not(visbug-label):not(visbug-handles):not(visbug-corners):not(visbug-grip):not(visbug-gridlines)'
+export const notList = ':not(vis-bug):not(script):not(hotkey-map):not(.visbug-metatip):not(visbug-label):not(visbug-handles):not(visbug-corners):not(visbug-grip):not(visbug-gridlines):not(visbug-rotation):not(visbug-delete)'

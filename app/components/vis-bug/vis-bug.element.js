@@ -3,7 +3,7 @@ import hotkeys    from 'hotkeys-js'
 
 import {
   Handles, Handle, Label, Overlay, Gridlines, Corners,
-  Hotkeys, Metatip, Ally, Distance, BoxModel, Grip
+  Hotkeys, Metatip, Ally, Distance, BoxModel, Grip, Rotation, Delete
 } from '../'
 
 import {

@@ -16,7 +16,7 @@ import {
   metaKey, htmlStringToDom, createClassname, camelToDash,
   isOffBounds, getStyle, getStyles, deepElementFromPoint, getShadowValues,
   isSelectorValid, findNearestChildElement, findNearestParentElement,
-  getTextShadowValues, isFixed, onRemove
+  getTextShadowValues, isFixed, onRemove, animateViewTransition
 } from '../utilities/'
 
 export function Selectable(visbug) {
@@ -25,6 +25,8 @@ export function Selectable(visbug) {
   let selectedCallbacks   = []
   let labels              = []
   let handles             = []
+  let rotationBtn         = null
+  let deleteBtn           = null
 
   const hover_state       = {
     target:   null,
@@ -157,8 +159,8 @@ export function Selectable(visbug) {
     e.preventDefault()
   }
 
-  const on_delete = e =>
-    selected.length && delete_all()
+  const on_delete = async e =>
+    selected.length && await delete_all()
 
   const on_clearstyles = e =>
     selected.forEach(el =>
@@ -427,7 +429,7 @@ export function Selectable(visbug) {
     if (tool === 'guides') {
       handles.forEach(handle => {
         handle.hidePopover &&  handle.hidePopover()
-        handle.showPopover && handle.showPopover()
+        if (handle.isConnected && handle.showPopover) handle.showPopover()
       })
     }
   }
@@ -454,7 +456,7 @@ export function Selectable(visbug) {
 
     $('visbug-metatip, visbug-ally').forEach(tip => {
       tip.hidePopover && tip.hidePopover()
-      tip.showPopover && tip.showPopover()
+      if (tip.isConnected && tip.showPopover) tip.showPopover()
     })
 
     selected.unshift(el)
@@ -483,6 +485,8 @@ export function Selectable(visbug) {
       ...$('visbug-label'),
       ...$('visbug-hover'),
       ...$('visbug-distance'),
+      ...$('visbug-delete'),
+      ...$('visbug-rotation'),
     ]).forEach(el =>
       el.remove())
 
@@ -493,22 +497,41 @@ export function Selectable(visbug) {
     !silent && tellWatchers()
   }
 
-  const delete_all = () => {
+  const delete_all = async () => {
     const selected_after_delete = selected.map(el => {
       if (canMoveRight(el))     return canMoveRight(el)
       else if (canMoveLeft(el)) return canMoveLeft(el)
       else if (el.parentNode)   return el.parentNode
     })
 
-    Array.from([...selected, ...labels, ...handles]).forEach(el =>
-      el.remove())
+    const elements = [
+      ...selected, 
+      ...labels, 
+      ...handles,
+      rotationBtn,
+      deleteBtn
+    ].filter(Boolean)
 
-    labels    = []
-    handles   = []
-    selected  = []
+    await animateViewTransition(elements, () => performDeletion())
 
     selected_after_delete.forEach(el =>
       select(el))
+  }
+
+  const performDeletion = () => {
+    Array.from([
+      ...selected, 
+      ...labels, 
+      ...handles,
+      rotationBtn,
+      deleteBtn
+    ]).forEach(el => el.remove())
+    
+    labels      = []
+    handles     = []
+    selected    = []
+    rotationBtn = null
+    deleteBtn   = null
   }
 
   const expandSelection = ({query, all = false}) => {
@@ -576,11 +599,24 @@ export function Selectable(visbug) {
           template: handleLabelText(el, visbug.activeTool)
         })
 
+    deleteBtn = document.createElement('visbug-delete')
+    rotationBtn = document.createElement('visbug-rotation')
+    rotationBtn.position = {el}
+    rotationBtn.setAttribute('data-label-id', id)
+
+    deleteBtn.position = {el}
+    deleteBtn.linkedElementsToDeleteToo = [rotationBtn]
+    
     let observer        = createObserver(el, {handle,label})
     let parentObserver  = createObserver(el, {handle,label})
 
-    observer.observe(el, { attributes: true })
-    parentObserver.observe(el.parentNode, { childList:true, subtree:true })
+    if (el) observer.observe(el, { attributes: true })
+    if (el.parentNode) parentObserver.observe(el.parentNode, { childList:true, subtree:true })
+      
+    deleteBtn.addObservers([observer, parentObserver])
+    
+    document.body.appendChild(deleteBtn)
+    document.body.appendChild(rotationBtn)
 
     if (label !== null) {
       onRemove(label, () => {

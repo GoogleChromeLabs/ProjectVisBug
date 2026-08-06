@@ -14,6 +14,8 @@ import { default as boxmodel_css }   from './selection/box-model.element.css'
 import { default as metatip_css }    from './metatip/metatip.element.css'
 import { default as hotkeymap_css }  from './hotkey-map/base.element.css'
 import { default as grip_css }       from './selection/grip.element.css'
+import { default as rotation_css }   from './selection/rotation.element.css'
+import { default as delete_css }     from './selection/delete.element.css'
 
 import { default as light_css }            from './_variables_light.css'
 import { default as visbug_light_css }     from './vis-bug/vis-bug.element_light.css'
@@ -44,6 +46,8 @@ export const OverlayStyles        = constructStylesheet(overlay_css)
 export const BoxModelStyles       = constructStylesheet(boxmodel_css)
 export const HotkeymapStyles      = constructStylesheet(hotkeymap_css)
 export const GripStyles           = constructStylesheet(grip_css)
+export const RotationStyles       = constructStylesheet(rotation_css)
+export const DeleteStyles         = constructStylesheet(delete_css)
 
 export const LightTheme           = constructStylesheet(light_css)
 export const VisBugLightStyles    = constructStylesheet(visbug_light_css)

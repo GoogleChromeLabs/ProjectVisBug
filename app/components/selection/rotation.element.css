@@ -1,0 +1,56 @@
+@import "../_variables.css";
+
+:host {
+  position: var(--position);
+  top: var(--top);
+  left: var(--left);
+  pointer-events: none;
+  z-index: var(--layer-3);
+}
+
+:host .rotation-line {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+:host .rotation-line.active {
+  display: block;
+}
+
+:host .rotation-line line {
+  stroke: var(--neon-pink);
+  stroke-width: 1;
+}
+
+:host .rotation-handle {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: -30px;
+  left: calc(var(--width) / 2 - 12px);
+  cursor: grab;
+  pointer-events: all;
+  background: var(--neon-pink);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+:host .rotation-handle:active {
+  cursor: grabbing;
+}
+
+:host .rotation-icon {
+  width: 16px;
+  height: 16px;
+  fill: white;
+  pointer-events: none;
+}

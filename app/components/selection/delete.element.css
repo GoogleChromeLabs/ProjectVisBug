@@ -1,0 +1,34 @@
+@import "../_variables.css";
+
+:host {
+  position: var(--position, absolute);
+  top: var(--top, 0);
+  left: var(--left, 0);
+  z-index: var(--layer-top);
+}
+
+:host button {
+  background: var(--neon-pink);
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  padding: 0;
+  transition: transform 0.2s ease;
+}
+
+:host button:hover {
+  transform: scale(1.1);
+}
+
+:host svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
