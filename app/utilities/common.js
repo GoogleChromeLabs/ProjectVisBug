@@ -89,6 +89,8 @@ export const isOffBounds = node =>
     || node.closest('visbug-corners')
     || node.closest('visbug-grip')
     || node.closest('visbug-gridlines')
+    || node.closest('.moveable-control')
+    || node.closest('visbug-moveable-delete-button')
   )
 
 export const isSelectorValid = (qs => (

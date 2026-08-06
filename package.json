@@ -43,6 +43,7 @@
     "colorjs.io": "^0.5.0",
     "construct-style-sheets-polyfill": "^2.4.2",
     "hotkeys-js": "^3.13.7",
+    "moveable": "^0.53.0",
     "query-selector-shadow-dom": "^1.0.1"
   },
   "devDependencies": {

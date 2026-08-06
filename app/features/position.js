@@ -1,6 +1,7 @@
 import $ from 'blingblingjs'
 import hotkeys from 'hotkeys-js'
 import { metaKey, getStyle, getSide, showHideSelected } from '../utilities/'
+import Moveable from 'moveable'
 
 const key_events = 'up,down,left,right'
   .split(',')
@@ -27,8 +28,11 @@ export function Position() {
     state.elements.forEach(el =>
       el.teardown())
 
-    state.elements = els.map(el =>
-      draggable({el}))
+    state.elements = els.map(el => {
+      draggable({el})
+      rotatable(el)
+      return el
+    })
   }
 
   const disconnect = () => {
@@ -160,6 +164,51 @@ export function draggable({el, surface = el, cursor = 'move', clickEvent}) {
   el.teardown = teardown
 
   return el
+}
+
+export function rotatable(el) {
+  const mv = new Moveable(document.body, {
+    target: el,
+    rotatable: true
+  })
+
+  const originalElPosition = el.getBoundingClientRect();
+  const {x:originalX, y:originalY, width:originalW} = originalElPosition
+  
+  const deleteButton = document.createElement('visbug-moveable-delete-button')
+  deleteButton.innerText = '✕'
+  deleteButton.style.position = 'absolute'
+  deleteButton.style.left = 0
+  deleteButton.style.top = 0
+  deleteButton.style.transform = `translate(${originalX + originalW + 10}px,${originalY}px)`
+  deleteButton.style.zIndex = 1
+  deleteButton.style.background = 'var(--moveable-color, #4af)'
+  deleteButton.style.color = '#fff'
+  deleteButton.style.zIndex = 1
+  deleteButton.style.width = '24px'
+  deleteButton.style.height = '24px'
+  deleteButton.style.borderRadius = '4px'
+  deleteButton.style.opacity = 0.9
+  deleteButton.style.display = 'flex'
+  deleteButton.style.justifyContent = 'center'
+  deleteButton.style.alignItems = 'center'
+  deleteButton.style.cursor = 'pointer'
+  function handleDeleteButton() {
+    deleteButton.removeEventListener('click', handleDeleteButton)
+    deleteButton.remove()
+    mv.destroy()
+    el.remove()
+  }
+  deleteButton.addEventListener('click', handleDeleteButton)
+  document.body.appendChild(deleteButton)
+
+  mv.on('rotate', e => {
+    e.target.style.transform = e.drag.transform
+    const currentElPosition = e.target.getBoundingClientRect()
+    const {x,y,width,height} = currentElPosition
+    deleteButton.style.transformOrigin = `${x+width/2}px ${y+height/2}px`
+    deleteButton.style.transform = e.drag.transform + ` translate(${originalX + originalW + 10}px,${originalY}px) `
+  })
 }
 
 export function positionElement(els, direction) {
