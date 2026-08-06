@@ -2,174 +2,278 @@ import $ from 'blingblingjs'
 import { TinyColor } from '@ctrl/tinycolor'
 import Color from 'colorjs.io'
 import { getStyle, contrast_color } from '../utilities/'
+import { StyleChange } from "./history";
 
 const state = {
-  active_color: 'undefined',
+  active_color: "undefined",
   elements: [],
-}
+  historyManager: null,
+};
 
-export function ColorPicker(pallete, selectorEngine) {
-  const foregroundPicker  = $('#foreground', pallete)
-  const backgroundPicker  = $('#background', pallete)
-  const borderPicker      = $('#border', pallete)
-  const fgInput           = $('input', foregroundPicker[0])
-  const bgInput           = $('input', backgroundPicker[0])
-  const boInput           = $('input', borderPicker[0])
+export function ColorPicker(pallete, selectorEngine, historyManager) {
+  state.historyManager = historyManager;
+
+  const foregroundPicker = $("#foreground", pallete);
+  const backgroundPicker = $("#background", pallete);
+  const borderPicker = $("#border", pallete);
+  const fgInput = $("input", foregroundPicker[0]);
+  const bgInput = $("input", backgroundPicker[0]);
+  const boInput = $("input", borderPicker[0]);
 
   const shadows = {
-    active:   '0 0 0 2px var(--neon-pink), rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em',
-    inactive: '0 0 0 2px var(--theme-bg), rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em',
-  }
+    active: "0 0 0 2px var(--neon-pink), rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em",
+    inactive: "0 0 0 2px var(--theme-bg), rgba(0, 0, 0, 0.25) 0px 0.25em 0.5em",
+  };
 
-  fgInput.on('input', ({target:{value}}) => {
-    state.elements.map(el =>
-      el.style['color'] = value)
+  fgInput.on("input", ({ target: { value } }) => {
+    // Begin batch for multiple elements
+    if (state.elements.length > 1 && historyManager) {
+      historyManager.beginBatch();
+    }
 
-    foregroundPicker[0].style.setProperty(`--contextual_color`, value)
-  })
+    state.elements.map((el) => {
+      const oldValue = el.style["color"];
 
-  bgInput.on('input', ({target:{value}}) => {
-    state.elements.map(el =>
-      el.style[el instanceof SVGElement
-        ? 'fill'
-        : 'backgroundColor'
-      ] = value)
+      // Record change
+      if (historyManager) {
+        historyManager.push(
+          new StyleChange({
+            element: el,
+            property: "color",
+            oldValue: oldValue,
+            newValue: value,
+          })
+        );
+      }
 
-    backgroundPicker[0].style.setProperty(`--contextual_color`, value)
-  })
+      el.style["color"] = value;
+    });
 
-  boInput.on('input', ({target:{value}}) => {
-    state.elements.map(el =>
-      el.style[el instanceof SVGElement
-        ? 'stroke'
-        : 'borderColor'
-      ] = value)
+    // End batch
+    if (state.elements.length > 1 && historyManager) {
+      historyManager.endBatch();
+    }
 
-    borderPicker[0].style.setProperty(`--contextual_color`, value)
-  })
+    foregroundPicker[0].style.setProperty(`--contextual_color`, value);
+  });
 
-  const extractColors = elements => {
-    state.elements = elements
+  bgInput.on("input", ({ target: { value } }) => {
+    // Begin batch for multiple elements
+    if (state.elements.length > 1 && historyManager) {
+      historyManager.beginBatch();
+    }
 
-    let isMeaningfulForeground  = false
-    let isMeaningfulBackground  = false
-    let isMeaningfulBorder      = false
-    let FG, BG, BO
+    state.elements.map((el) => {
+      const property = el instanceof SVGElement ? "fill" : "backgroundColor";
+      const oldValue = el.style[property];
+
+      // Record change
+      if (historyManager) {
+        historyManager.push(
+          new StyleChange({
+            element: el,
+            property: property,
+            oldValue: oldValue,
+            newValue: value,
+          })
+        );
+      }
+
+      el.style[property] = value;
+    });
+
+    // End batch
+    if (state.elements.length > 1 && historyManager) {
+      historyManager.endBatch();
+    }
+
+    backgroundPicker[0].style.setProperty(`--contextual_color`, value);
+  });
+
+  boInput.on("input", ({ target: { value } }) => {
+    // Begin batch for multiple elements
+    if (state.elements.length > 1 && historyManager) {
+      historyManager.beginBatch();
+    }
+
+    state.elements.map((el) => {
+      const property = el instanceof SVGElement ? "stroke" : "borderColor";
+      const oldValue = el.style[property];
+
+      // Record change
+      if (historyManager) {
+        historyManager.push(
+          new StyleChange({
+            element: el,
+            property: property,
+            oldValue: oldValue,
+            newValue: value,
+          })
+        );
+      }
+
+      el.style[property] = value;
+    });
+
+    // End batch
+    if (state.elements.length > 1 && historyManager) {
+      historyManager.endBatch();
+    }
+
+    borderPicker[0].style.setProperty(`--contextual_color`, value);
+  });
+
+  const extractColors = (elements) => {
+    state.elements = elements;
+
+    let isMeaningfulForeground = false;
+    let isMeaningfulBackground = false;
+    let isMeaningfulBorder = false;
+    let FG, BG, BO;
 
     if (state.elements.length == 1) {
-      const el = state.elements[0]
+      const el = state.elements[0];
 
       if (el instanceof SVGElement) {
-        FG = new TinyColor('rgb(0, 0, 0)')
-        var bo_temp = getStyle(el, 'stroke')
-        BO = new TinyColor(bo_temp === 'none'
-          ? 'rgb(0, 0, 0)'
-          : bo_temp)
-        BG = new TinyColor(getStyle(el, 'fill'))
-      }
-      else {
-        FG = new TinyColor(getStyle(el, 'color'))
-        BG = new TinyColor(getStyle(el, 'backgroundColor'))
-        BO = getStyle(el, 'borderWidth') === '0px'
-          ? new TinyColor('rgb(0, 0, 0)')
-          : new TinyColor(getStyle(el, 'borderColor'))
+        FG = new TinyColor("rgb(0, 0, 0)");
+        var bo_temp = getStyle(el, "stroke");
+        BO = new TinyColor(bo_temp === "none" ? "rgb(0, 0, 0)" : bo_temp);
+        BG = new TinyColor(getStyle(el, "fill"));
+      } else {
+        FG = new TinyColor(getStyle(el, "color"));
+        BG = new TinyColor(getStyle(el, "backgroundColor"));
+        BO =
+          getStyle(el, "borderWidth") === "0px"
+            ? new TinyColor("rgb(0, 0, 0)")
+            : new TinyColor(getStyle(el, "borderColor"));
       }
 
-      let fg = `#`+FG.toHex()
-      let bg = `#`+BG.toHex()
-      let bo = `#`+BO.toHex()
+      let fg = `#` + FG.toHex();
+      let bg = `#` + BG.toHex();
+      let bo = `#` + BO.toHex();
 
-      isMeaningfulForeground = FG.originalInput !== 'rgb(0, 0, 0)' || (el.children.length === 0 && el.textContent !== '')
-      isMeaningfulBackground = BG.originalInput !== 'rgba(0, 0, 0, 0)'
-      isMeaningfulBorder     = BO.originalInput !== 'rgb(0, 0, 0)'
+      isMeaningfulForeground =
+        FG.originalInput !== "rgb(0, 0, 0)" ||
+        (el.children.length === 0 && el.textContent !== "");
+      isMeaningfulBackground = BG.originalInput !== "rgba(0, 0, 0, 0)";
+      isMeaningfulBorder = BO.originalInput !== "rgb(0, 0, 0)";
 
       if (isMeaningfulForeground && !isMeaningfulBackground)
-        setActive('foreground')
-      else if (isMeaningfulBackground && !isMeaningfulForeground || isMeaningfulBackground && isMeaningfulForeground)
-        setActive('background')
+        setActive("foreground");
+      else if (
+        (isMeaningfulBackground && !isMeaningfulForeground) ||
+        (isMeaningfulBackground && isMeaningfulForeground)
+      )
+        setActive("background");
 
-      const new_fg = isMeaningfulForeground   ? fg : ''
-      const new_bg = isMeaningfulBackground   ? bg : ''
-      const new_bo = isMeaningfulBorder       ? bo : ''
+      const new_fg = isMeaningfulForeground ? fg : "";
+      const new_bg = isMeaningfulBackground ? bg : "";
+      const new_bo = isMeaningfulBorder ? bo : "";
 
-      const fg_icon = isMeaningfulForeground  ? contrast_color(fg) : ''
-      const bg_icon = isMeaningfulBackground  ? contrast_color(bg) : ''
-      const bo_icon = isMeaningfulBorder      ? contrast_color(bo) : ''
-      
-      fgInput.attr('value', fg)
-      bgInput.attr('value', bg)
-      boInput.attr('value', bo)
-      fgInput.value = fg
-      bgInput.value = bg
-      boInput.value = bo
+      const fg_icon = isMeaningfulForeground ? contrast_color(fg) : "";
+      const bg_icon = isMeaningfulBackground ? contrast_color(bg) : "";
+      const bo_icon = isMeaningfulBorder ? contrast_color(bo) : "";
 
-      foregroundPicker.attr('style', `
+      fgInput.attr("value", fg);
+      bgInput.attr("value", bg);
+      boInput.attr("value", bo);
+      fgInput.value = fg;
+      bgInput.value = bg;
+      boInput.value = bo;
+
+      foregroundPicker.attr(
+        "style",
+        `
         --contextual_color: ${new_fg};
         --icon_color: ${fg_icon};
-      `)
+      `
+      );
 
-      backgroundPicker.attr('style', `
+      backgroundPicker.attr(
+        "style",
+        `
         --contextual_color: ${new_bg};
         --icon_color: ${bg_icon};
-      `)
+      `
+      );
 
-      borderPicker.attr('style', `
+      borderPicker.attr(
+        "style",
+        `
         --contextual_color: ${new_bo};
         --icon_color: ${bo_icon};
-      `)
-    }
-    else {
+      `
+      );
+    } else {
       // show all 3 if they've selected more than 1 node
       // todo: this is giving up, and can be solved
-      foregroundPicker.attr('style', `
-        box-shadow: ${state.active_color == 'foreground' ? shadows.active : shadows.inactive};
+      foregroundPicker.attr(
+        "style",
+        `
+        box-shadow: ${
+          state.active_color == "foreground" ? shadows.active : shadows.inactive
+        };
         --contextual_color: transparent;
         --icon_color: var(--theme-bg);
-      `)
+      `
+      );
 
-      backgroundPicker.attr('style', `
-        box-shadow: ${state.active_color == 'background' ? shadows.active : shadows.inactive};
+      backgroundPicker.attr(
+        "style",
+        `
+        box-shadow: ${
+          state.active_color == "background" ? shadows.active : shadows.inactive
+        };
         --contextual_color: transparent;
         --icon_color: var(--theme-bg);
-      `)
+      `
+      );
 
-      borderPicker.attr('style', `
-        box-shadow: ${state.active_color == 'border' ? shadows.active : shadows.inactive};
+      borderPicker.attr(
+        "style",
+        `
+        box-shadow: ${
+          state.active_color == "border" ? shadows.active : shadows.inactive
+        };
         --contextual_color: transparent;
         --icon_color: var(--theme-bg);
-      `)
+      `
+      );
     }
-  }
+  };
 
-  const getActive = () =>
-    state.active_color
+  const getActive = () => state.active_color;
 
-  const setActive = key => {
-    removeActive()
-    state.active_color = key
+  const setActive = (key) => {
+    removeActive();
+    state.active_color = key;
 
-    if (key === 'foreground')
-      foregroundPicker[0].style.boxShadow = shadows.active
-    if (key === 'background')
-      backgroundPicker[0].style.boxShadow = shadows.active
-    if (key === 'border')
-      borderPicker[0].style.boxShadow = shadows.active
-  }
+    if (key === "foreground")
+      foregroundPicker[0].style.boxShadow = shadows.active;
+    if (key === "background")
+      backgroundPicker[0].style.boxShadow = shadows.active;
+    if (key === "border") borderPicker[0].style.boxShadow = shadows.active;
+  };
 
   const removeActive = () =>
-    [foregroundPicker, backgroundPicker, borderPicker].forEach(([picker]) =>
-      picker.style.boxShadow = shadows.inactive)
+    [foregroundPicker, backgroundPicker, borderPicker].forEach(
+      ([picker]) => (picker.style.boxShadow = shadows.inactive)
+    );
 
-  selectorEngine.onSelectedUpdate(extractColors)
+  selectorEngine.onSelectedUpdate(extractColors);
 
   return {
     getActive,
     setActive,
-    foreground: { color: color =>
-      foregroundPicker[0].style.setProperty('--contextual_color', color)},
-    background: { color: color =>
-      backgroundPicker[0].style.setProperty('--contextual_color', color)}
-  }
+    foreground: {
+      color: (color) =>
+        foregroundPicker[0].style.setProperty("--contextual_color", color),
+    },
+    background: {
+      color: (color) =>
+        backgroundPicker[0].style.setProperty("--contextual_color", color),
+    },
+  };
 }
 
 export const preferredNotation = (color, preference) => {

@@ -14,4 +14,14 @@ export { Guides } from './guides'
 export { Screenshot } from './screenshot'
 export { Position, draggable } from './position'
 export { Accessibility } from './accessibility'
+export {
+  HistoryManager,
+  History,
+  Change,
+  StyleChange,
+  AttributeChange,
+  DOMChange,
+  TextChange,
+  BatchChange,
+} from "./history";
 

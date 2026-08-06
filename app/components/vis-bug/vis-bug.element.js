@@ -7,168 +7,230 @@ import {
 } from '../'
 
 import {
-  Selectable, Moveable, Padding, Margin, EditText, Font,
-  Flex, Search, ColorPicker, BoxShadow, HueShift, MetaTip,
-  Guides, Screenshot, Position, Accessibility, draggable
-} from '../../features/'
+  Selectable,
+  Moveable,
+  Padding,
+  Margin,
+  EditText,
+  Font,
+  Flex,
+  Search,
+  ColorPicker,
+  BoxShadow,
+  HueShift,
+  MetaTip,
+  Guides,
+  Screenshot,
+  Position,
+  Accessibility,
+  draggable,
+  HistoryManager,
+} from "../../features/";
 
 import {
   VisBugStyles,
   VisBugLightStyles,
-  VisBugDarkStyles
-} from '../styles.store'
+  VisBugDarkStyles,
+} from "../styles.store";
 
-import { VisBugModel }            from './model'
-import * as Icons                 from './vis-bug.icons'
-import { provideSelectorEngine }  from '../../features/search'
-import { PluginRegistry }         from '../../plugins/_registry'
+import { VisBugModel } from "./model";
+import * as Icons from "./vis-bug.icons";
+import { provideSelectorEngine } from "../../features/search";
+import { PluginRegistry } from "../../plugins/_registry";
 import {
   metaKey,
   isPolyfilledCE,
   constructibleStylesheetSupport,
-  schemeRule
-} from '../../utilities/'
+  schemeRule,
+} from "../../utilities/";
 
 export default class VisBug extends HTMLElement {
   constructor() {
-    super()
+    super();
 
-    this.toolbar_model  = VisBugModel
-    this.$shadow        = this.attachShadow({mode: 'closed'})
-    this.applyScheme    = schemeRule(
+    this.toolbar_model = VisBugModel;
+    this.$shadow = this.attachShadow({ mode: "closed" });
+    this.applyScheme = schemeRule(
       this.$shadow,
-      VisBugStyles, VisBugLightStyles, VisBugDarkStyles
-    )
+      VisBugStyles,
+      VisBugLightStyles,
+      VisBugDarkStyles
+    );
   }
 
   static get observedAttributes() {
-    return ['color-scheme']
+    return ["color-scheme"];
   }
 
   connectedCallback() {
-    this._tutsBaseURL = this.getAttribute('tutsBaseURL') || 'tuts'
+    this._tutsBaseURL = this.getAttribute("tutsBaseURL") || "tuts";
 
-    this.setup()
+    // Initialize history manager for undo/redo
+    this.historyManager = new HistoryManager({ maxSize: 50 });
 
-    this.selectorEngine = Selectable(this)
-    this.colorPicker    = ColorPicker(this.$shadow, this.selectorEngine)
+    this.setup();
 
-    provideSelectorEngine(this.selectorEngine)
+    this.selectorEngine = Selectable(this);
+    this.colorPicker = ColorPicker(
+      this.$shadow,
+      this.selectorEngine,
+      this.historyManager
+    );
 
-    this.toolSelected($('[data-tool="guides"]', this.$shadow)[0])
+    provideSelectorEngine(this.selectorEngine);
+
+    this.toolSelected($('[data-tool="guides"]', this.$shadow)[0]);
   }
 
   disconnectedCallback() {
-    this.deactivate_feature()
-    this.cleanup()
-    this.selectorEngine.disconnect()
+    this.deactivate_feature();
+    this.cleanup();
+    this.selectorEngine.disconnect();
     hotkeys.unbind(
-      Object.keys(this.toolbar_model).reduce((events, key) =>
-        events += ',' + key, ''))
-    hotkeys.unbind(`${metaKey}+/`)
+      Object.keys(this.toolbar_model).reduce(
+        (events, key) => (events += "," + key),
+        ""
+      )
+    );
+    hotkeys.unbind(`${metaKey}+/`);
+
+    // Clean up undo/redo shortcuts
+    hotkeys.unbind(`${metaKey}+z`);
+    hotkeys.unbind(`${metaKey}+shift+z`);
+    hotkeys.unbind(`${metaKey}+y`);
+
+    // Clear history
+    if (this.historyManager) {
+      this.historyManager.clear();
+    }
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if (name === 'color-scheme')
-      this.applyScheme(newValue)
+    if (name === "color-scheme") this.applyScheme(newValue);
   }
 
   setup() {
-    this.$shadow.innerHTML = this.render()
+    this.$shadow.innerHTML = this.render();
 
-    this.hasAttribute('color-mode')
-      ? this.getAttribute('color-mode')
-      : this.setAttribute('color-mode', 'hex')
+    this.hasAttribute("color-mode")
+      ? this.getAttribute("color-mode")
+      : this.setAttribute("color-mode", "hex");
 
-    this.hasAttribute('color-scheme')
-      ? this.getAttribute('color-scheme')
-      : this.setAttribute('color-scheme', 'auto')
+    this.hasAttribute("color-scheme")
+      ? this.getAttribute("color-scheme")
+      : this.setAttribute("color-scheme", "auto");
 
-    this.setAttribute('popover', 'manual')
-    this.showPopover && this.showPopover()
+    this.setAttribute("popover", "manual");
+    this.showPopover && this.showPopover();
 
-    const main_ol = this.$shadow.querySelector('ol:not([colors])')
-    const buttonPieces = $('li[data-tool], li[data-tool] *', main_ol)
+    const main_ol = this.$shadow.querySelector("ol:not([colors])");
+    const buttonPieces = $("li[data-tool], li[data-tool] *", main_ol);
 
     const clickEvent = (e) => {
-      const target = e.currentTarget || e.target
-      const toolButton = target.closest('[data-tool]')
+      const target = e.currentTarget || e.target;
+      const toolButton = target.closest("[data-tool]");
       if (toolButton) this.toolSelected(toolButton) && e.stopPropagation();
-    }
+    };
 
-    Array.from(buttonPieces)
-    .forEach(toolButton => {
+    Array.from(buttonPieces).forEach((toolButton) => {
       draggable({
-        el:this,
+        el: this,
         surface: toolButton,
-        cursor: 'pointer',
-        clickEvent: clickEvent
-      })
-    })
+        cursor: "pointer",
+        clickEvent: clickEvent,
+      });
+    });
 
     draggable({
-      el:this,
+      el: this,
       surface: main_ol,
-      cursor: 'grab',
-    })
+      cursor: "grab",
+    });
 
     Object.entries(this.toolbar_model).forEach(([key, value]) =>
-      hotkeys(key, e => {
-        e.preventDefault()
-        this.toolSelected(
-          $(`[data-tool="${value.tool}"]`, this.$shadow)[0]
-        )
+      hotkeys(key, (e) => {
+        e.preventDefault();
+        this.toolSelected($(`[data-tool="${value.tool}"]`, this.$shadow)[0]);
       })
-    )
+    );
 
-    hotkeys(`${metaKey}+/,${metaKey}+.`, e =>
-      this.$shadow.host.style.display =
-        this.$shadow.host.style.display === 'none'
-          ? 'block'
-          : 'none')
+    // Setup undo/redo keyboard shortcuts
+    hotkeys(`${metaKey}+z`, (e) => {
+      e.preventDefault();
+      if (this.historyManager.undo()) {
+        console.info("✓ Undo successful");
+      } else {
+        console.info("✗ Nothing to undo");
+      }
+    });
+
+    hotkeys(`${metaKey}+shift+z,${metaKey}+y`, (e) => {
+      e.preventDefault();
+      if (this.historyManager.redo()) {
+        console.info("✓ Redo successful");
+      } else {
+        console.info("✗ Nothing to redo");
+      }
+    });
+
+    hotkeys(
+      `${metaKey}+/,${metaKey}+.`,
+      (e) =>
+        (this.$shadow.host.style.display =
+          this.$shadow.host.style.display === "none" ? "block" : "none")
+    );
   }
 
   cleanup() {
-    this.hidePopover && this.hidePopover()
+    this.hidePopover && this.hidePopover();
 
     Array.from(document.body.children)
-      .filter(node => node.nodeName.includes('VISBUG'))
-      .forEach(el => el.remove())
+      .filter((node) => node.nodeName.includes("VISBUG"))
+      .forEach((el) => el.remove());
 
-    this.teardown()
+    this.teardown();
 
-    document.querySelectorAll('[data-pseudo-select=true]')
-      .forEach(el =>
-        el.removeAttribute('data-pseudo-select'))
+    document
+      .querySelectorAll("[data-pseudo-select=true]")
+      .forEach((el) => el.removeAttribute("data-pseudo-select"));
   }
 
   toolSelected(el) {
-    if (typeof el === 'string')
-      el = $(`[data-tool="${el}"]`, this.$shadow)[0]
+    if (typeof el === "string") el = $(`[data-tool="${el}"]`, this.$shadow)[0];
 
-    if (this.active_tool && this.active_tool.dataset.tool === el.dataset.tool) return
+    if (this.active_tool && this.active_tool.dataset.tool === el.dataset.tool)
+      return;
 
     if (this.active_tool) {
-      this.active_tool.attr('data-active', null)
-      this.deactivate_feature()
+      this.active_tool.attr("data-active", null);
+      this.deactivate_feature();
     }
 
-    el.attr('data-active', true)
-    this.active_tool = el
-    this[el.dataset.tool]()
+    el.attr("data-active", true);
+    this.active_tool = el;
+    this[el.dataset.tool]();
   }
 
   render() {
     return `
       <visbug-hotkeys></visbug-hotkeys>
-      <ol constructible-support="${constructibleStylesheetSupport ? 'false':'true'}">
-        ${Object.entries(this.toolbar_model).reduce((list, [key, tool]) => `
+      <ol constructible-support="${
+        constructibleStylesheetSupport ? "false" : "true"
+      }">
+        ${Object.entries(this.toolbar_model).reduce(
+          (list, [key, tool]) => `
           ${list}
-          <li aria-label="${tool.label} Tool" aria-description="${tool.description}" aria-hotkey="${key}" data-tool="${tool.tool}" data-active="${key == 'g'}">
+          <li aria-label="${tool.label} Tool" aria-description="${
+            tool.description
+          }" aria-hotkey="${key}" data-tool="${tool.tool}" data-active="${
+            key == "g"
+          }">
             ${tool.icon}
-            ${this.demoTip({key, ...tool})}
+            ${this.demoTip({ key, ...tool })}
           </li>
-        `,'')}
+        `,
+          ""
+        )}
       </ol>
       <ol colors>
         <li class="color" id="foreground" aria-label="Text" aria-description="Change the text color">
@@ -184,10 +246,10 @@ export default class VisBug extends HTMLElement {
           ${Icons.color_border}
         </li>
       </ol>
-    `
+    `;
   }
 
-  demoTip({key, tool, label, description, instruction}) {
+  demoTip({ key, tool, label, description, instruction }) {
     return `
       <aside ${tool}>
         <figure>
@@ -202,89 +264,104 @@ export default class VisBug extends HTMLElement {
           </figcaption>
         </figure>
       </aside>
-    `
+    `;
   }
 
   move() {
-    this.deactivate_feature = Moveable(this.selectorEngine)
+    this.deactivate_feature = Moveable(
+      this.selectorEngine,
+      this.historyManager
+    );
   }
 
   margin() {
-    this.deactivate_feature = Margin(this.selectorEngine)
+    this.deactivate_feature = Margin(this.selectorEngine);
   }
 
   padding() {
-    this.deactivate_feature = Padding(this.selectorEngine)
+    this.deactivate_feature = Padding(this.selectorEngine);
   }
 
   font() {
-    this.deactivate_feature = Font(this.selectorEngine)
+    this.deactivate_feature = Font({
+      selection: this.selectorEngine.selection,
+      historyManager: this.historyManager,
+    });
   }
 
   text() {
-    this.selectorEngine.onSelectedUpdate(EditText)
+    const editTextWithHistory = (elements) =>
+      EditText(elements, this.historyManager);
+    this.selectorEngine.onSelectedUpdate(editTextWithHistory);
     this.deactivate_feature = () =>
-      this.selectorEngine.removeSelectedCallback(EditText)
+      this.selectorEngine.removeSelectedCallback(editTextWithHistory);
   }
 
   align() {
-    this.deactivate_feature = Flex(this.selectorEngine)
+    this.deactivate_feature = Flex({
+      selection: this.selectorEngine.selection,
+      historyManager: this.historyManager,
+    });
   }
 
   search() {
-    this.deactivate_feature = Search($('[data-tool="search"]', this.$shadow))
+    this.deactivate_feature = Search($('[data-tool="search"]', this.$shadow));
   }
 
   boxshadow() {
-    this.deactivate_feature = BoxShadow(this.selectorEngine)
+    this.deactivate_feature = BoxShadow({
+      selection: this.selectorEngine.selection,
+      historyManager: this.historyManager,
+    });
   }
 
   hueshift() {
     this.deactivate_feature = HueShift({
-      Color:  this.colorPicker,
+      Color: this.colorPicker,
       Visbug: this.selectorEngine,
-    })
+      historyManager: this.historyManager,
+    });
   }
 
   inspector() {
-    this.deactivate_feature = MetaTip(this.selectorEngine)
+    this.deactivate_feature = MetaTip(this.selectorEngine);
   }
 
   accessibility() {
-    this.deactivate_feature = Accessibility(this.selectorEngine)
+    this.deactivate_feature = Accessibility(this.selectorEngine);
   }
 
   guides() {
-    this.deactivate_feature = Guides(this.selectorEngine)
+    this.deactivate_feature = Guides(this.selectorEngine);
   }
 
   screenshot() {
-    this.deactivate_feature = Screenshot()
+    this.deactivate_feature = Screenshot();
   }
 
   position() {
-    let feature = Position()
-    this.selectorEngine.onSelectedUpdate(feature.onNodesSelected)
+    let feature = Position(this.historyManager);
+    this.selectorEngine.onSelectedUpdate(feature.onNodesSelected);
     this.deactivate_feature = () => {
-      this.selectorEngine.removeSelectedCallback(feature.onNodesSelected)
-      feature.disconnect()
-    }
+      this.selectorEngine.removeSelectedCallback(feature.onNodesSelected);
+      feature.disconnect();
+    };
   }
 
   execCommand(command) {
-    const query = `/${command}`
+    const query = `/${command}`;
 
     if (PluginRegistry.has(query))
       return PluginRegistry.get(query)({
         selected: this.selectorEngine.selection(),
-        query
-      })
+        query,
+      });
 
-    return Promise.resolve(new Error("Query not found"))
+    return Promise.resolve(new Error("Query not found"));
   }
 
   get activeTool() {
-    return this.active_tool.dataset.tool
+    return this.active_tool.dataset.tool;
   }
 }
 

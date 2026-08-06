@@ -1,68 +1,102 @@
 import hotkeys from 'hotkeys-js'
 import { metaKey, getStyle, getSide, showHideSelected } from '../utilities/'
+import { StyleChange } from "./history";
 
-const key_events = 'up,down,left,right'
-  .split(',')
-  .reduce((events, event) =>
-    `${events},${event},alt+${event},shift+${event},shift+alt+${event}`
-  , '')
-  .substring(1)
+const key_events = "up,down,left,right"
+  .split(",")
+  .reduce(
+    (events, event) =>
+      `${events},${event},alt+${event},shift+${event},shift+alt+${event}`,
+    ""
+  )
+  .substring(1);
 
-const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down`
+const command_events = `${metaKey}+up,${metaKey}+shift+up,${metaKey}+down,${metaKey}+shift+down`;
 
 export function Margin(visbug) {
-  hotkeys(key_events, (e, handler) => {
-    if (e.cancelBubble) return
+  const historyManager = visbug.historyManager;
 
-    e.preventDefault()
-    pushElement(visbug.selection(), handler.key)
-  })
+  hotkeys(key_events, (e, handler) => {
+    if (e.cancelBubble) return;
+
+    e.preventDefault();
+    pushElement(visbug.selection(), handler.key, historyManager);
+  });
 
   hotkeys(command_events, (e, handler) => {
-    e.preventDefault()
-    pushAllElementSides(visbug.selection(), handler.key)
-  })
+    e.preventDefault();
+    pushAllElementSides(visbug.selection(), handler.key, historyManager);
+  });
 
-  visbug.onSelectedUpdate(paintBackgrounds)
+  visbug.onSelectedUpdate(paintBackgrounds);
 
   return () => {
-    hotkeys.unbind(key_events)
-    hotkeys.unbind(command_events)
-    hotkeys.unbind('up,down,left,right') // bug in lib?
-    visbug.removeSelectedCallback(paintBackgrounds)
-    removeBackgrounds(visbug.selection())
-  }
+    hotkeys.unbind(key_events);
+    hotkeys.unbind(command_events);
+    hotkeys.unbind("up,down,left,right"); // bug in lib?
+    visbug.removeSelectedCallback(paintBackgrounds);
+    removeBackgrounds(visbug.selection());
+  };
 }
 
-export function pushElement(els, direction) {
+export function pushElement(els, direction, historyManager) {
+  // Begin batch if multiple elements
+  if (els.length > 1 && historyManager) {
+    historyManager.beginBatch();
+  }
+
   els
-    .map(el => showHideSelected(el))
-    .map(el => ({
+    .map((el) => showHideSelected(el))
+    .map((el) => ({
       el,
-      style:    'margin' + getSide(direction),
-      current:  parseInt(getStyle(el, 'margin' + getSide(direction)), 10),
-      amount:   direction.split('+').includes('shift') ? 10 : 1,
-      negative: direction.split('+').includes('alt'),
+      style: "margin" + getSide(direction),
+      current: parseInt(getStyle(el, "margin" + getSide(direction)), 10),
+      amount: direction.split("+").includes("shift") ? 10 : 1,
+      negative: direction.split("+").includes("alt"),
     }))
-    .map(payload =>
+    .map((payload) =>
       Object.assign(payload, {
         margin: payload.negative
           ? payload.current - payload.amount
-          : payload.current + payload.amount
-      }))
-    .forEach(({el, style, margin}) =>
-      el.style[style] = `${margin < 0 ? 0 : margin}px`)
+          : payload.current + payload.amount,
+      })
+    )
+    .forEach(({ el, style, margin, current }) => {
+      const oldValue = `${current}px`;
+      const newValue = `${margin < 0 ? 0 : margin}px`;
+
+      // Record change in history
+      if (historyManager) {
+        historyManager.push(
+          new StyleChange({
+            element: el,
+            property: style,
+            oldValue: oldValue,
+            newValue: newValue,
+          })
+        );
+      }
+
+      // Apply change
+      el.style[style] = newValue;
+    });
+
+  // End batch if multiple elements
+  if (els.length > 1 && historyManager) {
+    historyManager.endBatch();
+  }
 }
 
-export function pushAllElementSides(els, keycommand) {
-  const combo = keycommand.split('+')
-  let spoof = ''
+export function pushAllElementSides(els, keycommand, historyManager) {
+  const combo = keycommand.split("+");
+  let spoof = "";
 
-  if (combo.includes('shift'))  spoof = 'shift+' + spoof
-  if (combo.includes('down'))   spoof = 'alt+' + spoof
+  if (combo.includes("shift")) spoof = "shift+" + spoof;
+  if (combo.includes("down")) spoof = "alt+" + spoof;
 
-  'up,down,left,right'.split(',')
-    .forEach(side => pushElement(els, spoof + side))
+  "up,down,left,right"
+    .split(",")
+    .forEach((side) => pushElement(els, spoof + side, historyManager));
 }
 
 function paintBackgrounds(els) {
