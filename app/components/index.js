@@ -1,3 +1,8 @@
+import { addPolyfill } from 'get-box-quads-polyfill'
+
+// The polyfill preserves native GeometryUtils methods and only fills in missing ones.
+addPolyfill(window)
+
 export { Handles }    from './selection/handles.element'
 export { Handle }     from './selection/handle.element'
 export { Hover }      from './selection/hover.element'

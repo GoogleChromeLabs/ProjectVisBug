@@ -21,19 +21,23 @@ export class Distance extends HTMLElement {
     this.$shadow.innerHTML  = this.render(line_model, node_label_id)
   }
 
-  set styleProps({y,x,d,q,v = false, color}) {
-    this.style.setProperty('--top', `${Math.round(y + window.scrollY)}px`)
+  set styleProps({y,x,d,q,v = false, color, local = false, length = d, angle = 0, centered = false}) {
+    this.style.setProperty('--top', `${Math.round(y + (local ? 0 : window.scrollY))}px`)
     this.style.setProperty('--right', 'auto')
     this.style.setProperty('--left', `${x}px`)
     this.style.setProperty('--direction', v ? 'column' : 'row')
     this.style.setProperty('--quadrant', q)
+    this.style.setProperty('--angle', `${angle}rad`)
+    this.style.setProperty('--caption-angle', `${angle * -1}rad`)
 
-    if (q === 'left')
+    if (centered)
+      this.style.setProperty('--justify', 'center')
+    else if (q === 'left')
       this.style.setProperty('--justify', 'flex-end')
 
     v
-      ? this.style.setProperty('--distance-h', `${d}px`)
-      : this.style.setProperty('--distance-w', `${d}px`)
+      ? this.style.setProperty('--distance-h', `${length}px`)
+      : this.style.setProperty('--distance-w', `${length}px`)
 
      v
       ? this.style.setProperty('--line-h', `var(--line-w)`)

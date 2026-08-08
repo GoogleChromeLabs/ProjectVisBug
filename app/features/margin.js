@@ -108,11 +108,12 @@ export function createMarginVisual(el, hover = false) {
       sides[side] = Math.round(val.toFixed(1) * 100) / 100
     })
 
-    boxdisplay.position = { 
+    boxdisplay.position = {
       mode: 'margin',
       color: hover ? 'purple' : 'pink',
-      bounds, 
+      bounds,
       sides,
+      element: el
     }
   }
 

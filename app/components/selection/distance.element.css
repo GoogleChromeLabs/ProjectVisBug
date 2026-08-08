@@ -30,6 +30,8 @@
   align-items: center;
   justify-content: var(--justify, 'flex-start');
   flex-direction: var(--direction);
+  transform: rotate(var(--angle, 0rad));
+  transform-origin: top left;
 }
 
 :host > figure figcaption {
@@ -49,6 +51,7 @@
   line-height: 1.1;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
   padding: 0 1ex;
+  transform: rotate(var(--caption-angle, 0rad));
 }
 
 :host > figure span {

@@ -1,7 +1,7 @@
 @import "../_variables.css";
 
 :host {
-  position: var(--position, 'absolute');
+  position: var(--position, absolute);
   inset: var(--top) auto auto var(--left);
   background: transparent;
   border: none;
